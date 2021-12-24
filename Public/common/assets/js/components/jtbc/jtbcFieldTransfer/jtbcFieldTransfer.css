@@ -1,0 +1,112 @@
+:host {
+  width: 100%; --list-height: 300px; --font-color: #666; --border-color: #d1d1d1; --checked-border-color: #3e868f; --unchecked-border-color: #d1d1d1; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8)
+}
+.container {
+  width: 100%; display: flex !important; align-items: stretch; justify-content: stretch; position: relative; z-index: 100
+}
+.container leftbox {
+  display: block; width: calc((100% - 70px) / 2); box-sizing: border-box; border: var(--border-color) 1px solid; position: relative; z-index: 100
+}
+.container toolbar {
+  display: block; width: 70px; position: relative; z-index: 100
+}
+.container toolbar span {
+  display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 30px; height: 30px; border: var(--border-color) 1px solid; border-radius: 3px; transform: translate(-50%, 0); position: absolute; left: 50%; z-index: 100
+}
+.container toolbar span jtbc-svg {
+  width: 14px; height: 14px; --fore-color: var(--border-color)
+}
+.container toolbar span.toright {
+  margin-bottom: 10px; bottom: 50%
+}
+.container toolbar span.toleft {
+  margin-top: 10px; top: 50%
+}
+.container toolbar span.on {
+  background: var(--checked-border-color); border-color: var(--checked-border-color); cursor: pointer
+}
+.container toolbar span.on jtbc-svg {
+  --fore-color: #fff
+}
+.container rightbox {
+  display: block; width: calc((100% - 70px) / 2); box-sizing: border-box; border: var(--border-color) 1px solid; position: relative; z-index: 100
+}
+.container h3 {
+  margin: 0px; padding: 10px; background: #f6f6f6; position: relative
+}
+.container h3 em {
+  display: block; box-sizing: border-box; width: 14px; height: 14px; background: #fff; border: var(--unchecked-border-color) 1px solid; position: absolute; top: 50%; left: 10px; transform: translate(0, -50%)
+}
+.container h3 span {
+  display: block; width: 100%; box-sizing: border-box; padding: 0px 60px 0px 24px; color: var(--font-color); white-space: nowrap; word-break: keep-all; overflow: hidden; text-overflow: ellipsis; cursor: default
+}
+.container h3 count {
+  font-weight: normal; color: var(--font-color); position: absolute; right: 10px; top: 50%; transform: translate(0, -50%); z-index: 100
+}
+.container h3.on em {
+  border-color: var(--checked-border-color)
+}
+.container h3.on em::after {
+  content: ''; display: block; box-sizing: border-box; width: 5px; height: 8px; border-bottom: var(--checked-border-color) 2px solid; border-right: var(--checked-border-color) 2px solid; background: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% - 1px)) rotate(45deg)
+}
+.container div.filter {
+  width: 100%; box-sizing: border-box; padding: 10px; display: none
+}
+.container div.filter input[type=text] {
+  width: 100%; padding: 0px 10px; box-sizing: border-box; height: 28px; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(151, 109, 109, 0.08); border-radius: 5px; outline: none; transition: all .3s ease
+}
+.container div.filter input[type=text]:focus {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container div.filter.on {
+  display: block
+}
+.container div.list {
+  width: 100%; height: var(--list-height); overflow: auto; border-top: var(--border-color) 1px solid
+}
+.container div.list ul {
+  margin: 0px; padding: 5px 0px; list-style: none
+}
+.container div.list ul li {
+  width: 100%; box-sizing: border-box; padding: 5px 10px; position: relative
+}
+.container div.list ul li em {
+  display: block; box-sizing: border-box; width: 14px; height: 14px; border: var(--unchecked-border-color) 1px solid; position: absolute; top: 50%; left: 10px; transform: translate(0, -50%)
+}
+.container div.list ul li span {
+  display: block; width: 100%; box-sizing: border-box; line-height: calc(var(--item-height) - 2px); padding: 0px 7px 0px 24px; color: var(--font-color); white-space: nowrap; word-break: keep-all; overflow: hidden; text-overflow: ellipsis; cursor: default
+}
+.container div.list ul li.on em {
+  border-color: var(--checked-border-color)
+}
+.container div.list ul li.on em::after {
+  content: ''; display: block; box-sizing: border-box; width: 5px; height: 8px; border-bottom: var(--checked-border-color) 2px solid; border-right: var(--checked-border-color) 2px solid; background: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% - 1px)) rotate(45deg)
+}
+.container div.list ul li.on span {
+  color: var(--checked-border-color)
+}
+.container div.list ul li.readonly {
+  opacity: .5
+}
+.container div.list ul li.filtered,
+.container div.list ul li.selected{
+  display: none !important
+}
+.container .mask {
+  width: calc((100% - 70px) / 2); height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; z-index: -100
+}
+.container .leftMask {
+  left: 0px
+}
+.container .rightMask {
+  right: 0px
+}
+.container.disabled toolbar span.on {
+  background: none; border-color: var(--border-color); cursor: default
+}
+.container.disabled toolbar span.on jtbc-svg {
+  --fore-color: var(--border-color)
+}
+.container.disabled .mask {
+  opacity: .3; z-index: 10000
+}

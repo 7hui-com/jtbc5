@@ -1,0 +1,15 @@
+.ppAccount div.mainBox {
+  width: 100%; min-width: 540px; background: #ffffff; position: relative; z-index: 100
+}
+.ppAccount div.mainBox div.title {
+  display: flex; align-items: center
+}
+.ppAccount div.mainBox div.title span.tit {
+  padding-left: 5px
+}
+.ppAccount div.mainBox div.tinyForm {
+  max-height: 400px
+}
+.ppAccount div.mainBox div.tinyForm.loading li.info {
+  padding: 10px 0px; color: #666666; text-align: center
+}

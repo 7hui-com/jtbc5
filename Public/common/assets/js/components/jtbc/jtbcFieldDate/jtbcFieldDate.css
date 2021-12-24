@@ -1,0 +1,63 @@
+:host {
+  width: 500px; display: inline-block; vertical-align: top; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index)
+}
+.container input {
+  box-sizing: border-box; outline: none
+}
+.container input.date {
+  width: calc(100% - 30px); height: 30px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
+}
+.container input.date:focus + span.box {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container span.box {
+  display: block; width: 100%; height: 100%; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; pointer-events: none; transition: all .3s ease
+}
+.container span.btn {
+  height: calc(100% - 2px); display: flex; justify-items: center; align-items: center; padding: 0px 5px; position: absolute; top: 1px; right: 1px; z-index: 500; cursor: pointer
+}
+.container span.btn jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+.container div.datepicker {
+  display: none; opacity: 0; position: absolute; right: 0px; top: 100%; z-index: 100; transition: all .3s ease
+}
+.container div.datepicker::before {
+  content: ''; display: block; width: 0px; height: 0px; border: 6px solid; border-color: transparent transparent #d1d1d1 transparent; position: absolute; top: -11px; right: 8px; z-index: 100
+}
+.container div.datepicker::after {
+  content: ''; display: none; width: 0px; height: 0px; border: 6px solid; border-color: #d1d1d1 transparent transparent transparent; position: absolute; top: 100%; right: 8px; z-index: 100
+}
+.container div.datepicker .calendar {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+}
+.container div.datepicker.on {
+  opacity: 1; top: calc(100% + 8px)
+}
+.container div.datepicker.upper {
+  top: auto; bottom: 100%
+}
+.container div.datepicker.upper::before {
+  display: none
+}
+.container div.datepicker.upper::after {
+  display: block
+}
+.container div.datepicker.upper .calendar {
+  box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.1)
+}
+.container div.datepicker.upper.on {
+  opacity: 1; bottom: calc(100% + 8px)
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled .mask {
+  z-index: 10000
+}
+.container.pickable div.datepicker {
+  display: block
+}

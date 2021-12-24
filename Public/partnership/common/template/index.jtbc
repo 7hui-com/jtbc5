@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="list" mode="f">{@}
+        <div class="item">
+          <p type="image"><img src="{$=$htmlEncode($getValueFromJSON(#logo, 'fileurl'))}" alt="{$name}" /></p>
+        </div>{@}
+      </div>
+    </main>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

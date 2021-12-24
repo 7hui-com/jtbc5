@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[part-toplink]]></name>
+      <default><![CDATA[<jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list1&amp;pitchon=a.toplink-list-1">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list2&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list3&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-4" href="codename={$>this.genre}:manage.list4&amp;pitchon=a.toplink-list-4">{$=$take('manage.text-menu-4', 'lng')}</a></jtbc-pitchon>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list1]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list1']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-menu-1', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;group=1">
+          <div class="sheet">
+            <item>
+              <label class="name"><span>{$=$take('config.list1-title', 'lng')}</span></label>
+              <div class="content"><input is="jtbc-input" type="text" role="field" name="title" value="${$info.title}" spellcheck="false" /></div>
+            </item>
+            <item>
+              <label class="name"><span>{$=$take('config.list1-keywords', 'lng')}</span></label>
+              <div class="content"><textarea is="jtbc-textarea" role="field" name="keywords" height="100" spellcheck="false">${$info.keywords}</textarea></div>
+            </item>
+            <item>
+              <label class="name"><span>{$=$take('config.list1-description', 'lng')}</span></label>
+              <div class="content"><textarea is="jtbc-textarea" role="field" name="description" height="100" spellcheck="false">${$info.description}</textarea></div>
+            </item>
+            <item>
+              <label class="name"></label>
+              <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
+            </item>
+            <item if="${$control.subPermission.edit}" class="formSubmit">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list2]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manage.css" />
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list2']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-menu-2', 'lng')}</h3>
+        <rightarea if="${$control.subPermission.edit}"><button class="b4 replace" is="jtbc-upload-button" keepsilent="keepsilent" accept=".jpg,.gif,.png,.svg" action="{$>this.genre}/manage?action=edit&amp;group=2">{$=$take('manage.text-button-replace-logo', 'lng')}</button></rightarea>
+        <div class="sheet">
+          <item>
+            <label class="name"><span>{$=$take('config.list2-logo', 'lng')}</span></label>
+            <div class="content"><img src="${$info.logo}" class="ppLogoDemo" alt="" /></div>
+          </item>
+          <item>
+            <label class="name"></label>
+            <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
+          </item>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initList2" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list3]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list3']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-menu-3', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;group=3">
+          <div class="sheet">
+            <item>
+              <label class="name"><span>{$=$take('config.list3-max-filesize', 'lng')}</span></label>
+              <div class="content"><jtbc-field-number name="max_filesize" role="field" value="${$info.max_filesize}" max="2048" width="120"></jtbc-field-number>&nbsp;&nbsp;MB</div>
+            </item>
+            <item>
+              <label class="name"><span>{$=$take('config.list3-extensions', 'lng')}</span></label>
+              <div class="content"><jtbc-field-table name="extensions" role="field" text="${$extensions.text}" columns="${$extensions.columns}" value="${$info.extensions}" width="500"></jtbc-field-table></div>
+            </item>
+            <item>
+              <label class="name"></label>
+              <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
+            </item>
+            <item if="${$control.subPermission.edit}" class="formSubmit">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list4]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list4']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-menu-4', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;group=4">
+          <div class="sheet">
+            <item>
+              <label class="name"><span>{$=$take('config.list4-title', 'lng')}</span></label>
+              <div class="content"><input is="jtbc-input" type="text" role="field" name="title" value="${$info.title}" width="120" spellcheck="false" /></div>
+            </item>
+            <item>
+              <label class="name"><span>{$=$take('config.list4-pagesize', 'lng')}</span></label>
+              <div class="content"><jtbc-field-number name="pagesize" role="field" value="${$info.pagesize}" max="1000" width="120"></jtbc-field-number></div>
+            </item>
+            <item>
+              <label class="name"></label>
+              <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
+            </item>
+            <item if="${$control.subPermission.edit}" class="formSubmit">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+  </item_list>
+</xml>

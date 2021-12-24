@@ -1,0 +1,172 @@
+.ppUpgrade {
+  width: 500px; position: relative; z-index: 100
+}
+.ppUpgrade div.mainBox {
+  width: 100%; background: #ffffff; position: relative; z-index: 100
+}
+.ppUpgrade div.mainBox div.title {
+  display: flex; align-items: center
+}
+.ppUpgrade div.mainBox div.title span.tit {
+  padding-left: 5px
+}
+.ppUpgrade div.mainBox h3 {
+  margin: 0px; padding: 10px 0px 5px 0px; font-size: 16px; line-height: 100%; text-align: center
+}
+.ppUpgrade div.mainBox h3 b {
+  color: #e7505a
+}
+.ppUpgrade div.mainBox span.img {
+  display: block; text-align: center
+}
+.ppUpgrade div.mainBox span.img img {
+  height: 100px
+}
+.ppUpgrade div.mainBox li em.compare {
+  display: inline-block; font-style: normal; margin: 0px 5px; padding: 2px 0px; color: #333333; border-bottom: #333333 1px solid; vertical-align: middle; cursor: pointer
+}
+.ppUpgrade div.mainBox li.text {
+  font-size: 12px; text-align: center; color: #666666
+}
+.ppUpgrade div.upgradeBox {
+  width: 100%; overflow: hidden; position: relative; z-index: 100; transition: all .3s ease
+}
+.ppUpgrade div.upgradeBox div.tinyForm {
+  max-height: none
+}
+.ppUpgrade div.upgradeBox div.step1 {
+  width: 100%; position: relative; z-index: 200; transition: all .3s ease
+}
+.ppUpgrade div.upgradeBox div.step1List {
+  max-height: 400px; overflow-x: hidden; overflow-y: auto
+}
+.ppUpgrade div.upgradeBox div.step2 {
+  width: 100%; position: absolute; top: 0px; right: -100%; z-index: 100; transition: all .3s ease
+}
+.ppUpgrade div.upgradeBox div.step2List {
+  max-height: 400px; overflow-x: hidden; overflow-y: auto
+}
+.ppUpgrade div.upgradeBox span.path {
+  display: flex; line-height: 100%; align-items: center; background: #fdfdfd; border: #dcdfe6 1px solid; box-sizing: border-box; color: #333333; border-radius: 5px; overflow: hidden 
+}
+.ppUpgrade div.upgradeBox span.path em {
+  font-style: normal; margin-right: 8px; padding: 8px; background: #dcdfe6; color: #333333
+}
+.ppUpgrade div.upgradeBox span.path b.href {
+  font-weight: normal; font-size: 14px; cursor: pointer
+}
+.ppUpgrade div.upgradeBox.next div.step1 {
+  transform: translate(-100%, 0)
+}
+.ppUpgrade div.upgradeBox.next div.step2 {
+  right: 0%
+}
+.ppUpgrade div.upgradeBox ul.diff {
+  list-style: none; padding: 0px 10px 10px 10px
+}
+.ppUpgrade div.upgradeBox ul.diff li {
+  box-sizing: border-box; background: #ffffff; border: #d1d1d1 1px solid; border-bottom: 0px; border-left: #333333 5px solid; padding: 10px; position: relative; z-index: 100
+}
+.ppUpgrade div.upgradeBox ul.diff li:first-child {
+  border-top-left-radius: 5px; border-top-right-radius: 5px
+}
+.ppUpgrade div.upgradeBox ul.diff li:last-child {
+  border-bottom: #d1d1d1 1px solid; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px
+}
+.ppUpgrade div.upgradeBox ul.diff li span.file {
+  display: block; line-height: 140%; padding-right: 90px; word-break: break-all
+}
+.ppUpgrade div.upgradeBox ul.diff li span.file em {
+  display: inline-block; font-style: normal; margin-right: 5px; line-height: 100%; padding: 4px; vertical-align: middle; color: #ffffff; border-radius: 4px
+}
+.ppUpgrade div.upgradeBox ul.diff li span.info {
+  display: block; line-height: 100%; padding-top: 5px; padding-right: 90px; color: #999999
+}
+.ppUpgrade div.upgradeBox ul.diff li span.info em {
+  font-style: normal
+}
+.ppUpgrade div.upgradeBox ul.diff li span.opinion {
+  position: absolute; right: 10px; top: 50%; transform: translate(0, -50%); z-index: 100
+}
+.ppUpgrade div.upgradeBox ul.diff li span.opinion em {
+  font-style: normal
+}
+.ppUpgrade div.upgradeBox ul.diff li span.opinion b {
+  font-weight: normal; color: #999999
+}
+.ppUpgrade div.upgradeBox ul.diff li span.opinion u {
+  text-decoration: none; color: #f56c6c
+}
+.ppUpgrade div.upgradeBox ul.diff li.create {
+  border-left-color: #67c23a
+}
+.ppUpgrade div.upgradeBox ul.diff li.create span.file em {
+  background-color: #67c23a
+}
+.ppUpgrade div.upgradeBox ul.diff li.overwrite {
+  border-left-color: #e6a23c
+}
+.ppUpgrade div.upgradeBox ul.diff li.overwrite span.file em {
+  background-color: #e6a23c
+}
+.ppUpgrade div.upgradeBox ul.diff li.delete {
+  border-left-color: #f56c6c
+}
+.ppUpgrade div.upgradeBox ul.diff li.delete span.file em {
+  background-color: #f56c6c
+}
+.ppUpgrade div.upgradeBox ul.genreList {
+  padding: 0px 20px 10px 20px
+}
+.ppUpgrade div.upgradeBox ul.genreList li {
+  display: flex; box-sizing: border-box; padding: 7px; align-items: center; border: transparent 1px solid; border-radius: 5px
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.svg {
+  display: block; width: 40px; height: 40px; box-sizing: border-box; padding: 7px; background: #ffffff; border: #d1d1d1 1px solid
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.svg jtbc-svg {
+  display: block; width: 100%; height: 100%; --fore-color: #666666
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.name {
+  display: block; width: 330px; padding-left: 8px; line-height: 160%
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.name b {
+  font-weight: normal
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.name b.href {
+  cursor: pointer
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.name em {
+  font-style: normal; color: #999999
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version {
+  display: block; flex: 1; line-height: 160%; text-align: center
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version b,
+.ppUpgrade div.upgradeBox ul.genreList li span.version i {
+  display: block; font-style: normal; font-weight: normal; color: #999999
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version i {
+  color: #e7505a; cursor: pointer
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version i jtbc-svg {
+  width: 14px; height: 14px; --fore-color: #333333
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version i jtbc-svg.locked {
+  opacity: .3
+}
+.ppUpgrade div.upgradeBox ul.genreList li span.version i.latest {
+  cursor: text
+}
+.ppUpgrade div.upgradeBox ul.genreList li:hover {
+  background: #f9f9f9; border-color: #f9f9f9
+}
+.ppUpgrade div.upgradeBox ul.genreList li.on {
+  background: #fdf0f0; border-color: #ec6b6a
+}
+.ppUpgrade div.upgradeBox ul.genreEmpty {
+  padding: 20px 20px 30px 20px
+}
+.ppUpgrade div.upgradeBox ul.genreEmpty li {
+  line-height: 100%; color: #999999; text-align: center
+}

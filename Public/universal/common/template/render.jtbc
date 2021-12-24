@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[li-detail]]></name>
+      <default><![CDATA[<li data-id="{$id}"><a href="?type=detail&amp;id={$id}">{$title}</a></li>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[li-list]]></name>
+      <default><![CDATA[<li data-id="{$id}"><a href="?type=list&amp;category={$id}">{$title}</a></li>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[li-url]]></name>
+      <default><![CDATA[<li data-id="{$id}"><a href="{$url}" target="{$target}">{$title}</a></li>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[stylesheet]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$url}" />]]></default>
+    </item>
+    <item>
+      <name><![CDATA[value]]></name>
+      <default><![CDATA[{$value}]]></default>
+    </item>
+    <item>
+      <name><![CDATA[value-img]]></name>
+      <default><![CDATA[<img src="{$=$htmlEncode($getValueFromJSON(#value, 'fileurl'))}" alt="{$name}" />]]></default>
+    </item>
+    <item>
+      <name><![CDATA[value-raw]]></name>
+      <default><![CDATA[{$=$htmlEncode(#value, 0)}]]></default>
+    </item>
+  </item_list>
+</xml>

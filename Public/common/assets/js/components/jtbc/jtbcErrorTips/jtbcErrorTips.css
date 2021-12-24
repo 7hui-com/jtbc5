@@ -1,0 +1,15 @@
+:host {
+  display: none; --error-border-left: #e7505a 5px solid; --no-error-border-left: #336633 5px solid; --background: #ececec; --margin: 0px 0px 20px 0px; --padding: 0px 20px 0px 0px; --font-size: 14px; --line-height: 26px
+}
+:host(.on) {
+  display: inline-block
+}
+container ul {
+  margin: var(--margin); padding: var(--padding); font-size: var(--font-size); background: var(--background)
+}
+container ul li {
+  display: block; border-left: var(--error-border-left); line-height: var(--line-height); padding-left: 10px
+}
+container ul li[code='1'] {
+  border-left: var(--no-error-border-left)
+}

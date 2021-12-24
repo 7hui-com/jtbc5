@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[part-step2]]></name>
+      <default><![CDATA[<template is="jtbc-template">
+  <div class="step2List">
+    <input type="hidden" name="genre" role="field" value="${$genre}" />
+    <input type="hidden" name="zip_path" role="field" value="${$zip_path}" />
+    <div class="tinyForm">
+      <ul>
+        <li><h3>{$=$take('{$>self.path}.text-new-version', 'lng')}<b>${$new_version}</b>{$=$take('{$>self.path}.text-please-confirm', 'lng')}</h3></li>
+      </ul>
+      <ul class="diff" zip_path="${$zip_path}">{$=$take('{$>self.path}.part-step2-diff')}</ul>
+    </div>
+  </div>
+  <div class="tinyForm">
+    <div class="button central"><button class="b2 upgrade" role="submit">{$=$take('{$>self.path}.text-button-upgrade', 'lng')}</button></div>
+  </div>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[part-step2-diff]]></name>
+      <default><![CDATA[<template is="jtbc-template" key="diff.file.create">
+  <li class="create">
+    <span class="file"><em>{$=$take('{$>self.path}.text-file-create', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 1}">{$=$take('{$>self.path}.text-file-create-info-1', 'lng')}</em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${$diffed_status == 1}"><select role="field" name="opinion_file_${$id}">{$=$takeAndFormatToOption('sel_file_create_opinion.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>
+<template is="jtbc-template" key="diff.file.overwrite">
+  <li class="overwrite">
+    <span class="file"><em>{$=$take('{$>self.path}.text-file-overwrite', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 2}">{$=$take('{$>self.path}.text-file-overwrite-info-2', 'lng')}</em>
+      <em elseif="${$diffed_status == 3}">{$=$take('{$>self.path}.text-file-overwrite-info-3', 'lng')}<em class="compare" url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageCompare.file&amp;path=${encodeURIComponent($.raw.path)}&amp;zip_path=${encodeURIComponent($.parent.getAttribute('zip_path'))}&amp;meta_id=${encodeURIComponent($.raw.id)}">{$=$take('{$>self.path}.text-compare', 'lng')}</em></em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${[2, 3].includes($diffed_status)}"><select role="field" name="opinion_file_${$id}">{$=$takeAndFormatToOption('sel_file_overwrite_opinion.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>
+<template is="jtbc-template" key="diff.file.delete">
+  <li class="delete">
+    <span class="file"><em>{$=$take('{$>self.path}.text-file-delete', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 2}">{$=$take('{$>self.path}.text-file-delete-info-2', 'lng')}</em>
+      <em elseif="${$diffed_status == 3}">{$=$take('{$>self.path}.text-file-delete-info-3', 'lng')}</em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${$diffed_status == 2}"><u>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</u><input role="field" name="opinion_file_${$id}" type="hidden" role="field" value="3" /></em>
+      <em elseif="${$diffed_status == 3}"><select role="field" name="opinion_file_${$id}">{$=$takeAndFormatToOption('sel_file_delete_opinion.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>
+<template is="jtbc-template" key="diff.jtbc.create">
+  <li class="create">
+    <span class="file" title="{$=$take('config.node_key', 'lng')}:${$node_key}"><em>{$=$take('{$>self.path}.text-jtbc-create', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 2}">{$=$take('{$>self.path}.text-jtbc-create-info-2', 'lng')}</em>
+      <em elseif="${$diffed_status == 4}">{$=$take('{$>self.path}.text-jtbc-create-info-4', 'lng')}</em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${$diffed_status == 2}"><u>{$=$take('{$>self.path}.text-can-only-be-ignored', 'lng')}</u><input name="opinion_jtbc_${$id}" type="hidden" role="field" value="3" /></em>
+      <em elseif="${$diffed_status == 4}"><select role="field" name="opinion_jtbc_${$id}">{$=$takeAndFormatToOption('sel_jtbc_create_opinion.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>
+<template is="jtbc-template" key="diff.jtbc.overwrite">
+  <li class="overwrite" title="{$=$take('config.node_key', 'lng')}:${$node_key}">
+    <span class="file"><em>{$=$take('{$>self.path}.text-jtbc-overwrite', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 2}">{$=$take('{$>self.path}.text-jtbc-overwrite-info-2', 'lng')}</em>
+      <em elseif="${$diffed_status == 5}">{$=$take('{$>self.path}.text-jtbc-overwrite-info-5', 'lng')}</em>
+      <em elseif="${$diffed_status == 6}">{$=$take('{$>self.path}.text-jtbc-overwrite-info-6', 'lng')}<em class="compare" url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageCompare.jtbc&amp;path=${encodeURIComponent($.raw.path)}&amp;zip_path=${encodeURIComponent($.parent.getAttribute('zip_path'))}&amp;node_key=${encodeURIComponent($.raw.node_key)}&amp;node_name=${encodeURIComponent($.raw.node_name)}&amp;jtbc_type=${encodeURIComponent($.raw.type)}&amp;meta_id=${encodeURIComponent($.raw.id)}">{$=$take('{$>self.path}.text-compare', 'lng')}</em></em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${$diffed_status == 2}"><u>{$=$take('{$>self.path}.text-can-only-be-ignored', 'lng')}</u><input name="opinion_jtbc_${$id}" type="hidden" role="field" value="3" /></em>
+      <em elseif="${$diffed_status == 5}"><select role="field" name="opinion_jtbc_${$id}">{$=$takeAndFormatToOption('sel_jtbc_overwrite_opinion_5.*')}</select></em>
+      <em elseif="${$diffed_status == 6}"><select role="field" name="opinion_jtbc_${$id}">{$=$takeAndFormatToOption('sel_jtbc_overwrite_opinion_6.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>
+<template is="jtbc-template" key="diff.jtbc.delete">
+  <li class="delete">
+    <span class="file" title="{$=$take('config.node_key', 'lng')}:${$node_key}"><em>{$=$take('{$>self.path}.text-jtbc-delete', 'lng')}</em>${$path}</span>
+    <span class="info">
+      <em if="${$diffed_status == 2}">{$=$take('{$>self.path}.text-jtbc-delete-info-2', 'lng')}</em>
+      <em elseif="${$diffed_status == 5}">{$=$take('{$>self.path}.text-jtbc-delete-info-5', 'lng')}</em>
+      <em elseif="${$diffed_status == 6}">{$=$take('{$>self.path}.text-jtbc-delete-info-6', 'lng')}</em>
+      <em else>{$=$take('{$>self.path}.text-everything-ok', 'lng')}</em>
+    </span>
+    <span class="opinion">
+      <em if="${$diffed_status == 2}"><u>{$=$take('{$>self.path}.text-can-only-be-ignored', 'lng')}</u><input name="opinion_jtbc_${$id}" type="hidden" role="field" value="3" /></em>
+      <em elseif="${$diffed_status == 5}"><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b><input name="opinion_jtbc_${$id}" type="hidden" role="field" value="3" /></em>
+      <em elseif="${$diffed_status == 6}"><select role="field" name="opinion_jtbc_${$id}">{$=$takeAndFormatToOption('sel_jtbc_delete_opinion.*')}</select></em>
+      <em else><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></em>
+    </span>
+  </li>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[kernel]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUpgrade.css" />
+<div class="dialogPopup">
+  <div class="ppUpgrade">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-upgrade-kernel', 'lng')}</span></div>
+      <div class="upgradeBox">
+        <div class="step step1">
+          <template is="jtbc-template" url="{$>this.genre}/manageUpgrade?type=kernel&amp;new_version={$=urlencode($get_query_string('new_version'))}">
+            <div class="tinyForm">
+              <ul>
+                <li><h3>{$=$take('{$>self.path}.text-new-version', 'lng')}<b>${$new_version}</b></h3></li>
+                <li><span class="img"><img src="{$>this.genre}/common/assets/svg/rocket.svg" /></span></li>
+                <li class="text">{$=$take('{$>self.path}.text-kernel-intro-1', 'lng')}</li>
+              </ul>
+              <div class="button central"><button class="b2 download" url="{$>this.genre}/manageUpgrade?type=downloadKernelPatch">{$=$take('{$>self.path}.text-button-download', 'lng')}</button></div>
+            </div>
+          </template>
+        </div>
+        <div class="step step2" url="{$>this.genre}/manageUpgrade?type=kernelConfirm">
+          <form is="jtbc-form" method="post" action="{$>this.genre}/manageUpgrade?action=kernelUpgrade">{$=$take('{$>self.path}.part-step2')}</form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initKernel" src="{$>this.genre}/common/assets/js/manageUpgrade.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[package]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUpgrade.css" />
+<div class="dialogPopup">
+  <div class="ppUpgrade">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-upgrade-package', 'lng')}</span></div>
+      <div class="upgradeBox">
+        <div class="step step1">
+          <template is="jtbc-template" url="{$>this.genre}/manageUpgrade?type=package&amp;new_version={$=urlencode($get_query_string('new_version'))}">
+            <div if="${$status == 1}" class="tinyForm">
+              <ul>
+                <li><h3>{$=$take('{$>self.path}.text-new-version', 'lng')}<b>${$new_version}</b></h3></li>
+                <li><span class="img"><img src="{$>this.genre}/common/assets/svg/rocket_gray.svg" /></span></li>
+                <li class="text">{$=$take('{$>self.path}.text-package-intro-1', 'lng')}</li>
+              </ul>
+              <div class="button central"><button class="b2 download" url="{$>this.genre}/manageUpgrade?type=downloadPackagePatch">{$=$take('{$>self.path}.text-button-download', 'lng')}</button></div>
+            </div>
+            <div else class="tinyForm">
+              <ul>
+                <li><h3>{$=$take('{$>self.path}.text-package-title-1', 'lng')}</h3></li>
+                <li><span class="img"><img src="{$>this.genre}/common/assets/svg/rocket_gray.svg" /></span></li>
+                <li class="text">{$=$take('{$>self.path}.text-package-intro-2', 'lng')}</li>
+              </ul>
+              <div class="button central"><button class="b2 locked">{$=$take('{$>self.path}.text-button-cannot-download', 'lng')}</button></div>
+            </div>
+          </template>
+        </div>
+        <div class="step step2" url="{$>this.genre}/manageUpgrade?type=packageConfirm">
+          <form is="jtbc-form" method="post" action="{$>this.genre}/manageUpgrade?action=packageUpgrade">{$=$take('{$>self.path}.part-step2')}</form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initPackage" src="{$>this.genre}/common/assets/js/manageUpgrade.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[module]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUpgrade.css" />
+<div class="dialogPopup">
+  <div class="ppUpgrade">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-upgrade-module', 'lng')}</span></div>
+      <div class="upgradeBox">
+        <div class="step step1"></div>
+        <div class="step step2" url="{$>this.genre}/manageUpgrade?type=moduleConfirm">
+          <form is="jtbc-form" method="post" action="{$>this.genre}/manageUpgrade?action=moduleUpgrade">{$=$take('{$>self.path}.part-step2')}</form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <template class="listTemplate" is="jtbc-template" mode="target" target="div.ppUpgrade .step1" url="{$>this.genre}/manageUpgrade?type=module">
+    <div class="step1List">
+      <div class="tinyForm">
+        <ul>
+          <li><h3>{$=$take('{$>self.path}.text-module-title-1', 'lng')}</h3></li>
+          <li><span class="path"><em>{$=$take('{$>self.path}.text-path', 'lng')}</em><span><template is="jtbc-template" key="path"><b class="href" url="{$>this.genre}/manageUpgrade?type=module&amp;genre=${encodeURIComponent($.raw.genre)}">${$title}</b></template></span></span></li>
+        </ul>
+      </div>
+      <div class="tinyForm">
+        <ul if="${$data.length == 0}" class="genreEmpty">
+          <li>{$=$take('{$>self.path}.text-module-empty', 'lng')}</li>
+        </ul>
+        <ul class="genreList">
+          <template is="jtbc-template" key="data">
+            <li genre="${$name}"><span class="svg"><jtbc-svg name="${$icon}"></jtbc-svg></span><span class="name"><b if="${$isParentModule}" class="href" url="{$>this.genre}/manageUpgrade?type=module&amp;genre=${encodeURIComponent($.raw.name)}">${$title}</b><b else>${$title}</b><br /><em>${$name}</em></span><span if="${$module_version == '0'}" class="version"><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></span><span else class="version"><b>${$module_version}</b><i latest="{$=$take('{$>self.path}.text-latest', 'lng')}"><jtbc-svg name="loop" class="detect" title="{$=$take('{$>self.path}.text-detect', 'lng')}" url="{$>this.genre}/manageUpgrade?type=detectModuleVersion&amp;genre=${encodeURIComponent($.raw.name)}"></jtbc-svg></i></span></li>
+          </template>
+        </ul>
+      </div>
+    </div>
+    <div class="tinyForm">
+      <div class="button central"><button class="b2 download locked" baseurl="{$>this.genre}/manageUpgrade?type=downloadModulePatch">{$=$take('{$>self.path}.text-button-download', 'lng')}</button></div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initModule" src="{$>this.genre}/common/assets/js/manageUpgrade.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[plugin]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUpgrade.css" />
+<div class="dialogPopup">
+  <div class="ppUpgrade">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-upgrade-plugin', 'lng')}</span></div>
+      <div class="upgradeBox">
+        <div class="step step1">
+          <template is="jtbc-template" url="{$>this.genre}/manageUpgrade?type=plugin">
+            <div if="${$data.length == 0}" class="box">
+              <div class="tinyForm">
+                <ul>
+                  <li><div class="icon"><jtbc-svg name="alert"></jtbc-svg></div></li>
+                  <li><div class="text">{$=$take('{$>self.path}.text-plugin-empty', 'lng')}</div></li>
+                </ul>
+                <div class="button central"><button class="b2 ok" role="submit">{$=$take('::communal.iknow', 'lng')}</button></div>
+              </div>
+            </div>
+            <div else class="box">
+              <div class="step1List">
+                <div class="tinyForm">
+                  <ul>
+                    <li><h3>{$=$take('{$>self.path}.text-plugin-title-1', 'lng')}</h3></li>
+                  </ul>
+                </div>
+                <div class="tinyForm">
+                  <ul class="genreList">
+                    <template is="jtbc-template" key="data">
+                      <li genre="${$genre}"><span class="svg"><jtbc-svg name="${$icon}"></jtbc-svg></span><span class="name"><b>${$title}</b><br /><em>${$name}</em></span><span if="${$plugin_version == '0'}" class="version"><b>{$=$take('{$>self.path}.text-nothing-to-do', 'lng')}</b></span><span else class="version"><b>${$plugin_version}</b><i latest="{$=$take('{$>self.path}.text-latest', 'lng')}"><jtbc-svg name="loop" class="detect" title="{$=$take('{$>self.path}.text-detect', 'lng')}" url="{$>this.genre}/manageUpgrade?type=detectPluginVersion&amp;genre=${encodeURIComponent($.raw.genre)}"></jtbc-svg></i></span></li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+              <div class="tinyForm">
+                <div class="button central"><button class="b2 download locked" baseurl="{$>this.genre}/manageUpgrade?type=downloadPluginPatch">{$=$take('{$>self.path}.text-button-download', 'lng')}</button></div>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="step step2" url="{$>this.genre}/manageUpgrade?type=pluginConfirm">
+          <form is="jtbc-form" method="post" action="{$>this.genre}/manageUpgrade?action=pluginUpgrade">{$=$take('{$>self.path}.part-step2')}</form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initPlugin" src="{$>this.genre}/common/assets/js/manageUpgrade.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

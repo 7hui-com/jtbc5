@@ -1,0 +1,477 @@
+body {
+  min-width: 1200px
+}
+.root {
+  width: 100%; position: relative; z-index: 100
+}
+.login {
+  width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center
+}
+.login div.box {
+  width: 450px; padding-bottom: 60px; background: #fff; border: #e2e2e2 1px solid; border-top: #000 5px solid; box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); position: relative; z-index: 100
+}
+.login div.box h1 {
+  padding: 60px 30px; font-size: 48px; font-family: arial; font-weight: normal; color: #000; line-height: 100%; text-align: center
+}
+.login div.box div.form div.field {
+  width: 360px; height: 44px; line-height: 44px; border: #d9d9d9 1px solid; margin: auto; margin-bottom: 10px
+}
+.login div.box div.form div.field em {
+  display: inline-flex; width: 44px; height: 100%; align-items: center; justify-content: center; vertical-align: top; border-right: #d9d9d9 1px solid
+}
+.login div.box div.form div.field em jtbc-svg {
+  --fore-color: #d9d9d9
+}
+.login div.box div.form div.field input {
+  display: inline-block; width: 310px; height: 100%; padding-left: 20px; border: 0px; font-size: 14px; color: #999; box-shadow: none; transition: all .3s ease
+}
+.login div.box div.form div.field input:focus {
+  color: #000
+}
+.login div.box div.form div.button {
+  width: 360px; margin: auto; padding-top: 10px; display: flex; justify-content: space-between
+}
+.login div.box div.form div.button.center {
+  justify-content: center
+}
+.login div.box div.message {
+  padding-top: 30px; height: 30px; line-height: 30px; text-align: center; font-size: 14px; color: #e47a26
+}
+.login div.box .error {
+  width: calc(100% - 20px); box-sizing: border-box; padding: 10px; background: #f2dede; border: #ebccd1 1px solid; border-radius: 5px; color: #a94442; text-align: center; transform: translate(-50%, 0); position: absolute; bottom: 10px; left: 50%; z-index: 100; opacity: 0; transition: all .3s ease
+}
+.login div.box .error[code='0'] {
+  opacity: 1
+}
+.console {
+  width: 100%; position: relative; z-index: 100
+}
+.topbar {
+  width: 100%; height: 50px; background: #2b3643; position: relative; z-index: 1000
+}
+.topbar h1 {
+  padding-left: 20px; line-height: 50px; font-size: 20px; font-family: arial; font-weight: normal; color: #fff
+}
+.topbar span.menu {
+  display: block; width: 40px; height: 40px; text-align: center; position: absolute; top: 5px; left: 185px; z-index: 100
+}
+.topbar span.menu l1 {
+  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 12px
+}
+.topbar span.menu l2 {
+  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 5px
+}
+.topbar span.menu l3 {
+  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 5px
+}
+.topbar right {
+  display: block; height: 50px; text-align: right; position: absolute; top: 0px; right: 20px; z-index: 100
+}
+.topbar right .section {
+  display: inline-block; height: 50px; line-height: 50px; padding: 0px 10px; vertical-align: top; position: relative; z-index: 100; transition: background-color .3s ease
+}
+.topbar right .section h3 {
+  font-size: 14px; color: #fff
+}
+.topbar right .section h3 jtbc-svg {
+  display: inline-block; width: 14px; height: 14px; margin-left: 5px; vertical-align: middle; --fore-color: #ffffff
+}
+.topbar right .section h4 {
+  position: relative
+}
+.topbar right .section h4 jtbc-svg {
+  display: inline-block; width: 20px; height: 20px; vertical-align: middle; --fore-color: #ffffff
+}
+.topbar right .section h4 badge {
+  display: block; width: 20px; height: 20px; line-height: 20px; font-size: 12px; text-align: center; background: #de2910; color: #fff; border-radius: 100%; position: absolute; top: 6px; right: -6px; z-index: 200
+}
+.topbar right .section ul {
+  min-width: 100%; position: absolute; top: 50px; right: -1px; background: #fff; border: #364150 1px solid; border-top: 0px; padding: 5px 0px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1); display: none; z-index: 100
+}
+.topbar right .section ul li {
+  line-height: 30px
+}
+.topbar right .section ul li:hover {
+  background: #ececec
+}
+.topbar right .section ul li .item {
+  display: block; padding: 0px 20px; text-align: center; font-size: 14px; color: #333; white-space: nowrap
+}
+.topbar right .section:hover {
+  background-color: #364150
+}
+.topbar right .section:hover ul {
+  display: block
+}
+.topbar right lang.section flag {
+  display: inline-block; width: 30px; height: 20px; margin-right: 10px; vertical-align: middle; background-position: center center; background-repeat: no-repeat
+}
+.topbar right lang.section flag.f0 {
+  background-image: url(../svg/lang/cn.svg)
+}
+.topbar right lang.section flag.f1 {
+  background-image: url(../svg/lang/en.svg)
+}
+.topbar right lang.section flag.f2 {
+  background-image: url(../svg/lang/jp.svg)
+}
+.topbar right lang.section flag.f3 {
+  background-image: url(../svg/lang/kr.svg)
+}
+.topbar right lang.section ul li .item {
+  padding: 0px 10px; text-align: left; cursor: pointer
+}
+.topbar right notification:empty {
+  display: none !important
+}
+.topbar right notification.section .notification {
+  display: flex; padding: 0px 10px; justify-content: space-between
+}
+.topbar right notification.section .notification span.text {
+  display: block; font-size: 12px; color: #666; text-align: left; white-space: nowrap; padding-right: 10px; cursor: default
+}
+.topbar right cloudservice {
+  display: none; width: 40px; height: 50px; line-height: 50px; text-align: center; cursor: pointer; transition: background-color .3s ease
+}
+.topbar right cloudservice jtbc-svg {
+  vertical-align: middle; --fore-color: #ffffff
+}
+.topbar right cloudservice:hover {
+  background-color: #364150
+}
+.topbar right cloudservice div.icon {
+  width: 100%; height: 100%; position: relative; z-index: 100
+}
+.topbar right cloudservice div.icon a {
+  display: block; width: 100%; height: 100%
+}
+.topbar right cloudservice div.icon > span.tip {
+  display: block; padding: 8px; background: #364150; color: #ffffff; white-space: nowrap; line-height: 100%; cursor: default; border-radius: 4px; opacity: 0; pointer-events: none; position: absolute; top: 46px; right: 0px; z-index: 100; transition: all .3s ease
+}
+.topbar right cloudservice div.icon > span.tip::after {
+  content: ''; display: block; width: 0px; height: 0px; border: 6px solid; border-color: transparent transparent #364150 transparent; position: absolute; top: -11px; right: 14px; z-index: 100
+}
+.topbar right cloudservice div.icon > span.pindot {
+  display: block; width: 6px; height: 6px; background: #de2910; border-radius: 100%; position: absolute; top: 10px; right: 10px; z-index: 200
+}
+.topbar right cloudservice div.icon:hover > span.tip {
+  opacity: 1; top: 56px
+}
+.topbar right cloudservice.on {
+  display: inline-block
+}
+.topbar.min h1 {
+  opacity: 0
+}
+.topbar.min span.menu {
+  left: 0px
+}
+.container {
+  width: 100%; display: flex; align-items: stretch; min-height: calc(100vh - 50px); background: #fff; position: relative; z-index: 100
+}
+.container .leftmenu {
+  width: 230px; min-width: 230px; background: #364150; vertical-align: top; position: relative; z-index: 200
+}
+.container .leftmenu ul {
+  border-top: #3d4957 1px solid
+}
+.container .leftmenu ul li {
+  border-bottom: #3d4957 1px solid; position: relative; z-index: 100; transition: background-color .3s ease
+}
+.container .leftmenu ul li:hover {
+  background: #2c3542
+}
+.container .leftmenu ul li jtbc-svg.icon {
+  width: 18px; height: 18px; vertical-align: middle; margin-right: 8px; --fore-color: #b4b4b4
+}
+.container .leftmenu ul li jtbc-svg.arrow {
+  display: block; width: 12px; height: 12px; --fore-color: #ffffff; margin-top: -6px; pointer-events: none; position: absolute; right: 19px; top: 50%; z-index: 100; transition: all .3s ease
+}
+.container .leftmenu ul li jtbc-svg.triangle {
+  display: none; width: 16px; height: 16px; --fore-color: #ffffff; margin-top: -8px; transform: rotate(270deg); position: absolute; right: -4px; top: 50%; z-index: 200
+}
+.container .leftmenu ul li em.line {
+  width: 4px; height: 100%; background: #3e868f; opacity: 0; position: absolute; top: 0px; left: -4px; z-index: 200; transition: all .3s ease
+}
+.container .leftmenu ul li a.tit {
+  display: block; line-height: 40px; padding-left: 20px; outline: none; cursor: pointer; overflow: hidden; position: relative; z-index: 100
+}
+.container .leftmenu ul li a.tit.on jtbc-svg.triangle {
+  display: block
+}
+.container .leftmenu ul li a.tit.t2 {
+  padding-left: 45px
+}
+.container .leftmenu ul li a.tit.t3 {
+  padding-left: 70px
+}
+.container .leftmenu ul li a.tit.t4 {
+  padding-left: 95px
+}
+.container .leftmenu ul li a.tit b {
+  font-weight: normal; color: #b4bcc8
+}
+.container .leftmenu ul li a.tit.open jtbc-svg.arrow {
+  transform: rotate(180deg)
+}
+.container .leftmenu ul li.on em.line {
+  left: 0px; opacity: 1
+}
+.container .leftmenu dl {
+  display: none
+}
+.container .leftmenu dl.open {
+  display: block
+}
+.container .leftmenu dl dd {
+  position: relative; z-index: 100
+}
+.container .leftmenu dl dd a.tit {
+  line-height: 32px
+}
+.container .leftmenu dl dd a.tit.on,
+.container .leftmenu dl dd a.tit:hover {
+  background-color: #3e4b5c
+}
+.container .leftmenu.min {
+  width: 40px; min-width: 40px
+}
+.container .leftmenu.min ul li.on {
+  background: #2c3542
+}
+.container .leftmenu.min ul li jtbc-svg.icon {
+  width: 24px; height: 24px
+}
+.container .leftmenu.min ul li jtbc-svg.arrow {
+  display: none
+}
+.container .leftmenu.min ul li em.line {
+  display: none
+}
+.container .leftmenu.min ul li a.tit {
+  padding-left: 7px
+}
+.container .leftmenu.min ul li a.tit.on jtbc-svg.triangle {
+  display: none
+}
+.container .leftmenu.min ul li a.tit b {
+  display: none
+}
+.container .leftmenu.min dl.open {
+  display: none
+}
+.container .leftmenu.min dl {
+  width: 200px; background: #364150; border: #3d4957 1px solid; border-left: 0px; border-bottom: 0px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); position: absolute; top: -1px; right: -201px; z-index: 100
+}
+.container .leftmenu.min dl dd {
+  background: #2c3542; border-left: #3d4957 1px solid; border-bottom: #3d4957 1px solid
+}
+.container .leftmenu.min dl dd:first-child {
+  border-left-color: #2c3542
+}
+.container .leftmenu.min dl dd a.tit {
+  line-height: 40px; padding-left: 15px
+}
+.container .leftmenu.min dl dd a.tit b {
+  display: block
+}
+.container .leftmenu.min dl dd jtbc-svg.arrow {
+  display: block; transform: rotate(270deg) !important
+}
+.container .leftmenu.min ul li:hover>dl {
+  display: block !important
+}
+.container .leftmenu.min dl dd:hover>dl {
+  display: block !important
+}
+.container main {
+  flex: 1; position: relative; z-index: 100
+}
+.container .main {
+  width: 100%; display: block; position: relative; z-index: 100
+}
+.container .main nav {
+  width: 100%; height: 42px; line-height: 40px; display: block; box-sizing: border-box; padding-left: 20px; font-size: 14px; color: #000; border-top: #e7ecf1 1px solid; border-bottom: #e1e1e1 1px solid
+}
+.container .main nav a {
+  text-decoration: none
+}
+.container .main nav jtbc-svg {
+  vertical-align: middle; margin: 0px 5px; width: 10px; height: 10px; --fore-color: #999999
+}
+.container .main nav jtbc-svg:last-child {
+  display: none
+}
+.container .main div.manager {
+  padding: 20px
+}
+.container .main div.manager toplink {
+  display: flex; align-items: center; box-sizing: border-box; margin-bottom: 10px; background: #ececec; border-left: #2b3643 5px solid
+}
+.container .main div.manager toplink a {
+  display: inline-block; padding: 10px 15px; font-size: 14px; line-height: 100%; cursor: pointer
+}
+.container .main div.manager toplink a.pitchon {
+  background: #364150; color: #fff
+}
+.container .main div.manager toplink jtbc-svg {
+  --fore-color: #999
+}
+.container .main div.manager toplink jtbc-svg:last-child {
+  display: none
+}
+.container .main div.manager toplink.path a {
+  padding: 10px 5px
+}
+.container .main div.manager toplink.path a:first-child {
+  padding: 10px 15px
+}
+.container .main div.manager toplink.path jtbc-svg {
+  width: 14px; height: 14px
+}
+.container .main div.manager toplink.path jtbc-svg.arrow {
+  width: 10px; height: 10px; margin-left: 15px; margin-right: 5px
+}
+.container .main div.manager toplink.skinny a {
+  padding: 10px 0px
+}
+.container .main div.manager toplink.skinny a:first-child {
+  padding-left: 10px
+}
+.container .main div.manager div.chief {
+  margin-bottom: 20px; padding: 20px; border: #e1e1e1 1px solid; position: relative; z-index: 100
+}
+.container .main div.manager div.chief h3 {
+  line-height: 100%; margin-bottom: 10px; padding-bottom: 15px; font-size: 16px; color: #000; border-bottom: #e1e1e1 1px solid
+}
+.container .main div.manager div.chief h6 {
+  font-size: 14px; color: #666
+}
+.container .main div.manager div.chief rightarea {
+  display: flex; align-items: center; position: absolute; top: 14px; right: 20px; z-index: 100; color: #666
+}
+.container .main div.manager div.chief p.text {
+  line-height: 160%; color: #333
+}
+.container .main div.manager div.chief ul.param li {
+  line-height: 40px; color: #333; border-bottom: #e1e1e1 1px dashed
+}
+.container .main div.manager div.chief ul.param li b {
+  display: inline-block; width: 200px;
+}
+.container .main div.manager div.chief ul.param li:last-child {
+  border-bottom: 0px
+}
+.container .main div.manager div.chief div.control {
+  width: 100%; padding-top: 10px; display: flex; justify-content: space-between; align-items: center
+}
+.container .main div.manager div.chief div.control.center {
+  justify-content: center
+}
+.container .main div.manager div.chief div.control div.batch {
+  padding-left: 10px; height: 30px; line-height: 28px; box-sizing: border-box; background: #f5f5f5; border: #e1e1e1 1px solid
+}
+.container .main div.manager div.chief div.control div.batch span.text {
+  display: inline-block; color: #333
+}
+.container .main div.manager div.chief div.control div.batch select.batch {
+  display: inline-block; background-color: transparent; border: 0px; height: 28px; margin-right: 10px; vertical-align: top
+}
+.container .main div.manager div.chief div.control div.batch select.batch:focus {
+  box-shadow: none
+}
+.container .main div.manager div.chief div.control div.batch span.ok {
+  padding: 0px 10px; display: inline-block; border-left: #e7ecf1 1px solid; cursor: pointer
+}
+.container .main div.manager div.chief.attention {
+  border-color: #fdf0f0; background: #fdf0f0; border-left-width: 5px; border-left-color: #ec6b6a; padding-left: 16px
+}
+.container .main div.sheet {
+  width: 100%; padding-top: 10px
+}
+.container .main div.sheet fieldset {
+  width: 100%; margin-bottom: 10px; padding: 10px; box-sizing: border-box; border: #e1e1e1 1px solid
+}
+.container .main div.sheet fieldset legend {
+  padding: 0px 5px; font-size: 14px
+}
+.container .main div.sheet fieldset:last-child {
+  margin-bottom: 0px
+}
+.container .main div.sheet item {
+  width: 100%; display: flex; align-items: stretch; padding: 10px 0px
+}
+.container .main div.sheet item label.name {
+  width: 150px; display: inline-block; box-sizing: border-box; padding-right: 20px; text-align: right; line-height: 30px
+}
+.container .main div.sheet item label.name.flat {
+  line-height: normal
+}
+.container .main div.sheet item label.name r {
+  display: inline-block; margin-right: 5px; vertical-align: text-top; width: 8px; height: 8px; background: url(../svg/asterisk.svg) center center no-repeat
+}
+.container .main div.sheet item div.content {
+  flex: 1
+}
+.container .main div.sheet item div.content span.text {
+  display: block; padding: 5px 0px; line-height: 20px
+}
+.container .main div.sheet item div.content div.btn {
+  width: 100%
+}
+.container .main div.sheet item div.content div.btn button.left {
+  float: left
+}
+.container .main div.sheet item div.content div.btn button.right {
+  float: right
+}
+.container .main div.sheet item div.content div.btn::after {
+  content: ''; display: block; clear: both; height: 0px; overflow: hidden
+}
+.container .main div.permission {
+  display: inline-block; background: #f6f6f6; padding: 10px 20px 0px 10px; border: #d1d1d1 1px solid
+}
+.container .main div.permission input[name=genre] + span {
+  font-size: 14px
+}
+.container .main div.permission a.segment {
+  display: inline-block; color: #999; margin-right: 12px; cursor: pointer
+}
+.container .main div.permission ul {
+  padding-bottom: 10px; position: relative
+}
+.container .main div.permission ul li {
+  width: 100%; position: relative
+}
+.container .main div.permission ul li p {
+  height: 30px
+}
+.container .main div.permission ul ul {
+  padding-left: 20px; padding-bottom: 0px
+}
+.container .main div.permission ul ul::before {
+  content: ''; position: absolute; top: -5px; left: 6px; width: 0px; height: calc(100% - 9px); border-left: #666 1px solid
+}
+.container .main div.permission ul ul li::before {
+  content: ''; position: absolute; top: 15px; left: -14px; width: 12px; height: 0px; border-top: #666 1px solid
+}
+.container .main div.permission ul:empty {
+  display: none
+}
+.container .waiting {
+  width: 100%; height: 100%; background: rgba(255, 255, 255, .7); opacity: 0; position: absolute; top: 0px; left: 0px; z-index: 50
+}
+.container .waiting.on {
+  opacity: 1; z-index: 10000
+}
+.container .waiting bar {
+  width: 10%; height: 5px; background: rgba(228, 122, 38, .7); position: absolute; top: 39px; left: 0%; z-index: 100
+}
+.container .waiting.on bar {
+  animation: waiting_bar 6s infinite ease; -webkit-animation: waiting_bar 6s infinite ease
+}
+@keyframes waiting_bar {
+  0% { left: 0% }
+  50% { left: 90% }
+  100% { left: 0% }
+}

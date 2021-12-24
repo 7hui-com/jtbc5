@@ -1,0 +1,134 @@
+@import url('../../../common/assets/css/form.css');
+@import url('../../../common/assets/css/table.css');
+@import url('css/basic.css');
+.dialogPopup {
+  width: 100%; min-width: 400px
+}
+.dialogPopup a {
+  color: #000; text-decoration: none
+}
+.dialogPopup a:hover {
+  color: #000; text-decoration: none
+}
+.dialogPopup a.link {
+  color: #666666
+}
+.dialogPopup a.link jtbc-svg {
+  width: 12px; height: 12px; margin-right: 5px; --fore-color: #666666; vertical-align: middle
+}
+.dialogPopup a.link:hover {
+  color: #000000
+}
+.dialogPopup a.link:hover jtbc-svg {
+  --fore-color: #000000
+}
+.dialogPopup div.title {
+  line-height: 40px; background: #2b3643; padding: 0px 40px 0px 10px; font-size: 14px; font-weight: bold; color: #fff; word-break: break-all
+}
+.dialogPopup div.title jtbc-svg {
+  --fore-color: #fff
+}
+.dialogPopup div.title input.title {
+  width: 100%; background: none; border: 0px; font-size: 14px; font-weight: bold; color: #fff
+}
+.dialogPopup div.chief {
+  width: 640px; max-height: 480px; box-sizing: border-box; padding: 20px; overflow-y: auto
+}
+.dialogPopup div.chief div.control {
+  width: 100%; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-end
+}
+.dialogPopup div.chief div.control.center {
+  justify-content: center
+}
+.dialogPopup div.button {
+  height: 50px; box-sizing: border-box; padding: 0px 20px 0px 20px; text-align: left
+}
+.dialogPopup div.button.central {
+  height: 60px; padding-top: 15px; background: #fdfdfd; text-align: center; border-top: #dddddd 1px solid
+}
+.dialogPopup div.tinyForm {
+  width: 100%; max-height: 600px; overflow-y: auto
+}
+.dialogPopup div.tinyForm > ul {
+  list-style: none; margin: 0px; padding: 10px; box-sizing: border-box
+}
+.dialogPopup div.tinyForm > ul > li {
+  padding: 10px; position: relative
+}
+.dialogPopup div.tinyForm > ul > li h5 {
+  margin: 0px; padding: 0px; font-weight: normal; color: #666666; line-height: 100%; padding-bottom: 10px
+}
+.dialogPopup div.tinyForm > ul > li h6 {
+  margin: 0px; padding: 0px; font-size: 12px; font-weight: normal; color: #999; pointer-events: none; position: absolute; top: 50%; right: 10px; transform: translate(0, -50%); z-index: 100
+}
+.dialogPopup div.tinyForm > ul > li h6.far {
+  right: 30px
+}
+.dialogPopup div.tinyForm > ul > li h6.farther {
+  right: 40px
+}
+.dialogPopup div.tinyForm > ul > li h6 + input[type=text],
+.dialogPopup div.tinyForm > ul > li h6 + input[type=password] {
+  padding-right: 100px
+}
+.dialogPopup div.tinyForm > ul > li div.text {
+  padding: 0px
+}
+.dialogPopup div.tinyForm > ul > li.flex {
+  display: flex; justify-content: space-between
+}
+.dialogPopup div.tinyForm > ul > li.flex span.column {
+  flex-grow: 1; display: inline-block; position: relative; margin: 0px 5px
+}
+.dialogPopup div.tinyForm > ul > li.flex span.column:first-child {
+  margin-left: 0px
+}
+.dialogPopup div.tinyForm > ul > li.flex span.column:last-child {
+  margin-right: 0px
+}
+.dialogPopup div.tinyForm > ul > li.hidden {
+  display: none
+}
+.dialogPopup div.tinyForm > ul.emptyTips {
+  display: none
+}
+.dialogPopup div.tinyForm > ul:empty {
+  display: none
+}
+.dialogPopup div.tinyForm > ul:empty + ul.emptyTips {
+  display: block
+}
+.dialogPopup div.tinyForm div.form {
+  padding: 10px
+}
+.dialogPopup div.tinyForm div.form div.item {
+  padding: 10px
+}
+.dialogPopup div.tinyForm div.form div.item.tabtitle {
+  padding-bottom: 0px
+}
+.dialogPopup div.tinyForm div.form div.item.scrollable {
+  max-height: 300px; overflow-y: auto
+}
+.dialogPopup div.tinyForm div.form ul,
+.dialogPopup div.tinyForm div.form li {
+  padding: 0px
+}
+.dialogPopup div.tinyForm div.tabtitle {
+  padding: 0px 20px; border-bottom: #dddddd 1px solid
+}
+.dialogPopup div.tinyForm tabtitle {
+  margin-bottom: -1px; padding: 10px; display: inline-block; color: #333333; border: transparent 1px solid; border-top-left-radius: 5px; border-top-right-radius: 5px; cursor: pointer
+}
+.dialogPopup div.tinyForm tabtitle.on {
+  font-weight: bold; border-left-color: #dddddd; border-top-color: #dddddd; border-right-color: #dddddd; border-bottom-color: #ffffff
+}
+.dialogPopup div.tinyForm tabtitle.disabled {
+  color: #999; cursor: default
+}
+.dialogPopup div.tinyForm tabcontent {
+  display: none
+}
+.dialogPopup div.tinyForm tabcontent.on {
+  display: block
+}

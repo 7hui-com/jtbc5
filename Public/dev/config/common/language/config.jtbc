@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[extension]]></name>
+      <zh-cn><![CDATA[后缀名]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list1-title]]></name>
+      <zh-cn><![CDATA[标题]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list1-keywords]]></name>
+      <zh-cn><![CDATA[关键字]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list1-description]]></name>
+      <zh-cn><![CDATA[描述]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list2-logo]]></name>
+      <zh-cn><![CDATA[图片]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list3-max-filesize]]></name>
+      <zh-cn><![CDATA[允许上传的文件大小]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list3-extensions]]></name>
+      <zh-cn><![CDATA[允许上传的文件后缀]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list4-title]]></name>
+      <zh-cn><![CDATA[后台标题]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[list4-pagesize]]></name>
+      <zh-cn><![CDATA[分页记录数]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

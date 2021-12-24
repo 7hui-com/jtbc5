@@ -1,0 +1,104 @@
+.ppLog {
+  width: 640px !important
+}
+.ppLog div.mainBox div.tinyForm {
+  max-height: 500px !important
+}
+.ppLog div.mainBox div.top {
+  padding: 20px; position: relative; z-index: 100
+}
+.ppLog div.mainBox div.top div.tab {
+  width: 100%; border-bottom: #dddddd 1px solid
+}
+.ppLog div.mainBox div.top div.hints {
+  transform: translate(0, -50%); position: absolute; top: 50%; right: 20px; color: #999999
+}
+.ppLog div.mainBox div.list {
+  padding: 0px 20px 20px 20px
+}
+.ppLog div.mainBox div.list.hidden {
+  display: none
+}
+.ppLog div.mainBox div.listEmpty {
+  display: none; padding: 50px 0px 90px 0px; text-align: center; color: #999999
+}
+.ppLog div.mainBox div.listEmpty.on {
+  display: block
+}
+.ppLog div.mainBox div.list:empty {
+  display: none
+}
+.ppLog div.mainBox div.list:empty + div.listEmpty {
+  display: block
+}
+.ppLog div.mainBox div.pagination {
+  padding-top: 20px; text-align: center
+}
+.ppLog div.mainBox table.table {
+  width: 100%; background: #e1e1e1; border-collapse: separate; border-spacing: 1px 1px
+}
+.ppLog div.mainBox table.table th,
+.ppLog div.mainBox table.table td {
+  padding: 10px
+}
+.ppLog div.mainBox table.table th.center,
+.ppLog div.mainBox table.table td.center {
+  text-align: center
+}
+.ppLog div.mainBox table.table th {
+  text-align: left; background: #f6f6f6
+}
+.ppLog div.mainBox table.table td {
+  text-align: left; background: #fff
+}
+.ppLog div.mainBox table.table tbody tr:hover td {
+  background-color: #f9f9f9
+}
+.ppLog div.mainBox table.table td span.type {
+  display: inline-block; box-sizing: border-box; padding: 4px 8px; background: #000; color: #fff; word-break: break-all; border-radius: 6px
+}
+.ppLog div.mainBox table.table td span.type-package {
+  background: #5b0233
+}
+.ppLog div.mainBox table.table td span.type-module {
+  background: #0f6974
+}
+.ppLog div.mainBox table.table td span.type-plugin {
+  background: #779028
+}
+.ppLog div.mainBox table.table td span.downgrade {
+  display: inline-block; box-sizing: border-box; margin-left: 10px; padding: 2px 4px; background: #e7505a; color: #fff; cursor: pointer
+}
+.ppLog div.mainBox table.table td .direction {
+  width: 16px; height: 16px; vertical-align: middle; margin-left: 5px; margin-right: 5px
+}
+.ppLog div.mainBox table.table td .direction_up {
+  --fore-color: #000000
+}
+.ppLog div.mainBox table.table td .direction_down {
+  --fore-color: #FF0033
+}
+.ppLog div.mainBox table.table tr.dim {
+  filter: grayscale(100%)
+}
+.ppLog div.mainBox table.table tr.downgrade {
+  display: none
+}
+.ppLog div.mainBox table.table tr.downgrade.on {
+  display: table-row
+}
+.ppLog div.mainBox table.table div.genre {
+  line-height: 140%; color: #666666; padding-bottom: 4px
+}
+.ppLog div.mainBox div.downgradeList {
+  width: 100%; position: relative; z-index: 100
+}
+.ppLog div.mainBox div.downgradeList span.arrow {
+  display: block; width: 0px; height: 0px; border: 8px solid; border-color: transparent transparent #d1d1d1 transparent; transform: translate(-50%, 0); position: absolute; top: -6px; left: 50%; z-index: 50
+}
+.ppLog div.mainBox div.downgradeList ul.diff {
+  margin: 0px !important; padding: 10px !important
+}
+.ppLog div.mainBox div.downgradeList div.submit {
+  text-align: center
+}

@@ -1,0 +1,12 @@
+.ppSetting {
+  width: 640px
+}
+.ppSetting div.additional {
+  width: 100%; box-sizing: border-box; margin: 0px auto; padding: 0px 20px 20px 20px
+}
+.ppSetting div.additional fieldset {
+  display: block; min-width: inherit; margin: 0px; padding: 0px; border: #d1d1d1 1px solid; border-radius: 5px
+}
+.ppSetting div.additional fieldset legend {
+  margin-left: 20px; padding: 0 10px; font-size: 14px; color: #333333
+}

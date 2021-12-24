@@ -1,0 +1,99 @@
+icon {
+  display: inline-block; width: 40px; height: 40px; background: #ffffff; box-sizing: border-box; padding: 7px; border: #d1d1d1 1px solid
+}
+icon jtbc-svg {
+  display: block; width: 100%; height: 100%; --fore-color: #666666; opacity: 1
+}
+icon.button {
+  width: 30px; height: 30px; padding: 4px; opacity: .8; transition: all .3s ease
+}
+icon.button jtbc-svg {
+  --fore-color: #333333; cursor: pointer
+}
+icon.button jtbc-svg:hover {
+  opacity: 1
+}
+icons {
+  display: inline-block
+}
+icons jtbc-svg {
+  display: inline-block; vertical-align: middle; width: 16px; height: 16px; margin-right: 5px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+}
+icons jtbc-svg:hover {
+  opacity: 1
+}
+jtbc-script {
+  display: none
+}
+.ash {
+  color: #999999
+}
+.hand {
+  cursor: pointer
+}
+.hide {
+  display: none !important
+}
+.filegroup {
+  display: inline-block; box-sizing: border-box; margin-right: 4px; padding: 4px 8px; background: #000; color: #fff; border-radius: 6px; text-transform: uppercase
+}
+.filegroup[filegroup='1'] {
+  background: #0f6974
+}
+.filegroup[filegroup='2'] {
+  background: #cb8119
+}
+.filegroup[filegroup='3'] {
+  background: #779028
+}
+.filegroup[filegroup='4'] {
+  background: #5b0233
+}
+.highlight {
+  display: inline-block; line-height: 100%; padding: 4px; background: #000000; color: #ffffff
+}
+.highlight[group='0'] {
+  background-color: #cccccc
+}
+.highlight[group='1'] {
+  background-color: #006666
+}
+.highlight[group='2'] {
+  background-color: #990000
+}
+.highlight[group='3'] {
+  background-color: #cc9900
+}
+.originaltext {
+  white-space: pre-wrap
+}
+.status {
+  display: inline-block; width: 16px; height: 16px; background: none; vertical-align: middle
+}
+.status[status='0'] {
+  background-image: url(../svg/status.0.svg)
+}
+.status[status='1'] {
+  background-image: url(../svg/status.1.svg)
+}
+.tips {
+  background: url(../svg/info.svg) left center no-repeat; color: #999999; padding-left: 20px
+}
+.tiptext {
+  display: inline-block; padding-left: 6px; border-left: #000000 3px solid
+}
+.tiptext[group='0'] {
+  border-left-color: #cccccc
+}
+.tiptext[group='1'] {
+  border-left-color: #006666
+}
+.tiptext[group='2'] {
+  border-left-color: #990000
+}
+.tiptext[group='3'] {
+  border-left-color: #cc9900
+}
+.wordbreakall {
+  word-break: break-all
+}

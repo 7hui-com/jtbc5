@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[index]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<title>{$=$take('index.title', 'lng')}</title>
+<base href="{$=$full_host}" jtbc-default-target="main" />
+<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/global.css" />
+</head>
+<body>
+<container id="root" class="root"></container>
+<jtbc-mini-message id="miniMessage"></jtbc-mini-message>
+<jtbc-dialog id="dialog" text-ok="{$=$take('communal.confirm', 'lng')}" text-cancel="{$=$take('communal.cancel', 'lng')}" plugin_css="{$>this.genre}/common/assets/dialog.css"></jtbc-dialog>
+<jtbc-dialog id="previewer" text-ok="{$=$take('communal.confirm', 'lng')}" text-cancel="{$=$take('communal.cancel', 'lng')}" plugin_css="{$>this.genre}/common/assets/dialog.css"></jtbc-dialog>
+<jtbc-script id="master" src="{$>this.genre}/common/assets/js/index.js" checkLogin="{$>this.genre}/api?type=checkLogin" login="{$>this.genre}/api?type=login" dashboard="{$>this.genre}/manage?type=fragment&amp;codename={$>this.genre}:manage.dashboard"></jtbc-script>
+<script type="module">import('./common/assets/js/jtbc.js').then(module => { window.jtbc = new module.default(); });</script>
+</body>
+</html>]]></default>
+    </item>
+  </item_list>
+</xml>

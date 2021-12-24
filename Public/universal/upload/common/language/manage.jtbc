@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[text-menu-1]]></name>
+      <zh-cn><![CDATA[全部上传列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-2]]></name>
+      <zh-cn><![CDATA[未关联的上传列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-3]]></name>
+      <zh-cn><![CDATA[已关联的上传列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-4]]></name>
+      <zh-cn><![CDATA[失去关联的上传列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-list]]></name>
+      <zh-cn><![CDATA[上传列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-list-null]]></name>
+      <zh-cn><![CDATA[当前条件下没有找到任何上传]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

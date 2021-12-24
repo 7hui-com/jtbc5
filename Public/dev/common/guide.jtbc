@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbcf" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+    <order>config,file,template,module,plugin,cloud</order>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[title]]></name>
+      <zh-cn><![CDATA[开发维护]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[icon]]></name>
+      <zh-cn><![CDATA[kit]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[link]]></name>
+      <zh-cn><![CDATA[]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

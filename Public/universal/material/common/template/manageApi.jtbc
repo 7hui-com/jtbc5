@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[explorer]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/materialExplorer.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-list', 'lng')}</div>
+  <div class="tinyForm">
+    <div class="materialExplorer hide" baseurl="{$>this.genre}/manageApi" updateurl="{$>this.genre}/manageApi?action=updateHot">
+      <div class="top">
+        <div class="tab"><tabtitle class="on" value="-1">{$=$take('manage.text-explorer-tab-0', 'lng')}</tabtitle><tabtitle value="1">{$=$take('manage.text-explorer-tab-1', 'lng')}</tabtitle><tabtitle value="2">{$=$take('manage.text-explorer-tab-2', 'lng')}</tabtitle><tabtitle value="3">{$=$take('manage.text-explorer-tab-3', 'lng')}</tabtitle><tabtitle value="4">{$=$take('manage.text-explorer-tab-4', 'lng')}</tabtitle><tabtitle value="0">{$=$take('manage.text-explorer-tab-100', 'lng')}</tabtitle></div>
+        <div class="bar">
+          <span><input type="text" name="keyword" class="keyword" placeholder="{$=$take('manage.text-explorer-keyword', 'lng')}" /></span>
+          <span class="order"><em>{$=$take('manage.text-explorer-order-hot', 'lng')}</em><jtbc-svg name="order_desc"></jtbc-svg><dl><dd value="hot">{$=$take('manage.text-explorer-order-hot', 'lng')}</dd><dd value="new">{$=$take('manage.text-explorer-order-new', 'lng')}</dd></dl></span>
+        </div>
+      </div>
+      <div class="list"></div>
+      <div class="listEmpty">{$=$take('manage.text-tips-list-null', 'lng')}</div>
+      <template class="listTemplate" is="jtbc-template" mode="target" target=".materialExplorer .list" url="{$>this.genre}/manageApi?type=explorer">
+        <template is="jtbc-template" key="data">
+          <div class="filelist" isloop="true">
+            <item param="${$.htmlEncode(JSON.stringify($.raw))}">
+              <span class="title" title="{$=$take('universal:config.id', 'lng')}: ${$id}"><span class="filegroup" filegroup="${$filegroup}">${$filetype}</span><span class="filename">${$.markKeywords($filename, $.htmlEncode($.parent.getAttribute('keyword') ?? ''))}</span></span>
+              <span class="filesize">${$filesize_text}</span>
+            </item>
+          </div>
+        </template>
+        <div class="pagination"><jtbc-pagination current-page="${$pagination.pagenum}" total-page="${$pagination.pagecount}" maxlength="1"></jtbc-pagination></div>
+      </template>
+    </div>
+    <div class="button central"><button class="b2 ok">{$=$take('::communal.iselected', 'lng')}</button></div>
+  </div>
+</div>
+<jtbc-script init="initExplorer" src="{$>this.genre}/common/assets/js/manageApi.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

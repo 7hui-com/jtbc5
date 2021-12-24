@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[logining]]></name>
+      <zh-cn><![CDATA[正在登录中，请稍后..]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[remember]]></name>
+      <zh-cn><![CDATA[记住我的登录状态]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[msg-login-1]]></name>
+      <zh-cn><![CDATA[用户名或者密码错误]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[msg-login-2]]></name>
+      <zh-cn><![CDATA[您的账号今日因{$num}次输入密码而被暂时锁定]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[msg-login-others]]></name>
+      <zh-cn><![CDATA[未知错误，请稍后重试]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-db-error]]></name>
+      <zh-cn><![CDATA[请注意，数据库链接存在异常]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-login-1]]></name>
+      <zh-cn><![CDATA[登录成功]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

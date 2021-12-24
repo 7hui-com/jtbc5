@@ -1,0 +1,39 @@
+:host {
+  display: block; --pagination-height: 30px; --pagination-padding: 0px 6px; --pagination-border: #dddddd 1px solid; --pagination-border-radius: 0px; --pagination-font-size: 14px; --pagination-background: #fff; --pagination-color: #666; --pagination-selected-color: #000
+}
+:host(.hide) {
+  display: none !important
+}
+.pagination {
+  display: none; box-sizing: border-box; background: var(--pagination-background); border: var(--pagination-border); font-size: var(--pagination-font-size); color: var(--pagination-color); border-radius: var(--pagination-border-radius)
+}
+.pagination.on {
+  display: inline-block; height: var(--pagination-height)
+}
+.pagination span {
+  display: inline-flex; align-items: center; height: calc(var(--pagination-height) - 2px); vertical-align: top; box-sizing: border-box; border-right: var(--pagination-border); padding: var(--pagination-padding); cursor: pointer
+}
+.pagination span.off {
+  cursor: default
+}
+.pagination span.off jtbc-svg {
+  opacity: .3
+}
+.pagination span.info {
+  cursor: default
+}
+.pagination span.info em {
+  font-style: normal; margin: 0px 2px
+}
+.pagination span.last {
+  border-right: 0px
+}
+.pagination span.page.on {
+  color: var(--pagination-selected-color); text-decoration: underline
+}
+.pagination em.page {
+  display: inline-block; font-style: normal
+}
+.pagination jtbc-svg {
+  width: var(--pagination-font-size); height: var(--pagination-font-size); --fore-color: var(--pagination-color)
+}

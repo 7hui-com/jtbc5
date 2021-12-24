@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+    <order>dev,console,universal,aboutus,product,news,team,partnership,recruitment</order>
+  </configure>
+  <item_list></item_list>
+</xml>

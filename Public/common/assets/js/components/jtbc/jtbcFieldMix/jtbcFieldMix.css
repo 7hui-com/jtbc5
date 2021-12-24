@@ -1,0 +1,41 @@
+@import url('../../../../css/form.css');
+@import url('../../../library/field/mixedFieldCreator.css');
+:host {
+  width: 100%; display: block
+}
+container {
+  width: 100%; position: relative; z-index: 100
+}
+container.on {
+  display: block !important
+}
+container icons {
+  display: inline-block
+}
+container icons jtbc-svg {
+  display: inline-block; vertical-align: middle; width: 16px; height: 16px; margin-right: 5px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+}
+container icons jtbc-svg:hover {
+  opacity: 1
+}
+container icons jtbc-svg:last-child {
+  margin-left: 10px
+}
+container icons jtbc-svg[name=close] {
+  width: 14px; height: 14px
+}
+container .main {
+  width: 100%; background: #ffffff
+}
+container .main div.list > ul {
+  margin: 0px; padding: 0px; list-style: none
+}
+container .main div.list > ul > li {
+  width: 100%; box-sizing: border-box; padding: 10px; padding-top: 0px; border: #d1d1d1 1px solid
+}
+container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+container.disabled .mask {
+  z-index: 10000
+}

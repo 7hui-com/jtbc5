@@ -1,0 +1,117 @@
+:host {
+  width: 100%; height: 100%; opacity: 0; position: fixed; top: 0px; left: 0px; pointer-events: none; z-index: -2000000000
+}
+:host(.on) {
+  opacity: 1; pointer-events: auto; z-index: 2000000000
+}
+jtbc-script {
+  display: none
+}
+container {
+  display: block !important; width: 100%; height: 100%; background: rgba(0, 0, 0, .7); opacity: 0; transition: all .2s ease
+}
+container.on {
+  opacity: 1
+}
+.dialog_item {
+  display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; position: absolute; top: 0px; left: 0px; z-index: 100
+}
+.dialog_item.on {
+  z-index: 1000
+}
+.dialog_item .dialog {
+  display: flex; visibility: hidden; background: #fff; min-width: 400px; min-height: 200px; transform: translate(0, -50px); padding: 30px; box-sizing: border-box; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0, 0, 0, .5); opacity: 0; pointer-events: none; position: relative; z-index: 100; transition: all .3s ease
+}
+.dialog_item .dialog.on {
+  visibility: visible; transform: translate(0, 0px); opacity: 1; pointer-events: auto; z-index: 1000
+}
+.dialog_item .dialog.out {
+  transform: translate(0, -50px); opacity: 0; pointer-events: none
+}
+.dialog_item .dialog .icon {
+  width: 100%; text-align: center
+}
+.dialog_item .dialog .icon jtbc-svg {
+  width: 60px; height: 60px; --fore-color: #ff9933
+}
+.dialog_item .dialog .text {
+  padding: 20px; font-size: 16px; line-height: 160%; text-align: center; color: #333333
+}
+.dialog_item .dialog .link {
+  margin-top: -15px; padding-bottom: 20px; font-size: 12px; line-height: 160%; text-align: center
+}
+.dialog_item .dialog .link a {
+  color: #999; text-decoration: underline
+}
+.dialog_item .dialog .buttons {
+  text-align: center
+}
+.dialog_item .dialog .buttons button {
+  display: inline-block; box-sizing: border-box; margin: 0px 5px; padding: 6px 16px; border: 0px; line-height: 100%; font-size: 14px; color: #fff; border: #666 1px solid; cursor: pointer; border-radius: 0px; outline: none; transition: all .1s ease
+}
+.dialog_item .dialog .buttons button.ok {
+  background-color: #cc0033; border-color: #cc0033
+}
+.dialog_item .dialog .buttons button.ok:hover {
+  background-color: #990033; border-color: #990033
+}
+.dialog_item .dialog .buttons button.ok:focus {
+  border-color: #990033
+}
+.dialog_item .dialog .buttons button.cancel {
+  background-color: #cccccc; border-color: #cccccc; color: #333333
+}
+.dialog_item .dialog .buttons button.cancel:hover {
+  background-color: #999999; border-color: #999999
+}
+.dialog_item .dialog .buttons button.cancel:focus {
+  border-color: #999999
+}
+.dialog_item .dialog span.close {
+  display: block; padding: 12px; position: absolute; top: 0px; right: 0px; z-index: 1000; cursor: pointer
+}
+.dialog_item .dialog span.close.withMask {
+  background: rgba(0, 0, 0, .6); padding: 12px 12px 24px 24px; border-bottom-left-radius: 100%
+}
+.dialog_item .dialog span.close jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #ffffff
+}
+.dialog_item .dialog span.close jtbc-svg.gray {
+  --fore-color: #666666
+}
+.dialog_item .dialog .imagePreviewer {
+  width: 100%; display: flex; justify-content: center; align-items: center; background: #d1d1d1; position: relative; z-index: 100
+}
+.dialog_item .dialog .imagePreviewer > h3.title {
+  width: 100%; font-weight: normal; font-size: 14px; color: #fff; background: rgba(0, 0, 0, .7); margin: 0px; padding: 10px 40px; box-sizing: border-box; line-height: 20px; text-align: center; position: absolute; top: 0px; left: 0px; z-index: 100
+}
+.dialog_item .dialog .imagePreviewer > img {
+  min-width: 160px; min-height: 160px; max-width: 100vw; max-height: 100vh
+}
+.dialog_item .dialog.popup {
+  padding: 0px; min-width: auto; min-height: 40px
+}
+.dialog_item .dialog.popup div.content {
+  width: 100%
+}
+.dialog_fullpage {
+  width: 100%; height: 100%; background: #ffffff; transform: scale(.95); opacity: 0; position: absolute; top: 0px; left: 0px; z-index: 100; transition: all .3s ease
+}
+.dialog_fullpage.on {
+  transform: scale(1); opacity: 1; z-index: 10000
+}
+.dialog_fullpage span.exit {
+  display: none; padding: 12px; position: absolute; top: 0px; right: 0px; z-index: 1000; cursor: pointer
+}
+.dialog_fullpage span.exit jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #ffffff
+}
+.dialog_fullpage span.exit jtbc-svg.gray {
+  --fore-color: #666666
+}
+.dialog_fullpage span.exit.valid {
+  display: block
+}
+.dialog_fullpage div.fullpage {
+  width: 100%; height: 100%
+}

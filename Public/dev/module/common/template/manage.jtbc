@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink class="skinny"><template is="jtbc-template" key="path"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.raw.genre)}">${$title}</a></template></toplink>
+      <div class="chief" genre="${$genre}" can_clone="${$control.subPermission.clone}" can_order="${$control.subPermission.order}" can_setting="${$control.subPermission.setting}" can_uninstall="${$control.subPermission.uninstall}">
+        <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
+        <rightarea><a if="${$control.subPermission.create}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageCreate.create&amp;genre=${encodeURIComponent($.raw.genre)}" target="dialog"><button class="b2">{$=$take('manage.text-tit-create', 'lng')}</button></a></rightarea>
+        <template is="jtbc-template" key="data">
+          <table class="table skinny" is="jtbc-table" sortApi="{$>this.genre}/manage?action=order&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}">
+            <tbody isloop="true">
+              <tr>
+                <td width="50" role="${$.param.can_order? 'draghandle': 'null'}" class="center"><icon><jtbc-svg name="${$icon}"><input type="hidden" role="selector" value="${$folder_name}" /></jtbc-svg></icon></td>
+                <td if="${$isParentModule}" class="multiline"><a is="jtbc-anchor" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.raw.name)}">${$title}</a><br /><span class="ash">${$name}</span></td>
+                <td else class="multiline"><span if="${$is_hide_mode}" class="ash" title="{$=$take('manage.text-tips-4', 'lng')}">${$title}</span><span else>${$title}</span><br /><span class="ash">${$name}</span></td>
+                <td width="80" class="center"><a if="${$child_genre_count != 0}" is="jtbc-anchor" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.raw.name)}"><span class="ash">(${$child_genre_count})</span></a></td>
+                <td width="80" class="center"><span class="ash">${$folder_name}</span></td>
+                <td width="80" class="right"><icons if="${$isSettingAble || $isCloneAble || $isUninstallAble}"><a if="${$.param.can_setting}" class="${$isSettingAble? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.setting&amp;genre=${encodeURIComponent($.raw.name)}"><jtbc-svg name="setting_hollow" title="{$=$take('universal:config.setting', 'lng')}"></jtbc-svg></a><a if="${$.param.can_clone}" class="${$isCloneAble? 'normal': 'hide'}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageClone.clone&amp;genre=${encodeURIComponent($.raw.name)}" target="dialog"><jtbc-svg name="copy" title="{$=$take('universal:config.clone', 'lng')}"></jtbc-svg></a><a if="${$.param.can_uninstall}" class="${$isUninstallAble? 'normal': 'hide'}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageUninstall.uninstall&amp;genre=${encodeURIComponent($.raw.name)}" target="dialog"><jtbc-svg name="trash" title="{$=$take('universal:config.uninstall', 'lng')}"></jtbc-svg></a></icons><span else class="ash">{$=$take('manage.text-nothingtodo', 'lng')}</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="center">{$=$take('manage.text-tips-list-null', 'lng')}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </template>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[setting]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'setting']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink class="skinny"><template is="jtbc-template" key="path"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.raw.genre)}">${$title}</a></template></toplink>
+      <div if="${$.raw.data == null}" class="chief">
+        <h6>{$=$take('manage.text-tips-setting-lock', 'lng')}</h6>
+      </div>
+      <div else class="chief" genre="${$genre}" tableName="${$tableName}">
+        <h3>{$=$take('manage.text-tit-setting', 'lng')} [ ${$genre} ]</h3>
+        <rightarea><span class="text" genre="${$genre}" tableName="${$tableName}">{$=$take('manage.text-tit-setting-table-list', 'lng')}&nbsp;&nbsp;<template is="jtbc-template" key="tableNameList"><select name="tableName" is="jtbc-select" isloop="true" url="codename={$>this.genre}:manage.setting" value="${$.htmlEncode($.parent.getAttribute('tableName'))}"><option value="${$tableName}">${$tableName}</option></select></template></span>&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting.addField&amp;genre=${encodeURIComponent($.raw.genre)}&amp;tableName=${encodeURIComponent($.raw.tableName)}" target="dialog"><button class="b2 add">{$=$take('manage.text-tit-setting-add-field', 'lng')}</button></a></rightarea>
+        <template is="jtbc-template" key="data">
+          <table class="table" is="jtbc-table" sortApi="{$>this.genre}/manageSetting?action=orderField&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;tableName=${encodeURIComponent($.parent.getAttribute('tableName'))}">
+            <thead>
+              <tr>
+                <th width="20" class="center">{$=$take('::communal.th-sort', 'lng')}</th>
+                <th>{$=$take('config.field_text', 'lng')}</th>
+                <th width="120">{$=$take('config.field_name', 'lng')}</th>
+                <th width="120">{$=$take('config.field_type', 'lng')}</th>
+                <th width="60">{$=$take('universal:config.control', 'lng')}</th>
+              </tr>
+            </thead>
+            <tbody isloop="true">
+              <tr identity="${$field}">
+                <td role="draghandle"><input type="checkbox" name="id" value="${$field}" role="selector" class="hide" /></td>
+                <td>${$field_text}</td>
+                <td>${$field}</td>
+                <td>${$original_type}</td>
+                <td><span class="ash" if="${$field_control_locked}">{$=$take('manage.text-locked', 'lng')}</span><icons else><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting.editField&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;tableName=${encodeURIComponent($.parent.getAttribute('tableName'))}&amp;field=${encodeURIComponent($.raw.field)}" target="dialog"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution url="{$>this.genre}/manageSetting?action=dropField&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;tableName=${encodeURIComponent($.parent.getAttribute('tableName'))}&amp;field_name=${encodeURIComponent($.raw.field)}" message="{$=$take('::communal.control-confirm-delete', 'lng')} [${$field}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="center">{$=$take('manage.text-tips-setting-null', 'lng')}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </template>
+      </div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initSetting" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

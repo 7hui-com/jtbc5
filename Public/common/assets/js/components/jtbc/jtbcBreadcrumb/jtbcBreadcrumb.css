@@ -1,0 +1,27 @@
+:host {
+  display: block; --color: #666; --hover-color: #000; --disabled-color: #999; --font-size: 14px; --separator-margin: 0px 4px; --separator-width: 12px; --separator-color: #999
+}
+container {
+  display: flex !important; align-items: center; flex-wrap: wrap; font-size: var(--font-size)
+}
+container a,
+container span {
+  color: var(--color); text-decoration: none; cursor: pointer
+}
+container a:not([href]),
+container span:not([href]) {
+  cursor: default
+}
+container a[href]:hover,
+container span[href]:hover {
+  color: var(--hover-color)
+}
+container em {
+  font-style: normal; color: var(--disabled-color)
+}
+container separator {
+  display: inline-flex; margin: var(--separator-margin)
+}
+container separator jtbc-svg {
+  width: var(--separator-width); height: var(--separator-width); --fore-color: var(--separator-color)
+}

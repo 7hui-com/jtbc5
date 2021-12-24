@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[detail]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="detail">
+        <h1 class="title">{$title}</h1>
+        <div class="content">{$=$htmlEncode(#content, 0)}</div>
+      </div>
+    </main>
+    <sidebar>
+      <section>
+        <h3>{$=$take('index.title', 'lng')}</h3>
+        <jtbc-pitchon pitchon="li[data-id='{$id}']">
+          <ul>{$=$render('universal:render.li-detail', $fetch(['genre' => '{$>this.genre}', 'limit' => 100]))}</ul>
+        </jtbc-pitchon>
+      </section>
+    </sidebar>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

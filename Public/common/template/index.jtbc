@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[index]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<banner>
+  <box>
+    <slogan>{$=$take('index.banner-slogan', 'lng')}</slogan>
+    <subtitle>{$=$take('index.banner-subtitle', 'lng')}</subtitle>
+    <a class="more" href="{$=$getActualRoute('aboutus/')}">{$=$take('index.banner-link-more', 'lng')}</a>
+  </box>
+</banner>
+<container>
+  <box>
+    <main>
+      <div class="home_section">
+        <h3>{$=$take('global.product:index.title', 'lng')}</h3>
+        <div class="box">{$=$render('global.render.home-product-list', $fetch(['genre' => 'product', 'limit' => 4]))}</div>
+      </div>
+      <div class="home_section">
+        <h3>{$=$take('global.news:index.title', 'lng')}</h3>
+        <div class="box">{$=$render('global.render.home-news-list', $fetch(['genre' => 'news', 'limit' => 3]))}</div>
+      </div>
+      <div class="home_section">
+        <h3>{$=$take('global.team:index.title', 'lng')}</h3>
+        <div class="box">{$=$render('global.render.home-team-list', $fetch(['genre' => 'team', 'limit' => 4]))}</div>
+      </div>
+      <div class="home_section">
+        <h3>{$=$take('global.partnership:index.title', 'lng')}</h3>
+        <div class="box">{$=$render('global.render.home-partnership-list', $fetch(['genre' => 'partnership', 'limit' => 6]))}</div>
+      </div>
+    </main>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

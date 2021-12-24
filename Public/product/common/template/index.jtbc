@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="list" mode="c">{@}
+        <div class="item">
+          <p type="image"><a href="./?type=detail&amp;id={$id}"><img src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" alt="{$title}" /></a></p>
+          <p type="title"><a href="./?type=detail&amp;id={$id}">{$title}</a></p>
+        </div>{@}
+      </div>
+      <div class="pagination" total="{$[pagecount]}"><jtbc-pagination current-page="{$[pagenum]}" total-page="{$[pagecount]}" url="./?{$=$htmlEncode($request_query_rebuild(['page' => '__page__']))}"></jtbc-pagination></div>
+    </main>
+    <sidebar>
+      <section>
+        <h3>{$=$take('index.title', 'lng')}</h3>
+        <jtbc-pitchon pitchon="li[data-id='{$id}']">
+          <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
+        </jtbc-pitchon>
+      </section>
+    </sidebar>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+    <item>
+      <name><![CDATA[detail]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="detail">
+        <h1 class="title">{$title}</h1>
+        <div class="content">{$=$htmlEncode(#content, 0)}</div>
+      </div>
+    </main>
+    <sidebar>
+      <section>
+        <h3>{$=$take('index.title', 'lng')}</h3>
+        <jtbc-pitchon pitchon="li[data-id='{$id}']">
+          <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
+        </jtbc-pitchon>
+      </section>
+    </sidebar>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

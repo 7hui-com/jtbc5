@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[selector]]></name>
+      <default><![CDATA[<div class="dialogPopup" basehref="codename={$>this.genre}:manage.list&amp;pitchon=null" apiurl="{$>this.genre}/manage?type=selector" text-file-empty="{$=$take('manage.text-tips-selector-null', 'lng')}">
+  <div class="title">{$=$take('manage.text-tit-selector', 'lng')}</div>
+  <div class="tinyForm">
+    <ul>
+      <li><select name="genre" type="select" disabled="disabled"></select><h6 class="farther">{$=$take('manage.text-genre', 'lng')}</h6></li>
+      <li><select name="file" type="select" disabled="disabled"><option>{$=$take('manage.text-tips-selector-null', 'lng')}</option></select><h6 class="farther">{$=$take('manage.text-file', 'lng')}</h6></li>
+    </ul>
+    <div class="button central"><button class="b2 submit" text-message-1="{$=$take('manage.text-tips-selector-error-1', 'lng')}">{$=$take('::communal.iselected', 'lng')}</button></div>
+  </div>
+  <template name="genre-child"><li class="child"><select name="genre-child" type="select" disabled="disabled"></select><h6 class="farther">{$=$take('manage.text-genre-child', 'lng')}</h6></li></template>
+</div>
+<jtbc-script init="initSelector" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[add]]></name>
+      <default><![CDATA[<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-add', 'lng')}</div>
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'add']))}">
+    <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manage?action=add" basehref="codename={$>this.genre}:manage.list&amp;pitchon=null&amp;file=${encodeURIComponent($.raw.param.file)}&amp;genre=${encodeURIComponent($.raw.param.genre)}&amp;node=">
+      <input type="hidden" name="filepath" role="field" value="${$filePath}" />
+      <div class="tinyForm">
+        <ul>
+          <li><input name="node" type="text" role="field" placeholder="{$=$take('manage.text-node-name', 'lng')}" /></li>
+          <li><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="htmlmixed" height="300"></jtbc-field-code-editor></li>
+        </ul>
+        <div class="button"><button class="b2 submit" role="submit">{$=$take('::communal.submit', 'lng')}</button></div>
+      </div>
+    </form>
+  </template>
+</div>
+<jtbc-script init="initAdd" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>
+        <jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list&amp;file=index">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;file=communal&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;file=render&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a></jtbc-pitchon>
+      </toplink>
+      <div if="${$nodeList.length == 0}" class="chief">
+        <h6>{$=$take('manage.text-tit-list-null', 'lng')}</h6>
+      </div>
+      <div else class="chief">
+        <h3>{$=$take('manage.text-tit-list', 'lng')}&nbsp;[&nbsp;${$data.node}&nbsp;]</h3>
+        <rightarea selectedNode="${$data.node}" url="codename={$>this.genre}:manage.list&amp;pitchon=null&amp;file=${encodeURIComponent($.raw.param.file)}&amp;genre=${encodeURIComponent($.raw.param.genre)}&amp;node=">{$=$take('manage.text-select-node', 'lng')}&nbsp;&nbsp;<template is="jtbc-template" key="nodeList"><select name="node" is="jtbc-select" isloop="true" value="${$.htmlEncode($.parent.getAttribute('selectedNode'))}"><option value="${$node}">${$node}</option></select></template>&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selector" target="dialog"><icon class="button" title="{$=$take('manage.text-tit-selector', 'lng')}"><jtbc-svg name="parameter"></jtbc-svg></icon></a><span if="${$control.subPermission.add}">&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;file=${encodeURIComponent($.raw.param.file)}&amp;genre=${encodeURIComponent($.raw.param.genre)}&amp;filepath=${encodeURIComponent($.raw.filePath)}" target="dialog"><button class="b2">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit">
+          <input type="hidden" role="field" name="node" value="${$data.node}" />
+          <input type="hidden" role="field" name="filepath" value="${$filePath}" />
+          <div class="sheet">
+            <item><span class="tips">{$=$take('manage.text-file', 'lng')}&nbsp;${$filePath}</span></item>
+            <item>
+              <div class="content"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="htmlmixed" value="${$data.content}" height="500"></jtbc-field-code-editor></div>
+            </item>
+            <item>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button if="${$control.subPermission.edit}" class="b4 left" role="submit">{$=$take('manage.text-node-save', 'lng')}</button><jtbc-execution if="${$control.subPermission.delete}" url="{$>this.genre}/manage?action=delete&amp;filepath=${encodeURIComponent($.raw.filePath)}&amp;node=${encodeURIComponent($.raw.data.node)}" message="{$=$take('manage.text-tips-delete-confirm', 'lng')}"><button class="b3 right">{$=$take('manage.text-node-delete', 'lng')}</button></jtbc-execution></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

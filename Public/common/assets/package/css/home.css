@@ -1,0 +1,82 @@
+container {
+  padding: 0px
+}
+container box {
+  max-width: none; padding: 0px; padding-bottom: var(--page-gap)
+}
+banner {
+  display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 100%; height: 50vh; min-height: 360px; max-height: 720px; background: url(../images/banner.svg) center center no-repeat; background-size: cover
+}
+banner box {
+  display: block
+}
+banner box slogan {
+  display: block; font-size: 4.8rem; color: #ffffff; text-align: center
+}
+banner box subtitle {
+  display: block; padding: var(--page-gap) 0px; font-size: 1.6rem; color: #ffffff; text-align: center
+}
+banner box a.more {
+  display: block; width: 160px; margin: auto; margin-top: 10px; padding: 10px; border: #ffffff 2px solid; color: #ffffff; font-size: 1.4rem; text-align: center; border-radius: 10px; transition: border-radius .3s ease
+}
+banner box a.more:hover {
+  border-radius: 0px
+}
+.home_section {
+  width: 100%; box-sizing: border-box; padding: var(--page-outer-padding); padding-top: calc(var(--page-gap) * 2)
+}
+.home_section h3 {
+  width: 100%; font-size: 2.4rem; color: #005f9b; font-weight: normal; text-align: center; position: relative; z-index: 100
+}
+.home_section h3::before {
+  display: block; content: ''; width: 50px; height: 1px; margin-left: -120px; position: absolute; top: 50%; left: 50%; background: #005f9b
+}
+.home_section h3::after {
+  display: block; content: ''; width: 50px; height: 1px; margin-right: -120px; position: absolute; top: 50%; right: 50%; background: #005f9b
+}
+.home_section div.box {
+  width: 100%; box-sizing: border-box; max-width: var(--page-max-width); margin: auto; padding: calc(var(--page-gap) * 2) 0px
+}
+.home_section:nth-child(odd) {
+  background: #f9f9f9
+}
+.home_news_list div.item p[type=date] {
+  font-size: 3.6rem; color: #999; padding-bottom: var(--page-gap); border-bottom: #999 1px solid
+}
+.home_news_list div.item p[type=title] {
+  margin-top: calc(var(--page-gap) / 2); text-align: left !important
+}
+.home_news_list div.item p[type=title] a {
+  font-size: 1.6rem
+}
+.home_news_list div.item p[type=summary] {
+  margin-top: var(--page-gap); color: #666; line-height: 160%
+}
+@media screen and (max-width: 1200px) {
+  banner box slogan {
+    font-size: 3.6rem
+  }
+  banner box a.more {
+    width: 140px; padding: 8px
+  }
+}
+@media screen and (max-width: 960px) {
+  banner box slogan {
+    font-size: 2.4rem
+  }
+  banner box subtitle {
+    font-size: 1.4rem
+  }
+  banner box a.more {
+    width: 120px; padding: 6px
+  }
+  .home_section h3 {
+    font-size: 2rem
+  }
+  .home_news_list {
+    grid-template-columns: 1fr !important
+  }
+  .home_news_list div.item p[type=date] {
+    font-size: 2.4rem
+  }
+}

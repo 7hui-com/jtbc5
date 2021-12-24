@@ -1,0 +1,137 @@
+input,button,select,textarea {
+  margin: 0px; padding: 0px; box-sizing: border-box; font-size: 12px; color: #000; resize: none; outline: none
+}
+select, input[type=color], input[type=radio], input[type=checkbox] {
+  appearance: none; -webkit-appearance: none; vertical-align: middle; outline: none
+}
+select {
+  padding-left: 10px; padding-right: 30px; height: 30px; border: #d1d1d1 1px solid; background: #ffffff url(../svg/select.svg) calc(100% - 4px) center no-repeat; background-size: 20px; border-radius: 0px
+}
+select:focus {
+  border-color: #5b9dd9; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
+}
+select:disabled {
+  background-color: #fafafa !important; color: #666666 !important
+}
+select option {
+  background: #ffffff
+}
+select[type=select] {
+  width: 500px
+}
+input[type=radio] {
+  width: 14px; height: 14px; background: none center center no-repeat; background-color: #fff; border: #666 1px solid; border-radius: 100%
+}
+input[type=radio]:checked {
+  background-image: url(../svg/radio_checked.svg); background-size: 8px
+}
+input[type=checkbox] {
+  width: 14px; height: 14px; background: none center center no-repeat; background-color: #fff; border: #666 1px solid; border-radius: 0
+}
+input[type=checkbox]:checked {
+  background-image: url(../svg/checkbox_checked.svg); background-size: 10px
+}
+input[type=radio]:disabled,
+input[type=checkbox]:disabled {
+  background-color: #fafafa !important; opacity: .5
+}
+input[type=text],
+input[type=password] {
+  width: 500px; height: 30px; padding: 0px 10px; border: #d1d1d1 1px solid; border-radius: 0px; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); outline: none; transition: all .3s ease
+}
+input[type=text]:focus,
+input[type=password]:focus {
+  border-color: #5b9dd9; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
+}
+input[type=text]:disabled,
+input[type=password]:disabled {
+  background-color: #fafafa !important; color: #666666 !important
+}
+input[type=color] {
+  width: 60px; height: 30px; background: #fff; border: #d1d1d1 1px solid; padding: 3px; border-radius: 0px
+}
+input[type=color]::-webkit-color-swatch {
+  border: 0px
+}
+input[type=color]::-webkit-color-swatch-wrapper {
+  padding: 0px
+}
+input[type=range] {
+  width: 500px; height: 30px
+}
+textarea {
+  width: 500px; height: 200px; line-height: 150%; padding: 10px; border: #d1d1d1 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); border-radius: 0px; outline: none; transition: all .3s ease
+}
+textarea.editor {
+  width: 100%; height: 400px
+}
+textarea:focus {
+  border-color: #5b9dd9; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
+}
+textarea:disabled {
+  background-color: #fafafa !important; color: #666666 !important
+}
+button {
+  display: inline-block; height: 30px; padding: 0px 16px; border: 0px; line-height: 100%; font-size: 14px; color: #fff; border: #666 1px solid; cursor: pointer; border-radius: 0px; transition: all .1s ease
+}
+button.b1 {
+  background-color: #555; border-color: #555
+}
+button.b1:hover {
+  background-color: #333; border-color: #333
+}
+button.b1:focus {
+  border-color: #000
+}
+button.b2 {
+  background-color: #e7505a; border-color: #e7505a
+}
+button.b2:hover {
+  background-color: #e12330; border-color: #e12330
+}
+button.b2:focus {
+  border-color: #94000a
+}
+button.b3 {
+  background-color: #e1e5ec; border-color: #e1e5ec; color: #333
+}
+button.b3:hover {
+  background-color: #c2cad8; border-color: #c2cad8
+}
+button.b3:focus {
+  border-color: #9499a1
+}
+button.b4 {
+  background-color: #5cb85c; border-color: #5cb85c
+}
+button.b4:hover {
+  background-color: #449d44; border-color: #449d44
+}
+button.b4:focus {
+  border-color: #275727
+}
+button.tiny {
+  height: 20px; padding: 0px 4px
+}
+button.locked,
+button:disabled,
+button.locked:hover,
+button.locked:focus {
+  background-color: #bbb !important; border-color: #bbb !important
+}
+label.radio,
+label.checkbox {
+  display: inline-flex; height: 30px; align-items: center; margin-right: 12px; color: #666
+}
+label.radio input[type=radio],
+label.checkbox input[type=checkbox] {
+  margin-right: 5px
+}
+label.radio input[type=radio]:checked + span,
+label.checkbox input[type=checkbox]:checked + span {
+  color: #000
+}
+label.radio input[type=radio]:disabled + span,
+label.checkbox input[type=checkbox]:disabled + span {
+  color: #999
+}

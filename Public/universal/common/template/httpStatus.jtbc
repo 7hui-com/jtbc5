@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[403]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html>
+<head>
+<title>403 Forbidden</title>
+</head>
+<body>
+<h1>403 Forbidden</h1>
+<p>You don't have permission to access this URL.</p>
+</body>
+</html>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[404]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html>
+<head>
+<title>404 Not Found</title>
+</head>
+<body>
+<h1>404 Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+</body>
+</html>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[500]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html>
+<head>
+<title>500 Internal Server Error</title>
+<style>
+body {
+  margin: 0px; padding: 0px; background: #1e1e1e; font-size: 12px; color: #ffffff
+}
+h1 {
+  margin: 0px; padding: 20px; font-size: 36px; font-weight: normal
+}
+ul {
+  list-style: none; margin: 0px; padding: 10px 15px; background: #4b1818; font-size: 14px; color: #dcdcaa; border-left: #68217a 5px solid
+}
+ul > li {
+  padding: 5px 0px
+}
+ul > li > b {
+  color: #3e9cca
+}
+dl {
+  margin: 20px; padding: 10px; border: #282828 1px solid; color: #c39178
+}
+dl > dd {
+  margin: 0px; padding: 5px 0px
+}
+dl > dd > em {
+  font-style: normal; color: #999999
+}
+</style>
+</head>
+<body>
+<h1>500 Internal Server Error</h1>
+<ul>
+  <li><b>Code: </b>{$[code]}</li>
+  <li><b>Message: </b>{$[message]}</li>
+  <li><b>File: </b>{$[file]}</li>
+  <li><b>Line: </b>{$[line]}</li>
+</ul>
+{@}<dl>{$=!empty(#file)? '<dd><em>File: </em>' . htmlspecialchars(#file) . '</dd>': ''}{$=!empty(#file)? '<dd><em>Line: </em>' . htmlspecialchars(#line) . '</dd>': ''}{$=!empty(#function)? '<dd><em>Function: </em>' . htmlspecialchars(#function) . '</dd>': ''}{$=!empty(#class)? '<dd><em>Class: </em>' . htmlspecialchars(#class) . '</dd>': ''}{$=!empty(#type)? '<dd><em>Type: </em>' . htmlspecialchars(#type) . '</dd>': ''}</dl>{@}
+</body>
+</html>]]></default>
+    </item>
+  </item_list>
+</xml>

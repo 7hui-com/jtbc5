@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[dashboard]]></name>
+      <default><![CDATA[<div class="console">
+  <div class="topbar">
+    <h1>{$=$take('index.title', 'lng')}</h1>
+    <span class="menu hand"><l1></l1><l2></l2><l3></l3></span>
+    <right>
+      <template is="jtbc-template" url="{$>this.genre}/manage?type=info">
+        <account class="section">
+          <h3>${$name}<jtbc-svg name="arrow_down"></jtbc-svg></h3>
+          <ul>
+            <template is="jtbc-template" key="submenu">
+              <li><a class="item" is="jtbc-anchor" href="${$href}" target="${$target}">${$text}</a></li>
+            </template>
+            <li><a class="item" is="jtbc-anchor" href="{$>this.genre}/manage?type=fragment&amp;codename={$>this.genre}:manage.modifyPassword" target="dialog">{$=$take('manage.modify-password', 'lng')}</a></li>
+            <li><jtbc-execution class="item hand" url="{$>this.genre}/manage?action=logout" message="{$=$take('manage.logout-confirm', 'lng')}" text-ok="{$=$take('manage.logout-confirm-ok', 'lng')}" text-cancel="{$=$take('manage.logout-confirm-cancel', 'lng')}" href="./{$>this.genre}/" target="#location">{$=$take('manage.logout', 'lng')}</jtbc-execution></li>
+          </ul>
+        </account>
+        <lang class="section" lang="${$currentLang}" url="{$>this.genre}/manage?action=setLang">
+          <h3><flag class="f${$currentLang}" title="{$=$take('manage.current-lang', 'lng')}"></flag><span>${$currentLangText}</span><jtbc-svg name="arrow_down"></jtbc-svg></h3>
+          <ul>
+            <template is="jtbc-template" key="lang">
+              <li><span class="item lang" lang="${$lang}"><flag class="f${$lang}"></flag><span class="hand">${$text}</span></span></li>
+            </template>
+          </ul>
+        </lang>
+      </template>
+      <notification class="section hide"></notification>
+      <cloudservice class="cloudservice" url="{$>this.genre}/manage?type=hasCloudService"></cloudservice>
+    </right>
+  </div>
+  <div class="container">
+    <div class="leftmenu"></div>
+    <main>
+      <div class="waiting"><bar></bar></div>
+      <jtbc-fetch id="main" class="main" basehref="{$>this.genre}/manage?type=fragment&amp;" welcome="codename={$>this.genre}:manage.welcome" urlerror="{$=$take('::communal.urlerror', 'lng')}" urlcrash="{$=$take('::communal.urlcrash', 'lng')}" ikown="{$=$take('::communal.iknow', 'lng')}"></jtbc-fetch>
+    </main>
+  </div>
+</div>
+<var id="imagePreviewer" is="jtbc-dialog-image-previewer"></var>
+<var id="materialExplorer" is="jtbc-dialog-helper" baseurl="{$>this.genre}/manage?type=fragment&amp;codename=universal/material:manageApi.explorer"></var>
+<template is="jtbc-template" id="notification" refetch="60" mode="target" target="div.topbar notification" url="{$>this.genre}/manage?type=notification">
+  <h4><jtbc-svg name="bell_fill"></jtbc-svg><badge>${$notification.length}</badge></h4>
+  <ul count="${$notification.length}">
+    <template is="jtbc-template" key="notification">
+      <li><span class="notification"><span class="text">${$tips}</span><a class="link" is="jtbc-anchor" href="${$href}" target="${$target}"><button class="tiny b${$buttonNumber}"><nobr>${$buttonText}</nobr></button></a></span></li>
+    </template>
+  </ul>
+</template>
+<template is="jtbc-template" id="leftmenu" mode="target" target="div.container div.leftmenu" url="{$>this.genre}/manage?type=leftmenu">
+  <ul isloop="true">
+    <li><em class="line"></em><a class="tit t1" is="jtbc-anchor" genre="${$genre}" href="${$link}"><jtbc-svg class="icon" name="${$icon}" title="${$title}"></jtbc-svg><b>${$title}</b><jtbc-svg class="triangle" name="triangle"></jtbc-svg><jtbc-svg class="${$children.length == 0? 'hide': 'arrow'}" name="arrow_down"></jtbc-svg></a>${$.customEvent('loadChildren', $.raw.children)}</li>
+  </ul>
+</template>
+<jtbc-script init="initDashboard" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[dashboard-cloudservice]]></name>
+      <default><![CDATA[<template is="jtbc-template" url="{$>this.genre}/cloud/manageApi?type=status">
+  <div if="${$status == 0}" class="icon"><a is="jtbc-anchor" class="link" href="{$>this.genre}/manage?type=fragment&amp;codename=${$codename}" target="dialog"><jtbc-svg name="cloud_service_off"></jtbc-svg></a><span class="tip">${$message}</span></div>
+  <div else class="icon"><a is="jtbc-anchor" class="link" href="{$>this.genre}/manage?type=fragment&amp;codename=${$codename}" target="dialog"><jtbc-svg name="cloud_service_checked"></jtbc-svg></a><span if="${$attention}" class="pindot"></span><span class="tip">${$message}</span></div>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[welcome]]></name>
+      <default><![CDATA[<template is="jtbc-template" url="{$>this.genre}/manage?type=welcome">
+  <nav class="welcome"><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+  <div class="manager">{$=implode($call_hook('backstageWelcomePageHeader') ?? [])}
+    <div class="chief">
+      <h3>{$=$take('manage.text-tit-1', 'lng')}</h3>
+      <template is="jtbc-template" key="account_info"><p class="text">{$=$take('manage.text-hello', 'lng')}</p></template>
+    </div>{$=implode($call_hook('backstageWelcomePageInner') ?? [])}
+    <div class="chief">
+      <h3>{$=$take('manage.text-tit-2', 'lng')}</h3>
+      <ul class="param">
+        <template is="jtbc-template" key="system_info">
+          <li><b>${$title}</b>${$value}</li>
+        </template>
+      </ul>
+    </div>{$=implode($call_hook('backstageWelcomePageFooter') ?? [])}
+  </div>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[modifyPassword]]></name>
+      <default><![CDATA[<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-modify-password-tit', 'lng')}</div>
+  <form is="jtbc-form" method="post" autocomplete="off" action="{$>this.genre}/manage?action=modifyPassword">
+    <div class="tinyForm">
+      <ul>
+        <li><input name="password" type="password" role="field" placeholder="{$=$take('manage.text-modify-password-password', 'lng')}" /></li>
+        <li><input name="new_password" type="password" role="field" placeholder="{$=$take('manage.text-modify-password-new_password', 'lng')}" /></li>
+        <li><input name="new_password_repeat" type="password" role="field" placeholder="{$=$take('manage.text-modify-password-new_password_repeat', 'lng')}" /></li>
+      </ul>
+      <div class="button"><button class="b2" role="submit">{$=$take('::communal.confirm-modify', 'lng')}</button></div>
+    </div>
+  </form>
+</div>
+<jtbc-script init="initModifyPassword" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[clone]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageClone.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('{$>self.path}.text-tit-clone', 'lng')}({$=$htmlEncode($get_query_string('genre'))})</div>
+  <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageClone?action=clone">
+    <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
+    <div class="tinyForm">
+      <div class="ppClone">
+        <ul>
+          <li><input type="text" name="module_name" role="field" placeholder="{$=$take('config.module_name', 'lng')}" /></li>
+          <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" /></li>
+          <li><span class="tips">{$=$take('manage.text-tips-2', 'lng')}</span></li>
+          <li>
+            <fieldset>
+              <legend>{$=$take('config.module_icon', 'lng')}</legend>
+              <div class="icons"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
+            </fieldset>
+          </li>
+        </ul>
+      </div>
+      <div class="button central"><button class="b2" role="submit">{$=$take('{$>self.path}.text-submit', 'lng')}</button></div>
+    </div>
+  </form>
+</div>
+<jtbc-script init="initClone" src="{$>this.genre}/common/assets/js/manageClone.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

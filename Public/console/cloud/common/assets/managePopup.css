@@ -1,0 +1,93 @@
+.ppPopup {
+  width: 500px; position: relative; z-index: 100
+}
+.ppPopup div.mainBox {
+  width: 100%; background: #ffffff; position: relative; z-index: 100
+}
+.ppPopup div.mainBox div.title {
+  display: flex; align-items: center
+}
+.ppPopup div.mainBox div.title span.tit {
+  padding-left: 5px
+}
+.ppPopup div.mainBox h3 {
+  margin: 0px; padding: 10px 0px 5px 0px; font-size: 16px; line-height: 100%; text-align: center
+}
+.ppPopup div.mainBox span.img {
+  display: block; text-align: center
+}
+.ppPopup div.mainBox span.img img {
+  height: 100px
+}
+.ppPopup div.mainBox div.intro {
+  padding: 10px 15px; border-left: #2b3643 5px solid; background: #dde4eb; border-radius: 5px
+}
+.ppPopup div.mainBox div.intro p {
+  margin: 0px; padding: 5px 0px; line-height: 200%; word-break: break-all; color: #333333
+}
+.ppPopup div.mainBox div.intro a.href {
+  display: inline-block; color: #333333; margin: 0px 5px; padding: 2px 0px; line-height: 100%; border-bottom: #333333 1px solid; vertical-align: middle; cursor: pointer !important
+}
+.ppPopup div.mainBox div.intro a.href.locked {
+  color: #999999; border-bottom-color: #999999
+}
+.ppPopup div.mainBox div.intro b.emphasize {
+  color: #e7505a
+}
+.ppPopup div.mainBox div.intro.intro-ok {
+  border-left-color: #67c23a; background-color: #e2f3d7
+}
+.ppPopup div.mainBox div.intro.intro-ok p {
+  color: #666666
+}
+.ppPopup div.mainBox div.intro.intro-attention {
+  border-left-color: #ec6b6a; background-color: #fdf0f0
+}
+.ppPopup div.mainBox div.intro.intro-attention p {
+  color: #666666
+}
+.ppPopup div.mainBox li.id {
+  text-align: center
+}
+.ppPopup div.mainBox li.id span.info {
+  display: inline-block; padding: 8px; line-height: 100%; color: #333333; border: #dcdfe6 1px solid; border-radius: 5px
+}
+.ppPopup div.mainBox li.id span.info.info-attention {
+  background: #fdf0f0; border-color: #f6c4c3; color: #ec6b6a
+}
+.ppPopup div.mainBox li.id span.info b {
+  font-weight: normal
+}
+.ppPopup div.mainBox li.id span.info u {
+  cursor: pointer
+}
+.ppPopup div.maskBox {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .7); opacity: 0; position: absolute; top: 0px; left: 0px; z-index: 50; transition: all .3s ease
+}
+.ppPopup div.maskBox div.scanToPay {
+  transform: scale(0.8); opacity: 0; padding: 15px 20px; background: #f6f6f6; border: #000000 5px solid; transition: all .3s ease
+}
+.ppPopup div.maskBox div.scanToPay h4 {
+  margin: 0px; padding: 10px 0px 5px 0px; font-size: 16px; line-height: 100%; text-align: center
+}
+.ppPopup div.maskBox div.scanToPay h5 {
+  margin: 0px; padding: 5px 0px; font-weight: normal; font-size: 14px; line-height: 100%; text-align: center
+}
+.ppPopup div.maskBox div.scanToPay div.qrcode {
+  padding: 10px; text-align: center
+}
+.ppPopup div.maskBox div.scanToPay div.qrcode img {
+  width: 160px; height: 160px; padding: 8px; background: #ffffff; border: #d1d1d1 1px solid
+}
+.ppPopup div.maskBox div.scanToPay div.info {
+  font-size: 14px; line-height: 150%; color: #666666; text-align: center
+}
+.ppPopup div.maskBox div.scanToPay div.info b {
+  color: #000000
+}
+.ppPopup div.maskBox.on {
+  opacity: 1; z-index: 1000
+}
+.ppPopup div.maskBox.on div.scanToPay {
+  transform: scale(1); opacity: 1
+}

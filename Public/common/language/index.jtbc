@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[banner-slogan]]></name>
+      <zh-cn><![CDATA[纯净开源，商用免费]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[banner-subtitle]]></name>
+      <zh-cn><![CDATA[起源于2006年的开源一体化内容管理系统解决方案]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[banner-link-more]]></name>
+      <zh-cn><![CDATA[了解更多]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

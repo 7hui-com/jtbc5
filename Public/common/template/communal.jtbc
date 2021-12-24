@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[header]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="keywords" content="{$=$htmlEncode($meta_keywords)}" />
+<meta name="description" content="{$=$htmlEncode($meta_description)}" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+{$=$render('universal:render.stylesheet', $stylesheets)}
+<title>{$=$htmlEncode(implode(' - ', array_reverse($meta_title)))}</title>
+{$=implode($call_hook('forestageEndOfHead') ?? [])}</head>
+<body data-genre="{$>genre}">
+<header>
+  <box>
+    <logo><a href="{$=$getActualRoute('./')}"><img src="{$=$root_assets_path}/{$=$take('global.communal.logo', 'lng')}" alt="logo" /></a></logo>
+    <navicon><span></span></navicon>
+    <mainmenu>
+      <ul>
+        <li><a href="{$=$getActualRoute('./')}">{$=$take('global.communal.home', 'lng')}</a></li>
+        <li genre="aboutus"><a href="{$=$getActualRoute('aboutus/')}">{$=$take('global.aboutus:index.title', 'lng')}</a></li>
+        <li genre="product"><a href="{$=$getActualRoute('product/')}">{$=$take('global.product:index.title', 'lng')}</a></li>
+        <li genre="news"><a href="{$=$getActualRoute('news/')}">{$=$take('global.news:index.title', 'lng')}</a></li>
+        <li genre="team"><a href="{$=$getActualRoute('team/')}">{$=$take('global.team:index.title', 'lng')}</a></li>
+        <li genre="partnership"><a href="{$=$getActualRoute('partnership/')}">{$=$take('global.partnership:index.title', 'lng')}</a></li>
+        <li genre="recruitment"><a href="{$=$getActualRoute('recruitment/')}">{$=$take('global.recruitment:index.title', 'lng')}</a></li>
+      </ul>
+    </mainmenu>
+  </box>
+</header>
+<headerholder></headerholder>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[footer]]></name>
+      <default><![CDATA[<footer>
+  <bottom>
+    <box>
+      <section>
+        <h3>{$=$take('global.communal.footer-link', 'lng')}</h3>
+        <ul>{$=$render('universal:render.li-url', $fetch(['genre' => 'universal/link', 'where' => ['group' => 1]]))}</ul>
+      </section>
+      <section>
+        <h3>{$=$take('global.communal.footer-qrcode', 'lng')}</h3>
+        <p class="qrcode">{$=$render('universal:render.value-img', App\Universal\Fragment\FragmentFetcher::fetch('wechat_qrcode'))}</p>
+      </section>
+      <section>
+        <h3>{$=$take('global.communal.footer-address', 'lng')}</h3>
+        <p>{$=$render('universal:render.value', App\Universal\Fragment\FragmentFetcher::fetch('address'))}</p>
+      </section>
+      <section>
+        <h3>{$=$take('global.communal.footer-phone', 'lng')}</h3>
+        <p class="phone">{$=$render('universal:render.value', App\Universal\Fragment\FragmentFetcher::fetch('phone'))}</p>
+        <p>{$=$take('global.communal.footer-phone-tips', 'lng')}</p>
+      </section>
+    </box>
+  </bottom>
+  <copyright>
+    <box>
+      <section><span class="copyright">&copy; {$=$formatDate($now(), -1)} {$=$take('global.communal.title', 'lng')} All Rights Reserved.</span><a class="beian" href="https://beian.miit.gov.cn/" target="_blank">{$=$render('universal:render.value', App\Universal\Fragment\FragmentFetcher::fetch('beian'))}</a></section>
+      <section>本网站基于<a href="https://www.jtbc.cn/" target="_blank">JTBC</a>构建并推荐您使用<a href="https://www.jtbc.cn/host/?name=aliyun" target="_blank">阿里云</a>服务器</section>
+    </box>
+  </copyright>
+</footer>
+<jtbc-script init="init" src="{$=$root_assets_path}/package/js/communal.js"></jtbc-script>
+<script type="module">import('./{$=$root_assets_path}/js/jtbc.js').then(module => { window.jtbc = new module.default(); });</script>
+{$=implode($call_hook('forestageEndOfBody') ?? [])}</body>
+</html>]]></default>
+    </item>
+  </item_list>
+</xml>

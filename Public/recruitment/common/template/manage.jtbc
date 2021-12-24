@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[part-toplink]]></name>
+      <default><![CDATA[<jtbc-pitchon><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;published=1&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;published=0&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a><a if="${$control.subPermission.add}" is="jtbc-anchor" class="link toplink-add" href="codename={$>this.genre}:manage.add&amp;pitchon=a.toplink-add">{$=$take('manage.text-menu-4', 'lng')}</a></jtbc-pitchon>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[add]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?type=add">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-tit-add', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=add">
+          <input type="hidden" name="time" value="{$=$now()}" role="field" />
+          <div class="sheet">
+            <div is="jtbc-schema-form" data="${$.htmlEncode(JSON.stringify($.raw.form))}"></div>
+            <item class="formSubmit hide">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error_href="codename={$>this.genre}:manage.list"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[edit]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?type=edit&amp;id={$=intval($get_query_string('id'))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief">
+        <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;id=${$data.id}">
+          <div class="sheet">
+            <div is="jtbc-schema-form" data="${$.htmlEncode(JSON.stringify($.raw.form))}"></div>
+            <item class="formSubmit hide">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+  <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+  <div class="manager">
+    <toplink pitchon_default="a.toplink-list-1">{$=$take('manage.part-toplink')}</toplink>
+    <div class="chief" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" keyword="${$keyword}">
+      <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
+      <rightarea><jtbc-tiny-search width="200" url="codename={$>this.genre}:manage.list" placeholder="{$=$take('universal:config.keyword', 'lng')}" keyword="${$keyword}"></jtbc-tiny-search></rightarea>
+      <template is="jtbc-template" key="data">
+        <table class="table" id="list" is="jtbc-table">
+          <thead>
+            <tr>
+              <th width="20" class="center"><input type="checkbox" value="1" role="selector" /></th>
+              <th width="40" class="center">{$=$take('universal:config.id', 'lng')}</th>
+              <th>{$=$take('config.title', 'lng')}</th>
+              <th width="120">{$=$take('universal:config.time', 'lng')}</th>
+              <th width="40" class="center">{$=$take('universal:config.status', 'lng')}</th>
+              <th width="60" class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>
+            </tr>
+          </thead>
+          <tbody isloop="true">
+            <tr>
+              <td class="center"><input type="checkbox" name="id" value="${$id}" role="selector" /></td>
+              <td class="center">${$id}</td>
+              <td><a if="${$.param.can_edit}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}">${$.markKeywords($title, $.htmlEncode($.parent.getAttribute('keyword')))}</a><span else>${$.markKeywords($title, $.htmlEncode($.parent.getAttribute('keyword')))}</span></td>
+              <td>${$time}</td>
+              <td class="center"><span class="status" status="${$published}"></span></td>
+              <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6" class="center">{$=$take('manage.text-tips-list-null', 'lng')}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </template>
+      <div class="control" is="jtbc-batch-control" partner="list" message="{$=$take('::communal.control-confirm-batch', 'lng')}" empty_tips="{$=$take('::communal.batch-empty-tips', 'lng')}" url="{$>this.genre}/manage?action=batch">
+        <div class="batch" if="${$control.batch.length != 0}"><span class="text">{$=$take('::communal.batch-tips', 'lng')}</span><template is="jtbc-template" key="control.batch"><select isloop="true" class="batch" role="type"><option value="${$name}">${$title}</option></select></template><span class="ok" role="submit">{$=$take('::communal.control-confirm', 'lng')}</span></div>
+        <div class="pagination"><jtbc-pagination current-page="${$pagination.pagenum}" total-page="${$pagination.pagecount}" url="{$=$htmlEncode($request_query_rebuild(['type' => null]))}"></jtbc-pagination></div>
+      </div>
+    </div>
+  </div>
+</template>]]></default>
+    </item>
+  </item_list>
+</xml>

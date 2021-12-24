@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[rule]]></name>
+      <zh-cn><![CDATA[[{"url":""},{"field":["id","time"],"url":"?type=detail&id={$id}"},{"genre":"universal\/category","field":["id"],"url":"?type=list&category={$id}"}]]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

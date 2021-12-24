@@ -1,0 +1,40 @@
+.ppCompare,
+.ppCompare form.form {
+  width: 100%; height: 100%
+}
+.ppCompare div.path {
+  width: 100%; box-sizing: border-box; padding-left: 30px; height: 30px; line-height: 30px; background: #2b3643; color: #ffffff; position: relative; z-index: 100
+}
+.ppCompare div.path span.exit {
+  display: block; padding: 10px; position: absolute; top: 0px; right: 20px; z-index: 100; cursor: pointer
+}
+.ppCompare div.path span.exit jtbc-svg {
+  display: block; width: 10px; height: 10px; --fore-color: #ffffff
+}
+.ppCompare div.title {
+  display: flex; background: #f7f7f7
+}
+.ppCompare div.title span {
+  display: block; padding: 0px 30px; height: 40px; line-height: 40px; color: #666666
+}
+.ppCompare div.title span.left {
+  width: 50%
+}
+.ppCompare div.title span.right {
+  flex: 1; text-align: right
+}
+.ppCompare div.content {
+  width: 100%; height: calc(100% - 140px); overflow: hidden
+}
+.ppCompare div.btn {
+  display: flex; background: #f7f7f7
+}
+.ppCompare div.btn span {
+  display: block; padding: 0px 30px; height: 70px; line-height: 70px; font-weight: bold
+}
+.ppCompare div.btn span.left {
+  width: 50%
+}
+.ppCompare div.btn span.right {
+  flex: 1; text-align: right
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbcf" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[pagesize]]></name>
+      <zh-cn><![CDATA[20]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[upload-allowed-extensions]]></name>
+      <zh-cn><![CDATA[jpg,gif,png,svg,mp4,m4a,zip,rar,gz,doc,docx,xls,xlsx,ppt,pptx,pdf]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[upload-allowed-max-filesize]]></name>
+      <zh-cn><![CDATA[1073741824]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[upload-image-allowed-extensions]]></name>
+      <zh-cn><![CDATA[jpg,gif,png,svg]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[upload-video-allowed-extensions]]></name>
+      <zh-cn><![CDATA[mp4,m4a]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

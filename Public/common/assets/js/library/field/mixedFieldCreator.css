@@ -1,0 +1,20 @@
+.mixedFieldContainer {
+  width: 100%
+}
+.mixedFieldContainer div.item {
+  width: 100%; display: flex; margin-top: 10px; align-items: flex-start
+}
+.mixedFieldContainer div.item label.name {
+  display: block; box-sizing: border-box; color: #666666; line-height: 30px; padding: 0px 10px; width: auto; min-width: 80px
+}
+.mixedFieldContainer div.item span.field {
+  display: block; flex: 1
+}
+.mixedFieldContainer div.item select[type=select],
+.mixedFieldContainer div.item input[type=text],
+.mixedFieldContainer div.item input[type=password],
+.mixedFieldContainer div.item input[type=password],
+.mixedFieldContainer div.item textarea,
+.mixedFieldContainer div.item jtbc-field-upload {
+  width: 100%
+}

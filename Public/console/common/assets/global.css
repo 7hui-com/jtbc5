@@ -1,0 +1,18 @@
+@import url('../../../common/assets/css/base.css');
+@import url('../../../common/assets/css/form.css');
+@import url('../../../common/assets/css/table.css');
+@import url('css/basic.css');
+@import url('css/frame.css');
+/*****************************************************************************/
+.tox .tox-dialog-wrap__backdrop {
+  background-color: rgba(0, 0, 0, .7) !important
+}
+.tox-fullscreen.tox-tinymce {
+  z-index: 100000
+}
+.tox-fullscreen .container {
+  z-index: 100000
+}
+.tox-fullscreen .container main {
+  z-index: 100000
+}

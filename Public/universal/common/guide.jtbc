@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbcf" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+    <order>category,material,dictionary,fragment,upload,tag,captcha</order>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[title]]></name>
+      <zh-cn><![CDATA[公共管理]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[icon]]></name>
+      <zh-cn><![CDATA[earth]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[link]]></name>
+      <zh-cn><![CDATA[]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

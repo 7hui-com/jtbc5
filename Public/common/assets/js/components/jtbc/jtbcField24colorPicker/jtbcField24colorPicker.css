@@ -1,0 +1,34 @@
+:host {
+  width: 100%; display: block; --item-height: 30px; --border-color: #d1d1d1
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: 100
+}
+.container div.picker {
+  width: 100%; height: var(--item-height); padding: 2px; box-sizing: border-box; display: grid; grid-template-columns: repeat(24, 1fr); justify-content: stretch; border: var(--border-color) 1px solid
+}
+.container div.picker item {
+  display: block; height: 100%; box-sizing: border-box; position: relative; z-index: 100
+}
+.container div.picker item::after {
+  content: ''; display: block; box-sizing: border-box; width: 5px; height: 8px; border-bottom: transparent 2px solid; border-right: transparent 2px solid; background: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% - 1px)) rotate(45deg); transition: border-color .2s ease
+}
+.container div.picker item.item-19 {
+  border-top: #c8c8c8 1px solid; border-bottom: #c8c8c8 1px solid
+}
+.container div.picker item.on {
+  z-index: 200
+}
+.container div.picker item.on::after {
+  border-color: #ffffff
+}
+.container div.picker item.item-19.on::after,
+.container div.picker item.item-20.on::after {
+  border-color: #000000
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled .mask {
+  z-index: 10000
+}

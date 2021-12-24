@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[create]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/managePopup.css" />
+<div class="dialogPopup">
+  <div class="ppPopup">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-services', 'lng')}</span></div>
+      <div class="tinyForm">
+        <ul>
+          <li><h3>{$=$take('{$>self.path}.text-title-unset-1', 'lng')}</h3></li>
+          <li><span class="img"><img src="{$>this.genre}/common/assets/svg/cloud_tools.svg" /></span></li>
+          <li class="li-normal">
+            <div class="intro">
+              <p>{$=$take('{$>self.path}.text-cloud-services-intro-1', 'lng')}</p>
+              <p>{$=$take('{$>self.path}.text-cloud-services-intro-2', 'lng')}</p>
+            </div>
+          </li>
+          <li class="li-error li-error-4403 hide">
+            <div class="intro intro-attention">
+              <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-1', 'lng')}</p>
+            </div>
+          </li>
+        </ul>
+        <div class="button central"><button class="b2 create" url="{$>this.genre}/managePopup?type=getCreateInfo">{$=$take('{$>self.path}.text-button-create', 'lng')}</button></div>
+      </div>
+    </div>
+    <div class="maskBox">
+      <div class="scanToPay">
+        <h4>{$=$take('{$>self.path}.text-title-pay', 'lng')}</h4>
+        <h5>{$=$take('{$>self.path}.text-title-pay-tips', 'lng')}</h5>
+        <div class="qrcode"></div>
+        <div class="info">{$=$take('{$>self.path}.text-create-info-1', 'lng')}<b class="price"></b>{$=$take('universal:config.yuan', 'lng')}<br />{$=$take('{$>self.path}.text-create-info-2', 'lng')}<b class="expire_date"></b></div>
+      </div>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initCreate" src="{$>this.genre}/common/assets/js/managePopup.js" check_url="{$>this.genre}/managePopup?type=checkRemotePaymentStatus"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[welcome]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/managePopup.css" />
+<div class="dialogPopup">
+  <div class="ppPopup">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-services', 'lng')}</span></div>
+      <template is="jtbc-template" url="{$>this.genre}/managePopup?type=welcome">
+        <div if="${$status == 1}" class="tinyForm">
+          <ul>
+            <li><h3>{$=$take('{$>self.path}.text-title-welcome-1', 'lng')}</h3></li>
+            <li class="li-normal">
+              <div class="intro intro-attention">
+                <p>{$=$take('{$>self.path}.text-welcome-status-1-intro-1', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-1-intro-2', 'lng')}<br />{$=$take('{$>self.path}.text-welcome-status-1-intro-3', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-1-intro-4', 'lng')}<br />{$=$take('{$>self.path}.text-welcome-status-1-intro-5', 'lng')}</p>
+              </div>
+            </li>
+            <li class="li-error li-error-4403 hide">
+              <div class="intro intro-attention">
+                <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-1', 'lng')}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="button central"><button class="b2 create" url="{$>this.genre}/managePopup?type=getCreateInfo">{$=$take('{$>self.path}.text-button-create', 'lng')}</button></div>
+        </div>
+        <div elseif="${$status == 2}" class="tinyForm">
+          <ul>
+            <li><h3>{$=$take('{$>self.path}.text-title-welcome-2', 'lng')}</h3></li>
+            <li class="id"><span class="info info-attention">{$=$take('{$>self.path}.text-account-info-1', 'lng')}<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageAccount.modify" target="dialog"><b><u class="appId">${$app_id}</u></b></a>{$=$take('{$>self.path}.text-account-info-2', 'lng')}<b>${$expired_date}</b></span></li>
+            <li class="li-normal">
+              <div class="intro intro-attention">
+                <p>{$=$take('{$>self.path}.text-welcome-status-2-intro-1', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-2-intro-2', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-2-intro-3', 'lng')}</p>
+              </div>
+            </li>
+            <li class="li-error li-error-4403 hide">
+              <div class="intro intro-attention">
+                <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-2', 'lng')}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="button central"><button class="b2 renew" url="{$>this.genre}/managePopup?type=getRenewInfo">{$=$take('{$>self.path}.text-button-renew', 'lng')}</button></div>
+        </div>
+        <div elseif="${$status == 100}" class="tinyForm">
+          <ul>
+            <li><h3>{$=$take('{$>self.path}.text-title-welcome-100', 'lng')}</h3></li>
+            <li class="id"><span class="info">{$=$take('{$>self.path}.text-account-info-1', 'lng')}<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageAccount.modify" target="dialog"><b><u class="appId">${$app_id}</u></b></a>{$=$take('{$>self.path}.text-account-info-2', 'lng')}<b>${$expired_date}</b></span></li>
+            <li class="li-normal" allwaysshow="true">
+              <div class="intro intro-attention">
+                <p>{$=$take('{$>self.path}.text-welcome-status-100-intro-1-1', 'lng')}<b>${$version}</b>{$=$take('{$>self.path}.text-welcome-status-100-intro-1-2', 'lng')}<b class="emphasize">${$new_version}</b>{$=$take('{$>self.path}.text-welcome-status-100-intro-1-3', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-100-intro-2', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-100-intro-3', 'lng')}<a class="href renew" url="{$>this.genre}/managePopup?type=getRenewInfo">{$=$take('{$>self.path}.text-button-renew', 'lng')}</a></p>
+              </div>
+            </li>
+            <li class="li-error li-error-4403 hide">
+              <div class="intro">
+                <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-2', 'lng')}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="button central"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageUpgrade.kernel&amp;new_version=${$new_version}" target="dialog"><button class="b2 upgrade">{$=$take('{$>self.path}.text-button-upgrade', 'lng')}</button></a></div>
+        </div>
+        <div elseif="${$status == 101}" class="tinyForm">
+          <ul>
+            <li><h3>{$=$take('{$>self.path}.text-title-welcome-101', 'lng')}</h3></li>
+            <li class="id"><span class="info">{$=$take('{$>self.path}.text-account-info-1', 'lng')}<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageAccount.modify" target="dialog"><b><u class="appId">${$app_id}</u></b></a>{$=$take('{$>self.path}.text-account-info-2', 'lng')}<b>${$expired_date}</b></span></li>
+            <li class="li-normal" allwaysshow="true">
+              <div class="intro intro-attention">
+                <p>{$=$take('{$>self.path}.text-welcome-status-101-intro-1-1', 'lng')}<b>${$version}</b>{$=$take('{$>self.path}.text-welcome-status-101-intro-1-2', 'lng')}<b class="emphasize">${$new_version}</b>{$=$take('{$>self.path}.text-welcome-status-101-intro-1-3', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-101-intro-2', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-101-intro-3', 'lng')}<a class="href renew" url="{$>this.genre}/managePopup?type=getRenewInfo">{$=$take('{$>self.path}.text-button-renew', 'lng')}</a></p>
+              </div>
+            </li>
+            <li class="li-error li-error-4403 hide">
+              <div class="intro">
+                <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-2', 'lng')}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="button central"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageUpgrade.package&amp;new_version=${$new_version}" target="dialog"><button class="b2 upgrade">{$=$take('{$>self.path}.text-button-upgrade', 'lng')}</button></a></div>
+        </div>
+        <div else class="tinyForm">
+          <ul>
+            <li><h3>{$=$take('{$>self.path}.text-title-welcome-200', 'lng')}</h3></li>
+            <li class="id"><span class="info">{$=$take('{$>self.path}.text-account-info-1', 'lng')}<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageAccount.modify" target="dialog"><b><u class="appId">${$app_id}</u></b></a>{$=$take('{$>self.path}.text-account-info-2', 'lng')}<b>${$expired_date}</b></span></li>
+            <li class="li-normal">
+              <div class="intro intro-ok">
+                <p>{$=$take('{$>self.path}.text-welcome-status-200-intro-1', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-200-intro-2', 'lng')}</p>
+                <p>{$=$take('{$>self.path}.text-welcome-status-200-intro-3-1', 'lng')}<a is="jtbc-anchor" class="href" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageUpgrade.module" target="dialog">{$=$take('{$>self.path}.text-welcome-status-200-button-1', 'lng')}</a>{$=$take('{$>self.path}.text-welcome-status-200-intro-3-2', 'lng')}<a is="jtbc-anchor" class="href" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageUpgrade.plugin" target="dialog">{$=$take('{$>self.path}.text-welcome-status-200-button-2', 'lng')}</a>{$=$take('{$>self.path}.text-welcome-status-200-intro-3-3', 'lng')}<a is="jtbc-anchor" class="href" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageLog.list" target="dialog">{$=$take('{$>self.path}.text-welcome-status-200-button-3', 'lng')}</a>{$=$take('{$>self.path}.text-welcome-status-200-intro-3-4', 'lng')}</p>
+              </div>
+            </li>
+            <li class="li-error li-error-4403 hide">
+              <div class="intro intro-attention">
+                <p><b class="emphasize premium_config_path"></b><br />{$=$take('{$>self.path}.text-cloud-services-intro-attention-2', 'lng')}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="button central"><button class="b2 renew" url="{$>this.genre}/managePopup?type=getRenewInfo">{$=$take('{$>self.path}.text-button-renew', 'lng')}</button></div>
+        </div>
+      </template>
+    </div>
+    <div class="maskBox">
+      <div class="scanToPay">
+        <h4>{$=$take('{$>self.path}.text-title-pay', 'lng')}</h4>
+        <h5>{$=$take('{$>self.path}.text-title-pay-tips', 'lng')}</h5>
+        <div class="qrcode"></div>
+        <div class="info">{$=$take('{$>self.path}.text-create-info-1', 'lng')}<b class="price"></b>{$=$take('universal:config.yuan', 'lng')}<br />{$=$take('{$>self.path}.text-create-info-2', 'lng')}<b class="expire_date"></b></div>
+      </div>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initWelcome" src="{$>this.genre}/common/assets/js/managePopup.js" check_url="{$>this.genre}/managePopup?type=checkRemotePaymentStatus"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

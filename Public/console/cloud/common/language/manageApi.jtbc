@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[text-status-0]]></name>
+      <zh-cn><![CDATA[尚未开启云服务]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-status-1-0]]></name>
+      <zh-cn><![CDATA[当前是最新版]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-status-1-1]]></name>
+      <zh-cn><![CDATA[当前有可用更新]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

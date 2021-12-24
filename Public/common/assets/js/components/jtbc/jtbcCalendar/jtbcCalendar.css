@@ -1,0 +1,100 @@
+:host {
+  display: inline-block; font-size: 14px; background: #ffffff; --padding: 19px; --border-color: #d1d1d1; --border-width: 1px; --item-width: 30px; --item-height: 30px
+}
+container {
+  display: inline-block !important; user-select: none; border: var(--border-color) var(--border-width) solid
+}
+container div.box {
+  width: calc(var(--item-width) * 7); padding: var(--padding); display: none
+}
+container div.box.on {
+  display: block
+}
+container div.title {
+  width: 100%; display: flex; align-items: center; justify-content: space-between
+}
+container div.title span.text {
+  line-height: 30px; font-weight: bold; cursor: pointer
+}
+container div.title span.text em {
+  font-style: normal
+}
+container div.title span.text em.month {
+  padding-left: 4px
+}
+container div.title span.icons em {
+  display: inline-flex; width: var(--item-width); height: var(--item-height); align-items: center; justify-content: center; cursor: pointer
+}
+container div.title span.icons jtbc-svg {
+  width: 12px; height: 12px; --fore-color: #999999
+}
+container div.title span.icons jtbc-svg:hover {
+  --fore-color: #333333
+}
+container div.title span.iconsLeft {
+  text-align: left
+}
+container div.title span.iconsRight {
+  text-align: right
+}
+container div.title span.iconsRight jtbc-svg {
+  transform: rotate(180deg)
+}
+container div.header em {
+  display: inline-block; width: var(--item-width); height: var(--item-height); line-height: var(--item-height); font-style: normal; text-align: center
+}
+container div.main {
+  display: flex; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap
+}
+container div.main span.date {
+  display: block; box-sizing: border-box; background: #ffffff; border: #ffffff 2px solid; width: var(--item-width); height: var(--item-height); position: relative; z-index: 100; cursor: pointer
+}
+container div.main span.date:hover {
+  background: #e5e5e5; border-color: #e5e5e5
+}
+container div.main span.date em {
+  width: 100%; height: 100%; font-style: normal; display: flex; justify-content: center; align-items: center
+}
+container div.main span.date.on {
+  background: #cecece; border-color: #cecece
+}
+container div.main span.date.dim {
+  color: #999999
+}
+container div.main span.date.through {
+  background: #f2f6fc !important; border-color: #f2f6fc
+}
+container div.main span.date.today {
+  background: #cecece; border-color: #000000
+}
+container div.main span.date.disabled {
+  background: #e5e5e5; border-color: #e5e5e5; opacity: .3; cursor: default
+}
+container div.main span.date.selected,
+container div.main span.date.selected:hover {
+  background: #ffffff; border-color: #ffffff
+}
+container div.main span.date.selected em {
+  background: #666666; color: #ffffff; border-radius: 100%
+}
+container div.main span.date.selected.today em {
+  background: #000000
+}
+container div.main span.date.selected.through {
+  border-color: #f2f6fc
+}
+container div.main span.year,
+container div.main span.month {
+  display: block; box-sizing: border-box; background: #ffffff; border: #ffffff 1px solid; width: 50%; text-align: center; height: var(--item-height); line-height: var(--item-height); cursor: pointer
+}
+container div.main span.year:hover,
+container div.main span.month:hover {
+  border-color: #cecece
+}
+container div.main span.month {
+  width: 33.33%
+}
+container div.main span.year.on,
+container div.main span.month.on {
+  background-color: #e5e5e5
+}

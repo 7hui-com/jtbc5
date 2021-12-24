@@ -1,0 +1,36 @@
+:host {
+  width: 150px; display: inline-block; --height: 30px; --button-color: #5cb85c; --button-hover-color: #449d44; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8)
+}
+.container {
+  width: 100%; height: var(--height); display: flex !important; align-items: center; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: relative; z-index: var(--z-index); transition: all .3s ease
+}
+.container input {
+  box-sizing: border-box; outline: none; display: inline-block
+}
+.container input[type=text] {
+  width: calc(100% - 60px); height: 100%; background: transparent; padding: 0px; border: 0px; border-radius: 0px; text-align: center
+}
+.container span.btn {
+  display: inline-flex; align-items: center; justify-content: center; width: var(--height); height: 100%; background: #ffffff; box-sizing: border-box; cursor: pointer; transition: all .3s ease
+}
+.container span.btn:hover {
+  background: #f6f6f6
+}
+.container span.btn.add {
+  border-left: var(--input-border-color) 1px solid
+}
+.container span.btn.minus {
+  border-right: var(--input-border-color) 1px solid
+}
+.container span.btn jtbc-svg {
+  width: calc(var(--height) / 3); height: calc(var(--height) / 3); display: block; --fore-color: #666666
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.on {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container.disabled .mask {
+  opacity: 0.3; z-index: 10000
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[title]]></name>
+      <zh-cn pointer="global.{$&gt;this.genre}:index.title" pointerType="lng"></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[icon]]></name>
+      <zh-cn><![CDATA[aboutus]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[link]]></name>
+      <zh-cn><![CDATA[manage.list]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[batch]]></name>
+      <zh-cn><![CDATA[publish,delete]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[subpermissions]]></name>
+      <zh-cn><![CDATA[add,edit,publish,order,delete]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

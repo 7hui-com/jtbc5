@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[part-toplink]]></name>
+      <default><![CDATA[<jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;enabled=1&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;enabled=0&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a></jtbc-pitchon>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <toplink>{$=$take('manage.part-toplink')}</toplink>
+      <div class="chief" can_enable="${$control.subPermission.enable}" can_disable="${$control.subPermission.disable}" can_config="${$control.subPermission.config}" can_uninstall="${$control.subPermission.uninstall}">
+        <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
+        <template is="jtbc-template" key="data">
+          <table class="table skinny" is="jtbc-table">
+            <tbody isloop="true">
+              <tr>
+                <td width="50" class="center"><icon><jtbc-svg name="${$icon}"></jtbc-svg></icon></td>
+                <td class="multiline"><span>${$title}</span><br /><span class="ash">${$intro}</span></td>
+                <td width="100" class="center"><span if="${$isEnabled}" class="highlight" group="1">${$name}</span><span else class="highlight" group="0">${$name}</span></td>
+                <td width="80" class="center"><jtbc-execution if="${$.reachConsensus($.param.can_disable, $isEnabled, !$isLocked)}" url="{$>this.genre}/manage?action=disable&amp;name=${encodeURIComponent($.raw.name)}" message="{$=$take('manage.text-control-confirm-disable', 'lng')} [${$name}] {$=$take('::communal.q', 'lng')}"><button class="b1 disable">{$=$take('universal:config.disable', 'lng')}</button></jtbc-execution><jtbc-execution elseif="${$.reachConsensus($.param.can_enable, !$isEnabled, !$isLocked)}" url="{$>this.genre}/manage?action=enable&amp;name=${encodeURIComponent($.raw.name)}" message="{$=$take('manage.text-control-confirm-enable', 'lng')} [${$name}] {$=$take('::communal.q', 'lng')}"><button class="b2 enable">{$=$take('universal:config.enable', 'lng')}</button></jtbc-execution></td>
+                <td width="60" class="right"><icons if="${$.reachConsensus(!$isLocked, ($.param.can_config || $.param.can_uninstall))}"><a if="${$.reachConsensus($.param.can_config, $hasConfig)}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename=${encodeURIComponent($.raw.genre)}:${encodeURIComponent($.raw.config_codename)}&amp;genre={$=urlencode('{$>this.genre}')}" target="dialog"><jtbc-svg name="setting_hollow"></jtbc-svg></a><jtbc-execution if="${$.param.can_uninstall}" url="{$>this.genre}/manage?action=uninstall&amp;name=${encodeURIComponent($.raw.name)}" message="{$=$take('::communal.control-confirm-uninstall', 'lng')} [${$name}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash"></jtbc-svg></icons><span else class="ash">{$=$take('manage.text-nothingtodo', 'lng')}</span></jtbc-execution></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="center">{$=$take('manage.text-tips-list-null', 'lng')}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </template>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+  </item_list>
+</xml>

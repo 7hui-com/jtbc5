@@ -1,0 +1,9 @@
+:host {
+  display: inline-block; --line-height: 100%; --color: #000000; --default-color: #999999
+}
+container {
+  display: inline-block !important; color: var(--color); line-height: var(--line-height)
+}
+container.default {
+  color: var(--default-color)
+}

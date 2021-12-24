@@ -1,0 +1,36 @@
+:host {
+  width: 500px; display: inline-block; --columns-width: 32px; --icon-selected-color: #3e868f; --icon-hover-color: #666666; --icon-list-border: #d1d1d1 1px solid; --icon-list-padding: 8px
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: 100
+}
+.container div.iconList {
+  width: 100%; padding: var(--icon-list-padding); display: grid; grid-template-columns: repeat(auto-fit, var(--columns-width)); justify-content: space-between; background: #ffffff; box-sizing: border-box; border: var(--icon-list-border)
+}
+.container div.iconList span.icon {
+  display: block; margin: 2px; padding: 4px; border: #d1d1d1 1px solid; cursor: pointer; position: relative
+}
+.container div.iconList span.icon jtbc-svg {
+  width: 100%; height: 100%; --fore-color: #999999
+}
+.container div.iconList span.icon:hover {
+  border-color: var(--icon-hover-color)
+}
+.container div.iconList span.icon:hover jtbc-svg {
+  --fore-color: var(--icon-hover-color)
+}
+.container div.iconList span.icon.on {
+  border-color: var(--icon-selected-color)
+}
+.container div.iconList span.icon.on jtbc-svg {
+  --fore-color: var(--icon-selected-color)
+}
+.container div.iconList span.icon.on::after {
+  content: ''; width: 0px; height: 0px; border-style: solid; border-width: 0 0 calc(var(--columns-width) / 6) calc(var(--columns-width) / 6); border-color: transparent transparent var(--icon-selected-color) transparent; position: absolute; bottom: 0px; right: 0px; z-index: 100
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled .mask {
+  z-index: 10000
+}

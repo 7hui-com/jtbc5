@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[modify]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageAccount.css" />
+<div class="dialogPopup">
+  <div class="ppAccount">
+    <div class="mainBox">
+      <div class="title"><jtbc-svg name="cloud_service"></jtbc-svg><span class="tit">{$=$take('{$>self.path}.text-tit-cloud-account-modify', 'lng')}</span></div>
+      <div class="tinyForm loading">
+        <ul>
+          <li class="info">{$=$take('{$>self.path}.text-tips-modify-loading', 'lng')}</li>
+        </ul>
+      </div>
+      <template is="jtbc-template" url="{$>this.genre}/manageAccount?type=modify">
+        <form if="${$status == 1}" is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" target="#null" action="{$>this.genre}/manageAccount?action=modify">
+          <div class="tinyForm">
+            <ul>
+              <li><input name="name" type="text" role="field" placeholder="{$=$take('universal:config.name', 'lng')}" value="${$info.name}" /></li>
+              <li><input name="mobile" type="text" role="field" placeholder="{$=$take('universal:config.mobile', 'lng')}" value="${$info.mobile}" /></li>
+              <li><input name="idcard" type="text" role="field" placeholder="{$=$take('universal:config.idcard', 'lng')}" value="${$info.idcard}" /></li>
+              <li><span class="tips">{$=$take('{$>self.path}.text-tips-modify-1', 'lng')}${$app_id}{$=$take('{$>self.path}.text-tips-modify-2', 'lng')}</span></li>
+            </ul>
+            <div class="button central"><button class="b2 submit" role="submit">{$=$take('{$>self.path}.text-button-modify', 'lng')}</button></div>
+          </div>
+        </form>
+        <div else class="tinyForm">
+          <ul>
+            <li><div class="icon"><jtbc-svg name="alert"></jtbc-svg></div></li>
+            <li><div class="text">{$=$take('{$>self.path}.text-tips-modify-exception', 'lng')}</div></li>
+          </ul>
+          <div class="button central"><button class="b2 ok" role="submit">{$=$take('::communal.iknow', 'lng')}</button></div>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>
+<jtbc-script init="initModify" src="{$>this.genre}/common/assets/js/manageAccount.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

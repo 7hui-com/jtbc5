@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[text-type]]></name>
+      <zh-cn><![CDATA[类型]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-version]]></name>
+      <zh-cn><![CDATA[版本号]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-time]]></name>
+      <zh-cn><![CDATA[更新时间]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-cloud-log-list]]></name>
+      <zh-cn><![CDATA[操作日志]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-list-all]]></name>
+      <zh-cn><![CDATA[全部]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-list-hints]]></name>
+      <zh-cn><![CDATA[回退版本功能仅限24小时内]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-list-null]]></name>
+      <zh-cn><![CDATA[当前条件下没有找到任何操作日志]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-button-downgrade]]></name>
+      <zh-cn><![CDATA[回退版本]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-button-downgrade-confirm]]></name>
+      <zh-cn><![CDATA[我已知晓回退操作不可逆转并确认要回退]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

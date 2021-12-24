@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="list" mode="d">{@}
+        <div class="item">
+          <p type="image"><a href="./?type=detail&amp;id={$id}"><img class="circle" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
+          <p type="title"><a href="./?type=detail&amp;id={$id}">{$name}</a></p>
+          <p type="info">{$position}</p>
+        </div>{@}
+      </div>
+    </main>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+    <item>
+      <name><![CDATA[detail]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="detail">
+        <h1 class="title">{$name}</h1>
+        <div class="content">{$=$htmlEncode(#content, 0)}</div>
+      </div>
+    </main>
+  </box>
+</container>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

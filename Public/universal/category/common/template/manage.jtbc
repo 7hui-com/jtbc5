@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[filter]]></name>
+      <default><![CDATA[<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-filter', 'lng')}</div>
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'filter']))}">
+    <template is="jtbc-template" key="data">
+      <div class="tinyForm">
+        <ul isloop="true">
+          <li><a class="link" role="dialog-close" is="jtbc-anchor" href="codename=${$genre}:manage.list&amp;category=${$id}"><jtbc-svg name="arrow_right"></jtbc-svg>${$title}</a></li>
+        </ul>
+        <ul class="emptyTips">
+          <li><span class="tips">{$=$take('manage.text-tips-filter-empty', 'lng')}</span></li>
+        </ul>
+      </div>
+    </template>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[add]]></name>
+      <default><![CDATA[<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-add', 'lng')}</div>
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'add']))}">
+    <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manage?action=add">
+      <input type="hidden" name="genre" role="field" value="${$genre}" />
+      <input type="hidden" name="father_id" role="field" value="${$fatherId}" />
+      <input type="hidden" name="time" role="field" value="{$=$now()}" />
+      <div class="tinyForm">
+        <ul>
+          <li><input is="jtbc-input" name="title" type="text" role="field" placeholder="{$=$take('config.title', 'lng')}" /></li>
+          <li if="${$property.has_image}"><jtbc-field-upload name="image" role="field" whisper="whisper" placeholder="{$=$take('config.image', 'lng')}" text-upload="{$=$take('universal:config.upload', 'lng')}" action="{$>this.genre}/manage?action=upload&amp;scene=image"></jtbc-field-upload></li>
+          <li if="${$property.has_intro}"><textarea is="jtbc-textarea" name="intro" role="field" placeholder="{$=$take('config.intro', 'lng')}"></textarea></li>
+          <li if="${$control.subPermission.publish}">{$=$takeAndFormatToRadio('::sel_published.*', 'published', '0')}</li>
+        </ul>
+        <div class="button"><button class="b2" role="submit">{$=$take('::communal.submit', 'lng')}</button></div>
+      </div>
+    </form>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[edit]]></name>
+      <default><![CDATA[<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-edit', 'lng')}</div>
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'edit']))}">
+    <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manage?action=edit&amp;id=${$data.id}">
+      <input type="hidden" name="genre" role="field" value="${$data.genre}" />
+      <input type="hidden" name="father_id" role="field" value="${$data.father_id}" />
+      <input type="hidden" name="time" role="field" value="${$data.time}" />
+      <div class="tinyForm">
+        <ul>
+          <li><input is="jtbc-input" name="title" type="text" role="field" placeholder="{$=$take('config.title', 'lng')}" value="${$data.title}" /></li>
+          <li if="${$property.has_image}"><jtbc-field-upload name="image" role="field" whisper="whisper" placeholder="{$=$take('config.image', 'lng')}" text-upload="{$=$take('universal:config.upload', 'lng')}" value="${$data.image}" action="{$>this.genre}/manage?action=upload&amp;scene=image"></jtbc-field-upload></li>
+          <li if="${$property.has_intro}"><textarea is="jtbc-textarea" name="intro" role="field" placeholder="{$=$take('config.intro', 'lng')}">${$data.intro}</textarea></li>
+          <li if="${$control.subPermission.publish}"><jtbc-choice-selector value="${$data.published}">{$=$takeAndFormatToRadio('::sel_published.*', 'published')}</jtbc-choice-selector></li>
+        </ul>
+        <div class="button"><button class="b2" role="submit">{$=$take('::communal.submit', 'lng')}</button></div>
+      </div>
+    </form>
+  </template>
+</div>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div if="${$allGenre.length == 0}" class="manager">
+      <div class="chief">
+        <h6>{$=$take('manage.text-tit-list-null', 'lng')}</h6>
+      </div>
+    </div>
+    <div else class="manager">
+      <toplink class="path" genre="${$genre}"><a is="jtbc-anchor" class="link pitchon" href="codename={$>this.genre}:manage.list&amp;genre=${$genre}">${$genreTitle}</a><jtbc-svg class="arrow" name="arrow_right"></jtbc-svg><template is="jtbc-template" key="fatherGroup"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a><jtbc-svg name="slash"></jtbc-svg></template></toplink>
+      <div class="chief" genre="${$genre}" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" can_order="${$control.subPermission.order}">
+        <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
+        <rightarea genre="${$genre}"><span class="text">{$=$take('manage.text-current-genre', 'lng')}</span>&nbsp;&nbsp;<template is="jtbc-template" key="allGenre"><select name="genre" is="jtbc-select" isloop="true" url="codename={$>this.genre}:manage.list&amp;genre=" value="${$.parent.attr.genre}"><option value="${$genre}">${$title}</option></select></template><span>&nbsp;&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
+        <template is="jtbc-template" key="data">
+          <table class="table" id="list" is="jtbc-table" sortApi="{$>this.genre}/manage?action=order">
+            <thead>
+              <tr>
+                <th width="20" class="${$.param.can_order? 'center': 'hide'}">{$=$take('::communal.th-sort', 'lng')}</th>
+                <th width="20" class="center"><input type="checkbox" value="1" role="selector" /></th>
+                <th width="40" class="center">{$=$take('universal:config.id', 'lng')}</th>
+                <th>{$=$take('config.title', 'lng')}</th>
+                <th width="120">{$=$take('universal:config.time', 'lng')}</th>
+                <th width="40" class="center">{$=$take('universal:config.status', 'lng')}</th>
+                <th width="60" class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>
+              </tr>
+            </thead>
+            <tbody isloop="true">
+              <tr>
+                <td role="draghandle" class="${$.param.can_order? 'normal': 'hide'}"></td>
+                <td class="center"><input type="checkbox" name="id" value="${$id}" role="selector" /></td>
+                <td class="center">${$id}</td>
+                <td><a is="jtbc-anchor" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a></td>
+                <td>${$time}</td>
+                <td class="center"><span class="status" status="${$published}"></span></td>
+                <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.edit&amp;id=${$id}" target="dialog"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="7" class="center">{$=$take('manage.text-tips-list-null', 'lng')}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </template>
+        <div class="control" is="jtbc-batch-control" partner="list" message="{$=$take('::communal.control-confirm-batch', 'lng')}" empty_tips="{$=$take('::communal.batch-empty-tips', 'lng')}" url="{$>this.genre}/manage?action=batch">
+          <div class="batch" if="${$control.batch.length != 0}"><span class="text">{$=$take('::communal.batch-tips', 'lng')}</span><template is="jtbc-template" key="control.batch"><select isloop="true" class="batch" role="type"><option value="${$name}">${$title}</option></select></template><span class="ok" role="submit">{$=$take('::communal.control-confirm', 'lng')}</span></div>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

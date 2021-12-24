@@ -1,0 +1,75 @@
+:host {
+  width: 100%; display: block
+}
+container {
+  width: 100%; display: block !important; position: relative; z-index: 100
+}
+container icons {
+  display: inline-block
+}
+container icons jtbc-svg {
+  display: inline-block; vertical-align: middle; --fore-color: #ffffff; margin-right: 10px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+}
+container icons jtbc-svg:hover {
+  opacity: 1
+}
+container icons jtbc-svg:last-child {
+  margin-right: 0px
+}
+container .main {
+  width: 100%; box-sizing: border-box; padding: 5px; background: #ffffff; border: #d1d1d1 1px solid
+}
+container .main div.item {
+  width: 20%; box-sizing: border-box; padding: 5px; float: left
+}
+container .main div.item div.add {
+  width: 100%; box-sizing: border-box; padding-bottom: 100%; border: #d1d1d1 1px dashed; position: relative; z-index: 100; cursor: pointer
+}
+container .main div.item div.add jtbc-svg[name=add] {
+  width: 24px; height: 24px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); --fore-color: #999999
+}
+container .main div.item div.image {
+  width: 100%; box-sizing: border-box; padding-bottom: 100%; background: none center center no-repeat; background-size: cover; border: #d1d1d1 1px solid; position: relative; z-index: 100
+}
+container .main div.item div.image div.hover {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .75); opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100; transition: all .3s ease
+}
+container .main div.item div.image:hover div.hover {
+  opacity: 1; z-index: 1000
+}
+container .main::after {
+  content: ''; display: block; clear: both; height: 0px; overflow: hidden
+}
+container .main.draging div.item div.image:hover div.hover {
+  opacity: 0; z-index: -100
+}
+container .main.draging div.item.draging div.hover {
+  background: rgba(102, 102, 102, .75) !important; opacity: 1 !important; z-index: 1000 !important
+}
+container .main.draging div.item.draging div.hover icons {
+  display: none
+}
+container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+container.disabled .mask {
+  opacity: .3; z-index: 10000
+}
+container.horizontal .main div.item div.add,
+container.horizontal .main div.item div.image {
+  padding-bottom: 75%
+}
+container.vertical .main div.item div.add,
+container.vertical .main div.item div.image {
+  padding-bottom: 133.34%
+}
+@media screen and (min-width: 1360px) {
+  container .main div.item {
+    width: 16.66%
+  }
+}
+@media screen and (min-width: 1600px) {
+  container .main div.item {
+    width: 12.5%
+  }
+}

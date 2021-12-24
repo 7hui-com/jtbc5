@@ -1,0 +1,96 @@
+.container {
+  width: 100%; display: block !important; position: relative; z-index: 100
+}
+.container table.attachment {
+  width: 100%; background: #d1d1d1; border-collapse: separate; border-spacing: 0px 0px; border: #d1d1d1 1px solid
+}
+.container table.attachment tbody:empty {
+  display: none
+}
+.container table.attachment tbody:empty + tfoot {
+  display: table-footer-group
+}
+.container table.attachment tfoot {
+  display: none
+}
+.container table.attachment th,
+.container table.attachment td {
+  padding: 10px
+}
+.container table.attachment th {
+  text-align: left; background: #f6f6f6
+}
+.container table.attachment td {
+  text-align: left; background: #fff
+}
+.container table.attachment th.center,
+.container table.attachment td.center {
+  text-align: right
+}
+.container table.attachment tbody tr:hover td,
+.container table.attachment tbody tr.draging td {
+  background-color: #f9f9f9
+}
+.container table.attachment tbody tr.remove {
+  opacity: 0.8
+}
+.container table.attachment tbody tr.remove span.filename {
+  text-decoration: line-through
+}
+.container table.attachment tbody tr.remove span.filetype {
+  background-color: #999999 !important
+}
+.container table.attachment tfoot td {
+  color: #999999; text-align: center
+}
+.container icons {
+  display: block; text-align: right
+}
+.container icons jtbc-svg {
+  display: inline-block; vertical-align: middle; width: 16px; height: 16px; margin: 0px 5px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+}
+.container icons jtbc-svg:hover {
+  opacity: 1
+}
+.container icons input.file {
+  display: none
+}
+.container .textInsert {
+  display: none
+}
+.container .filegroup {
+  display: block; width: 100%; text-align: center; box-sizing: border-box; padding: 5px 0px; background: #000; font-size: 14px; color: #fff; border-radius: 6px; cursor: move
+}
+.container .filegroup[filegroup='1'] {
+  background: #0f6974
+}
+.container .filegroup[filegroup='2'] {
+  background: #cb8119
+}
+.container .filegroup[filegroup='3'] {
+  background: #779028
+}
+.container .filegroup[filegroup='4'] {
+  background: #5b0233
+}
+.container span.filename {
+  cursor: pointer
+}
+.container input.filename {
+  width: 100%; margin: 0px; padding: 0px; background: none; border: 0px; outline: none
+}
+.container input.filename:focus {
+  border: 0px
+}
+.container .filesize {
+  display: block; color: #999; text-align: right
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled .mask {
+  z-index: 10000
+}
+.container[partner] .textInsert {
+  display: inline-block !important
+}

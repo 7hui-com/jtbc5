@@ -1,0 +1,52 @@
+:host {
+  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --selected-item-color: #3e868f; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+}
+.container {
+  width: 100%; display: block !important; cursor: text; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: relative; z-index: var(--z-index); transition: all .3s ease
+}
+.container input {
+  box-sizing: border-box; outline: none
+}
+.container input[type=text] {
+  width: 60px; min-width: 60px; max-width: 100%; height: calc(var(--height) - 2px); line-height: calc(var(--height) - 2px); background: transparent; padding: 0px 0px 0px 6px; border: 0px; border-radius: 0px
+}
+.container div.tags {
+  display: inline-block; padding: 2px 0px 2px 4px
+}
+.container div.tags span {
+  display: inline-flex; align-items: center; box-sizing: border-box; margin: 2px 4px 2px 0px; padding: 0px 6px; line-height: 18px; background: var(--selected-item-color); border: var(--selected-item-color) 1px solid; border-radius: 4px; cursor: pointer
+}
+.container div.tags span:last-child {
+  margin-right: 0px
+}
+.container div.tags span em {
+  display: inline-block; font-style: normal; color: #fff
+}
+.container div.tags span jtbc-svg {
+  display: inline-block; margin-left: 4px; width: 8px; height: 8px; --fore-color: #fff
+}
+.container div.hints {
+  width: 100%; display: none; background: #fff; border: #d1d1d1 1px solid; border-color: var(--input-border-color-focus); border-top-color: #d1d1d1; box-shadow: 0px 1px 2px var(--input-box-shadow-focus); position: absolute; top: 100%; left: -1px; z-index: 100
+}
+.container div.hints ul {
+  list-style: none; margin: 0px; padding: 5px; box-sizing: border-box
+}
+.container div.hints ul li {
+  padding: 5px 10px; line-height: 100%; background: #fff; border: #fff 1px solid; cursor: pointer
+}
+.container div.hints ul li.on,
+.container div.hints ul li:hover {
+  background: #e6effb; border-color: var(--input-border-color-focus)
+}
+.container div.hints.on {
+  display: block
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.on {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container.disabled .mask {
+  opacity: 0.3; z-index: 10000
+}

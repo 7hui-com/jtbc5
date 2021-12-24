@@ -1,0 +1,57 @@
+:host {
+  display: inline-block; --border-color: #d1d1d1; --border-radius: 0
+}
+container {
+  width: 160px; height: 160px; display: inline-block !important; border: var(--border-color) 1px solid; border-radius: var(--border-radius); overflow: hidden; position: relative; z-index: 100
+}
+container input.file {
+  display: none
+}
+container icons {
+  display: inline-block
+}
+container icons jtbc-svg {
+  display: inline-block; vertical-align: middle; --fore-color: #ffffff; margin-right: 10px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+}
+container icons jtbc-svg:hover {
+  opacity: 1
+}
+container icons jtbc-svg:last-child {
+  margin-right: 0px
+}
+container div.avatar {
+  width: 100%; height: 100%; background: none center center no-repeat; background-color: #ffffff; background-size: cover; position: relative; z-index: 100
+}
+container div.avatar div.uploading {
+  width: 100%; height: 100%; display: none; position: absolute; top: 0%; right: 0%; background: rgba(255, 255, 255, .75); z-index: 1000; transition: width .3s ease
+}
+container div.avatar div.pending {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100
+}
+container div.avatar div.pending jtbc-svg {
+  width: 30px; height: 30px; --fore-color: #333333
+}
+container div.avatar div.hover {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .75); opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100; transition: all .3s ease
+}
+container div.avatar.uploading div.uploading {
+  display: block
+}
+container div.avatar.uploading div.pending {
+  display: none
+}
+container div.avatar.uploaded div.uploading {
+  display: none
+}
+container div.avatar.uploaded div.pending {
+  display: none
+}
+container div.avatar.uploaded:hover div.hover {
+  opacity: 1; z-index: 500
+}
+container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+container.disabled .mask {
+  z-index: 10000
+}

@@ -1,0 +1,261 @@
+.ppContainer {
+  width: 100%
+}
+.ppItemList {
+  width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 10px
+}
+.ppItemList div.item {
+  box-sizing: border-box; border: #e1e1e1 1px solid
+}
+.ppItemList div.item div.text {
+  width: 100%; display: flex; position: relative; box-sizing: border-box; padding: 10px
+}
+.ppItemList div.item div.text div.icon {
+  width: 100px; height: 100px; overflow: hidden
+}
+.ppItemList div.item div.text div.icon img {
+  width: 100%; vertical-align: top
+}
+.ppItemList div.item div.text div.info {
+  flex: 1; padding: 0px 10px
+}
+.ppItemList div.item div.text div.info a {
+  display: block; font-size: 14px; line-height: 160%; padding-top: 4px; padding-right: 80px; color: #333333
+}
+.ppItemList div.item div.text div.info p {
+  padding-top: 10px; line-height: 160%; color: #999999
+}
+.ppItemList div.item div.text span.price {
+  font-size: 24px; color: #de4e58; line-height: 100%; position: absolute; top: 10px; right: 10px; z-index: 100
+}
+.ppItemList div.item div.bar {
+  width: 100%; box-sizing: border-box; display: flex; padding: 10px; background: #f6f6f6; border-top: #e1e1e1 1px solid; align-items: center
+}
+.ppItemList div.item div.bar span.adapted {
+  flex: 1; display: block
+}
+.ppItemList div.item div.bar span.adapted b {
+  color: #de4e58
+}
+.ppItemList div.item div.bar span.install {
+  width: 120px; display: block; text-align: right
+}
+.ppItemList:empty + .ppItemListEmpty {
+  display: flex
+}
+.ppItemListEmpty {
+  width: 100%; height: 60px; box-sizing: border-box; border: transparent 1px solid; display: none; align-items: center
+}
+.ppItemListEmpty span {
+  display: block; width: 100%; color: #999999; text-align: center
+}
+.ppItemLoading {
+  width: 100%; height: 60px; box-sizing: border-box; border: #e1e1e1 1px dashed; display: flex; align-items: center
+}
+.ppItemLoading span {
+  display: block; width: 100%; color: #999999; text-align: center
+}
+.ppItemDetail {
+  width: 720px; min-height: 516px
+}
+.ppItemDetail div.intro {
+  width: 100%; box-sizing: border-box; padding: 10px; display: flex; align-items: flex-end; background-image: linear-gradient(#ffffff, #f6f6f6); position: relative
+}
+.ppItemDetail div.intro div.icon {
+  width: 100px; height: 100px; overflow: hidden
+}
+.ppItemDetail div.intro div.icon img {
+  width: 100%; vertical-align: top
+}
+.ppItemDetail div.intro div.bigText {
+  flex: 1; padding: 0px 10px 0px 0px
+}
+.ppItemDetail div.intro div.bigText span {
+  display: inline-block; padding: 5px; background: rgba(0, 0, 0, .8); font-size: 16px; color: #ffffff
+}
+.ppItemDetail div.intro span.price {
+  font-size: 24px; color: #de4e58; line-height: 100%; position: absolute; top: 10px; left: 10px; z-index: 100
+}
+.ppItemDetail div.mainContent {
+  width: 100%; display: flex
+}
+.ppItemDetail div.mainContent div.tabcontent {
+  flex: 1; box-sizing: border-box; padding: 20px; height: 300px; overflow: auto
+}
+.ppItemDetail div.mainContent div.basic {
+  width: 180px; box-sizing: border-box; background: #f6f6f6; border-left: #e1e1e1 1px solid
+}
+.ppItemDetail div.mainContent div.basic ul {
+  list-style: none; margin: 0px; padding: 10px
+}
+.ppItemDetail div.mainContent div.basic ul li {
+  color: #333333; line-height: 200%
+}
+.ppItemDetail div.mainContent div.basic ul li span {
+  color: #666666
+}
+.ppItemDetail div.installation {
+  width: 100%; height: calc(100% - 60px); overflow: auto; box-sizing: border-box; background: #ffffff; border-top: #dddddd 1px solid; position: absolute; bottom: -100%; left: 0px; z-index: 100; transition: all .3s ease
+}
+.ppItemDetail div.installation.on {
+  bottom: 60px
+}
+.ppItemDetail div.installation h4,
+.ppItemDetail div.installation h5 {
+  margin: 0px; padding: 0px; line-height: 100%
+}
+.ppItemDetail div.installation div.box {
+  width: 100%; box-sizing: border-box; padding: 10px
+}
+.ppItemDetail div.installation h4 {
+  font-size: 16px; padding: 15px 0px; text-align: center
+}
+.ppItemDetail div.installation h4 em {
+  font-style: normal; color: #ec6b6a; padding: 0px 4px
+}
+.ppItemDetail div.installation h5 {
+  font-size: 14px; padding-bottom: 15px; font-weight: normal; text-align: center
+}
+.ppItemDetail div.installation div.qrcode {
+  width: 100%; padding-bottom: 15px; text-align: center
+}
+.ppItemDetail div.installation div.qrcode img {
+  width: 160px; height: 160px; padding: 8px; background: #ffffff; vertical-align: top; border: #d1d1d1 1px solid
+}
+.ppItemDetail div.installation p {
+  width: 100%; margin: 0px; padding: 0px; text-align: center
+}
+.ppItemDetail div.installation p.agree {
+  padding: 10px 0px
+}
+.ppItemDetail div.installation p.prominent span {
+  display: inline-block; padding: 10px; background: #fdf0f0; color: #666666; border: #ec6b6a 1px dashed; border-radius: 5px
+}
+.ppItemDetail div.installation p.prominent span em {
+  font-style: normal; font-weight: bold; color: #ec6b6a; padding: 0px 4px
+}
+.ppItemDetail div.installation ul.form {
+  width: 500px; margin: auto; padding: 15px 0px 0px 0px; list-style: none
+}
+.ppItemDetail div.installation ul.form li {
+  padding: 10px 0px
+}
+.ppItemDetail div.installation ul.form li input[type=text] {
+  width: 100%
+}
+.ppItemDetail div.installation ul.form li fieldset {
+  display: block; min-width: inherit; margin: 0px; padding: 0px; border: #d1d1d1 1px solid; border-radius: 0px
+}
+.ppItemDetail div.installation ul.form li fieldset legend {
+  margin-left: 5px; padding: 0 5px; font-size: 12px; color: #666666
+}
+.ppItemDetail div.installation ul.form li fieldset div.icons {
+  padding: 10px
+}
+.ppItemDetail div.installation ul.form li jtbc-field-icon-selector {
+  --icon-list-border: 0px; --icon-list-padding: 0px; --columns-width: 38px
+}
+.ppItemDetail div.installation div.uninstallation {
+  width: 500px; margin: auto; padding-top: 15px
+}
+.ppItemDetail div.installation div.uninstallation p.attention {
+  margin: 0px 0px 15px 0px; padding: 10px; box-sizing: border-box; border: #e1e1e1 1px solid; border-left: #333333 5px solid; background: #f9f9f9; color: #333333; text-align: left; line-height: 160%; border-radius: 5px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules {
+  list-style: none; padding: 0px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; box-sizing: border-box; background: #ffffff; border: #d1d1d1 1px solid; border-bottom-width: 0px; border-left: #333333 5px solid; padding: 10px; position: relative; z-index: 100
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.one-1 {
+  padding-left: 15px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.one-2 {
+  padding-left: 30px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.one-3 {
+  padding-left: 45px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.one-4 {
+  padding-left: 60px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.one-5 {
+  padding-left: 75px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.info {
+  display: flex; align-items: center; flex-wrap: nowrap
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.info span.s {
+  display: none; font-style: normal; margin-right: 5px; line-height: 100%; padding: 4px; vertical-align: middle; color: #ffffff; border-radius: 4px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.info em {
+  font-style: normal; font-size: 14px; color: #333333
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.genre {
+  padding-top: 8px; line-height: 100%; color: #666666
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.specialTips {
+  padding-top: 8px; line-height: 100%
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.specialTips span {
+  display: inline-block; padding: 2px; background: #999999; color: #ffffff
+}
+.ppItemDetail div.installation div.uninstallation ul.modules div.clean {
+  display: flex; margin-top: 10px; align-items: center; justify-content: flex-end
+}
+.ppItemDetail div.installation div.uninstallation ul.modules div.clean b {
+  font-weight: normal; margin-right: 5px; color: #666666
+}
+.ppItemDetail div.installation div.uninstallation ul.modules div.clean jtbc-field-switch {
+  --height: 24px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.dbTables {
+  display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.dbTables span jtbc-svg {
+  width: 14px; height: 14px; --fore-color: #000000
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li div.dbTables em {
+  display: inline-block; padding: 2px 4px; margin: 2px 0px 2px 4px; font-style: normal; line-height: 100%; background-color: #000000; color: #ffffff
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='-1'] {
+  border-left-color: #e6a23c
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='-1'] div.info span.s-1 {
+  display: inline-block; background-color: #e6a23c
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='0'] {
+  border-left-color: #67c23a
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='0'] div.info span.s0 {
+  display: inline-block; background-color: #67c23a
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='1'] {
+  border-left-color: #f56c6c
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li[status='1'] div.info span.s1 {
+  display: inline-block; background-color: #f56c6c
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li:first-child {
+  border-top-left-radius: 5px; border-top-right-radius: 5px
+}
+.ppItemDetail div.installation div.uninstallation ul.modules li:last-child {
+  border-bottom-width: 1px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px
+}
+.ppItemDetail div.tinyForm {
+  overflow: hidden; position: relative; z-index: 100
+}
+.ppItemDetail div.tinyForm div.tabtitle {
+  padding: 0px 10px; background: #f6f6f6
+}
+.ppItemDetail div.tinyForm div.tabtitle tabtitle.on {
+  border-radius: 0px; background: #ffffff
+}
+.ppItemDetail div.tinyForm div.button {
+  position: relative; z-index: 1000
+}
+@media screen and (min-width: 1680px) {
+  .ppItemList {
+    grid-template-columns: 1fr 1fr 1fr
+  }
+}

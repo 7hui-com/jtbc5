@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[option]]></name>
+      <default><![CDATA[<option value="{$value}">{$explain}</option>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[option_selected]]></name>
+      <default><![CDATA[<option value="{$value}" selected="selected">{$explain}</option>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[radio]]></name>
+      <default><![CDATA[<label class="radio"><input type="radio" role="field" name="{$name}" value="{$value}" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[radio_selected]]></name>
+      <default><![CDATA[<label class="radio"><input type="radio" role="field" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[checkbox]]></name>
+      <default><![CDATA[<label class="checkbox"><input type="checkbox" role="field" name="{$name}" value="{$value}" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[checkbox_selected]]></name>
+      <default><![CDATA[<label class="checkbox"><input type="checkbox" role="field" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
+    </item>
+  </item_list>
+</xml>

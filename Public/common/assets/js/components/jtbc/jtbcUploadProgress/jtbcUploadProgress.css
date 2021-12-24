@@ -1,0 +1,27 @@
+.container {
+  width: 100%; display: block !important
+}
+.container div.uploading {
+  width: 100%; padding-top: 5px
+}
+.container div.uploading item {
+  width: 100%; display: flex; align-items: stretch; margin-top: 5px; line-height: 20px; background: #ececec; position: relative; z-index: 100; transition: all .3s ease
+}
+.container div.uploading item filename {
+  display: block; flex: 1; padding: 5px 10px; word-break: break-all
+}
+.container div.uploading item filesize {
+  display: block; width: 100px; box-sizing: border-box; text-align: right; padding: 5px 10px; color: #666
+}
+.container div.uploading item progressbar {
+  display: block; width: 0%; height: 100%; background: #d1f1c0; position: absolute; top: 0px; left: 0px; z-index: -100; transition: width .3s linear
+}
+.container div.uploading item.error progressbar {
+  width: 100% !important; background-color: #ff9893
+}
+.container div.uploading item.out {
+  transform: translate(0, 10px); opacity: 0
+}
+.container div.uploading:empty {
+  display: none !important
+}

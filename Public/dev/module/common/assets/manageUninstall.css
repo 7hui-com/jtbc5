@@ -1,0 +1,24 @@
+.ppUninstall {
+  width: 100%
+}
+.ppUninstall div.veryImportant {
+  width: 100%; box-sizing: border-box; padding: 0px 20px 20px 20px
+}
+.ppUninstall div.veryImportant ul {
+  margin: 0px; padding: 10px; list-style: none; border-left: #e7505a 5px solid; background: #ffe4e6; border-radius: 5px
+}
+.ppUninstall div.veryImportant ul > li {
+  padding: 5px 0px; line-height: 160%
+}
+.ppUninstall div.veryImportant span.folder,
+.ppUninstall div.veryImportant span.table {
+  display: flex; color: #666666; align-items: center
+}
+.ppUninstall div.veryImportant span.folder jtbc-svg,
+.ppUninstall div.veryImportant span.table jtbc-svg {
+  --fore-color: #666666
+}
+.ppUninstall div.veryImportant span.folder em,
+.ppUninstall div.veryImportant span.table em {
+  font-style: normal; margin-left: 5px
+}

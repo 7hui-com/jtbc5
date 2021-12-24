@@ -1,0 +1,78 @@
+:host {
+  width: 100%; --item-height: 30px; --font-color: #666; --checked-border-color: #3e868f; --unchecked-border-color: #d1d1d1
+}
+.container {
+  width: 100%; display: grid !important; grid-gap: 10px; grid-template-columns: repeat(3, 1fr); justify-content: stretch
+}
+.container item {
+  display: block; min-width: 0px; box-sizing: border-box; height: var(--item-height); border: var(--unchecked-border-color) 1px solid; position: relative
+}
+.container item em {
+  display: block; box-sizing: border-box; width: 14px; height: 14px; border: var(--unchecked-border-color) 1px solid; position: absolute; top: 50%; left: 7px; transform: translate(0, -50%)
+}
+.container item span {
+  display: block; width: 100%; box-sizing: border-box; line-height: calc(var(--item-height) - 2px); padding: 0px 7px 0px 28px; color: var(--font-color); white-space: nowrap; word-break: keep-all; overflow: hidden; text-overflow: ellipsis; cursor: default
+}
+.container item.on {
+  border-color: var(--checked-border-color)
+}
+.container item.on em {
+  border-color: var(--checked-border-color)
+}
+.container item.on em::after {
+  content: ''; display: block; box-sizing: border-box; width: 5px; height: 8px; border-bottom: var(--checked-border-color) 2px solid; border-right: var(--checked-border-color) 2px solid; background: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% - 1px)) rotate(45deg)
+}
+.container item.on span {
+  color: var(--checked-border-color)
+}
+.container[columns='1'] {
+  grid-template-columns: repeat(1, 1fr)
+}
+.container[columns='2'] {
+  grid-template-columns: repeat(2, 1fr)
+}
+.container[columns='3'] {
+  grid-template-columns: repeat(3, 1fr)
+}
+.container[columns='4'] {
+  grid-template-columns: repeat(4, 1fr)
+}
+.container[columns='5'] {
+  grid-template-columns: repeat(5, 1fr)
+}
+.container[columns='6'] {
+  grid-template-columns: repeat(6, 1fr)
+}
+.container[columns='7'] {
+  grid-template-columns: repeat(7, 1fr)
+}
+.container[columns='8'] {
+  grid-template-columns: repeat(8, 1fr)
+}
+.container[columns='9'] {
+  grid-template-columns: repeat(9, 1fr)
+}
+.container[columns='10'] {
+  grid-template-columns: repeat(10, 1fr)
+}
+.container[columns='11'] {
+  grid-template-columns: repeat(11, 1fr)
+}
+.container[columns='12'] {
+  grid-template-columns: repeat(12, 1fr)
+}
+.container[align=center] item span {
+  text-align: center
+}
+.container[align=right] item span {
+  text-align: right
+}
+.container[type=radio] item em {
+  border-radius: 100%
+}
+.container[type=radio] item.on em::after {
+  width: 50%; height: 50%; background: var(--checked-border-color); border: 0px; border-radius: 100%; transform: translate(-50%, -50%)
+}
+.container.disabled item {
+  background-color: rgba(221, 221, 221, .3)
+}

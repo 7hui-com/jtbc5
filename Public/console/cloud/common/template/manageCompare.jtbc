@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[file]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageCompare.css" />
+<div class="ppCompare">
+  <template is="jtbc-template" url="{$>this.genre}/manageCompare?{$=$htmlEncode($request_query_rebuild(['type' => 'file']))}">
+    <form is="jtbc-form" class="form" method="post" opinion_name="opinion_file_${$meta_id}" error_mode="silent" action="{$>this.genre}/manageCompare?action=fileSave">
+      <input type="hidden" name="realpath" role="field" value="${$realPath}" /> 
+      <div class="path"><span>${$realPath}</span><span class="exit" role="dialog-fullpage-exit"><jtbc-svg name="close"></jtbc-svg></span></div>
+      <div class="title">
+        <span class="left">{$=$take('{$>self.path}.text-left-file-content', 'lng')}</span>
+        <span class="right">{$=$take('{$>self.path}.text-right-file-content', 'lng')}</span>
+      </div>
+      <div class="content"><jtbc-code-diff name="content" role="field" mode="${$content.mode}" leftvalue="${$content.leftvalue}" rightvalue="${$content.rightvalue}"></jtbc-code-diff></div>
+      <div class="btn">
+        <span class="left"><button class="b2" role="submit">{$=$take('{$>self.path}.text-button-save', 'lng')}</button></span>
+        <span class="right"><button class="b3" role="dialog-fullpage-exit">{$=$take('{$>self.path}.text-button-exit', 'lng')}</button></span>
+      </div>
+    </form>
+  </template>
+</div>
+<jtbc-script init="initCompare" src="{$>this.genre}/common/assets/js/manageCompare.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[jtbc]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageCompare.css" />
+<div class="ppCompare">
+  <template is="jtbc-template" url="{$>this.genre}/manageCompare?{$=$htmlEncode($request_query_rebuild(['type' => 'jtbc']))}">
+    <form is="jtbc-form" class="form" method="post" opinion_name="opinion_jtbc_${$meta_id}" error_mode="silent" action="{$>this.genre}/manageCompare?action=jtbcSave">
+      <input type="hidden" name="realpath" role="field" value="${$realPath}" />
+      <input type="hidden" name="node_key" role="field" value="${$node_key}" />
+      <input type="hidden" name="node_name" role="field" value="${$node_name}" />
+      <input type="hidden" name="jtbc_type" role="field" value="${$jtbc_type}" />
+      <div class="path"><span>${$realPath}&nbsp;{$=$take('{$>self.path}.text-file-1', 'lng')}&nbsp;${$node_key}&nbsp;{$=$take('{$>self.path}.text-file-2', 'lng')}</span><span class="exit" role="dialog-fullpage-exit"><jtbc-svg name="close"></jtbc-svg></span></div>
+      <div class="title">
+        <span class="left">{$=$take('{$>self.path}.text-left-jtbc-content', 'lng')}</span>
+        <span class="right">{$=$take('{$>self.path}.text-right-jtbc-content', 'lng')}</span>
+      </div>
+      <div class="content"><jtbc-code-diff name="content" role="field" mode="${$content.mode}" leftvalue="${$content.leftvalue}" rightvalue="${$content.rightvalue}"></jtbc-code-diff></div>
+      <div class="btn">
+        <span class="left"><button class="b2" role="submit">{$=$take('{$>self.path}.text-button-save', 'lng')}</button></span>
+        <span class="right"><button class="b3" role="dialog-fullpage-exit">{$=$take('{$>self.path}.text-button-exit', 'lng')}</button></span>
+      </div>
+    </form>
+  </template>
+</div>
+<jtbc-script init="initCompare" src="{$>this.genre}/common/assets/js/manageCompare.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

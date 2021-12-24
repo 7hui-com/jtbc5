@@ -1,0 +1,28 @@
+* {
+  margin: 0px; padding: 0px
+}
+html {
+  width: 100%; overflow-y: scroll
+}
+body {
+  width: 100%; background: #eee; color: #000; font-size: 12px; font-family: Arial, Verdana; text-size-adjust: none
+}
+ul,ol {
+  list-style: none
+}
+img {
+  border: 0px
+}
+a {
+  color: #000; text-decoration: none
+}
+a:hover {
+  color: #000; text-decoration: none
+}
+a[href=''],
+a:not([href]) {
+  cursor: default
+}
+var {
+  display: none !important
+}

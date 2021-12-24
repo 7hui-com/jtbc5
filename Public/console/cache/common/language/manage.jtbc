@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[text-menu-1]]></name>
+      <zh-cn><![CDATA[全部缓存列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-list]]></name>
+      <zh-cn><![CDATA[缓存列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-list-null]]></name>
+      <zh-cn><![CDATA[当前条件下没有找到任何缓存]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-empty]]></name>
+      <zh-cn><![CDATA[确认清空所有缓存吗？]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-empty]]></name>
+      <zh-cn><![CDATA[清空所有缓存]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-delete]]></name>
+      <zh-cn><![CDATA[删除缓存[{$[id]}]成功]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-empty]]></name>
+      <zh-cn><![CDATA[清空所有缓存成功]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

@@ -1,0 +1,21 @@
+.ppCreate {
+  width: 550px; margin: 0px auto; max-height: 400px; overflow-y: scroll
+}
+.ppCreate fieldset {
+  display: block; min-width: inherit; margin: 0px; padding: 0px; border: #d1d1d1 1px solid; border-radius: 0px
+}
+.ppCreate fieldset legend {
+  margin-left: 5px; padding: 0 5px; font-size: 12px; color: #666666
+}
+.ppCreate fieldset div.icons {
+  display: block; padding: 8px 10px
+}
+.ppCreate > ul {
+  width: 500px; margin: 0px auto; padding: 10px 0px; list-style: none
+}
+.ppCreate > ul > li {
+  padding: 10px 0px
+}
+.ppCreate jtbc-field-icon-selector {
+  --icon-list-border: 0px; --icon-list-padding: 0px; --columns-width: 38px
+}

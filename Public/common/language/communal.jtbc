@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[home]]></name>
+      <zh-cn><![CDATA[首页]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[logo]]></name>
+      <zh-cn><![CDATA[logo.svg]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[title]]></name>
+      <zh-cn><![CDATA[JTBC(5.0)]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[keywords]]></name>
+      <zh-cn><![CDATA[JTBC,JTBC_CMS,CMS,网站系统,网站管理系统,网站内容管理系统]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[description]]></name>
+      <zh-cn><![CDATA[JTBC网站内容管理系统是一套可对现有模块进行扩充与克隆的网站系统核心，采用UTF-8编码，采取 语言/模板/程序 两两分离的技术模式。]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[footer-link]]></name>
+      <zh-cn><![CDATA[友情链接]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[footer-qrcode]]></name>
+      <zh-cn><![CDATA[官方微信]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[footer-address]]></name>
+      <zh-cn><![CDATA[详细地址]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[footer-phone]]></name>
+      <zh-cn><![CDATA[联系电话]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[footer-phone-tips]]></name>
+      <zh-cn><![CDATA[工作日 9:00-11:30 13:30-18:00]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manage.css" />
+<template is="jtbc-template" mt="true" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+  <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+  <div class="manager">
+    <toplink>
+      <jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list&amp;category=package&amp;pitchon=a.toplink-list-1">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;category=module&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;category=plugin&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a></jtbc-pitchon>
+    </toplink>
+    <div class="chief">
+      <h3>{$=$take('manage.text-tit-list-' . ($get_query_string('category')?: 'package'), 'lng')}</h3>
+      <rightarea><select name="filter" is="jtbc-select" value="${$filter}" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'filter' => null]))}&amp;filter="><option value="all">{$=$take('manage.text-filter-all', 'lng')}</option><option value="mine">{$=$take('manage.text-filter-mine', 'lng')}</option></select>&nbsp;&nbsp;<jtbc-tiny-search width="200" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'keyword' => null]))}" placeholder="{$=$take('universal:config.keyword', 'lng')}" keyword="${$keyword}"></jtbc-tiny-search></rightarea>
+      <div class="ppContainer" category="${$category}" keyword="${$keyword}">
+        <div class="ppItemLoading"><span>{$=$take('manage.text-loading', 'lng')}</span></div>
+        <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'originalList']))}">
+          <template is="jtbc-template" key="data">
+            <div class="ppItemList" isloop="true">
+              <div class="item">
+                <div class="text">
+                  <div class="icon"><a is="jtbc-anchor" title="{$=$take('config.type_id', 'lng')}: ${$type_id}" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog"><img src="${$images}" alt="${$type_id}" /></a></div>
+                  <div class="info">
+                    <a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog">${$.markKeywords($title, $.htmlEncode($.parent.getAttribute('keyword')))}</a>
+                    <p>${$.markKeywords($intro, $.htmlEncode($.parent.getAttribute('keyword')))}</p>
+                  </div>
+                  <span if="${$price == 0}" class="price">{$=$take('manage.text-free', 'lng')}</span>
+                  <span else class="price">{$=$take('manage.text-rmb', 'lng')}${$price}</span>
+                </div>
+                <div class="bar">
+                  <span if="${$status == 1}" class="adapted">{$=$take('manage.text-adapted', 'lng')}</span>
+                  <span else class="adapted">{$=$take('manage.text-unadapted', 'lng')}</span>
+                  <span class="install"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;autostart=true&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog"><button class="b1" status="${$status}">{$=$take('manage.text-button-install', 'lng')}</button></a></span>
+                </div>
+              </div>
+            </div>
+            <div class="ppItemListEmpty"><span>{$=$take('manage.text-tips-list-null', 'lng')}</span></div>
+          </template>
+          <div if="${$pagination.recordcount != 0}" class="control">
+            <div><span class="ash">{$=$take('manage.text-pagination-record-1', 'lng')}&nbsp;<b>${$pagination.recordcount}</b>&nbsp;{$=$take('manage.text-pagination-record-2', 'lng')}</span></div>
+            <div class="pagination"><jtbc-pagination current-page="${$pagination.pagenum}" total-page="${$pagination.pagecount}" url="{$=$htmlEncode($request_query_rebuild(['type' => null]))}"></jtbc-pagination></div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[detail]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manage.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('manage.text-tit-' . ($get_query_string('category')?: 'package'), 'lng')}</div>
+  <div class="ppItemDetail">
+    <template is="jtbc-template" mt="true" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'originalDetail']))}">
+      <template is="jtbc-template" key="data">
+        <div class="intro">
+          <div class="bigText"><span>${$title}</span></div>
+          <div class="icon"><img src="${$images}" alt="${$type_id}" /></div>
+          <span if="${$price == 0}" class="price">{$=$take('manage.text-free', 'lng')}</span>
+          <span else class="price">{$=$take('manage.text-rmb', 'lng')}${$price}</span>
+        </div>
+        <div class="tinyForm">
+          <div class="installation"></div>
+          <div is="jtbc-tab" value="0">
+            <div class="tabtitle"><tabtitle>{$=$take('config.content', 'lng')}</tabtitle><tabtitle>{$=$take('config.revision_history', 'lng')}</tabtitle><tabtitle>{$=$take('config.screenshot', 'lng')}</tabtitle></div>
+            <div class="mainContent">
+              <div class="tabcontent">
+                <tabcontent><jtbc-json2html value="${$content}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
+                <tabcontent><jtbc-json2html value="${$revision_history}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
+                <tabcontent><jtbc-json2html class="screenshots" value="${$screenshot}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
+              </div>
+              <div class="basic">
+                <ul>
+                  <li><b>{$=$take('config.type_id', 'lng')}: </b><span>${$type_id}</span></li>
+                  <li><b>{$=$take('config.latest_version', 'lng')}: </b><span>${$latest_version}</span></li>
+                  <li><b>{$=$take('config.author', 'lng')}: </b><span>${$author}</span></li>
+                  <li><b>{$=$take('config.updated_at', 'lng')}: </b><span>${$updated_at}</span></li>
+                  <li><b>{$=$take('config.minimum_kernel_version', 'lng')}: </b><span>${$minimum_kernel_version}</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="button central"><button if="${$status == 1}" class="b4 install" text="{$=$take('manage.text-button-install', 'lng')}" text_confirm="{$=$take('manage.text-button-install-confirm', 'lng')}" text_loading="{$=$take('manage.text-button-install-loading', 'lng')}" prepare_url="{$>this.genre}/manage?action=prepare&amp;category=${$type}&amp;type_id=${$type_id}&amp;id=${$id}&amp;param=${encodeURIComponent($.raw.param)}" role="submit">{$=$take('manage.text-button-install', 'lng')}</button><button else class="b1 locked">{$=$take('manage.text-button-install-invalid', 'lng')}</button></div>
+        </div>
+      </template>
+    </template>
+  </div>
+</div>
+<template class="pay">
+  <div class="box">
+    <h4>{$=$take('manage.text-title-pay', 'lng')}</h4>
+    <h5>{$=$take('manage.text-title-pay-tips', 'lng')}</h5>
+    <div class="qrcode"><img src="${$qrcodeurl}"></div>
+    <p class="prominent"><span>{$=$take('manage.text-installation-tips-1-1', 'lng')}<em>${$quota}</em>{$=$take('manage.text-installation-tips-1-2', 'lng')}</span></p>
+  </div>
+</template>
+<template class="payagain">
+  <div class="box">
+    <h4>{$=$take('manage.text-title-pay', 'lng')}</h4>
+    <h5>{$=$take('manage.text-title-pay-tips', 'lng')}</h5>
+    <div class="qrcode"><img src="${$qrcodeurl}"></div>
+    <p class="prominent"><span>{$=$take('manage.text-installation-tips-2-1', 'lng')}<em>${$quota}</em>{$=$take('manage.text-installation-tips-2-2', 'lng')}<em>${$thisyear}</em>{$=$take('manage.text-installation-tips-2-3', 'lng')}</span></p>
+  </div>
+</template>
+<template class="installation_package">
+  <div class="box">
+    <h4>{$=$take('manage.text-installation-title-1-1', 'lng')}<em>${$content.type_id}</em>{$=$take('manage.text-installation-title-1-2-1', 'lng')}</h4>
+    <p class="prominent"><span>{$=$take('manage.text-installation-tips-3-1', 'lng')}<em>${$thisyear}</em>{$=$take('manage.text-installation-tips-3-2', 'lng')}<em>${$quota}</em>{$=$take('manage.text-installation-tips-3-3', 'lng')}<em>${$quota - 1}</em>{$=$take('manage.text-installation-tips-3-4', 'lng')}</span></p>
+    <div class="uninstallation">
+      <p class="attention">{$=$take('manage.text-uninstallation-tips-1', 'lng')}</p>
+      <form class="form" is="jtbc-form" method="post" error_mode="silent" action="{$>this.genre}/manage?action=install">
+        <ul class="modules">
+          <template is="jtbc-template" key="content.modules">
+            <li status="${function(){if ($batchUninstallAble) { return '1'; } else if ($isCleanable) { return '-1'; } else { return '0'; }}()}">
+              <div class="one one-${$genre.split('/').length - 1}">
+                <div class="info"><span class="s s-1"><nobr>{$=$take('manage.text-uninstallation-status--1', 'lng')}</nobr></span><span class="s s0"><nobr>{$=$take('manage.text-uninstallation-status-0', 'lng')}</nobr></span><span class="s s1"><nobr>{$=$take('manage.text-uninstallation-status-1', 'lng')}</nobr></span><em><nobr>${$title}</nobr></em></div>
+                <div class="genre"><span><nobr>${$genre}</nobr></span></div>
+                <div class="specialTips" if="${$is_hide_mode}"><span><nobr>{$=$take('manage.text-uninstallation-tips-3', 'lng')}</nobr></span></div>
+              </div>
+              <div class="two">
+                <div if="${$db_tables.length != 0}" class="dbTables"><span><jtbc-svg name="db"></jtbc-svg></span><template is="jtbc-template" key="db_tables"><em><nobr>${$tableName}</nobr></em></template></div>
+                <div if="${$isCleanable}" class="clean"><b>{$=$take('manage.text-uninstallation-clean', 'lng')}</b><jtbc-field-switch name="clean_${$genre}" role="field" value="${typeof($batchTruncateMode) == 'undefined'? 0: $batchTruncateMode}"></jtbc-field-switch></div>
+              </div>
+            </li>
+          </template>
+        </ul>
+        <input type="hidden" name="id" role="field" value="${$content.id}" />
+        <input type="hidden" name="type_id" role="field" value="${$content.type_id}" />
+        <input type="hidden" name="category" role="field" value="${$content.category}" />
+        <input type="hidden" name="param" role="field" value="${$content.param}" />
+        <p class="agree"><label class="checkbox"><input type="checkbox" name="agree" role="field" value="1" /><span>{$=$take('manage.text-uninstallation-tips-2', 'lng')}</span></label></p>
+      </form>
+    </div>
+  </div>
+</template>
+<template class="installation_module">
+  <div class="box">
+    <h4>{$=$take('manage.text-installation-title-1-1', 'lng')}<em>${$content.type_id}</em>{$=$take('manage.text-installation-title-1-2-2', 'lng')}</h4>
+    <p class="prominent"><span>{$=$take('manage.text-installation-tips-3-1', 'lng')}<em>${$thisyear}</em>{$=$take('manage.text-installation-tips-3-2', 'lng')}<em>${$quota}</em>{$=$take('manage.text-installation-tips-3-3', 'lng')}<em>${$quota - 1}</em>{$=$take('manage.text-installation-tips-3-4', 'lng')}</span></p>
+    <form class="form" is="jtbc-form" method="post" error_mode="silent" action="{$>this.genre}/manage?action=install">
+      <input type="hidden" name="id" role="field" value="${$content.id}" />
+      <input type="hidden" name="type_id" role="field" value="${$content.type_id}" />
+      <input type="hidden" name="category" role="field" value="${$content.category}" />
+      <input type="hidden" name="param" role="field" value="${$content.param}" />
+      <ul class="form">
+        <li><input type="text" name="module_name" role="field" placeholder="{$=$take('config.module_name', 'lng')}" /></li>
+        <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" /></li>
+        <li><span class="tips">{$=$take('manage.text-installation-tips-4', 'lng')}</span></li>
+        <li>
+          <fieldset>
+            <legend>{$=$take('config.module_icon', 'lng')}</legend>
+            <div class="icons"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
+          </fieldset>
+        </li>
+      </ul>
+    </form>
+  </div>
+</template>
+<template class="installation_plugin">
+  <div class="box">
+    <h4>{$=$take('manage.text-installation-title-1-1', 'lng')}<em>${$content.type_id}</em>{$=$take('manage.text-installation-title-1-2-3', 'lng')}</h4>
+    <p class="prominent"><span>{$=$take('manage.text-installation-tips-3-1', 'lng')}<em>${$thisyear}</em>{$=$take('manage.text-installation-tips-3-2', 'lng')}<em>${$quota}</em>{$=$take('manage.text-installation-tips-3-3', 'lng')}<em>${$quota - 1}</em>{$=$take('manage.text-installation-tips-3-4', 'lng')}</span></p>
+    <form class="form" is="jtbc-form" method="post" error_mode="silent" action="{$>this.genre}/manage?action=install">
+      <input type="hidden" name="id" role="field" value="${$content.id}" />
+      <input type="hidden" name="type_id" role="field" value="${$content.type_id}" />
+      <input type="hidden" name="category" role="field" value="${$content.category}" />
+      <input type="hidden" name="param" role="field" value="${$content.param}" />
+    </form>
+  </div>
+</template>
+<jtbc-script init="initDetail" autostart="{$=$get_query_string('autostart') == 'true'? 'true': 'false'}" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

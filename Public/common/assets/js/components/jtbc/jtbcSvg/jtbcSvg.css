@@ -1,0 +1,18 @@
+:host {
+  width: 20px; height: 20px; display: inline-block; --fore-color: #000000; --second-color: #666666; --third-color: #cccccc
+}
+container {
+  width: 100%; height: 100%; display: block !important
+}
+container svg {
+  vertical-align: top
+}
+container svg g.fore {
+  fill: var(--fore-color)
+}
+container svg g.second {
+  fill: var(--second-color)
+}
+container svg g.third {
+  fill: var(--third-color)
+}

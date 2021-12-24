@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageLog.css" />
+<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUpgrade.css" />
+<div class="dialogPopup">
+  <div class="ppLog ppUpgrade">
+    <div class="mainBox" baseurl="{$>this.genre}/manageLog">
+      <div class="title">{$=$take('{$>self.path}.text-tit-cloud-log-list', 'lng')}</div>
+      <div class="upgradeBox">
+        <div class="tinyForm">
+          <div class="top">
+            <div class="tab"><tabtitle class="on" value="all">{$=$take('{$>self.path}.text-list-all', 'lng')}</tabtitle><template is="jtbc-template" url="{$>this.genre}/manageLog?type=getTab"><template is="jtbc-template" key="data"><tabtitle value="${$value}">${$title}</tabtitle></template></template></div>
+            <div class="hints">{$=$take('{$>self.path}.text-list-hints', 'lng')}</div>
+          </div>
+          <div class="list"></div>
+          <div class="listEmpty">{$=$take('{$>self.path}.text-tips-list-null', 'lng')}</div>
+          <template class="listTemplate" is="jtbc-template" mode="target" target="div.ppLog .list" url="{$>this.genre}/manageLog?type=list">
+            <template is="jtbc-template" key="data">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="70" class="center">{$=$take('{$>self.path}.text-type', 'lng')}</th>
+                    <th>{$=$take('{$>self.path}.text-version', 'lng')}</th>
+                    <th width="120">{$=$take('{$>self.path}.text-time', 'lng')}</th>
+                  </tr>
+                </thead>
+                <tbody isloop="true">
+                  <tr class="item item-${$id}">
+                    <td class="center"><span class="type type-${$type}">${$type_text}</span></td>
+                    <td>
+                      <div if="${['module','plugin'].includes($type)}" class="genre"><span if="${$type == 'plugin'}" class="name">${$.raw.genre == null? '': $genre.substring($genre.lastIndexOf('/') + 1)}</span><span else class="genre">${$genre}</span></div>
+                      <div class="version"><span>${$version}</span><jtbc-svg if="${$mode == 0}" name="direction_up" class="direction direction_up"></jtbc-svg><jtbc-svg else name="direction_down" class="direction direction_down"></jtbc-svg><span>${$target_version}</span><span if="${$can_downgrade}" class="downgrade" downgrade_id="${$id}" downgrade_type="${$type}" downgrade_genre="${$.raw.genre == null? '': $genre}" downgrade_zip_path="${$downgrade_zip_path}">{$=$take('{$>self.path}.text-button-downgrade', 'lng')}</span></div>
+                    </td>
+                    <td>${$time}</td>
+                  </tr>
+                  <tr if="${$can_downgrade}" class="downgrade downgrade-${$id}">
+                    <td colspan="3" class="content"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </template>
+            <div class="pagination"><jtbc-pagination current-page="${$pagination.pagenum}" total-page="${$pagination.pagecount}" maxlength="1"></jtbc-pagination></div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <template class="downgrade" url="{$>this.genre}/manageDowngrade?type=confirm">
+    <form is="jtbc-form" method="post" action="{$>this.genre}/manageDowngrade?action=downgrade">
+      <template is="jtbc-template">
+        <input type="hidden" name="id" role="field" value="${$id}" />
+        <input type="hidden" name="type" role="field" value="${$type}" />
+        <input type="hidden" name="genre" role="field" value="${$genre}" />
+        <input type="hidden" name="zip_path" role="field" value="${$zip_path}" />
+        <div class="downgradeList">
+          <span class="arrow"></span>
+          <ul class="diff" zip_path="${$zip_path}">{$=$take('manageUpgrade.part-step2-diff')}</ul>
+          <div class="submit"><button class="b2 submit" role="submit">{$=$take('{$>self.path}.text-button-downgrade-confirm', 'lng')}</button></div>
+        </div>
+      </template>
+    </form>
+  </template>
+</div>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manageLog.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

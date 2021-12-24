@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[dictionary]]></name>
+      <zh-cn><![CDATA[从数据字典]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[jtbc]]></name>
+      <zh-cn><![CDATA[从语言文件]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

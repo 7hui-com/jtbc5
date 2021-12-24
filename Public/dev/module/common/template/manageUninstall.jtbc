@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[uninstall]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageUninstall.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('{$>self.path}.text-tit-uninstall', 'lng')}({$=$htmlEncode($get_query_string('genre'))})</div>
+  <template is="jtbc-template" url="{$>this.genre}/manageUninstall?{$=$htmlEncode($request_query_rebuild(['type' => 'uninstall']))}">
+    <div if="${$status == 401}" class="ppUninstall">
+      <div class="tinyForm">
+        <ul>
+          <li><div class="icon"><jtbc-svg name="alert"></jtbc-svg></div></li>
+          <li><div class="text">{$=$take('{$>self.path}.text-message-1', 'lng')}</div></li>
+        </ul>
+        <div class="button central"><button class="b2 ok" role="submit">{$=$take('::communal.iknow', 'lng')}</button></div>
+      </div>
+    </div>
+    <div if="${$status == 402}" class="ppUninstall">
+      <div class="tinyForm">
+        <ul>
+          <li><div class="icon"><jtbc-svg name="alert"></jtbc-svg></div></li>
+          <li><div class="text">{$=$take('{$>self.path}.text-message-2', 'lng')}</div></li>
+        </ul>
+        <div class="button central"><button class="b2 ok" role="submit">{$=$take('::communal.iknow', 'lng')}</button></div>
+      </div>
+    </div>
+    <div else class="ppUninstall">
+      <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageUninstall?action=uninstall">
+        <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
+        <div class="tinyForm">
+          <ul>
+            <li><div class="icon"><jtbc-svg name="alert"></jtbc-svg></div></li>
+            <li><div class="text">{$=$take('{$>self.path}.text-message-3', 'lng')}</div></li>
+          </ul>
+          <div class="veryImportant">
+            <ul>
+              <li><b>{$=$take('{$>self.path}.text-tit-delete-folder', 'lng')}</b></li>
+              <li><span class="folder"><jtbc-svg name="folder"></jtbc-svg><em>${$uninstallFolder}</em></span></li>
+              <li if="${$uninstallTableNameList.length != 0}"><b>{$=$take('{$>self.path}.text-tit-drop-table', 'lng')}</b></li>
+              <template is="jtbc-template" key="uninstallTableNameList">
+                <li><span class="table"><jtbc-svg name="table"></jtbc-svg><em>${$tableName}</em></span></li>
+              </template>
+            </ul>
+          </div>
+          <div class="button central"><button class="b2" role="submit">{$=$take('::communal.confirm-uninstall', 'lng')}</button></div>
+        </div>
+      </form>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initUninstall" src="{$>this.genre}/common/assets/js/manageUninstall.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

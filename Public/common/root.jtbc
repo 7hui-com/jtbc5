@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[version]]></name>
+      <zh-cn><![CDATA[5000]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[status]]></name>
+      <zh-cn><![CDATA[ok]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[upgraded_at]]></name>
+      <zh-cn><![CDATA[0]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[downgraded_at]]></name>
+      <zh-cn><![CDATA[0]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[website]]></name>
+      <zh-cn><![CDATA[https://www.jtbc.cn/]]></zh-cn>
+    </item>
+  </item_list>
+</xml>
