@@ -9,14 +9,17 @@ php8.0+，mysql8.0+
 
 ### 1.NGINX
 需要在配置文件中的 server 下增加配置：
+```
 if (!-f $request_filename) {
   rewrite ^(.*)$ /index.php$1 last;
   break;
 }
+```
 
 ### 2.IIS
 需要安装地址重写模块，下载地址：https://www.iis.net/downloads/microsoft/url-rewrite
 安装完成之后，在 Public 目录下设置 web.config 文件，内容为：
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -33,5 +36,6 @@ if (!-f $request_filename) {
     </rewrite>
   </system.webServer>
 </configuration>
+```
 
 © 2004~2022 上海七慧网络科技有限公司 All Rights Reserved.
