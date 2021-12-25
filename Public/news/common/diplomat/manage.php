@@ -66,15 +66,18 @@ class Diplomat extends Ambassador {
     $model = new TinyModel();
     $model -> pageNum = $page;
     $model -> pageSize = $pagesize;
-    if ($this -> guard -> role -> isSuper !== true)
+    if (!empty($myCurrentCategory))
     {
-      if (!empty($myCurrentCategory))
+      $model -> where -> category -> in($myCurrentCategory);
+    }
+    else
+    {
+      if ($this -> guard -> role -> isSuper !== true)
       {
-        $model -> where -> category -> in($myCurrentCategory);
-      }
-      else if (!empty($myCategory))
-      {
-        $model -> where -> category -> in($myCategory);
+        if (!empty($myCategory))
+        {
+          $model -> where -> category -> in($myCategory);
+        }
       }
     }
     if ($published != -1)

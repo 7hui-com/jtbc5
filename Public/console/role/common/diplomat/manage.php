@@ -43,7 +43,11 @@ class Diplomat extends Ambassador {
       {
         $sub = [];
         $hasCategory = false;
-        if (in_array($folder, $hasCategoryFolders)) $hasCategory = true;
+        if (in_array($folder, $hasCategoryFolders))
+        {
+          $categoryTitle = Jtbc::take('global.' . $folder . ':category.title', 'cfg');
+          $hasCategory = is_string($categoryTitle)? true: false;
+        }
         $guideLink = Jtbc::take('global.' . $folder . ':guide.link', 'cfg');
         $guideTitle = Jtbc::take('global.' . $folder . ':guide.title', 'cfg');
         if (!is_null($guideLink))

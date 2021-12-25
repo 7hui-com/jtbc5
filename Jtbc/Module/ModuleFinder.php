@@ -61,7 +61,10 @@ class ModuleFinder
         if (!$item -> isDot() && $item -> isDir())
         {
           $folder = $item -> getFilename();
-          if (!in_array($folder, explode(',', $order))) $order .= ',' . $folder;
+          if (!is_string($order) || !in_array($folder, explode(',', $order)))
+          {
+            $order .= ',' . $folder;
+          }
         }
       }
       $orderArr = is_null($order)? null: explode(',', $order);

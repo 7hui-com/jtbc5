@@ -51,6 +51,16 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  getValueArr() {
+    let result = [];
+    let currentValue = this.currentValue;
+    if (currentValue != null && currentValue.trim() != '')
+    {
+      result = JSON.parse(currentValue);
+    };
+    return result;
+  };
+
   render() {
     let container = this.container;
     container.innerHTML = '';
@@ -61,7 +71,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
 
   resetChecked() {
     let container = this.container;
-    let valueArr = this.currentValue? JSON.parse(this.currentValue): [];
+    let valueArr = this.getValueArr();
     if (valueArr.length != 0)
     {
       container.querySelectorAll('input.item').forEach(el => {
@@ -76,12 +86,15 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     container.addEventListener('selectItem', e => {
       let result = false;
       let id = e.detail.res[1];
-      let valueArr = this.currentValue? JSON.parse(this.currentValue): [];
+      let valueArr = this.getValueArr();
       if (valueArr.includes(id))
       {
         result = true;
       };
       e.detail.result = result;
+    });
+    container.addEventListener('renderend', e => {
+      this.resetChecked();
     });
     container.delegateEventListener('input.item', 'click', function(){
       const fatherChecked = node => {

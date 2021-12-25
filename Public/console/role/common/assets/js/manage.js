@@ -5,7 +5,7 @@ export default class manage {
     let scarf = this.self.parentNode.querySelector('.scarf');
     if (scarf != null)
     {
-      let langSelector = "input[name='lang[]']";
+      let langSelector = 'input[name=lang_option]';
       scarf.delegateEventListener(langSelector, 'click', function(){
         if (!this.checked)
         {
@@ -171,7 +171,7 @@ export default class manage {
     {
       this.inited = true;
       let that = this;
-      let langSelector = "input[name='lang[]']";
+      let langSelector = 'input[name=lang_option]';
       let popup = this.dialog.shadowRoot.querySelector('.dialogPopup');
       let langElements = this.main.querySelectorAll(langSelector);
       let firstLang = this.main.querySelector(langSelector + ':checked');
