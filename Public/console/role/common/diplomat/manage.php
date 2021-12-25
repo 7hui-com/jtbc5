@@ -1,17 +1,17 @@
 <?php
 namespace Jtbc;
 use Jtbc\Model\TinyModel;
+use Jtbc\Model\StandardModel;
 use Jtbc\Module\ModuleFinder;
 use App\Console\Common\EmptySubstance;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Common\Traits\Action;
+use App\Console\Log\Logger;
 use App\Universal\Category\Guide;
 use App\Universal\Category\Category;
 
 class Diplomat extends Ambassador {
-  use Action\Typical\Add;
-  use Action\Typical\Edit;
   use Action\Typical\Batch;
   use Action\Typical\Delete;
   use Action\Typical\Order;
@@ -117,5 +117,85 @@ class Diplomat extends Ambassador {
     $es -> data -> genre = $genre;
     $es -> data -> category = $category;
     return $es -> toJSON();
+  }
+
+  public function actionAdd(Request $req)
+  {
+    $code = 0;
+    $message = '';
+    $ss = new Substance();
+    $source = $req -> post();
+    if ($this -> guard -> role -> checkPermission('add'))
+    {
+      $model = new StandardModel();
+      $model -> pocket = new Substance($source);
+      $autoValidate = $model -> autoValidate();
+      if ($autoValidate === true)
+      {
+        $re = $model -> autoSave();
+        if (is_numeric($re))
+        {
+          $code = 1;
+          $id = $model -> lastInsertId;
+          Logger::log($this, '::communal.log-add', ['id' => $id]);
+        }
+      }
+      else
+      {
+        $code = $autoValidate -> firstCode;
+        $message = $autoValidate -> firstMessage;
+        $ss -> errorTips = $autoValidate -> error;
+      }
+    }
+    else
+    {
+      $code = 4403;
+      $message = Jtbc::take('::communal.text-tips-error-4403', 'lng');
+    }
+    $ss -> code = $code;
+    $ss -> message = Jtbc::take($this -> getParam('basename') . '.text-add-code-' . $code, 'lng') ?: $message;
+    $result = $ss -> toJSON();
+    return $result;
+  }
+
+  public function actionEdit(Request $req)
+  {
+    $code = 0;
+    $message = '';
+    $ss = new Substance();
+    $id = intval($req -> get('id'));
+    $source = $req -> post();
+    if ($this -> guard -> role -> checkPermission('edit'))
+    {
+      $model = new StandardModel();
+      $model -> where -> id = $id;
+      $model -> pocket = new Substance($source);
+      $autoValidate = $model -> autoValidate();
+      if ($autoValidate === true)
+      {
+        $re = $model -> autoSave();
+        if (is_numeric($re))
+        {
+          $code = 1;
+          $message = Jtbc::take('::communal.save-done', 'lng');
+          Logger::log($this, '::communal.log-edit', ['id' => $id]);
+        }
+      }
+      else
+      {
+        $code = $autoValidate -> firstCode;
+        $message = $autoValidate -> firstMessage;
+        $ss -> errorTips = $autoValidate -> error;
+      }
+    }
+    else
+    {
+      $code = 4403;
+      $message = Jtbc::take('::communal.text-tips-error-4403', 'lng');
+    }
+    $ss -> code = $code;
+    $ss -> message = Jtbc::take($this -> getParam('basename') . '.text-edit-code-' . $code, 'lng') ?: $message;
+    $result = $ss -> toJSON();
+    return $result;
   }
 }

@@ -89,13 +89,21 @@ class Role implements RoleInterface
     $lang = $this -> lang;
     if (!$this -> isSuper)
     {
-      $roleLangArr = JSON::decode($this -> roleLang);
-      if (is_array($roleLangArr))
+      $roleLang = $this -> roleLang;
+      if (is_string($roleLang))
       {
-        if (!in_array($lang, $roleLangArr))
+        $roleLangArr = JSON::decode($roleLang);
+        if (is_array($roleLangArr))
         {
-          $lang = $roleLangArr[0];
-          $this -> setLang($lang);
+          if (!in_array($lang, $roleLangArr))
+          {
+            $lang = $roleLangArr[0];
+            $this -> setLang($lang);
+          }
+        }
+        else
+        {
+          $lang = 0;
         }
       }
       else
