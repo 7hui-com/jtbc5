@@ -205,7 +205,10 @@ export default class manage {
           let genre = this.getAttribute('genre');
           let segmentCategory = that.main.querySelector("input.segment_category[genre='" + genre + "']");
           tinyForm.querySelectorAll('.treeSelector').forEach(el => {
-            selected = selected.concat(JSON.parse(el.value));
+            if (el.value)
+            {
+              selected = selected.concat(JSON.parse(el.value));
+            };
           });
           segmentCategory.value = JSON.stringify(selected);
           that.main.querySelector('input[name=permission]').dispatchEvent(new CustomEvent('update', {bubbles: true}));

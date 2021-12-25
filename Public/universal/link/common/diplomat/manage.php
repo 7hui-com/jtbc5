@@ -52,9 +52,11 @@ class Diplomat extends Ambassador {
     $group = intval($req -> get('group') ?? -1);
     $published = intval($req -> get('published') ?? -1);
     $pagesize = intval(Jtbc::getConfig('pagesize'));
+    $lang = $this -> guard -> role -> getLang();
     $model = new TinyModel();
     $model -> pageNum = $page;
     $model -> pageSize = $pagesize;
+    $model -> where -> lang = $lang;
     if ($group != -1)
     {
       $model -> where -> group = $group;

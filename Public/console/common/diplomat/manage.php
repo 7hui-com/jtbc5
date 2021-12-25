@@ -60,10 +60,14 @@ class Diplomat extends Ambassador {
     $submenuList = [];
     $lang = $this -> guard -> role -> getLang();
     $name = $this -> guard -> account -> username;
-    $allLang = Jtbc::take('::sel_lang.*', 'lng');
-    foreach ($allLang as $key => $value)
+    $allLangs = Jtbc::take('::sel_lang.*', 'lng');
+    $roleLangs = $this -> guard -> role -> getRoleLangs();
+    foreach ($allLangs as $key => $value)
     {
-      $langList[] = ['lang' => $key, 'text' => $value];
+      if ($this -> guard -> role -> isSuper === true || in_array(intval($key), $roleLangs))
+      {
+        $langList[] = ['lang' => $key, 'text' => $value];
+      }
     }
     $hookResult = $this -> di -> hook -> backstageAccountSubmenu -> trigger($this);
     if (is_array($hookResult))

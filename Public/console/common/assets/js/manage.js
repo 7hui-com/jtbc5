@@ -70,7 +70,7 @@ export default class manage {
                   let navLastAnchor = container.querySelector('nav a[is=jtbc-anchor]:last-of-type');
                   if (navLastAnchor != null) navLastAnchor.click();
                 };
-                langEl.setAttribute('lang', data.currentLang);
+                langEl.setAttribute('lang', data.data.currentLang);
               };
               langEl.classList.remove('lock');
             });

@@ -66,6 +66,7 @@ class Diplomat extends Ambassador {
     $model = new TinyModel();
     $model -> pageNum = $page;
     $model -> pageSize = $pagesize;
+    $model -> where -> lang = $lang;
     if (!empty($myCurrentCategory))
     {
       $model -> where -> category -> in($myCurrentCategory);

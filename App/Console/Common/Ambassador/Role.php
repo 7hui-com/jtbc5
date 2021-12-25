@@ -21,6 +21,27 @@ class Role implements RoleInterface
   private $permissionInstance = null;
   private $cookieLangName = 'console_lang';
 
+  public function getRoleLangs()
+  {
+    $result = [];
+    $roleLang = $this -> roleLang;
+    if (is_string($roleLang))
+    {
+      $tempArray = JSON::decode($roleLang);
+      if (is_array($tempArray))
+      {
+        foreach ($tempArray as $item)
+        {
+          if (is_numeric($item))
+          {
+            $result[] = intval($item);
+          }
+        }
+      }
+    }
+    return $result;
+  }
+
   public function getSegment(string $argSegmentName)
   {
     return $this -> permission -> getSegment($this -> currentGenre, $argSegmentName);
@@ -89,26 +110,18 @@ class Role implements RoleInterface
     $lang = $this -> lang;
     if (!$this -> isSuper)
     {
-      $roleLang = $this -> roleLang;
-      if (is_string($roleLang))
+      $roleLangs = $this -> getRoleLangs();
+      if (empty($roleLangs))
       {
-        $roleLangArr = JSON::decode($roleLang);
-        if (is_array($roleLangArr))
-        {
-          if (!in_array($lang, $roleLangArr))
-          {
-            $lang = $roleLangArr[0];
-            $this -> setLang($lang);
-          }
-        }
-        else
-        {
-          $lang = 0;
-        }
+        $lang = 0;
       }
       else
       {
-        $lang = 0;
+        if (!in_array($lang, $roleLangs))
+        {
+          $lang = $roleLangs[0];
+          $this -> setLang($lang);
+        }
       }
     }
     return $lang;

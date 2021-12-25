@@ -24,7 +24,7 @@ trait Add
       $model -> pocket = new Substance($source);
       if ($model -> table -> hasField('lang'))
       {
-        $model -> pocket -> lang = $this -> guard -> role -> getLang();
+        $model -> coffer -> lang = $this -> guard -> role -> getLang();
       }
       if ($model -> table -> hasField('published'))
       {
