@@ -57,34 +57,37 @@ class Guard implements GuardInterface
   {
     $bool = false;
     $timestamp = time();
-    $tokenInfo = base64_decode($this -> token);
-    $tokenArray = JSON::decode($tokenInfo);
-    if (is_array($tokenArray))
+    $tokenInfo = $this -> token;
+    if (is_string($tokenInfo))
     {
-      $token = new Substance($tokenArray);
-      $accountId = intval($token -> id);
-      $tokenTimestamp = intval($token -> timestamp);
-      $tokenAuth = strval($token -> auth);
-      $constantName = Config::class . '::CONSOLE_LOGIN_REMEMBER_TIMEOUT';
-      $loginRemberTimeout = defined($constantName)? constant($constantName): 86400;
-      if ($timestamp - $tokenTimestamp < $loginRemberTimeout)
+      $tokenArray = JSON::decode(base64_decode($tokenInfo));
+      if (is_array($tokenArray))
       {
-        $account = new AccountModel();
-        $account -> where -> id = $accountId;
-        $rs = $account -> get();
-        if (!is_null($rs))
+        $token = new Substance($tokenArray);
+        $accountId = intval($token -> id);
+        $tokenTimestamp = intval($token -> timestamp);
+        $tokenAuth = strval($token -> auth);
+        $constantName = Config::class . '::CONSOLE_LOGIN_REMEMBER_TIMEOUT';
+        $loginRemberTimeout = defined($constantName)? constant($constantName): 86400;
+        if ($timestamp - $tokenTimestamp < $loginRemberTimeout)
         {
-          $rsPassword = $rs -> password;
-          if (md5($tokenTimestamp . $rsPassword . $accountId) == $tokenAuth)
+          $account = new AccountModel();
+          $account -> where -> id = $accountId;
+          $rs = $account -> get();
+          if (!is_null($rs))
           {
-            $bool = true;
-            $this -> isLogin = true;
-            $this -> account = $rs;
+            $rsPassword = $rs -> password;
+            if (md5($tokenTimestamp . $rsPassword . $accountId) == $tokenAuth)
+            {
+              $bool = true;
+              $this -> isLogin = true;
+              $this -> account = $rs;
+            }
           }
         }
       }
-      return $bool;
     }
+    return $bool;
   }
 
   public function createToken(array $argInfo, int $argRemember)
