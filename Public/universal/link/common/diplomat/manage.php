@@ -18,7 +18,7 @@ class Diplomat extends Ambassador {
     $model = new TinyModel();
     $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'));
     $schemaGenerator -> setLang($this -> guard -> role -> getLang());
-    if (!$this -> guard -> role -> checkPermission('published'))
+    if (!$this -> guard -> role -> checkPermission('publish'))
     {
       $schemaGenerator -> ignore -> published = true;
     }
@@ -35,7 +35,7 @@ class Diplomat extends Ambassador {
     $data = $model -> get();
     $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'));
     $schemaGenerator -> setLang($this -> guard -> role -> getLang());
-    if (!$this -> guard -> role -> checkPermission('published'))
+    if (!$this -> guard -> role -> checkPermission('publish'))
     {
       $schemaGenerator -> ignore -> published = true;
     }

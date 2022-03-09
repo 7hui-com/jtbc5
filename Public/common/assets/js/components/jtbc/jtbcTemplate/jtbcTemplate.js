@@ -3,10 +3,12 @@ export default class jtbcTemplate extends HTMLTemplateElement {
     return ['data', 'mode', 'target', 'url'];
   };
 
+  #data = {};
+  #dataProxy = null;
   #silentMode = false;
 
   set data(data) {
-    this.currentData = data;
+    this.#data = data;
     this.parentNode?.nodeType == 11? this.#silentMode = true: this.update();
   };
 
@@ -19,45 +21,64 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   };
 
   get data() {
-    var that = this;
-    const addProxy = (obj, flag = false) => {
-      const addProxy = obj => {
-        let result = obj;
-        if (obj.__isProxy === undefined)
-        {
-          result = new Proxy(obj, {
+    let that = this;
+    let result = this.#dataProxy;
+    if (result == null)
+    {
+      const addProxy = origin => {
+        const addProxy = origin => {
+          return new Proxy(origin, {
+            'proxies': {},
             get(target, key) {
-              if (key == '__isProxy') return true;
+              let result = null;
+              if (key == '__isProxy')
+              {
+                result = true;
+              }
+              else if (this.proxies.hasOwnProperty(key))
+              {
+                result = this.proxies[key];
+              }
               else
               {
-                return Reflect.get(target, key);
+                result = Reflect.get(target, key.startsWith('$_')? key.substring(2): key);
               };
+              return result;
             },
             set(target, key, value) {
-              let reflectSet = Reflect.set(target, key, value);
-              if (flag == true && !(Array.isArray(target) && key == 'length')) that.update();
-              return reflectSet;
+              if (value.__isProxy === true)
+              {
+                this.proxies[key] = value;
+              }
+              else
+              {
+                if (Reflect.get(target, key) != value)
+                {
+                  if (Reflect.set(target, key, value))
+                  {
+                    that.update();
+                  };
+                };
+              };
+              return true;
             },
           });
         };
-        return result;
+        const addProxies = proxy => {
+          Object.keys(proxy).forEach(key => {
+            let value = proxy[key];
+            if(typeof value == 'object')
+            {
+              proxy[key] = addProxies(addProxy(value));
+            };
+          });
+          return proxy;
+        };
+        return addProxies(addProxy(origin));
       };
-      const addProxies = (proxy, obj, key) => {
-        Object.keys(obj).forEach(key => {
-          let value = obj[key];
-          if(typeof value == 'object')
-          {
-            proxy[key] = addProxy(value);
-            addProxies(proxy[key], value, key);
-          };
-        });
-      };
-      let proxy = addProxy(obj);
-      addProxies(proxy, obj);
-      flag = true;
-      return proxy;
+      result = this.#dataProxy = addProxy(this.#data);
     };
-    return addProxy(this.currentData);
+    return result;
   };
 
   get mode() {
@@ -74,7 +95,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
 
   getDataByKey(key, appointedData) {
     let resultData = null;
-    let currentData = appointedData ?? this.currentData;
+    let currentData = appointedData ?? this.#data;
     if (currentData != null)
     {
       const getData = currentKey => {
@@ -113,7 +134,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
           this.getRootNode().querySelectorAll(this.target).forEach(el => {
             let newTemplate = document.createElement('template');
             newTemplate.setAttribute('is', 'jtbc-template');
-            newTemplate.setAttribute('data', JSON.stringify(this.currentData));
+            newTemplate.setAttribute('data', JSON.stringify(this.#data));
             newTemplate.innerHTML = this.innerHTML;
             el.innerHTML = newTemplate.outerHTML;
           });
@@ -123,7 +144,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   };
 
   render() {
-    let data = this.currentData;
+    let data = this.#data;
     if (data != null)
     {
       let eIndex = 0;
@@ -513,7 +534,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
     if (this.#silentMode == true)
     {
       this.#silentMode = false;
-      this.data = this.currentData;
+      this.data = this.#data;
     };
   };
 
@@ -531,7 +552,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
     this.locked = false;
     this.appended = false;
     this.temporary = [];
-    this.currentData = null;
+    this.#data = null;
     this.currentMode = 'standard';
     this.currentTarget = null;
     this.currentURL = null;

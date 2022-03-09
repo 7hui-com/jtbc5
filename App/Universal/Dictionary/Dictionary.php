@@ -12,10 +12,11 @@ class Dictionary
     return 'universal-dictionary-' . $argName;
   }
 
-  public static function get(string $argName)
+  public static function get(string $argName, string $argKey = null, int $argLang = null)
   {
-    $result = [];
+    $key = $argKey;
     $name = $argName;
+    $result = is_null($key)? []: null;
     $cache = new Cache();
     $cacheName = self::getCacheName($name);
     $content = $cache -> get($cacheName);
@@ -32,15 +33,27 @@ class Dictionary
     }
     if (is_array($content))
     {
-      $lang = Env::getLang();
+      $lang = $argLang ?? Env::getLang();
       $defaultLang = Env::getDefaultLang();
       foreach ($content as $item)
       {
         $currentItem = new Substance($item);
-        $key = $currentItem -> key;
-        if (!array_key_exists($key, $result))
+        $currentKey = $currentItem -> key;
+        $currentValue = $currentItem['value_' . $lang] ?: $currentItem['value_' . $defaultLang];
+        if (is_null($key))
         {
-          $result[$key] = $currentItem['value_' . $lang] ?: $currentItem['value_' . $defaultLang];
+          if (!array_key_exists($currentKey, $result))
+          {
+            $result[$currentKey] = $currentValue;
+          }
+        }
+        else
+        {
+          if ($key == $currentKey)
+          {
+            $result = $currentValue;
+            break;
+          }
         }
       }
     }

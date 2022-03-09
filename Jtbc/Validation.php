@@ -184,6 +184,17 @@ class Validation
     return $bool;
   }
 
+  public static function isHexColor($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    if (!self::isEmpty($string))
+    {
+      if (preg_match('/^#([0-9a-fA-F]{6})$/', $string)) $bool = true;
+    }
+    return $bool;
+  }
+
   public static function isIDCard($argString)
   {
     $bool = false;

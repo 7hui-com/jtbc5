@@ -30,6 +30,12 @@ export default class jtbcFetch extends HTMLElement {
       const setTemplateData = data => {
         if (currentName != null && data != null)
         {
+          this.querySelectorAll('jtbc-view').forEach(el => {
+            if (el.getAttribute('name') == currentName)
+            {
+              el.setAttribute('data', JSON.stringify(data));
+            };
+          });
           this.querySelectorAll('template[is=jtbc-template]').forEach(el => {
             if (el.getAttribute('name') == currentName)
             {
@@ -55,9 +61,10 @@ export default class jtbcFetch extends HTMLElement {
         };
         return result;
       }).then(data => {
-        if (Number.isInteger(data.code))
+        let code = data.code;
+        if (Number.isInteger(code))
         {
-          this.setAttribute('code', data.code);
+          this.setAttribute('code', code);
           if (data.hasOwnProperty('fragment'))
           {
             data.fragment = data.fragment ?? '';
@@ -66,7 +73,11 @@ export default class jtbcFetch extends HTMLElement {
               this.dispatchEvent(new CustomEvent('fetchdone'));
             });
           }
-          else setTemplateData(data.data);
+          else
+          {
+            if (code == 1) setTemplateData(data.data);
+            this.dispatchEvent(new CustomEvent('fetchdone'));
+          };
         };
       }).catch(e => {
         this.dispatchEvent(new CustomEvent('fetchcrash', {detail: {e: e}}));

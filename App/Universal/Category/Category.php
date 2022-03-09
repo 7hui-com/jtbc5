@@ -2,6 +2,7 @@
 namespace App\Universal\Category;
 use Jtbc\Jtbc;
 use Jtbc\Module;
+use Jtbc\Substance;
 use Jtbc\Facade\Cache;
 use Jtbc\Model\TinyModel;
 
@@ -31,18 +32,7 @@ class Category
 
   public function getTitleById(int $argId)
   {
-    $id = $argId;
-    $result = null;
-    $list = $this -> getList();
-    foreach ($list as $item)
-    {
-      if ($item['id'] == $id)
-      {
-        $result = $item['title'];
-        break;
-      }
-    }
-    return $result;
+    return strval($this -> getRecordById($argId, 'title'));
   }
 
   public function getChildIdById(int $argId, bool $argIncludeSelf = false)
@@ -161,6 +151,33 @@ class Category
       return $result;
     };
     return $getResultFromTree($this -> getTree());
+  }
+
+  public function getRecordById(int $argId, string $argFieldName = null)
+  {
+    $result = null;
+    $id = $argId;
+    $fieldName = $argFieldName;
+    $list = $this -> getList();
+    foreach ($list as $item)
+    {
+      if ($item['id'] == $id)
+      {
+        if (is_null($fieldName))
+        {
+          $result = new Substance($item);
+        }
+        else
+        {
+          if (array_key_exists($fieldName, $item))
+          {
+            $result = $item[$fieldName];
+          }
+        }
+        break;
+      }
+    }
+    return $result;
   }
 
   public function getTree()

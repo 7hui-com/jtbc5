@@ -110,6 +110,12 @@ export default class jtbcFieldUpload extends HTMLElement {
     let container = this.container;
     let dialog = document.getElementById('dialog');
     let miniMessage = document.getElementById('miniMessage');
+    container.querySelector('input.fileurl').addEventListener('focus', () => {
+      container.classList.add('focus');
+    });
+    container.querySelector('input.fileurl').addEventListener('blur', () => {
+      container.classList.remove('focus');
+    });
     container.querySelector('button.upload').addEventListener('click', () => {
       if (this.currentDisabled == false && this.currentUploading == false)
       {
@@ -184,7 +190,10 @@ export default class jtbcFieldUpload extends HTMLElement {
     let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><input type="text" name="fileurl" class="fileurl" /><span class="btn"><span class="bar"></span><button class="upload">Upload</button><input type="file" class="file" /></span></div>
+      <div class="container" style="display:none">
+        <div class="border"></div>
+        <div class="input"><span class="input"><input type="text" name="fileurl" class="fileurl" /></span><span class="btn"><span class="bar"></span><button class="upload">Upload</button><input type="file" class="file" /></span></div>
+      </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;

@@ -22,7 +22,7 @@ class Diplomat extends Ambassador {
     $category = new Category($this -> getParam('genre'), $lang);
     $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'), $lang);
     $schemaGenerator -> data -> category = $this -> guard -> role -> filterSegmentOptions($category -> getOptions(), 'category');
-    if (!$this -> guard -> role -> checkPermission('published'))
+    if (!$this -> guard -> role -> checkPermission('publish'))
     {
       $schemaGenerator -> ignore -> published = true;
     }
@@ -41,7 +41,7 @@ class Diplomat extends Ambassador {
     $category = new Category($this -> getParam('genre'), $lang);
     $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'), $lang);
     $schemaGenerator -> data -> category = $this -> guard -> role -> filterSegmentOptions($category -> getOptions(), 'category');
-    if (!$this -> guard -> role -> checkPermission('published'))
+    if (!$this -> guard -> role -> checkPermission('publish'))
     {
       $schemaGenerator -> ignore -> published = true;
     }

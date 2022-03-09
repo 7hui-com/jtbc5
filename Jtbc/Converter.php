@@ -6,6 +6,17 @@ namespace Jtbc;
 
 class Converter
 {
+  public static function convertHexToRGB(string $argHexCode)
+  {
+    $result = [];
+    $hexCode = $argHexCode;
+    if (Validation::isHexColor($hexCode))
+    {
+      $result = sscanf($hexCode, "#%02x%02x%02x");
+    }
+    return $result;
+  }
+
   public static function convertToArrayExceptNull(array $argArray)
   {
     $result = [];

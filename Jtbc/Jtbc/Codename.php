@@ -22,23 +22,11 @@ class Codename
     {
       $codename = $this -> codename;
       $backTrace = $this -> backTrace;
+      $currentGenre = Path::getCurrentGenre();
       if (!Validation::isEmpty($codename))
       {
         $result = $codename;
-        if (substr($codename, 0, 3) == '../')
-        {
-          $generation = 0;
-          $tempCodename = $codename;
-          while(str_starts_with($tempCodename, '../'))
-          {
-            $generation += 1;
-            $tempCodename = substr($tempCodename, 3);
-          }
-          $parentGenre = Path::getParentGenreByGeneration($generation);
-          if (is_null($parentGenre)) $result = 'global.' . $tempCodename;
-          else $result = 'global.' . $parentGenre . ':' . $tempCodename;
-        }
-        else if (substr($codename, 0, 1) == '*')
+        if (str_starts_with($codename, '*'))
         {
           if (is_array($backTrace))
           {
@@ -57,7 +45,25 @@ class Codename
             }
           }
         }
-        else if (in_array(substr($codename, 0, 10), ['universal:', 'universal/']))
+        else if (str_starts_with($codename, './'))
+        {
+          $tempCodename = substr($codename, 2);
+          $result = 'global.' . $currentGenre . (str_contains($tempCodename, ':')? '/': ':') . $tempCodename;
+        }
+        else if (str_starts_with($codename, '../'))
+        {
+          $generation = 0;
+          $tempCodename = $codename;
+          while(str_starts_with($tempCodename, '../'))
+          {
+            $generation += 1;
+            $tempCodename = substr($tempCodename, 3);
+          }
+          $parentGenre = Path::getParentGenreByGeneration($generation);
+          if (is_null($parentGenre)) $result = 'global.' . $tempCodename;
+          else $result = 'global.' . $parentGenre . ':' . $tempCodename;
+        }
+        else if (str_starts_with($codename, 'universal:') || str_starts_with($codename, 'universal/'))
         {
           $result = 'global.' . $codename;
         }
@@ -172,9 +178,9 @@ class Codename
     return $result;
   }
 
-  public function __construct(string $argCodeName, string $argType, $argBackTrace = null)
+  public function __construct(string $argCodename, string $argType, $argBackTrace = null)
   {
-    $this -> codename = $argCodeName;
+    $this -> codename = $argCodename;
     $this -> type = $argType;
     $this -> backTrace = $argBackTrace;
   }

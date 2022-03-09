@@ -1,8 +1,8 @@
 :host {
-  display: inline-block; font-size: 14px; background: #ffffff; --padding: 19px; --border-color: #d1d1d1; --border-width: 1px; --item-width: 30px; --item-height: 30px
+  display: inline-block; background: #ffffff; --padding: 19px; --font-size: 14px; --border-color: #d1d1d1; --border-width: 1px; --item-width: 30px; --item-height: 30px
 }
 container {
-  display: inline-block !important; user-select: none; border: var(--border-color) var(--border-width) solid
+  display: inline-block !important; user-select: none; font-size: var(--font-size); border: var(--border-color) var(--border-width) solid
 }
 container div.box {
   width: calc(var(--item-width) * 7); padding: var(--padding); display: none

@@ -15,8 +15,12 @@
       <zh-cn><![CDATA[分类图]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[keywords]]></name>
+      <zh-cn><![CDATA[关键词]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[intro]]></name>
-      <zh-cn><![CDATA[分类简介]]></zh-cn>
+      <zh-cn><![CDATA[简介]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[prefix]]></name>

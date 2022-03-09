@@ -55,7 +55,7 @@ class TinyModel extends ORM
       else
       {
         $module = $namedArgs -> module instanceof Module? $namedArgs -> module: new Module($namedArgs -> genre);
-        $tableName = $namedArgs -> exists('subtable')? $module -> getTableNameByKey($subtable): $module -> getTableName();
+        $tableName = $namedArgs -> exists('subtable')? $module -> getTableNameByKey($namedArgs -> subtable): $module -> getTableName();
       }
     }
     if (!is_null($tableName))

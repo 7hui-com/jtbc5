@@ -1,0 +1,102 @@
+:host {
+  width: 500px; display: inline-block; vertical-align: top; --font-size: 14px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index); cursor: pointer
+}
+.container input {
+  box-sizing: border-box; outline: none; cursor: pointer
+}
+.container input.text {
+  width: calc(100% - 30px); height: 30px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200; pointer-events: none
+}
+.container span.box {
+  display: block; width: 100%; height: 100%; box-sizing: border-box; background: url(../../../../svg/select.svg) #fff calc(100% - 4px) center no-repeat; background-size: 20px; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; transition: all .3s ease
+}
+.container span.close {
+  display: block; width: 20px; height: 20px; background: #fff; opacity: 0; border-radius: 100%; transform: translate(0, -50%); position: absolute; right: 5px; top: 50%; z-index: 80; transition: opacity .3s ease
+}
+.container span.close::before {
+  content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(45deg); position: absolute; top: 50%; left: 50%; z-index: 100
+}
+.container span.close::after {
+  content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(-45deg); position: absolute; top: 50%; left: 50%; z-index: 100
+}
+.container span.close.on {
+  z-index: 1000
+}
+.container span.close.on:hover {
+  opacity: 1; background-color: #f2f2f2
+}
+.container div.selector {
+  display: none; opacity: 0; position: absolute; left: 0px; top: 100%; z-index: 100; transition: all .3s ease
+}
+.container div.selector::before {
+  content: ''; display: block; width: 0px; height: 0px; border: 6px solid; border-color: transparent transparent #d1d1d1 transparent; position: absolute; top: -12px; left: 8px; z-index: 100
+}
+.container div.selector::after {
+  content: ''; display: none; width: 0px; height: 0px; border: 6px solid; border-color: #d1d1d1 transparent transparent transparent; position: absolute; top: 100%; left: 8px; z-index: 100
+}
+.container div.selector ul {
+  list-style-type: none; margin: 0px; padding: 0px; background: #ffffff; box-sizing: border-box; border: #d1d1d1 1px solid; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+}
+.container div.selector ul li {
+  position: relative
+}
+.container div.selector ul li span {
+  display: block; white-space: nowrap; line-height: 160%; padding: 5px 30px 5px 10px; font-size: var(--font-size); color: #333
+}
+.container div.selector ul li ul {
+  display: none; position: absolute; top: -1px; left: 100%; z-index: 100
+}
+.container div.selector ul li ul.on {
+  display: block
+}
+.container div.selector ul li.disabled {
+  cursor: not-allowed
+}
+.container div.selector ul li.disabled span {
+  color: #999
+}
+.container div.selector ul li.father::after {
+  content: ''; width: 7px; height: 7px; box-sizing: border-box; transform: translate(0, -50%) rotate(45deg); border-top: #333 1px solid; border-right: #333 1px solid; position: absolute; top: 50%; right: 10px; z-index: 100
+}
+.container div.selector ul li.selected > span {
+  font-weight: bold
+}
+.container div.selector ul li:hover > span {
+  background: #e5e5e5
+}
+.container div.selector.on {
+  opacity: 1; top: calc(100% + 8px)
+}
+.container div.selector.upper {
+  top: auto; bottom: 100%
+}
+.container div.selector.upper ul li ul {
+  top: auto; bottom: -1px
+}
+.container div.selector.upper::before {
+  display: none
+}
+.container div.selector.upper::after {
+  display: block
+}
+.container div.selector.upper.on {
+  opacity: 1; bottom: calc(100% + 8px)
+}
+.container div.mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled {
+  cursor: default
+}
+.container.disabled div.mask {
+  z-index: 10000
+}
+.container.pickable span.box {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container.pickable div.selector {
+  display: block
+}

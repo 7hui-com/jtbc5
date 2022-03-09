@@ -190,21 +190,22 @@ abstract class ORM
     return $relatedInstance;
   }
 
-  public function remove($argCautiousMode = true)
+  public function remove($argCautiousMode = true, bool $argPhysically = false)
   {
     $result = false;
+    $physically = $argPhysically;
     $cautiousMode = $argCautiousMode;
     if ($this -> dal -> isEmptyCondition())
     {
       if ($cautiousMode == false)
       {
-        $result = $this -> dal -> delete();
+        $result = $this -> dal -> delete($physically);
         $this -> hook -> deleted  -> trigger($this);
       }
     }
     else
     {
-      $result = $this -> dal -> delete();
+      $result = $this -> dal -> delete($physically);
       $this -> hook -> deleted -> trigger($this);
     }
     return $result;

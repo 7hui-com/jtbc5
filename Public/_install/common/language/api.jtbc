@@ -60,6 +60,10 @@
     </item>
     <item>
       <name><![CDATA[text-tips-install-error-4051]]></name>
+      <zh-cn><![CDATA[当前数据库版本过低，请使用MySQL8(最低可尝试5.7)版本]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-install-error-4061]]></name>
       <zh-cn><![CDATA[执行SQL语句失败，请检查权限]]></zh-cn>
     </item>
     <item>

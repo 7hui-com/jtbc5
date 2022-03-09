@@ -36,7 +36,17 @@ export default class jtbcEditor extends HTMLTextAreaElement {
         toolbar1: 'formatselect | fontselect | bold italic underline strikethrough removeformat forecolor backcolor | alignleft aligncenter alignright alignjustify code',
         toolbar2: 'table bullist numlist outdent indent | link unlink image media hr subscript superscript insertdatetime | charmap codesample visualblocks searchreplace preview fullscreen',
         menubar: false,
-        language:'zh_CN'
+        language:'zh_CN',
+        setup: function(editor)
+        {
+          editor.on('focus', e => {
+            e.target.editorContainer.classList.add('tox-tinymce-inited');
+            e.target.editorContainer.classList.add('tox-tinymce-focused');
+          });
+          editor.on('blur', e => {
+            e.target.editorContainer.classList.remove('tox-tinymce-focused');
+          });
+        }
       }).then((editors) => { editors.forEach(editor => { document.querySelector('#' + editor.id).ready = true; }); });
     };
   };

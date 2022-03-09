@@ -26,7 +26,7 @@ trait Edit
       $model -> pocket = new Substance($source);
       if ($model -> table -> hasField('published'))
       {
-        if (!$this -> guard -> role -> checkPermission('published'))
+        if (!$this -> guard -> role -> checkPermission('publish'))
         {
           $model -> pocket -> published = 0;
         }

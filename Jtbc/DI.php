@@ -44,7 +44,11 @@ class DI
     {
       $name = array_shift($args);
       $class = $this -> getClassByName($name);
-      if (class_exists($class))
+      if (is_null($class))
+      {
+        throw new NotExistException('Could not find class by "' . $name . '"', 50404);
+      }
+      else if (class_exists($class))
       {
         $tempInstance = new $class(...$args);
         $instance = $tempInstance instanceof Service? $tempInstance -> getInstance(): $tempInstance;
@@ -62,7 +66,11 @@ class DI
     $instance = null;
     $name = $argName;
     $class = $this -> getClassByName($name);
-    if (class_exists($class))
+    if (is_null($class))
+    {
+      throw new NotExistException('Could not find class by "' . $name . '"', 50404);
+    }
+    else if (class_exists($class))
     {
       $injectParameters = $this -> inject($class);
       $tempInstance = is_null($injectParameters)? new $class(): new $class(...$injectParameters);

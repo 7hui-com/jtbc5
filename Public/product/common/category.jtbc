@@ -12,11 +12,15 @@
     </item>
     <item>
       <name><![CDATA[has_image]]></name>
-      <zh-cn><![CDATA[true]]></zh-cn>
+      <zh-cn><![CDATA[false]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[has_keywords]]></name>
+      <zh-cn><![CDATA[false]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[has_intro]]></name>
-      <zh-cn><![CDATA[true]]></zh-cn>
+      <zh-cn><![CDATA[false]]></zh-cn>
     </item>
   </item_list>
 </xml>

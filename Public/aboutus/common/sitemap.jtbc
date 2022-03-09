@@ -8,7 +8,7 @@
   <item_list>
     <item>
       <name><![CDATA[rule]]></name>
-      <zh-cn><![CDATA[[{"url":""},{"field":["id","time"],"url":"?type=detail&id={$id}"}]]]></zh-cn>
+      <zh-cn><![CDATA[[{"url":""},{"type":"detail","field":["id","time"],"url":"?type=detail&id={$id}"}]]]></zh-cn>
     </item>
   </item_list>
 </xml>

@@ -8,13 +8,13 @@ body {
   width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center
 }
 .login div.box {
-  width: 450px; padding-bottom: 60px; background: #fff; border: #e2e2e2 1px solid; border-top: #000 5px solid; box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); position: relative; z-index: 100
+  width: 450px; padding-bottom: 60px; background: #fff; border: #e2e2e2 1px solid; border-top: 0px; box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); position: relative; z-index: 100
 }
 .login div.box h1 {
-  padding: 60px 30px; font-size: 48px; font-family: arial; font-weight: normal; color: #000; line-height: 100%; text-align: center
+  width: 100%; box-sizing: border-box; border-top: #000 6px solid; padding: 60px 30px; font-size: 48px; font-family: arial; font-weight: normal; color: #000; line-height: 100%; text-align: center
 }
 .login div.box div.form div.field {
-  width: 360px; height: 44px; line-height: 44px; border: #d9d9d9 1px solid; margin: auto; margin-bottom: 10px
+  width: 360px; height: 44px; line-height: 44px; border: #d9d9d9 1px solid; margin: auto; margin-bottom: 10px; transition: all .3s ease
 }
 .login div.box div.form div.field em {
   display: inline-flex; width: 44px; height: 100%; align-items: center; justify-content: center; vertical-align: top; border-right: #d9d9d9 1px solid
@@ -27,6 +27,9 @@ body {
 }
 .login div.box div.form div.field input:focus {
   color: #000
+}
+.login div.box div.form div.field.on {
+  border-color: #666; box-shadow: 0px 0px 2px rgba(102, 102, 102, 0.8)
 }
 .login div.box div.form div.button {
   width: 360px; margin: auto; padding-top: 10px; display: flex; justify-content: space-between
@@ -53,16 +56,10 @@ body {
   padding-left: 20px; line-height: 50px; font-size: 20px; font-family: arial; font-weight: normal; color: #fff
 }
 .topbar span.menu {
-  display: block; width: 40px; height: 40px; text-align: center; position: absolute; top: 5px; left: 185px; z-index: 100
+  display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; position: absolute; top: 5px; left: 185px; z-index: 100
 }
-.topbar span.menu l1 {
-  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 12px
-}
-.topbar span.menu l2 {
-  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 5px
-}
-.topbar span.menu l3 {
-  display: block; width: 20px; height: 2px; background: #fff; margin: auto; margin-top: 5px
+.topbar span.menu jtbc-svg {
+  --fore-color: #fff
 }
 .topbar right {
   display: block; height: 50px; text-align: right; position: absolute; top: 0px; right: 20px; z-index: 100

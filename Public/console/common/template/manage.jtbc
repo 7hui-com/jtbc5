@@ -11,7 +11,7 @@
       <default><![CDATA[<div class="console">
   <div class="topbar">
     <h1>{$=$take('index.title', 'lng')}</h1>
-    <span class="menu hand"><l1></l1><l2></l2><l3></l3></span>
+    <span class="menu hand"><jtbc-svg name="navicon"></jtbc-svg></span>
     <right>
       <template is="jtbc-template" url="{$>this.genre}/manage?type=info">
         <account class="section">

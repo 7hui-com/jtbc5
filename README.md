@@ -1,5 +1,8 @@
 # JTBC(5.0)
 
+## 官方网站：
+https://www.jtbc.cn/
+
 ## 运行环境：
 php8.0+，mysql8.0+
 

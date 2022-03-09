@@ -5,6 +5,14 @@ export default class manage {
       this.inited = true;
       let login = this.root.querySelector('.login');
       let firstStepFrom = login.querySelector('form[step=first]');
+      login.querySelectorAll('div.field input[role=field]').forEach(el => {
+        el.addEventListener('focus', e => {
+          e.target.parentElement.classList.add('on');
+        });
+        el.addEventListener('blur', e => {
+          e.target.parentElement.classList.remove('on');
+        });
+      });
       firstStepFrom.addEventListener('submitend', e => {
         let res = e.detail.res;
         if (res.ok)

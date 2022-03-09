@@ -11,6 +11,30 @@ use Config\DB\MySQL as Config;
 class Diplomat extends Ambassador {
   public $MIMEType = 'json';
 
+  private function isSupportedDBVersion($argVersion)
+  {
+    $result = false;
+    $version = $argVersion;
+    if (is_string($version) && !empty($version))
+    {
+      $versionArr = explode('.', $version);
+      if (count($versionArr) >= 3)
+      {
+        $firstVersionNumber = intval($versionArr[0]);
+        $secondVersionNumber = intval($versionArr[1]);
+        if ($firstVersionNumber >= 8)
+        {
+          $result = true;
+        }
+        else if ($firstVersionNumber == 5 && $secondVersionNumber >= 7)
+        {
+          $result = true;
+        }
+      }
+    }
+    return $result;
+  }
+
   private function getSQL(string $argUsername, string $argPassword, string $argMobile)
   {
     $sql = file_get_contents('_database.sql');
@@ -85,28 +109,35 @@ class Diplomat extends Ambassador {
             }
             if ($selectedDB == true)
             {
-              $re = $db -> exec($this -> getSQL($validator -> username -> value(), $validator -> password -> value(), $validator -> mobile -> value()));
-              if (is_numeric($re))
+              if ($this -> isSupportedDBVersion($db -> getVersion()))
               {
-                $classicConfigManager -> SERVER = [
-                  'default' => [
-                    'HOST' => $dbHost,
-                    'USERNAME' => $dbUsername,
-                    'PASSWORD' => $dbPassword,
-                    'DATABASE' => $dbDatabase,
-                    'CHARSET' => 'utf8mb4',
-                  ],
-                ];
-                if ($classicConfigManager -> save())
+                $re = $db -> exec($this -> getSQL($validator -> username -> value(), $validator -> password -> value(), $validator -> mobile -> value()));
+                if (is_numeric($re))
                 {
-                  $code = 1;
-                  $globalHookManager = new GlobalHookManager();
-                  $globalHookManager -> cancel('_install');
-                  $redirectURL = Path::getActualRoute('complete?token=' . $completeToken);
+                  $classicConfigManager -> SERVER = [
+                    'default' => [
+                      'HOST' => $dbHost,
+                      'USERNAME' => $dbUsername,
+                      'PASSWORD' => $dbPassword,
+                      'DATABASE' => $dbDatabase,
+                      'CHARSET' => 'utf8mb4',
+                    ],
+                  ];
+                  if ($classicConfigManager -> save())
+                  {
+                    $code = 1;
+                    $globalHookManager = new GlobalHookManager();
+                    $globalHookManager -> cancel('_install');
+                    $redirectURL = Path::getActualRoute('complete?token=' . $completeToken);
+                  }
+                  else
+                  {
+                    $code = 4444;
+                  }
                 }
                 else
                 {
-                  $code = 4444;
+                  $code = 4061;
                 }
               }
               else
