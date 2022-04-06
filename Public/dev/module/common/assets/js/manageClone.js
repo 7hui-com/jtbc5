@@ -1,6 +1,5 @@
 export default class manageClone {
-  initClone()
-  {
+  initClone() {
     if (this.inited != true)
     {
       this.inited = true;

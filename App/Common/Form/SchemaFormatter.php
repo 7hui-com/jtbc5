@@ -8,6 +8,7 @@ use Jtbc\Substance;
 use Jtbc\Validation;
 use Jtbc\Model\TinyModel;
 use Jtbc\Model\Automatic\FieldNameHelper;
+use Jtbc\Fetcher\ModelFetcher;
 use App\Universal\Dictionary\Dictionary;
 
 class SchemaFormatter
@@ -33,59 +34,30 @@ class SchemaFormatter
     {
       if (is_string($source) && Validation::isNatural($source))
       {
-        $sourceArr = Dictionary::get($source);
+        $sourceArr = Dictionary::get(argName: $source, argLang: $this -> lang);
         if (is_array($sourceArr))
         {
           $result = Converter::convertToOption($sourceArr);
         }
       }
     }
-    else if ($sourceType == 'table')
+    else if (in_array($sourceType, ['model', 'module', 'table']))
     {
       if (is_array($source))
       {
-        $sourceParam = new Substance($source);
-        $table = $sourceParam -> table;
-        $where = $sourceParam -> where;
-        $valueField = $sourceParam -> valueField ?? 'id';
-        $textField = $sourceParam -> textField ?? 'title';
-        $orderBy = $sourceParam -> orderBy;
-        $limit = $sourceParam -> limit ?? 1000;
-        if (!is_null($table))
+        $ss = new Substance($source);
+        $valueField = $ss -> valueField ?? 'id';
+        $textField = $ss -> textField ?? 'title';
+        if (!$ss -> exists('lang'))
         {
-          $model = new TinyModel($table);
-          if ($model -> table -> hasField('lang'))
+          $source['lang'] = $this -> lang;
+        }
+        $sourceArr = ModelFetcher::fetch($source);
+        if (is_array($sourceArr))
+        {
+          foreach ($sourceArr as $rs)
           {
-            $model -> where -> lang = Env::getMajorLang();
-          }
-          if ($model -> table -> hasField($valueField) && $model -> table -> hasField($textField))
-          {
-            if (is_array($where))
-            {
-              $model -> where($where);
-            }
-            if (is_array($orderBy))
-            {
-              $model -> orderBy(...$orderBy);
-            }
-            else
-            {
-              if ($model -> table -> hasField('order'))
-              {
-                $model -> orderBy('order', 'desc');
-              }
-              else if ($model -> table -> hasField('time'))
-              {
-                $model -> orderBy('time', 'desc');
-              }
-              else
-              {
-                $model -> orderBy($valueField, 'desc');
-              }
-            }
-            $model -> limit($limit);
-            $rsa = $model -> getAll([$valueField, $textField]);
-            foreach ($rsa as $rs)
+            if (is_array($rs) && array_key_exists($valueField, $rs) && array_key_exists($textField, $rs))
             {
               $result[] = ['text' => $rs[$textField], 'value' => $rs[$valueField]];
             }

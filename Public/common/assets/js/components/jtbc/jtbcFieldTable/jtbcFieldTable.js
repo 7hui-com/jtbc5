@@ -125,7 +125,7 @@ export default class jtbcFieldTable extends HTMLElement {
           break;
         };
         default: {
-          field = ['date', 'datetime', 'switch', 'star', 'upload', 'number', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
+          field = ['date', 'datetime', 'switch', 'star', 'select2', 'upload', 'number', 'multi-select', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
           break;
         };
       };
@@ -220,6 +220,10 @@ export default class jtbcFieldTable extends HTMLElement {
       item.data.forEach(option => {
         let optionEl = document.createElement('option');
         optionEl.setAttribute('value', option.value);
+        if (option.disabled === true)
+        {
+          optionEl.setAttribute('disabled', true);
+        };
         optionEl.innerText = option.text;
         result.append(optionEl);
       });
@@ -235,7 +239,12 @@ export default class jtbcFieldTable extends HTMLElement {
   };
 
   renderOthers(item) {
-    return document.createElement('jtbc-field-' + item.type);
+    let result = document.createElement('jtbc-field-' + item.type);
+    if (Array.isArray(item.data))
+    {
+      result.setAttribute('data', JSON.stringify(item.data));
+    }
+    return result;
   };
 
   textReset() {
@@ -441,6 +450,6 @@ export default class jtbcFieldTable extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
-    this.initEvents();
+    this.container.loadComponents().then(() => { this.initEvents(); });
   };
 };

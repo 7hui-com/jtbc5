@@ -3,6 +3,17 @@ export default class manageSetting {
     let popup = this.self.parentNode.querySelector('.dialogPopup');
     let ppSettingEl = popup.querySelector('div.ppSetting');
     let additionalEl = ppSettingEl.querySelector('div.additional');
+    let fieldTextEl = popup.querySelector('li[name=li-field-text]');
+    popup.delegateEventListener('input[name=field_text_auto]', 'change', function(){
+      if (this.checked == true)
+      {
+        fieldTextEl.classList.add('hide');
+      }
+      else
+      {
+        fieldTextEl.classList.remove('hide');
+      };
+    });
     popup.delegateEventListener('select[name=comment_sourceType]', 'change', function(){
       let parentElement = this.parentNode.parentNode;
       let selectedOption = parentElement.querySelector('.li-option-' + this.value);
@@ -68,8 +79,7 @@ export default class manageSetting {
     };
   };
 
-  initEditField()
-  {
+  initEditField() {
     if (this.inited != true)
     {
       this.inited = true;
@@ -79,6 +89,23 @@ export default class manageSetting {
       });
       popup.delegateEventListener('.tabMode', 'tabchange', (e) => {
         popup.querySelector('input[name=tab_mode]').value = e.detail.value;
+      });
+    };
+  };
+
+  initConfig() {
+    if (this.inited != true)
+    {
+      this.inited = true;
+      let popup = this.self.parentNode.querySelector('.dialogPopup');
+      popup.delegateEventListener('form', 'submitend', e => {
+        let res = e.detail.res;
+        res.json().then(data => {
+          if (data.code == 1)
+          {
+            this.leftmenu?.fetch();
+          };
+        });
       });
     };
   };
@@ -96,5 +123,6 @@ export default class manageSetting {
     this.master = document.getElementById('master');
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
+    this.leftmenu = document.getElementById('leftmenu');
   };
 };

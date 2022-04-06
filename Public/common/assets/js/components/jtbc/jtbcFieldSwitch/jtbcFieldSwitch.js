@@ -24,6 +24,7 @@ export default class jtbcFieldSwitch extends HTMLElement {
       this.setAttribute('value', currentValue);
       if (this.currentValue == 1) this.container.classList.add('on');
       else if (this.currentValue == 0) this.container.classList.remove('on');
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
     };
   };
 

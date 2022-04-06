@@ -7,8 +7,12 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[text-tit-clone]]></name>
-      <zh-cn><![CDATA[模块克隆]]></zh-cn>
+      <name><![CDATA[text-tit-clone-1]]></name>
+      <zh-cn><![CDATA[将]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-clone-2]]></name>
+      <zh-cn><![CDATA[模块作为原型进行克隆]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-submit]]></name>

@@ -10,3 +10,24 @@
 .ppSetting div.additional fieldset legend {
   margin-left: 20px; padding: 0 10px; font-size: 14px; color: #333333
 }
+.ppSettingConfig {
+  width: 550px; margin: 0px auto; max-height: 400px; overflow-y: scroll
+}
+.ppSettingConfig fieldset {
+  display: block; min-width: inherit; margin: 0px; padding: 0px; border: #d1d1d1 1px solid; border-radius: 0px
+}
+.ppSettingConfig fieldset legend {
+  margin-left: 5px; padding: 0 5px; font-size: 12px; color: #666666
+}
+.ppSettingConfig fieldset div.box {
+  display: block; padding: 8px 10px
+}
+.ppSettingConfig > ul {
+  width: 500px; margin: 0px auto; padding: 10px 0px; list-style: none
+}
+.ppSettingConfig > ul > li {
+  padding: 10px 0px
+}
+.ppSettingConfig jtbc-field-icon-selector {
+  --icon-list-border: 0px; --icon-list-padding: 0px; --columns-width: 38px
+}

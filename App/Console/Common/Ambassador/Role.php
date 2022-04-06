@@ -74,11 +74,12 @@ class Role implements RoleInterface
     return $result;
   }
 
-  public function filterSegmentOptions(array $argOptions, string $argSegmentName)
+  public function filterSegmentOptions(array $argOptions, string $argSegmentName, bool $argSetDisabled = false)
   {
     $result = [];
     $options = $argOptions;
     $segmentName = $argSegmentName;
+    $setDisabled = $argSetDisabled;
     if ($this -> isSuper)
     {
       $result = $options;
@@ -94,6 +95,14 @@ class Role implements RoleInterface
         if ($this -> checkPermission($segmentName, $option['value']))
         {
           $result[] = $option;
+        }
+        else
+        {
+          if ($setDisabled === true)
+          {
+            $option['disabled'] = true;
+            $result[] = $option;
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --selected-item-color: #3e868f; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --font-size: 12px; --selected-item-color: #3e868f; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
 }
 .container {
   width: 100%; display: block !important; cursor: text; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: relative; z-index: var(--z-index); transition: all .3s ease
@@ -20,7 +20,7 @@
   margin-right: 0px
 }
 .container div.tags span em {
-  display: inline-block; font-style: normal; color: #fff
+  display: inline-block; font-size: calc(var(--font-size) + 2px); font-style: normal; color: #fff
 }
 .container div.tags span jtbc-svg {
   display: inline-block; margin-left: 4px; width: 8px; height: 8px; --fore-color: #fff

@@ -180,6 +180,10 @@ export default class mixedFieldCreator {
       item.data.forEach(option => {
         let optionEl = document.createElement('option');
         optionEl.setAttribute('value', option.value);
+        if (option.disabled === true)
+        {
+          optionEl.setAttribute('disabled', true);
+        };
         optionEl.innerText = option.text;
         result.append(optionEl);
       });
@@ -201,11 +205,16 @@ export default class mixedFieldCreator {
   };
 
   renderOthers(item) {
-    return document.createElement('jtbc-field-' + item.type);
+    let result = document.createElement('jtbc-field-' + item.type);
+    if (Array.isArray(item.data))
+    {
+      result.setAttribute('data', JSON.stringify(item.data));
+    }
+    return result;
   };
 
   constructor(columns) {
     this.columns = columns;
-    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group'];
+    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
   };
 };

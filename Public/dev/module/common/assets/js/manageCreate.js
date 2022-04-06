@@ -1,6 +1,5 @@
 export default class manageCreate {
-  initCreate()
-  {
+  initCreate() {
     if (this.inited != true)
     {
       this.inited = true;

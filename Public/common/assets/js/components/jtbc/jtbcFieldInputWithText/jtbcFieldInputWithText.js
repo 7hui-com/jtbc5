@@ -1,6 +1,6 @@
 export default class jtbcFieldInputWithText extends HTMLElement {
   static get observedAttributes() {
-    return ['mode', 'position', 'text', 'value', 'disabled', 'width'];
+    return ['mode', 'position', 'text', 'value', 'placeholder', 'disabled', 'width'];
   };
 
   #mode = 'readonly';
@@ -116,6 +116,11 @@ export default class jtbcFieldInputWithText extends HTMLElement {
       case 'value':
       {
         this.value = newVal;
+        break;
+      };
+      case 'placeholder':
+      {
+        this.container.querySelector('input.value').setAttribute('placeholder', newVal);
         break;
       };
       case 'disabled':

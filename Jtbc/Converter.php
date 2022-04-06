@@ -17,6 +17,21 @@ class Converter
     return $result;
   }
 
+  public static function convertJSONToArray($argString)
+  {
+    $result = [];
+    $string = $argString;
+    if (is_scalar($string))
+    {
+      $array = json_decode($string, true);
+      if (is_array($array))
+      {
+        $result = $array;
+      }
+    }
+    return $result;
+  }
+
   public static function convertToArrayExceptNull(array $argArray)
   {
     $result = [];

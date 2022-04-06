@@ -23,7 +23,7 @@
   --fore-color: #000000
 }
 .dialogPopup div.title {
-  line-height: 40px; background: #2b3643; padding: 0px 40px 0px 10px; font-size: 14px; font-weight: bold; color: #fff; word-break: break-all
+  line-height: 20px; background: #2b3643; padding: 10px 40px 10px 10px; font-size: 14px; font-weight: bold; color: #fff; word-break: break-all
 }
 .dialogPopup div.title jtbc-svg {
   --fore-color: #fff
@@ -85,6 +85,9 @@
 }
 .dialogPopup div.tinyForm > ul > li.flex span.column:last-child {
   margin-right: 0px
+}
+.dialogPopup div.tinyForm > ul > li.skinny {
+  padding: 0px 10px
 }
 .dialogPopup div.tinyForm > ul > li.hidden {
   display: none

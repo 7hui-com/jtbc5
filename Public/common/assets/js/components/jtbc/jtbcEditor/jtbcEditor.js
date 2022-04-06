@@ -36,6 +36,7 @@ export default class jtbcEditor extends HTMLTextAreaElement {
         toolbar1: 'formatselect | fontselect | bold italic underline strikethrough removeformat forecolor backcolor | alignleft aligncenter alignright alignjustify code',
         toolbar2: 'table bullist numlist outdent indent | link unlink image media hr subscript superscript insertdatetime | charmap codesample visualblocks searchreplace preview fullscreen',
         menubar: false,
+        convert_urls: false,
         language:'zh_CN',
         setup: function(editor)
         {

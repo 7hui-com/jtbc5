@@ -311,7 +311,7 @@ CREATE TABLE `universal_link`  (
   `group` int(11) NULL DEFAULT 0 COMMENT '{\"type\":\"select\",\"source\":\"sel_group.*\"}',
   `url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\",\"required\":false}',
   `target` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"select\",\"required\":false,\"source\":\"sel_target.*\"}',
-  `time` datetime(0) NULL DEFAULT NULL COMMENT '{\"type\":\"text\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
+  `time` datetime(0) NULL DEFAULT NULL COMMENT '{\"type\":\"datetime\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
   `lang` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
   `published` tinyint(4) NULL DEFAULT 0 COMMENT '{\"type\":\"switch\",\"required\":false,\"format\":\"int\"}',
   `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',

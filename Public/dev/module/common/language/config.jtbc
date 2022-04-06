@@ -87,6 +87,10 @@
       <zh-cn><![CDATA[模块标题]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[module_type]]></name>
+      <zh-cn><![CDATA[模块类型]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[module_icon]]></name>
       <zh-cn><![CDATA[模块图标]]></zh-cn>
     </item>

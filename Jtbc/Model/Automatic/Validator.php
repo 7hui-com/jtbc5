@@ -28,32 +28,43 @@ class Validator
         $mode = 'normal';
         $required = true;
         $format = null;
+        $between = null;
+        $maxlength = null;
         $field = new Substance($item);
         $fieldName = $field -> field;
         $fieldComment = $field -> comment;
         $fieldText = FieldNameHelper::getFieldText($fieldName);
         if (!Validation::isEmpty($fieldComment))
         {
-          $commentArr = JSON::decode($fieldComment);
-          if (array_key_exists('mode', $commentArr))
+          $comment = new Substance($fieldComment);
+          if ($comment -> exists('mode'))
           {
-            $mode = $commentArr['mode'];
+            $mode = $comment -> mode;
           }
-          if (array_key_exists('required', $commentArr))
+          if ($comment -> exists('required'))
           {
-            $required = $commentArr['required'];
+            $required = is_bool($comment -> required)? $comment -> required: true;
           }
-          if (array_key_exists('format', $commentArr))
+          if ($comment -> exists('format'))
           {
-            $format = $commentArr['format'];
+            $format = strval($comment -> format);
           }
-          if (array_key_exists('text', $commentArr))
+          if ($comment -> exists('between'))
           {
-            $fieldText = $commentArr['text'];
+            $between = is_array($comment -> between)? $comment -> between: null;
+          }
+          if ($comment -> exists('maxlength'))
+          {
+            $maxlength = intval($comment -> maxlength);
+          }
+          if ($comment -> exists('text'))
+          {
+            $fieldText = strval($comment -> text);
           }
         }
         if ($mode != 'auto')
         {
+          $code = null;
           $needToValidate = false;
           $fieldValue = $pocket -> {$fieldName};
           if ($required == true)
@@ -67,9 +78,12 @@ class Validator
               $needToValidate = true;
             }
           }
-          if ($needToValidate == true)
+          if (is_int($maxlength) && mb_strlen($fieldValue) > $maxlength)
           {
-            $code = null;
+            $code = 4999;
+          }
+          else if ($needToValidate == true)
+          {
             if ($format == null)
             {
               if (Validation::isEmpty($fieldValue)) $code = 4901;
@@ -77,6 +91,16 @@ class Validator
             else if ($format == 'int')
             {
               if (!Validation::isInteger($fieldValue)) $code = 4902;
+              else
+              {
+                if (is_array($between) && count($between) == 2)
+                {
+                  if (intval($fieldValue) < intval($between[0]) || intval($fieldValue) > intval($between[1]))
+                  {
+                    $code = 4998;
+                  }
+                }
+              }
             }
             else if ($format == 'email')
             {
@@ -150,26 +174,25 @@ class Validator
             {
               $code = 4900;
             }
-            if (!is_null($code))
+          }
+          if (!is_null($code))
+          {
+            $message = '';
+            if (array_key_exists($fieldName, $messageMap))
             {
-              $message = '';
-              if (array_key_exists($fieldName, $messageMap))
-              {
-                $message = $messageMap[$fieldName];
-              }
-              else
-              {
-                if ($code == 4901)
-                {
-                  $message = $fieldText . Jtbc::take('universal:phrases.can-not-be-empty', 'lng');
-                }
-                else
-                {
-                  $message = $fieldText . Jtbc::take('universal:phrases.incorrect-format', 'lng');
-                }
-              }
-              $errorCollector -> collect(['code' => $code, 'message' => $message, 'field' => $fieldName, 'format' => $format]);
+              $message = $messageMap[$fieldName];
             }
+            else
+            {
+              $message = match($code)
+              {
+                4901 => $fieldText . Jtbc::take('universal:phrases.can-not-be-empty', 'lng'),
+                4998 => $fieldText . Jtbc::take('universal:phrases.number-out-of-range', 'lng'),
+                4999 => $fieldText . Jtbc::take('universal:phrases.maxlength-limit', 'lng'),
+                default => $fieldText . Jtbc::take('universal:phrases.incorrect-format', 'lng'),
+              };
+            }
+            $errorCollector -> collect(['code' => $code, 'message' => $message, 'field' => $fieldName, 'format' => $format]);
           }
         }
       }

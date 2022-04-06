@@ -1,6 +1,5 @@
 export default class manageUninstall {
-  initUninstall()
-  {
+  initUninstall() {
     if (this.inited != true)
     {
       this.inited = true;

@@ -50,8 +50,9 @@ class SQLQueryAssign
     $equal = true;
     if ($value instanceof Substance)
     {
-      $value = $value -> value;
-      $equal = $value -> equal;
+      $substance = $value;
+      $value = $substance -> value;
+      $equal = $substance -> equal;
     }
     $condition = $equal == true ? ' >= ' : ' > ';
     if (is_integer($value) || is_float($value)) $result = $condition . $value;
@@ -74,8 +75,9 @@ class SQLQueryAssign
     $equal = true;
     if ($value instanceof Substance)
     {
-      $value = $value -> value;
-      $equal = $value -> equal;
+      $substance = $value;
+      $value = $substance -> value;
+      $equal = $substance -> equal;
     }
     $condition = $equal == true ? ' <= ' : ' < ';
     if (is_integer($value) || is_float($value)) $result = $condition . $value;
@@ -99,9 +101,10 @@ class SQLQueryAssign
     else if (is_string($value) && Validation::isIntSeries($value)) $result = ' in (' . $value . ')';
     else if (is_array($value))
     {
-      if (!empty($value))
+      $filteredValue = array_map(fn($item) => is_string($item)? '\'' . addslashes($item) . '\'': $item, array_filter($value, fn($item) => is_integer($item) || is_float($item) || is_string($item)));
+      if (!empty($filteredValue))
       {
-        $result = ' in (' . addslashes(implode(',', $value)) . ')';
+        $result = ' in (' . implode(',', $filteredValue) . ')';
       }
       else
       {
@@ -125,9 +128,10 @@ class SQLQueryAssign
     else if (is_string($value) && Validation::isIntSeries($value)) $result = ' not in (' . $value . ')';
     else if (is_array($value))
     {
-      if (!empty($value))
+      $filteredValue = array_map(fn($item) => is_string($item)? '\'' . addslashes($item) . '\'': $item, array_filter($value, fn($item) => is_integer($item) || is_float($item) || is_string($item)));
+      if (!empty($filteredValue))
       {
-        $result = ' not in (' . addslashes(implode(',', $value)) . ')';
+        $result = ' not in (' . implode(',', $filteredValue) . ')';
       }
       else
       {

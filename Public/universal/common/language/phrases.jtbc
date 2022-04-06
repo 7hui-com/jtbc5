@@ -51,6 +51,14 @@
       <zh-cn><![CDATA[暂时还没有任何内容，如需添加请点击加号按钮]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[maxlength-limit]]></name>
+      <zh-cn><![CDATA[超出最大长度限制]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[number-out-of-range]]></name>
+      <zh-cn><![CDATA[超出数值范围]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[parameter-configuration]]></name>
       <zh-cn><![CDATA[参数配置]]></zh-cn>
     </item>

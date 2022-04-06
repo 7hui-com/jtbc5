@@ -53,6 +53,15 @@ export default class jtbcFieldCascader extends HTMLElement {
     this.#disabled = disabled;
   };
 
+  #setZIndex() {
+    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
+    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+  };
+
+  #unsetZIndex() {
+    this.style.removeProperty('--z-index');
+  };
+
   closeSelector(timeout = 0) {
     let container = this.container;
     let selectorEl = container.querySelector('div.selector');
@@ -152,6 +161,7 @@ export default class jtbcFieldCascader extends HTMLElement {
     selectorEl.addEventListener('transitionend', function(){
       if (!this.classList.contains('on'))
       {
+        that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
@@ -171,34 +181,40 @@ export default class jtbcFieldCascader extends HTMLElement {
       {
         that.#value = currentValue;
         that.syncInputValue();
+        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
         that.closeSelector(0);
       };
     });
     container.addEventListener('mouseenter', function(){
-      let closeEl = this.querySelector('span.close');
+      let emptyEl = this.querySelector('span.empty');
       if (that.value == '')
       {
-        closeEl.classList.remove('on');
+        emptyEl.classList.remove('on');
       }
       else
       {
-        closeEl.classList.add('on');
+        emptyEl.classList.add('on');
       };
     });
     container.addEventListener('mouseleave', function(){
-      this.querySelector('span.close')?.classList.remove('on');
+      this.querySelector('span.empty')?.classList.remove('on');
     });
     container.querySelector('span.box').addEventListener('click', function(){
       if (!container.classList.contains('pickable'))
       {
+        that.#setZIndex();
         container.classList.add('pickable');
         clearTimeout(that.#closeSelectorTimeout);
-        if (that.offsetTop + selectorEl.offsetHeight > that.offsetParent.offsetHeight)
+        if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
         {
-          if (that.offsetTop > selectorEl.offsetHeight)
+          if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
           {
             selectorEl.classList.add('upper');
           };
+        }
+        else
+        {
+          selectorEl.classList.remove('upper');
         };
         selectorEl.classList.add('on');
       }
@@ -207,7 +223,7 @@ export default class jtbcFieldCascader extends HTMLElement {
         selectorEl.classList.remove('on');
       };
     });
-    container.querySelector('span.close').addEventListener('click', function(){
+    container.querySelector('span.empty').addEventListener('click', function(){
       that.value = '';
       this.classList.remove('on');
     });
@@ -239,6 +255,7 @@ export default class jtbcFieldCascader extends HTMLElement {
       case 'placeholder':
       {
         container.querySelector('input.text').setAttribute('placeholder', newVal);
+        break;
       };
       case 'expand_mode':
       {
@@ -246,6 +263,7 @@ export default class jtbcFieldCascader extends HTMLElement {
         {
           this.#expandMode = newVal;
         };
+        break;
       };
     };
   };
@@ -261,7 +279,7 @@ export default class jtbcFieldCascader extends HTMLElement {
     let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><input type="text" name="text" class="text" readonly="readonly" /><span class="box"></span><span class="close"></span><div class="selector"></div><div class="mask"></div></div>
+      <div class="container" style="display:none"><input type="text" name="text" class="text" readonly="readonly" /><span class="box"></span><span class="empty"></span><div class="selector"></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;

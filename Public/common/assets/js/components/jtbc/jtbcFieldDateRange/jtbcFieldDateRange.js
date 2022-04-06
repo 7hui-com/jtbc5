@@ -12,6 +12,57 @@ export default class jtbcFieldDateRange extends HTMLElement {
   #startDate = null;
   #endDate = null;
 
+  get name() {
+    return this.getAttribute('name');
+  };
+
+  get value() {
+    return this.#value;
+  };
+
+  get disabled() {
+    return this.#disabled;
+  };
+
+  set value(value) {
+    let container = this.container;
+    let startDateValue = '';
+    let endDateValue = '';
+    if (this.#isDateRange(value))
+    {
+      this.#value = value;
+      let valueArr = value.split('~');
+      startDateValue = valueArr[0];
+      endDateValue = valueArr[1];
+      container.classList.add('loaded');
+    }
+    else
+    {
+      this.#value = '';
+      container.classList.remove('loaded');
+    };
+    this.#startDate = startDateValue;
+    this.#endDate = endDateValue;
+    container.querySelector('input[name=startdate]').value = this.#startDate;
+    container.querySelector('input[name=enddate]').value = this.#endDate;
+    if (this.inited == true)
+    {
+      this.#dateThroughReset();
+    };
+  };
+
+  set disabled(disabled) {
+    if (disabled == true)
+    {
+      this.container.classList.add('disabled');
+    }
+    else
+    {
+      this.container.classList.remove('disabled');
+    };
+    this.#disabled = disabled;
+  };
+
   #isDate(value) {
     let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
     return dateRegExp.test(value)? true: false;
@@ -217,55 +268,13 @@ export default class jtbcFieldDateRange extends HTMLElement {
     });
   };
 
-  get name() {
-    return this.getAttribute('name');
+  #setZIndex() {
+    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
+    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
   };
 
-  get value() {
-    return this.#value;
-  };
-
-  get disabled() {
-    return this.#disabled;
-  };
-
-  set value(value) {
-    let container = this.container;
-    let startDateValue = '';
-    let endDateValue = '';
-    if (this.#isDateRange(value))
-    {
-      this.#value = value;
-      let valueArr = value.split('~');
-      startDateValue = valueArr[0];
-      endDateValue = valueArr[1];
-      container.classList.add('loaded');
-    }
-    else
-    {
-      this.#value = '';
-      container.classList.remove('loaded');
-    };
-    this.#startDate = startDateValue;
-    this.#endDate = endDateValue;
-    container.querySelector('input[name=startdate]').value = this.#startDate;
-    container.querySelector('input[name=enddate]').value = this.#endDate;
-    if (this.inited == true)
-    {
-      this.#dateThroughReset();
-    };
-  };
-
-  set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.#disabled = disabled;
+  #unsetZIndex() {
+    this.style.removeProperty('--z-index');
   };
 
   getDateString(date) {
@@ -355,6 +364,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
     datepicker.addEventListener('transitionend', function(){
       if (!this.classList.contains('on'))
       {
+        that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
@@ -364,14 +374,19 @@ export default class jtbcFieldDateRange extends HTMLElement {
     container.delegateEventListener('span.btn.select', 'click', function(){
       if (!container.classList.contains('pickable'))
       {
+        that.#setZIndex();
         container.classList.add('pickable');
         clearTimeout(that.#closePickerTimeout);
-        if (that.offsetTop + datepicker.offsetHeight > that.offsetParent.offsetHeight)
+        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
         {
-          if (that.offsetTop > datepicker.offsetHeight)
+          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
           {
             datepicker.classList.add('upper');
           };
+        }
+        else
+        {
+          datepicker.classList.remove('upper');
         };
         datepicker.classList.add('on');
         if (that.#isDate(that.#startDate))

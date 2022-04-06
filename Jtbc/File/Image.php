@@ -130,6 +130,10 @@ class Image
         {
           $imageFile = imagecreatefrompng($imageFileName);
         }
+        else if ($imageFileExtension == 'webp' && $imageFileMIME == 'image/webp')
+        {
+          $imageFile = imagecreatefromwebp($imageFileName);
+        }
       }
       if (!is_null($imageFile) && $imageFile !== false)
       {
@@ -251,6 +255,9 @@ class Image
       case 'png':
         $bool = imagepng($this -> image, $filename);
         break;
+      case 'webp':
+        $bool = imagewebp($this -> image, $filename, $quality);
+        break;
     }
     return $bool;
   }
@@ -286,6 +293,11 @@ class Image
         {
           $this -> imageType = 'png';
           $this -> image = imagecreatefrompng($filename);
+        }
+        else if ($extension == 'webp' && $imageMIME == 'image/webp')
+        {
+          $this -> imageType = 'webp';
+          $this -> image = imagecreatefromwebp($filename);
         }
       }
       if (is_null($this -> image) || $this -> image === false)

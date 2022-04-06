@@ -50,11 +50,11 @@ class Diplomat extends Ambassador {
     $nodeList = [];
     $filePath = $currentNode = $currentContent = null;
     $codename = Validation::isEmpty($genre)? 'global.' . $file . '.*': 'global.' . $genre . ':' . $file . '.*';
+    $myCodename = new Codename($codename, 'tpl');
+    $filePath = realpath($myCodename -> getFilepath());
     $all = Jtbc::take($codename, 'tpl');
     if (!empty($all))
     {
-      $myCodename = new Codename($codename, 'tpl');
-      $filePath = realpath($myCodename -> getFilepath());
       $currentNode = array_key_exists($node, $all)? $node: array_key_first($all);
       $currentContent = $all[$currentNode];
       foreach (array_keys($all) as $key)

@@ -4,7 +4,7 @@
     <node>item</node>
     <field>name,zh-cn</field>
     <base>item_list</base>
-    <order>config,file,template,module,plugin,cloud</order>
+    <order>config,template,renderer,module,plugin,cloud</order>
   </configure>
   <item_list>
     <item>

@@ -14,8 +14,10 @@ use Jtbc\JSON;
 use Jtbc\Jtbc;
 use Jtbc\Kernel;
 use Jtbc\Path;
+use Jtbc\Random;
 use Jtbc\Validation;
 use Jtbc\Fetcher\DataLoader;
+use Jtbc\File\FileHelper;
 use Jtbc\Security\CSRFToken;
 use Jtbc\String\StringHelper;
 use Jtbc\Template\TinyRenderer;
@@ -95,6 +97,7 @@ class JtbcParser
   public static function getAliasMap()
   {
     $aliasMap = [
+      'convertJSONToArray' => Converter::class,
       'convertToArrayWithKey' => Converter::class,
       'convertToOption' => Converter::class,
       'convertToVersionString' => Converter::class,
@@ -102,6 +105,7 @@ class JtbcParser
       'dataLoader' => DataLoader::class . '::load',
       'fetch' => Fetcher::class,
       'formatDate' => Date::class . '::format',
+      'formatFileSize' => FileHelper::class,
       'formatTimestamp' => Date::class,
       'getActualRoute' => Path::class,
       'getValueFromJSON' => JSON::class,
@@ -110,6 +114,8 @@ class JtbcParser
       'getKernelVersion' => Kernel::class . '::getVersion',
       'getMajorGenre' => Env::class,
       'getMajorLang' => Env::class,
+      'getNumeric28' => Random::class,
+      'getRandom' => Random::class,
       'htmlEncode' => Encoder::class,
       'jsonDecode' => JSON::class . '::decode',
       'jsonEncode' => JSON::class . '::encode',

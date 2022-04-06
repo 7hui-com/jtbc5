@@ -62,6 +62,7 @@ class Diplomat extends Ambassador {
     $lang = $this -> guard -> role -> getLang();
     $data = [];
     $genreTitle = '';
+    $genreMode = 'normal';
     $allGenre = Guide::getAllGenre();
     $fatherGroup = [];
     if (Validation::isEmpty($genre) || !in_array($genre, $allGenre) || !Guide::isValidGenre($genre))
@@ -77,12 +78,14 @@ class Diplomat extends Ambassador {
       $model -> orderBy('order', 'desc');
       $data = $model -> getAll(['id', 'title', 'published', 'time']);
       $genreTitle = Jtbc::take('global.' . $genre . ':category.title', 'cfg');
+      $genreMode = strval(Jtbc::take('global.' . $genre . ':category.mode', 'cfg'));
       $category = new Category($genre, $lang);
       $fatherGroup = $category -> getFatherGroupById($fatherId, true);
     }
     $bs = new BasicSubstance($this);
     $bs -> data -> genre = $genre;
     $bs -> data -> genreTitle = $genreTitle;
+    $bs -> data -> genreMode = $genreMode;
     $bs -> data -> allGenre = Guide::getAllGenreTitle();
     $bs -> data -> fatherId = $fatherId;
     $bs -> data -> fatherGroup = $fatherGroup;

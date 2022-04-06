@@ -41,6 +41,15 @@ export default class jtbcFieldDate extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #setZIndex() {
+    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
+    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+  };
+
+  #unsetZIndex() {
+    this.style.removeProperty('--z-index');
+  };
+
   getDateString(date) {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
@@ -101,20 +110,26 @@ export default class jtbcFieldDate extends HTMLElement {
     datepicker.addEventListener('transitionend', function(){
       if (!this.classList.contains('on'))
       {
+        that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
     container.delegateEventListener('span.btn', 'click', function(){
       if (!container.classList.contains('pickable'))
       {
+        that.#setZIndex();
         container.classList.add('pickable');
         clearTimeout(that.#closePickerTimeout);
-        if (that.offsetTop + datepicker.offsetHeight > that.offsetParent.offsetHeight)
+        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
         {
-          if (that.offsetTop > datepicker.offsetHeight)
+          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
           {
             datepicker.classList.add('upper');
           };
+        }
+        else
+        {
+          datepicker.classList.remove('upper');
         };
         datepicker.classList.add('on');
       }

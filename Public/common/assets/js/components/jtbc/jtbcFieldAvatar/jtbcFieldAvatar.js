@@ -114,6 +114,12 @@ export default class jtbcFieldAvatar extends HTMLElement {
       let avatarUploading = avatar.querySelector('.uploading');
       let inputUploadId = container.querySelector('input.uploadid');
       let inputFileUrl = container.querySelector('input.fileurl');
+      const resetStatus = () => {
+        this.value = null;
+        avatarUploading.style.width = '0%';
+        avatar.classList.remove('uploading');
+        that.currentUploading = false;
+      };
       if (!avatar.classList.contains('uploading') && this.files.length == 1)
       {
         that.currentUploading = true;
@@ -146,9 +152,12 @@ export default class jtbcFieldAvatar extends HTMLElement {
                 dialog.alert(data.message);
               };
             };
-            avatarUploading.style.width = '0%';
-            avatar.classList.remove('uploading');
-            that.currentUploading = false;
+            resetStatus();
+          }, target => {
+            let errorMessage = target.status + ' ' + target.statusText;
+            dialog != null? dialog.alert(errorMessage): window.alert(errorMessage);
+            avatar.style.backgroundImage = 'none';
+            resetStatus();
           });
         });
       };

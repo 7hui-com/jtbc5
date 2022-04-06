@@ -7,22 +7,56 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[create]]></name>
+      <name><![CDATA[create1]]></name>
       <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageCreate.css" />
 <div class="dialogPopup">
-  <div class="title">{$=$take('{$>self.path}.text-tit-create', 'lng')}</div>
+  <div class="title">{$=$take('{$>self.path}.text-tit-create-1', 'lng')}</div>
   <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageCreate?action=create">
     <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
+    <input type="hidden" name="module_type" role="field" value="0" />
     <div class="tinyForm">
       <div class="ppCreate">
         <ul>
-          <li><input type="text" name="folder_name" role="field" placeholder="{$=$take('config.folder_name', 'lng')}" /></li>
+          <li><jtbc-field-input-with-text position="left" name="folder_name" role="field" text="/{$=$htmlEncode(empty($get_query_string('genre'))? '': $get_query_string('genre') . '/')}" placeholder="{$=$take('config.folder_name', 'lng')}"></jtbc-field-input-with-text></li>
           <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" /></li>
           <li><span class="tips">{$=$take('manage.text-tips-3', 'lng')}</span></li>
           <li>
             <fieldset>
               <legend>{$=$take('config.module_icon', 'lng')}</legend>
-              <div class="icons"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
+              <div class="box"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
+            </fieldset>
+          </li>
+        </ul>
+      </div>
+      <div class="button central"><button class="b2" role="submit">{$=$take('{$>self.path}.text-submit', 'lng')}</button></div>
+    </div>
+  </form>
+</div>
+<jtbc-script init="initCreate" src="{$>this.genre}/common/assets/js/manageCreate.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[create2]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageCreate.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('{$>self.path}.text-tit-create-2', 'lng')}</div>
+  <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageCreate?action=create">
+    <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
+    <div class="tinyForm">
+      <div class="ppCreate">
+        <ul>
+          <li><jtbc-field-input-with-text position="left" name="folder_name" role="field" text="/{$=$htmlEncode(empty($get_query_string('genre'))? '': $get_query_string('genre') . '/')}" placeholder="{$=$take('config.folder_name', 'lng')}"></jtbc-field-input-with-text></li>
+          <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" /></li>
+          <li><span class="tips">{$=$take('manage.text-tips-3', 'lng')}</span></li>
+          <li>
+            <fieldset>
+              <legend>{$=$take('config.module_type', 'lng')}</legend>
+              <div class="box">{$=$takeAndFormatToRadio('sel_module_type.*', 'module_type', '1')}</div>
+            </fieldset>
+          </li>
+          <li>
+            <fieldset>
+              <legend>{$=$take('config.module_icon', 'lng')}</legend>
+              <div class="box"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
             </fieldset>
           </li>
         </ul>

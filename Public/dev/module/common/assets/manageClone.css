@@ -7,7 +7,7 @@
 .ppClone fieldset legend {
   margin-left: 5px; padding: 0 5px; font-size: 12px; color: #666666
 }
-.ppClone fieldset div.icons {
+.ppClone fieldset div.box {
   display: block; padding: 8px 10px
 }
 .ppClone > ul {

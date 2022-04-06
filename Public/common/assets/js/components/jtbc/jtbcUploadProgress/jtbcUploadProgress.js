@@ -77,6 +77,7 @@ export default class jtbcUploadProgress extends HTMLElement {
           else
           {
             doneCallBack();
+            input.value = null;
             this.uploading = false;
           };
         });

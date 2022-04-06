@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[1]]></name>
+      <zh-cn><![CDATA[等于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[2]]></name>
+      <zh-cn><![CDATA[不等于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[3]]></name>
+      <zh-cn><![CDATA[大于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[4]]></name>
+      <zh-cn><![CDATA[大于等于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[5]]></name>
+      <zh-cn><![CDATA[小于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[6]]></name>
+      <zh-cn><![CDATA[小于等于]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[7]]></name>
+      <zh-cn><![CDATA[IN]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[8]]></name>
+      <zh-cn><![CDATA[NOT IN]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[9]]></name>
+      <zh-cn><![CDATA[LIKE]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[10]]></name>
+      <zh-cn><![CDATA[NOT LIKE]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

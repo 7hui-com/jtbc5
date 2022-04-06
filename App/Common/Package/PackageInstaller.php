@@ -6,6 +6,7 @@ use Jtbc\Path;
 use Jtbc\Substance;
 use Jtbc\DB\DBFactory;
 use App\Common\Installer;
+use App\Common\Module\ModuleHooksManager;
 
 class PackageInstaller extends Installer
 {

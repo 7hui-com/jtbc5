@@ -1,0 +1,123 @@
+:host {
+  display: inline-block; position: relative; --text-background: rgba(0, 0, 0, .8); --text-border-radius: 4px; --text-color: #fff; --text-white-space: nowrap; --text-padding: 4px 8px; --text-font-size: 12px; --text-line-height: 160%; --text-triangle-width: 6px; --text-z-index: 10000
+}
+div.text {
+  background: var(--text-background); color: var(--text-color); white-space: var(--text-white-space); padding: var(--text-padding); font-size: var(--text-font-size); line-height: var(--text-line-height); border-radius: var(--text-border-radius); position: absolute; z-index: var(--text-z-index); display: none; opacity: 0; transition: all .3s ease
+}
+div.text::before {
+  content: ''; width: 0px; height: 0px; position: absolute; z-index: 100
+}
+div.text.on {
+  display: block
+}
+div.text.on.show {
+  opacity: 1
+}
+div.text[position='top'] {
+  bottom: calc(100% + var(--text-triangle-width)); left: 50%; transform: translate(-50%, 0)
+}
+div.text[position='top']::before {
+  bottom: calc(0px - 2 * var(--text-triangle-width)); left: 50%; transform: translate(-50%, 0); border: var(--text-triangle-width) solid transparent; border-top-color: var(--text-background)
+}
+div.text[position='top'].show {
+  bottom: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='top-start'] {
+  bottom: calc(100% + var(--text-triangle-width)); left: 0px
+}
+div.text[position='top-start']::before {
+  bottom: calc(0px - 2 * var(--text-triangle-width)); left: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-top-color: var(--text-background)
+}
+div.text[position='top-start'].show {
+  bottom: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='top-end'] {
+  bottom: calc(100% + var(--text-triangle-width)); right: 0px
+}
+div.text[position='top-end']::before {
+  bottom: calc(0px - 2 * var(--text-triangle-width)); right: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-top-color: var(--text-background)
+}
+div.text[position='top-end'].show {
+  bottom: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='right'] {
+  left: calc(100% + var(--text-triangle-width)); top: 50%; transform: translate(0, -50%)
+}
+div.text[position='right']::before {
+  left: calc(0px - 2 * var(--text-triangle-width)); top: 50%; transform: translate(0, -50%); border: var(--text-triangle-width) solid transparent; border-right-color: var(--text-background)
+}
+div.text[position='right'].show {
+  left: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='right-start'] {
+  left: calc(100% + var(--text-triangle-width)); top: 0px
+}
+div.text[position='right-start']::before {
+  left: calc(0px - 2 * var(--text-triangle-width)); top: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-right-color: var(--text-background)
+}
+div.text[position='right-start'].show {
+  left: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='right-end'] {
+  left: calc(100% + var(--text-triangle-width)); bottom: 0px
+}
+div.text[position='right-end']::before {
+  left: calc(0px - 2 * var(--text-triangle-width)); bottom: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-right-color: var(--text-background)
+}
+div.text[position='right-end'].show {
+  left: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='bottom'] {
+  top: calc(100% + var(--text-triangle-width)); left: 50%; transform: translate(-50%, 0)
+}
+div.text[position='bottom']::before {
+  top: calc(0px - 2 * var(--text-triangle-width)); left: 50%; transform: translate(-50%, 0); border: var(--text-triangle-width) solid transparent; border-bottom-color: var(--text-background)
+}
+div.text[position='bottom'].show {
+  top: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='bottom-start'] {
+  top: calc(100% + var(--text-triangle-width)); left: 0px
+}
+div.text[position='bottom-start']::before {
+  top: calc(0px - 2 * var(--text-triangle-width)); left: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-bottom-color: var(--text-background)
+}
+div.text[position='bottom-start'].show {
+  top: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='bottom-end'] {
+  top: calc(100% + var(--text-triangle-width)); right: 0px
+}
+div.text[position='bottom-end']::before {
+  top: calc(0px - 2 * var(--text-triangle-width)); right: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-bottom-color: var(--text-background)
+}
+div.text[position='bottom-end'].show {
+  top: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='left'] {
+  right: calc(100% + var(--text-triangle-width)); top: 50%; transform: translate(0, -50%)
+}
+div.text[position='left']::before {
+  right: calc(0px - 2 * var(--text-triangle-width)); top: 50%; transform: translate(0, -50%); border: var(--text-triangle-width) solid transparent; border-left-color: var(--text-background)
+}
+div.text[position='left'].show {
+  right: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='left-start'] {
+  right: calc(100% + var(--text-triangle-width)); top: 0px
+}
+div.text[position='left-start']::before {
+  right: calc(0px - 2 * var(--text-triangle-width)); top: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-left-color: var(--text-background)
+}
+div.text[position='left-start'].show {
+  right: calc(100% + 2 * var(--text-triangle-width))
+}
+div.text[position='left-end'] {
+  right: calc(100% + var(--text-triangle-width)); bottom: 0px
+}
+div.text[position='left-end']::before {
+  right: calc(0px - 2 * var(--text-triangle-width)); bottom: calc(2 * var(--text-triangle-width)); border: var(--text-triangle-width) solid transparent; border-left-color: var(--text-background)
+}
+div.text[position='left-end'].show {
+  right: calc(100% + 2 * var(--text-triangle-width))
+}

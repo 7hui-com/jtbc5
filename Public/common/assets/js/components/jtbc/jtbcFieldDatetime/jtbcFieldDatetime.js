@@ -9,6 +9,56 @@ export default class jtbcFieldDatetime extends HTMLElement {
   #minDate = null;
   #maxDate = null;
 
+  get name() {
+    return this.getAttribute('name');
+  };
+
+  get value() {
+    return this.currentValue;
+  };
+
+  get disabled() {
+    return this.currentDisabled;
+  };
+
+  set value(value) {
+    let container = this.container;
+    if (this.#isDateTime(value))
+    {
+      let currentDate = new Date(value);
+      let currentDateHours = currentDate.getHours();
+      let currentDateMinutes = currentDate.getMinutes();
+      let currentDateSeconds = currentDate.getSeconds();
+      currentDateHours = currentDateHours < 10? '0' + currentDateHours: currentDateHours;
+      currentDateMinutes = currentDateMinutes < 10? '0' + currentDateMinutes: currentDateMinutes;
+      currentDateSeconds = currentDateSeconds < 10? '0' + currentDateSeconds: currentDateSeconds;
+      value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
+      value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
+      container.querySelector('input.datetime').value = this.currentValue = value;
+      container.querySelector('.calendar').setAttribute('value', this.getDateString(currentDate));
+      container.querySelectorAll('div.time div.item').forEach(item => {
+        let currentItemValue = currentDateHours;
+        if (item.classList.contains('m')) currentItemValue = currentDateMinutes;
+        else if (item.classList.contains('s')) currentItemValue = currentDateSeconds;
+        item.querySelectorAll('li').forEach(li => {
+          li.getAttribute('value') == currentItemValue? li.classList.add('selected'): li.classList.remove('selected');
+        });
+      });
+    };
+  };
+
+  set disabled(disabled) {
+    if (disabled == true)
+    {
+      this.container.classList.add('disabled');
+    }
+    else
+    {
+      this.container.classList.remove('disabled');
+    };
+    this.currentDisabled = disabled;
+  };
+
   #changeValue() {
     let container = this.container;
     let calendar = container.querySelector('.calendar');
@@ -88,54 +138,13 @@ export default class jtbcFieldDatetime extends HTMLElement {
     return result;
   };
 
-  get name() {
-    return this.getAttribute('name');
+  #setZIndex() {
+    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
+    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
   };
 
-  get value() {
-    return this.currentValue;
-  };
-
-  get disabled() {
-    return this.currentDisabled;
-  };
-
-  set value(value) {
-    let container = this.container;
-    if (this.#isDateTime(value))
-    {
-      let currentDate = new Date(value);
-      let currentDateHours = currentDate.getHours();
-      let currentDateMinutes = currentDate.getMinutes();
-      let currentDateSeconds = currentDate.getSeconds();
-      currentDateHours = currentDateHours < 10? '0' + currentDateHours: currentDateHours;
-      currentDateMinutes = currentDateMinutes < 10? '0' + currentDateMinutes: currentDateMinutes;
-      currentDateSeconds = currentDateSeconds < 10? '0' + currentDateSeconds: currentDateSeconds;
-      value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
-      value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
-      container.querySelector('input.datetime').value = this.currentValue = value;
-      container.querySelector('.calendar').setAttribute('value', this.getDateString(currentDate));
-      container.querySelectorAll('div.time div.item').forEach(item => {
-        let currentItemValue = currentDateHours;
-        if (item.classList.contains('m')) currentItemValue = currentDateMinutes;
-        else if (item.classList.contains('s')) currentItemValue = currentDateSeconds;
-        item.querySelectorAll('li').forEach(li => {
-          li.getAttribute('value') == currentItemValue? li.classList.add('selected'): li.classList.remove('selected');
-        });
-      });
-    };
-  };
-
-  set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+  #unsetZIndex() {
+    this.style.removeProperty('--z-index');
   };
 
   getDateString(date) {
@@ -200,6 +209,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
     datepicker.addEventListener('transitionend', function(){
       if (!this.classList.contains('on'))
       {
+        that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
@@ -223,14 +233,19 @@ export default class jtbcFieldDatetime extends HTMLElement {
     container.delegateEventListener('span.btn', 'click', function(){
       if (!container.classList.contains('pickable'))
       {
+        that.#setZIndex();
         container.classList.add('pickable');
         clearTimeout(that.#closePickerTimeout);
-        if (that.offsetTop + datepicker.offsetHeight > that.offsetParent.offsetHeight)
+        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
         {
-          if (that.offsetTop > datepicker.offsetHeight)
+          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
           {
             datepicker.classList.add('upper');
           };
+        }
+        else
+        {
+          datepicker.classList.remove('upper');
         };
         if (that.#isDateTime(that.value))
         {

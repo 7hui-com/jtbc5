@@ -1,6 +1,6 @@
 export default class jtbcFieldInputWithSelect extends HTMLElement {
   static get observedAttributes() {
-    return ['mode', 'position', 'data', 'value', 'disabled', 'width'];
+    return ['mode', 'position', 'data', 'value', 'placeholder', 'disabled', 'width'];
   };
 
   #mode = 'json';
@@ -195,6 +195,11 @@ export default class jtbcFieldInputWithSelect extends HTMLElement {
       case 'value':
       {
         this.value = newVal;
+        break;
+      };
+      case 'placeholder':
+      {
+        this.container.querySelector('input.value').setAttribute('placeholder', newVal);
         break;
       };
       case 'disabled':

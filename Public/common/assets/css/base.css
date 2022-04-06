@@ -26,3 +26,9 @@ a:not([href]) {
 var {
   display: none !important
 }
+jtbc-script {
+  display: none
+}
+jtbc-view {
+  display: block; box-sizing: border-box
+}

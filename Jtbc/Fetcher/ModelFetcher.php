@@ -32,8 +32,9 @@ class ModelFetcher
       if (is_int($limit)) $limit = [$limit];
       $additionalSQL = $ss -> additionalSQL;
       $fields = $ss -> fields ?? '*';
+      $lang = $ss -> lang ?? Env::getMajorLang();
       $model = new TinyModel(tableName: $table, DBLink: $ss -> DBLink);
-      $autoFilter = $ss -> autoFilter ?? ['published' => 1, 'lang' => Env::getMajorLang()];
+      $autoFilter = $ss -> autoFilter ?? ['published' => 1, 'lang' => $lang];
       if (is_array($autoFilter))
       {
         foreach ($autoFilter as $key => $value)

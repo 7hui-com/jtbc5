@@ -92,6 +92,7 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
         {
           that.pushSelectedValue(value);
         };
+        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
       };
     });
   };

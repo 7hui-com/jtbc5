@@ -56,7 +56,7 @@
     </item>
     <item>
       <name><![CDATA[text-tit-list-null]]></name>
-      <zh-cn><![CDATA[该文件没有任何可编辑的节点]]></zh-cn>
+      <zh-cn><![CDATA[空白模板]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-selector]]></name>

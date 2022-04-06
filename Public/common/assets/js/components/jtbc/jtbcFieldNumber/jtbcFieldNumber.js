@@ -100,6 +100,21 @@ export default class jtbcFieldNumber extends HTMLElement {
     let inputNumber = container.querySelector('input.number');
     let btnAdd = container.querySelector('span.add');
     let btnMinus = container.querySelector('span.minus');
+    this.addEventListener('mouseenter', function(){
+      if (that.disabled != true)
+      {
+        container.classList.add('on');
+      };
+    });
+    this.addEventListener('mouseleave', function(){
+      container.classList.remove('on');
+    });
+    inputNumber.addEventListener('focus', e => {
+      container.classList.add('focused');
+    });
+    inputNumber.addEventListener('blur', e => {
+      container.classList.remove('focused');
+    });
     inputNumber.addEventListener('input', e => {
       let self = e.target;
       this.currentValue = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
@@ -107,13 +122,9 @@ export default class jtbcFieldNumber extends HTMLElement {
     });
     inputNumber.addEventListener('keypress', e => {
       let keyCode = e.keyCode;
-      if (keyCode >= 48 && keyCode <= 57)
+      if (keyCode < 48 || keyCode > 57)
       {
-        e.returnValue = true;
-      }
-      else
-      {
-        e.returnValue = false;
+        e.preventDefault();
       };
     });
     inputNumber.addEventListener('paste', e => {

@@ -7,8 +7,14 @@ export default class jtbcUploadButton extends HTMLButtonElement {
 
   initEvents() {
     let that = this;
+    let dialog = document.getElementById('dialog');
     this.addEventListener('click', function(){ this.inputFile.click(); });
     this.inputFile.addEventListener('change', function(){
+      const resetStatus = () => {
+        this.value = null;
+        that.classList.remove('locked');
+        that.innerText = that.getAttribute('text');
+      };
       if (!that.classList.contains('locked') && this.files.length == 1)
       {
         that.classList.add('locked');
@@ -18,14 +24,16 @@ export default class jtbcUploadButton extends HTMLButtonElement {
         currentUploader.upload(this.files[0], percent => {
           that.innerText = percent + '%';
         }, data => {
-          that.classList.remove('locked');
-          that.innerText = that.getAttribute('text');
           that.dispatchEvent(new CustomEvent('uploadend', {detail: {data: data}, bubbles: true}));
           if (!that.hasAttribute('keepsilent'))
           {
-            let dialog = document.getElementById('dialog');
-            dialog == null? window.alert(data.message): dialog.alert(data.message);
+            dialog != null? dialog.alert(data.message): window.alert(data.message);
           };
+          resetStatus();
+        }, target => {
+          let errorMessage = target.status + ' ' + target.statusText;
+          dialog != null? dialog.alert(errorMessage): window.alert(errorMessage);
+          resetStatus();
         });
       };
     });

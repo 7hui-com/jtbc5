@@ -14,6 +14,64 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
   #startDateTime = null;
   #endDateTime = null;
 
+  get name() {
+    return this.getAttribute('name');
+  };
+
+  get value() {
+    return this.#value;
+  };
+
+  get disabled() {
+    return this.#disabled;
+  };
+
+  set value(value) {
+    let container = this.container;
+    let startDateValue = '';
+    let endDateValue = '';
+    let startDatetimeValue = '';
+    let endDateTimeValue = '';
+    if (this.#isDateTimeRange(value))
+    {
+      this.#value = value;
+      let valueArr = value.split('~');
+      startDatetimeValue = valueArr[0];
+      endDateTimeValue = valueArr[1];
+      startDateValue = startDatetimeValue.split(' ')[0];
+      endDateValue = endDateTimeValue.split(' ')[0];
+      container.classList.add('loaded');
+    }
+    else
+    {
+      this.#value = '';
+      container.classList.remove('loaded');
+    };
+    this.#startDate = startDateValue;
+    this.#endDate = endDateValue;
+    this.#startDateTime = startDatetimeValue;
+    this.#endDateTime = endDateTimeValue;
+    container.querySelector('input[name=startdatetime]').value = this.#startDateTime;
+    container.querySelector('input[name=enddatetime]').value = this.#endDateTime;
+    if (this.inited == true)
+    {
+      this.#selectTime();
+      this.#dateThroughReset();
+    };
+  };
+
+  set disabled(disabled) {
+    if (disabled == true)
+    {
+      this.container.classList.add('disabled');
+    }
+    else
+    {
+      this.container.classList.remove('disabled');
+    };
+    this.#disabled = disabled;
+  };
+
   #isDate(value) {
     let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
     return dateRegExp.test(value)? true: false;
@@ -287,62 +345,13 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     });
   };
 
-  get name() {
-    return this.getAttribute('name');
+  #setZIndex() {
+    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
+    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
   };
 
-  get value() {
-    return this.#value;
-  };
-
-  get disabled() {
-    return this.#disabled;
-  };
-
-  set value(value) {
-    let container = this.container;
-    let startDateValue = '';
-    let endDateValue = '';
-    let startDatetimeValue = '';
-    let endDateTimeValue = '';
-    if (this.#isDateTimeRange(value))
-    {
-      this.#value = value;
-      let valueArr = value.split('~');
-      startDatetimeValue = valueArr[0];
-      endDateTimeValue = valueArr[1];
-      startDateValue = startDatetimeValue.split(' ')[0];
-      endDateValue = endDateTimeValue.split(' ')[0];
-      container.classList.add('loaded');
-    }
-    else
-    {
-      this.#value = '';
-      container.classList.remove('loaded');
-    };
-    this.#startDate = startDateValue;
-    this.#endDate = endDateValue;
-    this.#startDateTime = startDatetimeValue;
-    this.#endDateTime = endDateTimeValue;
-    container.querySelector('input[name=startdatetime]').value = this.#startDateTime;
-    container.querySelector('input[name=enddatetime]').value = this.#endDateTime;
-    if (this.inited == true)
-    {
-      this.#selectTime();
-      this.#dateThroughReset();
-    };
-  };
-
-  set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.#disabled = disabled;
+  #unsetZIndex() {
+    this.style.removeProperty('--z-index');
   };
 
   getDateString(date) {
@@ -447,6 +456,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     datepicker.addEventListener('transitionend', function(){
       if (!this.classList.contains('on'))
       {
+        that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
@@ -456,14 +466,19 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     container.delegateEventListener('span.btn.select', 'click', function(){
       if (!container.classList.contains('pickable'))
       {
+        that.#setZIndex();
         container.classList.add('pickable');
         clearTimeout(that.#closePickerTimeout);
-        if (that.offsetTop + datepicker.offsetHeight > that.offsetParent.offsetHeight)
+        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
         {
-          if (that.offsetTop > datepicker.offsetHeight)
+          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
           {
             datepicker.classList.add('upper');
           };
+        }
+        else
+        {
+          datepicker.classList.remove('upper');
         };
         datepicker.classList.add('on');
         if (that.#isDate(that.#startDate))

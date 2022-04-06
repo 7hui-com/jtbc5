@@ -1,5 +1,5 @@
 :host {
-  --height: 30px; --unselected-color: #cccccc; --selected-color: #3e868f; --disabled-color: #fafafa
+  --height: 30px; --unselected-color: #ccc; --selected-color: #3e868f; --disabled-color: #eee
 }
 .switch {
   display: inline-block !important; width: calc(var(--height) * 2); height: var(--height); cursor: pointer; vertical-align: top; position: relative; z-index: 100

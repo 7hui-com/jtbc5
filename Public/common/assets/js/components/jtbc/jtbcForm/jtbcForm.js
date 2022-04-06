@@ -66,110 +66,114 @@ export default class jtbcForm extends HTMLFormElement {
     if (!this.isLocked())
     {
       this.lock();
-      this.dispatchEvent(new CustomEvent('submitstart'));
-      let method = this.#method;
-      let action = this.getAttribute('action');
-      let errorMode = this.getAttribute('error_mode');
-      let init = {'method': method};
-      if (['get', 'head'].includes(method))
+      let submitStartEvent = new CustomEvent('submitstart', {bubbles: true, detail: {intercepted: false}});
+      this.dispatchEvent(submitStartEvent);
+      if (submitStartEvent.detail.intercepted !== true)
       {
-        let url = new URL(action);
-        let fields = this.querySelectorAll('[role=field]');
-        fields.forEach(el => {
-           if (this.isValidField(el)) url.searchParams.append(el.name, el.value);
-        });
-        action = url.toString();
-      }
-      else
-      {
-        let headers = {};
-        if (this.#mode == 'json') headers['Content-Type'] = 'application/json';
-        else if (this.#mode == 'queryString') headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        init.headers = headers;
-        init.body = this.serialize();
-      };
-      fetch(action, init).then(res => {
-        let detailRes = res.clone();
-        this.dispatchEvent(new CustomEvent('submitend', {detail: {res: detailRes}, bubbles: true}));
-        if (res.ok)
+        let method = this.#method;
+        let action = this.getAttribute('action');
+        let errorMode = this.getAttribute('error_mode');
+        let init = {'method': method};
+        if (['get', 'head'].includes(method))
         {
-          let errorTipsEls = this.querySelectorAll('.errorTips');
-          if (errorTipsEls.length >= 1)
-          {
-            res.json().then(data => {
-              let errorTips = null;
-              if (data.hasOwnProperty('errorTips'))
-              {
-                errorTips = data.errorTips;
-              }
-              else if (data.hasOwnProperty('code') && data.hasOwnProperty('message'))
-              {
-                errorTips = [];
-                errorTips.push({'code': data.code, 'message': data.message});
-              };
-              if (errorTips != null)
-              {
-                errorTipsEls.forEach(el => {
-                  el.setAttribute('data', JSON.stringify(errorTips));
-                });
-              };
-            });
-          }
-          else
-          {
-            if (this.hasAttribute('bigmouth'))
-            {
-              res.json().then(data => {
-                if (data.code == 1)
-                {
-                  this.#dialog.close().then(() => {
-                    let currentTarget = this.getTarget();
-                    if (currentTarget != null)
-                    {
-                      if (!this.hasAttribute('href'))
-                      {
-                        currentTarget.reload();
-                      }
-                      else
-                      {
-                        currentTarget.href = this.getAttribute('href');
-                      };
-                    };
-                  });
-                }
-                else
-                {
-                  let message = data.message;
-                  let bigmouth = this.getAttribute('bigmouth');
-                  if (bigmouth == 'alert')
-                  {
-                    this.#dialog != null? this.#dialog.alert(message): window.alert(message);
-                  }
-                  else
-                  {
-                    this.#miniMessage?.push(message);
-                  };
-                };
-              });
-            };
-          };
+          let url = new URL(action);
+          let fields = this.querySelectorAll('[role=field]');
+          fields.forEach(el => {
+             if (this.isValidField(el)) url.searchParams.append(el.name, el.value);
+          });
+          action = url.toString();
         }
         else
         {
+          let headers = {};
+          if (this.#mode == 'json') headers['Content-Type'] = 'application/json';
+          else if (this.#mode == 'queryString') headers['Content-Type'] = 'application/x-www-form-urlencoded';
+          init.headers = headers;
+          init.body = this.serialize();
+        };
+        fetch(action, init).then(res => {
+          let detailRes = res.clone();
+          this.dispatchEvent(new CustomEvent('submitend', {detail: {res: detailRes}, bubbles: true}));
+          if (res.ok)
+          {
+            let errorTipsEls = this.querySelectorAll('.errorTips');
+            if (errorTipsEls.length >= 1)
+            {
+              res.json().then(data => {
+                let errorTips = null;
+                if (data.hasOwnProperty('errorTips'))
+                {
+                  errorTips = data.errorTips;
+                }
+                else if (data.hasOwnProperty('code') && data.hasOwnProperty('message'))
+                {
+                  errorTips = [];
+                  errorTips.push({'code': data.code, 'message': data.message});
+                };
+                if (errorTips != null)
+                {
+                  errorTipsEls.forEach(el => {
+                    el.setAttribute('data', JSON.stringify(errorTips));
+                  });
+                };
+              });
+            }
+            else
+            {
+              if (this.hasAttribute('bigmouth'))
+              {
+                res.json().then(data => {
+                  if (data.code == 1)
+                  {
+                    this.#dialog.close().then(() => {
+                      let currentTarget = this.getTarget();
+                      if (currentTarget != null)
+                      {
+                        if (!this.hasAttribute('href'))
+                        {
+                          currentTarget.reload();
+                        }
+                        else
+                        {
+                          currentTarget.href = this.getAttribute('href');
+                        };
+                      };
+                    });
+                  }
+                  else
+                  {
+                    let message = data.message;
+                    let bigmouth = this.getAttribute('bigmouth');
+                    if (bigmouth == 'alert')
+                    {
+                      this.#dialog != null? this.#dialog.alert(message): window.alert(message);
+                    }
+                    else
+                    {
+                      this.#miniMessage?.push(message);
+                    };
+                  };
+                });
+              };
+            };
+          }
+          else
+          {
+            if (errorMode != 'silent')
+            {
+              let errorMessage = res.status + ' ' + res.statusText;
+              this.#dialog == null? window.alert(errorMessage): this.#dialog.alert(errorMessage);
+            };
+          };
+        }).catch(error => {
           if (errorMode != 'silent')
           {
-            let errorMessage = res.status + ' ' + res.statusText;
-            this.#dialog == null? window.alert(errorMessage): this.#dialog.alert(errorMessage);
+            this.#dialog == null? window.alert(error): this.#dialog.alert(error);
           };
-        };
-      }).catch(error => {
-        if (errorMode != 'silent')
-        {
-          this.#dialog == null? window.alert(error): this.#dialog.alert(error);
-        };
-      }).finally(() => {
-        this.unlock();
-      });
+        }).finally(() => {
+          this.unlock();
+        });
+      };
     };
   };
 

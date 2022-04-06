@@ -7,8 +7,12 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[text-tit-create]]></name>
+      <name><![CDATA[text-tit-create-1]]></name>
       <zh-cn><![CDATA[创建父模块]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-create-2]]></name>
+      <zh-cn><![CDATA[创建典型模块]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-submit]]></name>
@@ -39,16 +43,8 @@
       <zh-cn><![CDATA[模块名对应的目录已经存在]]></zh-cn>
     </item>
     <item>
-      <name><![CDATA[text-code-4007]]></name>
-      <zh-cn><![CDATA[父模块的资源文件打开失败]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[text-code-4008]]></name>
-      <zh-cn><![CDATA[父模块的资源文件解压失败]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[text-code-4009]]></name>
-      <zh-cn><![CDATA[服务器文件修改内容失败，请检查目录权限]]></zh-cn>
+      <name><![CDATA[text-code-4444]]></name>
+      <zh-cn><![CDATA[创建模块失败，请检查目录权限]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[log-create]]></name>

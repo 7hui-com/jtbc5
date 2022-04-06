@@ -1,5 +1,6 @@
 <?php
 namespace Jtbc;
+use Jtbc\Jtbc\JtbcWriter;
 use Jtbc\Model\TinyModel;
 use Jtbc\DB\DBFactory;
 use Jtbc\DB\Schema\Column;
@@ -16,7 +17,10 @@ class Diplomat extends Ambassador {
   private function getColumn(Substance $argInfo)
   {
     $info = $argInfo;
+    $hasDefaultValue = false;
     $fieldName = $info -> field_name;
+    $fieldText = $info -> field_text;
+    $fieldTextAuto = intval($info -> field_text_auto);
     $fieldDefault = $info -> field_default;
     $fieldset = intval($info -> fieldset);
     $commentType = $info -> comment_type;
@@ -28,8 +32,37 @@ class Diplomat extends Ambassador {
     $column = new Column($fieldName);
     if (!Validation::isEmpty($fieldDefault))
     {
+      $hasDefaultValue = true;
       $column -> setDefaultValue($fieldDefault);
     }
+    $tryTochangeDataType = function(string $argDataType) use (&$column, $hasDefaultValue, $fieldDefault)
+    {
+      $result = false;
+      $dataType = $argDataType;
+      if ($dataType == 'int')
+      {
+        if ($hasDefaultValue === false)
+        {
+          $result = true;
+          $column -> setDataType('int', 11);
+          $column -> setDefaultValue(0);
+        }
+        else
+        {
+          if (is_numeric($fieldDefault))
+          {
+            $newFieldDefault = intval($fieldDefault);
+            if ($newFieldDefault >= -2147483648 && $newFieldDefault <= 2147483647)
+            {
+              $result = true;
+              $column -> setDataType('int', 11);
+              $column -> setDefaultValue($newFieldDefault);
+            }
+          }
+        }
+      }
+      return $result;
+    };
     switch($commentType)
     {
       case 'text':
@@ -69,6 +102,14 @@ class Diplomat extends Ambassador {
     }
     $comment = new Substance();
     $comment -> type = $commentType;
+    if ($fieldTextAuto != 1 && !Validation::isEmpty($fieldText))
+    {
+      $comment -> text = $fieldText;
+    }
+    if ($commentType == 'text' && $commentFormat == 'int')
+    {
+      $tryTochangeDataType('int');
+    }
     if ($commentFormat != 'nothing')
     {
       $comment -> format = $commentFormat;
@@ -82,7 +123,6 @@ class Diplomat extends Ambassador {
     {
       $comment -> has_upload = true;
     }
-    //*****************************************************************************//
     if ($fieldset == 2)
     {
       if (Validation::isJSON($info -> comment_columns))
@@ -101,13 +141,12 @@ class Diplomat extends Ambassador {
     {
       if ($commentFormat == 'int')
       {
-        $column -> setDataType('int', 11);
+        $tryTochangeDataType('int');
       }
       $comment -> source = $commentSource;
       $comment -> sourceType = $commentSourceType;
     }
-    //*****************************************************************************//
-    if (in_array($fieldset, [1, 5, 6, 7, 8, 9, 10]))
+    else if (in_array($fieldset, [1, 5, 6, 7, 8, 9, 10]))
     {
       $extra = [];
       foreach ($info as $key => $value)
@@ -119,9 +158,19 @@ class Diplomat extends Ambassador {
       }
       $comment -> extra = $extra;
     }
-    //*****************************************************************************//
     $column -> setComment($comment -> toJSON());
     return $column;
+  }
+
+  public function config(Request $req)
+  {
+    $genre = strval($req -> get('genre'));
+    $module = new Module($genre);
+    $bs = new BasicSubstance($this);
+    $bs -> data -> genre = $genre;
+    $bs -> data -> module_title = strval($module -> getTitle(false));
+    $bs -> data -> module_icon = strval($module -> guide -> icon);
+    return $bs -> toJSON();
   }
 
   public function getSourceList(Request $req)
@@ -401,6 +450,58 @@ class Diplomat extends Ambassador {
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = $message;
+    $result = $ss -> toJSON();
+    return $result;
+  }
+
+  public function actionConfig(Request $req)
+  {
+    $code = 0;
+    $message = '';
+    $genre = strval($req -> post('genre'));
+    $moduleTitle = strval($req -> post('module_title'));
+    $moduleIcon = strval($req -> post('module_icon'));
+    if ($this -> guard -> role -> checkPermission('setting'))
+    {
+      $module = new Module($genre);
+      if ($module -> isExists())
+      {
+        $modulePath = $module -> getPath();
+        $moduleTitlePathType = 'cfg';
+        $moduleTitlePath = $modulePath . '/common/guide.jtbc';
+        $changedIcon = empty($moduleIcon)? false: JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'icon', $moduleIcon);
+        if ($module -> getTitle(true) ==  $module -> getTitle(false))
+        {
+          if (!is_null(Jtbc::take('global.' . $genre . ':index.title', 'lng')))
+          {
+            $moduleTitlePathType = 'lng';
+            $moduleTitlePath = $modulePath . '/common/language/index.jtbc';
+          }
+        }
+        $changedTitle = JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'title', $moduleTitle);
+        if ($changedIcon === true || $changedTitle === true)
+        {
+          $code = 1;
+          Logger::log($this, 'manageSetting.log-config', ['genre' => $genre]);
+        }
+        else
+        {
+          $code = 4444;
+        }
+      }
+      else
+      {
+        $code = 4001;
+      }
+    }
+    else
+    {
+      $code = 4403;
+      $message = Jtbc::take('::communal.text-tips-error-4403', 'lng');
+    }
+    $ss = new Substance();
+    $ss -> code = $code;
+    $ss -> message = Jtbc::take('manageSetting.text-code-config-' . $code, 'lng') ?: $message;
     $result = $ss -> toJSON();
     return $result;
   }

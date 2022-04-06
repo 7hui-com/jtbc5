@@ -51,7 +51,11 @@
         <jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list&amp;file=index">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;file=communal&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;file=render&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a></jtbc-pitchon>
       </toplink>
       <div if="${$nodeList.length == 0}" class="chief">
-        <h6>{$=$take('manage.text-tit-list-null', 'lng')}</h6>
+        <h3>{$=$take('manage.text-tit-list-null', 'lng')}</h3>
+        <rightarea selectedNode="${$data.node}" url="codename={$>this.genre}:manage.list&amp;pitchon=null&amp;file=${encodeURIComponent($.raw.param.file)}&amp;genre=${encodeURIComponent($.raw.param.genre)}&amp;node=">{$=$take('manage.text-select-node', 'lng')}&nbsp;&nbsp;<template is="jtbc-template" key="nodeList"><select name="node" is="jtbc-select" isloop="true" value="${$.htmlEncode($.parent.getAttribute('selectedNode'))}"><option value="${$node}">${$node}</option></select></template>&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selector" target="dialog"><icon class="button" title="{$=$take('manage.text-tit-selector', 'lng')}"><jtbc-svg name="parameter"></jtbc-svg></icon></a><span if="${$control.subPermission.add}">&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;file=${encodeURIComponent($.raw.param.file)}&amp;genre=${encodeURIComponent($.raw.param.genre)}&amp;filepath=${encodeURIComponent($.raw.filePath)}" target="dialog"><button class="b2">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
+        <div class="sheet">
+          <item class="skinny"><span class="tips">{$=$take('manage.text-file', 'lng')}&nbsp;${$filePath}</span></item>
+        </div>
       </div>
       <div else class="chief">
         <h3>{$=$take('manage.text-tit-list', 'lng')}&nbsp;[&nbsp;${$data.node}&nbsp;]</h3>
@@ -60,7 +64,7 @@
           <input type="hidden" role="field" name="node" value="${$data.node}" />
           <input type="hidden" role="field" name="filepath" value="${$filePath}" />
           <div class="sheet">
-            <item><span class="tips">{$=$take('manage.text-file', 'lng')}&nbsp;${$filePath}</span></item>
+            <item class="skinny"><span class="tips">{$=$take('manage.text-file', 'lng')}&nbsp;${$filePath}</span></item>
             <item>
               <div class="content"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="htmlmixed" value="${$data.content}" height="500"></jtbc-field-code-editor></div>
             </item>

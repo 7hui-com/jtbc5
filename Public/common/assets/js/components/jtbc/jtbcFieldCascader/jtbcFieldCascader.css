@@ -1,5 +1,5 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --font-size: 14px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+  width: 500px; display: inline-block; vertical-align: top; --font-size: 14px; --height: 30px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
 }
 .container {
   width: 100%; display: block !important; position: relative; z-index: var(--z-index); cursor: pointer
@@ -8,24 +8,24 @@
   box-sizing: border-box; outline: none; cursor: pointer
 }
 .container input.text {
-  width: calc(100% - 30px); height: 30px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200; pointer-events: none
+  width: calc(100% - 30px); height: var(--height); background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200; pointer-events: none
 }
 .container span.box {
   display: block; width: 100%; height: 100%; box-sizing: border-box; background: url(../../../../svg/select.svg) #fff calc(100% - 4px) center no-repeat; background-size: 20px; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; transition: all .3s ease
 }
-.container span.close {
+.container span.empty {
   display: block; width: 20px; height: 20px; background: #fff; opacity: 0; border-radius: 100%; transform: translate(0, -50%); position: absolute; right: 5px; top: 50%; z-index: 80; transition: opacity .3s ease
 }
-.container span.close::before {
+.container span.empty::before {
   content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(45deg); position: absolute; top: 50%; left: 50%; z-index: 100
 }
-.container span.close::after {
+.container span.empty::after {
   content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(-45deg); position: absolute; top: 50%; left: 50%; z-index: 100
 }
-.container span.close.on {
+.container span.empty.on {
   z-index: 1000
 }
-.container span.close.on:hover {
+.container span.empty.on:hover {
   opacity: 1; background-color: #f2f2f2
 }
 .container div.selector {

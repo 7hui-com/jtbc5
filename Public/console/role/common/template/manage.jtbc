@@ -35,7 +35,7 @@
                   <template is="jtbc-template" key="policies">
                     <ul isloop="true">
                       <li>
-                        <p genre="${$genre}"><label class="checkbox"><input type="checkbox" name="genre" value="${$genre}" class="genre" /><span>${$title}</span></label><a if="${$hasCategory}" is="jtbc-anchor" class="segment" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selectCategory&amp;genre=${$genre}" target="dialog">({$=$take('universal:config.category', 'lng')})<input type="hidden" class="segment_category" genre="${$genre}" /></a><template is="jtbc-template" key="sub"><label class="checkbox"><input type="checkbox" value="${$name}" class="sub" /><span>${$title}</span></label></template></p>${$.selfie($.raw.children)}
+                        <p class="genre" genre="${$genre}"><label class="checkbox"><input type="checkbox" name="genre" value="${$genre}" class="genre" /><span>${$title}</span></label><a if="${$hasCategory}" is="jtbc-anchor" class="segment" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selectCategory&amp;genre=${$genre}" target="dialog">({$=$take('universal:config.category', 'lng')})<input type="hidden" class="segment_category" genre="${$genre}" /></a><template is="jtbc-template" key="sub"><label class="checkbox"><input type="checkbox" value="${$name}" class="sub" /><span>${$title}</span></label></template></p>${$.selfie($.raw.children)}
                       </li>
                     </ul>
                   </template>

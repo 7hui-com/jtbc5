@@ -83,7 +83,7 @@
     </div>
     <div else class="manager">
       <toplink class="path" genre="${$genre}"><a is="jtbc-anchor" class="link pitchon" href="codename={$>this.genre}:manage.list&amp;genre=${$genre}">${$genreTitle}</a><jtbc-svg class="arrow" name="arrow_right"></jtbc-svg><template is="jtbc-template" key="fatherGroup"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a><jtbc-svg name="slash"></jtbc-svg></template></toplink>
-      <div class="chief" genre="${$genre}" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" can_order="${$control.subPermission.order}">
+      <div class="chief" genre="${$genre}" genre-mode="${$genreMode}" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" can_order="${$control.subPermission.order}">
         <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
         <rightarea genre="${$genre}"><span class="text">{$=$take('manage.text-current-genre', 'lng')}</span>&nbsp;&nbsp;<template is="jtbc-template" key="allGenre"><select name="genre" is="jtbc-select" isloop="true" url="codename={$>this.genre}:manage.list&amp;genre=" value="${$.parent.attr.genre}"><option value="${$genre}">${$title}</option></select></template><span>&nbsp;&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
         <template is="jtbc-template" key="data">
@@ -104,7 +104,7 @@
                 <td role="draghandle" class="${$.param.can_order? 'normal': 'hide'}"></td>
                 <td class="center"><input type="checkbox" name="id" value="${$id}" role="selector" /></td>
                 <td class="center">${$id}</td>
-                <td><a is="jtbc-anchor" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a></td>
+                <td><span if="${$.parent.getAttribute('genre-mode') == 'flat'}">${$title}</span><a else is="jtbc-anchor" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a></td>
                 <td>${$time}</td>
                 <td class="center"><span class="status" status="${$published}"></span></td>
                 <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.edit&amp;id=${$id}" target="dialog"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>

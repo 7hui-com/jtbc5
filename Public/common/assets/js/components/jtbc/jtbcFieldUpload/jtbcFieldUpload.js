@@ -126,6 +126,12 @@ export default class jtbcFieldUpload extends HTMLElement {
       let bar = container.querySelector('span.bar');
       let btn = container.querySelector('button.upload');
       let input = container.querySelector('input.fileurl');
+      const resetStatus = () => {
+        this.value = null;
+        that.buttonTextReset();
+        bar.style.width = '100%';
+        btn.classList.remove('locked');
+      };
       if (!btn.classList.contains('locked') && this.files.length == 1)
       {
         bar.style.width = '0%';
@@ -142,7 +148,6 @@ export default class jtbcFieldUpload extends HTMLElement {
           }
           else
           {
-            this.value = null;
             if (that.hasAttribute('whisper') && miniMessage != null)
             {
               miniMessage.push(data.message);
@@ -156,15 +161,11 @@ export default class jtbcFieldUpload extends HTMLElement {
               window.alert(data.message);
             };
           };
-          that.buttonTextReset();
-          bar.style.width = '100%';
-          btn.classList.remove('locked');
+          resetStatus();
         }, target => {
           let errorMessage = target.status + ' ' + target.statusText;
           dialog != null? dialog.alert(errorMessage): window.alert(errorMessage);
-          that.buttonTextReset();
-          bar.style.width = '100%';
-          btn.classList.remove('locked');
+          resetStatus();
         });
       };
     });

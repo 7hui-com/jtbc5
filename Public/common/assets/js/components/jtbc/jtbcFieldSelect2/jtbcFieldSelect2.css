@@ -1,0 +1,117 @@
+:host {
+  display: inline-block; width: 200px; --font-size: 14px; --height: 30px; --options-max-height: 360px; --option-background-color-hover: #eee; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index); user-select: none
+}
+.container input {
+  box-sizing: border-box; outline: none
+}
+.container input.text {
+  width: calc(100% - 30px); height: var(--height); background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200; pointer-events: none
+}
+.container span.box {
+  display: block; width: 100%; height: 100%; box-sizing: border-box; background: url(../../../../svg/select.svg) #fff calc(100% - 4px) center no-repeat; background-size: 20px; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); cursor: pointer; position: absolute; top: 0px; left: 0px; z-index: 100; transition: all .3s ease
+}
+.container span.empty {
+  display: block; width: 20px; height: 20px; background: #fff; opacity: 0; border-radius: 100%; transform: translate(0, -50%); position: absolute; right: 5px; top: 50%; z-index: 80; transition: opacity .3s ease
+}
+.container span.empty::before {
+  content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(45deg); position: absolute; top: 50%; left: 50%; z-index: 100
+}
+.container span.empty::after {
+  content: ''; width: 60%; height: 1px; background: #666; transform: translate(-50%, -50%) rotate(-45deg); position: absolute; top: 50%; left: 50%; z-index: 100
+}
+.container span.empty.on {
+  z-index: 1000
+}
+.container span.empty.on:hover {
+  opacity: 1; background-color: #f2f2f2; cursor: pointer
+}
+.container div.selector {
+  display: none; width: 100%; opacity: 0; position: absolute; left: 0px; top: 100%; z-index: 100; transition: all .3s ease
+}
+.container div.selector::before {
+  content: ''; display: block; width: 0px; height: 0px; border: 6px solid; border-color: transparent transparent #d1d1d1 transparent; position: absolute; top: -12px; left: 8px; z-index: 100
+}
+.container div.selector::after {
+  content: ''; display: none; width: 0px; height: 0px; border: 6px solid; border-color: #d1d1d1 transparent transparent transparent; position: absolute; top: 100%; left: 8px; z-index: 100
+}
+.container div.selector div.options {
+  width: 100%; max-height: var(--options-max-height); overflow: auto; box-sizing: border-box; padding: 5px 0px; background: #ffffff; box-sizing: border-box; border: #d1d1d1 1px solid; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+}
+.container div.selector div.options ul {
+  margin: 0px; padding: 0px; list-style: none; background: #ffffff; position: relative
+}
+.container div.selector div.options ul li {
+  width: 100%; box-sizing: border-box; position: relative
+}
+.container div.selector div.options ul li.disabled > div.option {
+  cursor: default; filter: grayscale(100%)
+}
+.container div.selector div.options ul li.disabled > div.option * {
+  color: #ccc !important
+}
+.container div.selector div.options ul li.selected > div.option {
+  background-color: var(--option-background-color-hover)
+}
+.container div.selector div.options ul ul {
+  padding-left: 30px
+}
+.container div.selector div.options ul ul::before {
+  content: ''; position: absolute; top: 0px; left: 16px; width: 0px; height: 100%; border-left: #d1d1d1 1px solid; z-index: 100
+}
+.container div.selector div.options ul ul li::before {
+  content: ''; position: absolute; top: 12px; left: -14px; width: 12px; height: 0px; border-top: #d1d1d1 1px solid; z-index: 500
+}
+.container div.selector div.options ul ul li:last-child::after {
+  content: ''; width: 2px; background: #fff; height: calc(100% - 12px); position: absolute; left: -14px; bottom: 0px; z-index: 200
+}
+.container div.selector div.options ul:empty {
+  display: none
+}
+.container div.selector div.option {
+  padding: 5px 10px; font-size: var(--font-size); transition: background-color .3s ease; cursor: pointer
+}
+.container div.selector div.option:hover {
+  background-color: var(--option-background-color-hover)
+}
+.container div.selector div.option span[key=text] {
+  display: block; color: #333; line-height: 120%; overflow: hidden; text-overflow: ellipsis
+}
+.container div.selector div.option span[key=subtext] {
+  display: block; color: #999; font-size: calc(var(--font-size) - 2px); line-height: 120%; overflow: hidden; text-overflow: ellipsis
+}
+.container div.selector div.option span[key=subtext]:empty {
+  display: none
+}
+.container div.selector.on {
+  opacity: 1; top: calc(100% + 8px)
+}
+.container div.selector.upper {
+  top: auto; bottom: 100%
+}
+.container div.selector.upper::before {
+  display: none
+}
+.container div.selector.upper::after {
+  display: block
+}
+.container div.selector.upper.on {
+  opacity: 1; bottom: calc(100% + 8px)
+}
+.container div.mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled {
+  cursor: default
+}
+.container.disabled div.mask {
+  z-index: 10000
+}
+.container.pickable span.box {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container.pickable div.selector {
+  display: block
+}

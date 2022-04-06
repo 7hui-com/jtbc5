@@ -1,0 +1,30 @@
+:host {
+  display: block; --pagination-height: 30px; --pagination-border-color: #999; --pagination-border-color-hover: #000; --pagination-border-width: 1px; --pagination-border-radius: 0px; --pagination-background: #fff; --pagination-background-hover: #fff; --pagination-color: #999; --pagination-color-hover: #000; --pagination-item-margin: 0px 10px
+}
+:host(.hide) {
+  display: none !important
+}
+container {
+  display: block !important
+}
+.tinyPagination {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap
+}
+.tinyPagination div.page {
+  display: block; box-sizing: border-box; box-sizing: border-box; margin: var(--pagination-item-margin); cursor: pointer
+}
+.tinyPagination div.page span.button {
+  display: block; box-sizing: border-box; width: var(--pagination-height); height: var(--pagination-height); box-sizing: border-box; background: var(--pagination-background); border: var(--pagination-border-color) var(--pagination-border-width) solid; border-radius: var(--pagination-border-radius); padding: calc(var(--pagination-height) / 4)
+}
+.tinyPagination div.page span.button jtbc-svg {
+  display: block; width: 100%; height: 100%; --fore-color: var(--pagination-color)
+}
+.tinyPagination div.page:not(.off):hover {
+  border-color: var(--pagination-border-color-hover); background: var(--pagination-background)
+}
+.tinyPagination div.page:not(.off):hover span.button jtbc-svg {
+  --fore-color: var(--pagination-color-hover)
+}
+.tinyPagination div.page.off {
+  cursor: default; filter: grayscale(100%); opacity: .3
+}

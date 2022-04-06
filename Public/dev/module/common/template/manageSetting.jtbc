@@ -181,13 +181,13 @@
       <div class="tinyForm">
         <ul>
           <li><input is="jtbc-input" type="text" name="field_name" role="field" placeholder="{$=$take('config.field_name', 'lng')}" width="100%" /></li>
-          <li><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></li>
+          <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
           <li class="flex">
             <span class="column"><select is="jtbc-select" name="comment_type" role="field" width="100%" api="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting">{$=$takeAndFormatToOption('sel_type.*')}</select><h6 class="far">{$=$take('config.comment_type', 'lng')}</h6></span>
             <span class="column"><select is="jtbc-select" name="comment_format" role="field" width="100%">{$=$takeAndFormatToOption('sel_format.*')}</select><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
           </li>
           <li><input is="jtbc-input" type="text" name="field_default" role="field" placeholder="{$=$take('config.field_default', 'lng')}" width="100%" /></li>
-          <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label></li>
+          <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" role="field" name="field_text_auto" value="1" checked="checked" /><span>{$=$take('manage.text-tips-1', 'lng')}</span></label></li>
         </ul>
         <div class="additional"></div>
       </div>
@@ -212,6 +212,7 @@
         <div class="tinyForm">
           <ul>
             <li><input is="jtbc-input" type="text" name="new_field_name" role="field" placeholder="{$=$take('config.field_name', 'lng')}" value="${$data.field}" width="100%" /></li>
+            <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
           </ul>
           <div is="jtbc-tab" class="tabMode" value="0">
             <div class="tabtitle"><tabtitle>{$=$take('{$>self.path}.text-tit-edit-mode-1', 'lng')}</tabtitle><tabtitle>{$=$take('{$>self.path}.text-tit-edit-mode-2', 'lng')}</tabtitle></div>
@@ -231,7 +232,7 @@
                       <span class="column"><select is="jtbc-select" name="comment_format" role="field" width="100%">{$=$takeAndFormatToOption('sel_format.*')}</select><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
                     </li>
                     <li><input is="jtbc-input" type="text" name="field_default" role="field" placeholder="{$=$take('config.field_default', 'lng')}" width="100%" /></li>
-                    <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" role="field" name="field_text_auto" value="1" checked="checked" /><span>{$=$take('manage.text-tips-1', 'lng')}</span></label></li>
                   </ul>
                   <div class="additional"></div>
                 </div>
@@ -245,6 +246,35 @@
   </form>
 </div>
 <jtbc-script init="initEditField" src="{$>this.genre}/common/assets/js/manageSetting.js"></jtbc-script>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[config]]></name>
+      <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageSetting.css" />
+<div class="dialogPopup">
+  <div class="title">{$=$take('{$>self.path}.text-tit-config', 'lng')}</div>
+  <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageSetting?action=config">
+    <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
+    <div class="tinyForm">
+      <template is="jtbc-template" url="{$>this.genre}/manageSetting?{$=$htmlEncode($request_query_rebuild(['type' => 'config']))}">
+        <div class="ppSettingConfig">
+          <ul>
+            <li><span class="highlight" group="4">{$=$take('config.module_name', 'lng')}</span><span class="highlight" group="1">${$genre}</span></li>
+            <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" value="${$module_title}" /></li>
+            <li><span class="tips">{$=$take('{$>self.path}.text-tips-config', 'lng')}</span></li>
+            <li>
+              <fieldset>
+                <legend>{$=$take('config.module_icon', 'lng')}</legend>
+                <div class="box"><jtbc-field-icon-selector name="module_icon" role="field" width="100%" value="${$module_icon}"></jtbc-field-icon-selector></div>
+              </fieldset>
+            </li>
+          </ul>
+        </div>
+        <div class="button central"><button class="b2" role="submit">{$=$take('{$>self.path}.text-submit-config', 'lng')}</button></div>
+      </template>
+    </div>
+  </form>
+</div>
+<jtbc-script init="initConfig" src="{$>this.genre}/common/assets/js/manageSetting.js"></jtbc-script>]]></default>
     </item>
   </item_list>
 </xml>

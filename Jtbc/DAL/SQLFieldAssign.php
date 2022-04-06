@@ -112,7 +112,11 @@ class SQLFieldAssign
         }
         else if ($fieldType == 'date')
         {
-          if (!Validation::isDate($fieldValue))
+          if (Validation::isEmpty($fieldValue))
+          {
+            $formatedValue = null;
+          }
+          else if (!Validation::isDate($fieldValue))
           {
             throw new FormatException('"' . $fieldValue . '" must be a valid date', 50101);
           }
@@ -123,7 +127,11 @@ class SQLFieldAssign
         }
         else if ($fieldType == 'datetime')
         {
-          if (!Validation::isDateTime($fieldValue))
+          if (Validation::isEmpty($fieldValue))
+          {
+            $formatedValue = null;
+          }
+          else if (!Validation::isDateTime($fieldValue))
           {
             throw new FormatException('"' . $fieldValue . '" must be a valid datetime', 50101);
           }

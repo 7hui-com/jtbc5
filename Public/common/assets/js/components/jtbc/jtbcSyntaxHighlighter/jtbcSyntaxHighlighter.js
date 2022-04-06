@@ -3,45 +3,60 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
     return ['fontsize', 'language', 'value'];
   };
 
+  #value = '';
+  #language = 'markup';
+  #fontSize = '14px';
+
+  #resetHeight() {
+    this.iFrame.style.height = this.iFrame.contentDocument.documentElement.offsetHeight + 'px';
+  };
+
+  get value() {
+    return this.#value;
+  };
+
+  get language() {
+    return this.#language;
+  };
+
   set value(value) {
-    this.currentValue = value;
-    this.container.innerHTML = '';
-    let preEl = document.createElement('pre');
-    let codeEl = document.createElement('code');
-    codeEl.append(this.currentValue);
-    preEl.classList.add('language-' + this.currentLanguage);
-    preEl.append(codeEl);
-    this.container.append(preEl);
-    if (this.inited == true)
-    {
-      this.init();
-    };
+    this.#value = value;
+    this.syncValue();
   };
 
-  setFontSize(fontSize) {
-    this.container.style.fontSize = fontSize;
-  };
-
-  init() {
-    if (this.inited == false)
+  syncValue() {
+    if (this.iFrameReady == true)
     {
-      this.inited = true;
+      this.iFrame.contentDocument.body.innerHTML = '';
+      let preEl = document.createElement('pre');
+      let codeEl = document.createElement('code');
+      codeEl.append(this.#value);
+      preEl.classList.add('line-numbers');
+      preEl.classList.add('language-' + this.#language);
+      preEl.style.whiteSpace = 'pre-wrap';
+      preEl.style.margin = '0px';
+      preEl.style.borderRadius = '0px';
+      preEl.append(codeEl);
+      this.iFrame.contentDocument.body.append(preEl);
+      this.iFrame.contentDocument.body.style.fontSize = this.#fontSize;
+      if (this.iFrame.contentWindow.hasOwnProperty('Prism'))
+      {
+        this.iFrame.contentWindow.Prism.highlightElement(codeEl);
+        this.#resetHeight();
+      };
     };
-    this.container.querySelectorAll('code').forEach(el => {
-      window.Prism.highlightElement(el);
-    });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'fontsize':
       {
-        this.setFontSize(newVal);
+        this.#fontSize = newVal;
         break;
       };
       case 'language':
       {
-        this.currentLanguage = newVal;
+        this.#language = newVal;
         break;
       };
       case 'value':
@@ -60,29 +75,45 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
     super();
     this.ready = false;
     this.inited = false;
-    this.currentValue = '';
-    this.currentLanguage = 'markup';
-    this.prismDir = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/../../../vendor/prism/';
+    let componentBasePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
+    this.prismDir = componentBasePath + '../../../vendor/prism/';
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importPrismCssUrl = this.prismDir + 'prism.css';
-    let shadowRootHTML = `<style>@import url('${importPrismCssUrl}');</style><container></container>`;
+    let shadowRootHTML = `
+      <style type="text/css">
+      :host {
+        display: block
+      }
+      div.container iframe {
+        width: 100%; height: 0px
+      }
+      </style>
+      <div class="container"><iframe frameborder="0"></iframe></div>
+    `;
     shadowRoot.innerHTML = shadowRootHTML;
-    this.container = shadowRoot.querySelector('container');
-    this.setFontSize('14px');
-    if (window.Prism != undefined && window.Prism.inited == true)
-    {
-      this.init();
-    }
-    else
-    {
-      window.Prism = {'manual': true};
-      let scriptpPrism = document.createElement('script');
-      scriptpPrism.src = this.prismDir + 'prism.js';
-      scriptpPrism.addEventListener('load', () => {
-        window.Prism.inited = true;
-        this.init();
+    this.container = shadowRoot.querySelector('div.container');
+    this.iFrame = this.container.querySelector('iframe');
+    this.iFrame.addEventListener('load', () => {
+      this.iFrameReady = true;
+      let prismCss = document.createElement('link');
+      let prismjs = document.createElement('script');
+      prismCss.setAttribute('type', 'text/css');
+      prismCss.setAttribute('rel', 'stylesheet');
+      prismCss.setAttribute('href', this.prismDir + 'prism.css');
+      prismjs.addEventListener('load', () => {
+        this.iFrame.contentWindow.Prism.manual = true;
+        this.iFrame.contentDocument.querySelectorAll('code').forEach(el => {
+          this.iFrame.contentWindow.Prism.highlightElement(el);
+        });
+        this.#resetHeight();
       });
-      shadowRoot.appendChild(scriptpPrism);
-    };
+      prismjs.setAttribute('src', this.prismDir + 'prism.js');
+      this.iFrame.contentDocument.head.appendChild(prismCss);
+      this.iFrame.contentDocument.head.appendChild(prismjs);
+      this.iFrame.contentWindow.addEventListener('resize', () => {
+        this.#resetHeight();
+      });
+      this.syncValue();
+    });
+    this.iFrame.setAttribute('src', componentBasePath + 'highlighter.html');
   };
 };

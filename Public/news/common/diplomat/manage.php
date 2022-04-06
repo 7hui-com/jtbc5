@@ -94,7 +94,6 @@ class Diplomat extends Ambassador {
     foreach ($data as $key => $item)
     {
       $item -> category_title = $category -> getTitleById($item -> category);
-      $data[$key] = $item;
     }
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;

@@ -10,19 +10,19 @@
       <name><![CDATA[clone]]></name>
       <default><![CDATA[<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manageClone.css" />
 <div class="dialogPopup">
-  <div class="title">{$=$take('{$>self.path}.text-tit-clone', 'lng')}({$=$htmlEncode($get_query_string('genre'))})</div>
+  <div class="title">{$=$take('{$>self.path}.text-tit-clone-1', 'lng')} {$=$htmlEncode($get_query_string('genre'))} {$=$take('{$>self.path}.text-tit-clone-2', 'lng')}</div>
   <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageClone?action=clone">
     <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
     <div class="tinyForm">
       <div class="ppClone">
         <ul>
-          <li><input type="text" name="module_name" role="field" placeholder="{$=$take('config.module_name', 'lng')}" /></li>
+          <li><jtbc-field-input-with-text position="left" name="module_name" role="field" text="/" placeholder="{$=$take('config.module_name', 'lng')}"></jtbc-field-input-with-text></li>
           <li><input type="text" name="module_title" role="field" placeholder="{$=$take('config.module_title', 'lng')}" /></li>
           <li><span class="tips">{$=$take('manage.text-tips-2', 'lng')}</span></li>
           <li>
             <fieldset>
               <legend>{$=$take('config.module_icon', 'lng')}</legend>
-              <div class="icons"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
+              <div class="box"><jtbc-field-icon-selector name="module_icon" role="field" width="100%"></jtbc-field-icon-selector></div>
             </fieldset>
           </li>
         </ul>

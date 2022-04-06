@@ -11,8 +11,12 @@
       <zh-cn><![CDATA[模块列表]]></zh-cn>
     </item>
     <item>
-      <name><![CDATA[text-tit-create]]></name>
+      <name><![CDATA[text-tit-create-1]]></name>
       <zh-cn><![CDATA[创建父模块]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-create-2]]></name>
+      <zh-cn><![CDATA[创建典型模块]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-setting]]></name>
@@ -36,7 +40,7 @@
     </item>
     <item>
       <name><![CDATA[text-tips-1]]></name>
-      <zh-cn><![CDATA[字段名是英文字母，“名称”根据模块的语言config自动匹配。]]></zh-cn>
+      <zh-cn><![CDATA[根据字段名自动从语言文件中匹配名称]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tips-2]]></name>

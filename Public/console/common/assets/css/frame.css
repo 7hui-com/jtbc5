@@ -53,7 +53,7 @@ body {
   width: 100%; height: 50px; background: #2b3643; position: relative; z-index: 1000
 }
 .topbar h1 {
-  padding-left: 20px; line-height: 50px; font-size: 20px; font-family: arial; font-weight: normal; color: #fff
+  padding: 10px 0px 10px 20px; line-height: 30px; font-size: 20px; font-family: arial; font-weight: normal; color: #fff
 }
 .topbar span.menu {
   display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; position: absolute; top: 5px; left: 185px; z-index: 100
@@ -398,6 +398,9 @@ body {
 .container .main div.sheet item {
   width: 100%; display: flex; align-items: stretch; padding: 10px 0px
 }
+.container .main div.sheet item.skinny {
+  padding: 0px
+}
 .container .main div.sheet item label.name {
   width: 150px; display: inline-block; box-sizing: border-box; padding-right: 20px; text-align: right; line-height: 30px
 }
@@ -440,8 +443,8 @@ body {
 .container .main div.permission ul li {
   width: 100%; position: relative
 }
-.container .main div.permission ul li p {
-  height: 30px
+.container .main div.permission ul li p.genre {
+  width: 100%; display: flex; align-items: center
 }
 .container .main div.permission ul ul {
   padding-left: 20px; padding-bottom: 0px
