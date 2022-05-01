@@ -6,9 +6,11 @@ namespace Jtbc;
 
 class JSON
 {
-  public static function encode($argValue)
+  public static function encode($argValue, bool $argUnescapedUnicode = false)
   {
-    return json_encode($argValue);
+    $value = $argValue;
+    $unescapedUnicode = $argUnescapedUnicode;
+    return $unescapedUnicode === false? json_encode($value): json_encode($value, JSON_UNESCAPED_UNICODE);
   }
 
   public static function decode(string $argJSONString)

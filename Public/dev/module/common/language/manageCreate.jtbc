@@ -36,7 +36,7 @@
     </item>
     <item>
       <name><![CDATA[text-code-4005]]></name>
-      <zh-cn><![CDATA[当前路径已处于四级模块，无法再创建父模块]]></zh-cn>
+      <zh-cn><![CDATA[当前路径已处于四级模块，无法再创建模块]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-code-4006]]></name>

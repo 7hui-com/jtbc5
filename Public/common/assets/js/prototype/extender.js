@@ -109,6 +109,17 @@ export default class extender {
       };
       return index;
     };
+    Element.prototype.inViewport = function() {
+      let result = false;
+      let clientRect = this.getBoundingClientRect();
+      let browserWidth = document.documentElement.clientWidth;
+      let browserHeight = document.documentElement.clientHeight;
+      if (clientRect.top < browserHeight && clientRect.bottom > 0 && clientRect.left < browserWidth && clientRect.right > 0)
+      {
+        result = true;
+      };
+      return result;
+    };
     Element.prototype.loadComponents = async function() {
       const getDependentComponents = (el) => {
         let components = {};
@@ -177,6 +188,13 @@ export default class extender {
         this.removeAttribute(oldName);
       };
       return result;
+    };
+    Element.prototype.setAttributes = function(object) {
+      if (typeof object == 'object')
+      {
+        Object.keys(object).forEach(key => this.setAttribute(key, object[key]));
+      };
+      return this;
     };
   };
 

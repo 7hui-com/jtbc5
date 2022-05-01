@@ -63,6 +63,30 @@ class SQLConditionBuilder
     return $this;
   }
 
+  public function addAdditionalSQL($argName, $argValue, string $argCondition = '=', string $argAndOr = 'and')
+  {
+    $name = $argName;
+    $value = $argValue;
+    $condition = $argCondition;
+    $andOr = $argAndOr;
+    if (in_array($andOr, ['and', 'or']))
+    {
+      $additionalSQL = chr(32) . $andOr . chr(32) . SQLFormatter::formatName($name) . chr(32) . $condition . chr(32) . $value;
+      $this -> additionalSQL = is_null($this -> additionalSQL)? $additionalSQL: $this -> additionalSQL . $additionalSQL;
+    }
+    else
+    {
+      throw new UnexpectedException('Unexpected argument(s)', 50801);
+    }
+    return $this;
+  }
+
+  public function setAdditionalSQL($argAdditionalSQL)
+  {
+    $this -> additionalSQL = $argAdditionalSQL;
+    return $this;
+  }
+
   public function setFuzzyLike($argName, array $argKeywords, string $argAndOr = 'and')
   {
     $name = $argName;
@@ -74,12 +98,6 @@ class SQLConditionBuilder
       $self -> {$name} -> like('%' . $keyword . '%');
     }
     $this -> set($self, $andOr);
-    return $this;
-  }
-
-  public function setAdditionalSQL($argAdditionalSQL)
-  {
-    $this -> additionalSQL = $argAdditionalSQL;
     return $this;
   }
 

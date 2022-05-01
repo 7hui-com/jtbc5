@@ -412,10 +412,36 @@ export default class jtbcView extends HTMLElement {
       });
       return result;
     };
+    const getValueFromJSON = (json, key) => {
+      let result = null;
+      if (typeof json == 'string' && typeof key == 'string')
+      {
+        if (json.trim() != '')
+        {
+          let obj = {};
+          try
+          {
+            obj = JSON.parse(json);
+          }
+          catch(e)
+          {
+          };
+          key.split('->').forEach(item => {
+            result = null;
+            if (obj.hasOwnProperty(item))
+            {
+              result = obj = obj[item];
+            };
+          });
+        };
+      };
+      return result;
+    };
     const parseHelper = {
       'compare': compare,
       'customEvent': customEvent,
       'getAttr': getAttr,
+      'getValueFromJSON': getValueFromJSON,
       'reachConsensus': reachConsensus,
       'this': this,
     };

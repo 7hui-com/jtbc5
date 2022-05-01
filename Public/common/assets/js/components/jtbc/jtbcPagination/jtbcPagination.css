@@ -4,6 +4,9 @@
 :host(.hide) {
   display: none !important
 }
+container {
+  display: inline-block
+}
 .pagination {
   display: none; box-sizing: border-box; background: var(--pagination-background); border: var(--pagination-border); font-size: var(--pagination-font-size); color: var(--pagination-color); border-radius: var(--pagination-border-radius)
 }

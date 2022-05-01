@@ -13,7 +13,7 @@ class Random
 
   public static function getRandom($argLength = 16, $argMode = null)
   {
-    $tmpstr = '';
+    $selected = [];
     $length = intval($argLength);
     $mode = $argMode;
     if ($length > 0)
@@ -21,17 +21,17 @@ class Random
       $chars = match($mode){
         'letter' => 'abcdefghijklmnopqrstuvwxyz',
         'mix' => 'abcdefghijklmnopqrstuvwxyz1234567890',
-        'mix-optimized' => 'acdefghjkmnpqrstuwxy123567890',
+        'mix-optimized' => 'acdefghjkmnpqrstuwxy12356789',
         'number' => '1234567890',
         default => 'abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*',
       };
       $max = strlen($chars) - 1;
       for($i = 0; $i < $length; $i ++)
       {
-        $tmpstr .= $chars[rand(0, $max)];
+        $selected[] = $chars[rand(0, $max)];
       }
     }
-    return $tmpstr;
+    return implode($selected);
   }
 
   public static function getRandomLetter($argLength = 16)

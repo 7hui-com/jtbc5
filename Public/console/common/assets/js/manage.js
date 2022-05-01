@@ -125,13 +125,14 @@ export default class manage {
           if (Array.isArray(arr) && arr.length != 0)
           {
             let dl = document.createElement('dl');
+            dl.setAttribute('rank', index);
             arr.forEach(cl => {
               let dd = document.createElement('dd');
               let anchor = document.createElement('a');
               let text = document.createElement('b');
               let triangle = document.createElement('jtbc-svg');
               anchor.setAttribute('is', 'jtbc-anchor');
-              anchor.setAttribute('class', 'tit t' + index);
+              anchor.setAttribute('class', 'tit');
               anchor.setAttribute('genre', cl['genre']);
               anchor.setAttribute('href', cl['link']);
               text.innerText = cl['title'];

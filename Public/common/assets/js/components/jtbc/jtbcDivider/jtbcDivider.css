@@ -1,0 +1,34 @@
+:host {
+  width: 100%; display: block; margin: 10px 0px; --line-color: #e1e1e1; --line-height: 1px; --line-style: solid; --gap: 30px; --padding: 10px
+}
+container {
+  width: 100%; display: flex !important; align-items: center
+}
+container::before,
+container::after {
+  content: ''; display: block; width: 100%; border-bottom: var(--line-color) var(--line-height) var(--line-style)
+}
+container::after {
+  display: none;
+}
+container.assigned {
+  gap: var(--padding)
+}
+container.assigned::after {
+  display: block
+}
+container[position=left]::before {
+  width: var(--gap)
+}
+container[position=left]::after {
+  flex: 1
+}
+container[position=right]::before {
+  flex: 1
+}
+container[position=right]::after {
+  width: var(--gap)
+}
+container slot {
+  white-space: nowrap
+}

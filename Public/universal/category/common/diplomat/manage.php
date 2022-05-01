@@ -33,10 +33,15 @@ class Diplomat extends Ambassador {
   {
     $genre = strval($req -> get('genre'));
     $fatherId = intval($req -> get('father_id'));
+    $extender = Guide::getGenreParam($genre, 'extender');
     $bs = new BasicSubstance($this);
     $bs -> data -> genre = $genre;
     $bs -> data -> fatherId = $fatherId;
     $bs -> data -> property = Guide::getGenreProperty($genre);
+    $bs -> data -> extender = [
+      'enabled' => is_null($extender)? false: true,
+      'columns' => is_null($extender)? '[]': $extender,
+    ];
     return $bs -> toJSON();
   }
 
@@ -49,8 +54,13 @@ class Diplomat extends Ambassador {
     $bs = new BasicSubstance($this);
     if (!is_null($data))
     {
+      $extender = Guide::getGenreParam($data -> genre, 'extender');
       $bs -> data -> data = $data;
       $bs -> data -> property = Guide::getGenreProperty($data -> genre);
+      $bs -> data -> extender = [
+        'enabled' => is_null($extender)? false: true,
+        'columns' => is_null($extender)? '[]': $extender,
+      ];
     }
     return $bs -> toJSON();
   }

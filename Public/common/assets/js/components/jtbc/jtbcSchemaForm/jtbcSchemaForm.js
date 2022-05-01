@@ -92,6 +92,10 @@ export default class jtbcSchemaForm extends HTMLDivElement {
           };
           itemEl.append(itemLabel, itemContent);
           itemEl.setAttribute('field', item.name);
+          if (item.hasOwnProperty('class'))
+          {
+            itemEl.setAttribute('class', item.class);
+          };
           fragment.append(itemEl);
         });
         this.appendFragment(fragment).then(() => {

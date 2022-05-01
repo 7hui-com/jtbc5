@@ -71,8 +71,8 @@
   </copyright>
 </footer>
 <jtbc-script init="init" src="{$=$root_assets_path}/package/js/communal.js"></jtbc-script>
-<script type="module">import('./{$=$root_assets_path}/js/jtbc.js').then(module => { window.jtbc = new module.default(); });</script>
-{$=implode($call_hook('forestageEndOfBody') ?? [])}</body>
+{$=implode($call_hook('forestageEndOfBody') ?? [])}<script type="module">import('./{$=$root_assets_path}/js/jtbc.js').then(module => { window.jtbc = new module.default(); });</script>
+</body>
 </html>]]></default>
     </item>
   </item_list>

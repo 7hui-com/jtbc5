@@ -1,5 +1,6 @@
 <?php
 namespace App\Common\Maintenance;
+use Throwable;
 use ZipArchive;
 use Jtbc\Path;
 use Jtbc\Substance;
@@ -245,17 +246,35 @@ class Migrator
     {
       if (array_key_exists($this -> metaMode, $sqlList))
       {
+        $hasError = false;
         $db = DBFactory::getInstance($this -> dbLink);
         $sqlQueue = $sqlList[$this -> metaMode];
         if (is_array($sqlQueue))
         {
           foreach ($sqlQueue as $sql)
           {
-            $this -> sqlResult[] = [
-              'sql' => $sql,
-              'result' => $db -> exec($sql),
-            ];
+            try
+            {
+              $this -> sqlResult[] = [
+                'sql' => $sql,
+                'result' => $db -> exec($sql),
+              ];
+            }
+            catch(Throwable $e)
+            {
+              $hasError = true;
+              $this -> sqlResult[] = [
+                'sql' => $sql,
+                'result' => null,
+                'message' => $e -> getMessage(),
+              ];
+            }
           }
+        }
+        if ($hasError === true)
+        {
+          $result = false;
+          @file_put_contents($this -> taskFilePath . '.sqllog', json_encode($this -> sqlResult));
         }
       }
     }

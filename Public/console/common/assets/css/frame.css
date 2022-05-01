@@ -1,5 +1,5 @@
 body {
-  min-width: 1200px
+  min-width: 1200px; overflow-x: hidden
 }
 .root {
   width: 100%; position: relative; z-index: 100
@@ -191,19 +191,10 @@ body {
   width: 4px; height: 100%; background: #3e868f; opacity: 0; position: absolute; top: 0px; left: -4px; z-index: 200; transition: all .3s ease
 }
 .container .leftmenu ul li a.tit {
-  display: block; line-height: 40px; padding-left: 20px; outline: none; cursor: pointer; overflow: hidden; position: relative; z-index: 100
+  display: block; width: 100%; box-sizing: border-box; line-height: 24px; padding: 8px 20px; outline: none; white-space: nowrap; cursor: pointer; overflow: hidden; position: relative; z-index: 100
 }
 .container .leftmenu ul li a.tit.on jtbc-svg.triangle {
   display: block
-}
-.container .leftmenu ul li a.tit.t2 {
-  padding-left: 45px
-}
-.container .leftmenu ul li a.tit.t3 {
-  padding-left: 70px
-}
-.container .leftmenu ul li a.tit.t4 {
-  padding-left: 95px
 }
 .container .leftmenu ul li a.tit b {
   font-weight: normal; color: #b4bcc8
@@ -215,7 +206,7 @@ body {
   left: 0px; opacity: 1
 }
 .container .leftmenu dl {
-  display: none
+  display: none; position: relative
 }
 .container .leftmenu dl.open {
   display: block
@@ -224,11 +215,29 @@ body {
   position: relative; z-index: 100
 }
 .container .leftmenu dl dd a.tit {
-  line-height: 32px
+  padding-left: 46px; line-height: 16px
 }
 .container .leftmenu dl dd a.tit.on,
 .container .leftmenu dl dd a.tit:hover {
-  background-color: #3e4b5c
+  background: rgba(255, 255, 255, .05)
+}
+.container .leftmenu dl[rank='2']::before {
+  content: ''; position: absolute; top: -5px; left: 29px; width: 0px; height: calc(100% - 12px); border-left: #b4b4b4 1px solid; opacity: .15; z-index: 1000; pointer-events: none
+}
+.container .leftmenu dl[rank='2'] dd::before {
+  content: ''; position: absolute; top: 15px; left: 29px; width: 8px; height: 0px; border-top: #b4b4b4 1px solid; opacity: .15; z-index: 1000; pointer-events: none
+}
+.container .leftmenu dl[rank='3'] dd a.tit {
+  padding-left: 70px
+}
+.container .leftmenu dl[rank='3'] dd:before {
+  width: 32px
+}
+.container .leftmenu dl[rank='4'] dd a.tit {
+  padding-left: 94px
+}
+.container .leftmenu dl[rank='4'] dd:before {
+  width: 56px
 }
 .container .leftmenu.min {
   width: 40px; min-width: 40px
@@ -254,11 +263,14 @@ body {
 .container .leftmenu.min ul li a.tit b {
   display: none
 }
-.container .leftmenu.min dl.open {
-  display: none
+.container .leftmenu.min ul li:hover > dl {
+  display: block !important
 }
 .container .leftmenu.min dl {
   width: 200px; background: #364150; border: #3d4957 1px solid; border-left: 0px; border-bottom: 0px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); position: absolute; top: -1px; right: -201px; z-index: 100
+}
+.container .leftmenu.min dl.open {
+  display: none
 }
 .container .leftmenu.min dl dd {
   background: #2c3542; border-left: #3d4957 1px solid; border-bottom: #3d4957 1px solid
@@ -267,7 +279,7 @@ body {
   border-left-color: #2c3542
 }
 .container .leftmenu.min dl dd a.tit {
-  line-height: 40px; padding-left: 15px
+  line-height: 24px; padding-left: 15px
 }
 .container .leftmenu.min dl dd a.tit b {
   display: block
@@ -275,11 +287,14 @@ body {
 .container .leftmenu.min dl dd jtbc-svg.arrow {
   display: block; transform: rotate(270deg) !important
 }
-.container .leftmenu.min ul li:hover>dl {
+.container .leftmenu.min dl dd:hover > dl {
   display: block !important
 }
-.container .leftmenu.min dl dd:hover>dl {
-  display: block !important
+.container .leftmenu.min dl::before {
+  display: none
+}
+.container .leftmenu.min dl dd::before {
+  display: none
 }
 .container main {
   flex: 1; position: relative; z-index: 100
@@ -351,7 +366,7 @@ body {
   line-height: 160%; color: #333
 }
 .container .main div.manager div.chief ul.param li {
-  line-height: 40px; color: #333; border-bottom: #e1e1e1 1px dashed
+  padding: 10px 0px; line-height: 160%; color: #333; border-bottom: #e1e1e1 1px dashed
 }
 .container .main div.manager div.chief ul.param li b {
   display: inline-block; width: 200px;
@@ -450,10 +465,13 @@ body {
   padding-left: 20px; padding-bottom: 0px
 }
 .container .main div.permission ul ul::before {
-  content: ''; position: absolute; top: -5px; left: 6px; width: 0px; height: calc(100% - 9px); border-left: #666 1px solid
+  content: ''; position: absolute; top: -5px; left: 6px; width: 0px; height: calc(100% + 5px); border-left: #666 1px solid
 }
 .container .main div.permission ul ul li::before {
   content: ''; position: absolute; top: 15px; left: -14px; width: 12px; height: 0px; border-top: #666 1px solid
+}
+.container .main div.permission ul ul li:last-child::after {
+  content: ''; width: 2px; background: #f6f6f6; height: calc(100% - 16px); position: absolute; left: -14px; bottom: 0px; z-index: 100
 }
 .container .main div.permission ul:empty {
   display: none

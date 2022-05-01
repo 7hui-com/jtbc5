@@ -126,6 +126,7 @@ class Diplomat extends Ambassador {
                   if ($classicConfigManager -> save())
                   {
                     $code = 1;
+                    $message = Jtbc::take('api.text-done', 'lng');
                     $globalHookManager = new GlobalHookManager();
                     $globalHookManager -> cancel('_install');
                     $redirectURL = Path::getActualRoute('complete?token=' . $completeToken);

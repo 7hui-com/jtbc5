@@ -12,6 +12,7 @@ class FragmentFetcher
     if (is_null($result))
     {
       $model = new Model();
+      $model -> where -> published = 1;
       $result = self::$data = $model -> getAll();
     }
     return $result;

@@ -33,6 +33,18 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     return count($this -> keys);
   }
 
+  public function delete($argName)
+  {
+    $bool = false;
+    $name = $argName;
+    if ($this -> exists($name))
+    {
+      $bool = true;
+      unset($this -> body[$name]);
+    }
+    return $bool;
+  }
+
   public function exists($argName)
   {
     $bool = false;

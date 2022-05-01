@@ -173,8 +173,8 @@ class Diplomat extends Ambassador {
               4 => ['min' => $value],
               5 => ['max' => [$value, false]],
               6 => ['max' => $value],
-              7 => ['in' => Validation::isIntSeries($value)? $value: explode('|', $value)],
-              8 => ['notIn' => Validation::isIntSeries($value)? $value: explode('|', $value)],
+              7 => ['in' => Validation::isIntSeries($value)? $value: [explode('|', $value)]],
+              8 => ['notIn' => Validation::isIntSeries($value)? $value: [explode('|', $value)]],
               9 => ['like' => $value],
               10 => ['notLike' => $value],
               default => $value,
@@ -239,7 +239,8 @@ class Diplomat extends Ambassador {
       {
         $sourceData = '{$=$jsonEncode(' . $fetchSourceCode . ')}';
         $sourceCode = '<jtbc-view data="{$=$htmlEncode($jsonEncode(' . $fetchSourceCode . '))}">' . chr(13) . chr(10);
-        $sourceCode .= '  <template>' . chr(13) . chr(10);
+        $sourceCode .= str_repeat(chr(32), 2) . '<template>' . chr(13) . chr(10);
+        $sourceCode .= str_repeat(chr(32), 4) . '<div class="item">' . chr(13) . chr(10);
         if (Validation::isJSON($fields))
         {
           $fieldsArr = JSON::decode($fields);
@@ -247,11 +248,12 @@ class Diplomat extends Ambassador {
           {
             foreach ($fieldsArr as $field)
             {
-              $sourceCode .= '    <p>${$' . $field . '}</p>' . chr(13) . chr(10);
+              $sourceCode .= str_repeat(chr(32), 6) . '<p>${$' . $field . '}</p>' . chr(13) . chr(10);
             }
           }
         }
-        $sourceCode .= '  </template>' . chr(13) . chr(10);
+        $sourceCode .= str_repeat(chr(32), 4) . '</div>' . chr(13) . chr(10);
+        $sourceCode .= str_repeat(chr(32), 2) . '</template>' . chr(13) . chr(10);
         $sourceCode .= '</jtbc-view>';
         $fetchCode = 1;
         $fetchResult = null;

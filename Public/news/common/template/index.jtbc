@@ -33,9 +33,7 @@
     <sidebar>
       <section>
         <h3>{$=$take('index.title', 'lng')}</h3>
-        <jtbc-pitchon pitchon="li[data-id='{$id}']">
-          <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
-        </jtbc-pitchon>
+        <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
       </section>
     </sidebar>
   </box>
@@ -59,9 +57,7 @@
     <sidebar>
       <section>
         <h3>{$=$take('index.title', 'lng')}</h3>
-        <jtbc-pitchon pitchon="li[data-id='{$id}']">
-          <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
-        </jtbc-pitchon>
+        <ul>{$=$render('universal:render.li-list', $fetch(['genre' => 'universal/category', 'where' => ['genre' => '{$>this.genre}', 'father_id' => 0]]))}</ul>
       </section>
     </sidebar>
   </box>

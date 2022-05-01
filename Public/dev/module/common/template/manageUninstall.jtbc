@@ -31,7 +31,8 @@
       </div>
     </div>
     <div else class="ppUninstall">
-      <form is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" action="{$>this.genre}/manageUninstall?action=uninstall">
+      <form is="jtbc-form" method="post" autocomplete="off" action="{$>this.genre}/manageUninstall?action=uninstall">
+        <input type="hidden" name="currentGenre" role="field" value="{$>this.genre}" />
         <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
         <div class="tinyForm">
           <ul>

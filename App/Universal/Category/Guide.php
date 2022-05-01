@@ -29,6 +29,18 @@ class Guide
     return $result;
   }
 
+  public static function getGenreParam(string $argGenre, string $argParamName)
+  {
+    $result = null;
+    $genre = $argGenre;
+    $paramName = $argParamName;
+    if (self::isValidGenre($genre))
+    {
+      $result = Jtbc::take('global.' . $genre . ':category.' . $paramName, 'cfg');
+    }
+    return $result;
+  }
+
   public static function getGenreProperty(string $argGenre)
   {
     $result = [];

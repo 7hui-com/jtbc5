@@ -22,5 +22,17 @@
       <name><![CDATA[4]]></name>
       <zh-cn><![CDATA[富文本]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[5]]></name>
+      <zh-cn><![CDATA[图片集]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[6]]></name>
+      <zh-cn><![CDATA[附件]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[7]]></name>
+      <zh-cn><![CDATA[键值对]]></zh-cn>
+    </item>
   </item_list>
 </xml>

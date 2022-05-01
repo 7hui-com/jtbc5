@@ -1,5 +1,5 @@
 :host {
-  --height: 30px; --unselected-color: #ccc; --selected-color: #3e868f; --disabled-color: #eee
+  --height: 30px; --unselected-color: #ccc; --selected-color: #3e868f
 }
 .switch {
   display: inline-block !important; width: calc(var(--height) * 2); height: var(--height); cursor: pointer; vertical-align: top; position: relative; z-index: 100
@@ -20,14 +20,8 @@
   left: calc(50% + 2px); border-color: var(--selected-color); box-shadow: none
 }
 .switch.disabled {
-  cursor: default
-}
-.switch.disabled b {
-  background: var(--disabled-color)
-}
-.switch.disabled u {
-  background: var(--disabled-color); border-color: var(--disabled-color)
+  opacity: .3; cursor: default
 }
 .switch.disabled em {
-  border-color: var(--disabled-color); cursor: default
+  cursor: default
 }

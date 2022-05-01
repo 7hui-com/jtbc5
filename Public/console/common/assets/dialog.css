@@ -75,16 +75,10 @@
   padding: 0px
 }
 .dialogPopup div.tinyForm > ul > li.flex {
-  display: flex; justify-content: space-between
+  display: flex; gap: 10px; justify-content: space-between
 }
 .dialogPopup div.tinyForm > ul > li.flex span.column {
-  flex-grow: 1; display: inline-block; position: relative; margin: 0px 5px
-}
-.dialogPopup div.tinyForm > ul > li.flex span.column:first-child {
-  margin-left: 0px
-}
-.dialogPopup div.tinyForm > ul > li.flex span.column:last-child {
-  margin-right: 0px
+  width: 0px; flex-grow: 1; display: block; position: relative
 }
 .dialogPopup div.tinyForm > ul > li.skinny {
   padding: 0px 10px

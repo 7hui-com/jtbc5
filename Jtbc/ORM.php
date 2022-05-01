@@ -409,14 +409,19 @@ abstract class ORM
         $this -> dal -> or(...$args);
       }
 
-      public function setFuzzyLike(...$args)
+      public function addAdditionalSQL(...$args)
       {
-        return $this -> dal -> setFuzzyLike(...$args);
+        return $this -> dal -> addAdditionalSQL(...$args);
       }
 
       public function setAdditionalSQL(...$args)
       {
         return $this -> dal -> setAdditionalSQL(...$args);
+      }
+
+      public function setFuzzyLike(...$args)
+      {
+        return $this -> dal -> setFuzzyLike(...$args);
       }
 
       public function __get($name)

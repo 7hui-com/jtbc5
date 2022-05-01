@@ -1,6 +1,5 @@
 export default class uploader {
-  getRandomString()
-  {
+  getRandomString() {
     let result = [];
     let currentTime = new Date();
     const zeroRepair = (num, length = 2) => (Array(length).join('0') + num).slice(-length);
@@ -15,8 +14,7 @@ export default class uploader {
     return result.join('');
   };
 
-  upload(file, progressCallBack, doneCallBack, errorCallBack)
-  {
+  upload(file, progressCallBack, doneCallBack, errorCallBack) {
     if (this.uploading == false)
     {
       this.uploading = true;

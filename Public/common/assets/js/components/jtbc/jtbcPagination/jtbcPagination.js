@@ -27,7 +27,7 @@ export default class jtbcPagination extends HTMLElement {
         else
         {
           let startPage = Math.max(1, currentPage - Math.floor(maxlength / 2));
-          let endPage = Math.min(totalPage, startPage + maxlength -1);
+          let endPage = Math.min(totalPage, startPage + maxlength - 1);
           while (startPage > 1 && (endPage - startPage + 1) < maxlength) startPage -= 1;
           this.container.querySelector('em.page').innerHTML = '';
           for (let p = startPage; p <= endPage; p ++)
@@ -112,8 +112,8 @@ export default class jtbcPagination extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container>
-        <div class="pagination tiny"><span class="first page"><jtbc-svg name="pagination_first"></jtbc-svg></span><span class="prev page"><jtbc-svg name="pagination_prev"></jtbc-svg></span><span class="info"></span><span class="next page"><jtbc-svg name="pagination_next"></jtbc-svg></span><span class="last page"><jtbc-svg name="pagination_last"></jtbc-svg></span></div>
-        <div class="pagination normal"><span class="info"></span><span class="first page"><jtbc-svg name="pagination_first"></jtbc-svg></span><span class="prev page"><jtbc-svg name="pagination_prev"></jtbc-svg></span><em class="page"></em><span class="next page"><jtbc-svg name="pagination_next"></jtbc-svg></span><span class="last page"><jtbc-svg name="pagination_last"></jtbc-svg></span></div>
+        <div part="pagination" class="pagination tiny"><span part="first" class="first page"><jtbc-svg part="first-svg" name="pagination_first"></jtbc-svg></span><span part="prev" class="prev page"><jtbc-svg part="prev-svg" name="pagination_prev"></jtbc-svg></span><span part="info" class="info"></span><span part="next" class="next page"><jtbc-svg part="next-svg" name="pagination_next"></jtbc-svg></span><span part="last" class="last page"><jtbc-svg part="last-svg" name="pagination_last"></jtbc-svg></span></div>
+        <div part="pagination" class="pagination normal"><span part="info" class="info"></span><span part="first" class="first page"><jtbc-svg part="first-svg" name="pagination_first"></jtbc-svg></span><span part="prev" class="prev page"><jtbc-svg  part="prev-svg"name="pagination_prev"></jtbc-svg></span><em part="page" class="page"></em><span part="next" class="next page"><jtbc-svg part="next-svg" name="pagination_next"></jtbc-svg></span><span part="last" class="last page"><jtbc-svg  part="last-svg" name="pagination_last"></jtbc-svg></span></div>
       </container>
     `;
     shadowRoot.innerHTML = shadowRootHTML;

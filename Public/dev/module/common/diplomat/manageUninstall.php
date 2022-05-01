@@ -44,6 +44,7 @@ class Diplomat extends Ambassador {
     $code = 0;
     $message = '';
     $genre = strval($req -> post('genre'));
+    $currentGenre = strval($req -> post('currentGenre'));
     if ($this -> guard -> role -> checkPermission('uninstall'))
     {
       $genrePath = Path::getActualRoute($genre);
@@ -54,6 +55,10 @@ class Diplomat extends Ambassador {
       else if (!is_dir($genrePath))
       {
         $code = 4002;
+      }
+      else if ($genre == $currentGenre)
+      {
+        $code = 4003;
       }
       else
       {

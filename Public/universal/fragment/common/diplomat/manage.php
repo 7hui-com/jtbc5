@@ -2,6 +2,7 @@
 namespace Jtbc;
 use Jtbc\Model\TinyModel;
 use Jtbc\Exception\ErrorCollector;
+use App\Common\Form\FieldTextGenerator;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Common\Traits\Action;
@@ -18,9 +19,23 @@ class Diplomat extends Ambassador {
   use Action\Typical\Batch;
   use Action\Typical\Upload;
 
+  private function getFieldText(string $argName)
+  {
+    $result = null;
+    $fieldText = FieldTextGenerator::generate($argName);
+    if (is_array($fieldText) && array_key_exists('text', $fieldText))
+    {
+      $result = $fieldText['text'];
+    }
+    return $result;
+  }
+
   public function add()
   {
     $bs = new BasicSubstance($this);
+    $bs -> data -> fieldGalleryText = $this -> getFieldText('gallery');
+    $bs -> data -> fieldAttachmentText = $this -> getFieldText('attachment');
+    $bs -> data -> fieldTableText = $this -> getFieldText('table');
     return $bs -> toJSON();
   }
 
@@ -32,6 +47,9 @@ class Diplomat extends Ambassador {
     $data = $model -> get();
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;
+    $bs -> data -> fieldGalleryText = $this -> getFieldText('gallery');
+    $bs -> data -> fieldAttachmentText = $this -> getFieldText('attachment');
+    $bs -> data -> fieldTableText = $this -> getFieldText('table');
     return $bs -> toJSON();
   }
 

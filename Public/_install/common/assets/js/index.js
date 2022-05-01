@@ -39,6 +39,7 @@ export default class index {
       };
       installEl.delegateEventListener('form.form', 'submitend', e => {
         let res = e.detail.res;
+        let self = e.currentTarget;
         if (res.ok)
         {
           res.json().then(data => {
@@ -46,38 +47,40 @@ export default class index {
             {
               setTimeout(function(){
                 location.href = data.redirect_url;
-              }, 3000);
+              }, 6000);
             }
             else
             {
               gotoStep([4001, 4002, 4003, 4031, 4041].includes(data.code)? 2: 3);
-              installEl.querySelector('div.msg').innerText = data.message;
-              installEl.querySelector('button.step-3-done').classList.remove('locked');
+              self.querySelector('button.step-3-done').classList.remove('locked');
             };
+            self.querySelector('div.msg').innerText = data.message;
           });
         };
       });
-      installEl.delegateEventListener('input.agree', 'change', function(){
+      installEl.delegateEventListener('input.agree', 'change', function(e){
+        let self = e.currentTarget;
         if (this.checked)
         {
-          installEl.querySelector('button.step-1-next').classList.remove('hide');
+          self.querySelector('button.step-1-next').classList.remove('hide');
         }
         else
         {
-          installEl.querySelector('button.step-1-next').classList.add('hide');
+          self.querySelector('button.step-1-next').classList.add('hide');
         };
       });
       installEl.delegateEventListener('button.step-1-next', 'click', function(){ gotoStep(2); });
       installEl.delegateEventListener('button.step-2-prev', 'click', function(){ gotoStep(1); });
       installEl.delegateEventListener('button.step-2-next', 'click', function(){ gotoStep(3); });
       installEl.delegateEventListener('button.step-3-prev', 'click', function(){ gotoStep(2); });
-      installEl.delegateEventListener('button.step-3-done', 'click', function(){
+      installEl.delegateEventListener('button.step-3-done', 'click', function(e){
+        let self = e.currentTarget;
         if (!this.classList.contains('locked'))
         {
           formEl.submit();
           this.classList.add('locked');
           this.parentElement.parentElement.classList.remove('on');
-          installEl.querySelector('div.msg').innerText = this.getAttribute('loading');
+          self.querySelector('div.msg').innerText = this.getAttribute('loading');
         };
       });
       this.inited = true;

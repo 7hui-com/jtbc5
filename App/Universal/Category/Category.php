@@ -25,7 +25,7 @@ class Category
     $list = $this -> getList();
     foreach ($list as $item)
     {
-      $result[] = $item['id'];
+      $result[] = intval($item['id']);
     }
     return $result;
   }
@@ -51,16 +51,17 @@ class Category
         {
           $currentGot = $got;
           $children = $item['children'];
+          $currentId = intval($item['id']);
           if ($got == true)
           {
-            $result[] = $item['id'];
+            $result[] = $currentId;
           }
-          else if ($item['id'] == $id)
+          else if ($currentId == $id)
           {
             $currentGot = true;
             if ($includeSelf == true)
             {
-              $result[] = $item['id'];
+              $result[] = $currentId;
             }
           }
           if (!empty($children))
@@ -86,7 +87,7 @@ class Category
       $currentId = $argId;
       foreach ($list as $item)
       {
-        $itemId = $item['id'];
+        $itemId = intval($item['id']);
         $itemTitle = $item['title'];
         $itemFatherId = $item['father_id'];
         if ($itemId == $currentId)
@@ -142,7 +143,7 @@ class Category
       foreach ($tree as $item)
       {
         $children = $item['children'];
-        $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . $item['title'], 'value' => $item['id']];
+        $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . $item['title'], 'value' => intval($item['id'])];
         if (!empty($children))
         {
           $result = array_merge($result, $getResultFromTree($children));
@@ -161,7 +162,8 @@ class Category
     $list = $this -> getList();
     foreach ($list as $item)
     {
-      if ($item['id'] == $id)
+      $currentId = intval($item['id']);
+      if ($currentId == $id)
       {
         if (is_null($fieldName))
         {

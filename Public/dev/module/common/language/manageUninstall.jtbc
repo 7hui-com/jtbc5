@@ -39,6 +39,10 @@
       <zh-cn><![CDATA[模块目录不存在]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-code-4003]]></name>
+      <zh-cn><![CDATA[很抱歉，无法通过模块管理卸载自身]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-code-4011]]></name>
       <zh-cn><![CDATA[该模块不可卸载]]></zh-cn>
     </item>

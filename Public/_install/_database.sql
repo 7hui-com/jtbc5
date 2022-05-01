@@ -248,6 +248,7 @@ CREATE TABLE `universal_category`  (
   `image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"required\":false,\"has_upload\":true}',
   `keywords` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"required\":false}',
   `intro` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"required\":false}',
+  `extender` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"required\":false,\"has_upload\":true}',
   `genre` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"required\":false}',
   `order` int(11) NULL DEFAULT 0 COMMENT '{\"required\":false,\"format\":\"int\"}',
   `time` datetime NULL DEFAULT NULL COMMENT '{\"format\":\"datetime\"}',

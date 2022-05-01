@@ -12,7 +12,7 @@
   <div class="topbar">
     <h1>{$=$take('index.title', 'lng')}</h1>
     <span class="menu hand"><jtbc-svg name="navicon"></jtbc-svg></span>
-    <right>
+    <right>{$=implode($call_hook('backstageTopbarFrontPart') ?? [])}
       <template is="jtbc-template" url="{$>this.genre}/manage?type=info">
         <account class="section">
           <h3>${$name}<jtbc-svg name="arrow_down"></jtbc-svg></h3>
@@ -33,7 +33,7 @@
           </ul>
         </lang>
       </template>
-      <notification class="section hide"></notification>
+      <notification class="section hide"></notification>{$=implode($call_hook('backstageTopbarRearPart') ?? [])}
       <cloudservice class="cloudservice" url="{$>this.genre}/manage?type=hasCloudService"></cloudservice>
     </right>
   </div>
@@ -57,7 +57,7 @@
 </template>
 <template is="jtbc-template" id="leftmenu" mode="target" target="div.container div.leftmenu" url="{$>this.genre}/manage?type=leftmenu">
   <ul isloop="true">
-    <li><em class="line"></em><a class="tit t1" is="jtbc-anchor" genre="${$genre}" href="${$link}"><jtbc-svg class="icon" name="${$icon}" title="${$title}"></jtbc-svg><b>${$title}</b><jtbc-svg class="triangle" name="triangle"></jtbc-svg><jtbc-svg class="${$children.length == 0? 'hide': 'arrow'}" name="arrow_down"></jtbc-svg></a>${$.customEvent('loadChildren', $.raw.children)}</li>
+    <li><em class="line"></em><a class="tit" is="jtbc-anchor" genre="${$genre}" href="${$link}"><jtbc-svg class="icon" name="${$icon}" title="${$title}"></jtbc-svg><b>${$title}</b><jtbc-svg class="triangle" name="triangle"></jtbc-svg><jtbc-svg class="${$children.length == 0? 'hide': 'arrow'}" name="arrow_down"></jtbc-svg></a>${$.customEvent('loadChildren', $.raw.children)}</li>
   </ul>
 </template>
 <jtbc-script init="initDashboard" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>

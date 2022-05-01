@@ -3,6 +3,9 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     return ['mode', 'mime', 'value', 'disabled', 'width', 'height'];
   };
 
+  #width = null;
+  #currentWidth = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -36,6 +39,13 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
       this.container.classList.remove('disabled');
     };
     this.currentDisabled = disabled;
+  };
+
+  #resize(entries) {
+    if (this.#width == null)
+    {
+      this.resetMaxWidth();
+    };
   };
 
   init() {
@@ -140,6 +150,25 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     };
   };
 
+  resetMaxWidth() {
+    let widthChanged = false;
+    let container = this.container;
+    let mainEl = container.querySelector('div.main');
+    mainEl.style.display = 'none';
+    let currentWidth = container.offsetWidth;
+    if (this.#currentWidth != currentWidth)
+    {
+      widthChanged = true;
+      this.#currentWidth = currentWidth;
+      mainEl.style.maxWidth = currentWidth + 'px';
+    };
+    mainEl.style.display = 'block';
+    if (widthChanged == true)
+    {
+      this.codeMirror?.refresh();
+    };
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'mime':
@@ -164,7 +193,15 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
       };
       case 'width':
       {
-        this.style.width = isFinite(newVal)? newVal + 'px': newVal;
+        if (!isFinite(newVal))
+        {
+          this.style.width = newVal;
+        }
+        else
+        {
+          this.#width = Number.parseInt(newVal);
+          this.style.width = this.#width + 'px';
+        };
         break;
       };
       case 'height':
@@ -205,6 +242,9 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     };
     this.modeList = ['clike', 'css', 'go', 'htmlmixed', 'javascript', 'php', 'python', 'shell', 'sql', 'xml'];
     this.codeMirror = null;
+    this.resizeObserver = new ResizeObserver(entries => this.#resize(entries));
+    this.resizeObserver.observe(this);
+    this.resizeObserver.observe(document.body);
     let codemirrorJs = codemirrorDir + '/lib/codemirror.js';
     let codemirrorScript = document.createElement('script');
     codemirrorScript.src = codemirrorJs;

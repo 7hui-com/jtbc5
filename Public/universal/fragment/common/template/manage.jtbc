@@ -53,7 +53,19 @@
             </item>
             <item group="value" field="value_4" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><textarea class="editor" is="jtbc-editor" role="field" name="value_4"></textarea></div>
+              <div class="content"><textarea class="editor" is="jtbc-editor" name="value_4" role="field"></textarea></div>
+            </item>
+            <item group="value" field="value_5" class="hide">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-gallery name="value_5" role="field" text="${$fieldGalleryText}" action="{$>this.genre}/manage?action=upload&amp;scene=gallery"></jtbc-field-gallery></div>
+            </item>
+            <item group="value" field="value_6" class="hide">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-attachment name="value_6" role="field" text="${$fieldAttachmentText}" action="{$>this.genre}/manage?action=upload&amp;scene=attachment"></jtbc-field-attachment></div>
+            </item>
+            <item group="value" field="value_7" class="hide">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-table name="value_7" role="field" text="${$fieldTableText}" columns="{$=$htmlEncode($jsonEncode([['name' => 'key', 'type' => 'text', 'text' => $take('universal:config.key', 'lng')], ['name' => 'value', 'type' => 'text', 'text' => $take('universal:config.value', 'lng')]]))}"></jtbc-field-table></div>
             </item>
             <item field="published">
               <label class="name"><span>{$=$take('universal:config.published', 'lng')}</span></label>
@@ -114,7 +126,19 @@
             </item>
             <item elseif="${$data.mode == 4}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><textarea class="editor" is="jtbc-editor" role="field" name="value">${$data.value}</textarea></div>
+              <div class="content"><textarea class="editor" is="jtbc-editor" name="value" role="field">${$data.value}</textarea></div>
+            </item>
+            <item elseif="${$data.mode == 5}" field="value">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-gallery name="value" role="field" text="${$fieldGalleryText}" action="{$>this.genre}/manage?action=upload&amp;scene=gallery" value="${$data.mode == 5? $data.value: ''}"></jtbc-field-gallery></div>
+            </item>
+            <item elseif="${$data.mode == 6}" field="value">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-attachment name="value" role="field" text="${$fieldAttachmentText}" action="{$>this.genre}/manage?action=upload&amp;scene=attachment" value="${$data.mode == 6? $data.value: ''}"></jtbc-field-attachment></div>
+            </item>
+            <item elseif="${$data.mode == 7}" field="value">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-table name="value" role="field" text="${$fieldTableText}" columns="{$=$htmlEncode($jsonEncode([['name' => 'key', 'type' => 'text', 'text' => $take('universal:config.key', 'lng')], ['name' => 'value', 'type' => 'text', 'text' => $take('universal:config.value', 'lng')]]))}" value="${$data.mode == 7? $data.value: ''}"></jtbc-field-table></div>
             </item>
             <item field="published">
               <label class="name"><span>{$=$take('universal:config.published', 'lng')}</span></label>

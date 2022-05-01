@@ -7,6 +7,7 @@ use Jtbc\Jtbc;
 use Jtbc\JSON;
 use Jtbc\Substance;
 use Jtbc\Validation;
+use Jtbc\DAL\FieldsHelper;
 use Jtbc\Exception\ErrorCollector;
 
 class Validator
@@ -23,6 +24,8 @@ class Validator
     if (is_array($tableInfo))
     {
       $errorCollector = new ErrorCollector();
+      $rangeOfNumericFields = FieldsHelper::getRangeOfNumericFields();
+      $maxLengthOfStringFields = FieldsHelper::getMaxLengthOfStringFields();
       foreach ($tableInfo as $item)
       {
         $mode = 'normal';
@@ -31,8 +34,10 @@ class Validator
         $between = null;
         $maxlength = null;
         $field = new Substance($item);
+        $fieldType = $field -> type;
         $fieldName = $field -> field;
         $fieldComment = $field -> comment;
+        $fieldLength = intval($field -> length);
         $fieldText = FieldNameHelper::getFieldText($fieldName);
         if (!Validation::isEmpty($fieldComment))
         {
@@ -56,6 +61,17 @@ class Validator
           if ($comment -> exists('maxlength'))
           {
             $maxlength = intval($comment -> maxlength);
+          }
+          else
+          {
+            if ($fieldType == 'varchar')
+            {
+              $maxlength = $fieldLength;
+            }
+            else if (is_array($maxLengthOfStringFields) && array_key_exists($fieldType, $maxLengthOfStringFields))
+            {
+              $maxlength = $maxLengthOfStringFields[$fieldType];
+            }
           }
           if ($comment -> exists('text'))
           {
@@ -81,6 +97,17 @@ class Validator
           if (is_int($maxlength) && mb_strlen($fieldValue) > $maxlength)
           {
             $code = 4999;
+          }
+          else if (is_array($rangeOfNumericFields) && array_key_exists($fieldType, $rangeOfNumericFields))
+          {
+            $numericRange = $rangeOfNumericFields[$fieldType];
+            if (is_array($numericRange) && count($numericRange) == 2)
+            {
+              if (intval($fieldValue) < intval($numericRange[0]) || intval($fieldValue) > intval($numericRange[1]))
+              {
+                $code = 4998;
+              }
+            }
           }
           else if ($needToValidate == true)
           {

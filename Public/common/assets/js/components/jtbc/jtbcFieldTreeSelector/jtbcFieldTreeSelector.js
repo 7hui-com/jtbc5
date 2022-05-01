@@ -166,7 +166,9 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
       <template>
         <template is="jtbc-template">
           <ul isloop="true">
-            <li><label class="checkbox"><input is="jtbc-input" type="checkbox" class="item item-\${$id}" father_id="\${$father_id}" value="\${$id}" selected="\${$.customEvent('selectItem', $.raw.id)}" /><span>\${$title}</span></li>\${$.selfie($.raw.children)}
+            <li>
+              <div class="option"><label class="checkbox"><input is="jtbc-input" type="checkbox" class="item item-\${$id}" father_id="\${$father_id}" value="\${$id}" selected="\${$.customEvent('selectItem', $.raw.id)}" /><span>\${$title}</span></div>\${$.selfie($.raw.children)}
+            </li>
           </ul>
         </template>
       </template>

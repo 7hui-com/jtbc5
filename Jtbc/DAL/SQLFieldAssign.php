@@ -10,43 +10,16 @@ use Jtbc\Exception\NotSupportedException;
 
 class SQLFieldAssign
 {
-  private static function getGroupData($argGroupName, $argFieldLength)
-  {
-    $result = [];
-    $groupName = $argGroupName;
-    $fieldLength = $argFieldLength;
-    if ($groupName == 'number')
-    {
-      $result = [
-        'tinyint' => [-128, 127],
-        'smallint' => [-32768, 32767],
-        'int' => [-2147483648, 2147483647],
-        'integer' => [-2147483648, 2147483647],
-        'bigint' => [-9223372036854775808, 9223372036854775807],
-      ];
-    }
-    else if ($groupName == 'string')
-    {
-      $result = [
-        'varchar' => $fieldLength,
-        'text' => 20000,
-        'mediumtext' => 5000000,
-        'longtext' => 1000000000,
-      ];
-    }
-    return $result;
-  }
-
   public static function assign($argItem, $argSource)
   {
     $result = null;
     $item = $argItem;
     $source = $argSource;
-    $fieldName = $item['field'];
-    $fieldType = $item['type'];
+    $fieldType = strval($item['type']);
+    $fieldName = strval($item['field']);
     $fieldLength = intval($item['length']);
-    $numberGroup = self::getGroupData('number', $fieldLength);
-    $stringGroup = self::getGroupData('string', $fieldLength);
+    $numberGroup = FieldsHelper::getRangeOfNumericFields();
+    $stringGroup = FieldsHelper::getMaxLengthOfStringFields($fieldType == 'varchar'? $fieldLength: null);
     if (array_key_exists($fieldName, $source))
     {
       $fieldValue = $source[$fieldName];
@@ -95,7 +68,7 @@ class SQLFieldAssign
           $rangeEnd = $numberGroup[$fieldType][1];
           if ($formatedValue < $rangeStart || $formatedValue > $rangeEnd)
           {
-            throw new OutOfRangeException('"' . $fieldValue . '" is out of range', 50416);
+            throw new OutOfRangeException('Out of range value for column "' . $fieldName . '"', 50416);
           }
         }
         else if (array_key_exists($fieldType, $stringGroup))
@@ -103,7 +76,7 @@ class SQLFieldAssign
           $limitLength = $stringGroup[$fieldType];
           if (mb_strlen($fieldValue) > $limitLength)
           {
-            throw new OutOfRangeException('String is too long', 50416);
+            throw new OutOfRangeException('Data too long for column "' . $fieldName . '"', 50416);
           }
           else
           {
@@ -118,7 +91,7 @@ class SQLFieldAssign
           }
           else if (!Validation::isDate($fieldValue))
           {
-            throw new FormatException('"' . $fieldValue . '" must be a valid date', 50101);
+            throw new FormatException('Incorrect date value: "' . $fieldValue . '" for column "' . $fieldName . '"', 50101);
           }
           else
           {
@@ -133,7 +106,7 @@ class SQLFieldAssign
           }
           else if (!Validation::isDateTime($fieldValue))
           {
-            throw new FormatException('"' . $fieldValue . '" must be a valid datetime', 50101);
+            throw new FormatException('Incorrect datetime value: "' . $fieldValue . '" for column "' . $fieldName . '"', 50101);
           }
           else
           {

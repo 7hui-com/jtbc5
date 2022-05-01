@@ -142,9 +142,12 @@ class FileCache implements Cache
     $all = $this -> getAll();
     foreach ($all as $item)
     {
-      $title = $item['title'];
-      $strpos = strpos($title, $key);
-      if (($mode == 0 && $strpos == 0) || ($mode == 1 && $strpos >= 0))
+      $title = strval($item['title']);
+      if ($mode == 0 && str_starts_with($title, $key))
+      {
+        $bool = $this -> remove($title);
+      }
+      else if ($mode == 1 && str_contains($title, $key))
       {
         $bool = $this -> remove($title);
       }

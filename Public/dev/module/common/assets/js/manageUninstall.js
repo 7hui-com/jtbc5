@@ -9,7 +9,17 @@ export default class manageUninstall {
         res.json().then(data => {
           if (data.code == 1)
           {
+            this.main.reload();
+            this.dialog.close();
             this.leftmenu?.fetch();
+          }
+          else if (data.code == 4003)
+          {
+            this.dialog.alert(data.message);
+          }
+          else
+          {
+            this.miniMessage.push(data.message);
           };
         });
       });
@@ -27,6 +37,8 @@ export default class manageUninstall {
     this.root = document.getElementById('root');
     this.main = document.getElementById('main');
     this.master = document.getElementById('master');
+    this.dialog = document.getElementById('dialog');
+    this.miniMessage = document.getElementById('miniMessage');
     this.leftmenu = document.getElementById('leftmenu');
   };
 };

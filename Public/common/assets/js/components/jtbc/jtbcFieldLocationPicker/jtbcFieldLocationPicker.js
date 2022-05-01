@@ -118,7 +118,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
           baiduMapCssEl.setAttribute('href', '//api.map.baidu.com/res/webgl/10/bmap.css');
           mapIFrameEl.contentDocument.querySelector('head').appendChild(baiduMapCssEl);
           let jsApi = document.createElement('script');
-          jsApi.setAttribute('src', '//api.map.baidu.com/getscript?v=1.0&type=webgl&ak=' + encodeURIComponent(this.currentApiKey));
+          jsApi.setAttribute('src', '//api.map.baidu.com/getscript?v=1.0&type=webgl&ak=' + encodeURIComponent(this.constantApiKey));
           jsApi.addEventListener('load', () => {
             let mapInitScript = document.createElement('script');
             mapInitScript.setAttribute('src', that.componentBasePath + 'map/baidu.js');
@@ -157,7 +157,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
       mapContainerCssEl.addEventListener('load', () => {
         mapIFrameEl.addEventListener('load', () => {
           let jsApi = document.createElement('script');
-          jsApi.setAttribute('src', '//webapi.amap.com/maps?v=2.0&plugin=AMap.Scale,AMap.ToolBar&key=' + encodeURIComponent(this.currentApiKey));
+          jsApi.setAttribute('src', '//webapi.amap.com/maps?v=2.0&plugin=AMap.Scale,AMap.ToolBar&key=' + encodeURIComponent(this.constantApiKey));
           jsApi.addEventListener('load', () => {
             let mapInitScript = document.createElement('script');
             mapInitScript.setAttribute('src', that.componentBasePath + 'map/amap.js');
@@ -196,7 +196,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
       mapContainerCssEl.addEventListener('load', () => {
         mapIFrameEl.addEventListener('load', () => {
           let jsApi = document.createElement('script');
-          jsApi.setAttribute('src', '//map.qq.com/api/gljs?v=1.exp&key=' + encodeURIComponent(this.currentApiKey));
+          jsApi.setAttribute('src', '//map.qq.com/api/gljs?v=1.exp&key=' + encodeURIComponent(this.constantApiKey));
           jsApi.addEventListener('load', () => {
             let mapInitScript = document.createElement('script');
             mapInitScript.setAttribute('src', that.componentBasePath + 'map/qq.js');
@@ -316,7 +316,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
       };
       case 'constant_api_key':
       {
-        this.currentApiKey = newVal;
+        this.constantApiKey = newVal;
         break;
       };
     };
@@ -343,7 +343,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     this.currentValue = null;
     this.currentPlaceholder = null;
     this.currentMap = null;
-    this.currentApiKey = null;
+    this.constantApiKey = null;
     this.componentBasePath = componentBasePath;
     this.mapContainerCssUrl = componentBasePath + 'mapContainer.css';
     this.mapContainerIframeCssUrl = componentBasePath + 'mapContainerIFrame.css';

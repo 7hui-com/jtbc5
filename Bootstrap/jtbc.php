@@ -1,7 +1,7 @@
 <?php
 ob_start();
 set_time_limit(1800);
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 date_default_timezone_set('Asia/Shanghai');
 spl_autoload_register(function($argClass){
   $class = $argClass;

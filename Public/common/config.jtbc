@@ -19,6 +19,10 @@
       <zh-cn><![CDATA[1073741824]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[upload-gallery-allowed-extensions]]></name>
+      <zh-cn><![CDATA[jpg,gif,png,webp,svg]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[upload-image-allowed-extensions]]></name>
       <zh-cn><![CDATA[jpg,gif,png,webp,svg]]></zh-cn>
     </item>

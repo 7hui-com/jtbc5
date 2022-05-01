@@ -11,6 +11,10 @@
       <zh-cn><![CDATA[PD9waHANCm5hbWVzcGFjZSBKdGJjOw0KdXNlIEp0YmNcRmlsZVxJT1xGb2xkZXI7DQp1c2UgQXBwXENvbW1vblxBbWJhc3NhZG9yOw0KDQpjbGFzcyBEaXBsb21hdCBleHRlbmRzIEFtYmFzc2Fkb3Igew0KICBwdWJsaWMgZnVuY3Rpb24gaW5kZXgoUmVxdWVzdCAkcmVxLCBSZXNwb25zZSAkcmVzKQ0KICB7DQogICAgJHRva2VuID0gc3RydmFsKCRyZXEgLT4gZ2V0KCd0b2tlbicpKTsNCiAgICBpZiAoJHRva2VuID09PSAneyR0b2tlbn0nKQ0KICAgIHsNCiAgICAgIEB1bmxpbmsoX19GSUxFX18pOw0KICAgICAgRm9sZGVyOjpkZWxldGUoUGF0aDo6Z2V0QWN0dWFsUm91dGUoJ19pbnN0YWxsJykpOw0KICAgICAgJHJlcyAtPiBoZWFkZXIgLT4gc2V0KCdsb2NhdGlvbicsICcuL2NvbnNvbGUvJyk7DQogICAgfQ0KICAgIGVsc2UNCiAgICB7DQogICAgICAkcmVzIC0+IHNldFN0YXR1c0NvZGUoNDAzKTsNCiAgICB9DQogIH0NCn0=]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-done]]></name>
+      <zh-cn><![CDATA[正在完成安装，请稍后..]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-tips-install-error-4001]]></name>
       <zh-cn><![CDATA[数据库服务器地址不能为空]]></zh-cn>
     </item>

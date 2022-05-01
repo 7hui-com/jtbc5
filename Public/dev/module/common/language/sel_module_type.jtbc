@@ -18,5 +18,9 @@
       <name><![CDATA[3]]></name>
       <zh-cn><![CDATA[无分类不分页的模块]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[4]]></name>
+      <zh-cn><![CDATA[静态单页模块]]></zh-cn>
+    </item>
   </item_list>
 </xml>
