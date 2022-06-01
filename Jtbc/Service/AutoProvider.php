@@ -16,10 +16,15 @@ class AutoProvider
     {
       if (is_string($serviceName) && !str_contains($serviceName, chr(92)))
       {
-        $serviceClass = $namespace . chr(92) . ucfirst($serviceName);
-        if (class_exists($serviceClass))
+        $priorServiceClass = $namespace . chr(92) . ucfirst($serviceName);
+        $minorServiceClass = $namespace . chr(92) . strtoupper($serviceName);
+        if (class_exists($priorServiceClass))
         {
-          $result = $serviceClass;
+          $result = $priorServiceClass;
+        }
+        else if (class_exists($minorServiceClass))
+        {
+          $result = $minorServiceClass;
         }
       }
     }

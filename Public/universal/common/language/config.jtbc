@@ -347,6 +347,14 @@
       <zh-cn><![CDATA[等级]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[recommend]]></name>
+      <zh-cn><![CDATA[推荐]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[recommended]]></name>
+      <zh-cn><![CDATA[推荐]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[region]]></name>
       <zh-cn><![CDATA[地区]]></zh-cn>
     </item>

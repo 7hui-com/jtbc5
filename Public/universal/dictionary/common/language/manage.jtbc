@@ -12,7 +12,11 @@
     </item>
     <item>
       <name><![CDATA[text-menu-2]]></name>
-      <zh-cn><![CDATA[添加字典]]></zh-cn>
+      <zh-cn><![CDATA[添加字符键字典]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-3]]></name>
+      <zh-cn><![CDATA[添加数字键字典]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-add]]></name>

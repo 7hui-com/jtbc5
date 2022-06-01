@@ -28,6 +28,20 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     return $this -> body;
   }
 
+  public function convertToInt(...$args)
+  {
+    $result = 0;
+    foreach ($args as $item)
+    {
+      if ($this -> exists($item))
+      {
+        $result += 1;
+        $this -> offsetSet($item, intval($this -> offsetGet($item)));
+      }
+    }
+    return $result;
+  }
+
   public function count(): int
   {
     return count($this -> keys);
@@ -40,7 +54,7 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     if ($this -> exists($name))
     {
       $bool = true;
-      unset($this -> body[$name]);
+      $this -> offsetUnset($name);
     }
     return $bool;
   }
@@ -66,6 +80,29 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
       if ($value instanceof self)
       {
         $result[$key] = $value -> toArray();
+      }
+    }
+    return $result;
+  }
+
+  public function truncate(...$args)
+  {
+    $result = false;
+    if (empty($args))
+    {
+      $result = true;
+      $this -> body = [];
+      $this -> keys = [];
+    }
+    else
+    {
+      $result = 0;
+      foreach ($args as $item)
+      {
+        if ($this -> delete($item))
+        {
+          $result += 1;
+        }
       }
     }
     return $result;

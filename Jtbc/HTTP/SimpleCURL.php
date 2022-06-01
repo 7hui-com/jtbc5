@@ -56,7 +56,7 @@ class SimpleCURL
     $contentType = $argContentType;
     if (!Validation::isEmpty($contentType))
     {
-      $this -> setHeader('Content-Type', 'application/json');
+      $this -> setHeader('Content-Type', $contentType);
     }
     return $this;
   }

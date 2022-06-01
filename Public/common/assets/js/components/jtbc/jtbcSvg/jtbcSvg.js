@@ -5,42 +5,52 @@ export default class jtbcSvg extends HTMLElement {
     return ['name', 'src'];
   };
 
+  #name = '';
+  #src = null;
+
   set name(value) {
-    this.currentName = value;
+    this.#name = value;
     this.render();
   };
 
   get name() {
-    return this.currentName;
+    return this.#name;
   };
 
   set src(value) {
-    this.currentSrc = value;
+    this.#src = value;
     this.render();
   };
 
   get src() {
-    return this.currentSrc;
+    return this.#src;
   };
 
   render() {
-    let currentName = this.currentName;
-    let currentSrc = this.currentSrc || this.baseURL + 'svg/' + currentName + '.svg';
-    this.tinyDB.getItem(currentName).then(value => {
+    let name = this.#name;
+    let src = this.src ?? this.baseURL + 'svg/' + name + '.svg';
+    this.tinyDB.getItem(name).then(value => {
       if (value != null)
       {
         this.container.innerHTML = value;
       }
       else
       {
-        fetch(currentSrc).then(res => res.ok? res.text(): null).then(data => {
+        fetch(src).then(res => res.ok? res.text(): null).then(data => {
           if (data != null)
           {
             this.container.innerHTML = data;
-            this.tinyDB.setItem(currentName, data);
+            this.tinyDB.setItem(name, data);
           };
         });
       };
+    }).catch(e => {
+      fetch(src).then(res => res.ok? res.text(): null).then(data => {
+        if (data != null)
+        {
+          this.container.innerHTML = data;
+        };
+      });
     });
   };
 
@@ -66,8 +76,6 @@ export default class jtbcSvg extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentSrc = '';
-    this.currentName = '';
     this.tinyDB = new tinyDB('jtbc-svg');
     this.baseURL = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let shadowRoot = this.attachShadow({mode: 'open'});

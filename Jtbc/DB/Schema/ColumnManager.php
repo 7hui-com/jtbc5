@@ -3,6 +3,7 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc\DB\Schema;
+use Throwable;
 use Jtbc\DB;
 use Jtbc\Substance;
 use Jtbc\Validation;
@@ -45,13 +46,22 @@ class ColumnManager
 
   public function addColumn(Column $column, string $argAfterColumnName = null)
   {
+    $result = null;
     $afterColumnName = $argAfterColumnName;
     $sql = 'alter table ' . SQLFormatter::formatName($this -> tableName) . ' add column ' . $column -> toString() . $this -> getAfterColumnString($afterColumnName);
-    $result = $this -> db -> exec($sql);
-    if ($result === false)
+    try
     {
-      $this -> lastErrorCode = $this -> db -> errorCode();
-      $this -> lastErrorInfo = $this -> db -> errorInfo();
+      $result = $this -> db -> exec($sql);
+      if ($result === false)
+      {
+        $this -> lastErrorCode = $this -> db -> errorCode();
+        $this -> lastErrorInfo = $this -> db -> errorInfo();
+      }
+    }
+    catch(Throwable $e)
+    {
+      $this -> lastErrorCode = $e -> getCode();
+      $this -> lastErrorInfo = $e -> getMessage();
     }
     return $result;
   }
@@ -63,11 +73,19 @@ class ColumnManager
     if ($this -> hasColumn($columnName))
     {
       $sql = 'alter table ' . SQLFormatter::formatName($this -> tableName) . ' drop column ' . SQLFormatter::formatName($columnName);
-      $result = $this -> db -> exec($sql);
-      if ($result === false)
+      try
       {
-        $this -> lastErrorCode = $this -> db -> errorCode();
-        $this -> lastErrorInfo = $this -> db -> errorInfo();
+        $result = $this -> db -> exec($sql);
+        if ($result === false)
+        {
+          $this -> lastErrorCode = $this -> db -> errorCode();
+          $this -> lastErrorInfo = $this -> db -> errorInfo();
+        }
+      }
+      catch(Throwable $e)
+      {
+        $this -> lastErrorCode = $e -> getCode();
+        $this -> lastErrorInfo = $e -> getMessage();
       }
     }
     return $result;
@@ -75,6 +93,7 @@ class ColumnManager
 
   public function changeColumn(Column $column, string $argNewColumnName, string $argAfterColumnName = null)
   {
+    $result = null;
     $newColumnName = $argNewColumnName;
     $afterColumnName = $argAfterColumnName;
     $oldColumnName = $column -> getName();
@@ -93,24 +112,41 @@ class ColumnManager
         $sql = 'alter table ' . SQLFormatter::formatName($this -> tableName) . ' change column ' . SQLFormatter::formatName($oldColumnName) . ' ' . SQLFormatter::formatName($newColumnName) . ' ' . $column -> toString(false) . $this -> getAfterColumnString($afterColumnName);
       }
     }
-    $result = $this -> db -> exec($sql);
-    if ($result === false)
+    try
     {
-      $this -> lastErrorCode = $this -> db -> errorCode();
-      $this -> lastErrorInfo = $this -> db -> errorInfo();
+      $result = $this -> db -> exec($sql);
+      if ($result === false)
+      {
+        $this -> lastErrorCode = $this -> db -> errorCode();
+        $this -> lastErrorInfo = $this -> db -> errorInfo();
+      }
+    }
+    catch(Throwable $e)
+    {
+      $this -> lastErrorCode = $e -> getCode();
+      $this -> lastErrorInfo = $e -> getMessage();
     }
     return $result;
   }
 
   public function modifyColumn(Column $column, string $argAfterColumnName = null)
   {
+    $result = null;
     $afterColumnName = $argAfterColumnName;
     $sql = 'alter table ' . SQLFormatter::formatName($this -> tableName) . ' modify column ' . $column -> toString() . $this -> getAfterColumnString($afterColumnName);
-    $result = $this -> db -> exec($sql);
-    if ($result === false)
+    try
     {
-      $this -> lastErrorCode = $this -> db -> errorCode();
-      $this -> lastErrorInfo = $this -> db -> errorInfo();
+      $result = $this -> db -> exec($sql);
+      if ($result === false)
+      {
+        $this -> lastErrorCode = $this -> db -> errorCode();
+        $this -> lastErrorInfo = $this -> db -> errorInfo();
+      }
+    }
+    catch(Throwable $e)
+    {
+      $this -> lastErrorCode = $e -> getCode();
+      $this -> lastErrorInfo = $e -> getMessage();
     }
     return $result;
   }

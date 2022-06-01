@@ -13,12 +13,18 @@ export default class jtbcFieldMix extends HTMLElement {
     let result = '';
     let hasValue = false;
     let item = {};
-    this.content.querySelectorAll('[role=field]').forEach(f => {
-      if (f.value.trim().length != 0)
+    this.content.querySelectorAll('[role=field]').forEach(field => {
+      let value = field.value;
+      let valueType = typeof value;
+      if (['boolean', 'number', 'bigint'].includes(valueType))
+      {
+        hasValue = true;
+      }
+      else if (valueType == 'string' && value.trim().length != 0)
       {
         hasValue = true;
       };
-      item[f.name] = f.value;
+      item[field.name] = value;
     });
     if (hasValue == true)
     {

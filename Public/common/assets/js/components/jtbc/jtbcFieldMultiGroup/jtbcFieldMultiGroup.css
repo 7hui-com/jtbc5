@@ -4,7 +4,7 @@
   width: 100%; display: block; --button-color: #364150; --button-hover-color: #000000
 }
 container {
-  width: 100%; position: relative; z-index: 100
+  width: 100%
 }
 container.on {
   display: block !important
@@ -60,9 +60,12 @@ container .main div.list > ul > li:first-child jtbc-svg.up {
 container .main div.list > ul > li:last-child jtbc-svg.down {
   display: none
 }
-container .mask {
-  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+container div.mask {
+  display: none
 }
-container.disabled .mask {
-  z-index: 10000
+container.disabled {
+  position: relative; z-index: 100
+}
+container.disabled div.mask {
+  width: 100%; height: 100%; display: block; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: 10000
 }

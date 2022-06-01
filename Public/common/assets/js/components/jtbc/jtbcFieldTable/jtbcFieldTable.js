@@ -317,6 +317,7 @@ export default class jtbcFieldTable extends HTMLElement {
         let newTr = this.tbodyTrElement.cloneNode(true);
         newTr.querySelector('input[name=id]').value = this.getTempId();
         tbody.append(newTr);
+        that.dispatchEvent(new CustomEvent('tradded', {bubbles: true, detail: {'tr': newTr}}));
       };
     });
     container.delegateEventListener('.textRemove', 'dblclick', function(){
@@ -372,7 +373,11 @@ export default class jtbcFieldTable extends HTMLElement {
     });
     container.delegateEventListener('.textRemove', 'remove', function(){
       tbody.querySelectorAll('tr').forEach(el => {
-        if (el.contains(this)) el.remove();
+        if (el.contains(this))
+        {
+          el.remove();
+          that.dispatchEvent(new CustomEvent('trremoved', {bubbles: true, detail: {'tr': el}}));
+        };
       });
     });
   };

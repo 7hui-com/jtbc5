@@ -82,7 +82,7 @@ class DB implements DBInterface
     $exec = $this -> conn -> exec($sql);
     if (substr($sql, 0, 6) == 'insert')
     {
-      $this -> lastInsertId = $this -> conn -> lastInsertId();
+      $this -> lastInsertId = intval($this -> conn -> lastInsertId());
     }
     return $exec;
   }

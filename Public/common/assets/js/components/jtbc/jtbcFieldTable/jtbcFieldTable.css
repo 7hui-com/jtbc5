@@ -3,7 +3,7 @@
   display: block; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8)
 }
 container {
-  width: 100%; position: relative; z-index: 100
+  width: 100%
 }
 container.on {
   display: inline-block !important
@@ -71,9 +71,12 @@ container table.table .dragable {
 container table.table .dragable jtbc-svg {
   width: 16px; height: 16px; --fore-color: #999999; cursor: move
 }
-container .mask {
-  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+container div.mask {
+  display: none
 }
-container.disabled .mask {
-  z-index: 10000
+container.disabled {
+  position: relative; z-index: 100
+}
+container.disabled div.mask {
+  width: 100%; height: 100%; display: block; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: 10000
 }

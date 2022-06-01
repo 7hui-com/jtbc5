@@ -6,6 +6,41 @@ namespace Jtbc\String;
 
 class StringHelper
 {
+  public static function desensitize(string $argString, int $argStart = null, int $argLength = null, string $argTargetChar = '*')
+  {
+    $result = null;
+    $string = $argString;
+    $start = $argStart ?? floor(mb_strlen($string) / 3);
+    $length = $argLength ?? ceil(mb_strlen($string) / 3);
+    $targetChar = $argTargetChar;
+    if (mb_strlen($string) == 1)
+    {
+      $result = $targetChar;
+    }
+    else
+    {
+      $pocket = [];
+      $strings = mb_str_split($string);
+      foreach ($strings as $key => $value)
+      {
+        if ($key < $start)
+        {
+          $pocket[] = $value;
+        }
+        else if ($key >= $start + $length)
+        {
+          $pocket[] = $value;
+        }
+        else
+        {
+          $pocket[] = $targetChar;
+        }
+      }
+      $result = implode($pocket);
+    }
+    return $result;
+  }
+
   public static function getBestMatchedString(string $argString, array $argStrings)
   {
     $result = null;
@@ -56,6 +91,19 @@ class StringHelper
           break;
       }
       $result = implode($key, $tempArr);
+    }
+    return $result;
+  }
+
+  public static function getLeftString(string $argString, int $argLength, string $argEllipsis = null)
+  {
+    $string = $argString;
+    $length = max(0, $argLength);
+    $ellipsis = $argEllipsis;
+    $result = mb_substr($string, 0, $length);
+    if (!is_null($ellipsis) && mb_strlen($string) > $length)
+    {
+      $result .= $ellipsis;
     }
     return $result;
   }

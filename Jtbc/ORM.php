@@ -72,7 +72,7 @@ abstract class ORM
     $rs = $this -> get($fields);
     if (!is_null($rs))
     {
-      $result[] = $rs;
+      $result[] = new Substance($rs);
     }
     $this -> hook -> retrieved -> trigger($this, $result);
     return new ActualRecord($result, fn($currentSubstance) => $this -> currentSubstance = $currentSubstance);

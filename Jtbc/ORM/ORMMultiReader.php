@@ -92,7 +92,7 @@ class ORMMultiReader
     $rs = $this -> get($fields);
     if (!is_null($rs))
     {
-      $result[] = $rs;
+      $result[] = new Substance($rs);
     }
     return $result;
   }

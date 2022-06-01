@@ -11,6 +11,10 @@
       <zh-cn><![CDATA[字典名称]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[mode]]></name>
+      <zh-cn><![CDATA[字典类型]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[content]]></name>
       <zh-cn><![CDATA[字典内容]]></zh-cn>
     </item>

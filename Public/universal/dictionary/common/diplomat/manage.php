@@ -17,15 +17,19 @@ class Diplomat extends Ambassador {
   use Action\Typical\Batch;
   use Action\Typical\Delete;
 
-  private function getFieldContentAttr()
+  private function getFieldContentAttr(int $argMode = 0)
   {
+    $mode = $argMode;
     $contentColumns = [];
     $contentText = new Substance();
     $contentText -> add = Jtbc::take('universal:config.add', 'lng');
     $contentText -> remove = Jtbc::take('universal:config.delete', 'lng');
     $contentText -> removeTips = Jtbc::take('universal:phrases.are-you-sure-to-remove', 'lng');
     $contentText -> emptyTips = Jtbc::take('manage.text-tips-add-content-null', 'lng');
-    $contentColumns[] = ['name' => 'key', 'type' => 'text', 'text' => Jtbc::take('universal:config.key', 'lng')];
+    $contentColumns[] = match($mode) {
+      1 => ['name' => 'key', 'type' => 'number', 'text' => Jtbc::take('universal:config.key', 'lng'), 'extra' => ['width' => '100%']],
+      default => ['name' => 'key', 'type' => 'text', 'text' => Jtbc::take('universal:config.key', 'lng')],
+    };
     $allLang = Jtbc::take('::sel_lang.*', 'lng');
     foreach ($allLang as $key => $val)
     {
@@ -34,11 +38,12 @@ class Diplomat extends Ambassador {
     return ['text' => JSON::encode($contentText -> all()), 'columns' => JSON::encode($contentColumns)];
   }
 
-  public function add()
+  public function add(Request $req)
   {
-
+    $mode = intval($req -> get('mode'));
     $bs = new BasicSubstance($this);
-    $bs -> data -> content = $this -> getFieldContentAttr();
+    $bs -> data -> mode = min(1, max($mode, 0));
+    $bs -> data -> content = $this -> getFieldContentAttr($mode);
     return $bs -> toJSON();
   }
 
@@ -50,7 +55,7 @@ class Diplomat extends Ambassador {
     $data = $model -> get();
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;
-    $bs -> data -> content = $this -> getFieldContentAttr();
+    $bs -> data -> content = $this -> getFieldContentAttr(intval($data['mode']));
     return $bs -> toJSON();
   }
 

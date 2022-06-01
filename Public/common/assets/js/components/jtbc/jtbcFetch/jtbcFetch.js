@@ -3,29 +3,49 @@ export default class jtbcFetch extends HTMLElement {
     return ['mode', 'method', 'basehref', 'body', 'url', 'interval'];
   };
 
+  #method = 'get';
+  #mode = 'queryString';
+  #body = null;
+  #baseHref = null;
+  #URL = null;
+  #interval = null;
+
   set href(value) {
     this.setAttribute('url', value);
-    this.currentURL = value;
+    this.#URL = value;
     this.fetch();
   };
 
+  get body() {
+    return this.#body;
+  };
+
+  get method() {
+    return this.#method;
+  };
+
+  get mode() {
+    return this.#mode;
+  };
+
   get href() {
-    return this.currentURL;
+    return this.#URL;
   };
 
   get fullURL() {
-    return this.currentBaseHref? this.currentBaseHref + this.currentURL: this.currentURL;
+    return this.#baseHref? this.#baseHref + this.#URL: this.#URL;
   };
 
   fetch() {
-    if (this.locked == false && this.currentURL != null)
+    if (this.locked == false && this.#URL != null)
     {
       this.locked = true;
       this.removeAttribute('code');
       this.dispatchEvent(new CustomEvent('fetchstart'));
       let action = this.fullURL;
-      let method = this.currentMethod;
-      let init = {'method': method};
+      let method = this.method;
+      let headers = {};
+      let init = {'method': method, 'headers': headers};
       let currentName = this.getAttribute('name');
       const setTemplateData = data => {
         if (currentName != null && data != null)
@@ -44,13 +64,18 @@ export default class jtbcFetch extends HTMLElement {
           });
         };
       };
+      Array.from(this.attributes).forEach(attr => {
+        let name = attr.name;
+        if (name.startsWith('header-'))
+        {
+          headers[name.substring(name.indexOf('-') + 1)] = this.getAttribute(name);
+        };
+      });
       if (method != 'get')
       {
-        let headers = {};
         if (this.mode == 'json') headers['Content-Type'] = 'application/json';
         else if (this.mode == 'queryString') headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        init.headers = headers;
-        init.body = this.currentBody;
+        init.body = this.body;
       };
       fetch(action, init).then(res => {
         let result = {};
@@ -97,17 +122,18 @@ export default class jtbcFetch extends HTMLElement {
   };
 
   setInterval() {
-    if (Number.isInteger(this.currentInterval) && this.currentInterval != 0)
+    let interval = this.#interval;
+    if (Number.isInteger(interval) && interval != 0)
     {
       setTimeout(() => {
         this.refresh();
         this.setInterval();
-      }, this.currentInterval * 1000)
+      }, interval * 1000)
     };
   };
 
   clearInterval() {
-    this.currentInterval = null;
+    this.#interval = null;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -116,7 +142,7 @@ export default class jtbcFetch extends HTMLElement {
       {
         if (this.modeList.includes(newVal))
         {
-          this.mode = newVal;
+          this.#mode = newVal;
         };
         break;
       };
@@ -124,28 +150,28 @@ export default class jtbcFetch extends HTMLElement {
       {
         if (this.methodList.includes(newVal))
         {
-          this.currentMethod = newVal;
+          this.#method = newVal;
         };
         break;
       };
       case 'basehref':
       {
-        this.currentBaseHref = newVal;
+        this.#baseHref = newVal;
         break;
       };
       case 'body':
       {
-        this.currentBody = newVal;
+        this.#body = newVal;
         break;
       };
       case 'url':
       {
-        this.currentURL = newVal;
+        this.#URL = newVal;
         break;
       };
       case 'interval':
       {
-        this.currentInterval = Number.parseInt(newVal);
+        this.#interval = Number.parseInt(newVal);
         this.setInterval();
         break;
       };
@@ -162,12 +188,6 @@ export default class jtbcFetch extends HTMLElement {
     this.locked = false;
     this.ready = false;
     this.modeList = ['queryString', 'json'];
-    this.mode = this.modeList[0];
     this.methodList = ['get', 'post', 'put', 'delete'];
-    this.currentMethod = this.methodList[0];
-    this.currentBody = null;
-    this.currentBaseHref = null;
-    this.currentURL = null;
-    this.currentInterval = null;
   };
 };

@@ -43,6 +43,10 @@
       <zh-cn><![CDATA[发布]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[recommend]]></name>
+      <zh-cn><![CDATA[推荐]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[enable]]></name>
       <zh-cn><![CDATA[启用]]></zh-cn>
     </item>

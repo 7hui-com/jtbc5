@@ -12,7 +12,7 @@ class HeaderManager
   {
     $result = function() use ($handler, $diplomat)
     {
-      $result = call_user_func($handler);
+      $isOriginAllowed = false;
       $request = $diplomat -> di -> request;
       $response = $diplomat -> di -> response;
       $charset = $diplomat -> charset ?? Config::CHARSET;
@@ -29,16 +29,28 @@ class HeaderManager
       }
       if (is_array($allowOrigin))
       {
+        $maxAge = 60;
         $httpOrigin = $request -> header -> get('origin');
         if (in_array($httpOrigin, $allowOrigin))
         {
+          $isOriginAllowed = true;
+        }
+        else if (array_key_exists($httpOrigin, $allowOrigin))
+        {
+          $isOriginAllowed = true;
+          $maxAgeValue = $allowOrigin[$httpOrigin];
+          if (is_int($maxAgeValue))
+          {
+            $maxAge = max(5, min(7200, $maxAgeValue));
+          }
+        }
+        if ($isOriginAllowed === true)
+        {
+          $response -> header -> set('Access-Control-Max-Age', $maxAge);
           $response -> header -> set('Access-Control-Allow-Origin', $httpOrigin);
           if ($allowCredentials === true) $response -> header -> set('Access-Control-Allow-Credentials', 'true');
+          if (is_array($allowHeaders)) $response -> header -> set('Access-Control-Allow-Headers', implode(',', $allowHeaders));
         }
-      }
-      if (is_array($allowHeaders))
-      {
-        $response -> header -> set('Access-Control-Allow-Headers', implode(',', $allowHeaders));
       }
       if (!in_array($contentType, $contentTypeWithCharset))
       {
@@ -48,7 +60,10 @@ class HeaderManager
       {
         $response -> header -> set('Content-Type', $contentType . '; charset=' . $charset);
       }
-      return $result;
+      if (in_array(strtoupper($request -> method), ['DELETE', 'GET', 'PATCH', 'POST', 'PUT']))
+      {
+        return call_user_func($handler);
+      }
     };
     return $result;
   }

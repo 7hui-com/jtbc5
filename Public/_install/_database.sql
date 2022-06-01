@@ -267,6 +267,7 @@ DROP TABLE IF EXISTS `universal_dictionary`;
 CREATE TABLE `universal_dictionary`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"format\":\"natural\"}',
+  `mode` int(11) NULL DEFAULT 0 COMMENT '{\"format\":\"int\",\"required\":false}',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"format\":\"json\",\"required\":false}',
   `time` datetime(0) NULL DEFAULT NULL COMMENT '{\"format\":\"datetime\"}',
   `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',

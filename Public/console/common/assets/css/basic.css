@@ -76,6 +76,9 @@ icons jtbc-svg:hover {
 .status[status='1'] {
   background-image: url(../svg/status.1.svg)
 }
+.status[status='2'] {
+  background-image: url(../svg/status.2.svg)
+}
 .tagslist {
   display: inline-flex; flex-wrap: wrap; gap: 4px
 }

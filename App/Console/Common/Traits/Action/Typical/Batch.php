@@ -32,6 +32,7 @@ trait Batch
           'verify' => 'verified',
           'lock' => 'locked',
           'publish' => 'published',
+          'recommend' => 'recommended',
           'suspend' => 'suspended',
         ];
         if (Validation::isIntSeries($idList) && in_array($type, explode(',', $batch)) && array_key_exists($type, $fieldMap))
