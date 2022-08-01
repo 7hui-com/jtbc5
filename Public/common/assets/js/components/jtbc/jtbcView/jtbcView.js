@@ -675,6 +675,7 @@ export default class jtbcView extends HTMLElement {
       this.#rendered = true;
       this.dispatchEvent(new CustomEvent('rendercomplete'));
       this.dispatchEvent(new CustomEvent('renderend', {bubbles: true}));
+      this.loadComponents().then(result => this.dispatchEvent(new CustomEvent('renderdone', {bubbles: true, detail: {result: result}})));
     }
     else
     {
@@ -683,6 +684,7 @@ export default class jtbcView extends HTMLElement {
       this.#virtualDOM = newVirtualDOM;
       this.dispatchEvent(new CustomEvent('patchcomplete'));
       this.dispatchEvent(new CustomEvent('patchend', {bubbles: true}));
+      this.loadComponents().then(result => this.dispatchEvent(new CustomEvent('patchdone', {bubbles: true, detail: {result: result}})));
     };
   };
 

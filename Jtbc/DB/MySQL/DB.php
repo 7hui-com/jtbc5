@@ -51,6 +51,21 @@ class DB implements DBInterface
     return $name;
   }
 
+  public function beginTransaction()
+  {
+    return $this -> exec('START TRANSACTION');
+  }
+
+  public function commit()
+  {
+    return $this -> exec('COMMIT');
+  }
+
+  public function rollback()
+  {
+    return $this -> exec('ROLLBACK');
+  }
+
   public function fetch($argSQL)
   {
     $sql = $argSQL;
@@ -94,7 +109,7 @@ class DB implements DBInterface
     if (!empty($sqlList))
     {
       $succeed = true;
-      $this -> exec('START TRANSACTION');
+      $this -> beginTransaction();
       foreach ($sqlList as $sql)
       {
         if (!is_numeric($this -> exec($sql)))
@@ -106,11 +121,11 @@ class DB implements DBInterface
       if ($succeed == true)
       {
         $bool = true;
-        $this -> exec('COMMIT');
+        $this -> commit();
       }
       else
       {
-        $this -> exec('ROLLBACK');
+        $this -> rollback();
       }
     }
     return $bool;

@@ -1,0 +1,72 @@
+:host {
+  width: 100%; display: block; --gap: 20px; --radius: 0px; --background-color: #e4e4e4; --title-width: 100%; --title-height: 24px; --img-width: 100%; --img-height: 200px; --avatar-width: 100px; --avatar-radius: 100%; --content-line-height: 16px; --content-line-gap: 8px
+}
+container {
+  width: 100%; display: block !important
+}
+container div.avatar {
+  width: var(--avatar-width); height: var(--avatar-width); background: var(--background-color); border-radius: var(--avatar-radius)
+}
+container div.img {
+  width: var(--img-width); height: var(--img-height); background: var(--background-color); border-radius: var(--radius)
+}
+container div.title {
+  width: var(--title-width); height: var(--title-height); background: var(--background-color); border-radius: var(--radius)
+}
+container div.content {
+  width: 100%; display: flex; flex-wrap: wrap; gap: var(--content-line-gap); align-content: flex-start
+}
+container div.content div.line {
+  width: 100%; height: var(--content-line-height); background: var(--background-color); border-radius: var(--radius)
+}
+container div.theme1 div.content div.line:nth-last-of-type(2) {
+  width: 75%
+}
+container div.theme1 div.content div.line:nth-last-of-type(1) {
+  width: 25%
+}
+container div.theme2 div.content div.line:last-of-type {
+  width: 50%
+}
+container div.theme3 {
+  display: flex; flex-wrap: wrap; gap: var(--gap)
+}
+container div.theme4 {
+  display: flex; flex-wrap: wrap; gap: var(--gap)
+}
+container div.theme4 div.content div.line:last-of-type {
+  width: 50%
+}
+container div.theme5 {
+  display: flex; gap: var(--gap)
+}
+container div.theme5 div.leftBox {
+  width: var(--img-width); max-width: 50%
+}
+container div.theme5 div.rightBox {
+  flex: 1
+}
+container div.theme5 div.rightBox div.content {
+  margin-top: var(--gap)
+}
+container div.theme5 div.rightBox div.content div.line:nth-last-of-type(2) {
+  width: 75%
+}
+container div.theme5 div.rightBox div.content div.line:nth-last-of-type(1) {
+  width: 25%
+}
+container div.theme6 {
+  display: flex; gap: var(--gap)
+}
+container div.theme6 div.leftBox {
+  width: var(--avatar-width)
+}
+container div.theme6 div.rightBox {
+  flex: 1
+}
+container div.theme6 div.rightBox div.content {
+  margin-top: var(--gap)
+}
+container div.theme6 div.rightBox div.content div.line:last-of-type {
+  width: 50%
+}

@@ -6,6 +6,9 @@ namespace Jtbc;
 
 interface DB
 {
+  public function beginTransaction();
+  public function commit();
+  public function rollback();
   public function fetch($argSQL);
   public function fetchAll($argSQL);
   public function query($argSQL);
