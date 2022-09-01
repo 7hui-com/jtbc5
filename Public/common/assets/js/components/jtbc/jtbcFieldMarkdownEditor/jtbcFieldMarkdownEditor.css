@@ -1,0 +1,42 @@
+:host {
+  width: 100%; display: block; --font-size: 16px; --line-height: 160%; --border-radius: 0px; --border-color: #d1d1d1; --border-color-focus: #5b9dd9; --box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 100
+}
+container {
+  width: 100%; display: block !important; font-family: Menlo, Monaco, Consolas, "Courier New", monospace; position: relative; z-index: var(--z-index); transition: box-shadow .3s ease
+}
+container textarea.mde {
+  width: 100%; height: 100%; border: 0px; background: transparent; resize: none
+}
+container div.EasyMDEContainer div.editor-toolbar {
+  display: flex; background-color: #fff; align-items: center; border-top-left-radius: var(--border-radius); border-top-right-radius: var(--border-radius); border-color: var(--border-color); transition: border-color .3s ease
+}
+container div.EasyMDEContainer div.CodeMirror {
+  font-size: var(--font-size); line-height: var(--line-height); border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); border-color: var(--border-color); transition: border-color .3s ease
+}
+container div.EasyMDEContainer div.editor-preview-side {
+  font-size: var(--font-size); line-height: var(--line-height); border-bottom-right-radius: var(--border-radius); border-color: var(--border-color); transition: all .3s ease
+}
+container div.mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+container.disabled div.mask {
+  z-index: 10000
+}
+container.on {
+  box-shadow: 0px 0px 2px var(--box-shadow-focus)
+}
+container.on div.EasyMDEContainer div.editor-toolbar {
+  border-color: var(--border-color-focus)
+}
+container.on div.EasyMDEContainer div.CodeMirror {
+  border-left-color: var(--border-color-focus); border-bottom-color: var(--border-color-focus); border-right-color: var(--border-color-focus)
+}
+container.on div.EasyMDEContainer div.editor-preview-side {
+  border-bottom-color: var(--border-color-focus); border-right-color: var(--border-color-focus)
+}
+container.fullscreen {
+  z-index: 100000 !important
+}
+container.fullscreen div.EasyMDEContainer div.CodeMirror {
+  border-left: 0px; border-right: 0px
+}

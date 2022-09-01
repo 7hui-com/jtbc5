@@ -27,6 +27,7 @@ export default class jtbcFieldDate extends HTMLElement {
     value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
     container.querySelector('input.date').value = this.currentValue = value;
     container.querySelector('.calendar').setAttribute('value', this.currentValue);
+    this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
   };
 
   set disabled(disabled) {
@@ -83,6 +84,7 @@ export default class jtbcFieldDate extends HTMLElement {
         if (value.trim() == '')
         {
           that.currentValue = '';
+          that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
         }
         else
         {

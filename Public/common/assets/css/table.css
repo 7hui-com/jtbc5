@@ -1,5 +1,16 @@
 table.table {
-  width: 100%; background: #e1e1e1; border-collapse: separate; border-spacing: 1px 1px
+  width: 100%; border-collapse: separate; border-spacing: 0px
+}
+table.table thead.sticky {
+  position: sticky; top: 0px; z-index: 30
+}
+table.table thead tr:first-of-type th,
+table.table thead tr:first-of-type td {
+  border-top: #e1e1e1 1px solid
+}
+table.table tbody:first-child tr:first-of-type th,
+table.table tbody:first-child tr:first-of-type td {
+  border-top: #e1e1e1 1px solid
 }
 table.table tbody:empty {
   display: none
@@ -10,12 +21,43 @@ table.table tbody:empty + tfoot {
 table.table tfoot {
   display: none
 }
+table.table tfoot.sticky {
+  position: sticky; bottom: 0px; z-index: 10
+}
+table.table tr th:last-child,
+table.table tr td:last-child {
+  border-right: #e1e1e1 1px solid
+}
 table.table th,
 table.table td {
-  padding: 10px
+  padding: 10px; border-left: #e1e1e1 1px solid; border-bottom: #e1e1e1 1px solid
 }
 table.table th {
   text-align: left; background: #f6f6f6
+}
+table.table th[min-width='20'] {
+  min-width: 20px
+}
+table.table th[min-width='40'] {
+  min-width: 40px
+}
+table.table th[min-width='60'] {
+  min-width: 60px
+}
+table.table th[min-width='80'] {
+  min-width: 80px
+}
+table.table th[min-width='100'] {
+  min-width: 100px
+}
+table.table th[min-width='120'] {
+  min-width: 120px
+}
+table.table th[min-width='200'] {
+  min-width: 200px
+}
+table.table th[min-width='300'] {
+  min-width: 300px
 }
 table.table td {
   text-align: left; background: #fff
@@ -31,6 +73,10 @@ table.table th.right,
 table.table td.right {
   text-align: right
 }
+table.table th.sticky,
+table.table td.sticky {
+  position: sticky; z-index: 10
+}
 table.table td[role=draghandle] {
   background-image: url(../svg/draghandle.svg); background-position: center center; background-repeat: no-repeat; background-size: 20px; cursor: move
 }
@@ -42,12 +88,26 @@ table.table tbody tr.draging td {
 table.table tfoot td {
   color: #999999
 }
+table.table[pin-head=true] thead {
+  box-shadow: 0px 2px 0px rgba(225, 225, 225, .6)
+}
+table.table[pin-left=true] th[fence=left],
+table.table[pin-left=true] td[fence=left] {
+  box-shadow: 2px 0px 0px rgba(225, 225, 225, .6)
+}
+table.table[pin-right=true] th[fence=right],
+table.table[pin-right=true] td[fence=right] {
+  box-shadow: -2px 0px 0px rgba(225, 225, 225, .6)
+}
+table.table[pin-foot=true] tfoot {
+  box-shadow: 0px -2px 0px rgba(225, 225, 225, .6)
+}
 table.table.skinny {
-  border-spacing: 0px 0px
+  border: 0px !important
 }
 table.table.skinny th {
-  background: #ffffff; padding: 10px 5px
+  background: #ffffff; padding: 10px 5px; border: 0px !important
 }
 table.table.skinny td {
-  padding: 5px
+  padding: 5px; border: 0px !important
 }

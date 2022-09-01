@@ -41,11 +41,13 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
       startDateValue = startDatetimeValue.split(' ')[0];
       endDateValue = endDateTimeValue.split(' ')[0];
       container.classList.add('loaded');
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
     }
     else
     {
       this.#value = '';
       container.classList.remove('loaded');
+      this.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
     };
     this.#startDate = startDateValue;
     this.#endDate = endDateValue;

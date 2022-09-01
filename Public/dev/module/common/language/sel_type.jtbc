@@ -67,72 +67,76 @@
       <zh-cn><![CDATA[15.代码编辑器(code-editor)]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[markdown-editor]]></name>
+      <zh-cn><![CDATA[16.MD编辑器(markdown-editor)]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[date-range]]></name>
-      <zh-cn><![CDATA[16.日期区间选择框(date-range)]]></zh-cn>
+      <zh-cn><![CDATA[17.日期区间选择框(date-range)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[datetime-range]]></name>
-      <zh-cn><![CDATA[17.日期时间区间选择框(datetime-range)]]></zh-cn>
+      <zh-cn><![CDATA[18.日期时间区间选择框(datetime-range)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[flat-selector]]></name>
-      <zh-cn><![CDATA[18.平铺式选择框(flat-selector)]]></zh-cn>
+      <zh-cn><![CDATA[19.平铺式选择框(flat-selector)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[transfer]]></name>
-      <zh-cn><![CDATA[19.穿梭式多选框(transfer)]]></zh-cn>
+      <zh-cn><![CDATA[20.穿梭式多选框(transfer)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[star]]></name>
-      <zh-cn><![CDATA[20.星级选择框(star)]]></zh-cn>
+      <zh-cn><![CDATA[21.星级选择框(star)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[avatar]]></name>
-      <zh-cn><![CDATA[21.头像上传框(avatar)]]></zh-cn>
+      <zh-cn><![CDATA[22.头像上传框(avatar)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[gallery]]></name>
-      <zh-cn><![CDATA[22.多图管理器(gallery)]]></zh-cn>
+      <zh-cn><![CDATA[23.多图管理器(gallery)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[attachment]]></name>
-      <zh-cn><![CDATA[23.附件管理器(attachment)]]></zh-cn>
+      <zh-cn><![CDATA[24.附件管理器(attachment)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[icon-selector]]></name>
-      <zh-cn><![CDATA[24.图标选择器(icon-selector)]]></zh-cn>
+      <zh-cn><![CDATA[25.图标选择器(icon-selector)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[24color-picker]]></name>
-      <zh-cn><![CDATA[25.二十四色选择器(24color-picker)]]></zh-cn>
+      <zh-cn><![CDATA[26.二十四色选择器(24color-picker)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[cn-city-picker2]]></name>
-      <zh-cn><![CDATA[26.省市二级选择框(cn-city-picker2)]]></zh-cn>
+      <zh-cn><![CDATA[27.省市二级选择框(cn-city-picker2)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[sea-explorer]]></name>
-      <zh-cn><![CDATA[27.海量式多选器(sea-explorer)]]></zh-cn>
+      <zh-cn><![CDATA[28.海量式多选器(sea-explorer)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[location-picker]]></name>
-      <zh-cn><![CDATA[28.经纬度拾取器(location-picker)]]></zh-cn>
+      <zh-cn><![CDATA[29.经纬度拾取器(location-picker)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[mix]]></name>
-      <zh-cn><![CDATA[29.混合字段(mix)]]></zh-cn>
+      <zh-cn><![CDATA[30.混合字段(mix)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[table]]></name>
-      <zh-cn><![CDATA[30.表格化混合字段(table)]]></zh-cn>
+      <zh-cn><![CDATA[31.表格化混合字段(table)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[multi]]></name>
-      <zh-cn><![CDATA[31.多行混合字段(multi)]]></zh-cn>
+      <zh-cn><![CDATA[32.多行混合字段(multi)]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[multi-group]]></name>
-      <zh-cn><![CDATA[32.多行分组混合字段(multi-group)]]></zh-cn>
+      <zh-cn><![CDATA[33.多行分组混合字段(multi-group)]]></zh-cn>
     </item>
   </item_list>
 </xml>

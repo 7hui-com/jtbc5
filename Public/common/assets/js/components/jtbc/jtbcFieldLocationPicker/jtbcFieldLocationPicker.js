@@ -3,7 +3,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     return ['type', 'value', 'placeholder', 'disabled', 'width', 'constant_api_key'];
   };
 
-  #allowedTypes = ['baidu', 'amap', 'qq'];
+  #allowedTypes = ['tianditu', 'baidu', 'amap', 'qq'];
 
   get name() {
     return this.getAttribute('name');
@@ -98,6 +98,45 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
         <div class="currentPoint">${this.longitude},${this.latitude}</div>
       </div>
     `;
+  };
+
+  #popupTiandituMap() {
+    let that = this;
+    that.dialog.popup(that.#getMapContainerHTML()).then(() => {
+      let mapContainerEl = that.dialog.querySelector('div.jtbcMapContainer');
+      let mapIFrameEl = mapContainerEl.querySelector('iframe');
+      let currentPointEl = mapContainerEl.querySelector('div.currentPoint');
+      let mapContainerCssEl = document.createElement('link');
+      mapContainerCssEl.setAttribute('type', 'text/css');
+      mapContainerCssEl.setAttribute('rel', 'stylesheet');
+      mapContainerCssEl.setAttribute('href', that.mapContainerCssUrl);
+      mapContainerCssEl.addEventListener('load', () => {
+        mapIFrameEl.addEventListener('load', () => {
+          let jsApi = document.createElement('script');
+          jsApi.setAttribute('src', '//api.tianditu.gov.cn/api?v=4.0&tk=' + encodeURIComponent(this.constantApiKey));
+          jsApi.addEventListener('load', () => {
+            let mapInitScript = document.createElement('script');
+            mapInitScript.setAttribute('src', that.componentBasePath + 'map/tianditu.js');
+            mapIFrameEl.contentDocument.body.appendChild(mapInitScript);
+          });
+          mapIFrameEl.contentDocument.body.appendChild(jsApi);
+          mapIFrameEl.contentWindow.parentComponent = that;
+        });
+        mapIFrameEl.setAttribute('src', that.componentBasePath + 'map.html');
+        currentPointEl.addEventListener('click', function(){
+          that.dialog.close().then(() => {
+            let currentValue = {
+              'type': 'tianditu',
+              'zoom': Math.ceil(that.zoom),
+              'longitude': that.longitude,
+              'latitude': that.latitude,
+            };
+            that.value = JSON.stringify(currentValue);
+          });
+        });
+      });
+      mapContainerEl.parentNode.insertBefore(mapContainerCssEl, mapContainerEl);
+    });
   };
 
   #popupBaiduMap() {
@@ -226,6 +265,11 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     if (this.dialog != null)
     {
       switch(this.type) {
+        case 'tianditu':
+        {
+          this.#popupTiandituMap();
+          break;
+        };
         case 'baidu':
         {
           this.#popupBaiduMap();

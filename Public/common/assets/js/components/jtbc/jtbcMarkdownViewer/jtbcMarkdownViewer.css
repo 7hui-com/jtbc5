@@ -1,0 +1,68 @@
+:host {
+  display: block; --font-size: 14px; --line-height: 160%; --line-color: #dddddd; --element-gap: 12px; --link-color: #000066; --link-hover-color: #CC0000
+}
+container {
+  width: 100%; display: block !important; font-size: var(--font-size); line-height: var(--line-height)
+}
+container a {
+  color: var(--link-color); text-decoration: underline
+}
+container a:hover {
+  color: var(--link-hover-color)
+}
+container h1,
+container h2,
+container h3,
+container h4,
+container h5,
+container h6 {
+  margin: 0px; padding: 0px; line-height: 140%; margin-bottom: var(--element-gap)
+}
+container h1 {
+  font-size: 32px
+}
+container h2 {
+  font-size: 24px
+}
+container h3 {
+  font-size: 20px
+}
+container h4 {
+  font-size: 16px
+}
+container h5 {
+  font-size: 14px
+}
+container h6 {
+  font-size: 12px
+}
+container p {
+  margin: 0px; padding: 0px; margin-bottom: var(--element-gap)
+}
+container jtbc-syntax-highlighter {
+  margin-bottom: var(--element-gap)
+}
+container *:last-child {
+  margin-bottom: 0px
+}
+container img {
+  max-width: 100%; vertical-align: top; border-color: var(--line-color)
+}
+container ul {
+  margin: 12px 0px; padding: 0px; padding-left: 24px; list-style: disc
+}
+container ol {
+  margin: 12px 0px; padding: 0px; padding-left: 24px; list-style: decimal
+}
+container table {
+  background: var(--line-color); border: 0px; margin-bottom: var(--element-gap)
+}
+container table th {
+  font-weight: bold; background: #ffffff
+}
+container table td {
+  font-weight: normal; background: #ffffff
+}
+container code {
+  display: inline-block; padding: 2px 4px; background: #f7f7f7; color: rgba(0, 0, 0, .8); border-radius: 3px
+}

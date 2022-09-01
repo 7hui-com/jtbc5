@@ -84,7 +84,7 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
         display: block
       }
       div.container iframe {
-        width: 100%; height: 0px
+        width: 100%; height: 0px; vertical-align: top
       }
       </style>
       <div class="container"><iframe frameborder="0"></iframe></div>

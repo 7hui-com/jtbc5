@@ -1,8 +1,8 @@
 :host {
-  display: block; --line-color: #dddddd; --element-gap: 12px; --link-color: #000066; --link-hover-color: #CC0000
+  display: block; --font-size: 12px; --line-height: 160%; --line-color: #dddddd; --element-gap: 12px; --link-color: #000066; --link-hover-color: #CC0000
 }
 container {
-  width: 100%; display: block !important; font-size: 12px; line-height: 160%
+  width: 100%; display: block !important; font-size: var(--font-size); line-height: var(--line-height)
 }
 container a {
   color: var(--link-color); text-decoration: underline

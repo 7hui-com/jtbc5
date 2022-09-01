@@ -1,0 +1,6 @@
+:host {
+  width: 600px; height: 400px; display: block
+}
+.container {
+  width: 100%; height: 100%; display: block !important; box-sizing: border-box; overflow: auto
+}

@@ -44,6 +44,11 @@ export default class jtbcFieldDatetime extends HTMLElement {
           li.getAttribute('value') == currentItemValue? li.classList.add('selected'): li.classList.remove('selected');
         });
       });
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+    }
+    else
+    {
+      throw new Error('Unexpected value');
     };
   };
 
@@ -178,6 +183,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
         if (value.trim() == '')
         {
           that.currentValue = '';
+          that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
         }
         else
         {

@@ -1,5 +1,5 @@
 body {
-  min-width: 1200px; overflow-x: hidden
+  min-width: 1200px; overflow: hidden
 }
 .root {
   width: 100%; position: relative; z-index: 100

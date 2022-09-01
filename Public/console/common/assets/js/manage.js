@@ -215,7 +215,11 @@ export default class manage {
         this.dialog.alert(main.getAttribute('urlcrash'));
       });
       window.addEventListener('popstate', () => {
-        if (this.currentHash != location.hash)
+        if (location.hash.length == 0)
+        {
+          location.reload();
+        }
+        else if (this.currentHash != location.hash)
         {
           main.href = location.hash.substring(1);
         };

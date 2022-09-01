@@ -90,12 +90,7 @@ class Request implements RequestInterface
 
   public function getPathInfo()
   {
-    $result = $this -> server('PATH_INFO');
-    if (Validation::isEmpty($result))
-    {
-      $result = $this -> server('ORIG_PATH_INFO');
-    }
-    return $result;
+    return $this -> server('PATH_INFO') ?? $this -> server('ORIG_PATH_INFO') ?? $this -> server('SCRIPT_NAME');
   }
 
   public function getIPAddress(bool $argIPv4Only = false)

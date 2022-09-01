@@ -145,7 +145,7 @@
     <input type="hidden" name="fieldset" role="field" value="8" />
     <div class="tinyForm">
       <ul>
-        <li><select is="jtbc-select" name="extra_type" role="field" width="100%"><option value="baidu">map.baidu.com</option><option value="qq">map.qq.com</option><option value="amap">ditu.amap.com</option></select></li>
+        <li><select is="jtbc-select" name="extra_type" role="field" width="100%"><option value="tianditu">tianditu.gov.cn</option><option value="baidu">map.baidu.com</option><option value="qq">map.qq.com</option><option value="amap">ditu.amap.com</option></select></li>
         <li><input is="jtbc-input" type="text" name="extra_constant_api_key" role="field" placeholder="API KEY" width="100%" /></span></li>
       </ul>
     </div>

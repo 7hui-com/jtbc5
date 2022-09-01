@@ -20,7 +20,7 @@ class Diplomat extends Ambassador {
     if ($type == 'fragment')
     {
       $codename = $di -> request -> get('codename');
-      if (strpos($codename, ':') !== false)
+      if (!is_null($codename) && str_contains($codename, ':'))
       {
         $genrePath = '../' . StringHelper::getClipedString($codename, ':', 'left');
         if (is_dir($genrePath))

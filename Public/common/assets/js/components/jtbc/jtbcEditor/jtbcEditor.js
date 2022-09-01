@@ -3,8 +3,11 @@ export default class jtbcEditor extends HTMLTextAreaElement {
     return ['value'];
   };
 
+  #value = null;
+  #interval = null;
+
   set value(value) {
-    this.currentValue = value;
+    this.#value = value;
     if (this.editor) this.editor.resetContent(value);
   };
 
@@ -12,8 +15,16 @@ export default class jtbcEditor extends HTMLTextAreaElement {
     return this.ready? tinymce.get(this.id): null;
   };
 
+  get contentType() {
+    return 'html';
+  };
+
   get value() {
-    return this.editor? this.editor.getContent(): this.currentValue;
+    return this.editor? this.editor.getContent(): this.#value;
+  };
+
+  #isLoaded() {
+    return typeof(tinymce) == 'object'? true: false;
   };
 
   insertContent(content) {
@@ -24,20 +35,21 @@ export default class jtbcEditor extends HTMLTextAreaElement {
   };
 
   init() {
-    if (typeof(tinymce) == 'object')
+    if (this.#isLoaded())
     {
       tinymce.remove();
       tinymce.init({
         autosave_ask_before_unload: false,
         statusbar: false,
         min_height: 300,
+        skin: 'tinymce-5',
         selector: 'textarea[is=jtbc-editor]',
-        plugins: ['advlist link image lists charmap preview hr searchreplace wordcount code codesample fullscreen insertdatetime media table visualblocks'],
-        toolbar1: 'formatselect | fontselect | bold italic underline strikethrough removeformat forecolor backcolor | alignleft aligncenter alignright alignjustify code',
+        plugins: 'advlist link lists image charmap preview searchreplace code codesample fullscreen insertdatetime media table visualblocks',
+        toolbar1: 'blocks | fontfamily | bold italic underline strikethrough removeformat forecolor backcolor | alignleft aligncenter alignright alignjustify code',
         toolbar2: 'table bullist numlist outdent indent | link unlink image media hr subscript superscript insertdatetime | charmap codesample visualblocks searchreplace preview fullscreen',
         menubar: false,
         convert_urls: false,
-        language:'zh_CN',
+        language:'zh-Hans',
         setup: function(editor)
         {
           editor.on('focus', e => {
@@ -63,23 +75,41 @@ export default class jtbcEditor extends HTMLTextAreaElement {
   };
 
   connectedCallback() {
-    if (document.querySelector('script.tinymce'))
+    let scriptEl = document.querySelector('script.tinymce');
+    if (scriptEl == null)
     {
-      setTimeout(() => { this.init(); }, 100);
+      scriptEl = document.createElement('script');
+      scriptEl.className = 'tinymce';
+      scriptEl.dataset.count = 1;
+      scriptEl.src = this.basePath + '../../../vendor/tinymce/tinymce.min.js';
+      scriptEl.addEventListener('load', () => { this.init(); });
+      document.querySelector('head').appendChild(scriptEl);
     }
     else
     {
-      let scriptTinymce = document.createElement('script');
-      scriptTinymce.className = 'tinymce';
-      scriptTinymce.src = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/../../../vendor/tinymce/tinymce.min.js';
-      scriptTinymce.addEventListener('load', () => { this.init(); });
-      document.querySelector('head').appendChild(scriptTinymce);
+      if (this.#isLoaded())
+      {
+        this.init();
+      }
+      else
+      {
+        let count = Number.parseInt(scriptEl.dataset.count);
+        this.#interval = setInterval(() => {
+          if (this.#isLoaded())
+          {
+            this.init();
+            clearInterval(this.#interval);
+          };
+        }, 100 * count);
+        scriptEl.dataset.count = count + 1;
+      };
     };
   };
 
   constructor() {
     super();
     this.ready = false;
-    this.currentValue = super.value;
+    this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
+    this.#value = super.value;
   };
 };

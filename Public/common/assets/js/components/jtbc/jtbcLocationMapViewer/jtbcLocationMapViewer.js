@@ -17,7 +17,7 @@ export default class jtbcLocationMapViewer extends HTMLElement {
   #defaultHeight = 300;
   #defaultLongitude = 121.480226;
   #defaultLatitude = 31.236381;
-  #allowedTypes = ['baidu', 'amap', 'qq'];
+  #allowedTypes = ['tianditu', 'baidu', 'amap', 'qq'];
 
   get name() {
     return this.getAttribute('name');
@@ -67,7 +67,21 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     let map = this.#map;
     let mapInstance = this.#mapInstance;
     let mapContainer = this.#mapContainer;
-    if (this.type == 'baidu')
+    if (this.type == 'tianditu')
+    {
+      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
+      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LngLat(longitude, latitude);
+      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon({'iconUrl': this.#icon, 'iconSize': new map.Point(30, 30), 'iconAnchor': new map.Point(15, 30)});
+      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker(currentPoint, {'icon': currentIcon});
+      if (information != null)
+      {
+        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow(information, {'offset': new map.Point(0, -40)});
+        currentInfoWindow.setLngLat(currentPoint);
+        currentMarker.addEventListener('click', function(){ mapInstance.openInfoWindow(currentInfoWindow); });
+      };
+      mapInstance.addOverLay(currentMarker);
+    }
+    else if (this.type == 'baidu')
     {
       let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
       let currentPoint = this.#points['point-' + currentPointIndex] = new map.Point(longitude, latitude);
@@ -114,7 +128,15 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     let mapInstance = this.#mapInstance;
     if (points.hasOwnProperty('point-' + pointIndex))
     {
-      mapInstance.setCenter(points['point-' + pointIndex]);
+      let point = points['point-' + pointIndex];
+      if (this.type == 'tianditu')
+      {
+        mapInstance.panTo(point);
+      }
+      else
+      {
+        mapInstance.setCenter(point);
+      };
     };
   };
 
@@ -152,6 +174,28 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     };
     this.builded = true;
     this.dispatchEvent(new CustomEvent('builded', {bubbles: true}));
+  };
+
+  #buildTiandituMap() {
+    let mapIFrameEl = document.createElement('iframe');
+    mapIFrameEl.setAttribute('width', '100%');
+    mapIFrameEl.setAttribute('height', this.height);
+    mapIFrameEl.setAttribute('frameborder', '0');
+    mapIFrameEl.addEventListener('load', () => {
+      let mapIFrameDocument = mapIFrameEl.contentDocument;
+      let jsApi = document.createElement('script');
+      jsApi.setAttribute('src', '//api.tianditu.gov.cn/api?v=4.0&tk=' + encodeURIComponent(this.constantApiKey));
+      jsApi.addEventListener('load', () => {
+        let T = this.#map = mapIFrameEl.contentWindow.T;
+        this.#mapContainer = mapIFrameDocument.querySelector('div.mapContainer');
+        this.#mapInstance = new T.Map(this.#mapContainer);
+        this.#mapInstance.centerAndZoom(new T.LngLat(this.#defaultLongitude, this.#defaultLatitude), this.zoom);
+        this.#builded();
+      });
+      mapIFrameDocument.body.appendChild(jsApi);
+    });
+    mapIFrameEl.setAttribute('src', this.componentBasePath + 'map.html');
+    this.container.append(mapIFrameEl);
   };
 
   #buildBaiduMap() {
@@ -233,6 +277,11 @@ export default class jtbcLocationMapViewer extends HTMLElement {
 
   #buildMap() {
     switch(this.type) {
+      case 'tianditu':
+      {
+        this.#buildTiandituMap();
+        break;
+      };
       case 'baidu':
       {
         this.#buildBaiduMap();

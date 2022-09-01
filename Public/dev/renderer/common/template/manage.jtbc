@@ -28,30 +28,32 @@
           <form is="jtbc-form" class="form" method="post" action="{$>this.genre}/manage?action=generate">
             <input type="hidden" name="mode" role="field" value="backend" />
             <table class="table">
-              <tr>
-                <th width="10%" class="center">{$=$take('config.genre', 'lng')}</th>
-                <td colspan="3"><jtbc-field-select2 name="genre" role="field" width="100%" data="${$modules}" placeholder="{$=$take('manage.text-placeholder-module', 'lng')}" error="{$=$take('manage.text-module-error-1', 'lng')}"></jtbc-field-select2></td>
-                <th width="10%" class="center">{$=$take('config.table', 'lng')}</th>
-                <td width="40%">
-                  <div name="div-table-empty"><span class="highlight" group="2">{$=$take('manage.text-placeholder-table-2', 'lng')}</span></div>
-                  <div name="div-table" class="hide"><jtbc-field-select2 name="table" role="field" width="100%" placeholder="{$=$take('manage.text-placeholder-table', 'lng')}"></jtbc-field-select2></div>
-                </td>
-              </tr>
-              <tr>
-                <th class="center">{$=$take('config.where_auto', 'lng')}</th>
-                <td width="15%"><jtbc-tooltip text="{$=$take('manage.text-tips-where-auto', 'lng')}" position="bottom-end"><jtbc-field-switch name="where_auto" role="field" value="1"></jtbc-field-switch></jtbc-tooltip></td>
-                <th width="10%" class="center">{$=$take('config.orderby_mode', 'lng')}</th>
-                <td width="15%">{$=$takeAndFormatToRadio('sel_orderby_mode.*', 'orderby_mode', 1)}</td>
-                <th class="center">{$=$take('config.limit', 'lng')}</th>
-                <td><span class="ash">{$=$take('manage.text-tips-limit-1', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_offset" role="field" value="0" min="0" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-2', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_count" role="field" value="10" min="1" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-3', 'lng')}</span></td>
-              </tr>
-              <tr>
-                <th class="center">{$=$take('config.where', 'lng')}</th>
-                <td colspan="5">
-                  <div name="div-where-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-where', 'lng')}</span></div>
-                  <div name="div-where" class="hide"><jtbc-field-table name="where" role="field" text="${$where_text}"></jtbc-field-table></div>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th width="10%" class="center">{$=$take('config.genre', 'lng')}</th>
+                  <td colspan="3"><jtbc-field-select2 name="genre" role="field" width="100%" data="${$modules}" placeholder="{$=$take('manage.text-placeholder-module', 'lng')}" error="{$=$take('manage.text-module-error-1', 'lng')}"></jtbc-field-select2></td>
+                  <th width="10%" class="center">{$=$take('config.table', 'lng')}</th>
+                  <td width="40%">
+                    <div name="div-table-empty"><span class="highlight" group="2">{$=$take('manage.text-placeholder-table-2', 'lng')}</span></div>
+                    <div name="div-table" class="hide"><jtbc-field-select2 name="table" role="field" width="100%" placeholder="{$=$take('manage.text-placeholder-table', 'lng')}"></jtbc-field-select2></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="center">{$=$take('config.where_auto', 'lng')}</th>
+                  <td width="15%"><jtbc-tooltip text="{$=$take('manage.text-tips-where-auto', 'lng')}" position="bottom-end"><jtbc-field-switch name="where_auto" role="field" value="1"></jtbc-field-switch></jtbc-tooltip></td>
+                  <th width="10%" class="center">{$=$take('config.orderby_mode', 'lng')}</th>
+                  <td width="15%">{$=$takeAndFormatToRadio('sel_orderby_mode.*', 'orderby_mode', 1)}</td>
+                  <th class="center">{$=$take('config.limit', 'lng')}</th>
+                  <td><span class="ash">{$=$take('manage.text-tips-limit-1', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_offset" role="field" value="0" min="0" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-2', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_count" role="field" value="10" min="1" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-3', 'lng')}</span></td>
+                </tr>
+                <tr>
+                  <th class="center">{$=$take('config.where', 'lng')}</th>
+                  <td colspan="5">
+                    <div name="div-where-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-where', 'lng')}</span></div>
+                    <div name="div-where" class="hide"><jtbc-field-table name="where" role="field" text="${$where_text}"></jtbc-field-table></div>
+                  </td>
+                </tr>
+              </tbody>
               <tbody name="orderby" class="hide">
                 <tr>
                   <th class="center">{$=$take('config.orderby', 'lng')}</th>
@@ -61,12 +63,14 @@
                   </td>
                 </tr>
               </tbody>
-              <tr>
-                <th class="center">{$=$take('config.template_file', 'lng')}</th>
-                <td colspan="3"><jtbc-field-select2 name="template_file" role="field" width="100%" data="${$template_files}" apiurl="{$>this.genre}/manage?type=getTemplateNodesByFile" placeholder="{$=$take('manage.text-placeholder-template_file', 'lng')}" value="${$default_template_file}"></jtbc-field-select2></td>
-                <th class="center">{$=$take('config.template_node', 'lng')}</th>
-                <td><jtbc-field-select2 name="template_node" role="field" width="100%" data="${$template_nodes}" placeholder="{$=$take('manage.text-placeholder-template_node', 'lng')}"></jtbc-field-select2></td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th class="center">{$=$take('config.template_file', 'lng')}</th>
+                  <td colspan="3"><jtbc-field-select2 name="template_file" role="field" width="100%" data="${$template_files}" apiurl="{$>this.genre}/manage?type=getTemplateNodesByFile" placeholder="{$=$take('manage.text-placeholder-template_file', 'lng')}" value="${$default_template_file}"></jtbc-field-select2></td>
+                  <th class="center">{$=$take('config.template_node', 'lng')}</th>
+                  <td><jtbc-field-select2 name="template_node" role="field" width="100%" data="${$template_nodes}" placeholder="{$=$take('manage.text-placeholder-template_node', 'lng')}"></jtbc-field-select2></td>
+                </tr>
+              </tbody>
             </table>
             <div class="button"><button class="b2" role="submit">{$=$take('manage.text-button-generate', 'lng')}</button></div>
           </form>
@@ -111,30 +115,32 @@
           <form is="jtbc-form" class="form" method="post" action="{$>this.genre}/manage?action=generate">
             <input type="hidden" name="mode" role="field" value="frontend" />
             <table class="table">
-              <tr>
-                <th width="10%" class="center">{$=$take('config.genre', 'lng')}</th>
-                <td colspan="3"><jtbc-field-select2 name="genre" role="field" width="100%" data="${$modules}" placeholder="{$=$take('manage.text-placeholder-module', 'lng')}" error="{$=$take('manage.text-module-error-1', 'lng')}"></jtbc-field-select2></td>
-                <th width="10%" class="center">{$=$take('config.table', 'lng')}</th>
-                <td width="40%">
-                  <div name="div-table-empty"><span class="highlight" group="2">{$=$take('manage.text-placeholder-table-2', 'lng')}</span></div>
-                  <div name="div-table" class="hide"><jtbc-field-select2 name="table" role="field" width="100%" placeholder="{$=$take('manage.text-placeholder-table', 'lng')}"></jtbc-field-select2></div>
-                </td>
-              </tr>
-              <tr>
-                <th class="center">{$=$take('config.where_auto', 'lng')}</th>
-                <td width="15%"><jtbc-tooltip text="{$=$take('manage.text-tips-where-auto', 'lng')}" position="bottom-end"><jtbc-field-switch name="where_auto" role="field" value="1"></jtbc-field-switch></jtbc-tooltip></td>
-                <th width="10%" class="center">{$=$take('config.orderby_mode', 'lng')}</th>
-                <td width="15%">{$=$takeAndFormatToRadio('sel_orderby_mode.*', 'orderby_mode', 1)}</td>
-                <th class="center">{$=$take('config.limit', 'lng')}</th>
-                <td><span class="ash">{$=$take('manage.text-tips-limit-1', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_offset" role="field" value="0" min="0" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-2', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_count" role="field" value="10" min="1" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-3', 'lng')}</span></td>
-              </tr>
-              <tr>
-                <th class="center">{$=$take('config.where', 'lng')}</th>
-                <td colspan="5">
-                  <div name="div-where-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-where', 'lng')}</span></div>
-                  <div name="div-where" class="hide"><jtbc-field-table name="where" role="field" text="${$where_text}"></jtbc-field-table></div>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th width="10%" class="center">{$=$take('config.genre', 'lng')}</th>
+                  <td colspan="3"><jtbc-field-select2 name="genre" role="field" width="100%" data="${$modules}" placeholder="{$=$take('manage.text-placeholder-module', 'lng')}" error="{$=$take('manage.text-module-error-1', 'lng')}"></jtbc-field-select2></td>
+                  <th width="10%" class="center">{$=$take('config.table', 'lng')}</th>
+                  <td width="40%">
+                    <div name="div-table-empty"><span class="highlight" group="2">{$=$take('manage.text-placeholder-table-2', 'lng')}</span></div>
+                    <div name="div-table" class="hide"><jtbc-field-select2 name="table" role="field" width="100%" placeholder="{$=$take('manage.text-placeholder-table', 'lng')}"></jtbc-field-select2></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="center">{$=$take('config.where_auto', 'lng')}</th>
+                  <td width="15%"><jtbc-tooltip text="{$=$take('manage.text-tips-where-auto', 'lng')}" position="bottom-end"><jtbc-field-switch name="where_auto" role="field" value="1"></jtbc-field-switch></jtbc-tooltip></td>
+                  <th width="10%" class="center">{$=$take('config.orderby_mode', 'lng')}</th>
+                  <td width="15%">{$=$takeAndFormatToRadio('sel_orderby_mode.*', 'orderby_mode', 1)}</td>
+                  <th class="center">{$=$take('config.limit', 'lng')}</th>
+                  <td><span class="ash">{$=$take('manage.text-tips-limit-1', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_offset" role="field" value="0" min="0" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-2', 'lng')}</span>&nbsp;&nbsp;<jtbc-field-number name="limit_count" role="field" value="10" min="1" width="100"></jtbc-field-number>&nbsp;&nbsp;<span class="ash">{$=$take('manage.text-tips-limit-3', 'lng')}</span></td>
+                </tr>
+                <tr>
+                  <th class="center">{$=$take('config.where', 'lng')}</th>
+                  <td colspan="5">
+                    <div name="div-where-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-where', 'lng')}</span></div>
+                    <div name="div-where" class="hide"><jtbc-field-table name="where" role="field" text="${$where_text}"></jtbc-field-table></div>
+                  </td>
+                </tr>
+              </tbody>
               <tbody name="orderby" class="hide">
                 <tr>
                   <th class="center">{$=$take('config.orderby', 'lng')}</th>
@@ -144,13 +150,15 @@
                   </td>
                 </tr>
               </tbody>
-              <tr>
-                <th class="center">{$=$take('config.fields', 'lng')}</th>
-                <td colspan="5">
-                  <div name="div-fields-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-fields', 'lng')}</span></div>
-                  <div name="div-fields" class="hide"><jtbc-field-flat-selector name="fields" role="field" columns="6"></jtbc-field-flat-selector></div>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th class="center">{$=$take('config.fields', 'lng')}</th>
+                  <td colspan="5">
+                    <div name="div-fields-empty"><span class="highlight" group="3">{$=$take('manage.text-placeholder-fields', 'lng')}</span></div>
+                    <div name="div-fields" class="hide"><jtbc-field-flat-selector name="fields" role="field" columns="6"></jtbc-field-flat-selector></div>
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <div class="button"><button class="b2" role="submit">{$=$take('manage.text-button-generate', 'lng')}</button></div>
           </form>

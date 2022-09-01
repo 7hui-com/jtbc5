@@ -28,7 +28,7 @@ export default class jtbcSwiper extends HTMLElement {
         swiperCss = document.createElement('link');
         swiperCss.setAttribute('type', 'text/css');
         swiperCss.setAttribute('rel', 'stylesheet');
-        swiperCss.setAttribute('src', this.swiperPath.pathname + 'swiper-bundle.min.css')
+        swiperCss.setAttribute('href', this.swiperPath.pathname + 'swiper-bundle.min.css');
         rootNode.head.appendChild(swiperCss);
         swiperJs = document.createElement('script');
         swiperJs.classList.add('swiper');

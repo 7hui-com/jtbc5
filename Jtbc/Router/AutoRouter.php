@@ -7,6 +7,7 @@ use Jtbc\Env;
 use Jtbc\Path;
 use Jtbc\Diplomat;
 use Jtbc\Substance;
+use Jtbc\File\MIMETypes;
 use Jtbc\Exception\UnexpectedException;
 
 class AutoRouter extends ManualRouter
@@ -15,7 +16,9 @@ class AutoRouter extends ManualRouter
   private $diplomatDir = 'common/diplomat/';
   private $diplomatPath;
   private $realScriptName;
+  private $realFilePath;
   private $realDirName;
+  private $realExtension;
 
   private function match()
   {
@@ -109,13 +112,29 @@ class AutoRouter extends ManualRouter
   public static function run()
   {
     $instance = new self();
-    $instance -> autoRun();
+    $filepath = $instance -> realFilePath;
+    $extension = $instance -> realExtension;
+    if (strtolower($extension) == 'php')
+    {
+      $instance -> autoRun();
+    }
+    else if (MIMETypes::isAssetFileType($extension) && is_file($filepath))
+    {
+      $instance -> di -> response -> header -> set('Content-Type', MIMETypes::getMIMEType($extension));
+      $instance -> di -> response -> send(file_get_contents($filepath));
+    }
+    else
+    {
+      $instance -> autoRun();
+    }
   }
 
   public function __construct()
   {
     parent::__construct();
     $this -> realScriptName = $this -> di -> request -> getRealScriptName();
-    $this -> realDirName = pathinfo(substr($this -> realScriptName, 1), PATHINFO_DIRNAME);
+    $this -> realFilePath = substr($this -> realScriptName, 1);
+    $this -> realDirName = pathinfo($this -> realFilePath, PATHINFO_DIRNAME);
+    $this -> realExtension = pathinfo($this -> realFilePath, PATHINFO_EXTENSION);
   }
 }

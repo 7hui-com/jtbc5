@@ -80,7 +80,7 @@
   display: block; color: #333; line-height: 120%; overflow: hidden; text-overflow: ellipsis
 }
 .container div.selector div.option span[key=subtext] {
-  display: block; color: #999; font-size: calc(var(--font-size) - 2px); line-height: 120%; overflow: hidden; text-overflow: ellipsis
+  display: block; color: #999; font-size: calc(var(--font-size) - 2px); line-height: 140%; overflow: hidden; text-overflow: ellipsis
 }
 .container div.selector div.option span[key=subtext]:empty {
   display: none

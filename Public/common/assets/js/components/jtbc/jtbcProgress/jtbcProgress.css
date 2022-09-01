@@ -1,0 +1,15 @@
+:host {
+  width: 200px; height: 6px; display: inline-block; --track-color: #d1d1d1; --track-border: none; --track-border-radius: 3px; --bar-color: #3e868f; --bar-border: none; --bar-border-radius: 3px; --percent-background-color: #3e868f; --percent-border: none; --percent-border-radius: 8px; --percent-font-color: #fff; --percent-line-height: 140%; --percent-padding: 0px 4px; --percent-font-size: 12px
+}
+.container {
+  width: 100%; height: 100%; display: block !important; box-sizing: border-box; background: var(--track-color); border: var(--track-border); border-radius: var(--track-border-radius)
+}
+.container div.bar {
+  width: 0%; height: 100%; box-sizing: border-box; background: var(--bar-color); border: var(--bar-border); border-radius: var(--bar-border-radius); position: relative; transition: width .1s ease
+}
+.container div.bar span.percent {
+  display: flex; box-sizing: border-box; min-height: 100%; align-items: center; padding: var(--percent-padding); font-size: var(--percent-font-size); line-height: var(--percent-line-height); background: var(--percent-background-color); border: var(--percent-border); border-radius: var(--percent-border-radius); color: var(--percent-font-color); position: absolute; top: 50%; right: 0%; z-index: 10; transform: translate(100%, -50%); transition: transform .1s ease
+}
+.container[visible=false] div.bar span.percent {
+  display: none
+}

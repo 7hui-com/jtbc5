@@ -175,24 +175,50 @@ export default class jtbcFieldAttachment extends HTMLElement {
       let tr = this.parentNode.parentNode.parentNode;
       if (tr.tagName == 'TR' && partner != null)
       {
-        let content = document.createElement('a');
-        let currentParam = JSON.parse(tr.getAttribute('param'));
-        content.innerText = currentParam.filename;
-        content.setAttribute('href', currentParam.fileurl);
-        if (currentParam.filegroup == 1)
-        {
-          content = document.createElement('img');
-          content.setAttribute('src', currentParam.fileurl);
-        }
-        else if (currentParam.filegroup == 2)
-        {
-          content = document.createElement('video');
-          content.setAttribute('width', 480);
-          content.setAttribute('width', 270);
-          content.setAttribute('controls', 'controls');
-          content.setAttribute('src', currentParam.fileurl);
-        };
-        partner.forEach(el => { el.insertContent(content.outerHTML); });
+        let param = JSON.parse(tr.getAttribute('param'));
+        let filename = param.filename;
+        let fileurl = param.fileurl;
+        let filegroup = param.filegroup;
+        partner.forEach(el => {
+          if (el.contentType == 'markdown')
+          {
+            filename = filename.replaceAll('[', '\\[');
+            filename = filename.replaceAll(']', '\\]');
+            if (filegroup == 1)
+            {
+              el.insertContent('![' + filename + '](' + fileurl + ')');
+            }
+            else
+            {
+              el.insertContent('[' + filename + '](' + fileurl + ')');
+            };
+          }
+          else
+          {
+            if (filegroup == 1)
+            {
+              let content = document.createElement('img');
+              content.setAttribute('src', fileurl);
+              el.insertContent(content.outerHTML);
+            }
+            else if (filegroup == 2)
+            {
+              let content = document.createElement('video');
+              content.setAttribute('width', 480);
+              content.setAttribute('width', 270);
+              content.setAttribute('controls', 'controls');
+              content.setAttribute('src', fileurl);
+              el.insertContent(content.outerHTML);
+            }
+            else
+            {
+              let content = document.createElement('a');
+              content.innerText = filename;
+              content.setAttribute('href', fileurl);
+              el.insertContent(content.outerHTML);
+            };
+          };
+        });
       };
     });
     container.delegateEventListener('.textRemove', 'click', function(){

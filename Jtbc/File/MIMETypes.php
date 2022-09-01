@@ -6,6 +6,8 @@ namespace Jtbc\File;
 
 class MIMETypes
 {
+  private static $assetFileType = ['css', 'gif', 'html', 'jpg', 'js', 'mp3', 'mp4', 'png', 'svg', 'webp', 'woff', 'woff2', 'xml'];
+
   private static $map = [
     'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
@@ -227,6 +229,8 @@ class MIMETypes
     'vxml' => 'application/voicexml+xml',
     'webm' => 'video/webm',
     'webp' => 'image/webp',
+    'woff' => 'application/font-woff',
+    'woff2' => 'application/font-woff2',
     'wrl' => 'model/vrml',
     'xht' => 'application/xhtml+xml',
     'xhtml' => 'application/xhtml+xml',
@@ -243,6 +247,17 @@ class MIMETypes
     if (array_key_exists($name, self::$map))
     {
       $result = self::$map[$name];
+    }
+    return $result;
+  }
+
+  public static function isAssetFileType(string $argName)
+  {
+    $result = false;
+    $name = $argName;
+    if (in_array($name, self::$assetFileType))
+    {
+      $result = true;
     }
     return $result;
   }

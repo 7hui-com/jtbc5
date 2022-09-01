@@ -1,0 +1,60 @@
+.fa {
+  display: inline-block; width: 100%; height: 100%; line-height: 100%; background: none center center no-repeat; background-size: auto 50%; vertical-align: middle
+}
+.fa-bold {
+  background-image: url(svgs/solid/bold.svg)
+}
+.fa-italic {
+  background-image: url(svgs/solid/italic.svg)
+}
+.fa-strikethrough {
+  background-image: url(svgs/solid/strikethrough.svg)
+}
+.fa-heading {
+  background-image: url(svgs/solid/heading.svg)
+}
+.fa-code {
+  background-image: url(svgs/solid/code.svg)
+}
+.fa-quote-left {
+  background-image: url(svgs/solid/quote-left.svg)
+}
+.fa-list-ul {
+  background-image: url(svgs/solid/list-ul.svg)
+}
+.fa-list-ol {
+  background-image: url(svgs/solid/list-ol.svg)
+}
+.fa-eraser {
+  background-image: url(svgs/solid/eraser.svg)
+}
+.fa-link {
+  background-image: url(svgs/solid/link.svg)
+}
+.fa-image {
+  background-image: url(svgs/solid/image.svg)
+}
+.fa-table {
+  background-image: url(svgs/solid/table.svg)
+}
+.fa-minus {
+  background-image: url(svgs/solid/minus.svg)
+}
+.fa-eye {
+  background-image: url(svgs/solid/eye.svg)
+}
+.fa-columns {
+  background-image: url(svgs/solid/table-columns.svg)
+}
+.fa-arrows-alt {
+  background-image: url(svgs/solid/arrows-up-down-left-right.svg)
+}
+.fa-question-circle {
+  background-image: url(svgs/solid/circle-question.svg)
+}
+.fa-undo {
+  background-image: url(svgs/solid/arrow-rotate-left.svg)
+}
+.fa-redo {
+  background-image: url(svgs/solid/arrow-rotate-right.svg)
+}

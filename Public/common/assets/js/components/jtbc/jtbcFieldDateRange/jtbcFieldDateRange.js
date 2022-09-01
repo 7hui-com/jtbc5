@@ -35,11 +35,13 @@ export default class jtbcFieldDateRange extends HTMLElement {
       startDateValue = valueArr[0];
       endDateValue = valueArr[1];
       container.classList.add('loaded');
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
     }
     else
     {
       this.#value = '';
       container.classList.remove('loaded');
+      this.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
     };
     this.#startDate = startDateValue;
     this.#endDate = endDateValue;

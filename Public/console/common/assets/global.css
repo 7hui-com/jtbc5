@@ -14,7 +14,7 @@
   background-color: rgba(0, 0, 0, .7) !important
 }
 .tox-fullscreen.tox-tinymce {
-  z-index: 100000
+  z-index: 100000000 !important
 }
 .tox-fullscreen .container {
   z-index: 100000
