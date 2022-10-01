@@ -188,6 +188,36 @@ export default class manage {
           this.dispatchEvent(new CustomEvent('selectmenu'));
         };
       });
+      main.addEventListener('hrefstart', e => {
+        let attention = false;
+        if (main.dataset.attention == 'confirmed')
+        {
+          delete main.dataset.attention;
+        }
+        else
+        {
+          main.locked = false;
+          main.querySelectorAll('form').forEach(el => {
+            try
+            {
+              if (el.isFormDataChanged() === true)
+              {
+                attention = true;
+              };
+            }
+            catch(err) {};
+          });
+        };
+        if (attention === true)
+        {
+          main.locked = true;
+          this.dialog.confirm(main.getAttribute('attention'), () => {
+            main.locked = false;
+            main.dataset.attention = 'confirmed';
+            main.href = e.detail.href;
+          }, main.getAttribute('text-ok'), main.getAttribute('text-cancel'));
+        };
+      });
       main.addEventListener('fetchstart', () => {
         this.param['main-waiting'] = setTimeout(() => {
           main.parentNode.querySelector('.waiting').classList.add('on');

@@ -418,6 +418,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
   connectedCallback() {
     this.render();
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
@@ -430,7 +431,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
       'errorTips1': 'You can only select ${$count} items at most',
     };
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none">

@@ -205,7 +205,7 @@ export default class jtbcJson2html extends HTMLElement {
     this.currentValue = '';
     let shadowRoot = this.attachShadow({mode: 'open'});
     let pluginCss = this.getAttribute('plugin_css');
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"></container>`;
     shadowRoot.innerHTML = shadowRootHTML;
     if (pluginCss != null)

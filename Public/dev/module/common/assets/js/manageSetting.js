@@ -34,6 +34,7 @@ export default class manageSetting {
         'date': 10,
         'datetime': 10,
         'flat-selector': 4,
+        'input-with-datalist': 4,
         'location-picker': 9,
         'mix': 2,
         'multi': 2,

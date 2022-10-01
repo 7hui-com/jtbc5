@@ -1,0 +1,316 @@
+.ppContainer {
+  width: 100%; --workspace-height: calc(100vh - 150px); border-top: #e1e1e1 1px solid
+}
+.ppWorkspace {
+  width: 100%; height: var(--workspace-height); min-height: 660px; display: flex; box-sizing: border-box; border-top: #ececec 4px solid
+}
+.ppWorkspace div.side {
+  width: 20%; min-width: 320px; background: #ececec; border-left: #e1e1e1 1px solid; border-bottom: #e1e1e1 1px solid; display: none; position: relative; z-index: 20
+}
+.ppWorkspace div.side div.h3 {
+  width: 100%; height: 30px; position: relative; z-index: 10
+}
+.ppWorkspace div.side div.h3 h3 {
+  width: 100%; height: 100%; box-sizing: border-box; display: flex; align-items: center; font-weight: normal
+}
+.ppWorkspace div.side div.h3 h3 em {
+  display: block; font-style: normal; font-size: 12px; padding-left: 12px
+}
+.ppWorkspace div.side div.h3 div.icon {
+  display: flex; height: 100%; align-items: center; padding-right: 6px; position: absolute; top: 0px; right: 0px; z-index: 10
+}
+.ppWorkspace div.side div.h3 div.icon span {
+  display: block; width: 18px; height: 18px; margin-left: 6px; background: none center center no-repeat; cursor: pointer
+}
+.ppWorkspace div.side div.h3 div.icon span.newFolder {
+  background-image: url(svg/folder.new.svg)
+}
+.ppWorkspace div.side div.h3 div.icon span.newFile {
+  background-image: url(svg/file.new.svg)
+}
+.ppWorkspace div.side div.h3 div.icon span.collapse {
+  background-image: url(svg/collapse.left.svg)
+}
+.ppWorkspace div.side div.explorer {
+  width: 100%; height: calc(100% - 30px); box-sizing: border-box; border-top: rgba(180, 180, 180, .5) 1px solid; padding-bottom: 10px; overflow-x: hidden; overflow-y: auto
+}
+.ppWorkspace div.side div.explorer div.children {
+  width: 100%; position: relative; --line-offset-left: 0px; display: none
+}
+.ppWorkspace div.side div.explorer div.children ul::before {
+  content: ''; position: absolute; top: -2px; left: var(--line-offset-left); width: 0px; height: calc(100% - 10px); border-left: #b4b4b4 1px solid; opacity: .5
+}
+.ppWorkspace div.side div.explorer div.children li::before {
+  content: ''; position: absolute; top: 11px; left: var(--line-offset-left); width: 12px; height: 0px; border-top: #b4b4b4 1px solid; opacity: .5; z-index: 10
+}
+.ppWorkspace div.side div.explorer div.children li:last-child::after {
+  content: ''; width: 2px; background-color: #ececec; height: calc(100% - 12px); position: absolute; left: var(--line-offset-left); bottom: 0px; z-index: 20
+}
+.ppWorkspace div.side div.explorer ul li {
+  width: 100%; position: relative
+}
+.ppWorkspace div.side div.explorer ul li span {
+  width: 100%; box-sizing: border-box; display: flex; height: 24px; align-items: center; padding: 0px 10px; position: relative; z-index: 50
+}
+.ppWorkspace div.side div.explorer ul li span i {
+  display: block; width: 18px; min-width: 18px; height: 18px; min-height: 18px; background: url(svg/extension/others.svg) center center no-repeat; background-size: contain; margin-right: 4px
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=folder] {
+  background-image: url(svg/folder.svg); cursor: pointer
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=css] {
+  background-image: url(svg/extension/css.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=html] {
+  background-image: url(svg/extension/html.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=js] {
+  background-image: url(svg/extension/js.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=jtbc] {
+  background-image: url(svg/extension/jtbc.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=php] {
+  background-image: url(svg/extension/php.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=svg] {
+  background-image: url(svg/extension/svg.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=txt] {
+  background-image: url(svg/extension/txt.svg)
+}
+.ppWorkspace div.side div.explorer ul li span i[icon=xml] {
+  background-image: url(svg/extension/xml.svg)
+}
+.ppWorkspace div.side div.explorer ul li span em {
+  font-style: normal; font-size: 12px; color: #333333; cursor: pointer; white-space: nowrap; word-break: break-all; overflow: hidden; text-overflow: ellipsis
+}
+.ppWorkspace div.side div.explorer ul li span em[icon=others] {
+  cursor: default; color: #999999
+}
+.ppWorkspace div.side div.explorer ul li span form.form {
+  display: block; flex: 1; width: 0px
+}
+.ppWorkspace div.side div.explorer ul li span form.form input[name=filename],
+.ppWorkspace div.side div.explorer ul li span form.form input[name=target_filename] {
+  width: 100%; height: 100%; border: 0px; padding: 0px; background: transparent; box-shadow: none
+}
+.ppWorkspace div.side div.explorer ul li span div.icon {
+  display: flex; height: 100%; align-items: center; background: #f6f6f6; padding-right: 6px; position: absolute; top: 0px; right: 0px; z-index: 100; opacity: 0
+}
+.ppWorkspace div.side div.explorer ul li span div.icon u {
+  display: block; width: 18px; height: 18px; margin-left: 6px; background: none center center no-repeat; cursor: pointer
+}
+.ppWorkspace div.side div.explorer ul li span div.icon u.delete {
+  background-image: url(svg/delete.svg)
+}
+.ppWorkspace div.side div.explorer ul li span div.icon u.newFolder {
+  background-image: url(svg/folder.new.svg)
+}
+.ppWorkspace div.side div.explorer ul li span div.icon u.newFile {
+  background-image: url(svg/file.new.svg)
+}
+.ppWorkspace div.side div.explorer ul li span div.icon u.rename {
+  background-image: url(svg/rename.svg)
+}
+.ppWorkspace div.side div.explorer ul li span:hover {
+  background: rgba(255, 255, 255, .5)
+}
+.ppWorkspace div.side div.explorer ul li span:hover div.icon {
+  opacity: 1
+}
+.ppWorkspace div.side div.explorer ul li[rank='1'] span {
+  padding-left: 10px
+}
+.ppWorkspace div.side div.explorer ul li[rank='1'] div.children {
+  --line-offset-left: 19px
+}
+.ppWorkspace div.side div.explorer ul li[rank='2'] span {
+  padding-left: 32px
+}
+.ppWorkspace div.side div.explorer ul li[rank='2'] div.children {
+  --line-offset-left: 41px
+}
+.ppWorkspace div.side div.explorer ul li[rank='3'] span {
+  padding-left: 54px
+}
+.ppWorkspace div.side div.explorer ul li[rank='3'] div.children {
+  --line-offset-left: 63px
+}
+.ppWorkspace div.side div.explorer ul li[rank='4'] span {
+  padding-left: 76px
+}
+.ppWorkspace div.side div.explorer ul li[rank='4'] div.children {
+  --line-offset-left: 85px
+}
+.ppWorkspace div.side div.explorer ul li[rank='5'] span {
+  padding-left: 98px
+}
+.ppWorkspace div.side div.explorer ul li[rank='5'] div.children {
+  --line-offset-left: 107px
+}
+.ppWorkspace div.side div.explorer ul li[rank='6'] span {
+  padding-left: 120px
+}
+.ppWorkspace div.side div.explorer ul li[rank='6'] div.children {
+  --line-offset-left: 129px
+}
+.ppWorkspace div.side div.explorer ul li[rank='7'] span {
+  padding-left: 142px
+}
+.ppWorkspace div.side div.explorer ul li[rank='7'] div.children {
+  --line-offset-left: 151px
+}
+.ppWorkspace div.side div.explorer ul li[rank='8'] span {
+  padding-left: 164px
+}
+.ppWorkspace div.side div.explorer ul li[rank='8'] div.children {
+  --line-offset-left: 173px
+}
+.ppWorkspace div.side div.explorer ul li[rank='9'] span {
+  padding-left: 186px
+}
+.ppWorkspace div.side div.explorer ul li[rank='9'] div.children {
+  --line-offset-left: 195px
+}
+.ppWorkspace div.side div.explorer ul li[rank='10'] span {
+  padding-left: 208px
+}
+.ppWorkspace div.side div.explorer ul li[rank='10'] div.children {
+  --line-offset-left: 217px
+}
+.ppWorkspace div.side div.explorer ul li[rank='11'] span {
+  padding-left: 230px
+}
+.ppWorkspace div.side div.explorer ul li[rank='11'] div.children {
+  --line-offset-left: 239px
+}
+.ppWorkspace div.side div.explorer ul li[rank='12'] span {
+  padding-left: 252px
+}
+.ppWorkspace div.side div.explorer ul li[rank='12'] div.children {
+  --line-offset-left: 261px
+}
+.ppWorkspace div.side div.explorer ul li[rank='13'] span {
+  padding-left: 274px
+}
+.ppWorkspace div.side div.explorer ul li[rank='13'] div.children {
+  --line-offset-left: 283px
+}
+.ppWorkspace div.side div.explorer ul li.renaming > span em {
+  display: none
+}
+.ppWorkspace div.side div.explorer ul li.renaming > span div.icon {
+  display: none
+}
+.ppWorkspace div.side div.explorer ul li.on > div.children {
+  display: block
+}
+.ppWorkspace div.side div.explorer ul li.on > span i[icon=folder] {
+  background-image: url(svg/folder.opened.svg)
+}
+.ppWorkspace div.side.on {
+  display: block
+}
+.ppWorkspace div.collapse {
+  width: 30px; background: #ececec; border-left: #e1e1e1 1px solid; border-bottom: #e1e1e1 1px solid; display: none
+}
+.ppWorkspace div.collapse div.icon {
+  width: 100%; height: 30px; display: flex; align-items: center; justify-content: center
+}
+.ppWorkspace div.collapse div.icon span.collapse {
+  display: block; width: 18px; height: 18px; background: url(svg/collapse.right.svg) center center no-repeat; cursor: pointer
+}
+.ppWorkspace div.collapse.on {
+  display: block
+}
+.ppWorkspace div.content {
+  width: 0px; flex: 1; position: relative; z-index: 100
+}
+.ppWorkspace div.content div.tabs {
+  width: 100%; height: 30px; background: #ececec; box-sizing: border-box; display: flex; align-items: end; overflow: hidden
+}
+.ppWorkspace div.content div.tabs span {
+  display: block; height: 100%; border-top-left-radius: 5px; border-top-right-radius: 5px; position: relative; cursor: pointer
+}
+.ppWorkspace div.content div.tabs span em {
+  font-style: normal; display: flex; height: 100%; padding: 0px 24px 0px 36px; align-items: center; color: #272822; background: url(svg/extension/others.svg) 10px center no-repeat; background-size: 18px
+}
+.ppWorkspace div.content div.tabs span i {
+  display: block; width: 24px; height: 24px; background: url(svg/close.black.svg) center center no-repeat; background-size: 14px; transform: translate(0, -50%); position: absolute; top: 50%; right: 2px; z-index: 20; opacity: 0; transition: opacity .3s ease
+}
+.ppWorkspace div.content div.tabs span[icon=css] em {
+  background-image: url(svg/extension/css.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=html] em {
+  background-image: url(svg/extension/html.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=js] em {
+  background-image: url(svg/extension/js.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=jtbc] em {
+  background-image: url(svg/extension/jtbc.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=php] em {
+  background-image: url(svg/extension/php.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=svg] em {
+  background-image: url(svg/extension/svg.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=txt] em {
+  background-image: url(svg/extension/txt.svg)
+}
+.ppWorkspace div.content div.tabs span[icon=xml] em {
+  background-image: url(svg/extension/xml.svg)
+}
+.ppWorkspace div.content div.tabs span::after {
+  content: ''; display: block; width: 8px; height: 8px; background: #f92672; border-radius: 100%; transform: translate(0, -50%); position: absolute; top: 50%; right: 10px; z-index: 10; opacity: 0; transition: opacity .3s ease
+}
+.ppWorkspace div.content div.tabs span:hover i {
+  opacity: 1
+}
+.ppWorkspace div.content div.tabs span:hover::after {
+  opacity: 0 !important
+}
+.ppWorkspace div.content div.tabs span.on {
+  background: #272822
+}
+.ppWorkspace div.content div.tabs span.on i {
+  background-image: url(svg/close.white.svg)
+}
+.ppWorkspace div.content div.tabs span.on em {
+  color: #ffffff
+}
+.ppWorkspace div.content div.tabs span.changed::after {
+  opacity: 1
+}
+.ppWorkspace div.content div.files {
+  width: 100%; height: calc(100% - 30px); background: #272822; position: relative
+}
+.ppWorkspace div.content div.files::after {
+  width: 400px; content: attr(empty); display: none; text-align: center; transform: translate(-50%, -50%); font-size: 14px; color: #999999; position: absolute; top: 50%; left: 50%; z-index: 10
+}
+.ppWorkspace div.content div.files:empty::after {
+  display: block
+}
+.ppWorkspace div.content div.files div.file {
+  width: 100%; height: 100%; display: none; overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 20
+}
+.ppWorkspace div.content div.files div.file.on {
+  display: block
+}
+.ppWorkspace div.content div.files div.file form {
+  display: block; width: 100%; height: 100%
+}
+.ppWorkspace div.content div.files div.file div.editor {
+  width: 100%; height: 100%; position: relative; z-index: 10
+}
+.ppWorkspace div.content div.files div.file div.editor jtbc-field-code-editor {
+  width: 100%; height: 100%; border: 0px
+}
+.ppWorkspace div.content div.files div.file div.bar {
+  width: 100%; height: 60px; box-sizing: border-box; padding: 0px 40px; display: flex; align-items: center; justify-content: space-between; background: rgba(236, 236, 236, .6); position: absolute; left: 0px; bottom: -60px; z-index: 20; transition: bottom .3s ease
+}
+.ppWorkspace div.content div.files div.file div.bar.on {
+  bottom: 0px
+}

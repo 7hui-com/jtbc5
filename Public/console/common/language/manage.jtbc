@@ -7,6 +7,10 @@
   </configure>
   <item_list>
     <item>
+      <name><![CDATA[attention]]></name>
+      <zh-cn><![CDATA[当前页面中可能有未保存的内容，确认要离开吗？]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[modify-password]]></name>
       <zh-cn><![CDATA[修改密码]]></zh-cn>
     </item>

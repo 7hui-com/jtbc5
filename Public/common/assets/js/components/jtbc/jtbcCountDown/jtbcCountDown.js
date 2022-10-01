@@ -110,7 +110,7 @@ export default class jtbcCountDown extends HTMLElement {
         this.dispatchEvent(new CustomEvent('timesup', {bubbles: true}));
       };
       this.container.style.display = 'block';
-      this.container.querySelector('slot').assignedElements({flatten: true}).forEach(el => {
+      this.container.querySelector('slot').assignedElements().forEach(el => {
         if (el.hasAttribute('field'))
         {
           let currentField = el.getAttribute('field');

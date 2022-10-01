@@ -15,6 +15,10 @@
       <zh-cn><![CDATA[取消]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[close]]></name>
+      <zh-cn><![CDATA[关闭]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[confirm]]></name>
       <zh-cn><![CDATA[确定]]></zh-cn>
     </item>
@@ -117,6 +121,10 @@
     <item>
       <name><![CDATA[role-super]]></name>
       <zh-cn><![CDATA[超级管理员]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[save]]></name>
+      <zh-cn><![CDATA[保存]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[save-done]]></name>

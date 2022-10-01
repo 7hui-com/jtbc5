@@ -71,7 +71,7 @@ export default class jtbcErrorTips extends HTMLElement {
     this.currentData = null;
     this.currentNoErrorHref = null;
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container>

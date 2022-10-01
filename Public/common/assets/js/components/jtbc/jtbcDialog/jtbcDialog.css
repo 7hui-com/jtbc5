@@ -20,7 +20,7 @@ container.on {
   z-index: 1000
 }
 .dialog_item .dialog {
-  display: flex; visibility: hidden; background: #fff; min-width: 400px; min-height: 200px; transform: translate(0, -50px); padding: 30px; box-sizing: border-box; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0, 0, 0, .5); opacity: 0; pointer-events: none; position: relative; z-index: 100; transition: all .3s ease
+  display: flex; visibility: hidden; background: #fff; min-width: 400px; min-height: 200px; transform: translate(0, -50px); padding: 30px; box-sizing: border-box; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0, 0, 0, .5); opacity: 0; overflow: hidden; pointer-events: none; position: relative; z-index: 100; transition: all .3s ease
 }
 .dialog_item .dialog.on {
   visibility: visible; transform: translate(0, 0px); opacity: 1; pointer-events: auto; z-index: 1000
@@ -79,14 +79,14 @@ container.on {
 .dialog_item .dialog span.close jtbc-svg.gray {
   --fore-color: #666666
 }
-.dialog_item .dialog .imagePreviewer {
+.dialog_item .dialog div.imagePreviewer {
   width: 100%; display: flex; justify-content: center; align-items: center; background: #d1d1d1; position: relative; z-index: 100
 }
-.dialog_item .dialog .imagePreviewer > h3.title {
+.dialog_item .dialog div.imagePreviewer > h3.title {
   width: 100%; font-weight: normal; font-size: 14px; color: #fff; background: rgba(0, 0, 0, .7); margin: 0px; padding: 10px 40px; box-sizing: border-box; line-height: 20px; text-align: center; position: absolute; top: 0px; left: 0px; z-index: 100
 }
-.dialog_item .dialog .imagePreviewer > img {
-  min-width: 160px; min-height: 160px; max-width: 100vw; max-height: 100vh
+.dialog_item .dialog div.imagePreviewer > img {
+  min-width: 160px; min-height: 160px; max-width: calc(100vw - 60px); max-height: calc(100vh - 40px)
 }
 .dialog_item .dialog.popup {
   padding: 0px; min-width: auto; min-height: 40px

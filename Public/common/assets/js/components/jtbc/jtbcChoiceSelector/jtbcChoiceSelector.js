@@ -76,6 +76,7 @@ export default class jtbcChoiceSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {

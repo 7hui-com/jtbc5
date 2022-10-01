@@ -1,14 +1,47 @@
 export default class jtbcExecution extends HTMLElement {
   static get observedAttributes() {
-    return ['url', 'href', 'confirm', 'message', 'text-ok', 'text-cancel'];
+    return ['url', 'href', 'message', 'silent', 'text-ok', 'text-cancel'];
+  };
+
+  #href = null;
+  #message = '';
+  #URL = null;
+  #silent = false;
+
+  get href() {
+    return this.#href;
+  };
+
+  get message() {
+    return this.#message;
+  };
+
+  get URL() {
+    return this.#URL;
+  };
+
+  set href(href) {
+    this.#href = href;
+  };
+
+  set message(message) {
+    this.#message = message;
+  };
+
+  set URL(URL) {
+    this.#URL = URL;
+  };
+
+  isSilentMode() {
+    return this.#silent == true? true: false;
   };
 
   execute() {
-    if (this.locked == false && this.currentURL != null)
+    if (this.locked == false && this.URL != null)
     {
       this.locked = true;
       let miniMessage = document.getElementById('miniMessage');
-      fetch(this.currentURL).then(res => res.ok? res.json(): {}).then(data => {
+      fetch(this.URL).then(res => res.ok? res.json(): {}).then(data => {
         if (Number.isInteger(data.code))
         {
           if (data.code != 1)
@@ -25,13 +58,13 @@ export default class jtbcExecution extends HTMLElement {
           else
           {
             let target = this.getTarget();
-            if (this.currentHref == null)
+            if (this.href == null)
             {
               target.reload();
             }
             else
             {
-              target.href = this.currentHref;
+              target.href = this.href;
             };
           };
         };
@@ -40,20 +73,20 @@ export default class jtbcExecution extends HTMLElement {
     };
   };
 
-  init() {
+  #initEvents() {
     this.addEventListener('click', () => {
-      if (this.currentConfirm == true)
+      if (!this.isSilentMode())
       {
         let dialog = document.getElementById('dialog');
         if (dialog != null)
         {
-          dialog.confirm(this.currentMessage, () => {
+          dialog.confirm(this.message, () => {
             this.execute();
           }, this.textOk, this.textCancel);
         }
         else
         {
-          if (window.confirm(this.currentMessage))
+          if (window.confirm(this.message))
           {
             this.execute();
           };
@@ -68,24 +101,24 @@ export default class jtbcExecution extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
-      case 'confirm':
-      {
-        this.currentConfirm = (newVal == 'false'? false: true);
-        break;
-      };
       case 'href':
       {
-        this.currentHref = newVal;
+        this.href = newVal;
         break;
       };
       case 'message':
       {
-        this.currentMessage = newVal;
+        this.message = newVal;
         break;
       };
       case 'url':
       {
-        this.currentURL = newVal;
+        this.URL = newVal;
+        break;
+      };
+      case 'silent':
+      {
+        this.#silent = this.hasAttribute('silent')? true: false;
         break;
       };
       case 'text-ok':
@@ -103,18 +136,14 @@ export default class jtbcExecution extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
     super();
     this.ready = false;
     this.locked = false;
-    this.currentConfirm = true;
-    this.currentHref = null;
-    this.currentMessage = '';
-    this.currentURL = null;
     this.textOk = null;
     this.textCancel = null;
-    this.init();
   };
 };

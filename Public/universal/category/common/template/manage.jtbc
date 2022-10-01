@@ -40,7 +40,7 @@
           <li if="${$property.has_keywords}"><input is="jtbc-input" type="text" name="keywords" role="field" placeholder="{$=$take('config.keywords', 'lng')}" /></li>
           <li if="${$property.has_intro}"><textarea is="jtbc-textarea" name="intro" role="field" placeholder="{$=$take('config.intro', 'lng')}"></textarea></li>
           <li if="${$extender.enabled}"><jtbc-field-mix name="extender" role="field" columns="${$extender.columns}"></jtbc-field-mix></li>
-          <li if="${$control.subPermission.publish}">{$=$takeAndFormatToRadio('::sel_published.*', 'published', '0')}</li>
+          <li if="${$control.subPermission.publish}">{$=$takeAndFormatToRadio('::sel_published.*', 'published', '1')}</li>
         </ul>
         <div class="button"><button class="b2" role="submit">{$=$take('::communal.submit', 'lng')}</button></div>
       </div>

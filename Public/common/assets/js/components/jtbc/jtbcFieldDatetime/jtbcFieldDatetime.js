@@ -316,12 +316,13 @@ export default class jtbcFieldDatetime extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><input type="text" name="datetime" class="datetime" /><span class="box"></span><span class="btn"><jtbc-svg name="calendar"></jtbc-svg></span><div class="datepicker"><div class="date"><jtbc-calendar class="calendar"></jtbc-calendar></div><div class="time"><div class="item h"><ul></ul></div><div class="item m"><ul></ul></div><div class="item s"><ul></ul></div></div></div><div class="mask"></div></div>

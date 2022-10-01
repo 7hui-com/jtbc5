@@ -1,23 +1,29 @@
 import extender from './prototype/extender.js';
 
 export default class jtbc {
-  observeAndLoadComponents(observeNode) {
-    if (observeNode != null)
-    {
-      let observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          mutation.addedNodes.forEach(el => { el.loadComponents(); });
-        });
+  observe(target) {
+    this.observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => node.loadComponents());
       });
-      observer.observe(observeNode, {childList: true, subtree: true});
-    };
+    });
+    this.observer.observe(target, {'childList': true, 'subtree': true});
   };
 
-  constructor(observeNode = null) {
-    this.extender = new extender();
+  unobserve() {
+    this.observer?.disconnect();
+  };
+
+  constructor(target = null) {
+    let url = new URL(import.meta.url);
+    this.ver = url.searchParams.get('ver');
+    this.extender = new extender(this.ver);
     this.extender.extend();
-    document.body.loadComponents().then(() => {
-      this.observeAndLoadComponents(observeNode);
+    document.body.loadComponents().then(result => {
+      if (target instanceof Element)
+      {
+        this.observe(target);
+      };
     });
   };
 };

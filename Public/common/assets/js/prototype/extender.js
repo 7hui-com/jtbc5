@@ -76,6 +76,22 @@ export default class extender {
         };
       });
     };
+    Element.prototype.getQueryString = function(name, attr = 'src') {
+      let result = null;
+      if (this.hasAttribute(attr))
+      {
+        let value = this.getAttribute(attr);
+        if (value.includes('?'))
+        {
+          let searchParams = new URLSearchParams(value.substring(value.indexOf('?') + 1));
+          if (searchParams.has(name))
+          {
+            result = searchParams.get(name);
+          };
+        };
+      };
+      return result;
+    };
     Element.prototype.getTarget = function(name = 'target') {
       let result = null;
       let target = this.getAttribute(name) ?? document.querySelector('base')?.getAttribute('jtbc-default-target');
@@ -198,7 +214,7 @@ export default class extender {
     };
   };
 
-  constructor() {
-    this.components = new components();
+  constructor(ver) {
+    this.components = new components(ver);
   };
 };

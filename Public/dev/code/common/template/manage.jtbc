@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[part-files]]></name>
+      <default><![CDATA[<template is="jtbc-template" url="{$>this.genre}/manage?type=getFiles&amp;dir={$=urlencode($get_query_string('dir'))}">
+  <ul content="files">
+    <template is="jtbc-template" key="data">
+      <li if="${$type == 'folder'}" class="folder" rank="${$rank}" title="${$filename}" filename="${$filename}" hash="${$hash}" path="${$path}" url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$=urlencode('{$>this.genre}')}:manage.part-files&amp;dir=${encodeURIComponent($.raw.path)}"><span><i icon="${$icon}"></i><em icon="${$icon}" path="${$path}">${$filename}</em><div class="icon"><u class="rename" title="{$=$take('manage.text-rename', 'lng')}"></u><u class="newFolder" title="{$=$take('manage.text-new-folder', 'lng')}"></u><u class="newFile" title="{$=$take('manage.text-new-file', 'lng')}"></u><u class="delete" title="{$=$take('manage.text-delete', 'lng')}"></u></div></span><div class="children"></div></li>
+      <li elseif="${$type == 'file'}" class="file" rank="${$rank}" title="${$filename}" filename="${$filename}" hash="${$hash}" path="${$path}"><span><i icon="${$icon}"></i><em icon="${$icon}" path="${$path}">${$filename}</em><div class="icon"><u class="rename" title="{$=$take('manage.text-rename', 'lng')}"></u><u class="delete" title="{$=$take('manage.text-delete', 'lng')}"></u></div></span></li>
+    </template>
+  </ul>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[part-content]]></name>
+      <default><![CDATA[<template is="jtbc-template" url="{$>this.genre}/manage?type=getContent&amp;path={$=urlencode($get_query_string('path'))}">
+  <form is="jtbc-form" class="form" method="post" action="{$>this.genre}/manage?action=save">
+    <input type="hidden" name="path" value="${$path}" role="field" />
+    <input type="hidden" name="hash" value="${$hash}" role="field" />
+    <div class="editor"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="${$mode}" value="${$content}"></jtbc-field-code-editor></div>
+    <div class="bar">
+      <span class="leftBtn"><button class="b2 submit" role="submit">{$=$take('::communal.save', 'lng')}</button></span>
+      <span class="rightBtn"><button class="b3 close">{$=$take('::communal.close', 'lng')}</button></span>
+    </div>
+  </form>
+</template>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[list]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manage.css" />
+<div class="scarf" text-tips-1="{$=$take('manage.text-tips-1', 'lng')}" text-tips-2="{$=$take('manage.text-tips-2', 'lng')}" text-tips-3-1="{$=$take('manage.text-tips-3-1', 'lng')}" text-tips-3-2="{$=$take('manage.text-tips-3-2', 'lng')}" text-ok="{$=$take('::communal.confirm', 'lng')}" text-cancel="{$=$take('::communal.cancel', 'lng')}">
+  <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <div class="ppContainer">
+        <div class="ppWorkspace" text-new-folder="{$=$take('manage.text-new-folder', 'lng')}" action-new-folder="{$>this.genre}/manage?action=createFolder" text-new-file="{$=$take('manage.text-new-file', 'lng')}" action-new-file="{$>this.genre}/manage?action=createFile" action-rename="{$>this.genre}/manage?action=rename" action-delete="{$>this.genre}/manage?action=delete">
+          <div class="side on">
+            <div class="h3">
+              <h3><em>{$=$take('manage.text-side-files', 'lng')}</em></h3>
+              <div class="icon"><span class="newFolder" title="{$=$take('manage.text-new-folder', 'lng')}"></span><span class="newFile" title="{$=$take('manage.text-new-file', 'lng')}"></span><span class="collapse" title="{$=$take('manage.text-side-collapse', 'lng')}"></span></div>
+            </div>
+            <div class="explorer">
+              <jtbc-fetch url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$=urlencode('{$>this.genre}')}:manage.part-files"></jtbc-fetch>
+            </div>
+          </div>
+          <div class="collapse">
+            <div class="icon"><span class="collapse" title="{$=$take('manage.text-side-recover', 'lng')}"></span></div>
+          </div>
+          <div class="content">
+            <div class="tabs"></div>
+            <div class="files" empty="{$=$take('manage.text-content-empty', 'lng')}" url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$=urlencode('{$>this.genre}')}:manage.part-content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+    </item>
+  </item_list>
+</xml>

@@ -24,7 +24,6 @@ class HeaderManager
       $contentTypeWithCharset = Config::CONTENT_TYPE_WIDTH_CHARSET ?? [];
       if ($noCache === true)
       {
-        $response -> header -> set('Pragma', 'no-cache');
         $response -> header -> set('Cache-Control', 'no-cache, must-revalidate');
       }
       if (is_array($allowOrigin))

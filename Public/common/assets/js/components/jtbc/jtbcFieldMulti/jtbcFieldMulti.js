@@ -11,17 +11,24 @@ export default class jtbcFieldMulti extends HTMLElement {
 
   get value() {
     let result = '';
-    let value = [];
-    this.content.querySelectorAll('li').forEach(el => {
-      let item = {};
-      el.querySelectorAll('[role=field]').forEach(f => {
-        item[f.name] = f.value;
-      });
-      value.push(item);
-    });
-    if (value.length != 0)
+    if (this.inited == false)
     {
-      result = JSON.stringify(value);
+      result = this.currentValue ?? '';
+    }
+    else
+    {
+      let value = [];
+      this.content.querySelectorAll('li').forEach(el => {
+        let item = {};
+        el.querySelectorAll('[role=field]').forEach(f => {
+          item[f.name] = f.value;
+        });
+        value.push(item);
+      });
+      if (value.length != 0)
+      {
+        result = JSON.stringify(value);
+      };
     };
     return result;
   };
@@ -205,6 +212,7 @@ export default class jtbcFieldMulti extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
@@ -215,7 +223,7 @@ export default class jtbcFieldMulti extends HTMLElement {
       'removeTips': 'Are you sure to remove?',
     };
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">

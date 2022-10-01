@@ -90,7 +90,7 @@ export default class jtbcProgress extends HTMLElement {
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><div class="bar"><span class="percent"></span></div></div>

@@ -41,7 +41,7 @@
     <div class="leftmenu"></div>
     <main>
       <div class="waiting"><bar></bar></div>
-      <jtbc-fetch id="main" class="main" basehref="{$>this.genre}/manage?type=fragment&amp;" welcome="codename={$>this.genre}:manage.welcome" urlerror="{$=$take('::communal.urlerror', 'lng')}" urlcrash="{$=$take('::communal.urlcrash', 'lng')}" ikown="{$=$take('::communal.iknow', 'lng')}"></jtbc-fetch>
+      <jtbc-fetch id="main" class="main" basehref="{$>this.genre}/manage?type=fragment&amp;" welcome="codename={$>this.genre}:manage.welcome" attention="{$=$take('manage.attention', 'lng')}" urlerror="{$=$take('::communal.urlerror', 'lng')}" urlcrash="{$=$take('::communal.urlcrash', 'lng')}" ikown="{$=$take('::communal.iknow', 'lng')}" text-ok="{$=$take('::communal.confirm', 'lng')}" text-cancel="{$=$take('::communal.cancel', 'lng')}"></jtbc-fetch>
     </main>
   </div>
 </div>

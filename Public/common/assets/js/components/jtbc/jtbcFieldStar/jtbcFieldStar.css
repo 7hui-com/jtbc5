@@ -1,5 +1,5 @@
 :host {
-  display: inline-block; --height: 30px; --unselected-color: #d1d1d1; --selected-color: #ffff00; --disabled-color: #f5f5f5
+  display: inline-block; --height: 30px; --unselected-color: #d1d1d1; --selected-color: #3e868f; --disabled-color: #f5f5f5
 }
 container {
   display: inline-block !important

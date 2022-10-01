@@ -38,7 +38,7 @@
             </item>
             <item>
               <label class="name"><r></r>{$=$take('universal:config.role', 'lng')}</label>
-              <div class="content"><template is="jtbc-template" key="roleList"><select name="role" isloop="true" role="field"><option value="${$id}">${$title}</option></select></template></div>
+              <div class="content"><template is="jtbc-template" key="roleList"><select name="role" isloop="true" role="field" is="jtbc-select"><option value="${$id}">${$title}</option></select></template></div>
             </item>
             <item>
               <label class="name">{$=$take('universal:config.mobile', 'lng')}</label>

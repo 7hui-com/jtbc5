@@ -9,17 +9,24 @@ export default class jtbcFieldAttachment extends HTMLElement {
 
   get value() {
     let result = '';
-    let value = [];
-    let container = this.container;
-    container.querySelectorAll('tr.param').forEach(tr => {
-      if (!tr.classList.contains('remove'))
-      {
-        value.push(JSON.parse(tr.getAttribute('param')));
-      };
-    });
-    if (value.length != 0)
+    if (this.inited == true)
     {
-      result = JSON.stringify(value);
+      let value = [];
+      let container = this.container;
+      container.querySelectorAll('tr.param').forEach(tr => {
+        if (!tr.classList.contains('remove'))
+        {
+          value.push(JSON.parse(tr.getAttribute('param')));
+        };
+      });
+      if (value.length != 0)
+      {
+        result = JSON.stringify(value);
+      };
+    }
+    else
+    {
+      result = this.currentValue ?? '';
     };
     return result;
   };
@@ -317,6 +324,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
@@ -337,7 +345,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
       'emptyTips': 'No files yet. if you want to upload, please click the upload button.',
     };
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"></div>

@@ -9,19 +9,32 @@ export default class jtbcFieldTable extends HTMLElement {
 
   get value() {
     let result = '';
-    let value = [];
-    let table = this.container.querySelector('table.table');
-    let tbody = table.querySelector('tbody');
-    tbody.querySelectorAll('tr').forEach(el => {
-      let item = {};
-      el.querySelectorAll('[role=field]').forEach(f => {
-        item[f.name] = f.value;
-      });
-      value.push(item);
-    });
-    if (value.length != 0)
+    if (this.inited == false)
     {
-      result = JSON.stringify(value);
+      if (this.currentValue != null)
+      {
+        result = this.currentValue;
+      };
+    }
+    else
+    {
+      let value = [];
+      let table = this.container.querySelector('table.table');
+      let tbody = table.querySelector('tbody');
+      tbody.querySelectorAll('tr').forEach(el => {
+        let item = {};
+        el.querySelectorAll('[role=field]').forEach(f => {
+          if (!(f.name == 'id' && f.value.length == 0))
+          {
+            item[f.name] = f.value;
+          };
+        });
+        value.push(item);
+      });
+      if (value.length != 0)
+      {
+        result = JSON.stringify(value);
+      };
     };
     return result;
   };
@@ -125,7 +138,7 @@ export default class jtbcFieldTable extends HTMLElement {
           break;
         };
         default: {
-          field = ['date', 'datetime', 'switch', 'star', 'select2', 'upload', 'number', 'multi-select', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
+          field = ['date', 'datetime', 'switch', 'currency-input', 'star', 'select2', 'upload', 'number', 'multi-select', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
           break;
         };
       };
@@ -416,6 +429,7 @@ export default class jtbcFieldTable extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
@@ -428,7 +442,7 @@ export default class jtbcFieldTable extends HTMLElement {
       'dblClickRemoveTips': 'Click again to remove',
     };
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">

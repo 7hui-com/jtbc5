@@ -94,18 +94,22 @@ class Validator
               $needToValidate = true;
             }
           }
-          if (is_int($maxlength) && mb_strlen($fieldValue) > $maxlength)
+          if (is_int($maxlength) && mb_strlen(strval($fieldValue)) > $maxlength)
           {
             $code = 4999;
           }
           else if (is_array($rangeOfNumericFields) && array_key_exists($fieldType, $rangeOfNumericFields))
           {
-            $numericRange = $rangeOfNumericFields[$fieldType];
-            if (is_array($numericRange) && count($numericRange) == 2)
+            if ($required == true && Validation::isEmpty($fieldValue)) $code = 4901;
+            else
             {
-              if (intval($fieldValue) < intval($numericRange[0]) || intval($fieldValue) > intval($numericRange[1]))
+              $numericRange = $rangeOfNumericFields[$fieldType];
+              if (is_array($numericRange) && count($numericRange) == 2)
               {
-                $code = 4998;
+                if (intval($fieldValue) < intval($numericRange[0]) || intval($fieldValue) > intval($numericRange[1]))
+                {
+                  $code = 4998;
+                }
               }
             }
           }

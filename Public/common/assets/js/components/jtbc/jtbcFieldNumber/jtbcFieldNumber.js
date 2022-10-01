@@ -142,12 +142,13 @@ export default class jtbcFieldNumber extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><span class="minus btn"><jtbc-svg name="minus"></jtbc-svg></span><input type="text" name="number" class="number" value="0" /><span class="add btn"><jtbc-svg name="add"></jtbc-svg></span><div class="mask"></div></div>

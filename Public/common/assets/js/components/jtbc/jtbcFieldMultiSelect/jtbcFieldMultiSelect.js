@@ -270,12 +270,13 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><div class="selected"></div><input type="text" name="text" class="text" readonly="readonly" /><span class="box"></span><div class="selector"><div class="options"></div></div><div class="mask"></div></div>

@@ -25,7 +25,7 @@
           <div class="ppRightTips"><span class="tips">{$=$take('manage.text-tips-rightarea', 'lng')}</span></div>
         </rightarea>
         <div class="ppParamPanel">
-          <form is="jtbc-form" class="form" method="post" action="{$>this.genre}/manage?action=generate">
+          <form is="jtbc-form" class="form" inconsequential="true" method="post" action="{$>this.genre}/manage?action=generate">
             <input type="hidden" name="mode" role="field" value="backend" />
             <table class="table">
               <tbody>
@@ -112,7 +112,7 @@
           <div class="ppRightTips"><span class="tips">{$=$take('manage.text-tips-rightarea', 'lng')}</span></div>
         </rightarea>
         <div class="ppParamPanel">
-          <form is="jtbc-form" class="form" method="post" action="{$>this.genre}/manage?action=generate">
+          <form is="jtbc-form" class="form" inconsequential="true" method="post" action="{$>this.genre}/manage?action=generate">
             <input type="hidden" name="mode" role="field" value="frontend" />
             <table class="table">
               <tbody>

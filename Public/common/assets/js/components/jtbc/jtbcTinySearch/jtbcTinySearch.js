@@ -70,7 +70,7 @@ export default class jtbcTinySearch extends HTMLElement {
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><input type="text" name="keyword" class="keyword" autocomplete="off" /><span class="box"></span><span class="btn"><jtbc-svg name="search"></jtbc></span></div>

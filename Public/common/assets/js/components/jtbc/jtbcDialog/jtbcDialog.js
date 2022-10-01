@@ -258,7 +258,7 @@ export default class jtbcDialog extends HTMLElement {
     super();
     let pluginCss = this.getAttribute('plugin_css');
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">

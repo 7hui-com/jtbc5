@@ -79,7 +79,7 @@ export default class jtbcSvg extends HTMLElement {
     this.tinyDB = new tinyDB('jtbc-svg');
     this.baseURL = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"></container>`;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('container');

@@ -16,7 +16,7 @@ class SchemaFormatter
   private $fieldName;
   private $baseURI;
   private $lang;
-  private $withSource = ['radio', 'checkbox', 'select', 'flat-selector', 'transfer'];
+  private $withSource = ['radio', 'checkbox', 'select', 'flat-selector', 'transfer', 'input-with-datalist'];
 
   private function getData($argSource, string $argSourceType)
   {

@@ -1,11 +1,11 @@
 :host {
-  width: 100%; height: 300px; display: block
+  width: 100%; height: 300px; display: block; box-sizing: border-box; border: #d1d1d1 1px solid
 }
 container {
   width: 100%; height: 100%; display: block !important; position: relative; z-index: 100
 }
 container div.main {
-  width: 100%; height: 100%; box-sizing: border-box; border: #d1d1d1 1px solid; overflow: hidden
+  width: 100%; height: 100%; box-sizing: border-box; overflow: hidden
 }
 container textarea {
   width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; background: #ffffff; box-sizing: border-box; resize: none; outline: none

@@ -9,8 +9,29 @@ export default class jtbcForm extends HTMLFormElement {
   #ready = false;
   #dialog = null;
   #miniMessage = null;
+  #originalFormData = {};
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete', 'head'];
+
+  #initEvents() {
+    this.resetOriginalFormData();
+    this.addEventListener('submit', e => e.preventDefault());
+    this.addEventListener('builded', e => {
+      let tagName = e.target.tagName.toLowerCase();
+      let componentName = e.target.getAttribute('is') ?? '';
+      if (tagName.includes('form') || componentName.includes('form'))
+      {
+        this.resetOriginalFormData();
+      };
+    });
+    this.addEventListener('connected', e => {
+      if (e.target.getAttribute('role') == 'field')
+      {
+        this.resetOriginalFormData();
+      };
+    });
+    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+  };
 
   lock() {
     this.#locked = true;
@@ -22,12 +43,53 @@ export default class jtbcForm extends HTMLFormElement {
     this.querySelectorAll('[role=submit]').forEach(el => { el.classList.remove('locked'); });
   };
 
+  getFields() {
+    return this.querySelectorAll('[role=field]');
+  };
+
   isReady() {
     return this.#ready;
   };
 
   isLocked() {
     return this.#locked;
+  };
+
+  isFormDataChanged() {
+    let result = false;
+    if (!this.hasAttribute('inconsequential'))
+    {
+      let formData = {};
+      let originalFormData = this.#originalFormData;
+      let originalFormDataKeys = Object.keys(originalFormData);
+      if (originalFormDataKeys.length != 0)
+      {
+        this.getFields().forEach(el => {
+          if (this.isValidField(el))
+          {
+            formData[el.name] = el.value;
+            if (!originalFormData.hasOwnProperty(el.name))
+            {
+              result = true;
+            }
+            else if (originalFormData[el.name] != el.value)
+            {
+              result = true;
+            };
+          };
+        });
+        if (result === false)
+        {
+          originalFormDataKeys.forEach(name => {
+            if (!formData.hasOwnProperty(name))
+            {
+              result = true;
+            };
+          });
+        };
+      };
+    };
+    return result;
   };
 
   isMultiField(el) {
@@ -62,6 +124,28 @@ export default class jtbcForm extends HTMLFormElement {
     return isValid;
   };
 
+  resetOriginalFormData() {
+    let formData = {};
+    let hasError = false;
+    this.getFields().forEach(el => {
+      if (this.isValidField(el))
+      {
+        if (el.name == undefined)
+        {
+          hasError = true;
+        }
+        else
+        {
+          formData[el.name] = el.value;
+        };
+      };
+    });
+    if (hasError === false)
+    {
+      this.#originalFormData = formData;
+    };
+  };
+
   submit() {
     if (!this.isLocked())
     {
@@ -77,8 +161,7 @@ export default class jtbcForm extends HTMLFormElement {
         if (['get', 'head'].includes(method))
         {
           let url = new URL(action);
-          let fields = this.querySelectorAll('[role=field]');
-          fields.forEach(el => {
+          this.getFields().forEach(el => {
              if (this.isValidField(el)) url.searchParams.append(el.name, el.value);
           });
           action = url.toString();
@@ -97,9 +180,14 @@ export default class jtbcForm extends HTMLFormElement {
           if (res.ok)
           {
             let errorTipsEls = this.querySelectorAll('.errorTips');
-            if (errorTipsEls.length >= 1)
-            {
-              res.json().then(data => {
+            res.json().then(data => {
+              let returnCode = data.code;
+              if (returnCode == 1)
+              {
+                this.resetOriginalFormData();
+              };
+              if (errorTipsEls.length >= 1)
+              {
                 let errorTips = null;
                 if (data.hasOwnProperty('errorTips'))
                 {
@@ -116,14 +204,12 @@ export default class jtbcForm extends HTMLFormElement {
                     el.setAttribute('data', JSON.stringify(errorTips));
                   });
                 };
-              });
-            }
-            else
-            {
-              if (this.hasAttribute('bigmouth'))
+              }
+              else
               {
-                res.json().then(data => {
-                  if (data.code == 1)
+                if (this.hasAttribute('bigmouth'))
+                {
+                  if (returnCode == 1)
                   {
                     this.#dialog.close().then(() => {
                       let currentTarget = this.getTarget();
@@ -153,9 +239,9 @@ export default class jtbcForm extends HTMLFormElement {
                       this.#miniMessage?.push(message);
                     };
                   };
-                });
+                };
               };
-            };
+            });
           }
           else
           {
@@ -179,7 +265,7 @@ export default class jtbcForm extends HTMLFormElement {
 
   serialize() {
     let result = null;
-    let fields = this.querySelectorAll('[role=field]');
+    let fields = this.getFields();
     if (this.#mode == 'json')
     {
       let params = {};
@@ -247,7 +333,6 @@ export default class jtbcForm extends HTMLFormElement {
     this.#method = this.#methodList[0];
     this.#dialog = document.getElementById('dialog');
     this.#miniMessage = document.getElementById('miniMessage');
-    this.addEventListener('submit', (e) => { e.preventDefault(); });
-    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+    this.#initEvents();
   };
 };

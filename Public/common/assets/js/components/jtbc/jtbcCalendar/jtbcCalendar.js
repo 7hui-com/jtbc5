@@ -420,7 +420,7 @@ export default class jtbcCalendar extends HTMLElement {
     this.ready = false;
     this.currentTargetDate = null;
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let text = this.#getText();
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>

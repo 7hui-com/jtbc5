@@ -1,5 +1,5 @@
 :host {
-  display: inline-block; width: 200px; --font-size: 14px; --height: 30px; --options-max-height: 360px; --option-background-color-hover: #eee; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+  display: inline-block; width: 200px; --font-size: 12px; --height: 30px; --options-max-height: 360px; --option-background-color-hover: #eee; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
 }
 .container {
   width: 100%; display: block !important; position: relative; z-index: var(--z-index); user-select: none
@@ -8,7 +8,7 @@
   box-sizing: border-box; outline: none
 }
 .container input.text {
-  width: calc(100% - 30px); height: var(--height); background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
+  width: calc(100% - 30px); height: var(--height); font-size: var(--font-size); background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
 }
 .container span.box {
   display: block; width: 100%; height: 100%; box-sizing: border-box; background: none #fff calc(100% - 4px) center no-repeat; background-size: 20px; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); cursor: pointer; position: absolute; top: 0px; left: 0px; z-index: 100; transition: all .3s ease
@@ -44,7 +44,7 @@
   background-color: var(--option-background-color-hover)
 }
 .container div.selector div.option {
-  padding: 5px 10px; font-size: var(--font-size); transition: background-color .3s ease; cursor: pointer
+  padding: 5px 10px; font-size: calc(var(--font-size) + 2px); transition: background-color .3s ease; cursor: pointer
 }
 .container div.selector div.option:hover {
   background-color: var(--option-background-color-hover)
@@ -53,7 +53,7 @@
   display: block; color: #333; line-height: 120%; overflow: hidden; text-overflow: ellipsis
 }
 .container div.selector div.option span[key=subtext] {
-  display: block; color: #999; font-size: calc(var(--font-size) - 2px); line-height: 140%; overflow: hidden; text-overflow: ellipsis
+  display: block; color: #999; font-size: var(--font-size); line-height: 140%; overflow: hidden; text-overflow: ellipsis
 }
 .container div.selector div.option span[key=subtext]:empty {
   display: none

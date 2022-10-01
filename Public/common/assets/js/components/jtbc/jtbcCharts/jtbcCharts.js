@@ -70,7 +70,7 @@ export default class jtbcCharts extends HTMLElement {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"></div>

@@ -1,4 +1,14 @@
 export default class components {
+  #ver = null;
+
+  get ver() {
+    return this.#ver;
+  };
+
+  set ver(ver) {
+    this.#ver = ver;
+  };
+
   async load(components) {
     let result = {
       'errorCount': 0,
@@ -38,6 +48,10 @@ export default class components {
               realDir += 'common/assets/js/components/';
               path = (item.dir ?? realDir) + realName + '/' + realName + '.js';
             };
+            if (this.ver != null)
+            {
+              path = path + '?ver=' + encodeURIComponent(this.ver);
+            };
           };
           let options = item.extends? {'extends': item.extends}: {};
           let component = await import(path);
@@ -62,7 +76,8 @@ export default class components {
     return result;
   };
 
-  constructor() {
+  constructor(ver) {
+    this.ver = ver;
     this.loaded = [];
   };
 };

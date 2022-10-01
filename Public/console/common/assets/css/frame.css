@@ -179,7 +179,7 @@ body {
   background: #2c3542
 }
 .container .leftmenu ul li jtbc-svg.icon {
-  width: 18px; height: 18px; vertical-align: middle; margin-right: 8px; --fore-color: #b4b4b4
+  width: 18px; height: 18px; --fore-color: #b4b4b4
 }
 .container .leftmenu ul li jtbc-svg.arrow {
   display: block; width: 12px; height: 12px; --fore-color: #ffffff; margin-top: -6px; pointer-events: none; position: absolute; right: 19px; top: 50%; z-index: 100; transition: all .3s ease
@@ -191,13 +191,16 @@ body {
   width: 4px; height: 100%; background: #3e868f; opacity: 0; position: absolute; top: 0px; left: -4px; z-index: 200; transition: all .3s ease
 }
 .container .leftmenu ul li a.tit {
-  display: block; width: 100%; box-sizing: border-box; line-height: 24px; padding: 8px 20px; outline: none; white-space: nowrap; cursor: pointer; overflow: hidden; position: relative; z-index: 100
+  display: flex; width: 100%; box-sizing: border-box; height: 40px; padding: 0px 20px; outline: none; white-space: nowrap; align-items: center; cursor: pointer; overflow: hidden; position: relative; z-index: 100
 }
 .container .leftmenu ul li a.tit.on jtbc-svg.triangle {
   display: block
 }
 .container .leftmenu ul li a.tit b {
   font-weight: normal; color: #b4bcc8
+}
+.container .leftmenu ul li a.tit jtbc-svg.icon + b {
+  margin-left: 8px
 }
 .container .leftmenu ul li a.tit.open jtbc-svg.arrow {
   transform: rotate(180deg)
@@ -215,7 +218,7 @@ body {
   position: relative; z-index: 100
 }
 .container .leftmenu dl dd a.tit {
-  padding-left: 46px; line-height: 16px
+  padding-left: 46px; height: 32px
 }
 .container .leftmenu dl dd a.tit.on,
 .container .leftmenu dl dd a.tit:hover {
@@ -255,7 +258,7 @@ body {
   display: none
 }
 .container .leftmenu.min ul li a.tit {
-  padding-left: 7px
+  padding: 0px 8px
 }
 .container .leftmenu.min ul li a.tit.on jtbc-svg.triangle {
   display: none
@@ -267,7 +270,7 @@ body {
   display: block !important
 }
 .container .leftmenu.min dl {
-  width: 200px; background: #364150; border: #3d4957 1px solid; border-left: 0px; border-bottom: 0px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); position: absolute; top: -1px; right: -201px; z-index: 100
+  width: 200px; background: #364150; border: #3d4957 1px solid; border-left: 0px; border-bottom: 0px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); transform: translate(-1px, -1px); position: absolute; top: 0px; right: -200px; z-index: 100
 }
 .container .leftmenu.min dl.open {
   display: none
@@ -279,7 +282,7 @@ body {
   border-left-color: #2c3542
 }
 .container .leftmenu.min dl dd a.tit {
-  line-height: 24px; padding-left: 15px
+  height: 40px; padding-left: 15px
 }
 .container .leftmenu.min dl dd a.tit b {
   display: block
@@ -318,12 +321,15 @@ body {
   padding: 20px
 }
 .container .main div.manager toplink {
-  display: flex; align-items: center; box-sizing: border-box; margin-bottom: 10px; background: #ececec; border-left: #2b3643 5px solid
+  display: flex; height: 34px; align-items: center; box-sizing: border-box; margin-bottom: 10px; background: #ececec; border-left: #2b3643 5px solid
 }
-.container .main div.manager toplink a {
-  display: inline-block; padding: 10px 15px; font-size: 14px; line-height: 100%; cursor: pointer
+.container .main div.manager toplink jtbc-pitchon {
+  display: flex; height: 100%; align-items: center
 }
-.container .main div.manager toplink a.pitchon {
+.container .main div.manager toplink jtbc-pitchon a {
+  display: inline-flex; height: 100%; padding: 0px 14px; font-size: 14px; align-items: center; cursor: pointer
+}
+.container .main div.manager toplink jtbc-pitchon a.pitchon {
   background: #364150; color: #fff
 }
 .container .main div.manager toplink jtbc-svg {
@@ -342,7 +348,7 @@ body {
   width: 14px; height: 14px
 }
 .container .main div.manager toplink.path jtbc-svg.arrow {
-  width: 10px; height: 10px; margin-left: 15px; margin-right: 5px
+  width: 10px; height: 10px; margin-right: 5px
 }
 .container .main div.manager toplink.skinny a {
   padding: 10px 0px

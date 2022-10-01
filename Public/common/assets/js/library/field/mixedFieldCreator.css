@@ -13,8 +13,8 @@
 .mixedFieldContainer div.item select[type=select],
 .mixedFieldContainer div.item input[type=text],
 .mixedFieldContainer div.item input[type=password],
-.mixedFieldContainer div.item input[type=password],
 .mixedFieldContainer div.item textarea,
-.mixedFieldContainer div.item jtbc-field-upload {
+.mixedFieldContainer div.item jtbc-field-upload,
+.mixedFieldContainer div.item jtbc-field-currency-input {
   width: 100%
 }

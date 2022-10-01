@@ -70,7 +70,7 @@ export default class mixedFieldCreator {
           };
           if (extraMode == 'auto')
           {
-            extraMode = ['text', 'textarea', 'upload'].includes(item.type)? 'placeholder': 'label';
+            extraMode = ['text', 'textarea', 'upload', 'currency-input'].includes(item.type)? 'placeholder': 'label';
           };
           if (extraMode == 'label')
           {
@@ -215,6 +215,6 @@ export default class mixedFieldCreator {
 
   constructor(columns) {
     this.columns = columns;
-    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
+    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'currency-input', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
   };
 };

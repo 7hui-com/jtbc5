@@ -41,6 +41,12 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #bindEvents(cm) {
+    cm.on('change', instance => {
+      this.dispatchEvent(new CustomEvent('changed', {detail: {'instance': instance}, bubbles: true}));
+    });
+  };
+
   #resize(entries) {
     if (this.#width == null)
     {
@@ -132,6 +138,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
                       that.container.classList.add('fullscreen');
                       document.body.classList.add('tox-fullscreen');
                     };
+                    that.dispatchEvent(new CustomEvent('fullscreenchanged', {detail: {'instance': cm}, bubbles: true}));
                   };
                  },
                 'Esc': function(cm) {
@@ -140,14 +147,24 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
                     cm.setOption('fullScreen', false);
                     that.container.classList.remove('fullscreen');
                     document.body.classList.remove('tox-fullscreen');
+                    that.dispatchEvent(new CustomEvent('fullscreenchanged', {detail: {'instance': cm}, bubbles: true}));
                   };
+                },
+                'Ctrl-S': function(cm) {
+                  that.dispatchEvent(new CustomEvent('save', {detail: {'instance': cm}, bubbles: true}));
                 },
               },
             });
+            this.#bindEvents(this.codeMirror);
+            this.dispatchEvent(new CustomEvent('loaded', {detail: {'cm': this.codeMirror}, bubbles: true}));
           };
         });
       });
     };
+  };
+
+  isFullScreen() {
+    return this.container.classList.contains('fullscreen')? true: false;
   };
 
   resetMaxWidth() {
@@ -212,10 +229,19 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     };
   };
 
+  connectedCallback() {
+    this.ready = true;
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
+  };
+
+  disconnectedCallback() {
+    this.resizeObserver.disconnect();
+  };
+
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let codemirrorDir = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/../../../vendor/codemirror';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>

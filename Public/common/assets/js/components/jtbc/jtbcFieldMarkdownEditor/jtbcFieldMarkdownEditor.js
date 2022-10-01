@@ -39,6 +39,10 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     if (this.easyMDE != null)
     {
       result = this.easyMDE.value();
+    }
+    else
+    {
+      result = this.#value ?? '';
     };
     return result;
   };
@@ -213,13 +217,14 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.#initEditor();
+    this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let easyMDEPath = basePath + '../../../vendor/easymde/';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>

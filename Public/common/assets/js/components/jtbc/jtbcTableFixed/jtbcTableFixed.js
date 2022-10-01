@@ -170,7 +170,7 @@ export default class jtbcTableFixed extends HTMLElement {
 
   #resetPosition(el) {
     let slot = el.querySelector('slot');
-    slot.assignedElements({flatten: true}).forEach(el => {
+    slot.assignedElements().forEach(el => {
       if (el.tagName == 'TABLE')
       {
         el.querySelectorAll('th.sticky, td.sticky').forEach(item => {
@@ -231,7 +231,7 @@ export default class jtbcTableFixed extends HTMLElement {
     let scrollLeft = Math.round(el.scrollLeft);
     let scrollWidth = Math.round(el.scrollWidth);
     let scrollHeight = Math.round(el.scrollHeight);
-    slot.assignedElements({flatten: true}).forEach(el => {
+    slot.assignedElements().forEach(el => {
       if (el.tagName == 'TABLE')
       {
         if (scrollTop > 0)
@@ -312,7 +312,7 @@ export default class jtbcTableFixed extends HTMLElement {
           });
         };
       };
-      slot.assignedElements({flatten: true}).forEach(el => setSticky(el));
+      slot.assignedElements().forEach(el => setSticky(el));
       this.#param = {'left': this.#left, 'right': this.#right, 'thead': this.#thead, 'tfoot': this.#tfoot};
     };
   };
@@ -383,7 +383,7 @@ export default class jtbcTableFixed extends HTMLElement {
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none"><slot></slot></div>

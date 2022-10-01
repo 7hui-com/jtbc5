@@ -74,7 +74,7 @@ export default class jtbcMiniMessage extends HTMLElement {
     this.currentMessageId = 0;
     this.currentCallback = null;
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container><span class="message"></span></container>

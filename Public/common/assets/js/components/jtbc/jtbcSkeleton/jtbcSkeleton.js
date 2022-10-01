@@ -195,7 +195,7 @@ export default class jtbcSkeleton extends HTMLElement {
     super();
     this.ready = false;
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let importCssUrl = import.meta.url.substring(0, import.meta.url.lastIndexOf('.')) + '.css';
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"></container>`;
     this.container = shadowRoot.querySelector('container');
   };

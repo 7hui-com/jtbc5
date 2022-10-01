@@ -74,6 +74,7 @@ class Diplomat extends Ambassador {
       case 'date-range':
       case 'datetime-range':
       case 'location-picker':
+      case 'input-with-datalist':
         $column -> setDataType('varchar', 200);
         break;
       case 'color':
@@ -85,6 +86,7 @@ class Diplomat extends Ambassador {
       case 'range':
       case 'number':
       case 'star':
+      case 'currency-input':
         $column -> setDataType('int', 11);
         break;
       case 'date':

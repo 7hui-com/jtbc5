@@ -60,6 +60,20 @@ class Dictionary
     return $result;
   }
 
+  public static function getByKeys(string $argName, array $argKeys = [], int $argLang = null)
+  {
+    $result = [];
+    $keys = $argKeys;
+    foreach ($keys as $key)
+    {
+      if (is_int($key) || is_string($key))
+      {
+        $result[] = self::get($argName, $key, $argLang);
+      }
+    }
+    return $result;
+  }
+
   public static function getList()
   {
     $result = [];

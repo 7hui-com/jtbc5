@@ -99,6 +99,7 @@ export default class jtbcSchemaForm extends HTMLDivElement {
           fragment.append(itemEl);
         });
         this.appendFragment(fragment).then(() => {
+          this.dispatchEvent(new CustomEvent('builded', {bubbles: true}));
           this.parentNode.querySelector('.formSubmit')?.classList.remove('hide');
         });
       };

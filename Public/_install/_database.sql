@@ -23,7 +23,7 @@ CREATE TABLE `aboutus`  (
 -- ----------------------------
 -- Records of aboutus
 -- ----------------------------
-INSERT INTO `aboutus` VALUES (1, '公司简介', '<p></p>', '', 0, '2021-12-31 0:00:00', 0, 1, 0);
+INSERT INTO `aboutus` VALUES (1, '公司简介', '', '', 0, '2021-12-31 0:00:00', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for console_account

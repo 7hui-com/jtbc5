@@ -49,16 +49,19 @@ class Diplomat extends Ambassador {
 
   public function list(Request $req)
   {
+    $isFiltered = false;
     $published = intval($req -> get('published') ?? -1);
     $lang = $this -> guard -> role -> getLang();
     $model = new TinyModel();
     $model -> where -> lang = $lang;
     if ($published != -1)
     {
+      $isFiltered = true;
       $model -> where -> published = $published;
     }
     $model -> orderBy('order', 'desc');
     $bs = new BasicSubstance($this);
+    $bs -> data -> isFiltered = $isFiltered;
     $bs -> data -> data = $model -> getAll(['id', 'name', 'position', 'published', 'time']);
     return $bs -> toJSON();
   }

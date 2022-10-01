@@ -11,9 +11,17 @@ export default class jtbcFetch extends HTMLElement {
   #interval = null;
 
   set href(value) {
-    this.setAttribute('url', value);
-    this.#URL = value;
-    this.fetch();
+    this.dispatchEvent(new CustomEvent('hrefstart', {detail: {href: value}}));
+    if (this.loading == false && this.locked == false)
+    {
+      this.setAttribute('url', value);
+      this.#URL = value;
+      this.fetch();
+    }
+    else
+    {
+      this.dispatchEvent(new CustomEvent('hreferror', {detail: {href: value}}));
+    };
   };
 
   get body() {
@@ -37,9 +45,9 @@ export default class jtbcFetch extends HTMLElement {
   };
 
   fetch() {
-    if (this.locked == false && this.#URL != null)
+    if (this.loading == false && this.#URL != null)
     {
-      this.locked = true;
+      this.loading = true;
       this.removeAttribute('code');
       this.dispatchEvent(new CustomEvent('fetchstart'));
       let action = this.fullURL;
@@ -108,7 +116,7 @@ export default class jtbcFetch extends HTMLElement {
         this.dispatchEvent(new CustomEvent('fetchcrash', {detail: {e: e}}));
       }).finally(() => {
         this.dispatchEvent(new CustomEvent('fetchend'));
-        this.locked = false;
+        this.loading = false;
       });
     };
   };
@@ -186,6 +194,7 @@ export default class jtbcFetch extends HTMLElement {
   constructor() {
     super();
     this.locked = false;
+    this.loading = false;
     this.ready = false;
     this.modeList = ['queryString', 'json'];
     this.methodList = ['get', 'post', 'put', 'delete'];

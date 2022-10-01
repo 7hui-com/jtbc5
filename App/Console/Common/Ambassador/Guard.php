@@ -72,6 +72,7 @@ class Guard implements GuardInterface
         if ($timestamp - $tokenTimestamp < $loginRemberTimeout)
         {
           $account = new AccountModel();
+          $account -> where -> locked = 0;
           $account -> where -> id = $accountId;
           $rs = $account -> get();
           if (!is_null($rs))
@@ -127,6 +128,7 @@ class Guard implements GuardInterface
     $thisDay = Date::thisDay();
     $account = new AccountModel();
     $pocket = $account -> pocket;
+    $account -> where -> locked = 0;
     $account -> where -> username = $username;
     $rs = $account -> get();
     if (!is_null($rs))

@@ -1,0 +1,33 @@
+:host {
+  width: 100%; display: block; --border-color: #d1d1d1; --border-size: 1px; --border-radius: 5px; --tab-bar-background: #fff; --tab-bar-padding: 0px 10px; --tab-bar-justify-content: left; --label-width: auto; --label-height: auto; --label-padding: 5px 10px; --label-background: #fff; --label-color: #333; --label-font-family: inherit; --label-font-size: 14px; --label-font-weight: normal; --label-selected-background: #fff; --label-selected-color: #000; --label-selected-font-size: 14px; --label-selected-font-weight: normal; --content-background: #fff; --content-padding: 10px
+}
+.container {
+  width: 100%; height: 100%; display: block !important; box-sizing: border-box; overflow: hidden
+}
+.container div.tabs {
+  display: flex; box-sizing: border-box; align-items: end; justify-content: var(--tab-bar-justify-content); height: var(--label-height); background: var(--tab-bar-background); padding: var(--tab-bar-padding)
+}
+.container div.tabs div.label {
+  width: var(--label-width); box-sizing: border-box; padding: var(--label-padding); height: 100%; display: flex; align-items: center; justify-content: center; background: var(--label-background); color: var(--label-color); font-family: var(--label-font-family); font-size: var(--label-font-size); font-weight: var(--label-font-weight); border: transparent var(--border-size) solid; border-bottom: 0px; cursor: pointer; transition: all .3 ease
+}
+.container div.tabs div.label.on {
+  background: var(--label-selected-background); color: var(--label-color); font-size: var(--label-font-size); font-weight: var(--label-font-weight); border-top-color: var(--border-color); border-left-color: var(--border-color); border-bottom-color: var(--label-background); border-right-color: var(--border-color); border-top-left-radius: var(--border-radius); border-top-right-radius: var(--border-radius); position: relative
+}
+.container div.tabs div.label.on::after {
+  content: ''; width: 100%; height: var(--border-size); position: absolute; top: 100%; left: 0px; background: var(--label-selected-background)
+}
+.container div.content {
+  width: 100%; box-sizing: border-box; background: var(--content-background); border-top: var(--border-color) var(--border-size) solid; padding: var(--content-padding)
+}
+.container div.content slot::slotted(.hide) {
+  display: none !important
+}
+.container[theme=card] {
+  border: var(--border-color) var(--border-size) solid; border-radius: var(--border-radius)
+}
+.container[theme=card] div.tabs div.label {
+  border-top: 0px; border-radius: 0px
+}
+.container[theme=card] div.tabs div.label:first-child {
+  transform: translate(calc(0px - var(--border-size)), 0px)
+}
