@@ -16,11 +16,18 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   get value() {
     let result = '';
     let container = this.container;
-    let locationEl = container.querySelector('div.location');
-    if (locationEl != null)
+    if (this.currentValue != null)
     {
-      let spanItemEl = locationEl.querySelector('span');
-      result = spanItemEl == null? '': spanItemEl.getAttribute('value');
+      result = this.currentValue;
+    }
+    else
+    {
+      let locationEl = container.querySelector('div.location');
+      if (locationEl != null)
+      {
+        let spanItemEl = locationEl.querySelector('span');
+        result = spanItemEl == null? '': spanItemEl.getAttribute('value');
+      };
     };
     return result;
   };

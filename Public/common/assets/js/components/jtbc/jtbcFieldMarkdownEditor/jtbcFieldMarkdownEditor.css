@@ -1,5 +1,5 @@
 :host {
-  width: 100%; display: block; --font-size: 16px; --line-height: 160%; --border-radius: 0px; --border-color: #d1d1d1; --border-color-focus: #5b9dd9; --box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 100
+  width: 100%; display: block; --font-size: 14px; --line-height: 160%; --border-radius: 0px; --border-color: #d1d1d1; --border-color-focus: #5b9dd9; --box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 100
 }
 container {
   width: 100%; display: block !important; font-family: Menlo, Monaco, Consolas, monospace; position: relative; z-index: var(--z-index); transition: box-shadow .3s ease

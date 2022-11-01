@@ -10,5 +10,9 @@
       <name><![CDATA[hasnotable]]></name>
       <zh-cn><![CDATA[true]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[unsaved-changes-dialog]]></name>
+      <zh-cn><![CDATA[enabled]]></zh-cn>
+    </item>
   </item_list>
 </xml>

@@ -192,7 +192,7 @@
     </item>
     <item>
       <name><![CDATA[text-action-prepare-code-4004]]></name>
-      <zh-cn><![CDATA[很抱歉，您的云服务尚未开启，请先开启之后再尝试安装]]></zh-cn>
+      <zh-cn><![CDATA[很抱歉，您的云服务尚未开启，请再次点击本按钮开启云服务后再试]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-action-prepare-code-4444]]></name>

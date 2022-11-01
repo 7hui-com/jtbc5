@@ -1,17 +1,25 @@
 export default class jtbcMarkdownViewer extends HTMLElement {
   static get observedAttributes() {
-    return ['value'];
+    return ['options', 'value'];
+  };
+
+  #options = {
+    'breaks': true,
   };
 
   #value = null;
 
-  set value(value) {
-    this.#value = value;
-    this.render();
+  get options() {
+    return this.#options;
   };
 
   get value() {
     return this.#value ?? '';
+  };
+
+  set value(value) {
+    this.#value = value;
+    this.render();
   };
 
   #loadMarked() {
@@ -53,6 +61,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
   render() {
     let container = this.container;
     Promise.all([this.#loadMarked(), this.#loadDOMPurify()]).then(() => {
+      marked.setOptions(this.options);
       container.empty().html(DOMPurify.sanitize(marked.parse(this.value))).then(my => {
         let isReplaced = false;
         my.querySelectorAll('code').forEach(el => {
@@ -83,8 +92,21 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     });
   };
 
+  setOptions(options) {
+    let items = JSON.parse(options);
+    Object.keys(items).forEach(key => {
+      this.#options[key] = items[key];
+    });
+    return this.#options;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'options':
+      {
+        this.setOptions(newVal);
+        break;
+      };
       case 'value':
       {
         this.value = newVal;

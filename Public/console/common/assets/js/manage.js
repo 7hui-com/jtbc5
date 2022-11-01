@@ -197,16 +197,19 @@ export default class manage {
         else
         {
           main.locked = false;
-          main.querySelectorAll('form').forEach(el => {
-            try
-            {
-              if (el.isFormDataChanged() === true)
+          if (main.getAttribute('unsaved-changes-dialog') != 'disabled')
+          {
+            main.querySelectorAll('form').forEach(el => {
+              try
               {
-                attention = true;
-              };
-            }
-            catch(err) {};
-          });
+                if (el.isFormDataChanged() === true)
+                {
+                  attention = true;
+                };
+              }
+              catch(err) {};
+            });
+          };
         };
         if (attention === true)
         {

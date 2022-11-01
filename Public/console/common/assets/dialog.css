@@ -121,7 +121,7 @@
   font-weight: bold; border-color: #dddddd
 }
 .dialogPopup div.tinyForm tabtitle.on::after {
-  content: ''; width: 100%; height: 2px; position: absolute; top: 100%; left: 0px; background: #fff
+  content: ''; width: 100%; height: 2px; position: absolute; margin-bottom: -1px; bottom: 0px; left: 0px; background: #fff
 }
 .dialogPopup div.tinyForm tabtitle.disabled {
   color: #999; cursor: default

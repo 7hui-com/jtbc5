@@ -2,13 +2,13 @@
   width: 100%
 }
 .ppItemList {
-  width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 10px
+  width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 10px; row-gap: 10px
 }
 .ppItemList div.item {
-  box-sizing: border-box; border: #e1e1e1 1px solid
+  box-sizing: border-box; border: #e1e1e1 1px solid; transition: all .3s ease
 }
 .ppItemList div.item div.text {
-  width: 100%; display: flex; position: relative; box-sizing: border-box; padding: 10px
+  width: 100%; display: flex; position: relative; box-sizing: border-box; padding: 10px; overflow: hidden
 }
 .ppItemList div.item div.text div.icon {
   width: 100px; height: 100px; overflow: hidden
@@ -40,6 +40,9 @@
 .ppItemList div.item div.bar span.install {
   width: 120px; display: block; text-align: right
 }
+.ppItemList div.item:hover {
+  box-shadow: 2px 4px 4px rgb(0 0 0 / 10%)
+}
 .ppItemList:empty + .ppItemListEmpty {
   display: flex
 }
@@ -56,7 +59,7 @@
   display: block; width: 100%; color: #999999; text-align: center
 }
 .ppItemDetail {
-  width: 720px; min-height: 516px
+  width: 800px; min-height: 576px
 }
 .ppItemDetail div.intro {
   width: 100%; box-sizing: border-box; padding: 10px; display: flex; align-items: flex-end; background-image: linear-gradient(#ffffff, #f6f6f6); position: relative
@@ -80,7 +83,7 @@
   width: 100%; display: flex
 }
 .ppItemDetail div.mainContent div.tabcontent {
-  flex: 1; box-sizing: border-box; padding: 20px; height: 300px; overflow: auto
+  flex: 1; box-sizing: border-box; padding: 20px; height: 360px; overflow: auto
 }
 .ppItemDetail div.mainContent div.basic {
   width: 180px; box-sizing: border-box; background: #f6f6f6; border-left: #e1e1e1 1px solid
@@ -254,8 +257,38 @@
 .ppItemDetail div.tinyForm div.button {
   position: relative; z-index: 1000
 }
+.ppContainer[category='package'] .ppItemList {
+  grid-template-columns: repeat(3, 1fr)
+}
+.ppContainer[category='package'] .ppItemList div.item div.text {
+  display: block; padding: 0px
+}
+.ppContainer[category='package'] .ppItemList div.item div.text div.icon {
+  width: 100%; height: auto; aspect-ratio: 16 / 10; overflow: hidden
+}
+.ppContainer[category='package'] .ppItemList div.item div.text div.info {
+  width: 100%; padding: 10px; box-sizing: border-box; background: rgba(62, 134, 143, .5); position: absolute; bottom: -25px; left: 0px; z-index: 100; transition: all .3s ease
+}
+.ppContainer[category='package'] .ppItemList div.item div.text div.info a {
+  color: #fff; padding: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+.ppContainer[category='package'] .ppItemList div.item div.text div.info p {
+  color: #ddd; padding-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+.ppContainer[category='package'] .ppItemList div.item div.text span.price {
+  font-size: 20px
+}
+.ppContainer[category='package'] .ppItemList div.item div.text::after {
+  content: ''; width: 80px; height: 80px; background: rgba(0, 0, 0, .8); border-radius: 100%; position: absolute; top: -30px; right: -10px; z-index: 10
+}
+.ppContainer[category='package'] .ppItemList div.item:hover div.text div.info {
+  bottom: 0px; background: rgba(62, 134, 143, 1)
+}
 @media screen and (min-width: 1680px) {
   .ppItemList {
-    grid-template-columns: 1fr 1fr 1fr
+    grid-template-columns: repeat(3, 1fr)
+  }
+  .ppContainer[category='package'] .ppItemList {
+    grid-template-columns: repeat(4, 1fr)
   }
 }

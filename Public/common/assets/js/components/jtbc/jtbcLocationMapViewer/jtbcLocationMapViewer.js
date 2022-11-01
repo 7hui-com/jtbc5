@@ -181,6 +181,7 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     mapIFrameEl.setAttribute('width', '100%');
     mapIFrameEl.setAttribute('height', this.height);
     mapIFrameEl.setAttribute('frameborder', '0');
+    mapIFrameEl.style.display = 'block';
     mapIFrameEl.addEventListener('load', () => {
       let mapIFrameDocument = mapIFrameEl.contentDocument;
       let jsApi = document.createElement('script');
@@ -203,6 +204,7 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     mapIFrameEl.setAttribute('width', '100%');
     mapIFrameEl.setAttribute('height', this.height);
     mapIFrameEl.setAttribute('frameborder', '0');
+    mapIFrameEl.style.display = 'block';
     mapIFrameEl.addEventListener('load', () => {
       let mapIFrameDocument = mapIFrameEl.contentDocument;
       let baiduMapCssEl = document.createElement('link');
@@ -233,6 +235,7 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     mapIFrameEl.setAttribute('width', '100%');
     mapIFrameEl.setAttribute('height', this.height);
     mapIFrameEl.setAttribute('frameborder', '0');
+    mapIFrameEl.style.display = 'block';
     mapIFrameEl.addEventListener('load', () => {
       let mapIFrameDocument = mapIFrameEl.contentDocument;
       let jsApi = document.createElement('script');
@@ -256,6 +259,7 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     mapIFrameEl.setAttribute('width', '100%');
     mapIFrameEl.setAttribute('height', this.height);
     mapIFrameEl.setAttribute('frameborder', '0');
+    mapIFrameEl.style.display = 'block';
     mapIFrameEl.addEventListener('load', () => {
       let mapIFrameDocument = mapIFrameEl.contentDocument;
       let jsApi = document.createElement('script');

@@ -1,35 +1,32 @@
 <?php
 ob_start();
-set_time_limit(1800);
+set_time_limit(900);
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 date_default_timezone_set('Asia/Shanghai');
-spl_autoload_register(function($argClass){
-  $class = $argClass;
-  $requireFile = null;
-  $classPath = str_replace('\\', '/', $class);
-  $firstPath = strstr($classPath, '/', true);
-  if (in_array($firstPath, ['App', 'Config', 'Jtbc']))
+spl_autoload_register(function($class) {
+  $root = realpath(__DIR__ . '/../');
+  $name = str_replace(chr(92), chr(47), $class);
+  $prefix = strstr($name, '/', true);
+  if (in_array($prefix, ['App', 'Config', 'Jtbc']))
   {
-    $requireFile = __DIR__ . '/../' . $firstPath . '/' . ltrim(substr($classPath, strpos($classPath, '/')), '/') . '.php';
+    $target = $name;
   }
-  else if ($firstPath == 'Web')
+  else if ($prefix == 'Web')
   {
-    $folder = '';
-    $childFile = ltrim(strstr($classPath, '/'), '/');
-    if (str_contains($childFile, '/'))
+    $dir = '';
+    $filename = ltrim(strstr($name, '/'), '/');
+    if (str_contains($filename, '/'))
     {
-      $folder = substr($childFile, 0, strrpos($childFile, '/'));
-      $childFile = ltrim(substr($childFile, strrpos($childFile, '/')), '/');
+      $dir = strrev(strstr(strrev($filename), '/'));
+      $filename = ltrim(strrchr($filename, '/'), '/');
     }
-    $requireFile = __DIR__ . '/../Public/' . strtolower($folder) . '/common/interior/' . $childFile . '.php';
+    $target = 'Public/' . strtolower($dir) . 'common/interior/' . $filename;
   }
   else
   {
-    $requireFile = __DIR__ . '/../Vendor/' . $classPath . '.php';
+    $target = 'Vendor/' . $name;
   }
-  if (!is_null($requireFile) && is_file($requireFile))
-  {
-    require_once($requireFile);
-  }
+  $realpath = $root . '/' . $target . '.php';
+  if (is_file($realpath)) require_once($realpath);
 });
-set_exception_handler(['Jtbc\Exception\Handler', 'output']);
+set_exception_handler(fn(...$args) => Jtbc\Exception\Handler::output(...$args));

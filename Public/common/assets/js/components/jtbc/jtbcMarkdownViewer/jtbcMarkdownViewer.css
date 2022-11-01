@@ -64,5 +64,5 @@ container table td {
   font-weight: normal; background: #ffffff
 }
 container code {
-  display: inline-block; padding: 2px 4px; background: #f7f7f7; color: rgba(0, 0, 0, .8); border-radius: 3px
+  padding: 2px 4px; background: rgba(175, 184, 193, .2); border-radius: 6px; font-size: 90%
 }

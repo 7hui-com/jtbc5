@@ -6,7 +6,7 @@ use Jtbc\Path;
 use Jtbc\Substance;
 use Jtbc\DB\DBFactory;
 use App\Common\Installer;
-use App\Common\Module\ModuleHooksManager;
+use App\Common\Module\MultiModuleHooksManager;
 
 class PackageInstaller extends Installer
 {
@@ -103,7 +103,6 @@ class PackageInstaller extends Installer
             if ($this -> writePremiumSignToFile($packageFilePath) !== false)
             {
               $result = true;
-              //*****************************************************************************//
               $sqlPath = $rootPath . '/_package.sql';
               if (is_file($sqlPath))
               {
@@ -122,23 +121,26 @@ class PackageInstaller extends Installer
                   $this -> lastErrorCode = 1144;
                 }
               }
-              //*****************************************************************************//
               $metaRegisterHooks = $meta -> register_hooks;
               if (is_array($metaRegisterHooks))
               {
+                $allModules = [];
                 foreach ($metaRegisterHooks as $registerHook)
                 {
                   if (is_array($registerHook))
                   {
                     if (array_key_exists('module', $registerHook))
                     {
-                      $moduleHooksManager = new ModuleHooksManager($registerHook['module']);
-                      $moduleHooksManager -> registerIfNotExists();
+                      $allModules[] = $registerHook['module'];
                     }
                   }
                 }
+                if (!empty($allModules))
+                {
+                  $multiModuleHooksManager = new MultiModuleHooksManager($allModules);
+                  $multiModuleHooksManager -> registerIfNotExists();
+                }
               }
-              //*****************************************************************************//
             }
             else
             {

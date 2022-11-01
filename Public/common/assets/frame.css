@@ -243,7 +243,7 @@ div.detail h1.title {
 }
 div.list div.content,
 div.detail div.content {
-  width: 100%; padding: 1rem 0rem; font-size: 1.4rem
+  width: 100%; padding: 1rem 0rem; font-size: 1.4rem; line-height: 160%
 }
 div.list div.content img,
 div.detail div.content img {

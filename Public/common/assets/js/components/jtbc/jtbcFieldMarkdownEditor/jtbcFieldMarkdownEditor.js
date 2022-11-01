@@ -16,7 +16,6 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     'spellChecker': false,
     'minHeight': '300px',
     'maxHeight': '300px',
-    'sideBySideFullscreen': false,
     'status': false,
     'renderingConfig': {
       'sanitizerFunction': renderedHTML => DOMPurify.sanitize(renderedHTML),

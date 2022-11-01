@@ -32,3 +32,6 @@ jtbc-script {
 jtbc-view {
   display: block; box-sizing: border-box
 }
+jtbc-full-height-container {
+  display: block; box-sizing: border-box; width: 100%
+}
