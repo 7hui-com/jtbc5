@@ -1,6 +1,6 @@
 export default class jtbcFieldDate extends HTMLElement {
   static get observedAttributes() {
-    return ['lang', 'min', 'max', 'value', 'disabled', 'width'];
+    return ['lang', 'min', 'max', 'value', 'disabled', 'width', 'placeholder'];
   };
 
   #closePickerTimeout;
@@ -51,24 +51,7 @@ export default class jtbcFieldDate extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
-  };
-
-  closePicker(timeout = 0) {
-    let container = this.container;
-    let datepicker = container.querySelector('div.datepicker');
-    this.#closePickerTimeout = setTimeout(() => {
-      datepicker.classList.remove('on');
-    }, timeout);
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let date = container.querySelector('input.date');
@@ -142,6 +125,23 @@ export default class jtbcFieldDate extends HTMLElement {
     });
   };
 
+  closePicker(timeout = 0) {
+    let container = this.container;
+    let datepicker = container.querySelector('div.datepicker');
+    this.#closePickerTimeout = setTimeout(() => {
+      datepicker.classList.remove('on');
+    }, timeout);
+  };
+
+  getDateString(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let monthString = month < 10? '0' + month: month;
+    let dayString = day < 10? '0' + day: day;
+    return year + '-' + monthString + '-' + dayString;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     let container = this.container;
     let calendar = container.querySelector('.calendar');
@@ -179,6 +179,11 @@ export default class jtbcFieldDate extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'placeholder':
+      {
+        container.querySelector('input.date').setAttribute('placeholder', newVal);
+        break;
+      };
     };
   };
 
@@ -200,6 +205,6 @@ export default class jtbcFieldDate extends HTMLElement {
     this.currentValue = '';
     this.currentDisabled = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

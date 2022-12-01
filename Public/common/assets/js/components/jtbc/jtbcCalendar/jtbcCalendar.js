@@ -9,19 +9,6 @@ export default class jtbcCalendar extends HTMLElement {
   #maxDate = null;
   #selectedDays = null;
  
-  #isDate(value) {
-    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
-    return dateRegExp.test(value)? true: false;
-  };
-
-  #getText() {
-    let text = {
-      'zh-cn': {'year':'\u5e74','month':['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'],'monday':'\u4e00','tuesday':'\u4e8c','wednesday':'\u4e09','thursday':'\u56db','friday':'\u4e94','saturday':'\u516d','sunday':'\u65e5'},
-      'en': {'year': '','month':['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],'monday': 'MO','tuesday': 'TU','wednesday': 'WE','thursday': 'TH','friday': 'FR','saturday': 'SA','sunday': 'SU',},
-    };
-    return text[this.#lang];
-  };
-
   get lang() {
     return this.#lang;
   };
@@ -64,136 +51,20 @@ export default class jtbcCalendar extends HTMLElement {
     this.selectDays(value);
   };
 
-  resetStatus() {
-    let calendar = this.container.querySelector('div.calendar');
-    calendar.querySelectorAll('div.main span.date').forEach(el => {
-      let currentDateDisabled = false;
-      let currentDate = new Date(el.getAttribute('date'));
-      if (this.#minDate != null && currentDate < this.#minDate)
-      {
-        currentDateDisabled = true;
-      }
-      else if (this.#maxDate != null && currentDate > this.#maxDate)
-      {
-        currentDateDisabled = true;
-      };
-      if (currentDateDisabled === true)
-      {
-        el.classList.add('disabled');
-      }
-      else
-      {
-        el.classList.remove('disabled');
-      };
-    });
-    this.selectDays();
+  #isDate(value) {
+    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
+    return dateRegExp.test(value)? true: false;
   };
 
-  getAllDateElements() {
-    let result = [];
-    this.container.querySelectorAll('span.date').forEach(el => { result.push(el); });
-    return result;
-  };
-
-  getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
-  };
-
-  selectDays(days) {
-    if (days != null)
-    {
-      this.#selectedDays = days;
+  #getText() {
+    let text = {
+      'zh-cn': {'year':'\u5e74','month':['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'],'monday':'\u4e00','tuesday':'\u4e8c','wednesday':'\u4e09','thursday':'\u56db','friday':'\u4e94','saturday':'\u516d','sunday':'\u65e5'},
+      'en': {'year': '','month':['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],'monday': 'MO','tuesday': 'TU','wednesday': 'WE','thursday': 'TH','friday': 'FR','saturday': 'SA','sunday': 'SU',},
     };
-    if (this.#selectedDays != null)
-    {
-      let container = this.container;
-      let selectedDays = this.#selectedDays.split(',');
-      container.querySelectorAll('span.date').forEach(el => {
-        if (selectedDays.includes(el.getAttribute('date')))
-        {
-          el.classList.add('selected');
-        }
-        else
-        {
-          el.classList.remove('selected');
-        };
-      });
-    };
+    return text[this.#lang];
   };
 
-  render(targetDate) {
-    let today = new Date();
-    let calendar = this.container.querySelector('div.calendar');
-    let text = this.#getText();
-    let main = calendar.querySelector('div.main');
-    let date = new Date(targetDate ?? this.value);
-    let isDate = date instanceof Date && !isNaN(date.getTime());
-    if (isDate == false) date = new Date();
-    let currentYear = date.getFullYear();
-    let currentMonth = date.getMonth();
-    if (currentYear < this.#minYear)
-    {
-      date.setFullYear(this.#minYear);
-      date.setMonth(0);
-      date.setDate(1);
-    };
-    this.currentTargetDate = new Date(date.valueOf());
-    calendar.querySelector('div.title span.text em.year').innerText = currentYear + text.year;
-    calendar.querySelector('div.title span.text em.month').innerText = text.month[currentMonth];
-    const getFirstDate = (date) => {
-      while (date.getDay() != 1 || date.getMonth() == currentMonth)
-      {
-        date.setDate(date.getDate() - 1);
-      };
-      return date;
-    };
-    let firstDate = getFirstDate(date);
-    let newMain = document.createElement('div');
-    newMain.classList.add('main');
-    for (let i = 0; i < 42; i ++)
-    {
-      let currentDate = new Date(firstDate.valueOf());
-      currentDate.setDate(firstDate.getDate() + i);
-      let dateItem = document.createElement('span');
-      dateItem.classList.add('date');
-      dateItem.setAttribute('date', this.getDateString(currentDate));
-      dateItem.innerHTML = '<em>' + currentDate.getDate() + '</em>';
-      if (currentDate.getMonth() != currentMonth)
-      {
-        dateItem.classList.add('dim');
-      }
-      else
-      {
-        if (this.getDateString(today) == this.getDateString(currentDate))
-        {
-          dateItem.classList.add('today');
-        };
-      };
-      newMain.append(dateItem);
-    };
-    main.replaceWith(newMain);
-    this.resetStatus();
-    this.dispatchEvent(new CustomEvent('renderend', {detail: {date: this.getDateString(this.currentTargetDate)}}));
-  };
-
-  textReset() {
-    let text = this.#getText();
-    let container = this.container;
-    container.querySelector('.textMonday').innerText = text.monday;
-    container.querySelector('.textTuesday').innerText = text.tuesday;
-    container.querySelector('.textWednesday').innerText = text.wednesday;
-    container.querySelector('.textThursday').innerText = text.tuesday;
-    container.querySelector('.textFriday').innerText = text.friday;
-    container.querySelector('.textSaturday').innerText = text.saturday;
-    container.querySelector('.textSunday').innerText = text.sunday;
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.delegateEventListener('div.calendar span.date', 'click', function(){
@@ -381,6 +252,135 @@ export default class jtbcCalendar extends HTMLElement {
     });
   };
 
+  resetStatus() {
+    let calendar = this.container.querySelector('div.calendar');
+    calendar.querySelectorAll('div.main span.date').forEach(el => {
+      let currentDateDisabled = false;
+      let currentDate = new Date(el.getAttribute('date'));
+      if (this.#minDate != null && currentDate < this.#minDate)
+      {
+        currentDateDisabled = true;
+      }
+      else if (this.#maxDate != null && currentDate > this.#maxDate)
+      {
+        currentDateDisabled = true;
+      };
+      if (currentDateDisabled === true)
+      {
+        el.classList.add('disabled');
+      }
+      else
+      {
+        el.classList.remove('disabled');
+      };
+    });
+    this.selectDays();
+  };
+
+  getAllDateElements() {
+    let result = [];
+    this.container.querySelectorAll('span.date').forEach(el => { result.push(el); });
+    return result;
+  };
+
+  getDateString(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let monthString = month < 10? '0' + month: month;
+    let dayString = day < 10? '0' + day: day;
+    return year + '-' + monthString + '-' + dayString;
+  };
+
+  selectDays(days) {
+    if (days != null)
+    {
+      this.#selectedDays = days;
+    };
+    if (this.#selectedDays != null)
+    {
+      let container = this.container;
+      let selectedDays = this.#selectedDays.split(',');
+      container.querySelectorAll('span.date').forEach(el => {
+        if (selectedDays.includes(el.getAttribute('date')))
+        {
+          el.classList.add('selected');
+        }
+        else
+        {
+          el.classList.remove('selected');
+        };
+      });
+    };
+  };
+
+  render(targetDate) {
+    let today = new Date();
+    let calendar = this.container.querySelector('div.calendar');
+    let text = this.#getText();
+    let main = calendar.querySelector('div.main');
+    let date = new Date(targetDate ?? this.value);
+    let isDate = date instanceof Date && !isNaN(date.getTime());
+    if (isDate == false) date = new Date();
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth();
+    if (currentYear < this.#minYear)
+    {
+      date.setFullYear(this.#minYear);
+      date.setMonth(0);
+      date.setDate(1);
+    };
+    this.currentTargetDate = new Date(date.valueOf());
+    calendar.querySelector('div.title span.text em.year').innerText = currentYear + text.year;
+    calendar.querySelector('div.title span.text em.month').innerText = text.month[currentMonth];
+    const getFirstDate = (date) => {
+      while (date.getDay() != 1 || date.getMonth() == currentMonth)
+      {
+        date.setDate(date.getDate() - 1);
+      };
+      return date;
+    };
+    let firstDate = getFirstDate(date);
+    let newMain = document.createElement('div');
+    newMain.classList.add('main');
+    for (let i = 0; i < 42; i ++)
+    {
+      let currentDate = new Date(firstDate.valueOf());
+      currentDate.setDate(firstDate.getDate() + i);
+      let dateItem = document.createElement('span');
+      dateItem.classList.add('date');
+      dateItem.setAttribute('date', this.getDateString(currentDate));
+      dateItem.innerHTML = '<em>' + currentDate.getDate() + '</em>';
+      if (currentDate.getMonth() != currentMonth)
+      {
+        dateItem.classList.add('dim');
+      }
+      else
+      {
+        if (this.getDateString(today) == this.getDateString(currentDate))
+        {
+          dateItem.classList.add('today');
+        };
+      };
+      newMain.append(dateItem);
+    };
+    main.replaceWith(newMain);
+    this.resetStatus();
+    this.dispatchEvent(new CustomEvent('renderend', {detail: {date: this.getDateString(this.currentTargetDate)}}));
+  };
+
+  textReset() {
+    let text = this.#getText();
+    let container = this.container;
+    container.querySelector('.textMonday').innerText = text.monday;
+    container.querySelector('.textTuesday').innerText = text.tuesday;
+    container.querySelector('.textWednesday').innerText = text.wednesday;
+    container.querySelector('.textThursday').innerText = text.tuesday;
+    container.querySelector('.textFriday').innerText = text.friday;
+    container.querySelector('.textSaturday').innerText = text.saturday;
+    container.querySelector('.textSunday').innerText = text.sunday;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'lang':
@@ -411,7 +411,7 @@ export default class jtbcCalendar extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.initEvents();
+    this.#initEvents();
     this.ready = true;
   };
 

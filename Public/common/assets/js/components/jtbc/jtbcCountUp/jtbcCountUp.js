@@ -88,6 +88,10 @@ export default class jtbcCountUp extends HTMLElement {
     this.innerText = realNumberArray.join('.');
   };
 
+  #initEvents() {
+    window.addEventListener('scroll', e => this.#autoPlay());
+  };
+
   play() {
     if (this.#playing === false)
     {
@@ -115,10 +119,6 @@ export default class jtbcCountUp extends HTMLElement {
         this.play();
       };
     };
-  };
-
-  initEvents() {
-    window.addEventListener('scroll', e => this.#autoPlay());
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -164,7 +164,7 @@ export default class jtbcCountUp extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.#autoPlay();
-    this.initEvents();
+    this.#initEvents();
   };
 
   constructor() {

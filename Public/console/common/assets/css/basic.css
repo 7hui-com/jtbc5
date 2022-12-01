@@ -32,7 +32,7 @@ icons jtbc-svg:hover {
   display: none !important
 }
 .filegroup {
-  display: inline-block; box-sizing: border-box; margin-right: 4px; padding: 4px 8px; background: #000; color: #fff; border-radius: 6px; text-transform: uppercase
+  display: inline-block; box-sizing: border-box; margin-right: 4px; padding: 4px 8px; background: #000; color: #fff; border-radius: 6px; text-transform: uppercase; font-family: Menlo, Monaco, Consolas, monospace
 }
 .filegroup[filegroup='1'] {
   background: #0f6974

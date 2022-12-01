@@ -5,7 +5,7 @@ export default class jtbcUploadButton extends HTMLButtonElement {
     return ['accept'];
   };
 
-  initEvents() {
+  #initEvents() {
     let that = this;
     let dialog = document.getElementById('dialog');
     this.addEventListener('click', function(){ this.inputFile.click(); });
@@ -58,6 +58,6 @@ export default class jtbcUploadButton extends HTMLButtonElement {
     this.ready = false;
     this.inputFile = document.createElement('input');
     this.inputFile.setAttribute('type', 'file');
-    this.initEvents();
+    this.#initEvents();
   };
 };

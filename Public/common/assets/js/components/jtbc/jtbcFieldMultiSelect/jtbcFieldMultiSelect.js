@@ -75,6 +75,65 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    let selectorEl = container.querySelector('div.selector');
+    let selectedEl = container.querySelector('div.selected');
+    selectorEl.addEventListener('mouseenter', function(){
+      clearTimeout(that.#closeSelectorTimeout);
+    });
+    selectorEl.addEventListener('mouseleave', function(){
+      if (this.classList.contains('on'))
+      {
+        that.closeSelector(1000);
+      };
+    });
+    selectorEl.addEventListener('transitionend', function(){
+      if (!this.classList.contains('on'))
+      {
+        that.#unsetZIndex();
+        container.classList.remove('pickable');
+      };
+    });
+    selectorEl.delegateEventListener('div.option', 'click', function(){
+      let li = this.parentElement;
+      if (!li.classList.contains('locked') && !li.classList.contains('disabled'))
+      {
+        that.select(li.dataset.value);
+        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+      };
+    });
+    selectedEl.delegateEventListener('span', 'click', function(){
+      that.select(this.dataset.value);
+      that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+    });
+    container.querySelector('span.box').addEventListener('click', function(){
+      if (!container.classList.contains('pickable'))
+      {
+        that.#setZIndex();
+        container.classList.add('pickable');
+        clearTimeout(that.#closeSelectorTimeout);
+        if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
+        {
+          if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
+          {
+            selectorEl.classList.add('upper');
+          };
+        }
+        else
+        {
+          selectorEl.classList.remove('upper');
+        };
+        selectorEl.classList.add('on');
+      }
+      else
+      {
+        selectorEl.classList.remove('on');
+      };
+    });
+  };
+
   closeSelector(timeout = 0) {
     let container = this.container;
     let selectorEl = container.querySelector('div.selector');
@@ -144,65 +203,6 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
         optionsEl.querySelectorAll('li').forEach(li => li.classList.remove('locked'));
       };
     };
-  };
-
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    let selectedEl = container.querySelector('div.selected');
-    selectorEl.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closeSelectorTimeout);
-    });
-    selectorEl.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closeSelector(1000);
-      };
-    });
-    selectorEl.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    selectorEl.delegateEventListener('div.option', 'click', function(){
-      let li = this.parentElement;
-      if (!li.classList.contains('locked') && !li.classList.contains('disabled'))
-      {
-        that.select(li.dataset.value);
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-      };
-    });
-    selectedEl.delegateEventListener('span', 'click', function(){
-      that.select(this.dataset.value);
-      that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-    });
-    container.querySelector('span.box').addEventListener('click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
-        clearTimeout(that.#closeSelectorTimeout);
-        if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
-        {
-          if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
-          {
-            selectorEl.classList.add('upper');
-          };
-        }
-        else
-        {
-          selectorEl.classList.remove('upper');
-        };
-        selectorEl.classList.add('on');
-      }
-      else
-      {
-        selectorEl.classList.remove('on');
-      };
-    });
   };
 
   setOptions() {
@@ -286,6 +286,6 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#template = shadowRoot.querySelector('template.template');
-    this.initEvents();
+    this.#initEvents();
   };
 };

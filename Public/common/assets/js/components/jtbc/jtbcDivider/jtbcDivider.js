@@ -13,7 +13,7 @@ export default class jtbcDivider extends HTMLElement {
     this.container.setAttribute('position', position);
   };
 
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.querySelectorAll('slot').forEach(el => {
@@ -77,6 +77,6 @@ export default class jtbcDivider extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"><slot></slot></container>`;
     this.container = shadowRoot.querySelector('container');
-    this.initEvents();
+    this.#initEvents();
   };
 };

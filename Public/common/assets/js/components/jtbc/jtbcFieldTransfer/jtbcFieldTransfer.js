@@ -63,34 +63,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
     this.currentNonfilterable = nonfilterable;
   };
 
-  getMax() {
-    let currentMax = 1000000;
-    if (this.currentMax != null)
-    {
-      currentMax = Number.parseInt(this.currentMax);
-      if (currentMax < 1) currentMax = 1;
-    };
-    return currentMax;
-  };
-
-  popupTips1() {
-    const getTips = new Function('$count', 'return `' + this.text.errorTips1 + '`;');
-    let tips = getTips(this.getMax());
-    if (this.miniMessage != null)
-    {
-      this.miniMessage.push(tips);
-    }
-    else if (this.dialog != null)
-    {
-      this.dialog.alert(tips);
-    }
-    else
-    {
-      window.alert(tips);
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let leftbox = container.querySelector('leftbox');
@@ -299,6 +272,33 @@ export default class jtbcFieldTransfer extends HTMLElement {
     });
   };
 
+  getMax() {
+    let currentMax = 1000000;
+    if (this.currentMax != null)
+    {
+      currentMax = Number.parseInt(this.currentMax);
+      if (currentMax < 1) currentMax = 1;
+    };
+    return currentMax;
+  };
+
+  popupTips1() {
+    const getTips = new Function('$count', 'return `' + this.text.errorTips1 + '`;');
+    let tips = getTips(this.getMax());
+    if (this.miniMessage != null)
+    {
+      this.miniMessage.push(tips);
+    }
+    else if (this.dialog != null)
+    {
+      this.dialog.alert(tips);
+    }
+    else
+    {
+      window.alert(tips);
+    };
+  };
+
   render() {
     let container = this.container;
     let currentData = this.currentData;
@@ -465,6 +465,6 @@ export default class jtbcFieldTransfer extends HTMLElement {
     this.currentNonfilterable = false;
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
-    this.initEvents();
+    this.#initEvents();
   };
 };

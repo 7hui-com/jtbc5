@@ -59,6 +59,7 @@ class SQLQueryAssign
     else if (is_string($value) && $fieldType == 'varchar') $result = $condition . '\'' . addslashes($value) . '\'';
     else if (is_string($value) && $fieldType == 'date' && Validation::isDate($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else if (is_string($value) && $fieldType == 'datetime' && Validation::isDateTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
+    else if (is_string($value) && $fieldType == 'time' && Validation::isTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else
     {
       throw new FormatException('Value is not in the correct format', 50101);
@@ -84,6 +85,7 @@ class SQLQueryAssign
     else if (is_string($value) && $fieldType == 'varchar') $result = $condition . '\'' . addslashes($value) . '\'';
     else if (is_string($value) && $fieldType == 'date' && Validation::isDate($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else if (is_string($value) && $fieldType == 'datetime' && Validation::isDateTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
+    else if (is_string($value) && $fieldType == 'time' && Validation::isTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else
     {
       throw new FormatException('Value is not in the correct format', 50101);
@@ -199,13 +201,14 @@ class SQLQueryAssign
         {
           $result = ' between \'' . addslashes($firstValue) . '\' and \'' . addslashes($secondValue) . '\'';
         }
+        else if ($fieldType == 'time' && Validation::isTime($firstValue) && Validation::isTime($secondValue))
+        {
+          $result = ' between \'' . addslashes($firstValue) . '\' and \'' . addslashes($secondValue) . '\'';
+        }
       }
       else if ((is_integer($firstValue) || is_float($firstValue)) && (is_integer($secondValue) || is_float($secondValue)))
       {
-        if ($fieldType != 'datetime')
-        {
-          $result = ' between ' . $firstValue . ' and ' . $secondValue;
-        }
+        $result = ' between ' . $firstValue . ' and ' . $secondValue;
       }
     }
     if (is_null($result))
@@ -239,13 +242,14 @@ class SQLQueryAssign
         {
           $result = ' not between \'' . addslashes($firstValue) . '\' and \'' . addslashes($secondValue) . '\'';
         }
+        else if ($fieldType == 'time' && Validation::isTime($firstValue) && Validation::isTime($secondValue))
+        {
+          $result = ' not between \'' . addslashes($firstValue) . '\' and \'' . addslashes($secondValue) . '\'';
+        }
       }
       else if ((is_integer($firstValue) || is_float($firstValue)) && (is_integer($secondValue) || is_float($secondValue)))
       {
-        if ($fieldType != 'datetime')
-        {
-          $result = ' not between ' . $firstValue . ' and ' . $secondValue;
-        }
+        $result = ' not between ' . $firstValue . ' and ' . $secondValue;
       }
     }
     if (is_null($result))

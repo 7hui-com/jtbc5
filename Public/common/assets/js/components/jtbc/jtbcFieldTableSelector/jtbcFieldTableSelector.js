@@ -102,92 +102,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  addNewItem(value, title) {
-    let container = this.container;
-    let selectedEl = container.querySelector('div.selected');
-    if (!this.selected.includes(value) && this.isVacant())
-    {
-      this.selected.push(value);
-      let newItemElement = document.createElement('span');
-      let newItemElementEm = document.createElement('em');
-      let newItemElementClose = document.createElement('jtbc-svg');
-      newItemElementEm.innerText = title;
-      newItemElementClose.name = 'close';
-      newItemElement.setAttribute('value', value);
-      newItemElement.append(newItemElementEm, newItemElementClose);
-      selectedEl.append(newItemElement);
-    };
-    selectedEl.dispatchEvent(new CustomEvent('changeItem'));
-  };
-
-  setCurrentMax(value) {
-    if (isFinite(value))
-    {
-      this.currentMax = Number.parseInt(value);
-      this.container.setAttribute('max', this.currentMax);
-      if (this.currentMax < 1) this.currentMax = 1;
-      if (this.selected.length > this.currentMax)
-      {
-        this.selected.length = this.currentMax;
-        let selectedEl = container.querySelector('div.selected');
-        selectedEl.querySelectorAll('span').forEach(el => {
-          if (!this.selected.includes(el.getAttribute('value')))
-          {
-            el.click();
-          };
-        });
-      };
-    }
-    else
-    {
-      this.currentMax = null;
-    };
-  };
-
-  syncPlaceholder() {
-    if (this.currentPlaceholder != null)
-    {
-      let placeholderEl = this.container.querySelector('span.placeholder');
-      if (placeholderEl != null) placeholderEl.innerText = this.currentPlaceholder;
-    };
-  };
-
-  syncValue() {
-    if (this.currentValue != null)
-    {
-      this.value = this.currentValue;
-      this.currentValue = null;
-    };
-  };
-
-  isVacant(pre = false) {
-    let result = false;
-    if (this.currentMax == null)
-    {
-      result = true;
-    }
-    else
-    {
-      let currentMax = Number.parseInt(this.currentMax);
-      if (pre == true)
-      {
-        if (this.preSelected.length < currentMax)
-        {
-          result = true;
-        };
-      }
-      else
-      {
-        if (this.selected.length < currentMax)
-        {
-          result = true;
-        };
-      };
-    };
-    return result;
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let selectorEl = container.querySelector('a.selector');
@@ -333,6 +248,91 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     that.syncValue();
   };
 
+  addNewItem(value, title) {
+    let container = this.container;
+    let selectedEl = container.querySelector('div.selected');
+    if (!this.selected.includes(value) && this.isVacant())
+    {
+      this.selected.push(value);
+      let newItemElement = document.createElement('span');
+      let newItemElementEm = document.createElement('em');
+      let newItemElementClose = document.createElement('jtbc-svg');
+      newItemElementEm.innerText = title;
+      newItemElementClose.name = 'close';
+      newItemElement.setAttribute('value', value);
+      newItemElement.append(newItemElementEm, newItemElementClose);
+      selectedEl.append(newItemElement);
+    };
+    selectedEl.dispatchEvent(new CustomEvent('changeItem'));
+  };
+
+  setCurrentMax(value) {
+    if (isFinite(value))
+    {
+      this.currentMax = Number.parseInt(value);
+      this.container.setAttribute('max', this.currentMax);
+      if (this.currentMax < 1) this.currentMax = 1;
+      if (this.selected.length > this.currentMax)
+      {
+        this.selected.length = this.currentMax;
+        let selectedEl = container.querySelector('div.selected');
+        selectedEl.querySelectorAll('span').forEach(el => {
+          if (!this.selected.includes(el.getAttribute('value')))
+          {
+            el.click();
+          };
+        });
+      };
+    }
+    else
+    {
+      this.currentMax = null;
+    };
+  };
+
+  syncPlaceholder() {
+    if (this.currentPlaceholder != null)
+    {
+      let placeholderEl = this.container.querySelector('span.placeholder');
+      if (placeholderEl != null) placeholderEl.innerText = this.currentPlaceholder;
+    };
+  };
+
+  syncValue() {
+    if (this.currentValue != null)
+    {
+      this.value = this.currentValue;
+      this.currentValue = null;
+    };
+  };
+
+  isVacant(pre = false) {
+    let result = false;
+    if (this.currentMax == null)
+    {
+      result = true;
+    }
+    else
+    {
+      let currentMax = Number.parseInt(this.currentMax);
+      if (pre == true)
+      {
+        if (this.preSelected.length < currentMax)
+        {
+          result = true;
+        };
+      }
+      else
+      {
+        if (this.selected.length < currentMax)
+        {
+          result = true;
+        };
+      };
+    };
+    return result;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'api':
@@ -412,7 +412,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     this.miniMessage = document.getElementById('miniMessage');
     this.container = shadowRoot.querySelector('div.container');
     this.container.html(containerHTML).then(() => {
-      this.initEvents();
+      this.#initEvents();
     });
   };
 };

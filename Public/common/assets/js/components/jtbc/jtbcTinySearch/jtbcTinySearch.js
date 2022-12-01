@@ -3,21 +3,36 @@ export default class jtbcTinySearch extends HTMLElement {
     return ['url', 'keyword', 'placeholder', 'width'];
   };
 
-  get keyword()
-  {
+  get keyword() {
     return this.container.querySelector('input.keyword').value;
   };
 
-  set keyword(keyword)
-  {
+  set keyword(keyword) {
     let container = this.container;
     container.querySelector('input.keyword').value = keyword;
   };
 
-  set placeholder(placeholder)
-  {
+  set placeholder(placeholder) {
     let container = this.container;
     container.querySelector('input.keyword').setAttribute('placeholder', placeholder);
+  };
+
+  #initEvents() {
+    let container = this.container;
+    container.delegateEventListener('span.btn', 'click', () => {
+      if (this.currentUrl != null)
+      {
+        let target = this.getTarget();
+        target.href = this.currentUrl + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
+      };
+      this.dispatchEvent(new CustomEvent('search', {detail: {keyword: this.keyword}, bubbles: true}));
+    });
+    container.querySelector('input.keyword').addEventListener('keyup', (e) => {
+      if (e.which == 13)
+      {
+        container.querySelector('span.btn').click();
+      };
+    });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -45,24 +60,6 @@ export default class jtbcTinySearch extends HTMLElement {
     };
   };
 
-  initEvents() {
-    let container = this.container;
-    container.delegateEventListener('span.btn', 'click', () => {
-      if (this.currentUrl != null)
-      {
-        let target = this.getTarget();
-        target.href = this.currentUrl + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
-      };
-      this.dispatchEvent(new CustomEvent('search', {detail: {keyword: this.keyword}, bubbles: true}));
-    });
-    container.querySelector('input.keyword').addEventListener('keyup', (e) => {
-      if (e.which == 13)
-      {
-        container.querySelector('span.btn').click();
-      };
-    });
-  };
-
   connectedCallback() {
     this.ready = true;
   };
@@ -79,6 +76,6 @@ export default class jtbcTinySearch extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.currentUrl = null;
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

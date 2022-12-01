@@ -10,5 +10,9 @@
       <name><![CDATA[filename]]></name>
       <zh-cn><![CDATA[素材名]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[fileurl]]></name>
+      <zh-cn><![CDATA[文件地址]]></zh-cn>
+    </item>
   </item_list>
 </xml>

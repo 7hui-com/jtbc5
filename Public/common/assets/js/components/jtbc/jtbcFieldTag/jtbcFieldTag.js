@@ -49,103 +49,7 @@ export default class jtbcFieldTag extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  addNewTag(tag) {
-    let container = this.container;
-    let tagsElement = container.querySelector('div.tags');
-    if (!this.tags.includes(tag))
-    {
-      this.tags.push(tag);
-      let newTagElement = document.createElement('span');
-      let newTagElementEm = document.createElement('em');
-      let newTagElementClose = document.createElement('jtbc-svg');
-      newTagElementEm.innerText = tag;
-      newTagElementClose.name = 'close';
-      newTagElement.setAttribute('tag', tag);
-      newTagElement.append(newTagElementEm, newTagElementClose);
-      tagsElement.append(newTagElement);
-    };
-  };
-
-  removeLastTag() {
-    let container = this.container;
-    let tagsElement = container.querySelector('div.tags');
-    let lastTag = tagsElement.querySelector('span:last-child');
-    if (lastTag != null)
-    {
-      lastTag.click();
-    };
-  };
-
-  loadHints(tagList) {
-    let container = this.container;
-    let hintsElement = container.querySelector('div.hints');
-    let hintsUlElement = hintsElement.querySelector('ul');
-    hintsUlElement.querySelectorAll('li').forEach(el => {
-      el.remove();
-    });
-    if (tagList.length == 0)
-    {
-      hintsElement.classList.remove('on');
-    }
-    else
-    {
-      hintsElement.classList.add('on');
-      tagList.forEach(tag => {
-        let newLi = document.createElement('li');
-        newLi.setAttribute('tag', tag);
-        newLi.innerText = tag;
-        hintsUlElement.append(newLi);
-      });
-    };
-  };
-
-  selectPrevHint() {
-    let container = this.container;
-    let hintsElement = container.querySelector('div.hints');
-    let hintsUlElement = hintsElement.querySelector('ul');
-    let selectedLi = hintsUlElement.querySelector('li.on');
-    let lastLi = hintsUlElement.querySelector('li:last-child');
-    let prevLi = selectedLi == null? lastLi: (selectedLi.previousElementSibling ?? lastLi);
-    if (prevLi != null)
-    {
-      hintsUlElement.querySelectorAll('li').forEach(el => {
-        if (el == prevLi)
-        {
-          el.classList.add('on');
-          container.querySelector('input.tag').value = el.getAttribute('tag');
-        }
-        else
-        {
-          el.classList.remove('on');
-        };
-      });
-    };
-  };
-
-  selectNextHint() {
-    let container = this.container;
-    let hintsElement = container.querySelector('div.hints');
-    let hintsUlElement = hintsElement.querySelector('ul');
-    let selectedLi = hintsUlElement.querySelector('li.on');
-    let firstLi = hintsUlElement.querySelector('li:first-child');
-    let nextLi = selectedLi == null? firstLi: (selectedLi.nextElementSibling ?? firstLi);
-    if (nextLi != null)
-    {
-      hintsUlElement.querySelectorAll('li').forEach(el => {
-        if (el == nextLi)
-        {
-          el.classList.add('on');
-          container.querySelector('input.tag').value = el.getAttribute('tag');
-        }
-        else
-        {
-          el.classList.remove('on');
-        };
-      });
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let tagElement = container.querySelector('input.tag');
@@ -257,6 +161,102 @@ export default class jtbcFieldTag extends HTMLElement {
     });
   };
 
+  addNewTag(tag) {
+    let container = this.container;
+    let tagsElement = container.querySelector('div.tags');
+    if (!this.tags.includes(tag))
+    {
+      this.tags.push(tag);
+      let newTagElement = document.createElement('span');
+      let newTagElementEm = document.createElement('em');
+      let newTagElementClose = document.createElement('jtbc-svg');
+      newTagElementEm.innerText = tag;
+      newTagElementClose.name = 'close';
+      newTagElement.setAttribute('tag', tag);
+      newTagElement.append(newTagElementEm, newTagElementClose);
+      tagsElement.append(newTagElement);
+    };
+  };
+
+  removeLastTag() {
+    let container = this.container;
+    let tagsElement = container.querySelector('div.tags');
+    let lastTag = tagsElement.querySelector('span:last-child');
+    if (lastTag != null)
+    {
+      lastTag.click();
+    };
+  };
+
+  loadHints(tagList) {
+    let container = this.container;
+    let hintsElement = container.querySelector('div.hints');
+    let hintsUlElement = hintsElement.querySelector('ul');
+    hintsUlElement.querySelectorAll('li').forEach(el => {
+      el.remove();
+    });
+    if (tagList.length == 0)
+    {
+      hintsElement.classList.remove('on');
+    }
+    else
+    {
+      hintsElement.classList.add('on');
+      tagList.forEach(tag => {
+        let newLi = document.createElement('li');
+        newLi.setAttribute('tag', tag);
+        newLi.innerText = tag;
+        hintsUlElement.append(newLi);
+      });
+    };
+  };
+
+  selectPrevHint() {
+    let container = this.container;
+    let hintsElement = container.querySelector('div.hints');
+    let hintsUlElement = hintsElement.querySelector('ul');
+    let selectedLi = hintsUlElement.querySelector('li.on');
+    let lastLi = hintsUlElement.querySelector('li:last-child');
+    let prevLi = selectedLi == null? lastLi: (selectedLi.previousElementSibling ?? lastLi);
+    if (prevLi != null)
+    {
+      hintsUlElement.querySelectorAll('li').forEach(el => {
+        if (el == prevLi)
+        {
+          el.classList.add('on');
+          container.querySelector('input.tag').value = el.getAttribute('tag');
+        }
+        else
+        {
+          el.classList.remove('on');
+        };
+      });
+    };
+  };
+
+  selectNextHint() {
+    let container = this.container;
+    let hintsElement = container.querySelector('div.hints');
+    let hintsUlElement = hintsElement.querySelector('ul');
+    let selectedLi = hintsUlElement.querySelector('li.on');
+    let firstLi = hintsUlElement.querySelector('li:first-child');
+    let nextLi = selectedLi == null? firstLi: (selectedLi.nextElementSibling ?? firstLi);
+    if (nextLi != null)
+    {
+      hintsUlElement.querySelectorAll('li').forEach(el => {
+        if (el == nextLi)
+        {
+          el.classList.add('on');
+          container.querySelector('input.tag').value = el.getAttribute('tag');
+        }
+        else
+        {
+          el.classList.remove('on');
+        };
+      });
+    };
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'api':
@@ -303,6 +303,6 @@ export default class jtbcFieldTag extends HTMLElement {
     this.currentApi = null;
     this.currentApiLoading = false;
     this.blurTimeout = null;
-    this.initEvents();
+    this.#initEvents();
   };
 };

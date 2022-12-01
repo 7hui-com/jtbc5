@@ -152,6 +152,38 @@ class Validation
     return $bool;
   }
 
+  public static function isTime($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    if (!self::isEmpty($string))
+    {
+      if (preg_match('/^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/', $string)) $bool = true;
+    }
+    return $bool;
+  }
+
+  public static function isTimeRange($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    if (!self::isEmpty($string))
+    {
+      if (str_contains($string, '~'))
+      {
+        $timeArr = explode('~', $string);
+        if (count($timeArr) == 2)
+        {
+          if (self::isTime($timeArr[0]) && self::isTime($timeArr[1]))
+          {
+            $bool = true;
+          }
+        }
+      }
+    }
+    return $bool;
+  }
+
   public static function isDirPath($argString)
   {
     $bool = false;

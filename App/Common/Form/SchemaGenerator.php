@@ -12,6 +12,7 @@ class SchemaGenerator
   public $data = null;
   public $extra = null;
   public $value = null;
+  public $ignore = null;
 
   public function setLang(int $argLang)
   {

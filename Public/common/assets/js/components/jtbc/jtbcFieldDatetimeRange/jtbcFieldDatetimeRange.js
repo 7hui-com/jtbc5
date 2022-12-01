@@ -79,8 +79,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     return dateRegExp.test(value)? true: false;
   };
 
-  #isDateTime(datetime)
-  {
+  #isDateTime(datetime) {
     let result = false;
     let date = new Date(datetime);
     let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
@@ -356,25 +355,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
-  };
-
-  closePicker(timeout = 0) {
-    let container = this.container;
-    let datepicker = container.querySelector('div.datepicker');
-    this.#closePickerTimeout = setTimeout(() => {
-      this.#changeValue();
-      datepicker.classList.remove('on');
-    }, timeout);
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let datepicker = container.querySelector('div.datepicker');
@@ -501,6 +482,24 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     that.inited = true;
   };
 
+  closePicker(timeout = 0) {
+    let container = this.container;
+    let datepicker = container.querySelector('div.datepicker');
+    this.#closePickerTimeout = setTimeout(() => {
+      this.#changeValue();
+      datepicker.classList.remove('on');
+    }, timeout);
+  };
+
+  getDateString(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let monthString = month < 10? '0' + month: month;
+    let dayString = day < 10? '0' + day: day;
+    return year + '-' + monthString + '-' + dayString;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     let container = this.container;
     switch(attr) {
@@ -588,7 +587,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     this.inited = false;
     this.container = shadowRoot.querySelector('div.container');
     this.container.loadComponents().then(() => {
-      this.initEvents();
+      this.#initEvents();
       this.#initCalendar();
       this.#selectTime();
       this.inited = true;

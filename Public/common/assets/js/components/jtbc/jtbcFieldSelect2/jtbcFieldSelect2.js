@@ -73,39 +73,7 @@ export default class jtbcFieldSelect2 extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  closeSelector(timeout = 0) {
-    let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    this.#closeSelectorTimeout = setTimeout(() => {
-      selectorEl.classList.remove('on');
-    }, timeout);
-  };
-
-  syncInputValue() {
-    let container = this.container;
-    let inputTextEl = container.querySelector('input.text');
-    let optionsEl = container.querySelector('div.selector div.options');
-    if (this.data.length != 0 && this.value != '')
-    {
-      optionsEl.querySelectorAll('li').forEach(li => {
-        if (li.dataset.value == this.value)
-        {
-          li.classList.add('selected');
-          inputTextEl.value = li.dataset.text;
-        }
-        else
-        {
-          li.classList.remove('selected');
-        };
-      });
-    }
-    else
-    {
-      inputTextEl.value = '';
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let selectorEl = container.querySelector('div.selector');
@@ -176,6 +144,38 @@ export default class jtbcFieldSelect2 extends HTMLElement {
       that.value = '';
       this.classList.remove('on');
     });
+  };
+
+  closeSelector(timeout = 0) {
+    let container = this.container;
+    let selectorEl = container.querySelector('div.selector');
+    this.#closeSelectorTimeout = setTimeout(() => {
+      selectorEl.classList.remove('on');
+    }, timeout);
+  };
+
+  syncInputValue() {
+    let container = this.container;
+    let inputTextEl = container.querySelector('input.text');
+    let optionsEl = container.querySelector('div.selector div.options');
+    if (this.data.length != 0 && this.value != '')
+    {
+      optionsEl.querySelectorAll('li').forEach(li => {
+        if (li.dataset.value == this.value)
+        {
+          li.classList.add('selected');
+          inputTextEl.value = li.dataset.text;
+        }
+        else
+        {
+          li.classList.remove('selected');
+        };
+      });
+    }
+    else
+    {
+      inputTextEl.value = '';
+    };
   };
 
   setOptions() {
@@ -267,6 +267,6 @@ export default class jtbcFieldSelect2 extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#template = shadowRoot.querySelector('template.template');
-    this.initEvents();
+    this.#initEvents();
   };
 };

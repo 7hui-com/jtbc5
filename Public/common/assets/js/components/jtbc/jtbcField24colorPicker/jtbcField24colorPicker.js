@@ -53,7 +53,7 @@ export default class jtbcField24colorPicker extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  initEvents() {
+  #initEvents() {
     let itemIndex = 0;
     let picker = this.container.querySelector('div.picker');
     this.colorMap.forEach(color => {
@@ -100,7 +100,7 @@ export default class jtbcField24colorPicker extends HTMLElement {
   };
 
   connectedCallback() {
-    this.initEvents();
+    this.#initEvents();
     this.ready = true;
     if (this.currentValue != null)
     {

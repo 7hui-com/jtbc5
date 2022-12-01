@@ -24,6 +24,48 @@ export default class jtbcDialog extends HTMLElement {
     };
   };
 
+  #initEvents() {
+    let container = this.container;
+    container.querySelectorAll('div.dialog_item').forEach(el => {
+      el.addEventListener('dblclick', e => {
+        if (el == e.target)
+        {
+          this.close();
+        };
+      });
+    });
+    container.delegateEventListener('button.ok', 'click', () => {
+      if (this.callback != null)
+      {
+        if (this.callbackArgs.length == 0)
+        {
+          this.callback();
+        }
+        else
+        {
+          this.callback(...this.callbackArgs);
+        };
+      };
+      this.close();
+    });
+    container.delegateEventListener('button.cancel', 'click', () => { this.close(); });
+    container.delegateEventListener('[role=dialog-close]', 'click', () => { this.close(); });
+    container.delegateEventListener('[role=dialog-fullpage-exit', 'click', () => {
+      document.documentElement.style.overflow = null;
+      container.querySelector('.dialog_fullpage').classList.remove('on');
+    });
+    container.delegateEventListener('.dialog_fullpage', 'transitionend', function(){
+      if (!this.classList.contains('on'))
+      {
+        this.querySelector('.fullpage').html('');
+      }
+      else
+      {
+        document.documentElement.style.overflow = 'hidden';
+      };
+    });
+  };
+
   alert(message, callback, textOk = null, linkURL = null) {
     if (this.locked)
     {
@@ -191,48 +233,6 @@ export default class jtbcDialog extends HTMLElement {
     this.container.querySelectorAll('button.cancel').forEach(el => { el.innerText = this.textCancel; });
   };
 
-  initEvents() {
-    let container = this.container;
-    container.querySelectorAll('div.dialog_item').forEach(el => {
-      el.addEventListener('dblclick', e => {
-        if (el == e.target)
-        {
-          this.close();
-        };
-      });
-    });
-    container.delegateEventListener('button.ok', 'click', () => {
-      if (this.callback != null)
-      {
-        if (this.callbackArgs.length == 0)
-        {
-          this.callback();
-        }
-        else
-        {
-          this.callback(...this.callbackArgs);
-        };
-      };
-      this.close();
-    });
-    container.delegateEventListener('button.cancel', 'click', () => { this.close(); });
-    container.delegateEventListener('[role=dialog-close]', 'click', () => { this.close(); });
-    container.delegateEventListener('[role=dialog-fullpage-exit', 'click', () => {
-      document.documentElement.style.overflow = null;
-      container.querySelector('.dialog_fullpage').classList.remove('on');
-    });
-    container.delegateEventListener('.dialog_fullpage', 'transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        this.querySelector('.fullpage').html('');
-      }
-      else
-      {
-        document.documentElement.style.overflow = 'hidden';
-      };
-    });
-  };
-
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text-ok':
@@ -310,6 +310,6 @@ export default class jtbcDialog extends HTMLElement {
       shadowRoot.insertBefore(pluginStyle, this.container);
     };
     Array.from(shadowRoot.children).forEach(el => { el.loadComponents(); });
-    this.initEvents();
+    this.#initEvents();
   };
 };

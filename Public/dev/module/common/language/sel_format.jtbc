@@ -43,6 +43,10 @@
       <zh-cn><![CDATA[日期时间]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[time]]></name>
+      <zh-cn><![CDATA[时间]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[ip]]></name>
       <zh-cn><![CDATA[IP地址]]></zh-cn>
     </item>
@@ -69,6 +73,10 @@
     <item>
       <name><![CDATA[datetimeRange]]></name>
       <zh-cn><![CDATA[日期时间区间]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[timeRange]]></name>
+      <zh-cn><![CDATA[时间区间]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[intSeries]]></name>

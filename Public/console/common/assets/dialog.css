@@ -11,7 +11,7 @@
   color: #000; text-decoration: none
 }
 .dialogPopup a.link {
-  color: #666666
+  display: inline-flex; color: #666666; align-items: center
 }
 .dialogPopup a.link jtbc-svg {
   width: 12px; height: 12px; margin-right: 5px; --fore-color: #666666; vertical-align: middle

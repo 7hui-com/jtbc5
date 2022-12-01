@@ -29,6 +29,7 @@ class Column
     'longtext',
     'date',
     'datetime',
+    'time',
   ];
 
   public function getName()

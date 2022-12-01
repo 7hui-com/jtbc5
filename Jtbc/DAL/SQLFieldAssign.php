@@ -95,7 +95,7 @@ class SQLFieldAssign
           }
           else
           {
-            $formatedValue = '\'' . $fieldValue . '\'';
+            $formatedValue = '\'' . addslashes($fieldValue) . '\'';
           }
         }
         else if ($fieldType == 'datetime')
@@ -110,7 +110,22 @@ class SQLFieldAssign
           }
           else
           {
-            $formatedValue = '\'' . $fieldValue . '\'';
+            $formatedValue = '\'' . addslashes($fieldValue) . '\'';
+          }
+        }
+        else if ($fieldType == 'time')
+        {
+          if (Validation::isEmpty($fieldValue))
+          {
+            $formatedValue = null;
+          }
+          else if (!Validation::isTime($fieldValue))
+          {
+            throw new FormatException('Incorrect time value: "' . $fieldValue . '" for column "' . $fieldName . '"', 50101);
+          }
+          else
+          {
+            $formatedValue = '\'' . addslashes($fieldValue) . '\'';
           }
         }
         else

@@ -1,0 +1,78 @@
+:host {
+  width: 200px; display: inline-block; vertical-align: top; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index)
+}
+.container input {
+  box-sizing: border-box; outline: none
+}
+.container input.time {
+  width: calc(100% - 30px); height: 30px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
+}
+.container input.time:focus + span.box {
+  border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
+}
+.container span.box {
+  display: block; width: 100%; height: 100%; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; pointer-events: none; transition: all .3s ease
+}
+.container span.btn {
+  height: calc(100% - 2px); display: flex; justify-items: center; align-items: center; padding: 0px 5px; position: absolute; top: 1px; right: 1px; z-index: 500; cursor: pointer
+}
+.container span.btn jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+.container div.timepicker {
+  display: none; width: 100%; opacity: 0; background: #ffffff; box-sizing: border-box; border: #d1d1d1 1px solid; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1); position: absolute; right: 0px; top: 100%; z-index: 100; transition: all .3s ease
+}
+.container div.timepicker::before {
+  content: ''; display: block; width: 0px; height: 0px; border: 6px solid; border-color: transparent transparent #d1d1d1 transparent; position: absolute; top: -12px; right: 8px; z-index: 100
+}
+.container div.timepicker::after {
+  content: ''; display: none; width: 0px; height: 0px; border: 6px solid; border-color: #d1d1d1 transparent transparent transparent; position: absolute; top: 100%; right: 8px; z-index: 100
+}
+.container div.timepicker div.time {
+  width: 100%; height: 168px; display: flex
+}
+.container div.timepicker div.time div.item {
+  width: 100%; height: 100%; overflow: hidden; user-select: none
+}
+.container div.timepicker div.time div.item ul {
+  width: calc((var(--width, '100%') - 2px) / 3 + 40px); height: 100%; margin: 0px; padding: 0px; overflow-x: hidden; overflow-y: auto; list-style: none
+}
+.container div.timepicker div.time div.item ul li {
+  width: calc((var(--width, '100%') - 2px) / 3); line-height: 24px; font-size: 14px; text-align: center; cursor: pointer
+}
+.container div.timepicker div.time div.item ul li:hover {
+  background: #e5e5e5
+}
+.container div.timepicker div.time div.item ul li.selected {
+  background: #666666; color: #ffffff
+}
+.container div.timepicker div.time div.item ul li.selected:hover {
+  background: #666666; color: #ffffff
+}
+.container div.timepicker.on {
+  opacity: 1; top: calc(100% + 8px)
+}
+.container div.timepicker.upper {
+  top: auto; bottom: 100%; box-shadow: 3px -3px 3px rgba(0, 0, 0, 0.1)
+}
+.container div.timepicker.upper::before {
+  display: none
+}
+.container div.timepicker.upper::after {
+  display: block
+}
+.container div.timepicker.upper.on {
+  opacity: 1; bottom: calc(100% + 8px)
+}
+.container .mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled .mask {
+  z-index: 10000
+}
+.container.pickable div.timepicker {
+  display: flex; align-items: flex-start
+}

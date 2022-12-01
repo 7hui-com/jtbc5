@@ -96,6 +96,82 @@ export default class jtbcFieldTable extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    let table = container.querySelector('table.table');
+    let tbody = table.querySelector('tbody');
+    container.delegateEventListener('.textAdd', 'click', () => {
+      if (this.inited === true)
+      {
+        let newTr = this.tbodyTrElement.cloneNode(true);
+        newTr.querySelector('input[name=id]').value = this.getTempId();
+        tbody.append(newTr);
+        that.dispatchEvent(new CustomEvent('tradded', {bubbles: true, detail: {'tr': newTr}}));
+      };
+    });
+    container.delegateEventListener('.textRemove', 'dblclick', function(){
+      if (that.dblmode == true)
+      {
+        this.removeAttribute('prepared');
+        this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+      };
+    });
+    container.delegateEventListener('.textRemove', 'click', function(){
+      if (that.dblmode == true)
+      {
+        let hasRemoved = false;
+        if (this.hasAttribute('dbltips') && this.hasAttribute('timestamp'))
+        {
+          this.removeAttribute('dbltips');
+          let timeGap = (new Date()).getTime() - Number(this.getAttribute('timestamp'));
+          if (timeGap <= 5000)
+          {
+            hasRemoved = true;
+            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          };
+        };
+        if (hasRemoved != true)
+        {
+          this.setAttribute('prepared', 'true');
+          setTimeout(() => {
+            if (this.hasAttribute('prepared'))
+            {
+              if (!this.hasAttribute('dbltips'))
+              {
+                this.setAttribute('dbltips', 'true');
+                this.setAttribute('timestamp', (new Date()).getTime());
+                that.miniMessage?.push(that.text.dblClickRemoveTips);
+              };
+            };
+          }, 200);
+        };
+      }
+      else if (that.dialog != null)
+      {
+        that.dialog.confirm(that.text.removeTips, () => {
+          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+        });
+      }
+      else
+      {
+        if (window.confirm(that.text.removeTips))
+        {
+          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+        };
+      };
+    });
+    container.delegateEventListener('.textRemove', 'remove', function(){
+      tbody.querySelectorAll('tr').forEach(el => {
+        if (el.contains(this))
+        {
+          el.remove();
+          that.dispatchEvent(new CustomEvent('trremoved', {bubbles: true, detail: {'tr': el}}));
+        };
+      });
+    });
+  };
+
   getTempId() {
     this.currentTempId -= 1;
     return this.currentTempId;
@@ -319,82 +395,6 @@ export default class jtbcFieldTable extends HTMLElement {
     };
   };
 
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    let table = container.querySelector('table.table');
-    let tbody = table.querySelector('tbody');
-    container.delegateEventListener('.textAdd', 'click', () => {
-      if (this.inited === true)
-      {
-        let newTr = this.tbodyTrElement.cloneNode(true);
-        newTr.querySelector('input[name=id]').value = this.getTempId();
-        tbody.append(newTr);
-        that.dispatchEvent(new CustomEvent('tradded', {bubbles: true, detail: {'tr': newTr}}));
-      };
-    });
-    container.delegateEventListener('.textRemove', 'dblclick', function(){
-      if (that.dblmode == true)
-      {
-        this.removeAttribute('prepared');
-        this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('.textRemove', 'click', function(){
-      if (that.dblmode == true)
-      {
-        let hasRemoved = false;
-        if (this.hasAttribute('dbltips') && this.hasAttribute('timestamp'))
-        {
-          this.removeAttribute('dbltips');
-          let timeGap = (new Date()).getTime() - Number(this.getAttribute('timestamp'));
-          if (timeGap <= 5000)
-          {
-            hasRemoved = true;
-            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-          };
-        };
-        if (hasRemoved != true)
-        {
-          this.setAttribute('prepared', 'true');
-          setTimeout(() => {
-            if (this.hasAttribute('prepared'))
-            {
-              if (!this.hasAttribute('dbltips'))
-              {
-                this.setAttribute('dbltips', 'true');
-                this.setAttribute('timestamp', (new Date()).getTime());
-                that.miniMessage?.push(that.text.dblClickRemoveTips);
-              };
-            };
-          }, 200);
-        };
-      }
-      else if (that.dialog != null)
-      {
-        that.dialog.confirm(that.text.removeTips, () => {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        });
-      }
-      else
-      {
-        if (window.confirm(that.text.removeTips))
-        {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'remove', function(){
-      tbody.querySelectorAll('tr').forEach(el => {
-        if (el.contains(this))
-        {
-          el.remove();
-          that.dispatchEvent(new CustomEvent('trremoved', {bubbles: true, detail: {'tr': el}}));
-        };
-      });
-    });
-  };
-
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text':
@@ -469,6 +469,6 @@ export default class jtbcFieldTable extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

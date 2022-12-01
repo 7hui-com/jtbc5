@@ -32,6 +32,10 @@
               <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
             </item>
             <item>
+              <label class="name">{$=$take('config.fileurl', 'lng')}</label>
+              <div class="content"><input type="text" name="fileurl" role="field" value="${$data.fileurl}" disabled /></div>
+            </item>
+            <item>
               <label class="name">{$=$take('universal:config.filesize', 'lng')}</label>
               <div class="content"><input type="text" name="filesize" value="${$data.filesize_text}" disabled /></div>
             </item>
@@ -57,7 +61,7 @@
     <item>
       <name><![CDATA[list]]></name>
       <default><![CDATA[<var genre="{$>this.genre}"></var>
-<div class="scarf">
+<div class="scarf" data-tips-previewer="{$=$take('manage.text-tips-previewer', 'lng')}">
   <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
@@ -81,7 +85,7 @@
               <tr>
                 <td class="center"><input type="checkbox" name="id" value="${$id}" role="selector" /></td>
                 <td class="center">${$id}</td>
-                <td><span class="filegroup" filegroup="${$filegroup}">${$filetype}</span><span title="${$filepath}">${$filename}</span></td>
+                <td><span class="filegroup" filegroup="${$filegroup}">${$filetype}</span><span type="fileurl" class="hand" filegroup="${$filegroup}" fileurl="${$fileurl}" title="${$filepath}">${$filename}</span></td>
                 <td class="center">${$filesize_text}</td>
                 <td>${$time}</td>
                 <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>

@@ -17,6 +17,17 @@ export default class manage {
       this.inited = true;
       let that = this;
       let scarf = this.self.parentNode.querySelector('.scarf');
+      scarf.delegateEventListener('span[type=fileurl]', 'click', function(){
+        let fileurl = this.getAttribute('fileurl');
+        if (this.getAttribute('filegroup') == '1')
+        {
+          that.imagePreviewer.popup({'filename': this.innerText, 'fileurl': fileurl});
+        }
+        else
+        {
+          that.dialog.alert(scarf.getAttribute('data-tips-previewer'), null, null, fileurl);
+        };
+      });
       scarf.delegateEventListener('button.add', 'click', function(){
         this.parentNode.querySelector('input.file').click();
       });
@@ -36,6 +47,7 @@ export default class manage {
             };
             that.currentUploading = false; 
           });
+          window.scrollTo({'behavior': 'smooth', 'top': document.documentElement.clientHeight});
         };
       });
     };
@@ -55,5 +67,6 @@ export default class manage {
     this.master = document.getElementById('master');
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
+    this.imagePreviewer = document.getElementById('imagePreviewer');
   };
 };

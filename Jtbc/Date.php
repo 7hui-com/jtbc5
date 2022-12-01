@@ -72,6 +72,28 @@ class Date
     return intval(date('s', time()));
   }
 
+  public static function getEarliestTimestamp(string $argDate)
+  {
+    $result = false;
+    $date = $argDate;
+    if (Validation::isDate($date))
+    {
+      $result = strtotime($date . ' 0:00:00');
+    }
+    return $result;
+  }
+
+  public static function getLatestTimestamp(string $argDate)
+  {
+    $result = false;
+    $date = $argDate;
+    if (Validation::isDate($date))
+    {
+      $result = strtotime($date . ' 23:59:59');
+    }
+    return $result;
+  }
+
   public static function now()
   {
     return date('Y-m-d H:i:s', time());

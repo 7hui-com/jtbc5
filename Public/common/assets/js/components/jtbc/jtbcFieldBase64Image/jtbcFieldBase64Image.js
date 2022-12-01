@@ -45,20 +45,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
     this.#disabled = disabled;
   };
 
-  getQuality() {
-    let quality = 0.8;
-    if (this.#quality == 'low')
-    {
-      quality = 0.6;
-    }
-    else if (this.#quality == 'high')
-    {
-      quality = 1;
-    };
-    return quality;
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.delegateEventListener('div.fileRemover', 'click', function(){ that.value = ''; });
@@ -102,6 +89,19 @@ export default class jtbcFieldBase64Image extends HTMLElement {
         fileReader.readAsDataURL(this.files[0]);
       };
     });
+  };
+
+  getQuality() {
+    let quality = 0.8;
+    if (this.#quality == 'low')
+    {
+      quality = 0.6;
+    }
+    else if (this.#quality == 'high')
+    {
+      quality = 1;
+    };
+    return quality;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -157,6 +157,6 @@ export default class jtbcFieldBase64Image extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

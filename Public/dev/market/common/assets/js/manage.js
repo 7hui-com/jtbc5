@@ -41,9 +41,13 @@ export default class manage {
         let clickedTarget = e.detail.target;
         if (clickedTarget.classList.contains('screenshot'))
         {
+          let screenshots = [];
           if (that.imagePreviewer != null)
           {
-            that.imagePreviewer.popup({'fileurl': clickedTarget.getAttribute('src')});
+            clickedTarget.getRootNode().querySelectorAll('img.screenshot').forEach(el => {
+              screenshots.push({'fileurl': el.getAttribute('src'), 'selected': el == clickedTarget? true: false});
+            });
+            that.imagePreviewer.popup(screenshots);
           };
         };
       });

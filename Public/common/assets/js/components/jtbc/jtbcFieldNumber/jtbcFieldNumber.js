@@ -35,6 +35,52 @@ export default class jtbcFieldNumber extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    let inputNumber = container.querySelector('input.number');
+    let btnAdd = container.querySelector('span.add');
+    let btnMinus = container.querySelector('span.minus');
+    this.addEventListener('mouseenter', function(){
+      if (that.disabled != true)
+      {
+        container.classList.add('on');
+      };
+    });
+    this.addEventListener('mouseleave', function(){
+      container.classList.remove('on');
+    });
+    inputNumber.addEventListener('focus', e => {
+      container.classList.add('focused');
+    });
+    inputNumber.addEventListener('blur', e => {
+      container.classList.remove('focused');
+    });
+    inputNumber.addEventListener('input', e => {
+      let self = e.target;
+      this.currentValue = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
+      this.checkVaildValue();
+    });
+    inputNumber.addEventListener('keypress', e => {
+      let keyCode = e.keyCode;
+      if (keyCode < 48 || keyCode > 57)
+      {
+        e.preventDefault();
+      };
+    });
+    inputNumber.addEventListener('paste', e => {
+      e.preventDefault();
+    });
+    btnAdd.addEventListener('click', () => {
+      this.currentValue = inputNumber.value = this.currentValue + this.currentStep;
+      this.checkVaildValue();
+    });
+    btnMinus.addEventListener('click', () => {
+      this.currentValue = inputNumber.value = this.currentValue - this.currentStep;
+      this.checkVaildValue();
+    });
+  };
+
   checkVaildValue() {
     let container = this.container;
     let inputNumber = container.querySelector('input.number');
@@ -94,52 +140,6 @@ export default class jtbcFieldNumber extends HTMLElement {
     };
   };
 
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    let inputNumber = container.querySelector('input.number');
-    let btnAdd = container.querySelector('span.add');
-    let btnMinus = container.querySelector('span.minus');
-    this.addEventListener('mouseenter', function(){
-      if (that.disabled != true)
-      {
-        container.classList.add('on');
-      };
-    });
-    this.addEventListener('mouseleave', function(){
-      container.classList.remove('on');
-    });
-    inputNumber.addEventListener('focus', e => {
-      container.classList.add('focused');
-    });
-    inputNumber.addEventListener('blur', e => {
-      container.classList.remove('focused');
-    });
-    inputNumber.addEventListener('input', e => {
-      let self = e.target;
-      this.currentValue = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
-      this.checkVaildValue();
-    });
-    inputNumber.addEventListener('keypress', e => {
-      let keyCode = e.keyCode;
-      if (keyCode < 48 || keyCode > 57)
-      {
-        e.preventDefault();
-      };
-    });
-    inputNumber.addEventListener('paste', e => {
-      e.preventDefault();
-    });
-    btnAdd.addEventListener('click', () => {
-      this.currentValue = inputNumber.value = this.currentValue + this.currentStep;
-      this.checkVaildValue();
-    });
-    btnMinus.addEventListener('click', () => {
-      this.currentValue = inputNumber.value = this.currentValue - this.currentStep;
-      this.checkVaildValue();
-    });
-  };
-
   connectedCallback() {
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
@@ -161,6 +161,6 @@ export default class jtbcFieldNumber extends HTMLElement {
     this.currentStep = 1;
     this.currentValue = 0;
     this.currentDisabled = false;
-    this.initEvents();
+    this.#initEvents();
   };
 };

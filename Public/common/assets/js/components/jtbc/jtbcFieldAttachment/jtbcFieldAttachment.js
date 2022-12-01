@@ -84,84 +84,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  addUploadedItem(param) {
-    let container = this.container;
-    let tbody = container.querySelector('table.attachment').querySelector('tbody');
-    let tr = document.createElement('tr');
-    let td1 = document.createElement('td');
-    let td2 = document.createElement('td');
-    let td3 = document.createElement('td');
-    let td4 = document.createElement('td');
-    let td1Span = document.createElement('span');
-    td1Span.classList.add('filegroup');
-    td1Span.setAttribute('filegroup', param.filegroup);
-    td1Span.innerText = param.filetype.toUpperCase();
-    td1.setAttribute('width', '50');
-    td1.setAttribute('role', 'draghandle');
-    td1.append(td1Span);
-    let td2Span = document.createElement('span');
-    td2Span.classList.add('filename');
-    td2Span.innerText = param.filename;
-    td2.append(td2Span);
-    let td3Span = document.createElement('span');
-    td3Span.classList.add('filesize');
-    td3Span.innerText = param.filesize_text;
-    td3.append(td3Span);
-    let td4Icons = document.createElement('icons');
-    let iconInsert = document.createElement('jtbc-svg');
-    iconInsert.setAttribute('name', 'power_cord');
-    iconInsert.setAttribute('title', this.text.insert);
-    iconInsert.classList.add('textInsert');
-    td4Icons.append(iconInsert);
-    let iconTrash = document.createElement('jtbc-svg');
-    iconTrash.setAttribute('name', 'trash');
-    iconTrash.setAttribute('title', this.text.remove);
-    iconTrash.classList.add('textRemove');
-    td4Icons.append(iconTrash);
-    td4.append(td4Icons);
-    tr.append(td1, td2, td3, td4);
-    tr.classList.add('param');
-    tr.setAttribute('param', JSON.stringify(param));
-    tbody.append(tr);
-  };
-
-  textReset() {
-    let text = this.text;
-    let container = this.container;
-    if (this.inited == true)
-    {
-      if (text.hasOwnProperty('upload'))
-      {
-        container.querySelector('.textUpload').setAttribute('title', text.upload);
-      };
-      if (text.hasOwnProperty('insert'))
-      {
-        container.querySelectorAll('.textInsert').forEach(el => {
-          el.setAttribute('title', text.insert);
-        });
-      };
-      if (text.hasOwnProperty('remove'))
-      {
-        container.querySelectorAll('.textRemove').forEach(el => {
-          el.setAttribute('title', text.remove);
-        });
-      };
-      if (text.hasOwnProperty('selectFromDB'))
-      {
-        container.querySelector('.textSelectFromDB').setAttribute('title', text.selectFromDB);
-      };
-      if (text.hasOwnProperty('filesList'))
-      {
-        container.querySelector('.textFilesList').innerText = text.filesList;
-      };
-      if (text.hasOwnProperty('emptyTips'))
-      {
-        container.querySelector('.textEmptyTips').innerText = text.emptyTips;
-      };
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let progress = container.querySelector('.progress');
@@ -285,6 +208,83 @@ export default class jtbcFieldAttachment extends HTMLElement {
     };
   };
 
+  addUploadedItem(param) {
+    let container = this.container;
+    let tbody = container.querySelector('table.attachment').querySelector('tbody');
+    let tr = document.createElement('tr');
+    let td1 = document.createElement('td');
+    let td2 = document.createElement('td');
+    let td3 = document.createElement('td');
+    let td4 = document.createElement('td');
+    let td1Span = document.createElement('span');
+    td1Span.classList.add('filegroup');
+    td1Span.setAttribute('filegroup', param.filegroup);
+    td1Span.innerText = param.filetype.toUpperCase();
+    td1.setAttribute('width', '50');
+    td1.setAttribute('role', 'draghandle');
+    td1.append(td1Span);
+    let td2Span = document.createElement('span');
+    td2Span.classList.add('filename');
+    td2Span.innerText = param.filename;
+    td2.append(td2Span);
+    let td3Span = document.createElement('span');
+    td3Span.classList.add('filesize');
+    td3Span.innerText = param.filesize_text;
+    td3.append(td3Span);
+    let td4Icons = document.createElement('icons');
+    let iconInsert = document.createElement('jtbc-svg');
+    iconInsert.setAttribute('name', 'power_cord');
+    iconInsert.setAttribute('title', this.text.insert);
+    iconInsert.classList.add('textInsert');
+    td4Icons.append(iconInsert);
+    let iconTrash = document.createElement('jtbc-svg');
+    iconTrash.setAttribute('name', 'trash');
+    iconTrash.setAttribute('title', this.text.remove);
+    iconTrash.classList.add('textRemove');
+    td4Icons.append(iconTrash);
+    td4.append(td4Icons);
+    tr.append(td1, td2, td3, td4);
+    tr.classList.add('param');
+    tr.setAttribute('param', JSON.stringify(param));
+    tbody.append(tr);
+  };
+
+  textReset() {
+    let text = this.text;
+    let container = this.container;
+    if (this.inited == true)
+    {
+      if (text.hasOwnProperty('upload'))
+      {
+        container.querySelector('.textUpload').setAttribute('title', text.upload);
+      };
+      if (text.hasOwnProperty('insert'))
+      {
+        container.querySelectorAll('.textInsert').forEach(el => {
+          el.setAttribute('title', text.insert);
+        });
+      };
+      if (text.hasOwnProperty('remove'))
+      {
+        container.querySelectorAll('.textRemove').forEach(el => {
+          el.setAttribute('title', text.remove);
+        });
+      };
+      if (text.hasOwnProperty('selectFromDB'))
+      {
+        container.querySelector('.textSelectFromDB').setAttribute('title', text.selectFromDB);
+      };
+      if (text.hasOwnProperty('filesList'))
+      {
+        container.querySelector('.textFilesList').innerText = text.filesList;
+      };
+      if (text.hasOwnProperty('emptyTips'))
+      {
+        container.querySelector('.textEmptyTips').innerText = text.emptyTips;
+      };
+    };
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text':
@@ -376,7 +376,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
     this.container.html(containerHTML).then(() => {
       this.inited = true;
       this.textReset();
-      this.initEvents();
+      this.#initEvents();
       if (this.currentValue != null)
       {
         this.value = this.currentValue;

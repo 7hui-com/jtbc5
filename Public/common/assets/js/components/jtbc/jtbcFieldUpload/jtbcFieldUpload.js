@@ -64,48 +64,7 @@ export default class jtbcFieldUpload extends HTMLElement {
     };
   };
 
-  buttonTextReset() {
-    let container = this.container;
-    container.querySelector('button.upload').innerText = this.textUpload;
-  };
-
-  attributeChangedCallback(attr, oldVal, newVal) {
-    switch(attr) {
-      case 'text-upload':
-      {
-        this.textUpload = newVal;
-        this.buttonTextReset();
-        break;
-      };
-      case 'action':
-      {
-        this.action = newVal;
-        break;
-      };
-      case 'value':
-      {
-        this.value = newVal;
-        break;
-      };
-      case 'disabled':
-      {
-        this.disabled = this.hasAttribute('disabled')? true: false;
-        break;
-      };
-      case 'placeholder':
-      {
-        this.container.querySelector('input.fileurl')?.setAttribute('placeholder', newVal);
-        break;
-      };
-      case 'width':
-      {
-        this.style.width = isFinite(newVal)? newVal + 'px': newVal;
-        break;
-      };
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let dialog = document.getElementById('dialog');
@@ -181,6 +140,47 @@ export default class jtbcFieldUpload extends HTMLElement {
     });
   };
 
+  buttonTextReset() {
+    let container = this.container;
+    container.querySelector('button.upload').innerText = this.textUpload;
+  };
+
+  attributeChangedCallback(attr, oldVal, newVal) {
+    switch(attr) {
+      case 'text-upload':
+      {
+        this.textUpload = newVal;
+        this.buttonTextReset();
+        break;
+      };
+      case 'action':
+      {
+        this.action = newVal;
+        break;
+      };
+      case 'value':
+      {
+        this.value = newVal;
+        break;
+      };
+      case 'disabled':
+      {
+        this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+      case 'placeholder':
+      {
+        this.container.querySelector('input.fileurl')?.setAttribute('placeholder', newVal);
+        break;
+      };
+      case 'width':
+      {
+        this.style.width = isFinite(newVal)? newVal + 'px': newVal;
+        break;
+      };
+    };
+  };
+
   connectedCallback() {
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
@@ -208,6 +208,6 @@ export default class jtbcFieldUpload extends HTMLElement {
     this.currentDisabled = false;
     this.currentUploading = false;
     this.textUpload = 'Upload';
-    this.initEvents();
+    this.#initEvents();
   };
 };

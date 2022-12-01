@@ -76,6 +76,63 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    container.delegateEventListener('button.add', 'click', function(){
+      if (that.inited === true)
+      {
+        let newLi = that.liElement[this.getAttribute('name')].cloneNode(true);
+        newLi.querySelector('input[name=id]').value = that.getTempId();
+        that.content.append(newLi);
+        that.numReset();
+        newLi.scrollIntoView({'behavior': 'smooth'});
+      };
+    });
+    container.delegateEventListener('.order.up', 'click', function(){
+      let li = this.parentNode.parentNode.parentNode;
+      let prevLi = li.previousElementSibling;
+      if (prevLi != null)
+      {
+        li.parentNode.insertBefore(li, prevLi);
+        that.numReset();
+      };
+    });
+    container.delegateEventListener('.order.down', 'click', function(){
+      let li = this.parentNode.parentNode.parentNode;
+      let nextLi = li.nextElementSibling;
+      if (nextLi != null)
+      {
+        li.parentNode.insertBefore(nextLi, li);
+        that.numReset();
+      };
+    });
+    container.delegateEventListener('.textRemove', 'click', function(){
+      if (that.dialog != null)
+      {
+        that.dialog.confirm(that.text.removeTips, () => {
+          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+        });
+      }
+      else
+      {
+        if (window.confirm(that.text.removeTips))
+        {
+          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+        };
+      };
+    });
+    container.delegateEventListener('.textRemove', 'remove', function(){
+      that.content.querySelectorAll('li').forEach(el => {
+        if (el.contains(this))
+        {
+          el.remove();
+          that.numReset();
+        };
+      });
+    });
+  };
+
   getTempId() {
     this.currentTempId -= 1;
     return this.currentTempId;
@@ -155,63 +212,6 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     };
   };
 
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    container.delegateEventListener('button.add', 'click', function(){
-      if (that.inited === true)
-      {
-        let newLi = that.liElement[this.getAttribute('name')].cloneNode(true);
-        newLi.querySelector('input[name=id]').value = that.getTempId();
-        that.content.append(newLi);
-        that.numReset();
-        newLi.scrollIntoView({'behavior': 'smooth'});
-      };
-    });
-    container.delegateEventListener('.order.up', 'click', function(){
-      let li = this.parentNode.parentNode.parentNode;
-      let prevLi = li.previousElementSibling;
-      if (prevLi != null)
-      {
-        li.parentNode.insertBefore(li, prevLi);
-        that.numReset();
-      };
-    });
-    container.delegateEventListener('.order.down', 'click', function(){
-      let li = this.parentNode.parentNode.parentNode;
-      let nextLi = li.nextElementSibling;
-      if (nextLi != null)
-      {
-        li.parentNode.insertBefore(nextLi, li);
-        that.numReset();
-      };
-    });
-    container.delegateEventListener('.textRemove', 'click', function(){
-      if (that.dialog != null)
-      {
-        that.dialog.confirm(that.text.removeTips, () => {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        });
-      }
-      else
-      {
-        if (window.confirm(that.text.removeTips))
-        {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'remove', function(){
-      that.content.querySelectorAll('li').forEach(el => {
-        if (el.contains(this))
-        {
-          el.remove();
-          that.numReset();
-        };
-      });
-    });
-  };
-
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text':
@@ -281,6 +281,6 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');
     this.dialog = document.getElementById('dialog');
-    this.initEvents();
+    this.#initEvents();
   };
 };

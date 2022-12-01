@@ -54,52 +54,7 @@ export default class jtbcFieldAvatar extends HTMLElement {
     };
   };
 
-  buttonTextReset() {
-    let container = this.container;
-    container.querySelectorAll('.textUpload').forEach(el => { el.setAttribute('title', this.textUpload); });
-    container.querySelectorAll('.textPreview').forEach(el => { el.setAttribute('title', this.textPreview); });
-    container.querySelectorAll('.textRemove').forEach(el => { el.setAttribute('title', this.textRemove); });
-  };
-
-  attributeChangedCallback(attr, oldVal, newVal) {
-    switch(attr) {
-      case 'text-upload':
-      {
-        this.textUpload = newVal;
-        this.buttonTextReset();
-        break;
-      };
-      case 'text-preview':
-      {
-        this.textPreview = newVal;
-        this.buttonTextReset();
-        break;
-      };
-      case 'text-remove':
-      {
-        this.textRemove = newVal;
-        this.buttonTextReset();
-        break;
-      };
-      case 'action':
-      {
-        this.action = newVal;
-        break;
-      };
-      case 'value':
-      {
-        this.value = newVal;
-        break;
-      };
-      case 'disabled':
-      {
-        this.disabled = this.hasAttribute('disabled')? true: false;
-        break;
-      };
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let dialog = document.getElementById('dialog');
@@ -186,6 +141,51 @@ export default class jtbcFieldAvatar extends HTMLElement {
     });
   };
 
+  buttonTextReset() {
+    let container = this.container;
+    container.querySelectorAll('.textUpload').forEach(el => { el.setAttribute('title', this.textUpload); });
+    container.querySelectorAll('.textPreview').forEach(el => { el.setAttribute('title', this.textPreview); });
+    container.querySelectorAll('.textRemove').forEach(el => { el.setAttribute('title', this.textRemove); });
+  };
+
+  attributeChangedCallback(attr, oldVal, newVal) {
+    switch(attr) {
+      case 'text-upload':
+      {
+        this.textUpload = newVal;
+        this.buttonTextReset();
+        break;
+      };
+      case 'text-preview':
+      {
+        this.textPreview = newVal;
+        this.buttonTextReset();
+        break;
+      };
+      case 'text-remove':
+      {
+        this.textRemove = newVal;
+        this.buttonTextReset();
+        break;
+      };
+      case 'action':
+      {
+        this.action = newVal;
+        break;
+      };
+      case 'value':
+      {
+        this.value = newVal;
+        break;
+      };
+      case 'disabled':
+      {
+        this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+    };
+  };
+
   connectedCallback() {
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
@@ -217,6 +217,6 @@ export default class jtbcFieldAvatar extends HTMLElement {
     this.currentValue = '';
     this.currentDisabled = false;
     this.currentUploading = false;
-    this.initEvents();
+    this.#initEvents();
   };
 };

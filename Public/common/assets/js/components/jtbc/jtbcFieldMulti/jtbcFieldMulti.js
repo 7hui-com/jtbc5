@@ -69,60 +69,7 @@ export default class jtbcFieldMulti extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  getTempId() {
-    this.currentTempId -= 1;
-    return this.currentTempId;
-  };
-
-  createLiElement(columns) {
-    let divFirst = document.createElement('div');
-    let mixedField = new mixedFieldCreator(columns);
-    divFirst.classList.add('bar');
-    divFirst.insertAdjacentHTML('beforeend', '<span class="num">#<em></em><input type="hidden" name="id" role="field" /></span>');
-    divFirst.insertAdjacentHTML('beforeend', '<icons><jtbc-svg name="direction_up" class="order up"></jtbc-svg><jtbc-svg name="direction_down" class="order down"></jtbc-svg><jtbc-svg name="close" class="textRemove"></jtbc-svg></icons>');
-    divFirst.querySelector('.textRemove').setAttribute('title', this.text.remove);
-    this.liElement = document.createElement('li');
-    this.liElement.append(divFirst);
-    this.liElement.append(mixedField.getFragment());
-  };
-
-  numReset() {
-    let num = 0;
-    this.content.querySelectorAll('li').forEach(el => {
-      num += 1;
-      el.querySelector('span.num em').innerText = num;
-    });
-  };
-
-  textReset() {
-    let text = this.text;
-    let container = this.container;
-    if (this.inited == true)
-    {
-      container.querySelectorAll('.textAdd').forEach(el => { el.innerText = text.add; });
-      container.querySelectorAll('.textRemove').forEach(el => { el.setAttribute('title', text.remove); });
-    };
-  };
-
-  init() {
-    if (this.inited == false)
-    {
-      let currentColumns = this.currentColumns;
-      if (currentColumns != null)
-      {
-        let columns = JSON.parse(currentColumns);
-        this.createLiElement(columns);
-        this.liElement.loadComponents().then(() => {
-          this.inited = true;
-          this.value = this.currentValue;
-          this.textReset();
-        });
-      };
-      this.container.classList.add('on');
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.delegateEventListener('button.add', 'click', () => {
@@ -176,6 +123,59 @@ export default class jtbcFieldMulti extends HTMLElement {
         };
       });
     });
+  };
+
+  getTempId() {
+    this.currentTempId -= 1;
+    return this.currentTempId;
+  };
+
+  createLiElement(columns) {
+    let divFirst = document.createElement('div');
+    let mixedField = new mixedFieldCreator(columns);
+    divFirst.classList.add('bar');
+    divFirst.insertAdjacentHTML('beforeend', '<span class="num">#<em></em><input type="hidden" name="id" role="field" /></span>');
+    divFirst.insertAdjacentHTML('beforeend', '<icons><jtbc-svg name="direction_up" class="order up"></jtbc-svg><jtbc-svg name="direction_down" class="order down"></jtbc-svg><jtbc-svg name="close" class="textRemove"></jtbc-svg></icons>');
+    divFirst.querySelector('.textRemove').setAttribute('title', this.text.remove);
+    this.liElement = document.createElement('li');
+    this.liElement.append(divFirst);
+    this.liElement.append(mixedField.getFragment());
+  };
+
+  numReset() {
+    let num = 0;
+    this.content.querySelectorAll('li').forEach(el => {
+      num += 1;
+      el.querySelector('span.num em').innerText = num;
+    });
+  };
+
+  textReset() {
+    let text = this.text;
+    let container = this.container;
+    if (this.inited == true)
+    {
+      container.querySelectorAll('.textAdd').forEach(el => { el.innerText = text.add; });
+      container.querySelectorAll('.textRemove').forEach(el => { el.setAttribute('title', text.remove); });
+    };
+  };
+
+  init() {
+    if (this.inited == false)
+    {
+      let currentColumns = this.currentColumns;
+      if (currentColumns != null)
+      {
+        let columns = JSON.parse(currentColumns);
+        this.createLiElement(columns);
+        this.liElement.loadComponents().then(() => {
+          this.inited = true;
+          this.value = this.currentValue;
+          this.textReset();
+        });
+      };
+      this.container.classList.add('on');
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -247,6 +247,6 @@ export default class jtbcFieldMulti extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');
     this.dialog = document.getElementById('dialog');
-    this.initEvents();
+    this.#initEvents();
   };
 };

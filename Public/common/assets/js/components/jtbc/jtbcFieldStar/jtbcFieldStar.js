@@ -45,19 +45,7 @@ export default class jtbcFieldStar extends HTMLElement {
     };
   };
 
-  render() {
-    let container = this.container;
-    container.querySelectorAll('star').forEach(el => { el.remove(); });
-    for (let i = 0; i < this.currentLength; i ++)
-    {
-      let newStar = document.createElement('star');
-      newStar.innerHTML = '<jtbc-svg name="star" class="star"></jtbc-svg><jtbc-svg name="star_fill" class="star_fill"></jtbc-svg>';
-      container.append(newStar);
-    };
-    this.value = this.currentValue;
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.addEventListener('mouseleave', () => {
@@ -79,6 +67,18 @@ export default class jtbcFieldStar extends HTMLElement {
         that.value = this.index();
       };
     });
+  };
+
+  render() {
+    let container = this.container;
+    container.querySelectorAll('star').forEach(el => { el.remove(); });
+    for (let i = 0; i < this.currentLength; i ++)
+    {
+      let newStar = document.createElement('star');
+      newStar.innerHTML = '<jtbc-svg name="star" class="star"></jtbc-svg><jtbc-svg name="star_fill" class="star_fill"></jtbc-svg>';
+      container.append(newStar);
+    };
+    this.value = this.currentValue;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -123,6 +123,6 @@ export default class jtbcFieldStar extends HTMLElement {
     this.currentLength = 5;
     this.currentDisabled = false;
     this.render();
-    this.initEvents();
+    this.#initEvents();
   };
 };

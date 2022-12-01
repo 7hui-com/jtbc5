@@ -35,7 +35,7 @@ export default class jtbcTooltip extends HTMLElement {
     this.textEl.setAttribute('position', this.#position);
   };
 
-  initEvents() {
+  #initEvents() {
     let that = this;
     this.addEventListener('mouseenter', function(){
       if (that.disabled != true)
@@ -101,6 +101,6 @@ export default class jtbcTooltip extends HTMLElement {
     this.ready = false;
     this.textEl = shadowRoot.querySelector('div.text');
     this.textEl.setAttribute('position', this.position);
-    this.initEvents();
+    this.#initEvents();
   };
 };

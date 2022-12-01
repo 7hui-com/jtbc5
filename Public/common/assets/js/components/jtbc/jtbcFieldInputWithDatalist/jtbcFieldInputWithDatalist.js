@@ -257,36 +257,7 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  closeSelector(timeout = 0) {
-    this.#closeSelectorTimeout = setTimeout(() => {
-      this.#setPickable(false);
-    }, timeout);
-  };
-
-  syncInputValue() {
-    let targetValue = this.#value;
-    let container = this.container;
-    let optionsEl = container.querySelector('div.selector div.options');
-    if (targetValue != null)
-    {
-      container.querySelector('input.text').value = targetValue;
-      if (this.data.length != 0)
-      {
-        optionsEl.querySelectorAll('li').forEach(li => {
-          if (li.dataset.value == targetValue)
-          {
-            li.classList.add('selected');
-          }
-          else
-          {
-            li.classList.remove('selected');
-          };
-        });
-      };
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let selectorEl = container.querySelector('div.selector');
@@ -365,6 +336,35 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
         that.#setPickable(false);
       };
     });
+  };
+
+  closeSelector(timeout = 0) {
+    this.#closeSelectorTimeout = setTimeout(() => {
+      this.#setPickable(false);
+    }, timeout);
+  };
+
+  syncInputValue() {
+    let targetValue = this.#value;
+    let container = this.container;
+    let optionsEl = container.querySelector('div.selector div.options');
+    if (targetValue != null)
+    {
+      container.querySelector('input.text').value = targetValue;
+      if (this.data.length != 0)
+      {
+        optionsEl.querySelectorAll('li').forEach(li => {
+          if (li.dataset.value == targetValue)
+          {
+            li.classList.add('selected');
+          }
+          else
+          {
+            li.classList.remove('selected');
+          };
+        });
+      };
+    };
   };
 
   setOptions() {
@@ -451,6 +451,6 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#template = shadowRoot.querySelector('template.template');
-    this.initEvents();
+    this.#initEvents();
   };
 };

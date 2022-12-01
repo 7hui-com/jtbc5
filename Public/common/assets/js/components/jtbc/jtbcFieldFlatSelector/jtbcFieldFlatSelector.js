@@ -44,6 +44,26 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    container.delegateEventListener('item', 'click', function(){
+      if (that.disabled != true)
+      {
+        let value = this.getAttribute('value');
+        if (that.selected.includes(value))
+        {
+          that.shiftSelectedValue(value);
+        }
+        else
+        {
+          that.pushSelectedValue(value);
+        };
+        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+      };
+    });
+  };
+
   getMax() {
     let currentMax = 1;
     if (this.currentType != 'radio')
@@ -75,26 +95,6 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
       this.selected = this.selected.filter(item => item != value);
       this.reselect();
     };
-  };
-
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    container.delegateEventListener('item', 'click', function(){
-      if (that.disabled != true)
-      {
-        let value = this.getAttribute('value');
-        if (that.selected.includes(value))
-        {
-          that.shiftSelectedValue(value);
-        }
-        else
-        {
-          that.pushSelectedValue(value);
-        };
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-      };
-    });
   };
 
   render() {
@@ -201,7 +201,7 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.initEvents();
+    this.#initEvents();
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };

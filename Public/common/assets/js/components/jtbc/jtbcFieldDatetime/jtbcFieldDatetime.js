@@ -1,6 +1,6 @@
 export default class jtbcFieldDatetime extends HTMLElement {
   static get observedAttributes() {
-    return ['lang', 'min', 'max', 'value', 'disabled', 'width'];
+    return ['lang', 'min', 'max', 'value', 'disabled', 'width', 'placeholder'];
   };
 
   #changed = false;
@@ -73,13 +73,12 @@ export default class jtbcFieldDatetime extends HTMLElement {
       let minuteEl = container.querySelector('div.time div.m ul');
       let secondEl = container.querySelector('div.time div.s ul');
       let currentDate = calendar.value == ''? this.getDateString(new Date()): calendar.value;
-      let currentTime = hourEl.querySelector('li.selected').getAttribute('value') + ':' + minuteEl.querySelector('li.selected').getAttribute('value') + ':' + secondEl.querySelector('li.selected').getAttribute('value')
+      let currentTime = hourEl.querySelector('li.selected').getAttribute('value') + ':' + minuteEl.querySelector('li.selected').getAttribute('value') + ':' + secondEl.querySelector('li.selected').getAttribute('value');
       this.value = currentDate + ' ' + currentTime;
     };
   };
 
-  #initTimeOptions()
-  {
+  #initTimeOptions() {
     let container = this.container;
     let hourEl = container.querySelector('div.time div.h ul');
     let minuteEl = container.querySelector('div.time div.m ul');
@@ -131,8 +130,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
     };
   };
 
-  #isDateTime(datetime)
-  {
+  #isDateTime(datetime) {
     let result = false;
     let date = new Date(datetime);
     let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
@@ -152,25 +150,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
-  };
-
-  closePicker(timeout = 0) {
-    let container = this.container;
-    let datepicker = container.querySelector('div.datepicker');
-    this.#closePickerTimeout = setTimeout(() => {
-      this.#changeValue();
-      datepicker.classList.remove('on');
-    }, timeout);
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let datetime = container.querySelector('input.datetime');
@@ -274,6 +254,24 @@ export default class jtbcFieldDatetime extends HTMLElement {
     });
   };
 
+  closePicker(timeout = 0) {
+    let container = this.container;
+    let datepicker = container.querySelector('div.datepicker');
+    this.#closePickerTimeout = setTimeout(() => {
+      this.#changeValue();
+      datepicker.classList.remove('on');
+    }, timeout);
+  };
+
+  getDateString(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let monthString = month < 10? '0' + month: month;
+    let dayString = day < 10? '0' + day: day;
+    return year + '-' + monthString + '-' + dayString;
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     let container = this.container;
     let calendar = container.querySelector('.calendar');
@@ -311,6 +309,11 @@ export default class jtbcFieldDatetime extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'placeholder':
+      {
+        container.querySelector('input.datetime').setAttribute('placeholder', newVal);
+        break;
+      };
     };
   };
 
@@ -333,6 +336,6 @@ export default class jtbcFieldDatetime extends HTMLElement {
     this.currentDisabled = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#initTimeOptions();
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

@@ -59,41 +59,7 @@ export default class jtbcFieldGallery extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  addUploadedItem(param) {
-    let mainEl = this.container.querySelector('div.main');
-    let button = mainEl.querySelector('div.button');
-    if (button != null)
-    {
-      let newItem = document.createElement('div');
-      let newImage = document.createElement('div');
-      newItem.classList.add('item');
-      newItem.classList.add('item-' + param.uploadid);
-      newItem.setAttribute('param', JSON.stringify(param));
-      newImage.classList.add('image');
-      newImage.style.backgroundImage = 'url(' + param.fileurl + ')';
-      newImage.innerHTML = '<div class="hover"><icons><jtbc-svg name="magnifier" class="textPreview"></jtbc-svg><jtbc-svg name="trash" class="textRemove"></jtbc-svg></icons></div>';
-      newImage.querySelectorAll('jtbc-svg').forEach(el => { el.setAttribute('uploadid', param.uploadid); });
-      newItem.append(newImage);
-      mainEl.insertBefore(newItem, button);
-      this.textReset();
-    };
-  };
-
-  textReset() {
-    let text = this.text;
-    let container = this.container;
-    container.querySelectorAll('.textAdd').forEach(el => {
-      el.setAttribute('title', text.add);
-    });
-    container.querySelectorAll('.textPreview').forEach(el => {
-      el.setAttribute('title', text.preview);
-    });
-    container.querySelectorAll('.textRemove').forEach(el => {
-      el.setAttribute('title', text.remove);
-    });
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let mainEl = this.container.querySelector('div.main');
@@ -178,6 +144,40 @@ export default class jtbcFieldGallery extends HTMLElement {
       {
         item.remove();
       };
+    });
+  };
+
+  addUploadedItem(param) {
+    let mainEl = this.container.querySelector('div.main');
+    let button = mainEl.querySelector('div.button');
+    if (button != null)
+    {
+      let newItem = document.createElement('div');
+      let newImage = document.createElement('div');
+      newItem.classList.add('item');
+      newItem.classList.add('item-' + param.uploadid);
+      newItem.setAttribute('param', JSON.stringify(param));
+      newImage.classList.add('image');
+      newImage.style.backgroundImage = 'url(' + param.fileurl + ')';
+      newImage.innerHTML = '<div class="hover"><icons><jtbc-svg name="magnifier" class="textPreview"></jtbc-svg><jtbc-svg name="trash" class="textRemove"></jtbc-svg></icons></div>';
+      newImage.querySelectorAll('jtbc-svg').forEach(el => { el.setAttribute('uploadid', param.uploadid); });
+      newItem.append(newImage);
+      mainEl.insertBefore(newItem, button);
+      this.textReset();
+    };
+  };
+
+  textReset() {
+    let text = this.text;
+    let container = this.container;
+    container.querySelectorAll('.textAdd').forEach(el => {
+      el.setAttribute('title', text.add);
+    });
+    container.querySelectorAll('.textPreview').forEach(el => {
+      el.setAttribute('title', text.preview);
+    });
+    container.querySelectorAll('.textRemove').forEach(el => {
+      el.setAttribute('title', text.remove);
     });
   };
 
@@ -267,6 +267,6 @@ export default class jtbcFieldGallery extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.imagePreviewer = document.getElementById('imagePreviewer');
-    this.container.loadComponents().then(() => { this.initEvents(); });
+    this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

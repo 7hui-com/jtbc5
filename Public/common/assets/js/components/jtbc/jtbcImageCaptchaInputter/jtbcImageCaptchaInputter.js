@@ -43,6 +43,18 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
     this.#disabled = disabled;
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    container.delegateEventListener('img.captcha', 'click', function(){
+      that.loadCaptcha();
+    });
+    container.querySelectorAll('input.value').forEach(input => {
+      input.addEventListener('focus', function(){ container.classList.add('focus'); });
+      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
+    });
+  };
+
   async loadCaptcha() {
     let result = false;
     let api = this.#api;
@@ -79,18 +91,6 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
       };
     };
     return result;
-  };
-
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    container.delegateEventListener('img.captcha', 'click', function(){
-      that.loadCaptcha();
-    });
-    container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('focus', function(){ container.classList.add('focus'); });
-      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
-    });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -140,6 +140,6 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.initEvents();
+    this.#initEvents();
   };
 };

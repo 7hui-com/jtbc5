@@ -51,36 +51,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  getValueArr() {
-    let result = [];
-    let currentValue = this.currentValue;
-    if (currentValue != null && currentValue.trim() != '')
-    {
-      result = JSON.parse(currentValue);
-    };
-    return result;
-  };
-
-  render() {
-    let container = this.container;
-    container.innerHTML = '';
-    container.appendFragment(this.template.content).then((el) => {
-      el.querySelector('template').setAttribute('data', this.data);
-    });
-  };
-
-  resetChecked() {
-    let container = this.container;
-    let valueArr = this.getValueArr();
-    if (valueArr.length != 0)
-    {
-      container.querySelectorAll('input.item').forEach(el => {
-        el.setAttribute('selected', valueArr.includes(el.value)? 'true': 'false');
-      });
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     container.addEventListener('selectItem', e => {
@@ -132,6 +103,35 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     });
   };
 
+  getValueArr() {
+    let result = [];
+    let currentValue = this.currentValue;
+    if (currentValue != null && currentValue.trim() != '')
+    {
+      result = JSON.parse(currentValue);
+    };
+    return result;
+  };
+
+  render() {
+    let container = this.container;
+    container.innerHTML = '';
+    container.appendFragment(this.template.content).then((el) => {
+      el.querySelector('template').setAttribute('data', this.data);
+    });
+  };
+
+  resetChecked() {
+    let container = this.container;
+    let valueArr = this.getValueArr();
+    if (valueArr.length != 0)
+    {
+      container.querySelectorAll('input.item').forEach(el => {
+        el.setAttribute('selected', valueArr.includes(el.value)? 'true': 'false');
+      });
+    };
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'data':
@@ -181,6 +181,6 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     this.currentDisabled = false;
     this.template = shadowRoot.querySelector('template');
     this.container = shadowRoot.querySelector('div.container');
-    this.initEvents();
+    this.#initEvents();
   };
 };

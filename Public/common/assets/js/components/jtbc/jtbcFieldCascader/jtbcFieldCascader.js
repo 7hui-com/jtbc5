@@ -62,90 +62,7 @@ export default class jtbcFieldCascader extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
-  closeSelector(timeout = 0) {
-    let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    this.#closeSelectorTimeout = setTimeout(() => {
-      selectorEl.classList.remove('on');
-    }, timeout);
-  };
-
-  dataReset() {
-    let that = this;
-    let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    const bindDataItem = (data, parentEl) => {
-      if (data.length != 0)
-      {
-        let ul = document.createElement('ul');
-        data.forEach(item => {
-          let li = document.createElement('li');
-          li.dataset.text = item.text;
-          li.dataset.value = item.value;
-          if (item.disabled === true)
-          {
-            li.classList.add('disabled');
-          };
-          let textEl = document.createElement('span');
-          textEl.innerText = item.text;
-          li.appendChild(textEl);
-          if (Array.isArray(item.children) && item.children.length != 0)
-          {
-            li.classList.add('father');
-            bindDataItem(item.children, li);
-          };
-          ul.appendChild(li);
-        });
-        parentEl.appendChild(ul);
-      };
-    };
-    bindDataItem(that.data, selectorEl);
-    that.syncInputValue();
-  };
-
-  syncInputValue() {
-    let that = this;
-    let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    let inputTextEl = container.querySelector('input.text');
-    if (this.data.length != 0 && this.value != '')
-    {
-      const getSelectedEl = () => {
-        let selectedEl = null;
-        selectorEl.querySelectorAll('li').forEach(li => {
-          li.classList.remove('selected');
-          if (li.dataset.value == that.#value)
-          {
-            selectedEl = li;
-          };
-        });
-        return selectedEl;
-      };
-      let textValue = [];
-      let currentSelectedEl = getSelectedEl();
-      if (currentSelectedEl != null)
-      {
-        currentSelectedEl.classList.add('selected');
-        currentSelectedEl.parentElement.classList.add('on');
-        textValue.unshift(currentSelectedEl.dataset.text);
-        let parentTextElement = currentSelectedEl.parentElement.parentElement;
-        while (parentTextElement.hasAttribute('data-text'))
-        {
-          parentTextElement.classList.add('selected');
-          parentTextElement.parentElement.classList.add('on');
-          textValue.unshift(parentTextElement.dataset.text);
-          parentTextElement = parentTextElement.parentElement.parentElement;
-        };
-      };
-      inputTextEl.value = textValue.join(' / ');
-    }
-    else
-    {
-      inputTextEl.value = '';
-    };
-  };
-
-  initEvents() {
+  #initEvents() {
     let that = this;
     let container = this.container;
     let selectorEl = container.querySelector('div.selector');
@@ -229,6 +146,89 @@ export default class jtbcFieldCascader extends HTMLElement {
     });
   };
 
+  closeSelector(timeout = 0) {
+    let container = this.container;
+    let selectorEl = container.querySelector('div.selector');
+    this.#closeSelectorTimeout = setTimeout(() => {
+      selectorEl.classList.remove('on');
+    }, timeout);
+  };
+
+  dataReset() {
+    let that = this;
+    let container = this.container;
+    let selectorEl = container.querySelector('div.selector');
+    const bindDataItem = (data, parentEl) => {
+      if (data.length != 0)
+      {
+        let ul = document.createElement('ul');
+        data.forEach(item => {
+          let li = document.createElement('li');
+          li.dataset.text = item.text;
+          li.dataset.value = item.value;
+          if (item.disabled === true)
+          {
+            li.classList.add('disabled');
+          };
+          let textEl = document.createElement('span');
+          textEl.innerText = item.text;
+          li.appendChild(textEl);
+          if (Array.isArray(item.children) && item.children.length != 0)
+          {
+            li.classList.add('father');
+            bindDataItem(item.children, li);
+          };
+          ul.appendChild(li);
+        });
+        parentEl.appendChild(ul);
+      };
+    };
+    bindDataItem(that.data, selectorEl);
+    that.syncInputValue();
+  };
+
+  syncInputValue() {
+    let that = this;
+    let container = this.container;
+    let selectorEl = container.querySelector('div.selector');
+    let inputTextEl = container.querySelector('input.text');
+    if (this.data.length != 0 && this.value != '')
+    {
+      const getSelectedEl = () => {
+        let selectedEl = null;
+        selectorEl.querySelectorAll('li').forEach(li => {
+          li.classList.remove('selected');
+          if (li.dataset.value == that.#value)
+          {
+            selectedEl = li;
+          };
+        });
+        return selectedEl;
+      };
+      let textValue = [];
+      let currentSelectedEl = getSelectedEl();
+      if (currentSelectedEl != null)
+      {
+        currentSelectedEl.classList.add('selected');
+        currentSelectedEl.parentElement.classList.add('on');
+        textValue.unshift(currentSelectedEl.dataset.text);
+        let parentTextElement = currentSelectedEl.parentElement.parentElement;
+        while (parentTextElement.hasAttribute('data-text'))
+        {
+          parentTextElement.classList.add('selected');
+          parentTextElement.parentElement.classList.add('on');
+          textValue.unshift(parentTextElement.dataset.text);
+          parentTextElement = parentTextElement.parentElement.parentElement;
+        };
+      };
+      inputTextEl.value = textValue.join(' / ');
+    }
+    else
+    {
+      inputTextEl.value = '';
+    };
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     let container = this.container;
     switch(attr) {
@@ -269,7 +269,7 @@ export default class jtbcFieldCascader extends HTMLElement {
   };
 
   connectedCallback() {
-    this.initEvents();
+    this.#initEvents();
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };

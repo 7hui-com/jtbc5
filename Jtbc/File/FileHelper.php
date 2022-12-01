@@ -23,19 +23,19 @@ class FileHelper
   {
     $fileGroup = 0;
     $fileType = $argFileType;
-    if (in_array($fileType, ['jpg','jpeg','gif','png','webp','svg']))
+    if (in_array($fileType, ['jpg', 'jpeg', 'gif', 'png', 'webp', 'svg']))
     {
       $fileGroup = 1;
     }
-    else if (in_array($fileType, ['mp4','m4a','mov']))
+    else if (in_array($fileType, ['mp4', 'm4a', 'mov']))
     {
       $fileGroup = 2;
     }
-    else if (in_array($fileType, ['doc','docx','xls','xlsx','ppt','pptx','pdf']))
+    else if (in_array($fileType, ['txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf']))
     {
       $fileGroup = 3;
     }
-    else if (in_array($fileType, ['zip','rar','gz']))
+    else if (in_array($fileType, ['zip', 'rar', 'gz', '7z']))
     {
       $fileGroup = 4;
     }

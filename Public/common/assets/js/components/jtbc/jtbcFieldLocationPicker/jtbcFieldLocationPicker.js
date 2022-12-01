@@ -97,8 +97,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     this.currentDisabled = disabled;
   };
 
-  #getMapContainerHTML()
-  {
+  #getMapContainerHTML() {
     return `
       <div class="jtbcMapContainer">
         <div class="mapbox"><iframe></iframe></div>
@@ -268,6 +267,26 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     });
   };
 
+  #initEvents() {
+    let that = this;
+    let container = this.container;
+    let selectorEl = container.querySelector('a.selector');
+    container.addEventListener('click', (e) => {
+      let self = e.target;
+      if (that.disabled != true && that.value.length == 0)
+      {
+        if (container.contains(self) && !selectorEl.contains(self))
+        {
+          selectorEl.click();
+        };
+      };
+    });
+    container.delegateEventListener('div.location span', 'click', function(){ this.remove(); });
+    container.delegateEventListener('a.selector', 'click', () => { that.popupMap(); });
+    that.syncPlaceholder();
+    that.syncValue();
+  };
+
   popupMap() {
     if (this.dialog != null)
     {
@@ -314,26 +333,6 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
         this.currentValue = null;
       };
     };
-  };
-
-  initEvents() {
-    let that = this;
-    let container = this.container;
-    let selectorEl = container.querySelector('a.selector');
-    container.addEventListener('click', (e) => {
-      let self = e.target;
-      if (that.disabled != true && that.value.length == 0)
-      {
-        if (container.contains(self) && !selectorEl.contains(self))
-        {
-          selectorEl.click();
-        };
-      };
-    });
-    container.delegateEventListener('div.location span', 'click', function(){ this.remove(); });
-    container.delegateEventListener('a.selector', 'click', () => { that.popupMap(); });
-    that.syncPlaceholder();
-    that.syncValue();
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -404,6 +403,6 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     this.latitude = this.defaultLatitude = 31.236381;
     this.dialog = document.getElementById('dialog');
     this.container = shadowRoot.querySelector('div.container');
-    this.container.html(containerHTML).then(() => { this.initEvents(); });
+    this.container.html(containerHTML).then(() => { this.#initEvents(); });
   };
 };

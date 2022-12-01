@@ -80,6 +80,10 @@ export default class jtbcSelect extends HTMLSelectElement {
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
+  disconnectedCallback() {
+    this.#observerInstance?.disconnect();
+  };
+
   constructor() {
     super();
     this.ready = false;

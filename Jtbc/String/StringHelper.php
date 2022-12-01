@@ -6,6 +6,29 @@ namespace Jtbc\String;
 
 class StringHelper
 {
+  public static function contains(string $argString, string $argKey, string $argSeparator = ',')
+  {
+    $result = false;
+    $string = $argString;
+    $key = $argKey;
+    $separator = $argSeparator;
+    if (str_contains($string, $separator))
+    {
+      if (in_array($key, explode($separator, $string)))
+      {
+        $result = true;
+      }
+    }
+    else
+    {
+      if ($string == $key)
+      {
+        $result = true;
+      }
+    }
+    return $result;
+  }
+
   public static function desensitize(string $argString, int $argStart = null, int $argLength = null, string $argTargetChar = '*')
   {
     $result = null;
@@ -62,7 +85,12 @@ class StringHelper
     return $result;
   }
 
-  public static function getClipedString(string $argString, string $argKey, string $argMode = 'left')
+  public static function getClipedString(...$args)
+  {
+    return self::getClippedString(...$args);
+  }
+
+  public static function getClippedString(string $argString, string $argKey, string $argMode = 'left')
   {
     $result = '';
     $string = $argString;
