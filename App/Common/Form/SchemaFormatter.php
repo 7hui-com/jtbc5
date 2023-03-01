@@ -16,7 +16,7 @@ class SchemaFormatter
   private $fieldName;
   private $baseURI;
   private $lang;
-  private $withSource = ['radio', 'checkbox', 'select', 'flat-selector', 'transfer', 'input-with-datalist'];
+  private $withSource = ['radio', 'checkbox', 'select', 'select2', 'flat-selector', 'transfer', 'input-with-datalist'];
 
   private function getData($argSource, string $argSourceType)
   {
@@ -99,7 +99,6 @@ class SchemaFormatter
         $extra['baseurl'] = Env::getMajorGenre();
       }
     }
-    //*****************************************************************************//
     if (in_array($type, ['date', 'datetime', 'date-range', 'datetime-range']))
     {
       $extra = array_merge($extra, ['lang' => $this -> lang]);

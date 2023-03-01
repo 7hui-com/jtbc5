@@ -23,10 +23,6 @@ export default class extender {
         return this;
       };
     };
-    Element.prototype.empty = function() {
-      this.innerHTML = '';
-      return this;
-    };
     Element.prototype.delegateEventListener = function(selector, type, listener) {
       this.addEventListener(type, function(e){
         let match = false;
@@ -75,6 +71,10 @@ export default class extender {
           };
         };
       });
+    };
+    Element.prototype.empty = function() {
+      this.innerHTML = '';
+      return this;
     };
     Element.prototype.getQueryString = function(name, attr = 'src') {
       let result = null;

@@ -114,6 +114,16 @@ class Date
     return date('Y-m-d', time() + 2 * 24 * 60 * 60);
   }
 
+  public static function thisYear()
+  {
+    return intval(date('Y', time()));
+  }
+
+  public static function thisMonth()
+  {
+    return intval(date('Ym', time()));
+  }
+
   public static function thisDay()
   {
     return intval(date('Ymd', time()));

@@ -34,7 +34,15 @@ class ModelFetcher
       $fields = $ss -> fields ?? '*';
       $lang = $ss -> lang ?? Env::getMajorLang();
       $model = new TinyModel(tableName: $table, DBLink: $ss -> DBLink);
-      $autoFilter = $ss -> autoFilter ?? ['published' => 1, 'lang' => $lang];
+      $autoFilter = ['lang' => $lang];
+      if (is_null($ss -> autoFilter))
+      {
+        $autoFilter['published'] = 1;
+      }
+      else if (is_array($ss -> autoFilter))
+      {
+        $autoFilter = array_merge($autoFilter, $ss -> autoFilter);
+      }
       if (is_array($autoFilter))
       {
         foreach ($autoFilter as $key => $value)

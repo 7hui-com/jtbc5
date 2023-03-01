@@ -1,6 +1,29 @@
 export default class jtbcFieldNumber extends HTMLElement {
   static get observedAttributes() {
-    return ['min', 'max', 'step', 'value', 'disabled', 'width'];
+    return ['divisor', 'min', 'max', 'step', 'value', 'disabled', 'width'];
+  };
+
+  #disabled = false;
+  #divisor = 1;
+  #min = -999999999;
+  #max = 999999999;
+  #step = 1;
+  #value = 0;
+
+  get divisor() {
+    return this.#divisor;
+  };
+
+  get min() {
+    return this.#min;
+  };
+
+  get max() {
+    return this.#max;
+  };
+
+  get step() {
+    return this.#step;
   };
 
   get name() {
@@ -8,19 +31,16 @@ export default class jtbcFieldNumber extends HTMLElement {
   };
 
   get value() {
-    return this.currentValue;
+    return this.#value;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
-    let container = this.container;
-    let inputNumber = container.querySelector('input.number');
-    let intValue = Number.isNaN(Number.parseInt(value))? 0: Number.parseInt(value);
-    this.currentValue = inputNumber.value = intValue;
-    this.checkVaildValue();
+    this.#value = Number.isNaN(Number.parseInt(value))? 0: Number.parseInt(value);
+    this.#updateInputValue();
   };
 
   set disabled(disabled) {
@@ -32,7 +52,7 @@ export default class jtbcFieldNumber extends HTMLElement {
     {
       this.container.classList.remove('disabled');
     };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
   };
 
   #initEvents() {
@@ -58,12 +78,27 @@ export default class jtbcFieldNumber extends HTMLElement {
     });
     inputNumber.addEventListener('input', e => {
       let self = e.target;
-      this.currentValue = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
+      if (this.divisor == 1)
+      {
+        this.#value = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
+      }
+      else
+      {
+        this.#value = Number.isNaN(self.value)? 0: Number.parseInt(self.value * this.divisor);
+        if (!self.value.endsWith('.')) self.value = this.#value / this.divisor;
+      };
       this.checkVaildValue();
     });
     inputNumber.addEventListener('keypress', e => {
       let keyCode = e.keyCode;
-      if (keyCode < 48 || keyCode > 57)
+      if (e.key == '.')
+      {
+        if (this.divisor == 1 || e.target.value.includes('.'))
+        {
+          e.preventDefault();
+        };
+      }
+      else if (keyCode < 48 || keyCode > 57)
       {
         e.preventDefault();
       };
@@ -72,54 +107,61 @@ export default class jtbcFieldNumber extends HTMLElement {
       e.preventDefault();
     });
     btnAdd.addEventListener('click', () => {
-      this.currentValue = inputNumber.value = this.currentValue + this.currentStep;
-      this.checkVaildValue();
+      this.#value = this.#value + this.step;
+      this.#updateInputValue();
     });
     btnMinus.addEventListener('click', () => {
-      this.currentValue = inputNumber.value = this.currentValue - this.currentStep;
-      this.checkVaildValue();
+      this.#value = this.#value - this.step;
+      this.#updateInputValue();
     });
+  };
+
+  #updateInputValue(value) {
+    let inputNumber = this.container.querySelector('input.number');
+    let currentValue = value ?? this.#value;
+    inputNumber.value = currentValue / this.divisor;
+    this.checkVaildValue();
   };
 
   checkVaildValue() {
     let container = this.container;
     let inputNumber = container.querySelector('input.number');
-    if (this.currentValue > this.currentMax)
+    if (this.#value > this.max)
     {
-      this.currentValue = inputNumber.value = this.currentMax;
+      this.#value = this.max;
+      inputNumber.value = this.max / this.divisor;
     }
-    else if (this.currentValue < this.currentMin)
+    else if (this.#value < this.min)
     {
-      this.currentValue = inputNumber.value = this.currentMin;
+      this.#value = this.min;
+      inputNumber.value = this.min / this.divisor;
     };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
     let newIntValue = Number.isNaN(Number.parseInt(newVal))? 0: Number.parseInt(newVal);
     switch(attr) {
+      case 'divisor':
+      {
+        this.#divisor = Math.max(newIntValue, 1);
+        this.#updateInputValue();
+        break;
+      };
       case 'min':
       {
-        this.currentMin = newIntValue;
-        if (this.currentMin > this.currentMax)
-        {
-          this.currentMin = this.currentMax;
-        };
+        this.#min = Math.min(newIntValue, this.max);
         this.checkVaildValue();
         break;
       };
       case 'max':
       {
-        this.currentMax = newIntValue;
-        if (this.currentMax < this.currentMin)
-        {
-          this.currentMax = this.currentMin;
-        };
+        this.#max = Math.max(newIntValue, this.min);
         this.checkVaildValue();
         break;
       };
       case 'step':
       {
-        this.currentStep = newIntValue;
+        this.#step = newIntValue;
         break;
       };
       case 'value':
@@ -156,11 +198,6 @@ export default class jtbcFieldNumber extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.currentMin = -999999999;
-    this.currentMax = 999999999;
-    this.currentStep = 1;
-    this.currentValue = 0;
-    this.currentDisabled = false;
-    this.#initEvents();
+    this.container.loadComponents().then(() => this.#initEvents());
   };
 };

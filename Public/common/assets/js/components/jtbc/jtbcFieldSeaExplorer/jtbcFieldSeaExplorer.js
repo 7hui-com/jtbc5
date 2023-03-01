@@ -1,6 +1,20 @@
 export default class jtbcFieldSeaExplorer extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'max', 'value', 'disabled', 'width'];
+    return ['api', 'max', 'value', 'singleton', 'disabled', 'width'];
+  };
+
+  #api = null;
+  #apiLoading = false;
+  #disabled = false;
+  #tempValue = null;
+  #singleton = false;
+
+  get api() {
+    return this.#api;
+  };
+
+  get apiLoading() {
+    return this.#apiLoading;
   };
 
   get name() {
@@ -11,30 +25,28 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     let result = '';
     if (this.selected.length != 0)
     {
-      result = JSON.stringify(this.selected);
+      result = this.#singleton == true? this.selected[0]: JSON.stringify(this.selected);
     };
     return result;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
-    let container = this.container;
-    let selectedEl = container.querySelector('div.selected');
     this.selected = [];
-    selectedEl.innerHTML = '';
-    if (value != '')
+    this.container.querySelector('div.selected').empty();
+    if (value.length != 0)
     {
-      let valueArr = JSON.parse(value);
+      let valueArr = (value.startsWith('[') && value.endsWith(']'))? JSON.parse(value): [value];
       if (Array.isArray(valueArr))
       {
         this.selected = valueArr;
-        let currentApi = this.currentApi ?? this.getAttribute('api');
+        let currentApi = this.api ?? this.getAttribute('api');
         if (currentApi != null)
         {
-          currentApi += '&selected=' + encodeURIComponent(value);
+          currentApi += '&selected=' + encodeURIComponent(JSON.stringify(valueArr));
           fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
             if (data.code == 1)
             {
@@ -51,7 +63,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
         }
         else
         {
-          this.currentValue = value;
+          this.#tempValue = value;
         };
       };
     };
@@ -66,7 +78,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     {
       this.container.classList.remove('disabled');
     };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
   };
 
   #initEvents() {
@@ -141,9 +153,9 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
       };
     });
     keywordEl.addEventListener('input', e => {
-      if (this.currentApi != null)
+      if (this.api != null)
       {
-        if (this.currentApiLoading === false)
+        if (this.apiLoading === false)
         {
           let self = e.target;
           let currentValue = self.value;
@@ -154,10 +166,10 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
           }
           else
           {
-            this.currentApiLoading = true;
-            let currentApi = this.currentApi + '&keyword=' + encodeURIComponent(currentValue);
+            this.#apiLoading = true;
+            let currentApi = this.api + '&keyword=' + encodeURIComponent(currentValue);
             fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
-              this.currentApiLoading = false;
+              this.#apiLoading = false;
               if (data.code == 1)
               {
                 let dataResult = data.data.result;
@@ -330,10 +342,10 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   };
 
   syncValue() {
-    if (this.currentValue != null)
+    if (this.#tempValue != null)
     {
-      this.value = this.currentValue;
-      this.currentValue = null;
+      this.value = this.#tempValue;
+      this.#tempValue = null;
     };
   };
 
@@ -358,7 +370,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     switch(attr) {
       case 'api':
       {
-        this.currentApi = newVal;
+        this.#api = newVal;
         this.syncValue();
         break;
       };
@@ -371,6 +383,10 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
       {
         this.value = newVal;
         break;
+      };
+      case 'singleton':
+      {
+        this.#singleton = this.hasAttribute('singleton')? true: false;
       };
       case 'disabled':
       {
@@ -402,10 +418,6 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     this.ready = false;
     this.selected = [];
     this.container = shadowRoot.querySelector('div.container');
-    this.currentDisabled = false;
-    this.currentApi = null;
-    this.currentApiLoading = false;
-    this.currentValue = null;
     this.currentMax = null;
     this.blurTimeout = null;
     this.#initEvents();

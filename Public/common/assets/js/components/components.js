@@ -16,52 +16,83 @@ export default class components {
       'registeredCount': 0,
       'components': components,
     };
+    let names = [];
     let defined = [];
     for (let tag in components)
     {
       let item = components[tag];
       let tagPrefix = tag.substring(0, tag.indexOf('-')).toLowerCase();
       let name = tag.replace(/\-\w/g, letter => letter.substring(1).toUpperCase());
-      if (!this.loaded.includes(name))
+      if (!this.loaded.has(name))
       {
-        this.loaded.push(name);
-        try
+        if (!this.loading.has(name))
         {
-          let path = item.path;
-          if (path == null)
+          this.loading.add(name);
+          try
           {
-            if (tagPrefix != 'web')
+            let path = item.path;
+            if (path == null)
             {
-              path = (item.dir ?? './' + tagPrefix + '/') + name + '/' + name + '.js';
-            }
-            else
-            {
-              let tagArr = tag.split('-');
-              let realDir = '../../../../';
-              let realName = tag.substring(tag.lastIndexOf('-') + 1).toLowerCase();
-              if (tagArr.length >= 3)
+              if (tagPrefix != 'web')
               {
-                tagArr.shift();
-                tagArr.pop();
-                realDir += tagArr.join('-').replace(/\-/g, '/') + '/';
+                path = (item.dir ?? './' + tagPrefix + '/') + name + '/' + name + '.js';
+              }
+              else
+              {
+                let tagArr = tag.split('-');
+                let realDir = '../../../../';
+                let realName = tag.substring(tag.lastIndexOf('-') + 1).toLowerCase();
+                if (tagArr.length >= 3)
+                {
+                  tagArr.shift();
+                  tagArr.pop();
+                  realDir += tagArr.join('-').replace(/\-/g, '/') + '/';
+                };
+                realDir += 'common/assets/js/components/';
+                path = (item.dir ?? realDir) + realName + '/' + realName + '.js';
               };
-              realDir += 'common/assets/js/components/';
-              path = (item.dir ?? realDir) + realName + '/' + realName + '.js';
+              if (this.ver != null)
+              {
+                path = path + '?ver=' + encodeURIComponent(this.ver);
+              };
             };
-            if (this.ver != null)
-            {
-              path = path + '?ver=' + encodeURIComponent(this.ver);
-            };
+            let options = item.extends? {'extends': item.extends}: {};
+            let component = await import(path);
+            customElements.define(tag, component.default, options);
+            defined.push(customElements.whenDefined(tag));
+            names.push(name);
+            result.registeredCount += 1;
+          }
+          catch(e)
+          {
+            result.errorCount += 1;
+            this.loading.delete(name);
           };
-          let options = item.extends? {'extends': item.extends}: {};
-          let component = await import(path);
-          customElements.define(tag, component.default, options);
-          defined.push(customElements.whenDefined(tag));
-          result.registeredCount += 1;
         }
-        catch(e)
+        else
         {
-          result.errorCount += 1;
+          await new Promise((resolve, reject) => {
+            let delay = 100;
+            let delayed = 0;
+            let checkLoading = setInterval(() => {
+              delayed += delay;
+              if (delayed >= this.loadingTimeLimit)
+              {
+                reject(name);
+                result.errorCount += 1;
+                clearInterval(checkLoading);
+              }
+              else
+              {
+                if (this.loaded.has(name))
+                {
+                  resolve(name);
+                  result.loadedCount += 1;
+                  clearInterval(checkLoading);
+                };
+              };
+            }, delay);
+          });
         };
       }
       else
@@ -72,12 +103,18 @@ export default class components {
     if (defined.length != 0)
     {
       await Promise.all(defined);
+      names.forEach(name => {
+        this.loaded.add(name);
+        this.loading.delete(name);
+      });
     };
     return result;
   };
 
   constructor(ver) {
     this.ver = ver;
-    this.loaded = [];
+    this.loaded = new Set();
+    this.loading = new Set();
+    this.loadingTimeLimit = 30000;
   };
 };

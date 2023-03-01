@@ -76,7 +76,10 @@ export default class jtbcFieldTable extends HTMLElement {
           let newTr = this.tbodyTrElement.cloneNode(true);
           Object.keys(item).forEach(key => {
             let field = newTr.querySelector("[name='" + key + "']");
-            if (field != null) field.value = item[key];
+            if (field != null)
+            {
+              field.setAttribute('value', item[key]);
+            };
           });
           tbody.append(newTr);
         });

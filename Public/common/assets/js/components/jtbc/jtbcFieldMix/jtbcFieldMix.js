@@ -45,7 +45,10 @@ export default class jtbcFieldMix extends HTMLElement {
       {
         Object.keys(item).forEach(key => {
           let field = this.content.querySelector("[name='" + key + "']");
-          if (field != null && field.getAttribute('role') == 'field') field.value = item[key];
+          if (field != null && field.getAttribute('role') == 'field')
+          {
+            field.setAttribute('value', item[key]);
+          };
         });
       };
     };

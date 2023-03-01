@@ -48,7 +48,10 @@ export default class jtbcFieldMulti extends HTMLElement {
           let newLi = this.liElement.cloneNode(true);
           Object.keys(item).forEach(key => {
             let field = newLi.querySelector("[name='" + key + "']");
-            if (field != null && field.getAttribute('role') == 'field') field.value = item[key];
+            if (field != null && field.getAttribute('role') == 'field')
+            {
+              field.setAttribute('value', item[key]);
+            };
           });
           this.content.append(newLi);
           this.numReset();
