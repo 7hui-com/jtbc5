@@ -14,7 +14,7 @@ class Env
 
   private static function getConfig(string $argName)
   {
-    return Config::get(substr(strrchr(__CLASS__, chr(92)), 1), $argName);
+    return Config::read(__CLASS__, $argName);
   }
 
   private static function getAllLanguages()

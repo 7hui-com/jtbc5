@@ -225,6 +225,7 @@ class Category
       }
       $model -> orderBy('father_id', 'asc');
       $model -> orderBy('order', 'desc');
+      $model -> orderBy('id', 'asc');
       $result = $model -> getAll('*') -> toArray();
     }
     return $result;

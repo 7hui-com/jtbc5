@@ -111,7 +111,7 @@ button.b4:focus {
   border-color: #275727
 }
 button.tiny {
-  height: 20px; padding: 0px 4px
+  height: 20px; padding: 0px 4px; font-size: 12px
 }
 button.locked,
 button:disabled,

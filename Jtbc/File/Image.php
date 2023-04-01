@@ -169,7 +169,6 @@ class Image
         }
         if ($opacity == 100) imagecopy($this -> image, $imageFile, $currentX, $currentY, 0, 0, $imageFileWidth, $imageFileHeight);
         else imagecopymerge($this -> image, $imageFile, $currentX, $currentY, 0, 0, $imageFileWidth, $imageFileHeight, $opacity);
-        if (is_resource($imageFile)) imagedestroy($imageFile);
         $bool = true;
       }
     }
@@ -305,10 +304,5 @@ class Image
         throw new FileException('Could not load the file "' . $filename . '"', 50404);
       }
     }
-  }
-
-  public function __destruct()
-  {
-    if (is_resource($this -> image)) imagedestroy($this -> image);
   }
 }

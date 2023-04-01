@@ -17,11 +17,23 @@ class Diplomat extends Ambassador {
 
   public function edit(Request $req)
   {
+    $data = [];
+    $status = 200;
     $id = intval($req -> get('id'));
     $model = new TinyModel();
     $model -> where -> id = $id;
+    $rs = $model -> get();
+    if (is_null($rs))
+    {
+      $status = 404;
+    }
+    else
+    {
+      $data = $rs -> toArray();
+    }
     $bs = new BasicSubstance($this);
-    $bs -> data -> data = $model -> get();
+    $bs -> data -> data = $data;
+    $bs -> data -> status = $status;
     return $bs -> toJSON();
   }
 

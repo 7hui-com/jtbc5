@@ -6,7 +6,6 @@ use App\Common\Ambassador;
 use App\Common\Widgets\Breadcrumb\BreadcrumbBuilder;
 
 class Diplomat extends Ambassador {
-  private $category;
   private $breadcrumbBuilder;
 
   public function __start(Request $req)

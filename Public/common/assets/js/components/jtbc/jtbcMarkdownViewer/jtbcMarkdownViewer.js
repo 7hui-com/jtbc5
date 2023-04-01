@@ -1,20 +1,42 @@
 export default class jtbcMarkdownViewer extends HTMLElement {
   static get observedAttributes() {
-    return ['options', 'value'];
+    return ['lang', 'value'];
   };
 
-  #options = {
-    'breaks': true,
-  };
-
+  #lang = 'zh-cn';
   #value = null;
+  #basePath = null;
+  #libPath = null;
+  #options = {
+    'lang': 'zh_CN',
+    'preview': {
+      'theme': {},
+    },
+  };
 
-  get options() {
-    return this.#options;
+  get lang() {
+    return this.#lang;
   };
 
   get value() {
     return this.#value ?? '';
+  };
+
+  set lang(lang) {
+    if (['0', 'zh-cn'].includes(lang))
+    {
+      this.#lang = 'zh-cn';
+      this.#options.lang = 'zh_CN';
+    }
+    else if (['1', 'en'].includes(lang))
+    {
+      this.#lang = 'en';
+      this.#options.lang = 'en_US';
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set value(value) {
@@ -22,89 +44,50 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     this.render();
   };
 
-  #loadMarked() {
+  #initVditor(el) {
+    let iWindow = el.contentWindow;
+    let iDocument =  el.contentDocument;
+    let contentEl = iDocument.querySelector('div.content');
+    this.resizeObserver = new ResizeObserver(entries => this.#resize(entries, contentEl));
+    this.resizeObserver.observe(contentEl);
+    iWindow.Vditor.preview(contentEl, this.value, this.getOptions(el));
+  };
+
+  #resize(entries, contentEl) {
     let container = this.container;
-    if (typeof marked == 'undefined')
+    let iframe = container.querySelector('iframe.iframe');
+    if (iframe != null)
     {
-      return new Promise((resolve) => {
-        let parentNode = container.parentNode;
-        let markedScript = document.createElement('script');
-        markedScript.src = this.markedPath + 'marked.min.js';
-        parentNode.insertBefore(markedScript, container);
-        markedScript.addEventListener('load', () => resolve(this));
-      });
-    }
-    else
-    {
-      return new Promise((resolve) => { resolve(this); });
+      iframe.style.height = contentEl.scrollHeight + 'px';
     };
   };
 
-  #loadDOMPurify() {
-    let container = this.container;
-    if (typeof DOMPurify == 'undefined')
-    {
-      return new Promise((resolve) => {
-        let parentNode = container.parentNode;
-        let purifyScript = document.createElement('script');
-        purifyScript.src = this.markedPath + '../DOMPurify/purify.min.js';
-        parentNode.insertBefore(purifyScript, container);
-        purifyScript.addEventListener('load', () => resolve(this));
-      });
-    }
-    else
-    {
-      return new Promise((resolve) => { resolve(this); });
+  getOptions(el) {
+    this.#options.cdn = this.#libPath;
+    this.#options.preview.theme.path = this.#libPath + '/dist/css/content-theme';
+    this.#options.after = () => {
+      this.#resize(null, el);
+      this.dispatchEvent(new CustomEvent('renderend', {detail: {'el': el}}));
     };
+    return this.#options;
   };
 
   render() {
-    let container = this.container;
-    Promise.all([this.#loadMarked(), this.#loadDOMPurify()]).then(() => {
-      marked.setOptions(this.options);
-      container.empty().html(DOMPurify.sanitize(marked.parse(this.value))).then(my => {
-        let isReplaced = false;
-        my.querySelectorAll('code').forEach(el => {
-          if (el.hasAttribute('class'))
-          {
-            let className = el.getAttribute('class');
-            if (!className.includes(String.fromCharCode(32)) && className.startsWith('language-'))
-            {
-              if (el.parentNode.tagName == 'PRE')
-              {
-                isReplaced = true;
-                let currentLanguage = className.substring(className.lastIndexOf('-') + 1);
-                let highlighter = document.createElement('jtbc-syntax-highlighter');
-                highlighter.setAttribute('language', currentLanguage);
-                highlighter.setAttribute('value', el.innerText);
-                el.parentNode.replaceWith(highlighter);
-              };
-            };
-          };
-        });
-        if (isReplaced === true)
-        {
-          container.loadComponents();
-        };
-      });
-    }).catch(() => {
-      throw new Error('Unexpected error');
-    });
-  };
-
-  setOptions(options) {
-    let items = JSON.parse(options);
-    Object.keys(items).forEach(key => {
-      this.#options[key] = items[key];
-    });
-    return this.#options;
+    let container = this.container.empty();
+    let iframe = document.createElement('iframe');
+    iframe.classList.add('iframe');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('scrolling', 'no');
+    iframe.addEventListener('load', e => this.#initVditor(e.target));
+    iframe.setAttribute('src', this.#basePath + 'content.html');
+    container.append(iframe);
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
-      case 'options':
+      case 'lang':
       {
-        this.setOptions(newVal);
+        this.lang = newVal;
         break;
       };
       case 'value':
@@ -119,27 +102,20 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     this.ready = true;
   };
 
+  disconnectedCallback() {
+    this.resizeObserver?.disconnect();
+  };
+
   constructor() {
     super();
     this.ready = false;
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let pluginCss = this.getAttribute('plugin_css');
-    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
+    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let shadowRootHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"></container>`;
     shadowRoot.innerHTML = shadowRootHTML;
-    if (pluginCss != null)
-    {
-      let pluginStyle = document.createElement('link');
-      pluginStyle.setAttribute('type', 'text/css');
-      pluginStyle.setAttribute('rel', 'stylesheet');
-      pluginStyle.setAttribute('href', pluginCss);
-      shadowRoot.insertBefore(pluginStyle, this.container);
-    };
+    this.#basePath = basePath;
+    this.#libPath = basePath + '../../../vendor/vditor';
     this.container = shadowRoot.querySelector('container');
-    this.markedPath = basePath + '../../../vendor/marked/';
-    this.container.addEventListener('click', e => {
-      this.dispatchEvent(new CustomEvent('clicked', {bubbles: true, detail: {target: e.target}}));
-    });
   };
 };

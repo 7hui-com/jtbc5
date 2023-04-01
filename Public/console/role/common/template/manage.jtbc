@@ -69,7 +69,13 @@
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <toplink>{$=$take('manage.part-toplink')}</toplink>
-      <div class="chief">
+      <div if="${$status == 404}" class="chief">
+        <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
+        <div class="sheet">
+          <item class="skinny"><span class="tips">{$=$take('::communal.urlmissing', 'lng')}</span></item>
+        </div>
+      </div>
+      <div else class="chief">
         <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
         <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;id=${$data.id}">
           <input type="hidden" name="time" value="${$data.time}" role="field" />
@@ -86,7 +92,7 @@
                   <template is="jtbc-template" key="policies">
                     <ul isloop="true">
                       <li>
-                        <p class="genre" genre="${$genre}"><label class="checkbox"><input is="jtbc-input" type="checkbox" name="genre" value="${$genre}" class="genre" selected="${$.customEvent('selectGenre', $.raw.genre)}" /><span>${$title}</span></label><a if="${$hasCategory}" is="jtbc-anchor" class="segment" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selectCategory&amp;genre=${$genre}" target="dialog">({$=$take('universal:config.category', 'lng')})<input type="hidden" class="segment_category" genre="${$genre}" value="${$.htmlEncode($.customEvent('getSegmentCategory', $.raw.genre))}" /></a><template is="jtbc-template" key="sub"><label class="checkbox"><input is="jtbc-input" type="checkbox" value="${$name}" class="sub" selected="${$.customEvent('selectGenreSub', $.raw.name, $.parent.getAttribute('genre'))}" /><span>${$title}</span></label></template></p>${$.selfie($.raw.children)}
+                        <p class="genre" genre="${$genre}"><label class="checkbox"><input is="jtbc-input" type="checkbox" name="genre" value="${$genre}" class="genre" selected="${$.customEvent('selectGenre', $.raw.genre)}" /><span>${$title}</span></label><a if="${$hasCategory}" is="jtbc-anchor" class="segment" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.selectCategory&amp;genre=${$genre}" target="dialog">({$=$take('universal:config.category', 'lng')})<input type="hidden" class="segment_category" genre="${$genre}" value="${$.htmlEncode($.customEvent('getSegmentCategory', $.raw.genre) ?? '')}" /></a><template is="jtbc-template" key="sub"><label class="checkbox"><input is="jtbc-input" type="checkbox" value="${$name}" class="sub" selected="${$.customEvent('selectGenreSub', $.raw.name, $.parent.getAttribute('genre'))}" /><span>${$title}</span></label></template></p>${$.selfie($.raw.children)}
                       </li>
                     </ul>
                   </template>

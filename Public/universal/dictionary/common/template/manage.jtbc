@@ -63,7 +63,13 @@
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <toplink>{$=$take('manage.part-toplink')}</toplink>
-      <div class="chief">
+      <div if="${$status == 404}" class="chief">
+        <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
+        <div class="sheet">
+          <item class="skinny"><span class="tips">{$=$take('::communal.urlmissing', 'lng')}</span></item>
+        </div>
+      </div>
+      <div else class="chief">
         <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
         <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;id=${$data.id}">
           <input type="hidden" name="mode" value="${$data.mode}" role="field" />
@@ -79,7 +85,7 @@
             </item>
             <item>
               <label class="name"><span>{$=$take('config.content', 'lng')}</span></label>
-              <div class="content"><jtbc-field-table name="content" role="field" text="${$content.text}" columns="${$content.columns}" value="${$data.content}"></jtbc-field-table></div>
+              <div class="content"><jtbc-field-table name="content" role="field" text="${$content.text}" columns="${$content.columns}" value="${$data.content ?? ''}"></jtbc-field-table></div>
             </item>
             <item>
               <label class="name"></label>

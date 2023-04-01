@@ -6,7 +6,6 @@ use App\Common\Ambassador;
 use App\Common\Widgets\Breadcrumb\BreadcrumbBuilder;
 
 class Diplomat extends Ambassador {
-  private $category;
   private $breadcrumbBuilder;
 
   public function __start(Request $req)
@@ -22,6 +21,7 @@ class Diplomat extends Ambassador {
     $model -> where -> published = 1;
     $model -> where -> lang = $lang;
     $model -> orderBy('order', 'desc');
+    $model -> orderBy('id', 'asc');
     $data = $model -> getAll('*');
     $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
     $renderer = new Renderer('index.list');
@@ -42,7 +42,6 @@ class Diplomat extends Ambassador {
     if (!is_null($rs))
     {
       $rsTitle = strval($rs -> title);
-      $rsCategory = intval($rs -> category);
       $this -> addParam('meta_title', $rsTitle);
       $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
       $renderer = new Renderer('index.detail');

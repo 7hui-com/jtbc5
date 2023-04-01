@@ -134,7 +134,7 @@ class JtbcParser
       'theDayAfterTomorrow' => Date::class,
       'unifyLineEndings' => Encoder::class,
     ];
-    $configAliasMap = Config::get('Jtbc/JtbcParser', 'alias_map');
+    $configAliasMap = Config::read(__CLASS__, 'alias_map');
     if (is_array($configAliasMap) && !empty($configAliasMap))
     {
       $aliasMap = array_merge($aliasMap, $configAliasMap);

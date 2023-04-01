@@ -11,6 +11,7 @@ class PackageRecognizer
   private $packageId;
   private $packageVersion;
   private $packageTitle;
+  private $packagePremiumSign;
   private $packageSign;
   private $isValid;
   private $isPremium;

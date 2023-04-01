@@ -3,8 +3,8 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc\Diplomatist;
+use Jtbc\Config;
 use Jtbc\File\MIMETypes;
-use Config\Diplomatist\HeaderManager as Config;
 
 class HeaderManager
 {
@@ -15,13 +15,13 @@ class HeaderManager
       $isOriginAllowed = false;
       $request = $diplomat -> di -> request;
       $response = $diplomat -> di -> response;
-      $charset = $diplomat -> charset ?? Config::CHARSET;
-      $noCache = $diplomat -> noCache ?? Config::HEADER_NO_CACHE;
-      $allowOrigin = $diplomat -> allowOrigin ?? Config::ALLOW_ORIGIN;
-      $allowHeaders = $diplomat -> allowHeaders ?? Config::ALLOW_HEADERS;
-      $allowCredentials = $diplomat -> allowCredentials ?? Config::ALLOW_CREDENTIALS;
+      $charset = $diplomat -> charset ?? Config::read(__CLASS__, 'charset');
+      $noCache = $diplomat -> noCache ?? Config::read(__CLASS__, 'header_no_cache');
+      $allowOrigin = $diplomat -> allowOrigin ?? Config::read(__CLASS__, 'allow_origin');
+      $allowHeaders = $diplomat -> allowHeaders ?? Config::read(__CLASS__, 'allow_headers');
+      $allowCredentials = $diplomat -> allowCredentials ?? Config::read(__CLASS__, 'allow_credentials');
       $contentType = $diplomat -> contentType ?? MIMETypes::getMIMEType($diplomat -> MIMEType ?? 'html') ?? 'text/html';
-      $contentTypeWithCharset = Config::CONTENT_TYPE_WIDTH_CHARSET ?? [];
+      $contentTypeWithCharset = Config::read(__CLASS__, 'content_type_width_charset') ?? [];
       if ($noCache === true)
       {
         $response -> header -> set('Cache-Control', 'no-cache, must-revalidate');

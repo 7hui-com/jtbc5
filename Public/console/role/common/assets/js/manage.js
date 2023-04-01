@@ -1,6 +1,5 @@
 export default class manage {
-  bindLangEvents()
-  {
+  bindLangEvents() {
     let that = this;
     let scarf = this.self.parentNode.querySelector('.scarf');
     if (scarf != null)
@@ -19,8 +18,7 @@ export default class manage {
     };
   };
 
-  bindPermissionEvents()
-  {
+  bindPermissionEvents() {
     let scarf = this.self.parentNode.querySelector('.scarf');
     if (scarf != null)
     {

@@ -44,6 +44,7 @@ class Diplomat extends Ambassador {
     $model = new TinyModel();
     $model -> where -> published = 1;
     $model -> orderBy('order', 'desc');
+    $model -> orderBy('id', 'asc');
     $model -> limit(1);
     $rs = $model -> get();
     if (!is_null($rs))

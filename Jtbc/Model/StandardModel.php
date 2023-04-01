@@ -1,4 +1,7 @@
 <?php
+//******************************//
+// JTBC Powered by jtbc.cn      //
+//******************************//
 namespace Jtbc\Model;
 use Jtbc\Substance;
 use Jtbc\Model\Automatic\Validator;

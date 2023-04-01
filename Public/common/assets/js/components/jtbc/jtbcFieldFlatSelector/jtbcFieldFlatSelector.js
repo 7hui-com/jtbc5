@@ -1,10 +1,27 @@
 export default class jtbcFieldFlatSelector extends HTMLElement {
   static get observedAttributes() {
-    return ['align', 'data', 'type', 'columns', 'max', 'value', 'disabled', 'width'];
+    return ['align', 'data', 'type', 'columns', 'max', 'placeholder', 'value', 'disabled', 'width'];
   };
+
+  #align = null;
+  #data = null;
+  #type = null;
+  #columns = 3;
+  #max = null;
+  #value = '';
+  #disabled = false;
+  #placeholder = null;
 
   get name() {
     return this.getAttribute('name');
+  };
+
+  get data() {
+    return this.#data;
+  };
+
+  get placeholder() {
+    return this.#placeholder;
   };
 
   get value() {
@@ -17,15 +34,20 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  set placeholder(placeholder) {
+    this.#placeholder = placeholder;
+    this.container.setAttribute('placeholder', placeholder);
   };
 
   set value(value) {
     this.selected = [];
-    this.currentValue = value? JSON.parse(value): [];
-    if (Array.isArray(this.currentValue))
+    this.#value = value? JSON.parse(value): [];
+    if (Array.isArray(this.#value))
     {
-      this.currentValue.forEach(item => {
+      this.#value.forEach(item => {
         this.pushSelectedValue(item);
       });
     };
@@ -41,7 +63,7 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
     {
       this.container.classList.remove('disabled');
     };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
   };
 
   #initEvents() {
@@ -66,16 +88,15 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
 
   getMax() {
     let currentMax = 1;
-    if (this.currentType != 'radio')
+    if (this.#type != 'radio')
     {
-      if (this.currentMax == null)
+      if (this.#max == null)
       {
         currentMax = 1000000;
       }
       else
       {
-        currentMax = Number.parseInt(this.currentMax);
-        if (currentMax < 1) currentMax = 1;
+        currentMax = Math.max(1, Number.parseInt(this.#max));
       };
     };
     return currentMax;
@@ -98,9 +119,8 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
   };
 
   render() {
-    let container = this.container;
-    let currentData = this.currentData;
-    container.innerHTML = '';
+    let currentData = this.#data;
+    let container = this.container.empty();
     if (currentData != null)
     {
       let data = JSON.parse(currentData);
@@ -144,30 +164,35 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
     switch(attr) {
       case 'align':
       {
-        this.currentAlign = newVal.toLowerCase();
-        container.setAttribute('align', this.currentAlign);
+        this.#align = newVal.toLowerCase();
+        container.setAttribute('align', this.#align);
         break;
       }; 
       case 'data':
       {
-        this.currentData = newVal;
+        this.#data = newVal;
         break;
       };
       case 'type':
       {
-        this.currentType = newVal.toLowerCase();
-        container.setAttribute('type', this.currentType);
+        this.#type = newVal.toLowerCase();
+        container.setAttribute('type', this.#type);
         break;
       };
       case 'columns':
       {
-        this.currentColumns = isFinite(newVal)? newVal: 3;
-        container.setAttribute('columns', this.currentColumns);
+        this.#columns = isFinite(newVal)? newVal: 3;
+        container.setAttribute('columns', this.#columns);
         break;
       };
       case 'max':
       {
-        this.currentMax = isFinite(newVal)? newVal: null;
+        this.#max = isFinite(newVal)? newVal: null;
+        break;
+      };
+      case 'placeholder':
+      {
+        this.placeholder = newVal;
         break;
       };
       case 'value':
@@ -218,12 +243,5 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
     this.ready = false;
     this.selected = [];
     this.container = shadowRoot.querySelector('div.container');
-    this.currentAlign = null;
-    this.currentData = null;
-    this.currentType = null;
-    this.currentColumns = null;
-    this.currentMax = null;
-    this.currentValue = '';
-    this.currentDisabled = false;
   };
 };

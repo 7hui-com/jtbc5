@@ -53,7 +53,7 @@ class Encoder
   public static function saltedMD5(string $argString)
   {
     $string = $argString;
-    $salt = Config::get(substr(strrchr(__CLASS__, chr(92)), 1), 'salt');
+    $salt = Config::read(__CLASS__, 'salt');
     $result = is_string($salt)? md5($salt . $string): md5($string);
     return $result;
   }

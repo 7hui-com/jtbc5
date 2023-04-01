@@ -47,21 +47,32 @@ class Diplomat extends Ambassador {
 
   public function edit(Request $req)
   {
+    $data = [];
+    $property = [];
+    $extender = null;
+    $status = 200;
     $id = intval($req -> get('id'));
     $model = new TinyModel();
     $model -> where -> id = $id;
-    $data = $model -> get();
+    $rs = $model -> get();
     $bs = new BasicSubstance($this);
-    if (!is_null($data))
+    if (is_null($rs))
     {
-      $extender = Guide::getGenreParam($data -> genre, 'extender');
-      $bs -> data -> data = $data;
-      $bs -> data -> property = Guide::getGenreProperty($data -> genre);
-      $bs -> data -> extender = [
-        'enabled' => is_null($extender)? false: true,
-        'columns' => is_null($extender)? '[]': $extender,
-      ];
+      $status = 404;
     }
+    else
+    {
+      $data = $rs -> toArray();
+      $property = Guide::getGenreProperty($rs -> genre);
+      $extender = Guide::getGenreParam($rs -> genre, 'extender');
+    }
+    $bs -> data -> data = $data;
+    $bs -> data -> status = $status;
+    $bs -> data -> property = $property;
+    $bs -> data -> extender = [
+      'enabled' => is_null($extender)? false: true,
+      'columns' => is_null($extender)? '[]': $extender,
+    ];
     return $bs -> toJSON();
   }
 
@@ -86,6 +97,7 @@ class Diplomat extends Ambassador {
       $model -> where -> father_id = $fatherId;
       $model -> where -> lang = $lang;
       $model -> orderBy('order', 'desc');
+      $model -> orderBy('id', 'asc');
       $data = $model -> getAll(['id', 'title', 'published', 'time']);
       $genreTitle = Jtbc::take('global.' . $genre . ':category.title', 'cfg');
       $genreMode = strval(Jtbc::take('global.' . $genre . ':category.mode', 'cfg'));

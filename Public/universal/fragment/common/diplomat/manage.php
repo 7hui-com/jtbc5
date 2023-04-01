@@ -41,12 +41,23 @@ class Diplomat extends Ambassador {
 
   public function edit(Request $req)
   {
+    $data = [];
+    $status = 200;
     $id = intval($req -> get('id'));
     $model = new TinyModel();
     $model -> where -> id = $id;
-    $data = $model -> get();
+    $rs = $model -> get();
+    if (is_null($rs))
+    {
+      $status = 404;
+    }
+    else
+    {
+      $data = $rs -> toArray();
+    }
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;
+    $bs -> data -> status = $status;
     $bs -> data -> fieldGalleryText = $this -> getFieldText('gallery');
     $bs -> data -> fieldAttachmentText = $this -> getFieldText('attachment');
     $bs -> data -> fieldTableText = $this -> getFieldText('table');

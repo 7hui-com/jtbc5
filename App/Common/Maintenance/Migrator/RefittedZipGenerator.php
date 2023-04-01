@@ -5,6 +5,7 @@ use DirectoryIterator;
 use Jtbc\JSON;
 use Jtbc\Validation;
 use Jtbc\Module\ModuleHelper;
+use Jtbc\Exception\FileException;
 
 class RefittedZipGenerator
 {

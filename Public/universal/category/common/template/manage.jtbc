@@ -57,13 +57,18 @@
       <input type="hidden" name="genre" role="field" value="${$data.genre}" />
       <input type="hidden" name="father_id" role="field" value="${$data.father_id}" />
       <input type="hidden" name="time" role="field" value="${$data.time}" />
-      <div class="tinyForm">
+      <div if="${$status == 404}" class="tinyForm">
+        <ul>
+          <li><span class="tips">{$=$take('::communal.urlmissing', 'lng')}</span></li>
+        </ul>
+      </div>
+      <div else class="tinyForm">
         <ul>
           <li><input is="jtbc-input" name="title" type="text" role="field" placeholder="{$=$take('config.title', 'lng')}" value="${$data.title}" /></li>
-          <li if="${$property.has_image}"><jtbc-field-upload name="image" role="field" whisper="whisper" placeholder="{$=$take('config.image', 'lng')}" text-upload="{$=$take('universal:config.upload', 'lng')}" value="${$data.image}" action="{$>this.genre}/manage?action=upload&amp;scene=image"></jtbc-field-upload></li>
+          <li if="${$property.has_image}"><jtbc-field-upload name="image" role="field" whisper="whisper" placeholder="{$=$take('config.image', 'lng')}" text-upload="{$=$take('universal:config.upload', 'lng')}" value="${$data.image ?? ''}" action="{$>this.genre}/manage?action=upload&amp;scene=image"></jtbc-field-upload></li>
           <li if="${$property.has_keywords}"><input is="jtbc-input" type="text" name="keywords" role="field" placeholder="{$=$take('config.keywords', 'lng')}" value="${$data.keywords}" /></li>
           <li if="${$property.has_intro}"><textarea is="jtbc-textarea" name="intro" role="field" placeholder="{$=$take('config.intro', 'lng')}">${$data.intro}</textarea></li>
-          <li if="${$extender.enabled}"><jtbc-field-mix name="extender" role="field" columns="${$extender.columns}" value="${$data.extender}"></jtbc-field-mix></li>
+          <li if="${$extender.enabled}"><jtbc-field-mix name="extender" role="field" columns="${$extender.columns ?? ''}" value="${$data.extender ?? ''}"></jtbc-field-mix></li>
           <li if="${$control.subPermission.publish}"><jtbc-choice-selector value="${$data.published}">{$=$takeAndFormatToRadio('::sel_published.*', 'published')}</jtbc-choice-selector></li>
         </ul>
         <div class="button"><button class="b2" role="submit">{$=$take('::communal.submit', 'lng')}</button></div>

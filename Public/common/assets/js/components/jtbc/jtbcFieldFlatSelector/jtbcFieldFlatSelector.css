@@ -1,8 +1,8 @@
 :host {
-  width: 100%; --item-height: 30px; --font-color: #666; --checked-border-color: #3e868f; --unchecked-border-color: #d1d1d1
+  width: 100%; --item-height: 30px; --font-color: #666; --font-size: 12px; --checked-border-color: #3e868f; --unchecked-border-color: #d1d1d1
 }
 .container {
-  width: 100%; display: grid !important; grid-gap: 10px; grid-template-columns: repeat(3, 1fr); justify-content: stretch
+  width: 100%; display: grid !important; grid-gap: 10px; grid-template-columns: repeat(3, 1fr); justify-content: stretch; font-size: var(--font-size)
 }
 .container item {
   display: block; min-width: 0px; box-sizing: border-box; height: var(--item-height); border: var(--unchecked-border-color) 1px solid; position: relative
@@ -75,4 +75,13 @@
 }
 .container.disabled item {
   background-color: rgba(221, 221, 221, .3)
+}
+.container::after {
+  content: attr(placeholder); height: var(--item-height); display: none; align-items: center; font-size: var(--font-size); color: var(--font-color)
+}
+.container:empty {
+  display: block !important
+}
+.container:empty::after {
+  display: flex
 }

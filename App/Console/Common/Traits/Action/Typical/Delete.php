@@ -1,5 +1,6 @@
 <?php
 namespace App\Console\Common\Traits\Action\Typical;
+use Jtbc\Jtbc;
 use Jtbc\Request;
 use Jtbc\Substance;
 use Jtbc\Model\TinyModel;

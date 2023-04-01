@@ -1,3 +1,5 @@
+import Swiper from '../../../vendor/swiper/swiper-bundle.esm.browser.min.js';
+
 export default class jtbcSwiper extends HTMLElement {
   static get observedAttributes() {
     return ['param'];
@@ -11,50 +13,38 @@ export default class jtbcSwiper extends HTMLElement {
       let param = JSON.parse(this.#param);
       return param instanceof Object? param: {};
     }
-    catch(e) { console.log(e.message); };
+    catch(e) {
+      console.log(e.message);
+    };
   };
 
-  loadSwiper() {
+  #appendStylesheet(path) {
     let rootNode = this.getRootNode();
-    let swiperJs = rootNode.querySelector('script.swiper');
-    let swiperCss = rootNode.querySelector('link.swiper');
-    if (swiperJs != null && swiperCss != null)
+    let el = rootNode.querySelector('link.swiper');
+    if (el == null)
     {
-      return new Promise((resolve) => { resolve({'js': swiperJs, 'css': swiperCss}); });
-    }
-    else
-    {
-      return new Promise((resolve) => {
-        swiperCss = document.createElement('link');
-        swiperCss.setAttribute('type', 'text/css');
-        swiperCss.setAttribute('rel', 'stylesheet');
-        swiperCss.setAttribute('href', this.swiperPath.pathname + 'swiper-bundle.min.css');
-        rootNode.head.appendChild(swiperCss);
-        swiperJs = document.createElement('script');
-        swiperJs.classList.add('swiper');
-        swiperJs.setAttribute('src', this.swiperPath.pathname + 'swiper-bundle.min.js');
-        swiperJs.addEventListener('load', function(){ resolve({'js': swiperJs, 'css': swiperCss}); });
-        rootNode.head.appendChild(swiperJs);
-      });
+      el = document.createElement('link');
+      el.setAttribute('type', 'text/css');
+      el.setAttribute('rel', 'stylesheet');
+      el.setAttribute('href', path);
+      rootNode.head.appendChild(el);
     };
   };
 
   init() {
-    this.loadSwiper().then(() => {
-      this.instance = null;
-      let swipers = this.querySelectorAll('div.swiper');
-      if (swipers.length == 1)
-      {
-        this.instance = new Swiper(swipers[0], this.param);
-      }
-      else
-      {
-        this.instance = [];
-        swipers.forEach(item => {
-          this.instance.push(new Swiper(item, this.param));
-        });
-      };
-    });
+    this.instance = null;
+    let swipers = this.querySelectorAll('div.swiper');
+    if (swipers.length == 1)
+    {
+      this.instance = new Swiper(swipers[0], this.param);
+    }
+    else
+    {
+      this.instance = [];
+      swipers.forEach(item => {
+        this.instance.push(new Swiper(item, this.param));
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -77,5 +67,6 @@ export default class jtbcSwiper extends HTMLElement {
     this.ready = false;
     this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
     this.swiperPath = new URL(this.basePath + '../../../vendor/swiper/');
+    this.#appendStylesheet(this.swiperPath.pathname + 'swiper-bundle.min.css');
   };
 };

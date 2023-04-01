@@ -65,6 +65,7 @@ export default class jtbcFieldStar extends HTMLElement {
       if (that.disabled != true)
       {
         that.value = this.index();
+        that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
       };
     });
   };

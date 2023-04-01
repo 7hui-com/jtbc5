@@ -16,10 +16,6 @@ class RSA
       $encryptData = '';
       $publicKeyContent = openssl_pkey_get_public(file_get_contents($publicKey));
       openssl_public_encrypt($data, $encryptData, $publicKeyContent);
-      if (is_resource($publicKeyContent))
-      {
-        openssl_free_key($publicKeyContent);
-      }
       $result = base64_encode($encryptData);
     }
     return $result;
@@ -35,10 +31,6 @@ class RSA
       $decryptData = '';
       $privateKeyContent = openssl_pkey_get_private(file_get_contents($privateKey));
       openssl_private_decrypt(base64_decode($data), $decryptData, $privateKeyContent);
-      if (is_resource($privateKeyContent))
-      {
-        openssl_free_key($privateKeyContent);
-      }
       $result = $decryptData;
     }
     return $result;
@@ -62,10 +54,6 @@ class RSA
       {
         openssl_sign($data, $sign, $privateKeyContent);
       }
-      if (is_resource($privateKeyContent))
-      {
-        openssl_free_key($privateKeyContent);
-      }
       $result = base64_encode($sign);
     }
     return $result;
@@ -82,10 +70,6 @@ class RSA
     {
       $publicKeyContent = openssl_pkey_get_public(file_get_contents($publicKey));
       $result = $signType == 'RSA2'? openssl_verify($data, base64_decode($sign), $publicKeyContent, OPENSSL_ALGO_SHA256): openssl_verify($data, base64_decode($sign), $publicKeyContent);
-      if (is_resource($publicKeyContent))
-      {
-        openssl_free_key($publicKeyContent);
-      }
     }
     return $result;
   }

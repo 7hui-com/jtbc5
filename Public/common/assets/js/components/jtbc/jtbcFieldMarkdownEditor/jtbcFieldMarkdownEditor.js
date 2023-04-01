@@ -1,32 +1,45 @@
 export default class jtbcFieldMarkdownEditor extends HTMLElement {
   static get observedAttributes() {
-    return ['toolbar', 'value', 'disabled', 'width', 'height', 'placeholder'];
+    return ['toolbar', 'value', 'disabled', 'width', 'height', 'lang', 'placeholder'];
   };
 
+  #lang = 'zh-cn';
+  #editor = null;
   #disabled = false;
   #toolbar = 'standard';
   #toolbarGroup = {
-    'tiny': ['bold', 'italic', 'strikethrough', 'heading', '|', 'undo', 'redo'],
-    'basic': ['bold', 'italic', 'strikethrough', 'heading', '|', 'unordered-list', 'ordered-list', '|', 'undo', 'redo'],
-    'standard': ['bold', 'italic', 'strikethrough', 'heading', '|', 'unordered-list', 'ordered-list', 'horizontal-rule', 'link', 'image', 'table', 'code', '|', 'undo', 'redo', '|', 'side-by-side', 'fullscreen'],
-    'full': ['bold', 'italic', 'strikethrough', 'heading', '|', 'unordered-list', 'ordered-list', 'horizontal-rule', 'link', 'image', 'table', 'code', 'quote', 'clean-block', '|', 'undo', 'redo', '|', 'preview', 'side-by-side', 'fullscreen'],
+    'tiny': ['headings', 'bold', 'italic', 'strike', '|', 'undo', 'redo'],
+    'basic': ['headings', 'bold', 'italic', 'strike', '|', 'list', 'ordered-list', '|', 'undo', 'redo'],
+    'standard': ['headings', 'bold', 'italic', 'strike', 'link', '|', 'list', 'ordered-list', 'check', 'outdent', 'indent', 'insert-before', 'insert-after', '|', 'undo', 'redo', '|', 'line', 'quote', 'table', 'code', 'inline-code', 'fullscreen', 'edit-mode'],
   };
   #options = {
-    'autoDownloadFontAwesome': false,
-    'spellChecker': false,
-    'minHeight': '300px',
-    'maxHeight': '300px',
-    'status': false,
-    'renderingConfig': {
-      'sanitizerFunction': renderedHTML => DOMPurify.sanitize(renderedHTML),
+    'height': 400,
+    'lang': 'zh_CN',
+    'placeholder': '',
+    'preview': {
+      'maxWidth': 4096,
+      'theme': {},
     },
-    'onToggleFullScreen': full => { this.#toggleFullScreen(full); },
+    'counter': {
+      'enable': true,
+      'type': 'text',
+    },
+    'cache': {
+      'enable': false,
+    },
   };
   #value = null;
-  easyMDE = null;
+  #basePath = null;
+  #libPath = null;
+  #iWindow = null;
+  #iDocument = null;
 
   get name() {
     return this.getAttribute('name');
+  };
+
+  get lang() {
+    return this.#lang;
   };
 
   get contentType() {
@@ -35,9 +48,14 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
 
   get value() {
     let result = '';
-    if (this.easyMDE != null)
+    let editor = this.#editor;
+    if (editor != null)
     {
-      result = this.easyMDE.value();
+      result = editor.getValue();
+      if (result.length == 1 && result == String.fromCharCode(10))
+      {
+        result = '';
+      };
     }
     else
     {
@@ -50,11 +68,29 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     return this.#disabled;
   };
 
+  set lang(lang) {
+    if (['0', 'zh-cn'].includes(lang))
+    {
+      this.#lang = 'zh-cn';
+      this.#options.lang = 'zh_CN';
+    }
+    else if (['1', 'en'].includes(lang))
+    {
+      this.#lang = 'en';
+      this.#options.lang = 'en_US';
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
   set value(value) {
     this.#value = value;
-    if (this.easyMDE != null)
+    let editor = this.#editor;
+    if (editor != null)
     {
-      this.easyMDE.value(this.#value);
+      editor.setValue(value);
     };
   };
 
@@ -70,97 +106,143 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     this.#disabled = disabled;
   };
 
-  #loadEasyMDE() {
-    let container = this.container;
-    if (typeof EasyMDE == 'undefined')
-    {
-      return new Promise((resolve) => {
-        let parentNode = container.parentNode;
-        let mdeScript = document.createElement('script');
-        mdeScript.src = this.easyMDEPath + 'easymde.min.js';
-        parentNode.insertBefore(mdeScript, container);
-        mdeScript.addEventListener('load', () => resolve(this));
-      });
-    }
-    else
-    {
-      return new Promise((resolve) => { resolve(this); });
-    };
+  #setHeight(height) {
+    this.#options.height = height;
   };
 
-  #loadDOMPurify() {
+  #setPlaceholder(placeholder) {
+    this.#options.placeholder = placeholder;
+  };
+
+  #toggleFullscreen(fullscreen) {
     let container = this.container;
-    if (typeof DOMPurify == 'undefined')
+    let iDocument = this.#iDocument;
+    let iframe = container.querySelector('iframe.iframe');
+    if (iframe != null)
     {
-      return new Promise((resolve) => {
-        let parentNode = container.parentNode;
-        let purifyScript = document.createElement('script');
-        purifyScript.src = this.easyMDEPath + '../DOMPurify/purify.min.js';
-        parentNode.insertBefore(purifyScript, container);
-        purifyScript.addEventListener('load', () => resolve(this));
-      });
-    }
-    else
-    {
-      return new Promise((resolve) => { resolve(this); });
+      if (fullscreen == true)
+      {
+        container.classList.add('fullscreen');
+        document.body.classList.add('tox-fullscreen');
+        document.documentElement.style.overflow = 'hidden';
+        iframe.style.height = document.documentElement.clientHeight + 'px';
+      }
+      else
+      {
+        container.classList.remove('fullscreen');
+        document.body.classList.remove('tox-fullscreen');
+        document.documentElement.style.overflow = null;
+        iframe.style.height = iframe.dataset.height + 'px';
+        if (iDocument != null)
+        {
+          let el = iDocument.querySelector('div.editor');
+          el.querySelectorAll('button.vditor-tooltipped').forEach(item => {
+            if (item.classList.contains('vditor-tooltipped__n'))
+            {
+              item.classList.add('vditor-tooltipped__s');
+              item.classList.remove('vditor-tooltipped__n');
+            }
+            else if (item.classList.contains('vditor-tooltipped__ne'))
+            {
+              item.classList.add('vditor-tooltipped__se');
+              item.classList.remove('vditor-tooltipped__ne');
+            }
+            else if (item.classList.contains('vditor-tooltipped__nw'))
+            {
+              item.classList.add('vditor-tooltipped__sw');
+              item.classList.remove('vditor-tooltipped__nw');
+            };
+          });
+        };
+      };
     };
   };
 
   #initEditor() {
-    Promise.all([this.#loadEasyMDE(), this.#loadDOMPurify()]).then(() => {
-      this.#options['toolbar'] = this.#toolbarGroup[this.#toolbar];
-      this.#options['element'] = this.container.querySelector('textarea.mde');
-      this.easyMDE = new EasyMDE(this.#options);
-      if (this.#value != null)
-      {
-        this.easyMDE.value(this.#value);
-      };
-      this.dispatchEvent(new CustomEvent('inited', {bubbles: true}));
-      this.#initEvents();
-    }).catch(() => {
-      throw new Error('Unexpected error');
-    });
-  };
-
-  #initEvents() {
     let container = this.container;
-    this.easyMDE.codemirror.on('focus', () => {
-      container.classList.add('on');
-      this.dispatchEvent(new CustomEvent('focused', {bubbles: true}));
-    });
-    this.easyMDE.codemirror.on('blur', () => {
-      container.classList.remove('on');
-      this.dispatchEvent(new CustomEvent('blurred', {bubbles: true}));
-    });
-    this.easyMDE.codemirror.on('change', () => {
-      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-    });
-  };
-
-  #setOptions(key, value) {
-    this.#options[key] = value;
-    return this;
-  };
-
-  #toggleFullScreen(full) {
-    let container = this.container;
-    if (full === true)
+    let iframe = container.querySelector('iframe.iframe');
+    if (iframe != null)
     {
-      container.classList.add('fullscreen');
-      document.body.classList.add('tox-fullscreen');
-    }
-    else
-    {
-      container.classList.remove('fullscreen');
-      document.body.classList.remove('tox-fullscreen');
+      iframe.dataset.height = this.#options.height;
+      iframe.style.height = iframe.dataset.height + 'px';
+      iframe.addEventListener('load', e => this.#initVditor(e.target));
+      iframe.setAttribute('src', this.#basePath + 'editor.html');
     };
   };
 
-  insertContent(content) {
-    if (this.easyMDE != null)
+  #initEvents() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        let container = this.container;
+        if (container.classList.contains('fullscreen'))
+        {
+          let iframe = container.querySelector('iframe.iframe');
+          if (iframe != null)
+          {
+            iframe.style.height = document.documentElement.clientHeight + 'px';
+          };
+        };
+      });
+    });
+    this.resizeObserver.observe(document.documentElement);
+  };
+
+  #initVditor(el) {
+    let iWindow = this.#iWindow = el.contentWindow;
+    let iDocument = this.#iDocument = el.contentDocument;
+    this.#editor = new iWindow.Vditor(iDocument.querySelector('div.editor'), this.getOptions());
+  };
+
+  #initVditorAfter(value) {
+    this.ready = true;
+    let iDocument = this.#iDocument;
+    if (iDocument != null)
     {
-      this.easyMDE.codemirror.replaceSelection(content);
-      this.easyMDE.codemirror.focus();
+      let editor = this.#editor;
+      let el = iDocument.querySelector('div.editor');
+      let observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.target.classList.contains('vditor--fullscreen'))
+          {
+            this.#toggleFullscreen(true);
+          }
+          else
+          {
+            this.#toggleFullscreen(false);
+          };
+        });
+      });
+      observer.observe(el, {'attributes': true, 'attributeFilter': ['class']});
+      if (this.#value != null) editor.setValue(this.#value);
+      this.#toggleFullscreen(false);
+    };
+    this.dispatchEvent(new CustomEvent('inited', {bubbles: true}));
+  };
+
+  getOptions() {
+    this.#options.cdn = this.#libPath;
+    this.#options.preview.theme.path = this.#libPath + '/dist/css/content-theme';
+    this.#options.toolbar = this.#toolbarGroup[this.#toolbar];
+    this.#options.after = value => this.#initVditorAfter(value);
+    this.#options.focus = value => {
+      this.container.classList.add('on');
+      this.dispatchEvent(new Event('focus'));
+    };
+    this.#options.blur = value => {
+      this.container.classList.remove('on');
+      this.dispatchEvent(new Event('blur'));
+    };
+    this.#options.input = value => {
+      this.dispatchEvent(new Event('input'));
+    };
+    return this.#options;
+  };
+
+  insertContent(content) {
+    let editor = this.#editor;
+    if (editor != null)
+    {
+      editor.insertValue(content);
     };
   };
 
@@ -197,7 +279,7 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
       {
         if (isFinite(newVal))
         {
-          this.#setOptions('minHeight', newVal + 'px').#setOptions('maxHeight', newVal + 'px');
+          this.#setHeight(Number.parseInt(newVal));
         }
         else
         {
@@ -205,18 +287,27 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
         };
         break;
       };
+      case 'lang':
+      {
+        this.lang = newVal;
+        break;
+      };
       case 'placeholder':
       {
-        this.#setOptions('placeholder', newVal);
+        this.#setPlaceholder(newVal);
         break;
       };
     };
   };
 
   connectedCallback() {
-    this.ready = true;
     this.#initEditor();
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
+  };
+
+  disconnectedCallback() {
+    this.resizeObserver?.disconnect();
   };
 
   constructor() {
@@ -224,19 +315,17 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     let shadowRoot = this.attachShadow({mode: 'open'});
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
-    let easyMDEPath = basePath + '../../../vendor/easymde/';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <link rel="stylesheet" href="${easyMDEPath}easymde.min.css" />
-      <link rel="stylesheet" href="${easyMDEPath}fontawesome/adapter.css" />
       <container style="display:none">
-        <div class="main"><textarea class="mde"></textarea></div>
+        <div class="main"><iframe class="iframe" frameborder="0" scrolling="no"></iframe></div>
         <div class="mask"></div>
       </container>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.easyMDEPath = easyMDEPath;
+    this.#basePath = basePath;
+    this.#libPath = basePath + '../../../vendor/vditor';
     this.container = shadowRoot.querySelector('container');
   };
 };

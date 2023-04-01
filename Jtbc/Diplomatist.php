@@ -8,7 +8,7 @@ use Jtbc\Config\ConfigReader;
 
 class Diplomatist
 {
-  private $param = [];
+  private $param;
   protected $middleware;
   protected $crashed = false;
   protected $configReader;

@@ -7,6 +7,7 @@ use ArrayAccess;
 use Countable;
 use Iterator;
 use JsonSerializable;
+use Jtbc\Exception\UnexpectedException;
 
 class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
 {
@@ -225,8 +226,22 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
   {
     $body = $argBody;
     $this -> recursiveMode = $argRecursiveMode;
-    if (is_array($body)) $this -> body = $body;
-    else if (is_string($body)) $this -> body = JSON::decode($body);
+    if (is_array($body))
+    {
+      $this -> body = $body;
+    }
+    else if (is_string($body))
+    {
+      $newBody = JSON::decode($body);
+      if (is_array($newBody))
+      {
+        $this -> body = $newBody;
+      }
+      else
+      {
+        throw new UnexpectedException('Unexpected argument(s)', 50801);
+      }
+    }
     $this -> resetKeys();
   }
 }

@@ -1,0 +1,22 @@
+* {
+  margin: 0px; padding: 0px
+}
+html {
+  width: 100%; height: 100%
+}
+body {
+  width: 100%; height: 100%; background: #fff; color: #000; font-size: 12px; font-family: Arial, Verdana, NSimSun
+}
+div.editor {
+  width: 100%; box-sizing: border-box; border-radius: 0px !important; border: 0px !important; --textarea-background-color: #fff; --toolbar-background-color: #f6f6f6; --toolbar-icon-hover-color: #3e868f
+}
+div.editor .vditor-counter {
+  cursor: default
+}
+div.editor .vditor-counter::after,
+div.editor .vditor-counter::before {
+  display: none !important
+}
+div.editor .vditor-preview__action {
+  display: none !important
+}

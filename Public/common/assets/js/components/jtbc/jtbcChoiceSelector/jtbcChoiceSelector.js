@@ -3,6 +3,9 @@ export default class jtbcChoiceSelector extends HTMLElement {
     return ['type', 'value'];
   };
 
+  #type = 'radio';
+  #value = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -12,7 +15,7 @@ export default class jtbcChoiceSelector extends HTMLElement {
   };
 
   get value() {
-    if (this.currentType == 'checkbox')
+    if (this.#type == 'checkbox')
     {
       let valueArr = [];
       this.querySelectorAll('input[type=checkbox]').forEach(el => {
@@ -21,23 +24,30 @@ export default class jtbcChoiceSelector extends HTMLElement {
           valueArr.push(el.value);
         };
       });
-      this.currentValue = valueArr.length == 0? '': JSON.stringify(valueArr);
+      this.#value = valueArr.length == 0? '': JSON.stringify(valueArr);
     }
     else
     {
       let checkedEl = this.querySelector('input[type=radio]:checked');
-      this.currentValue = checkedEl == null? '': checkedEl.value;
+      this.#value = checkedEl == null? '': checkedEl.value;
     };
-    return this.currentValue;
+    return this.#value;
   };
 
   update() {
-    let currentValue = this.currentValue;
+    let currentValue = this.#value;
     if (currentValue != null)
     {
-      if (this.currentType == 'checkbox')
+      if (this.#type == 'checkbox')
       {
-        let valueArr = currentValue? JSON.parse(currentValue): [];
+        let valueArr = [];
+        if (currentValue != null)
+        {
+          if (currentValue.startsWith('[') && currentValue.endsWith(']'))
+          {
+            valueArr = JSON.parse(currentValue);
+          };
+        };
         this.querySelectorAll('input[type=checkbox]').forEach(el => {
           if (valueArr.includes(el.value))
           {
@@ -61,13 +71,13 @@ export default class jtbcChoiceSelector extends HTMLElement {
     switch(attr) {
       case 'type':
       {
-        this.currentType = newVal;
+        this.#type = newVal;
         this.update();
         break;
       };
       case 'value':
       {
-        this.currentValue = newVal;
+        this.#value = newVal;
         this.update();
         break;
       };
@@ -81,8 +91,6 @@ export default class jtbcChoiceSelector extends HTMLElement {
 
   constructor() {
     super();
-    this.currentType = 'radio';
-    this.currentValue = null;
     this.ready = false;
   };
 };

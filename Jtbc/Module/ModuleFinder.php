@@ -1,4 +1,7 @@
 <?php
+//******************************//
+// JTBC Powered by jtbc.cn      //
+//******************************//
 namespace Jtbc\Module;
 use Jtbc\Path;
 use Jtbc\Config;
@@ -89,7 +92,7 @@ class ModuleFinder
       }
       if ($isRoot == true && $this -> isCacheable == true)
       {
-        $cacheTimeout = Config::get('Module/ModuleFinder', 'cache_timeout', 60);
+        $cacheTimeout = Config::read(__CLASS__, 'cache_timeout', 60);
         $this -> cache -> put($cacheName, $result, time() + intval($cacheTimeout));
       }
     }

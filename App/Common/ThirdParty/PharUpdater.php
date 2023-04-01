@@ -155,7 +155,7 @@ class PharUpdater
     $pharName = $argPharName;
     if (!is_string($pharName) || !Validation::isNatural($pharName))
     {
-      throw new NotSupportedException('Phar\'s name "' . $name . '" is not supported', 50415);
+      throw new NotSupportedException('Phar\'s name "' . $pharName . '" is not supported', 50415);
     }
     else
     {

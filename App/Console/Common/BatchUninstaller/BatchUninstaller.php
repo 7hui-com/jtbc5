@@ -90,7 +90,7 @@ class BatchUninstaller extends Uninstaller
           {
             $lastErrorCode = $moduleUninstaller -> getLastErrorCode();
             $this -> lastErrorCode = $lastErrorCode;
-            $this -> errors[] = ['genre' => $childGenre, 'lastErrorCode' => $lastErrorCode];
+            $this -> errors[] = ['genre' => $currentGenre, 'lastErrorCode' => $lastErrorCode];
           }
         }
       }

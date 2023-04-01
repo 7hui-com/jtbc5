@@ -11,7 +11,7 @@ class AutoProvider
   {
     $result = null;
     $serviceName = $argServiceName;
-    $namespace = Config::get('Service/AutoProvider', 'namespace');
+    $namespace = Config::read(__CLASS__, 'namespace');
     if (is_string($namespace))
     {
       if (is_string($serviceName) && !str_contains($serviceName, chr(92)))

@@ -218,5 +218,9 @@
       <name><![CDATA[urlcrash]]></name>
       <zh-cn><![CDATA[程序读取崩溃，请检查网络和服务器状态]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[urlmissing]]></name>
+      <zh-cn><![CDATA[当前访问的内容已经不存在，请检查地址或服务器状态]]></zh-cn>
+    </item>
   </item_list>
 </xml>

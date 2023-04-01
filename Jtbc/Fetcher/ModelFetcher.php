@@ -82,6 +82,10 @@ class ModelFetcher
         if ($model -> table -> hasField('order'))
         {
           $model -> orderBy('order', 'desc');
+          if ($model -> table -> hasField('id'))
+          {
+            $model -> orderBy('id', 'asc');
+          }
         }
         else if ($model -> table -> hasField('time'))
         {

@@ -3,8 +3,16 @@ export default class jtbcBatchControl extends HTMLDivElement {
     return ['url', 'partner', 'message', 'text-ok', 'text-cancel'];
   };
 
+  #url = null;
+  #partner = null;
+  #message = null;
+
   get partner() {
-    return document.getElementById(this.currentPartner) ?? document.querySelector(this.currentPartner);
+    return document.getElementById(this.#partner) ?? document.querySelector(this.#partner);
+  };
+
+  get url() {
+    return this.#url;
   };
 
   get type() {
@@ -21,7 +29,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
   };
 
   execute() {
-    if (this.locked == false && this.currentURL != null)
+    if (this.locked == false && this.url != null)
     {
       this.locked = true;
       let type = this.type;
@@ -41,7 +49,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
         'body': params.toString(),
       };
       let miniMessage = document.getElementById('miniMessage');
-      fetch(this.currentURL, fetchInit).then(res => res.ok? res.json(): {}).then(data => {
+      fetch(this.url, fetchInit).then(res => res.ok? res.json(): {}).then(data => {
         if (Number.isInteger(data.code))
         {
           if (data.code != 1)
@@ -68,7 +76,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
   submit() {
     let type = this.type;
     let partner = this.partner;
-    let message = this.currentMessage;
+    let message = this.#message;
     if (type != null && partner != null && message != null)
     {
       if (Reflect.has(partner, 'getChecked'))
@@ -115,17 +123,17 @@ export default class jtbcBatchControl extends HTMLDivElement {
     switch(attr) {
       case 'partner':
       {
-        this.currentPartner = newVal;
+        this.#partner = newVal;
         break;
       };
       case 'message':
       {
-        this.currentMessage = newVal;
+        this.#message = newVal;
         break;
       };
       case 'url':
       {
-        this.currentURL = newVal;
+        this.#url = newVal;
         break;
       };
       case 'text-ok':
@@ -149,9 +157,6 @@ export default class jtbcBatchControl extends HTMLDivElement {
     super();
     this.ready = false;
     this.locked = false;
-    this.currentPartner = null;
-    this.currentMessage = null;
-    this.currentURL = null;
     this.textOk = null;
     this.textCancel = null;
     this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });

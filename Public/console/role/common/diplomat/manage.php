@@ -77,11 +77,23 @@ class Diplomat extends Ambassador {
 
   public function edit(Request $req)
   {
+    $data = [];
+    $status = 200;
     $id = intval($req -> get('id'));
     $model = new TinyModel();
     $model -> where -> id = $id;
+    $rs = $model -> get();
+    if (is_null($rs))
+    {
+      $status = 404;
+    }
+    else
+    {
+      $data = $rs -> toArray();
+    }
     $bs = new BasicSubstance($this);
-    $bs -> data -> data = $model -> get();
+    $bs -> data -> data = $data;
+    $bs -> data -> status = $status;
     $bs -> data -> policies = $this -> getPolicies();
     return $bs -> toJSON();
   }
@@ -90,6 +102,7 @@ class Diplomat extends Ambassador {
   {
     $model = new TinyModel();
     $model -> orderBy('order', 'desc');
+    $model -> orderBy('id', 'asc');
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $model -> getAll(['id', 'title', 'time']);
     return $bs -> toJSON();

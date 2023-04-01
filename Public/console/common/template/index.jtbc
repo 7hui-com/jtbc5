@@ -14,7 +14,7 @@
 <meta charset="utf-8" />
 <meta name="format-detection" content="telephone=no,email=no,adress=no" />
 <title>{$=$take('index.title', 'lng')}</title>
-<base href="{$=$full_host}" jtbc-default-target="main" />
+<base href="{$=$getActualRoute('./')}" jtbc-default-target="main" />
 <link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/global.css" />
 {$=implode($call_hook('backstageEndOfHead') ?? [])}</head>
 <body>

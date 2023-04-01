@@ -27,4 +27,20 @@ final class Config
     }
     return $result;
   }
+
+  public static function read(string $argConfigClassName, string $argName, $argDefaultValue = null)
+  {
+    $currentClass = __CLASS__;
+    $configClassName = $argConfigClassName;
+    $currentClassPrefix = StringHelper::getClipedString($currentClass, chr(92), 'left');
+    if (str_starts_with($configClassName, $currentClassPrefix . chr(92)))
+    {
+      $configClassName = StringHelper::getClipedString($configClassName, chr(92), 'right+');
+    }
+    if (str_contains($configClassName, chr(92)))
+    {
+      $configClassName = str_replace(chr(92), chr(47), $configClassName);
+    }
+    return self::get($configClassName, $argName, $argDefaultValue);
+  }
 }

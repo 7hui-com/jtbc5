@@ -26,7 +26,6 @@ use App\Console\Cloud\CloudService\VersionDetector\PluginVersionDetector;
 use App\Universal\Plugin\Plugin;
 use App\Universal\Plugin\PluginFinder;
 use App\Universal\Plugin\PluginRecognizer;
-use Config\App\Common\Maintenance\Migrator as Config;
 
 class Diplomat extends Ambassador {
   public function kernel(Request $req)

@@ -172,7 +172,7 @@ class Hook
 
       public function remove()
       {
-        return $this -> instance -> remove($name);
+        return $this -> instance -> remove($this -> name);
       }
 
       public function trigger(...$args)

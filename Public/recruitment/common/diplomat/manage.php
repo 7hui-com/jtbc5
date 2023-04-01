@@ -29,20 +29,33 @@ class Diplomat extends Ambassador {
 
   public function edit(Request $req)
   {
+    $data = [];
+    $status = 200;
+    $form = [];
     $id = intval($req -> get('id'));
     $model = new TinyModel();
     $model -> where -> id = $id;
-    $data = $model -> get();
-    $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'));
-    $schemaGenerator -> setLang($this -> guard -> role -> getLang());
-    if (!$this -> guard -> role -> checkPermission('publish'))
+    $rs = $model -> get();
+    if (is_null($rs))
     {
-      $schemaGenerator -> ignore -> published = true;
+      $status = 404;
     }
-    $schemaGenerator -> value = $data;
+    else
+    {
+      $data = $rs -> toArray();
+      $schemaGenerator = new SchemaGenerator($model -> table -> getTableInfo(), $this -> getParam('visible_uri'));
+      $schemaGenerator -> setLang($this -> guard -> role -> getLang());
+      if (!$this -> guard -> role -> checkPermission('publish'))
+      {
+        $schemaGenerator -> ignore -> published = true;
+      }
+      $schemaGenerator -> value = $rs;
+      $form = $schemaGenerator -> generate('edit');
+    }
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;
-    $bs -> data -> form = $schemaGenerator -> generate('edit');
+    $bs -> data -> form = $form;
+    $bs -> data -> status = $status;
     return $bs -> toJSON();
   }
 

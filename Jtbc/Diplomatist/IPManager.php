@@ -3,7 +3,7 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc\Diplomatist;
-use Config\Diplomatist\IPManager as Config;
+use Jtbc\Config;
 
 class IPManager
 {
@@ -13,14 +13,16 @@ class IPManager
     {
       $ipAllow = true;
       $ipAddress = $diplomat -> getParam('ip_address');
-      if (is_array(Config::ALLOW_IP))
+      $allowIp = Config::read(__CLASS__, 'allow_ip');
+      $denyIp = Config::read(__CLASS__, 'deny_ip');
+      if (is_array($allowIp))
       {
         $ipAllow = false;
-        if (in_array($ipAddress, Config::ALLOW_IP)) $ipAllow = true;
+        if (in_array($ipAddress, $allowIp)) $ipAllow = true;
       }
-      if (is_array(Config::DENY_IP))
+      if (is_array($denyIp))
       {
-        if (in_array($ipAddress, Config::DENY_IP)) $ipAllow = false;
+        if (in_array($ipAddress, $denyIp)) $ipAllow = false;
       }
       if ($ipAllow == false)
       {
