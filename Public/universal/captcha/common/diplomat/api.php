@@ -41,7 +41,7 @@ class Diplomat extends Diplomatist {
       ];
     }
     $result = new Substance();
-    $result -> code = 1;
+    $result -> code = $code;
     $result -> data = $data;
     return $result -> toJSON();
   }

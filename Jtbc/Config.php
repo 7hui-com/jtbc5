@@ -28,6 +28,22 @@ final class Config
     return $result;
   }
 
+  public static function getConfigClassNameByGenre(string $argGenre, string $argFilename)
+  {
+    $genre = $argGenre;
+    $filename = $argFilename;
+    $className = ['config', 'app'];
+    if (!Validation::isEmpty($genre))
+    {
+      $className = array_merge($className, explode('/', $genre));
+    }
+    if (!Validation::isEmpty($filename))
+    {
+      $className = array_merge($className, [$filename]);
+    }
+    return implode(chr(92), array_map(fn($val) => ucfirst($val), $className));
+  }
+
   public static function read(string $argConfigClassName, string $argName, $argDefaultValue = null)
   {
     $currentClass = __CLASS__;

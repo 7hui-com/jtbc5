@@ -5,9 +5,6 @@
 namespace Jtbc\Jtbc;
 use DOMXPath;
 use DOMDocument;
-use Jtbc\Env;
-use Jtbc\Jtbc;
-use Jtbc\Validation;
 
 class JtbcWriter
 {

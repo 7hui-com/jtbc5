@@ -23,6 +23,10 @@
         <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;group=1">
           <div class="sheet">
             <item>
+              <label class="name"><span>{$=$take('config.list1-sysname', 'lng')}</span></label>
+              <div class="content"><input is="jtbc-input" type="text" role="field" name="name" value="${$info.sysname}" spellcheck="false" /></div>
+            </item>
+            <item>
               <label class="name"><span>{$=$take('config.list1-title', 'lng')}</span></label>
               <div class="content"><input is="jtbc-input" type="text" role="field" name="title" value="${$info.title}" spellcheck="false" /></div>
             </item>
@@ -126,31 +130,29 @@
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <toplink>{$=$take('manage.part-toplink')}</toplink>
-      <div class="chief">
+      <div if="${$status == 404}" class="chief">
         <h3>{$=$take('manage.text-menu-4', 'lng')}</h3>
-        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;group=4">
-          <div class="sheet">
-            <item>
-              <label class="name"><span>{$=$take('config.list4-title', 'lng')}</span></label>
-              <div class="content"><input is="jtbc-input" type="text" role="field" name="title" value="${$info.title}" width="120" spellcheck="false" /></div>
-            </item>
-            <item>
-              <label class="name"><span>{$=$take('config.list4-pagesize', 'lng')}</span></label>
-              <div class="content"><jtbc-field-number name="pagesize" role="field" value="${$info.pagesize}" max="1000" width="120"></jtbc-field-number></div>
-            </item>
-            <item>
-              <label class="name"></label>
-              <div class="content"><span class="tips">{$=$take('manage.text-tips-1', 'lng')}</span></div>
-            </item>
-            <item if="${$control.subPermission.edit}" class="formSubmit">
-              <label class="name"></label>
-              <div class="content">
-                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
-                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+        <div class="sheet">
+          <item class="skinny"><span class="tips">{$=$take('manage.text-tips-2', 'lng')}</span></item>
+        </div>
+      </div>
+      <div else class="chief" can_edit="${$control.subPermission.edit}">
+        <template is="jtbc-template" key="items">
+          <jtbc-tabs isloop="true">
+            <form is="jtbc-form" data-label="${$title}" method="post" action="{$>this.genre}/manage?action=edit&amp;group=4&amp;key=${$key}">
+              <div class="sheet">
+                <div is="jtbc-schema-form" data="${$.htmlEncode(JSON.stringify($.raw.form))}"></div>
+                <item if="${$.param.can_edit}" class="formSubmit hide">
+                  <label class="name"></label>
+                  <div class="content">
+                    <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                    <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+                  </div>
+                </item>
               </div>
-            </item>
-          </div>
-        </form>
+            </form>
+          </jtbc-tabs>
+        </template>
       </div>
     </div>
   </template>

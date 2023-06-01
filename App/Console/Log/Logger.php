@@ -10,10 +10,10 @@ use Jtbc\Diplomatist;
 
 class Logger
 {
-  public static function log(Diplomatist $diplomat, $argCodeName, $argVars = null)
+  public static function log(Diplomatist $diplomat, $argCodename, $argVars = null)
   {
     $result = null;
-    $codename = $argCodeName;
+    $codename = $argCodename;
     $vars = $argVars;
     $accountId = 0;
     $guard = $diplomat -> guard;

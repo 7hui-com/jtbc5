@@ -123,6 +123,10 @@ class Diplomat extends Ambassador {
             $code = 1;
             $data = $apiResult -> data;
           }
+          else if ($apiResult -> code == 401)
+          {
+            $code = 4401;
+          }
           else
           {
             $code = 4002;

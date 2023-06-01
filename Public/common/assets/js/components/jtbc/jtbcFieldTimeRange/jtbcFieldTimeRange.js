@@ -508,9 +508,9 @@ export default class jtbcFieldTimeRange extends HTMLElement {
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none">
         <div class="input">
-          <span class="time"><input type="text" name="starttime" class="time" mode="start" /></span>
+          <span class="time"><input type="text" name="starttime" class="time" mode="start" autocomplete="off" /></span>
           <span class="separator">~</span>
-          <span class="time"><input type="text" name="endtime" class="time" mode="end" /></span>
+          <span class="time"><input type="text" name="endtime" class="time" mode="end" autocomplete="off" /></span>
         </div>
         <span class="box"></span>
         <span class="btn delete"><jtbc-svg name="close_small"></jtbc-svg></span>

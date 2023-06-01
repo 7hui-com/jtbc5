@@ -5,7 +5,7 @@ html {
   font-size: 10px; scrollbar-color: #c1c1c1 #f1f1f1
 }
 body {
-  background: #005f9b; font-size: 1.2rem; font-family: "Microsoft YaHei", Arial, Verdana; color: #333333; --page-max-width: 1400px; --page-gap: 20px; --page-outer-padding: 0px var(--page-gap); --page-inner-padding: var(--page-gap) 0px
+  background: #005f9b; font-size: 1.2rem; font-family: "Microsoft YaHei", Arial, Verdana; color: #333; --page-max-width: 1400px; --page-gap: 20px; --page-outer-padding: 0px var(--page-gap); --page-inner-padding: var(--page-gap) 0px
 }
 h1 {
   font-size: 3.2rem
@@ -32,7 +32,7 @@ h6 {
   display: none !important
 }
 header {
-  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #fff; border-top: #005f9b 2px solid; border-bottom: #eeeeee 1px solid; position: fixed; top: 0px; left: 0px; z-index: 1000
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #fff; border-top: #005f9b 2px solid; border-bottom: #eee 1px solid; position: fixed; top: 0px; left: 0px; z-index: 1000
 }
 header box {
   display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: center; justify-content: space-between
@@ -63,7 +63,7 @@ header box mainmenu ul li a {
 }
 header box mainmenu ul li a::before,
 header box mainmenu ul li a::after {
-  content: ''; position: absolute; width: 0%; bottom: 0px; height: 2px; background: #333333; transition: width .2s ease, background .2s ease
+  content: ''; position: absolute; width: 0%; bottom: 0px; height: 2px; background: #333; transition: width .2s ease, background .2s ease
 }
 header box mainmenu ul li a::before {
   left: 50%
@@ -72,11 +72,11 @@ header box mainmenu ul li a::after {
   right: 50%
 }
 header box mainmenu ul li a:hover {
-  color: #333333 !important
+  color: #333 !important
 }
 header box mainmenu ul li a:hover::before,
 header box mainmenu ul li a:hover::after {
-  width: 50%; background: #333333 !important
+  width: 50%; background: #333 !important
 }
 header box mainmenu ul li.on a::before,
 header box mainmenu ul li.on a::after {
@@ -86,16 +86,16 @@ header.sticky {
   box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
 }
 headerholder {
-  display: block; width: 100%; height: 75px
+  display: block; width: 100%; height: calc(var(--page-gap) * 2 + 35px); background: #eee
 }
 navigation {
-  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #f8f8f8; border-bottom: #eeeeee 1px solid
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #f8f8f8; border-bottom: #eee 1px solid
 }
 navigation box {
   display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding)
 }
 container {
-  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #ffffff
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #fff
 }
 container box {
   display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: flex-start; justify-content: space-between
@@ -107,7 +107,7 @@ container box sidebar {
   display: block; width: 25%; margin-left: var(--page-gap)
 }
 container box sidebar section {
-  display: block; box-sizing: border-box; padding: var(--page-gap); margin-bottom: var(--page-gap); background: #f8f8f8; border: #eeeeee 1px solid
+  display: block; box-sizing: border-box; padding: var(--page-gap); margin-bottom: var(--page-gap); background: #f8f8f8; border: #eee 1px solid
 }
 container box sidebar section h3 {
   font-size: 1.6rem
@@ -125,7 +125,7 @@ footer {
   display: block; width: 100%
 }
 footer bottom {
-  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #333333
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #333
 }
 footer bottom box {
   display: flex; flex-wrap: wrap; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: flex-start
@@ -137,10 +137,10 @@ footer bottom box section:last-child {
   padding-right: 0px
 }
 footer bottom box section h3 {
-  font-size: 1.4rem; color: #ffffff; line-height: 100%; padding-bottom: var(--page-gap)
+  font-size: 1.4rem; color: #fff; line-height: 100%; padding-bottom: var(--page-gap)
 }
 footer bottom box section p {
-  color: #ffffff; line-height: 160%
+  color: #fff; line-height: 160%
 }
 footer bottom box section p.phone {
   font-size: 2.4rem; line-height: 100%; padding-bottom: 10px
@@ -152,13 +152,13 @@ footer bottom box section ul {
   list-style: disc; padding-left: 20px
 }
 footer bottom box section ul li {
-  padding-bottom: 5px; color: #ffffff; line-height: 160%
+  padding-bottom: 5px; color: #fff; line-height: 160%
 }
 footer bottom box section a {
-  color: #ffffff
+  color: #fff
 }
 footer bottom box section a:hover {
-  color: #ffffff; text-decoration: underline
+  color: #fff; text-decoration: underline
 }
 footer copyright {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding)
@@ -167,13 +167,13 @@ footer copyright box {
   display: flex; flex-wrap: wrap; justify-content: space-between; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: 15px 0px
 }
 footer copyright box section {
-  display: block; color: #ffffff; line-height: 160%
+  display: block; color: #fff; line-height: 160%
 }
 footer copyright box section a {
-  display: inline-block; padding: 0px 2px; color: #ffffff
+  display: inline-block; padding: 0px 2px; color: #fff
 }
 footer copyright box section a:hover {
-  color: #ffffff; text-decoration: underline
+  color: #fff; text-decoration: underline
 }
 footer copyright box section a.beian {
   padding-left: 10px
@@ -206,7 +206,7 @@ div.list div.row p[type=summary] {
   font-size: 1.4rem; line-height: 160%; color: #666
 }
 div.list div.row.wrapped {
-  padding: var(--page-gap); border: #eeeeee 1px dashed
+  padding: var(--page-gap); border: #eee 1px dashed
 }
 div.list div.item p[type=title] {
   padding-top: 10px; font-size: 1.4rem; text-align: center
@@ -239,7 +239,7 @@ div.detail {
   width: 100%
 }
 div.detail h1.title {
-  font-size: 2.4rem; line-height: 160%; padding-bottom: var(--page-gap); border-bottom: #eeeeee 1px solid
+  font-size: 2.4rem; line-height: 160%; padding-bottom: var(--page-gap); border-bottom: #eee 1px solid
 }
 div.list div.content,
 div.detail div.content {

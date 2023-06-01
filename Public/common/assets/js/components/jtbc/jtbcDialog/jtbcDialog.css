@@ -101,7 +101,7 @@ container.on {
   display: block; font-size: 12px; color: #fff
 }
 .dialog_item .dialog div.imagePreviewer > img {
-  min-width: 160px; min-height: 160px; max-width: calc(100vw - 60px); max-height: calc(100vh - 40px)
+  min-width: 160px; min-height: 160px; max-width: calc(100vw - 60px); max-height: calc(100vh - 40px); user-select: none
 }
 .dialog_item .dialog.popup {
   padding: 0px; min-width: auto; min-height: 40px

@@ -26,12 +26,11 @@ class DI
       }
       else
       {
-        $autoClass = AutoProvider::getClass($name);
-        if (!is_null($autoClass))
+        $result = AutoProvider::getClass($name);
+        if (!is_null($result))
         {
-          $this -> bind($name, $autoClass, true);
+          $this -> bind($name, $result, true);
         }
-        $result = $autoClass;
       }
     }
     return $result;

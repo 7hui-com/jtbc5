@@ -287,7 +287,7 @@ class ORMMultiReader
       {
         $realLeftORMFields = $allLeftORMFields;
       }
-      else
+      else if (is_array($leftORMFields))
       {
         foreach ($leftORMFields as $field)
         {
@@ -302,11 +302,15 @@ class ORMMultiReader
           }
         }
       }
+      else
+      {
+        throw new UnexpectedException('Unexpected argument(s)', 50801);
+      }
       if ($rightORMFields == '*')
       {
         $realRightORMFields = $allRightORMFields;
       }
-      else
+      else if (is_array($rightORMFields))
       {
         foreach ($rightORMFields as $field)
         {
@@ -320,6 +324,10 @@ class ORMMultiReader
             $realRightORMFields[] = $field;
           }
         }
+      }
+      else
+      {
+        throw new UnexpectedException('Unexpected argument(s)', 50801);
       }
       $this -> leftORMFields = $realLeftORMFields;
       $this -> rightORMFields = $realRightORMFields;

@@ -1,0 +1,106 @@
+@import url('../../../vendor/swiper/swiper-bundle.min.css');
+:host {
+  width: 100%; height: 100%; opacity: 0; --thumb-padding: 20px; --icon-size: 20px; --font-size: 12px; position: fixed; top: 0px; left: 0px; pointer-events: none; z-index: -1000000000
+}
+:host(.on) {
+  opacity: 1; pointer-events: auto; z-index: 1000000000
+}
+container {
+  display: block !important; width: 100%; height: 100%; background: rgba(0, 0, 0, .7); opacity: 0; overflow: hidden; transition: opacity .2s ease
+}
+container div.close {
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; top: 0px; right: 0px; z-index: 100
+}
+container div.close jtbc-svg {
+  width: var(--icon-size); height: var(--icon-size); --fore-color: #fff
+}
+container div.content {
+  width: 100%; box-sizing: border-box
+}
+container div.content div.swiper {
+  width: 100%; height: 100%
+}
+container div.content div.swiper div.prev {
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: (0, -50%); position: absolute; top: 50%; left: 0px; z-index: 100
+}
+container div.content div.swiper div.prev jtbc-svg {
+  width: calc(var(--icon-size) * 1.5); height: calc(var(--icon-size) * 1.5); --fore-color: #fff
+}
+container div.content div.swiper div.next {
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: (0, -50%); position: absolute; top: 50%; right: 0px; z-index: 100
+}
+container div.content div.swiper div.next jtbc-svg {
+  width: calc(var(--icon-size) * 1.5); height: calc(var(--icon-size) * 1.5); --fore-color: #fff
+}
+container div.pagination {
+  background: rgba(255, 255, 255, .1); padding: calc(var(--thumb-padding) / 2); color: #fff; font-size: var(--font-size); line-height: 120%; border-radius: 5px; transform: translate(-50%, 0); position: absolute; bottom: var(--thumb-padding); left: 50%; z-index: 100; user-select: none; transition: opacity .2s ease
+}
+container div.pagination.hide {
+  opacity: 0 !important
+}
+container div.thumb {
+  width: 100%; box-sizing: border-box; padding: var(--thumb-padding); gap: calc(var(--thumb-padding) / 2); display: flex; align-items: center; justify-content: center
+}
+container div.thumb div.item {
+  height: 100%; cursor: pointer; user-select: none
+}
+container div.thumb div.item img {
+  display: block; box-sizing: border-box; border: transparent 2px solid
+}
+container div.thumb div.item.on img {
+  border-color: rgba(255, 255, 255, .3)
+}
+container div.thumb div.button {
+  background: rgba(255, 255, 255, .1); padding: calc(var(--thumb-padding) / 2) var(--thumb-padding); transform: translate(-50%, 0); border-top-left-radius: calc(var(--thumb-padding) / 4); border-top-right-radius: calc(var(--thumb-padding) / 4); position: absolute; bottom: 100%; left: 50%; z-index: 110; cursor: pointer
+}
+container div.thumb div.button jtbc-svg {
+  width: 20px; height: 20px; display: block; --fore-color: #fff
+}
+container div.thumb div.button jtbc-svg[name=arrow_down] {
+  display: none
+}
+container div.thumb[size=contain] div.item img {
+  max-width: 100%; max-height: 100%
+}
+container div.thumb[size=cover] div.item {
+  aspect-ratio: 1 / 1
+}
+container div.thumb[size=cover] div.item img {
+  display: block; width: 100%; height: 100%; object-fit: cover
+}
+container[thumb=show] div.content {
+  height: 85%; padding-top: var(--thumb-padding)
+}
+container[thumb=show] div.thumb {
+  height: 15%
+}
+container[thumb=hide] div.content {
+  height: 100%
+}
+container[thumb=hide] div.pagination {
+  opacity: 1
+}
+container[thumb=hide] div.thumb {
+  height: 15%; background: rgba(255, 255, 255, .1); transform: translate(0, 100%); position: absolute; left: 0px; bottom: 0px; z-index: 200; transition: transform .3s ease
+}
+container[thumb=hide] div.thumb.on {
+  transform: translate(0, 0)
+}
+container[thumb=hide] div.thumb.on  div.button jtbc-svg[name=arrow_up] {
+  display: none
+}
+container[thumb=hide] div.thumb.on  div.button jtbc-svg[name=arrow_down] {
+  display: block
+}
+container[thumb=none] div.content {
+  height: 100%
+}
+container[thumb=none] div.pagination {
+  opacity: 1
+}
+container[thumb=none] div.thumb {
+  display: none
+}
+container.on {
+  opacity: 1
+}

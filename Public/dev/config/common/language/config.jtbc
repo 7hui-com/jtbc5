@@ -11,8 +11,12 @@
       <zh-cn><![CDATA[后缀名]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[list1-sysname]]></name>
+      <zh-cn><![CDATA[系统名称]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[list1-title]]></name>
-      <zh-cn><![CDATA[标题]]></zh-cn>
+      <zh-cn><![CDATA[网站名称]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[list1-keywords]]></name>

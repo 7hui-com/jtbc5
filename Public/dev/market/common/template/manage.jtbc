@@ -71,7 +71,9 @@
         <div class="tinyForm">
           <div class="installation"></div>
           <div is="jtbc-tab" value="0">
-            <div class="tabtitle"><tabtitle>{$=$take('config.content', 'lng')}</tabtitle><tabtitle>{$=$take('config.revision_history', 'lng')}</tabtitle><tabtitle>{$=$take('config.screenshot', 'lng')}</tabtitle></div>
+            <div class="tabs">
+              <div class="tabtitle"><tabtitle>{$=$take('config.content', 'lng')}</tabtitle><tabtitle>{$=$take('config.revision_history', 'lng')}</tabtitle><tabtitle>{$=$take('config.screenshot', 'lng')}</tabtitle></div>
+            </div>
             <div class="mainContent">
               <div class="tabcontent">
                 <tabcontent><jtbc-json2html value="${$content}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>

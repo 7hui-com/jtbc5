@@ -17,6 +17,7 @@ class ClassicConfigManager
   private $constants;
   private $configClassName;
   private $reflectionClass;
+  private $createIfNotExists;
 
   private function isClassic()
   {
@@ -122,7 +123,13 @@ class ClassicConfigManager
       }
     }
     $configContent[] = '}';
-    if (@file_put_contents($this -> getFullConfigPath(), implode(chr(13) . chr(10), $configContent)) !== false)
+    $fullConfigPath = $this -> getFullConfigPath();
+    $fullConfigDirectory = StringHelper::getClippedString($fullConfigPath, '/', 'left+');
+    if ($this -> createIfNotExists === true && !is_dir($fullConfigDirectory))
+    {
+      @mkdir($fullConfigDirectory, 0777, true);
+    }
+    if (@file_put_contents($fullConfigPath, implode(chr(13) . chr(10), $configContent)) !== false)
     {
       $result = true;
     }
@@ -163,8 +170,8 @@ class ClassicConfigManager
 
   public function __construct(string $argConfigClassName, bool $argCreateIfNotExists = false)
   {
-    $createIfNotExists = $argCreateIfNotExists;
     $configClassName = $this -> configClassName = $argConfigClassName;
+    $createIfNotExists = $this -> createIfNotExists = $argCreateIfNotExists;
     if (!str_starts_with($configClassName, 'Config\\'))
     {
       throw new NotSupportedException('Class "' . $configClassName . '" is not supported', 50415);

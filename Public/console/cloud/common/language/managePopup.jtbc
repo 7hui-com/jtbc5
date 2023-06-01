@@ -206,5 +206,9 @@
       <name><![CDATA[text-getRenewInfo-code-4002]]></name>
       <zh-cn><![CDATA[与云服务器交互异常，请稍后重试]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[text-getRenewInfo-code-4401]]></name>
+      <zh-cn><![CDATA[您当前的云服务证书已失效]]></zh-cn>
+    </item>
   </item_list>
 </xml>

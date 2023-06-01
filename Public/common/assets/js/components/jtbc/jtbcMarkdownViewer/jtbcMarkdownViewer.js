@@ -7,6 +7,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
   #value = null;
   #basePath = null;
   #libPath = null;
+  #pluginCss = null;
   #options = {
     'lang': 'zh_CN',
     'preview': {
@@ -45,8 +46,17 @@ export default class jtbcMarkdownViewer extends HTMLElement {
   };
 
   #initVditor(el) {
+    let pluginCss = this.#pluginCss;
     let iWindow = el.contentWindow;
     let iDocument =  el.contentDocument;
+    if (pluginCss != null)
+    {
+      let pluginStyle = document.createElement('link');
+      pluginStyle.setAttribute('type', 'text/css');
+      pluginStyle.setAttribute('rel', 'stylesheet');
+      pluginStyle.setAttribute('href', pluginCss);
+      iDocument.head.appendChild(pluginStyle);
+    };
     let contentEl = iDocument.querySelector('div.content');
     this.resizeObserver = new ResizeObserver(entries => this.#resize(entries, contentEl));
     this.resizeObserver.observe(contentEl);
@@ -116,6 +126,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.#basePath = basePath;
     this.#libPath = basePath + '../../../vendor/vditor';
+    this.#pluginCss = this.getAttribute('plugin_css');
     this.container = shadowRoot.querySelector('container');
   };
 };

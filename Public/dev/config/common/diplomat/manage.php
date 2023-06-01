@@ -2,20 +2,24 @@
 namespace Jtbc;
 use Jtbc\Jtbc\Codename;
 use Jtbc\Jtbc\JtbcWriter;
+use Jtbc\Config\ClassicConfigManager;
+use App\Common\Config\ConfigItemsScanner;
+use App\Common\Config\ConfigItemsValidator;
 use App\Console\Common\BasicSubstance;
 use App\Console\Log\Logger;
 use App\Console\Common\Ambassador;
 use App\Universal\Upload\chunkFile;
 use App\Universal\Upload\LocalUploader\LocalUploader;
-use Config\Diplomatist as Config;
+use Config\App\Config as AppConfig;
 
 class Diplomat extends Ambassador {
   private $assetsFolder = 'common/assets';
 
-  public function list1(Request $req)
+  public function list1()
   {
     $bs = new BasicSubstance($this);
     $bs -> data -> info = [
+      'sysname' => Jtbc::take('::index.title', 'lng'),
       'title' => Jtbc::take('global.communal.title', 'lng'),
       'keywords' => Jtbc::take('global.communal.keywords', 'lng'),
       'description' => Jtbc::take('global.communal.description', 'lng'),
@@ -23,7 +27,7 @@ class Diplomat extends Ambassador {
     return $bs -> toJSON();
   }
 
-  public function list2(Request $req)
+  public function list2()
   {
     $bs = new BasicSubstance($this);
     $logoPath = $this -> assetsFolder . '/' . strval(Jtbc::take('global.communal.logo', 'lng'));
@@ -34,7 +38,7 @@ class Diplomat extends Ambassador {
     return $bs -> toJSON();
   }
 
-  public function list3(Request $req)
+  public function list3()
   {
     $bs = new BasicSubstance($this);
     $extensions = [];
@@ -60,13 +64,49 @@ class Diplomat extends Ambassador {
     return $bs -> toJSON();
   }
 
-  public function list4(Request $req)
+  public function list4()
   {
+    $items = [];
+    $status = 200;
+    $configItemsScanner = new ConfigItemsScanner();
+    $configItems = $configItemsScanner -> getOrderedItems();
+    if (empty($configItems))
+    {
+      $status = 404;
+    }
+    else
+    {
+      foreach ($configItems as $key => $value)
+      {
+        $form = [];
+        $title = $key;
+        if (is_array($value))
+        {
+          if (array_key_exists('__title', $value))
+          {
+            $title = strval($value['__title']);
+          }
+          $formSchema = $configItemsScanner -> getFormSchemaByKey($key);
+          if (is_array($formSchema))
+          {
+            foreach ($formSchema as $item)
+            {
+              $ss = new Substance($item);
+              $currentValue = Config::get(AppConfig::class, $key . '_' . $ss -> name);
+              if (is_null($currentValue) && $ss -> exists('value'))
+              {
+                $currentValue = $ss -> value;
+              }
+              $form[] = array_merge($ss -> toArray(), is_null($currentValue)? []: ['value' => $currentValue]);
+            }
+          }
+        }
+        $items[] = ['key' => $key, 'title' => $title, 'form' => $form];
+      }
+    }
     $bs = new BasicSubstance($this);
-    $bs -> data -> info = [
-      'title' => Jtbc::take('global.' . Config::CONSOLE_DIR . ':index.title', 'lng'),
-      'pagesize' => intval(Jtbc::take('global.config.pagesize', 'cfg')),
-    ];
+    $bs -> data -> items = $items;
+    $bs -> data -> status = $status;
     return $bs -> toJSON();
   }
 
@@ -75,21 +115,25 @@ class Diplomat extends Ambassador {
     $code = 0;
     $message = '';
     $ss = new Substance();
+    $post = $req -> post();
     $group = intval($req -> get('group'));
     if ($this -> guard -> role -> checkPermission('edit'))
     {
       if ($group == 1)
       {
+        $sysname = strval($req -> post('sysname'));
         $title = strval($req -> post('title'));
         $keywords = strval($req -> post('keywords'));
         $description = strval($req -> post('description'));
-        $codename1 = new Codename('global.communal.title', 'lng');
-        $codename2 = new Codename('global.communal.keywords', 'lng');
-        $codename3 = new Codename('global.communal.description', 'lng');
-        $wroteStatus1 = JtbcWriter::putNodeContent($codename1 -> getFilepath(), 'lng', 'title', $title);
-        $wroteStatus2 = JtbcWriter::putNodeContent($codename2 -> getFilepath(), 'lng', 'keywords', $keywords);
-        $wroteStatus3 = JtbcWriter::putNodeContent($codename3 -> getFilepath(), 'lng', 'description', $description);
-        if ($wroteStatus1 && $wroteStatus2 && $wroteStatus3)
+        $codename1 = new Codename('::index.title', 'lng');
+        $codename2 = new Codename('global.communal.title', 'lng');
+        $codename3 = new Codename('global.communal.keywords', 'lng');
+        $codename4 = new Codename('global.communal.description', 'lng');
+        $wroteStatus1 = JtbcWriter::putNodeContent($codename1 -> getFilepath(), 'lng', 'title', $sysname);
+        $wroteStatus2 = JtbcWriter::putNodeContent($codename2 -> getFilepath(), 'lng', 'title', $title);
+        $wroteStatus3 = JtbcWriter::putNodeContent($codename3 -> getFilepath(), 'lng', 'keywords', $keywords);
+        $wroteStatus4 = JtbcWriter::putNodeContent($codename4 -> getFilepath(), 'lng', 'description', $description);
+        if ($wroteStatus1 && $wroteStatus2 && $wroteStatus3 && $wroteStatus4)
         {
           $code = 1;
           Logger::log($this, 'manage.log-edit-' . $group);
@@ -159,20 +203,58 @@ class Diplomat extends Ambassador {
       }
       else if ($group == 4)
       {
-        $title = strval($req -> post('title'));
-        $pagesize = intval($req -> post('pagesize'));
-        $codename1 = new Codename('global.' . Config::CONSOLE_DIR . ':index.title', 'lng');
-        $codename2 = new Codename('global.config.pagesize', 'cfg');
-        $wroteStatus1 = JtbcWriter::putNodeContent($codename1 -> getFilepath(), 'lng', 'title', $title);
-        $wroteStatus2 = JtbcWriter::putNodeContent($codename2 -> getFilepath(), 'cfg', 'pagesize', $pagesize);
-        if ($wroteStatus1 && $wroteStatus2)
+        
+        $key = strval($req -> get('key'));
+        if (Validation::isConstantName($key))
         {
-          $code = 1;
-          Logger::log($this, 'manage.log-edit-' . $group);
+          $configItemsScanner = new ConfigItemsScanner();
+          $formSchema = $configItemsScanner -> getFormSchemaByKey($key);
+          if (empty($formSchema))
+          {
+            $code = 4400;
+          }
+          else
+          {
+            $validated = ConfigItemsValidator::validate($formSchema, is_array($post)? $post: []);
+            if ($validated === true)
+            {
+
+              $classicConfigManager = new ClassicConfigManager(AppConfig::class, true);
+              foreach ($formSchema as $item)
+              {
+                $ss = new Substance($item);
+                $name = $ss -> name;
+                $format = $ss -> format;
+                $value = $req -> post($name);
+                $constantName = $key . '_' . $name;
+                if ($format == 'int')
+                {
+                  $value = intval($value);
+                }
+                $classicConfigManager -> {strtoupper($constantName)} = $value;
+              }
+              $saved = $classicConfigManager -> save();
+              if ($saved === true)
+              {
+                $code = 1;
+                Logger::log($this, 'manage.log-edit-' . $group, ['key' => $key]);
+              }
+              else
+              {
+                $code = 4002;
+              }
+            }
+            else
+            {
+              $code = $validated -> firstCode;
+              $message = $validated -> firstMessage;
+              $ss -> errorTips = $validated -> error;
+            }
+          }
         }
         else
         {
-          $code = 4002;
+          $code = 4400;
         }
       }
       else

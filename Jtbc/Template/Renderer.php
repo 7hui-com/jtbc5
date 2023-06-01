@@ -22,6 +22,11 @@ class Renderer
     return 'RD' . self::$envParamPrefixCounter . '_';
   }
 
+  public function getTemplate()
+  {
+    return $this -> template;
+  }
+
   public function render(array $argData = [], callable $loopCallBack = null)
   {
     $result = '';
@@ -67,13 +72,22 @@ class Renderer
     return $result;
   }
 
-  public function __construct(string $argCodeName, array $argVariables = [], string $argEnvParamPrefix = '')
+  public function setTemplate(string $argTemplate)
   {
-    $codeName = $argCodeName;
+    $this -> template = $argTemplate;
+    return $this;
+  }
+
+  public function __construct(string $argCodename = null, array $argVariables = [], string $argEnvParamPrefix = '')
+  {
+    $codename = $argCodename;
     $variables = $argVariables;
     $envParamPrefix = $argEnvParamPrefix;
     $this -> variables = $variables;
     $this -> envParamPrefix = $envParamPrefix ?: $this -> getEnvParamPrefix();
-    $this -> template = Jtbc::take($codeName, 'tpl');
+    if (!Validation::isEmpty($codename))
+    {
+      $this -> setTemplate(Jtbc::take($codename, 'tpl'));
+    }
   }
 }

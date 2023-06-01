@@ -15,8 +15,14 @@ class RSA
     {
       $encryptData = '';
       $publicKeyContent = openssl_pkey_get_public(file_get_contents($publicKey));
-      openssl_public_encrypt($data, $encryptData, $publicKeyContent);
-      $result = base64_encode($encryptData);
+      if (openssl_public_encrypt($data, $encryptData, $publicKeyContent) === true)
+      {
+        $result = base64_encode($encryptData);
+      }
+      else
+      {
+        $result = false;
+      }
     }
     return $result;
   }
@@ -30,8 +36,14 @@ class RSA
     {
       $decryptData = '';
       $privateKeyContent = openssl_pkey_get_private(file_get_contents($privateKey));
-      openssl_private_decrypt(base64_decode($data), $decryptData, $privateKeyContent);
-      $result = $decryptData;
+      if (openssl_private_decrypt(base64_decode($data), $decryptData, $privateKeyContent) === true)
+      {
+        $result = $decryptData;
+      }
+      else
+      {
+        $result = false;
+      }
     }
     return $result;
   }
@@ -45,16 +57,20 @@ class RSA
     if (is_file($privateKey))
     {
       $sign = '';
-      $privateKeyContent = openssl_pkey_get_private(file_get_contents($privateKey));
-      if ($signType == 'RSA2')
+      $algorithm = match($signType)
       {
-        openssl_sign($data, $sign, $privateKeyContent, OPENSSL_ALGO_SHA256);
+        'RSA2' => OPENSSL_ALGO_SHA256,
+        default => OPENSSL_ALGO_SHA1,
+      };
+      $privateKeyContent = openssl_pkey_get_private(file_get_contents($privateKey));
+      if (openssl_sign($data, $sign, $privateKeyContent, $algorithm) === true)
+      {
+        $result = base64_encode($sign);
       }
       else
       {
-        openssl_sign($data, $sign, $privateKeyContent);
+        $result = false;
       }
-      $result = base64_encode($sign);
     }
     return $result;
   }
@@ -68,8 +84,17 @@ class RSA
     $signType = $argSignType;
     if (is_file($publicKey))
     {
+      $result = false;
+      $algorithm = match($signType)
+      {
+        'RSA2' => OPENSSL_ALGO_SHA256,
+        default => OPENSSL_ALGO_SHA1,
+      };
       $publicKeyContent = openssl_pkey_get_public(file_get_contents($publicKey));
-      $result = $signType == 'RSA2'? openssl_verify($data, base64_decode($sign), $publicKeyContent, OPENSSL_ALGO_SHA256): openssl_verify($data, base64_decode($sign), $publicKeyContent);
+      if (openssl_verify($data, base64_decode($sign), $publicKeyContent, $algorithm) === 1)
+      {
+        $result = true;
+      }
     }
     return $result;
   }

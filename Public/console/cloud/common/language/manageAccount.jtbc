@@ -20,7 +20,7 @@
     </item>
     <item>
       <name><![CDATA[text-tips-modify-exception]]></name>
-      <zh-cn><![CDATA[读取云服务号数据失败，可能是网络不稳定]]></zh-cn>
+      <zh-cn><![CDATA[读取云服务号数据失败，可能是网络不稳定或云服务号已失效]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tips-modify-loading]]></name>

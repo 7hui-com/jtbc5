@@ -9,13 +9,13 @@ use Jtbc\Encoder;
 
 class JtbcFormatter
 {
-  public static function checkbox($argCodeName, string $argName, $argValue = null)
+  public static function checkbox($argCodename, string $argName, $argValue = null)
   {
     $result = '';
-    $codeName = $argCodeName;
+    $codename = $argCodename;
     $name = $argName;
     $value = $argValue;
-    $dataArr = Jtbc::take($codeName, 'lng');
+    $dataArr = Jtbc::take($codename, 'lng');
     if (is_array($dataArr))
     {
       $item = Jtbc::take('universal:config.checkbox', 'tpl');
@@ -39,12 +39,12 @@ class JtbcFormatter
     return $result;
   }
 
-  public static function option($argCodeName, $argValue = null)
+  public static function option($argCodename, $argValue = null)
   {
     $result = '';
-    $codeName = $argCodeName;
+    $codename = $argCodename;
     $value = $argValue;
-    $dataArr = Jtbc::take($codeName, 'lng');
+    $dataArr = Jtbc::take($codename, 'lng');
     if (is_array($dataArr))
     {
       $item = Jtbc::take('universal:config.option', 'tpl');
@@ -60,13 +60,13 @@ class JtbcFormatter
     return $result;
   }
 
-  public static function radio($argCodeName, string $argName, $argValue = null)
+  public static function radio($argCodename, string $argName, $argValue = null)
   {
     $result = '';
-    $codeName = $argCodeName;
+    $codename = $argCodename;
     $name = $argName;
     $value = $argValue;
-    $dataArr = Jtbc::take($codeName, 'lng');
+    $dataArr = Jtbc::take($codename, 'lng');
     if (is_array($dataArr))
     {
       $item = Jtbc::take('universal:config.radio', 'tpl');

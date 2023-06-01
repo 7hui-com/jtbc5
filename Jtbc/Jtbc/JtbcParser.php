@@ -26,6 +26,8 @@ use Jtbc\Exception\NotCallableException;
 class JtbcParser
 {
   private static $alias = [];
+  private static $EOFIndex = 0;
+  private static $EOFString = [];
 
   private static function execute($argString, $argEnvParamPrefix = '')
   {
@@ -94,6 +96,27 @@ class JtbcParser
     return $result;
   }
 
+  private static function replaceEOF($argString)
+  {
+    $tmpstr = $argString;
+    if (!Validation::isEmpty($tmpstr))
+    {
+      $pregMatch = [];
+      preg_match_all('/\^\^\^EOF([\s\S]*?)EOF\^\^\^/', $tmpstr, $pregMatch, PREG_SET_ORDER);
+      foreach ($pregMatch as $item)
+      {
+        self::$EOFIndex += 1;
+        if (count($item) == 2)
+        {
+          $key = $item[0];
+          self::$EOFString[self::$EOFIndex] = $item[1];
+          $tmpstr = str_replace($key, '$getEOFString(' . self::$EOFIndex . ')', $tmpstr);
+        }
+      }
+    }
+    return $tmpstr;
+  }
+
   public static function getAliasMap()
   {
     $aliasMap = [
@@ -111,6 +134,7 @@ class JtbcParser
       'getActualRoute' => Path::class,
       'getBestMatchedString' => StringHelper::class,
       'getClipedString' => StringHelper::class,
+      'getEOFString' => self::class,
       'getKernelVersion' => Kernel::class . '::getVersion',
       'getLeftString' => StringHelper::class,
       'getMajorGenre' => Env::class,
@@ -191,6 +215,17 @@ class JtbcParser
     return $aliasFunction;
   }
 
+  public static function getEOFString($argIndex)
+  {
+    $result = null;
+    $index = intval($argIndex);
+    if (array_key_exists($index, self::$EOFString))
+    {
+      $result = self::$EOFString[$index];
+    }
+    return $result;
+  }
+
   public static function preParse($argString)
   {
     $tmpstr = $argString;
@@ -206,6 +241,10 @@ class JtbcParser
           $value = self::execute($item[1]) ?? '';
           $tmpstr = str_replace($key, $value, $tmpstr);
         }
+      }
+      if (str_contains($tmpstr, '^^^EOF'))
+      {
+        $tmpstr = self::replaceEOF($tmpstr);
       }
     }
     return $tmpstr;

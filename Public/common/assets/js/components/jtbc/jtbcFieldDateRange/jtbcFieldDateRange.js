@@ -81,7 +81,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
         {
           let startDate = new Date(valueArr[0]);
           let endDate = new Date(valueArr[1]);
-          if (startDate < endDate)
+          if (startDate <= endDate)
           {
             result = true;
           };
@@ -126,7 +126,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
         if (this.#isDate(startDate))
         {
           let tempDate = new Date(startDate);
-          if (tempDate > originalEndDate)
+          if (tempDate >= originalEndDate)
           {
             newStartDate = originalStartDate;
             newEndDate = tempDate;
@@ -140,7 +140,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
         else if (this.#isDate(endDate))
         {
           let tempDate = new Date(endDate);
-          if (tempDate < originalStartDate)
+          if (tempDate <= originalStartDate)
           {
             newStartDate = tempDate;
             newEndDate = originalEndDate;
@@ -169,7 +169,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
       {
         let tempDate1 = new Date(startDate);
         let tempDate2 = new Date(currentStartDate);
-        if (tempDate1 > tempDate2)
+        if (tempDate1 >= tempDate2)
         {
           newStartDate = tempDate2;
           newEndDate = tempDate1;
@@ -192,7 +192,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
       {
         let tempDate1 = new Date(endDate);
         let tempDate2 = new Date(currentEndDate);
-        if (tempDate1 > tempDate2)
+        if (tempDate1 >= tempDate2)
         {
           newStartDate = tempDate2;
           newEndDate = tempDate1;
@@ -211,7 +211,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
     };
     if (newStartDate instanceof Date && newEndDate instanceof Date)
     {
-      if (newStartDate < newEndDate)
+      if (newStartDate <= newEndDate)
       {
         calendarStartEl.getAllDateElements().forEach(el => {
           let currentDate = new Date(el.getAttribute('date'));
@@ -471,9 +471,9 @@ export default class jtbcFieldDateRange extends HTMLElement {
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none">
         <div class="input">
-          <span class="date"><input type="text" name="startdate" class="date" mode="start" /></span>
+          <span class="date"><input type="text" name="startdate" class="date" mode="start" autocomplete="off" /></span>
           <span class="separator">~</span>
-          <span class="date"><input type="text" name="enddate" class="date" mode="end" /></span>
+          <span class="date"><input type="text" name="enddate" class="date" mode="end" autocomplete="off" /></span>
         </div>
         <span class="box"></span>
         <span class="btn delete"><jtbc-svg name="close_small"></jtbc-svg></span>

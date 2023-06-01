@@ -79,6 +79,9 @@
 .ppItemDetail div.intro span.price {
   font-size: 24px; color: #de4e58; line-height: 100%; position: absolute; top: 10px; left: 10px; z-index: 100
 }
+.ppItemDetail div.tabs {
+  width: 100%; overflow: hidden
+}
 .ppItemDetail div.mainContent {
   width: 100%; display: flex
 }
@@ -267,7 +270,7 @@
   width: 100%; height: auto; aspect-ratio: 16 / 10; overflow: hidden
 }
 .ppContainer[category='package'] .ppItemList div.item div.text div.info {
-  width: 100%; padding: 10px; box-sizing: border-box; background: rgba(62, 134, 143, .5); position: absolute; bottom: -25px; left: 0px; z-index: 100; transition: all .3s ease
+  width: 100%; padding: 10px; box-sizing: border-box; background: rgba(62, 134, 143, .5); position: absolute; bottom: -28px; left: 0px; z-index: 100; transition: all .3s ease
 }
 .ppContainer[category='package'] .ppItemList div.item div.text div.info a {
   color: #fff; padding: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis

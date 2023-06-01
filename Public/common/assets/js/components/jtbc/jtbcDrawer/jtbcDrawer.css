@@ -1,0 +1,63 @@
+:host {
+  width: 100%; height: 100%; opacity: 0; --icon-size: 20px; position: fixed; top: 0px; left: 0px; pointer-events: none; z-index: -1200000000
+}
+:host(.on) {
+  opacity: 1; pointer-events: auto; z-index: 1200000000
+}
+container {
+  display: block !important; width: 100%; height: 100%; background: rgba(0, 0, 0, .7); opacity: 0; overflow: hidden; transition: opacity .2s ease
+}
+container div.drawer {
+  position: absolute; z-index: 100
+}
+container div.drawer div.content {
+  width: 100%; height: 100%; background: #fff; overflow-y: auto; box-shadow: 0px 0px 20px rgba(0, 0, 0, .2)
+}
+container div.drawer div.close {
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; top: 0px; right: 0px; z-index: 100
+}
+container div.drawer div.close jtbc-svg {
+  width: var(--icon-size); height: var(--icon-size); --fore-color: #666
+}
+container[direction=ttb] div.drawer {
+  width: 100%; height: 30%; max-height: 600px; top: -100%; left: 0px; transition: top .3s ease
+}
+container[direction=ttb].on div.drawer {
+  top: 0px
+}
+container[direction=ttb].on.off div.drawer {
+  top: -100%
+}
+container[direction=rtl] div.drawer {
+  width: 30%; max-width: 1200px; height: 100%; top: 0px; right: -100%; transition: right .3s ease
+}
+container[direction=rtl].on div.drawer {
+  right: 0px
+}
+container[direction=rtl].on.off div.drawer {
+  right: -100%
+}
+container[direction=btt] div.drawer {
+  width: 100%; height: 30%; max-height: 600px; bottom: -100%; left: 0px; transition: bottom .3s ease
+}
+container[direction=btt].on div.drawer {
+  bottom: 0px
+}
+container[direction=btt].on.off div.drawer {
+  bottom: -100%
+}
+container[direction=ltr] div.drawer {
+  width: 30%; max-width: 1200px; height: 100%; top: 0px; left: -100%; transition: left .3s ease
+}
+container[direction=ltr].on div.drawer {
+  left: 0px
+}
+container[direction=ltr].on.off div.drawer {
+  left: -100%
+}
+container[closeable=false] div.drawer div.close {
+  display: none
+}
+container.on {
+  opacity: 1
+}

@@ -21,32 +21,6 @@ class Role implements RoleInterface
   private $permissionInstance = null;
   private $cookieLangName = 'console_lang';
 
-  public function getRoleLangs()
-  {
-    $result = [];
-    $roleLang = $this -> roleLang;
-    if (is_string($roleLang))
-    {
-      $tempArray = JSON::decode($roleLang);
-      if (is_array($tempArray))
-      {
-        foreach ($tempArray as $item)
-        {
-          if (is_numeric($item))
-          {
-            $result[] = intval($item);
-          }
-        }
-      }
-    }
-    return $result;
-  }
-
-  public function getSegment(string $argSegmentName)
-  {
-    return $this -> permission -> getSegment($this -> currentGenre, $argSegmentName);
-  }
-
   public function checkPermission(string $argSubOrSegmentName = null, string $argSegmentKey = null)
   {
     return $this -> permission -> hasPermission($this -> currentGenre, $argSubOrSegmentName, $argSegmentKey);
@@ -84,7 +58,7 @@ class Role implements RoleInterface
     {
       $result = $options;
     }
-    else if ($segmentName == 'category' && Validation::isEmpty($this -> getSegment('category')))
+    else if ($segmentName == 'category' && Validation::isEmpty($this -> permission -> getSegment($this -> currentGenre, 'category')))
     {
       $result = $options;
     }
@@ -109,9 +83,41 @@ class Role implements RoleInterface
     return $result;
   }
 
+  public function getId()
+  {
+    return $this -> roleId;
+  }
+
   public function getName()
   {
     return $this -> roleName;
+  }
+
+  public function getPermission(): Permission
+  {
+    $this -> permissionInstance = new Permission($this -> isSuper, $this -> policies);
+    return $this -> permissionInstance;
+  }
+
+  public function getRoleLangs()
+  {
+    $result = [];
+    $roleLang = $this -> roleLang;
+    if (is_string($roleLang))
+    {
+      $tempArray = JSON::decode($roleLang);
+      if (is_array($tempArray))
+      {
+        foreach ($tempArray as $item)
+        {
+          if (is_numeric($item))
+          {
+            $result[] = intval($item);
+          }
+        }
+      }
+    }
+    return $result;
   }
 
   public function getLang()
@@ -134,12 +140,6 @@ class Role implements RoleInterface
       }
     }
     return $lang;
-  }
-
-  public function getPermission(): Permission
-  {
-    $this -> permissionInstance = new Permission($this -> isSuper, $this -> policies);
-    return $this -> permissionInstance;
   }
 
   public function getCurrentBatch()

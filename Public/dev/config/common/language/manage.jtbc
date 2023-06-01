@@ -27,6 +27,10 @@
       <zh-cn><![CDATA[以上设置的值是在没有特别指定情况下的默认值]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-tips-2]]></name>
+      <zh-cn><![CDATA[暂时没有在系统中找到任何其他可用的配置项]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-tips-extensions-null]]></name>
       <zh-cn><![CDATA[当前还没有设置任何文件后缀，请点击加号进行添加操作]]></zh-cn>
     </item>
@@ -48,7 +52,7 @@
     </item>
     <item>
       <name><![CDATA[log-edit-4]]></name>
-      <zh-cn><![CDATA[编辑[其他]配置成功]]></zh-cn>
+      <zh-cn><![CDATA[编辑[其他({$[key]})]配置成功]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-edit-code-1]]></name>
@@ -61,6 +65,10 @@
     <item>
       <name><![CDATA[text-edit-code-4002]]></name>
       <zh-cn><![CDATA[保存内容失败，请检查服务器文件权限]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-edit-code-4400]]></name>
+      <zh-cn><![CDATA[保存内容失败，参数检测异常]]></zh-cn>
     </item>
   </item_list>
 </xml>
