@@ -47,10 +47,6 @@ export default class mixedFieldCreator {
               field = this.renderRadio(item);
               break;
             };
-            case 'range': {
-              field = this.renderRange(item);
-              break;
-            };
             case 'select': {
               field = this.renderSelect(item);
               break;
@@ -162,13 +158,6 @@ export default class mixedFieldCreator {
       });
       result.append(form);
     };
-    return result;
-  };
-
-  renderRange(item) {
-    let result = document.createElement('input', {is: 'jtbc-input'});
-    result.setAttribute('is', 'jtbc-input');
-    result.setAttribute('type', 'range');
     return result;
   };
 

@@ -140,13 +140,16 @@ class Category
     {
       $result = [];
       $tree = $argTree;
-      foreach ($tree as $item)
+      if (is_array($tree))
       {
-        $children = $item['children'];
-        $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . $item['title'], 'value' => intval($item['id'])];
-        if (!empty($children))
+        foreach ($tree as $item)
         {
-          $result = array_merge($result, $getResultFromTree($children));
+          $children = $item['children'];
+          $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . $item['title'], 'value' => intval($item['id'])];
+          if (!empty($children))
+          {
+            $result = array_merge($result, $getResultFromTree($children));
+          }
         }
       }
       return $result;
@@ -209,6 +212,30 @@ class Category
       $result = $getTree();
     }
     return $result;
+  }
+
+  public function getTreeOptions()
+  {
+    $getResultFromTree = function($argTree) use (&$getResultFromTree)
+    {
+      $result = [];
+      $tree = $argTree;
+      if (is_array($tree))
+      {
+        foreach ($tree as $item)
+        {
+          $children = $item['children'];
+          $entry = ['text' => $item['title'], 'value' => intval($item['id'])];
+          if (!empty($children))
+          {
+            $entry['children'] = $getResultFromTree($children);
+          }
+          $result[] = $entry;
+        }
+      }
+      return $result;
+    };
+    return $getResultFromTree($this -> getTree());
   }
 
   public function getDBList()

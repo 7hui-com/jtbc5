@@ -102,9 +102,16 @@ class ConfigItemsScanner
           array_multisort(array_column($tempArr, 'index'), SORT_DESC, $tempArr);
           foreach ($tempArr as $item)
           {
+            $required = true;
             $ss = new Substance($item);
-            $required = is_bool($ss -> required)? $ss -> required: true;
             $ss -> value = array_filter($ss -> value, fn($key) => !str_starts_with($key, '_'), ARRAY_FILTER_USE_KEY);
+            if (array_key_exists('required', $ss -> value))
+            {
+              if ($ss -> value['required'] === false)
+              {
+                $required = false;
+              }
+            }
             $result[] = array_merge($ss -> value, ['name' => $ss -> key, 'required' => $required]);
           }
         }

@@ -83,6 +83,64 @@ class Role implements RoleInterface
     return $result;
   }
 
+  public function filterSegmentTreeOptions(array $argTreeOptions, string $argSegmentName, bool $argSetDisabled = false)
+  {
+    $result = [];
+    $treeOptions = $argTreeOptions;
+    $segmentName = $argSegmentName;
+    $setDisabled = $argSetDisabled;
+    if ($this -> isSuper)
+    {
+      $result = $treeOptions;
+    }
+    else if ($segmentName == 'category' && Validation::isEmpty($this -> permission -> getSegment($this -> currentGenre, 'category')))
+    {
+      $result = $treeOptions;
+    }
+    else
+    {
+      $filterTreeOptions = function($treeOptions) use (&$filterTreeOptions, $segmentName, $setDisabled)
+      {
+        $result = [];
+        foreach ($treeOptions as $treeOption)
+        {
+          if ($this -> checkPermission($segmentName, $treeOption['value']))
+          {
+            if (array_key_exists('children', $treeOption))
+            {
+              $treeOptionsOfChildren = [];
+              $children = $treeOption['children'];
+              if (is_array($children))
+              {
+                $treeOptionsOfChildren = $filterTreeOptions($children);
+              }
+              if (empty($treeOptionsOfChildren))
+              {
+                unset($treeOption['children']);
+              }
+              else
+              {
+                $treeOption['children'] = $treeOptionsOfChildren;
+              }
+            }
+            $result[] = $treeOption;
+          }
+          else
+          {
+            if ($setDisabled === true)
+            {
+              $treeOption['disabled'] = true;
+              $result[] = $treeOption;
+            }
+          }
+        }
+        return $result;
+      };
+      $result = $filterTreeOptions($treeOptions);
+    }
+    return $result;
+  }
+
   public function getId()
   {
     return $this -> roleId;

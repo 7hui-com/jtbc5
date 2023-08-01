@@ -1,12 +1,13 @@
 export default class jtbcFieldCascader extends HTMLElement {
   static get observedAttributes() {
-    return ['data', 'value', 'disabled', 'width', 'placeholder', 'expand_mode'];
+    return ['data', 'value', 'disabled', 'width', 'placeholder', 'expand_mode', 'separator', 'selector-min-height', 'selector-max-height'];
   };
 
   #data = [];
   #value = '';
   #disabled = false;
   #expandMode = 'click';
+  #separator = ' / ';
   #closeSelectorTimeout = null;
 
   get data() {
@@ -19,6 +20,10 @@ export default class jtbcFieldCascader extends HTMLElement {
 
   get value() {
     return this.#value;
+  };
+
+  get separator() {
+    return this.#separator;
   };
 
   get disabled() {
@@ -38,6 +43,11 @@ export default class jtbcFieldCascader extends HTMLElement {
 
   set value(value) {
     this.#value = value;
+    this.syncInputValue();
+  };
+
+  set separator(separator) {
+    this.#separator = separator;
     this.syncInputValue();
   };
 
@@ -82,13 +92,15 @@ export default class jtbcFieldCascader extends HTMLElement {
         container.classList.remove('pickable');
       };
     });
-    selectorEl.delegateEventListener('li', this.#expandMode, function(){
-      if (!this.classList.contains('disabled'))
+    selectorEl.delegateEventListener('li', this.#expandMode, function(e){
+      let targetTagName = e.target.tagName.toLowerCase();
+      let currentLi = targetTagName == 'li'? e.target: e.target.parentElement;
+      if (!currentLi.classList.contains('disabled'))
       {
-        this.parentElement.querySelectorAll('li').forEach(li => {
-          li.querySelectorAll('ul').forEach(ul => ul.classList.remove('on'));
+        currentLi.parentElement.querySelectorAll('li').forEach(li => {
+          li.querySelectorAll('div.ul').forEach(ul => ul.classList.remove('on'));
         });
-        this.querySelector('ul')?.classList.add('on');
+        currentLi.querySelector('div.ul')?.classList.add('on');
       };
     });
     selectorEl.delegateEventListener('li span', 'click', function(){
@@ -161,6 +173,7 @@ export default class jtbcFieldCascader extends HTMLElement {
     const bindDataItem = (data, parentEl) => {
       if (data.length != 0)
       {
+        let div = document.createElement('div');
         let ul = document.createElement('ul');
         data.forEach(item => {
           let li = document.createElement('li');
@@ -171,19 +184,24 @@ export default class jtbcFieldCascader extends HTMLElement {
             li.classList.add('disabled');
           };
           let textEl = document.createElement('span');
+          let iconEl = document.createElement('jtbc-svg');
           textEl.innerText = item.text;
-          li.appendChild(textEl);
+          iconEl.setAttribute('name', 'arrow_right');
+          li.append(textEl, iconEl);
           if (Array.isArray(item.children) && item.children.length != 0)
           {
             li.classList.add('father');
             bindDataItem(item.children, li);
           };
-          ul.appendChild(li);
+          ul.append(li);
+          div.classList.add('ul');
+          div.append(ul);
+          parentEl.appendChild(div);
         });
-        parentEl.appendChild(ul);
       };
     };
     bindDataItem(that.data, selectorEl);
+    selectorEl.loadComponents();
     that.syncInputValue();
   };
 
@@ -210,18 +228,18 @@ export default class jtbcFieldCascader extends HTMLElement {
       if (currentSelectedEl != null)
       {
         currentSelectedEl.classList.add('selected');
-        currentSelectedEl.parentElement.classList.add('on');
+        currentSelectedEl.parentElement.parentElement.classList.add('on');
         textValue.unshift(currentSelectedEl.dataset.text);
-        let parentTextElement = currentSelectedEl.parentElement.parentElement;
+        let parentTextElement = currentSelectedEl.parentElement.parentElement.parentElement;
         while (parentTextElement.hasAttribute('data-text'))
         {
           parentTextElement.classList.add('selected');
-          parentTextElement.parentElement.classList.add('on');
+          parentTextElement.parentElement.parentElement.classList.add('on');
           textValue.unshift(parentTextElement.dataset.text);
-          parentTextElement = parentTextElement.parentElement.parentElement;
+          parentTextElement = parentTextElement.parentElement.parentElement.parentElement;
         };
       };
-      inputTextEl.value = textValue.join(' / ');
+      inputTextEl.value = textValue.join(that.separator);
     }
     else
     {
@@ -264,6 +282,15 @@ export default class jtbcFieldCascader extends HTMLElement {
           this.#expandMode = newVal;
         };
         break;
+      };
+      case 'separator':
+      {
+        this.separator = newVal;
+        break;
+      };
+      default:
+      {
+        this.style.setProperty('--' + attr, newVal);
       };
     };
   };

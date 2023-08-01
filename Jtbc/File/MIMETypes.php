@@ -6,7 +6,7 @@ namespace Jtbc\File;
 
 class MIMETypes
 {
-  private static $assetFileType = ['css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'json', 'mp3', 'mp4', 'png', 'svg', 'webp', 'woff', 'woff2', 'xml'];
+  private static $assetFileType = ['css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'json', 'mjs', 'mp3', 'mp4', 'png', 'svg', 'webp', 'woff', 'woff2', 'xml'];
 
   public static function getMIMEType(string $argName)
   {

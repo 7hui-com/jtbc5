@@ -26,8 +26,12 @@ use Jtbc\Exception\NotCallableException;
 class JtbcParser
 {
   private static $alias = [];
+  private static $EODIndex = 0;
   private static $EOFIndex = 0;
+  private static $EOTIndex = 0;
+  private static $EODString = [];
   private static $EOFString = [];
+  private static $EOTString = [];
 
   private static function execute($argString, $argEnvParamPrefix = '')
   {
@@ -96,6 +100,27 @@ class JtbcParser
     return $result;
   }
 
+  private static function replaceEOD($argString)
+  {
+    $tmpstr = $argString;
+    if (!Validation::isEmpty($tmpstr))
+    {
+      $pregMatch = [];
+      preg_match_all('/\^\^\^EOD([\s\S]*?)EOD\^\^\^/', $tmpstr, $pregMatch, PREG_SET_ORDER);
+      foreach ($pregMatch as $item)
+      {
+        self::$EODIndex += 1;
+        if (count($item) == 2)
+        {
+          $key = $item[0];
+          self::$EODString[self::$EODIndex] = $item[1];
+          $tmpstr = str_replace($key, '$getEODString(' . self::$EODIndex . ')', $tmpstr);
+        }
+      }
+    }
+    return $tmpstr;
+  }
+
   private static function replaceEOF($argString)
   {
     $tmpstr = $argString;
@@ -111,6 +136,27 @@ class JtbcParser
           $key = $item[0];
           self::$EOFString[self::$EOFIndex] = $item[1];
           $tmpstr = str_replace($key, '$getEOFString(' . self::$EOFIndex . ')', $tmpstr);
+        }
+      }
+    }
+    return $tmpstr;
+  }
+
+  private static function replaceEOT($argString)
+  {
+    $tmpstr = $argString;
+    if (!Validation::isEmpty($tmpstr))
+    {
+      $pregMatch = [];
+      preg_match_all('/\^\^\^EOT([\s\S]*?)EOT\^\^\^/', $tmpstr, $pregMatch, PREG_SET_ORDER);
+      foreach ($pregMatch as $item)
+      {
+        self::$EOTIndex += 1;
+        if (count($item) == 2)
+        {
+          $key = $item[0];
+          self::$EOTString[self::$EOTIndex] = $item[1];
+          $tmpstr = str_replace($key, '$getEOTString(' . self::$EOTIndex . ')', $tmpstr);
         }
       }
     }
@@ -134,7 +180,9 @@ class JtbcParser
       'getActualRoute' => Path::class,
       'getBestMatchedString' => StringHelper::class,
       'getClipedString' => StringHelper::class,
+      'getEODString' => self::class,
       'getEOFString' => self::class,
+      'getEOTString' => self::class,
       'getKernelVersion' => Kernel::class . '::getVersion',
       'getLeftString' => StringHelper::class,
       'getMajorGenre' => Env::class,
@@ -215,6 +263,17 @@ class JtbcParser
     return $aliasFunction;
   }
 
+  public static function getEODString($argIndex)
+  {
+    $result = null;
+    $index = intval($argIndex);
+    if (array_key_exists($index, self::$EODString))
+    {
+      $result = self::$EODString[$index];
+    }
+    return $result;
+  }
+
   public static function getEOFString($argIndex)
   {
     $result = null;
@@ -222,6 +281,17 @@ class JtbcParser
     if (array_key_exists($index, self::$EOFString))
     {
       $result = self::$EOFString[$index];
+    }
+    return $result;
+  }
+
+  public static function getEOTString($argIndex)
+  {
+    $result = null;
+    $index = intval($argIndex);
+    if (array_key_exists($index, self::$EOTString))
+    {
+      $result = self::$EOTString[$index];
     }
     return $result;
   }
@@ -242,9 +312,17 @@ class JtbcParser
           $tmpstr = str_replace($key, $value, $tmpstr);
         }
       }
+      if (str_contains($tmpstr, '^^^EOT'))
+      {
+        $tmpstr = self::replaceEOT($tmpstr);
+      }
       if (str_contains($tmpstr, '^^^EOF'))
       {
         $tmpstr = self::replaceEOF($tmpstr);
+      }
+      if (str_contains($tmpstr, '^^^EOD'))
+      {
+        $tmpstr = self::replaceEOD($tmpstr);
       }
     }
     return $tmpstr;

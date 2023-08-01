@@ -209,7 +209,7 @@ CREATE TABLE `team`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
   `position` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
-  `avatar` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"avatar\"}',
+  `avatar` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"avatar\",\"has_upload\":true}',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"type\":\"editor\",\"required\":false}',
   `attachment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"type\":\"attachment\",\"required\":false,\"has_upload\":true,\"extra\":{\"partner\":\"content\"}}',
   `order` int(11) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',

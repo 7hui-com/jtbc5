@@ -24,7 +24,7 @@
           <div class="sheet">
             <item>
               <label class="name"><span>{$=$take('config.list1-sysname', 'lng')}</span></label>
-              <div class="content"><input is="jtbc-input" type="text" role="field" name="name" value="${$info.sysname}" spellcheck="false" /></div>
+              <div class="content"><input is="jtbc-input" type="text" role="field" name="sysname" value="${$info.sysname}" spellcheck="false" /></div>
             </item>
             <item>
               <label class="name"><span>{$=$take('config.list1-title', 'lng')}</span></label>

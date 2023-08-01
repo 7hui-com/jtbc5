@@ -74,40 +74,52 @@ textarea:disabled {
 button {
   display: inline-block; height: 30px; padding: 0px 16px; border: 0px; line-height: 100%; font-size: 14px; color: #fff; border: #666 1px solid; cursor: pointer; border-radius: 0px; transition: all .1s ease
 }
-button.b1 {
+button.b1,
+button.secondary {
   background-color: #555; border-color: #555
 }
-button.b1:hover {
+button.b1:hover,
+button.secondary:hover {
   background-color: #333; border-color: #333
 }
-button.b1:focus {
+button.b1:focus,
+button.secondary:focus {
   border-color: #000
 }
-button.b2 {
+button.b2,
+button.primary {
   background-color: #e7505a; border-color: #e7505a
 }
-button.b2:hover {
+button.b2:hover,
+button.primary:hover {
   background-color: #e12330; border-color: #e12330
 }
-button.b2:focus {
+button.b2:focus,
+button.primary:focus {
   border-color: #94000a
 }
-button.b3 {
+button.b3,
+button.tertiary {
   background-color: #e1e5ec; border-color: #e1e5ec; color: #333
 }
-button.b3:hover {
+button.b3:hover,
+button.tertiary:hover {
   background-color: #c2cad8; border-color: #c2cad8
 }
-button.b3:focus {
+button.b3:focus,
+button.tertiary:focus {
   border-color: #9499a1
 }
-button.b4 {
+button.b4,
+button.quaternary {
   background-color: #5cb85c; border-color: #5cb85c
 }
-button.b4:hover {
+button.b4:hover,
+button.quaternary:hover {
   background-color: #449d44; border-color: #449d44
 }
-button.b4:focus {
+button.b4:focus,
+button.quaternary:focus {
   border-color: #275727
 }
 button.tiny {

@@ -1,5 +1,5 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --font-size: 14px; --height: 30px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+  width: 500px; display: inline-block; vertical-align: top; --font-size: 14px; --height: 30px; --selector-min-height: 100px; --selector-max-height: 300px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
 }
 .container {
   width: 100%; display: block !important; position: relative; z-index: var(--z-index); cursor: pointer
@@ -38,18 +38,27 @@
   content: ''; display: none; width: 0px; height: 0px; border: 6px solid; border-color: #d1d1d1 transparent transparent transparent; position: absolute; top: 100%; left: 8px; z-index: 100
 }
 .container div.selector ul {
-  list-style-type: none; margin: 0px; padding: 0px; background: #ffffff; box-sizing: border-box; border: #d1d1d1 1px solid; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
+  list-style-type: none; margin: 0px; padding: 0px; height: 100%; min-height: var(--selector-min-height); max-height: var(--selector-max-height); overflow-y: auto; background: #ffffff; box-sizing: border-box; border: #d1d1d1 1px solid; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1)
 }
 .container div.selector ul li {
-  position: relative
+  display: flex; align-items: center; justify-content: space-between
+}
+.container div.selector ul li:hover {
+  background: #e5e5e5
 }
 .container div.selector ul li span {
   display: block; white-space: nowrap; line-height: 160%; padding: 5px 30px 5px 10px; font-size: var(--font-size); color: #333
 }
-.container div.selector ul li ul {
-  display: none; position: absolute; top: -1px; left: 100%; z-index: 100
+.container div.selector ul li jtbc-svg {
+  width: 12px; height: 12px; margin-right: 4px; --fore-color: #999; display: none
 }
-.container div.selector ul li ul.on {
+.container div.selector ul li div.ul {
+  display: none; height: 100%; position: absolute; top: 0px; left: 100%; z-index: 100
+}
+.container div.selector ul li div.ul.on {
+  display: block
+}
+.container div.selector ul li.father > jtbc-svg {
   display: block
 }
 .container div.selector ul li.disabled {
@@ -58,14 +67,11 @@
 .container div.selector ul li.disabled span {
   color: #999
 }
-.container div.selector ul li.father::after {
-  content: ''; width: 7px; height: 7px; box-sizing: border-box; transform: translate(0, -50%) rotate(45deg); border-top: #333 1px solid; border-right: #333 1px solid; position: absolute; top: 50%; right: 10px; z-index: 100
-}
 .container div.selector ul li.selected > span {
   font-weight: bold
 }
-.container div.selector ul li:hover > span {
-  background: #e5e5e5
+.container div.selector:empty::before {
+  display: none
 }
 .container div.selector.on {
   opacity: 1; top: calc(100% + 8px)

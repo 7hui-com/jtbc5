@@ -11,7 +11,7 @@
   width: var(--label-width); box-sizing: border-box; padding: var(--label-padding); height: 100%; display: flex; align-items: center; justify-content: center; background: var(--label-background); color: var(--label-color); font-family: var(--label-font-family); font-size: var(--label-font-size); font-weight: var(--label-font-weight); border: transparent var(--border-size) solid; border-bottom: 0px; cursor: pointer; transition: all .3 ease
 }
 .container div.tabs div.label.on {
-  background: var(--label-selected-background); color: var(--label-color); font-size: var(--label-font-size); font-weight: var(--label-font-weight); border-top-color: var(--border-color); border-left-color: var(--border-color); border-bottom-color: var(--label-background); border-right-color: var(--border-color); border-top-left-radius: var(--border-radius); border-top-right-radius: var(--border-radius); position: relative
+  background: var(--label-selected-background); color: var(--label-selected-color); font-size: var(--label-font-size); font-weight: var(--label-font-weight); border-top-color: var(--border-color); border-left-color: var(--border-color); border-bottom-color: var(--label-background); border-right-color: var(--border-color); border-top-left-radius: var(--border-radius); border-top-right-radius: var(--border-radius); position: relative
 }
 .container div.tabs div.label.on::after {
   content: ''; width: 100%; height: var(--border-size); position: absolute; top: 100%; left: 0px; background: var(--label-selected-background)

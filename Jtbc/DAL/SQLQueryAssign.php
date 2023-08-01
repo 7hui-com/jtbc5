@@ -9,44 +9,47 @@ use Jtbc\Exception\FormatException;
 
 class SQLQueryAssign
 {
-  public static function equal($argValue, $argFieldType, $argFieldLength) 
+  public static function equal($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_null($value)) $result = ' is null';
     else if (is_integer($value) || is_float($value)) $result = ' = ' . $value;
     else if (is_string($value)) $result = ' = \'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function unEqual($argValue, $argFieldType, $argFieldLength) 
+  public static function unEqual($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_null($value)) $result = ' is not null';
     else if (is_integer($value) || is_float($value)) $result = ' != ' . $value;
     else if (is_string($value)) $result = ' != \'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function min($argValue, $argFieldType, $argFieldLength)
+  public static function min($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     $equal = true;
     if ($value instanceof Substance)
     {
@@ -62,17 +65,18 @@ class SQLQueryAssign
     else if (is_string($value) && $fieldType == 'time' && Validation::isTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function max($argValue, $argFieldType, $argFieldLength)
+  public static function max($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     $equal = true;
     if ($value instanceof Substance)
     {
@@ -88,17 +92,18 @@ class SQLQueryAssign
     else if (is_string($value) && $fieldType == 'time' && Validation::isTime($value)) $result = $condition . '\'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function in($argValue, $argFieldType, $argFieldLength) 
+  public static function in($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_integer($value) || is_float($value)) $result = ' in (' . $value . ')';
     else if (is_string($value) && Validation::isIntSeries($value)) $result = ' in (' . $value . ')';
     else if (is_array($value))
@@ -110,22 +115,23 @@ class SQLQueryAssign
       }
       else
       {
-        throw new FormatException('Value can not be empty', 50101);
+        throw new FormatException('The value of column "' . $name . '" can not be empty', 50101);
       }
     }
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function notIn($argValue, $argFieldType, $argFieldLength) 
+  public static function notIn($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_integer($value) || is_float($value)) $result = ' not in (' . $value . ')';
     else if (is_string($value) && Validation::isIntSeries($value)) $result = ' not in (' . $value . ')';
     else if (is_array($value))
@@ -137,52 +143,55 @@ class SQLQueryAssign
       }
       else
       {
-        throw new FormatException('Value can not be empty', 50101);
+        throw new FormatException('The value of column "' . $name . '" can not be empty', 50101);
       }
     }
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function like($argValue, $argFieldType, $argFieldLength) 
+  public static function like($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_integer($value) || is_float($value)) $result = ' like ' . $value;
     else if (is_string($value)) $result = ' like \'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function notLike($argValue, $argFieldType, $argFieldLength) 
+  public static function notLike($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_integer($value) || is_float($value)) $result = ' not like ' . $value;
     else if (is_string($value)) $result = ' not like \'' . addslashes($value) . '\'';
     else
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function between($argValue, $argFieldType, $argFieldLength) 
+  public static function between($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_array($value) && count($value) == 2)
     {
       $firstValue = $value[0];
@@ -213,17 +222,18 @@ class SQLQueryAssign
     }
     if (is_null($result))
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function notBetween($argValue, $argFieldType, $argFieldLength) 
+  public static function notBetween($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     if (is_array($value) && count($value) == 2)
     {
       $firstValue = $value[0];
@@ -254,17 +264,18 @@ class SQLQueryAssign
     }
     if (is_null($result))
     {
-      throw new FormatException('Value is not in the correct format', 50101);
+      throw new FormatException('The value of column "' . $name . '" is not in a correct format', 50101);
     }
     return $result;
   }
 
-  public static function greaterThan($argValue, $argFieldType, $argFieldLength)
+  public static function greaterThan($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     $equal = false;
     if ($value instanceof Substance)
     {
@@ -277,12 +288,13 @@ class SQLQueryAssign
     return $result;
   }
 
-  public static function lessThan($argValue, $argFieldType, $argFieldLength)
+  public static function lessThan($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     $equal = false;
     if ($value instanceof Substance)
     {
@@ -295,12 +307,13 @@ class SQLQueryAssign
     return $result;
   }
 
-  public static function sameAs($argValue, $argFieldType, $argFieldLength)
+  public static function sameAs($argValue, $argFieldType, $argFieldLength, $argName)
   {
     $result = null;
     $value = $argValue;
     $fieldType = $argFieldType;
     $fieldLength = $argFieldLength;
+    $name = strval($argName);
     $condition = ' = ';
     $result = $condition . $value;
     return $result;

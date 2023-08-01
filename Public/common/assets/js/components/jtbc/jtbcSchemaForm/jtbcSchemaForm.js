@@ -42,10 +42,6 @@ export default class jtbcSchemaForm extends HTMLDivElement {
               field = this.renderRadio(item);
               break;
             };
-            case 'range': {
-              field = this.renderRange(item);
-              break;
-            };
             case 'select': {
               field = this.renderSelect(item);
               break;
@@ -85,7 +81,10 @@ export default class jtbcSchemaForm extends HTMLDivElement {
             if (item.hasOwnProperty('extra'))
             {
               Object.keys(item.extra).forEach(key => {
-                field.setAttribute(key, item.extra[key]);
+                if (!field.hasAttribute(key))
+                {
+                  field.setAttribute(key, item.extra[key]);
+                };
               });
             };
             itemContent.append(field);
@@ -163,13 +162,6 @@ export default class jtbcSchemaForm extends HTMLDivElement {
         result.append(label);
       });
     };
-    return result;
-  };
-
-  renderRange(item) {
-    let result = document.createElement('input', {is: 'jtbc-input'});
-    result.setAttribute('is', 'jtbc-input');
-    result.setAttribute('type', 'range');
     return result;
   };
 

@@ -47,6 +47,50 @@ class BreadcrumbBuilder
     return JSON::encode($this -> pocket);
   }
 
+  public function getLastText()
+  {
+    $result = null;
+    $count = count($this -> pocket);
+    if ($count >= 1)
+    {
+      $item = $this -> pocket[$count - 1];
+      if (is_array($item) && array_key_exists('text', $item))
+      {
+        $result = $item['text'];
+      }
+    }
+    return $result;
+  }
+
+  public function getLastHref()
+  {
+    $result = null;
+    $count = count($this -> pocket);
+    if ($count >= 1)
+    {
+      for ($i = $count; $i > 0; $i --)
+      {
+        $item = $this -> pocket[$i - 1];
+        if (is_array($item) && array_key_exists('text', $item) && array_key_exists('href', $item))
+        {
+          $result = $item;
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+
+  public function __get($argName)
+  {
+    return match($argName)
+    {
+      'genre' => $this -> genre,
+      'pocket' => $this -> pocket,
+      default => null,
+    };
+  }
+
   public function __construct(string $argGenre, $argWithHomePage = true)
   {
     $this -> genre = $genre = $argGenre;

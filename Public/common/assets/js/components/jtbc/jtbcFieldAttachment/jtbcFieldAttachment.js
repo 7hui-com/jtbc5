@@ -100,60 +100,140 @@ export default class jtbcFieldAttachment extends HTMLElement {
         }, () => { that.currentUploading = false; });
       };
     });
+    container.delegateEventListener('input[name=all]', 'change', function(){
+      container.querySelectorAll('input[name=item]').forEach(el => {
+        el.checked = this.checked;
+        el.dispatchEvent(new Event('change', {'bubbles': true}));
+      });
+    });
+    container.delegateEventListener('input[name=item]', 'change', function(){
+      this.parentNode.parentNode.classList.toggle('on', this.checked);
+      that.#resetIcons();
+    });
     container.delegateEventListener('.textInsert', 'click', function(){
       let partner = that.partner;
-      let tr = this.parentNode.parentNode.parentNode;
-      if (tr.tagName == 'TR' && partner != null)
+      if (partner != null)
       {
-        let param = JSON.parse(tr.getAttribute('param'));
-        let filename = param.filename;
-        let fileurl = param.fileurl;
-        let filegroup = param.filegroup;
-        partner.forEach(el => {
-          if (el.contentType == 'markdown')
-          {
-            filename = filename.replaceAll('[', '\\[');
-            filename = filename.replaceAll(']', '\\]');
-            if (filegroup == 1)
+        if (this.getAttribute('mode') != 'batch')
+        {
+          let tr = this.parentNode.parentNode.parentNode;
+          let param = JSON.parse(tr.getAttribute('param'));
+          let filename = param.filename;
+          let fileurl = param.fileurl;
+          let filegroup = param.filegroup;
+          partner.forEach(el => {
+            if (el.contentType == 'markdown')
             {
-              el.insertContent('![' + filename + '](' + fileurl + ')');
+              filename = filename.replaceAll('[', '\\[');
+              filename = filename.replaceAll(']', '\\]');
+              if (filegroup == 1)
+              {
+                el.insertContent('![' + filename + '](' + fileurl + ')');
+              }
+              else
+              {
+                el.insertContent('[' + filename + '](' + fileurl + ')');
+              };
             }
             else
             {
-              el.insertContent('[' + filename + '](' + fileurl + ')');
+              if (filegroup == 1)
+              {
+                let content = document.createElement('img');
+                content.setAttribute('src', fileurl);
+                el.insertContent(content.outerHTML);
+              }
+              else if (filegroup == 2)
+              {
+                let content = document.createElement('video');
+                content.setAttribute('width', 480);
+                content.setAttribute('width', 270);
+                content.setAttribute('controls', 'controls');
+                content.setAttribute('src', fileurl);
+                el.insertContent(content.outerHTML);
+              }
+              else
+              {
+                let content = document.createElement('a');
+                content.innerText = filename;
+                content.setAttribute('href', fileurl);
+                el.insertContent(content.outerHTML);
+              };
             };
-          }
-          else
-          {
-            if (filegroup == 1)
+          });
+        }
+        else
+        {
+          partner.forEach(el => {
+            let contentArr = [];
+            container.querySelectorAll('input[name=item]:checked').forEach(item => {
+              let tr = item.parentNode.parentNode;
+              let param = JSON.parse(tr.getAttribute('param'));
+              let filename = param.filename;
+              let fileurl = param.fileurl;
+              let filegroup = param.filegroup;
+              if (el.contentType == 'markdown')
+              {
+                filename = filename.replaceAll('[', '\\[');
+                filename = filename.replaceAll(']', '\\]');
+                if (filegroup == 1)
+                {
+                  contentArr.push('![' + filename + '](' + fileurl + ')');
+                }
+                else
+                {
+                  contentArr.push('[' + filename + '](' + fileurl + ')');
+                };
+              }
+              else
+              {
+                let p = document.createElement('p');
+                if (filegroup == 1)
+                {
+                  let content = document.createElement('img');
+                  content.setAttribute('src', fileurl);
+                  p.append(content);
+                }
+                else if (filegroup == 2)
+                {
+                  let content = document.createElement('video');
+                  content.setAttribute('width', 480);
+                  content.setAttribute('width', 270);
+                  content.setAttribute('controls', 'controls');
+                  content.setAttribute('src', fileurl);
+                  p.append(content);
+                }
+                else
+                {
+                  let content = document.createElement('a');
+                  content.innerText = filename;
+                  content.setAttribute('href', fileurl);
+                  p.append(content);
+                };
+                contentArr.push(p.outerHTML);
+              };
+            });
+            if (el.contentType == 'markdown')
             {
-              let content = document.createElement('img');
-              content.setAttribute('src', fileurl);
-              el.insertContent(content.outerHTML);
-            }
-            else if (filegroup == 2)
-            {
-              let content = document.createElement('video');
-              content.setAttribute('width', 480);
-              content.setAttribute('width', 270);
-              content.setAttribute('controls', 'controls');
-              content.setAttribute('src', fileurl);
-              el.insertContent(content.outerHTML);
+              el.insertContent(contentArr.join(String.fromCharCode(13, 10)));
             }
             else
             {
-              let content = document.createElement('a');
-              content.innerText = filename;
-              content.setAttribute('href', fileurl);
-              el.insertContent(content.outerHTML);
+              el.insertContent(contentArr.join(''));
             };
-          };
-        });
+          });
+        };
       };
     });
     container.delegateEventListener('.textRemove', 'click', function(){
-      let tr = this.parentNode.parentNode.parentNode;
-      if (tr.tagName == 'TR') tr.classList.toggle('remove');
+      if (this.getAttribute('mode') != 'batch')
+      {
+        this.parentNode.parentNode.parentNode.classList.toggle('remove');
+      }
+      else
+      {
+        container.querySelectorAll('input[name=item]:checked').forEach(item => item.parentNode.parentNode.classList.toggle('remove'));
+      };
     });
     container.delegateEventListener('.textSelectFromDB', 'click', function(){
       if (!this.classList.contains('locked'))
@@ -208,42 +288,64 @@ export default class jtbcFieldAttachment extends HTMLElement {
     };
   };
 
+  #resetIcons() {
+    let hasSelected = false;
+    let container = this.container;
+    container.querySelectorAll('input[name=item]').forEach(el => {
+      if (el.checked === true)
+      {
+        hasSelected = true;
+      };
+    });
+    container.querySelector('icons.g1').classList.toggle('hide', hasSelected);
+    container.querySelector('icons.g2').classList.toggle('hide', !hasSelected);
+  };
+
   addUploadedItem(param) {
     let container = this.container;
+    container.querySelector('input[name=all]').disabled = false;
     let tbody = container.querySelector('table.attachment').querySelector('tbody');
     let tr = document.createElement('tr');
     let td1 = document.createElement('td');
     let td2 = document.createElement('td');
     let td3 = document.createElement('td');
     let td4 = document.createElement('td');
-    let td1Span = document.createElement('span');
-    td1Span.classList.add('filegroup');
-    td1Span.setAttribute('filegroup', param.filegroup);
-    td1Span.innerText = param.filetype.toUpperCase();
-    td1.setAttribute('width', '50');
-    td1.setAttribute('role', 'draghandle');
-    td1.append(td1Span);
+    let td5 = document.createElement('td');
+    let td1Input = document.createElement('input');
+    td1Input.setAttribute('name', 'item');
+    td1Input.setAttribute('type', 'checkbox');
+    td1Input.value = '1';
+    td1.classList.add('center');
+    td1.append(td1Input);
     let td2Span = document.createElement('span');
-    td2Span.classList.add('filename');
-    td2Span.innerText = param.filename;
+    td2Span.classList.add('filegroup');
+    td2Span.setAttribute('filegroup', param.filegroup);
+    td2Span.innerText = param.filetype.toUpperCase();
+    td2.classList.add('skinny');
+    td2.setAttribute('width', '50');
+    td2.setAttribute('role', 'draghandle');
     td2.append(td2Span);
     let td3Span = document.createElement('span');
-    td3Span.classList.add('filesize');
-    td3Span.innerText = param.filesize_text;
+    td3Span.classList.add('filename');
+    td3Span.innerText = param.filename;
     td3.append(td3Span);
-    let td4Icons = document.createElement('icons');
+    let td4Span = document.createElement('span');
+    td4Span.classList.add('filesize');
+    td4Span.innerText = param.filesize_text;
+    td4.append(td4Span);
+    let td5Icons = document.createElement('icons');
     let iconInsert = document.createElement('jtbc-svg');
     iconInsert.setAttribute('name', 'power_cord');
     iconInsert.setAttribute('title', this.text.insert);
     iconInsert.classList.add('textInsert');
-    td4Icons.append(iconInsert);
+    td5Icons.append(iconInsert);
     let iconTrash = document.createElement('jtbc-svg');
     iconTrash.setAttribute('name', 'trash');
     iconTrash.setAttribute('title', this.text.remove);
     iconTrash.classList.add('textRemove');
-    td4Icons.append(iconTrash);
-    td4.append(td4Icons);
-    tr.append(td1, td2, td3, td4);
+    td5Icons.append(iconTrash);
+    td5.append(td5Icons);
+    tr.append(td1, td2, td3, td4, td5);
     tr.classList.add('param');
     tr.setAttribute('param', JSON.stringify(param));
     tbody.append(tr);
@@ -354,15 +456,16 @@ export default class jtbcFieldAttachment extends HTMLElement {
       <table is="jtbc-table" class="attachment">
         <thead>
           <tr>
-            <th colspan="2"><span class="textFilesList">${this.text.filesList}</span></th>
+            <th width="20" class="center"><input name="all" type="checkbox" value="1" disabled /></th>
+            <th colspan="2" class="skinny"><span class="textFilesList">${this.text.filesList}</span></th>
             <th width="80"></th>
-            <th width="60"><icons><jtbc-svg name="db_fill" class="textSelectFromDB" title="${this.text.selectFromDB}"></jtbc-svg><jtbc-svg name="upload" class="textUpload" title="${this.text.upload}"></jtbc-svg><input type="file" class="file" multiple="multiple" /></icons></th>
+            <th width="60"><icons class="g1"><jtbc-svg name="db_fill" class="textSelectFromDB" title="${this.text.selectFromDB}"></jtbc-svg><jtbc-svg name="upload" class="textUpload" title="${this.text.upload}"></jtbc-svg><input type="file" class="file" multiple="multiple" /></icons><icons class="g2 hide"><jtbc-svg name="power_cord" class="textInsert" mode="batch" title="${this.text.insert}"></jtbc-svg><jtbc-svg name="trash" class="textRemove" mode="batch" title="${this.text.remove}"></jtbc-svg></icons></th>
           </tr>
         </thead>
         <tbody></tbody>
         <tfoot>
           <tr>
-            <td colspan="4" class="textEmptyTips">${this.text.emptyTips}</td>
+            <td colspan="5" class="textEmptyTips">${this.text.emptyTips}</td>
           </tr>
         </tfoot>
       </table>

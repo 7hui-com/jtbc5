@@ -1,0 +1,42 @@
+:host {
+  display: block; --gap: 20px; --line-width: 2px; --line-color: #ccc; --dot-size: 20px; --dot-color: #3e868f; --dot-border-size: 4px; --dot-border-color: #fff; --time-color: #000; --time-font-size: 14px; --time-font-weight: bold; --sidebyside-min-width: 600px; --z-index: 100
+}
+.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index)
+}
+.container::before {
+  content: ''; width: var(--line-width); height: 100%; background: var(--line-color); position: absolute; top: 0px; left: calc((var(--dot-size) - var(--line-width)) / 2 + var(--dot-border-size)); z-index: 100
+}
+.container div.item {
+  padding-bottom: var(--gap); box-sizing: border-box; position: relative; z-index: 200
+}
+.container div.item div.time {
+  display: flex; gap: calc(var(--dot-size) / 2); align-items: center; font-size: var(--time-font-size); font-weight: var(--time-font-weight); color: var(--time-color); line-height: 120%
+}
+.container div.item div.time::before {
+  content: ''; display: block; width: var(--dot-size); height: var(--dot-size); background: var(--dot-color); border-radius: 100%; border: var(--dot-border-color) var(--dot-border-size) solid
+}
+.container div.item div.content {
+  display: flex; box-sizing: border-box; padding-top: calc(var(--gap) / 2); padding-left: calc(var(--dot-size) * 1.5 + var(--dot-border-size) * 2)
+}
+.container div.item:last-of-type {
+  padding-bottom: 0px
+}
+.container[mode=sidebyside] {
+  min-width: var(--sidebyside-min-width)
+}
+.container[mode=sidebyside]::before {
+  left: 50%; transform: translate(-50%, 0)
+}
+.container[mode=sidebyside] div.item:nth-child(odd) {
+  padding-left: calc(50% - (var(--dot-size) / 2 + var(--dot-border-size)))
+}
+.container[mode=sidebyside] div.item:nth-child(even) {
+  padding-right: calc(50% - (var(--dot-size) / 2 + var(--dot-border-size)))
+}
+.container[mode=sidebyside] div.item:nth-child(even) div.time {
+  flex-direction: row-reverse
+}
+.container[mode=sidebyside] div.item:nth-child(even) div.content {
+  flex-direction: row-reverse; padding-left: 0px; padding-right: calc(var(--dot-size) * 1.5 + var(--dot-border-size) * 2)
+}

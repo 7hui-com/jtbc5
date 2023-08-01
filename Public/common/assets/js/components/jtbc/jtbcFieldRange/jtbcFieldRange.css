@@ -1,0 +1,118 @@
+:host {
+  width: var(--width); height: var(--height); display: inline-block; --width: 500px; --height: auto; --margin: 5px 0px; --size: 4px; --font-size: 12px; --rail-color: #f4f4f4; --mark-color: #999; --track-color: #3e868f; --z-index: 1200
+}
+.container {
+  width: 100%; height: 100%; box-sizing: border-box; margin: var(--margin); display: block !important; position: relative; z-index: var(--z-index)
+}
+.container div.rail {
+  position: relative; box-sizing: border-box; z-index: 100
+}
+.container div.rail::before {
+  content: ''; transform: translate(-50%, -50%); background: var(--rail-color); border-radius: calc(var(--size) / 2); position: absolute; top: 50%; left: 50%; z-index: 100
+}
+.container div.rail span.slider {
+  display: block; box-sizing: border-box; width: calc(var(--size) * 5); height: calc(var(--size) * 5); background: #fff; border: var(--track-color) 2px solid; border-radius: 100%; transform: translate(-50%, -50%); position: absolute; z-index: 100
+}
+.container div.rail span.slider::before {
+  content: ''; display: block; position: absolute; width: 0px; height: 0px; z-index: 50; opacity: 0; transition: transform .3s ease
+}
+.container div.rail span.slider::after {
+  content: attr(value); display: block; position: absolute; font-size: var(--font-size); line-height: 120%; color: #fff; border-radius: 5px; padding: 5px; background: #000; z-index: 100; opacity: 0; transition: transform .3s ease
+}
+.container div.rail span.slider[position=left] {
+  display: none
+}
+.container div.rail span.track {
+  display: block; width: 0%; height: 0%; background: var(--track-color); border-radius: calc(var(--size) / 2); position: absolute; top: 0px; left: 0px; z-index: 100
+}
+.container div.marks {
+  width: 100%; height: 100%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%; z-index: 50
+}
+.container div.marks div.mark {
+  position: absolute; font-size: var(--font-size); color: var(--mark-color); line-height: 120%
+}
+.container div.marks div.mark::before {
+  content: ''; background: var(--rail-color); position: absolute; z-index: 100
+}
+.container[direction=horizontal] {
+  padding: calc(var(--size) * 2) calc(var(--size) * 2.5)
+}
+.container[direction=horizontal] div.rail {
+  width: 100%; height: var(--size)
+}
+.container[direction=horizontal] div.rail::before {
+  width: calc(100% + var(--size) * 5); height: 100%
+}
+.container[direction=horizontal] div.rail span.slider {
+  top: 50%; left: 0px
+}
+.container[direction=horizontal] div.rail span.slider::before {
+  transform: translate(-50%, 5px); bottom: calc(100% + var(--size) * 2); left: 50%; border-left: transparent calc(var(--size) * 1.5) solid;  border-right: transparent calc(var(--size) * 1.5) solid;  border-top: #000 calc(var(--size) * 1.5) solid
+}
+.container[direction=horizontal] div.rail span.slider::after {
+  transform: translate(-50%, 5px); bottom: calc(100% + var(--size) * 3.5 - 2px); left: 50%
+}
+.container[direction=horizontal] div.rail span.slider:hover::before {
+  transform: translate(-50%, 0px); opacity: 1
+}
+.container[direction=horizontal] div.rail span.slider:hover::after {
+  transform: translate(-50%, 0px); opacity: 1
+}
+.container[direction=horizontal] div.marks {
+  width: calc(100% - calc(var(--size) * 5))
+}
+.container[direction=horizontal] div.marks div.mark {
+  transform: translate(-50%, calc(var(--size) * 5)); padding-top: var(--size)
+}
+.container[direction=horizontal] div.marks div.mark::before {
+  width: 2px; height: calc(var(--size) * 2); transform: translate(-50%, 0); top: calc(0px - var(--size) * 2); left: 50%
+}
+.container[direction=vertical] {
+  padding: calc(var(--size) * 2.5) calc(var(--size) * 2)
+}
+.container[direction=vertical] div.rail {
+  width: var(--size); height: 100%
+}
+.container[direction=vertical] div.rail::before {
+  width: 100%; height: calc(100% + var(--size) * 5)
+}
+.container[direction=vertical] div.rail span.slider {
+  top: 0px; left: 50%
+}
+.container[direction=vertical] div.rail span.slider::before {
+  transform: translate(5px, -50%); right: calc(100% + var(--size) * 2); top: 50%; border-left: #000 calc(var(--size) * 1.5) solid; border-top: transparent calc(var(--size) * 1.5) solid; border-bottom: transparent calc(var(--size) * 1.5) solid
+}
+.container[direction=vertical] div.rail span.slider::after {
+  transform: translate(5px, -50%); right: calc(100% + var(--size) * 3.5 - 2px); top: 50%
+}
+.container[direction=vertical] div.rail span.slider:hover::before {
+  transform: translate(0px, -50%); opacity: 1
+}
+.container[direction=vertical] div.rail span.slider:hover::after {
+  transform: translate(0px, -50%); opacity: 1
+}
+.container[direction=vertical] div.marks {
+  height: calc(100% - calc(var(--size) * 5))
+}
+.container[direction=vertical] div.marks div.mark {
+  transform: translate(calc(var(--size) * 5), -50%); padding-left: var(--size)
+}
+.container[direction=vertical] div.marks div.mark::before {
+  width: calc(var(--size) * 2); height: 2px; transform: translate(0, -50%); left: calc(0px - var(--size) * 2); top: 50%
+}
+.container[mode=singleton][direction=horizontal] div.rail span.track {
+  transform: translate(calc(0px - var(--size) * 2.5), 0); padding-left: calc(var(--size) * 2.5)
+}
+.container[mode=singleton][direction=vertical] div.rail span.track {
+  transform: translate(0, calc(0px - var(--size) * 2.5)); padding-top: calc(var(--size) * 2.5)
+}
+.container[mode=range] div.rail span.slider[position=left] {
+  display: block
+}
+.container[tooltip=false] div.rail span.slider::before,
+.container[tooltip=false] div.rail span.slider::after {
+  display: none !important
+}
+.container.disabled {
+  filter: grayscale(100%); pointer-events: none
+}

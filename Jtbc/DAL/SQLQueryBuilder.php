@@ -109,7 +109,7 @@ class SQLQueryBuilder extends SQLConditionBuilder
               $fieldLength = intval($fieldInfo['length']);
               if (!in_array($condition, ['greaterThan', 'lessThan', 'sameAs']))
               {
-                $formatResult = call_user_func_array([SQLQueryAssign::class, $condition], [$value, $fieldType, $fieldLength]);
+                $formatResult = call_user_func_array([SQLQueryAssign::class, $condition], [$value, $fieldType, $fieldLength, $name]);
                 $conditionBrickResult = SQLFormatter::formatName($name) . $formatResult;
               }
               else
@@ -132,7 +132,7 @@ class SQLQueryBuilder extends SQLConditionBuilder
                   }
                   if (!is_null($newValue))
                   {
-                    $formatResult = call_user_func_array([SQLQueryAssign::class, $condition], [$newValue, $fieldType, $fieldLength]);
+                    $formatResult = call_user_func_array([SQLQueryAssign::class, $condition], [$newValue, $fieldType, $fieldLength, $name]);
                     $conditionBrickResult = SQLFormatter::formatName($name) . $formatResult;
                   }
                 }

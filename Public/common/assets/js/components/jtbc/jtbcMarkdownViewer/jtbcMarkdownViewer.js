@@ -10,9 +10,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
   #pluginCss = null;
   #options = {
     'lang': 'zh_CN',
-    'preview': {
-      'theme': {},
-    },
+    'theme': {},
   };
 
   get lang() {
@@ -74,7 +72,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
 
   getOptions(el) {
     this.#options.cdn = this.#libPath;
-    this.#options.preview.theme.path = this.#libPath + '/dist/css/content-theme';
+    this.#options.theme.path = this.#libPath + '/dist/css/content-theme';
     this.#options.after = () => {
       this.#resize(null, el);
       this.dispatchEvent(new CustomEvent('renderend', {detail: {'el': el}}));

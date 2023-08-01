@@ -122,7 +122,7 @@ container box sidebar section:last-child {
   margin-bottom: 0px
 }
 footer {
-  display: block; width: 100%
+  display: block; box-sizing: border-box; width: 100%
 }
 footer bottom {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #333
