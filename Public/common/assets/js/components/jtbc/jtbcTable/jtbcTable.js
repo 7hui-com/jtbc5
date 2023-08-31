@@ -66,6 +66,12 @@ export default class jtbcTable extends HTMLTableElement {
         };
       };
     };
+    this.delegateEventListener('thead th[orderby] span.asc', 'click', function(){
+      that.dispatchEvent(new CustomEvent('orderby', {bubbles: true, detail: {el: this}}));
+    });
+    this.delegateEventListener('thead th[orderby] span.desc', 'click', function(){
+      that.dispatchEvent(new CustomEvent('orderby', {bubbles: true, detail: {el: this}}));
+    });
     this.delegateEventListener('tbody tr', 'dragstart', function(e){
       that.draging = this;
       this.classList.add('draging');
@@ -103,11 +109,9 @@ export default class jtbcTable extends HTMLTableElement {
   initSelectorEvents() {
     let that = this;
     this.delegateEventListener('th input[role=selector]', 'change', function(){
-      let changeEvent = document.createEvent('HTMLEvents');
-      changeEvent.initEvent('change', true, true);
       that.querySelectorAll('td input[role=selector]').forEach(el => {
         el.checked = this.checked;
-        el.dispatchEvent(changeEvent);
+        el.dispatchEvent(new Event('change', {'bubbles': true}));
       });
     });
     this.delegateEventListener('td input[role=selector]', 'change', function(){

@@ -4,21 +4,25 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   };
 
   #allowedTypes = ['tianditu', 'baidu', 'amap', 'qq'];
+  #type = 'tianditu';
+  #disabled = false;
+  #value = null;
+  #placeholder = null;
 
   get name() {
     return this.getAttribute('name');
   };
 
   get type() {
-    return this.currentType;
+    return this.#type;
   };
 
   get value() {
     let result = '';
     let container = this.container;
-    if (this.currentValue != null)
+    if (this.#value != null)
     {
-      result = this.currentValue;
+      result = this.#value;
     }
     else
     {
@@ -33,11 +37,18 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
-  set type(value) {
-    this.currentType = value;
+  set type(type) {
+    if (this.#allowedTypes.includes(type))
+    {
+      this.#type = type;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set value(value) {
@@ -86,15 +97,8 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #getMapContainerHTML() {
@@ -316,21 +320,21 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   };
 
   syncPlaceholder() {
-    if (this.currentPlaceholder != null)
+    if (this.#placeholder != null)
     {
       let placeholderEl = this.container.querySelector('span.placeholder');
-      if (placeholderEl != null) placeholderEl.innerText = this.currentPlaceholder;
+      if (placeholderEl != null) placeholderEl.innerText = this.#placeholder;
     };
   };
 
   syncValue() {
-    if (this.currentValue != null)
+    if (this.#value != null)
     {
       let locationEl = this.container.querySelector('div.location');
       if (locationEl != null)
       {
-        this.value = this.currentValue;
-        this.currentValue = null;
+        this.value = this.#value;
+        this.#value = null;
       };
     };
   };
@@ -344,13 +348,13 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
       };
       case 'value':
       {
-        this.currentValue = newVal;
+        this.#value = newVal;
         this.syncValue();
         break;
       };
       case 'placeholder':
       {
-        this.currentPlaceholder = newVal;
+        this.#placeholder = newVal;
         this.syncPlaceholder();
         break;
       };
@@ -389,10 +393,6 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     let containerHTML = `<div class="location"></div><span class="placeholder"></span><a class="selector"><jtbc-svg name="location"></jtbc-svg></a><div class="mask"></div>`;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.currentDisabled = false;
-    this.currentType = this.#allowedTypes[0];
-    this.currentValue = null;
-    this.currentPlaceholder = null;
     this.currentMap = null;
     this.constantApiKey = null;
     this.componentBasePath = componentBasePath;

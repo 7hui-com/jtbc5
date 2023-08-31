@@ -1,10 +1,23 @@
 export default class jtbcFieldGallery extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'mode', 'action', 'value', 'disabled', 'width'];
+    return ['text', 'mode', 'action', 'value', 'disabled', 'width', 'tail'];
   };
+
+  #mode = 'square';
+  #disabled = false;
+  #uploading = false;
+  #tail = null;
 
   get name() {
     return this.getAttribute('name');
+  };
+
+  get mode() {
+    return this.#mode;
+  };
+
+  get uploading() {
+    return this.#uploading;
   };
 
   get value() {
@@ -25,7 +38,29 @@ export default class jtbcFieldGallery extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  get tail() {
+    return this.#tail;
+  };
+
+  set mode(mode) {
+    let modeList = ['square', 'horizontal', 'vertical'];
+    if (modeList.includes(mode))
+    {
+      this.#mode = mode;
+      modeList.forEach(item => {
+        if (this.mode == item)
+        {
+          this.container.classList.add(item);
+        }
+        else
+        {
+          this.container.classList.remove(item);
+        };
+      });
+    };
   };
 
   set value(value) {
@@ -48,15 +83,12 @@ export default class jtbcFieldGallery extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
+  };
+
+  set tail(tail) {
+    this.#tail = tail;
   };
 
   #initEvents() {
@@ -68,12 +100,15 @@ export default class jtbcFieldGallery extends HTMLElement {
       this.querySelector('input.file').click();
     });
     container.querySelector('input.file').addEventListener('change', function(){
-      if (that.currentUploading != true)
+      if (that.uploading != true)
       {
-        that.currentUploading = true;
+        that.#uploading = true;
         progress.startUpload(this, (index, data) => {
-          if (data.code == 1) that.addUploadedItem(data.param);
-        }, () => { that.currentUploading = false; });
+          if (data.code == 1)
+          {
+            that.addUploadedItem(data.param, that.tail);
+          };
+        }, () => { that.#uploading = false; });
       };
     });
     container.delegateEventListener('div.item', 'dragstart', function(){
@@ -147,11 +182,15 @@ export default class jtbcFieldGallery extends HTMLElement {
     });
   };
 
-  addUploadedItem(param) {
+  addUploadedItem(param, tail = null) {
     let mainEl = this.container.querySelector('div.main');
     let button = mainEl.querySelector('div.button');
     if (button != null)
     {
+      if (tail != null)
+      {
+        param.fileurl = param.fileurl + (tail ?? '');
+      };
       let newItem = document.createElement('div');
       let newImage = document.createElement('div');
       newItem.classList.add('item');
@@ -191,36 +230,27 @@ export default class jtbcFieldGallery extends HTMLElement {
       };
       case 'mode':
       {
-        let modes = ['square', 'horizontal', 'vertical'];
-        if (modes.includes(newVal))
-        {
-          this.currentMode = newVal;
-          modes.forEach(mode => {
-            if (this.currentMode == mode)
-            {
-              this.container.classList.add(mode);
-            }
-            else
-            {
-              this.container.classList.remove(mode);
-            };
-          });
-        };
+        this.mode = newVal;
         break;
       };
       case 'action':
       {
-        this.action = this.currentAction = newVal;
+        this.action = newVal;
         break;
       };
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = newVal;
         break;
       };
       case 'disabled':
       {
         this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+      case 'tail':
+      {
+        this.tail = newVal;
         break;
       };
       case 'width':
@@ -259,11 +289,6 @@ export default class jtbcFieldGallery extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.draging = null;
-    this.currentMode = 'square';
-    this.currentDisabled = false;
-    this.currentUploading = false;
-    this.currentValue = null;
-    this.currentAction = null;
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.imagePreviewer = document.getElementById('imagePreviewer');

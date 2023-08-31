@@ -29,12 +29,14 @@ export default class manageSetting {
       let currentText = this.options[this.selectedIndex].text;
       let nodeMap = {
         'attachment': 7,
+        'cascader': 4,
         'checkbox': 4,
         'code-editor': 5,
         'date': 10,
         'datetime': 10,
         'flat-selector': 4,
         'input-with-datalist': 4,
+        'linkage-selector': 4,
         'location-picker': 9,
         'mix': 2,
         'multi': 2,

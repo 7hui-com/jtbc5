@@ -52,20 +52,8 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (this.disabled != disabled)
-    {
-      this.#disabled = disabled? true: false;
-      if (this.disabled == true)
-      {
-        this.setAttribute('disabled', true);
-        this.container.classList.add('disabled');
-      }
-      else
-      {
-        this.removeAttribute('disabled');
-        this.container.classList.remove('disabled');
-      };
-    };
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #filterOptions() {
@@ -249,8 +237,7 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
   };
 
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {

@@ -1,16 +1,36 @@
+import langHelper from '../../../library/lang/langHelper.js';
+
 export default class jtbcMarkdownViewer extends HTMLElement {
   static get observedAttributes() {
-    return ['lang', 'value'];
+    return ['code-theme', 'theme', 'lang', 'value'];
   };
 
+  #codeTheme = 'github';
+  #theme = 'light';
   #lang = 'zh-cn';
   #value = null;
   #basePath = null;
   #libPath = null;
+  #themePath = null;
   #pluginCss = null;
   #options = {
+    'hljs': {
+      'style': 'github',
+      'lineNumber': true,
+    },
     'lang': 'zh_CN',
-    'theme': {},
+    'theme': {
+      'current': 'light',
+      'path': null,
+    },
+  };
+
+  get codeTheme() {
+    return this.#codeTheme;
+  };
+
+  get theme() {
+    return this.#theme;
   };
 
   get lang() {
@@ -21,21 +41,28 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     return this.#value ?? '';
   };
 
-  set lang(lang) {
-    if (['0', 'zh-cn'].includes(lang))
+  set codeTheme(codeTheme) {
+    this.#codeTheme = codeTheme;
+    this.#options.hljs.style = codeTheme;
+    if (this.inited === true)
     {
-      this.#lang = 'zh-cn';
-      this.#options.lang = 'zh_CN';
-    }
-    else if (['1', 'en'].includes(lang))
-    {
-      this.#lang = 'en';
-      this.#options.lang = 'en_US';
-    }
-    else
-    {
-      throw new Error('Unexpected value');
+      this.vditor.setCodeTheme(codeTheme, this.#libPath);
     };
+  };
+
+  set theme(theme) {
+    this.#theme = theme;
+    this.#options.theme.current = theme;
+    if (this.inited === true)
+    {
+      this.vditor.setContentTheme(theme, this.#themePath);
+    };
+  };
+
+  set lang(lang) {
+    let langMap = {'zh-cn': 'zh_CN', 'en': 'en_US'};
+    this.#lang = langHelper.getStandardLang(lang);
+    this.#options.lang = langMap[this.#lang];
   };
 
   set value(value) {
@@ -45,8 +72,8 @@ export default class jtbcMarkdownViewer extends HTMLElement {
 
   #initVditor(el) {
     let pluginCss = this.#pluginCss;
-    let iWindow = el.contentWindow;
     let iDocument =  el.contentDocument;
+    this.vditor = el.contentWindow.Vditor;
     if (pluginCss != null)
     {
       let pluginStyle = document.createElement('link');
@@ -58,7 +85,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     let contentEl = iDocument.querySelector('div.content');
     this.resizeObserver = new ResizeObserver(entries => this.#resize(entries, contentEl));
     this.resizeObserver.observe(contentEl);
-    iWindow.Vditor.preview(contentEl, this.value, this.getOptions(el));
+    this.vditor.preview(contentEl, this.value, this.getOptions(el));
   };
 
   #resize(entries, contentEl) {
@@ -72,8 +99,9 @@ export default class jtbcMarkdownViewer extends HTMLElement {
 
   getOptions(el) {
     this.#options.cdn = this.#libPath;
-    this.#options.theme.path = this.#libPath + '/dist/css/content-theme';
+    this.#options.theme.path = this.#themePath;
     this.#options.after = () => {
+      this.inited = true;
       this.#resize(null, el);
       this.dispatchEvent(new CustomEvent('renderend', {detail: {'el': el}}));
     };
@@ -93,6 +121,16 @@ export default class jtbcMarkdownViewer extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'code-theme':
+      {
+        this.codeTheme = newVal;
+        break;
+      };
+      case 'theme':
+      {
+        this.theme = newVal;
+        break;
+      };
       case 'lang':
       {
         this.lang = newVal;
@@ -117,6 +155,8 @@ export default class jtbcMarkdownViewer extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
+    this.vditor = null;
+    this.inited = false;
     let shadowRoot = this.attachShadow({mode: 'open'});
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
@@ -124,6 +164,7 @@ export default class jtbcMarkdownViewer extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.#basePath = basePath;
     this.#libPath = basePath + '../../../vendor/vditor';
+    this.#themePath = this.#libPath + '/dist/css/content-theme';
     this.#pluginCss = this.getAttribute('plugin_css');
     this.container = shadowRoot.querySelector('container');
   };

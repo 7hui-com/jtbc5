@@ -19,7 +19,7 @@ button.btn.done:hover {
   border-color: #f1543f !important
 }
 .install {
-  width: 100%; height: 100vh; min-height: 600px; display: flex; align-items: center; justify-content: center
+  width: 100%; min-width: 640px; height: 100vh; min-height: 600px; display: flex; align-items: center; justify-content: center
 }
 .install div.box {
   width: 600px; background: #fff
@@ -31,13 +31,16 @@ button.btn.done:hover {
   font-size: 30px; font-weight: normal; padding: 15px 0px 0px 20px; color: #fff; line-height: 100%
 }
 .install div.box div.nav h2 {
-  font-size: 12px; font-weight: normal; padding: 20px 0px 0px 20px; color: #badbff; line-height: 100%
+  font-size: 12px; font-weight: normal; padding: 20px 0px 0px 20px; color: rgba(255, 255, 255, .8); line-height: 100%
 }
 .install div.box div.nav div.link {
-  color: #fff; position: absolute; top: 20px; right: 20px; z-index: 100
+  color: rgba(255, 255, 255, .8); position: absolute; top: 20px; right: 20px; z-index: 100
 }
 .install div.box div.nav div.link a {
-  color: #fff
+  display: inline-block; padding-bottom: 2px solid; color: rgba(255, 255, 255, .8); border-bottom: rgba(255, 255, 255, .8) 1px solid; transition: all .3s ease
+}
+.install div.box div.nav div.link a:hover {
+  color: rgba(255, 255, 255, 1); border-bottom-color: rgba(255, 255, 255, 1)
 }
 .install div.box div.nav div.step {
   font-size: 0px; position: absolute; right: 0px; bottom: -2px; z-index: 100
@@ -46,7 +49,7 @@ button.btn.done:hover {
   display: inline-block; width: 110px; padding-bottom: 20px; font-size: 14px; color: #fff; line-height: 100%; text-align: center; cursor: default; position: relative; z-index: 100
 }
 .install div.box div.nav div.step span.on::after {
-  content: ''; display: block; width: 0px; height: 0px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 10px solid #fff; transform: translate(-50%, 0); position: absolute; bottom: 0px; left: 50%; z-index: 100
+  content: ''; display: block; width: 0px; height: 0px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid #fff; transform: translate(-50%, 0); position: absolute; bottom: 0px; left: 50%; z-index: 100
 }
 .install div.box div.tab_content {
   border-left: #979797 1px solid; border-right: #979797 1px solid
@@ -58,7 +61,7 @@ button.btn.done:hover {
   display: block
 }
 .install div.box div.tab_content div.license textarea {
-  width: 100%; height: 262px; font-size: 14px; line-height: 160%; vertical-align: top
+  width: 100%; height: 262px; font-size: 14px; line-height: 160%; vertical-align: top; transition: none
 }
 .install div.box div.tab_content div.database {
   width: 100%; height: 262px; padding: 10px; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; border: #dcdcdc 1px solid
@@ -107,5 +110,5 @@ button.btn.done:hover {
   display: flex; align-items: center; justify-content: space-between
 }
 .install div.box div.bottom_bar div.msg {
-  width: 380px; line-height: 60px; text-align: center; margin-left: -190px; color: #f1543f; position: absolute; top: 0px; left: 50%; z-index: 100
+  width: 380px; line-height: 160%; text-align: center; color: #f1543f; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%; z-index: 100
 }

@@ -1,27 +1,27 @@
 :host {
   --height: 30px; --unselected-color: #ccc; --selected-color: #3e868f
 }
-.switch {
+.container {
   display: inline-block !important; width: calc(var(--height) * 2); height: var(--height); cursor: pointer; vertical-align: top; position: relative; z-index: 100
 }
-.switch b {
+.container b {
   display: block; width: 100%; height: 100%; box-sizing: border-box; background: #d1d1d1; border: var(--unselected-color) 1px solid; border-radius: calc(var(--height) / 2)
 }
-.switch u {
+.container u {
   display: block; width: 100%; height: 100%; box-sizing: border-box; background: var(--selected-color); border: var(--selected-color) 1px solid; border-radius: calc(var(--height) / 2); transform: scale(0); opacity: 0; position: absolute; top: 0%; left: 0%; z-index: 100; transition: all .3s ease
 }
-.switch em {
+.container em {
   display: block; width: calc(var(--height) - 4px); height: calc(var(--height) - 4px); box-sizing: border-box; background: #ffffff; border: var(--unselected-color) 1px solid; box-shadow: 1px 0px 2px var(--unselected-color); border-radius: 100%; cursor: pointer; position: absolute; top: 2px; left: 2px; z-index: 110; transition: all .3s ease
 }
-.switch.on u {
+.container.on u {
   transform: scale(1); opacity: 1
 }
-.switch.on em {
+.container.on em {
   left: calc(50% + 2px); border-color: var(--selected-color); box-shadow: none
 }
-.switch.disabled {
+.container.disabled {
   opacity: .3; cursor: default
 }
-.switch.disabled em {
+.container.disabled em {
   cursor: default
 }

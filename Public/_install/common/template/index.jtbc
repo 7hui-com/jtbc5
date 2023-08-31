@@ -12,8 +12,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <meta name="format-detection" content="telephone=no,email=no,adress=no" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <link type="text/css" rel="stylesheet" href="{$=$assets_path}/css/install.css" />
 <title>{$=$htmlEncode(implode(' - ', array_reverse($meta_title)))}</title>
 </head>
@@ -23,11 +23,11 @@
     <div class="nav">
       <h1>JTBC</h1>
       <h2>{$=$take('index.text-ver', 'lng')}{$=$convertToVersionString($getKernelVersion())}</h2>
-      <div class="link"><a href="https://www.jtbc.cn/?from=install" target="_blank">{$=$take('index.text-link-1', 'lng')}</a>&nbsp; | &nbsp;<a href="https://www.jtbc.cn/host/?name=aliyun&amp;from=install" target="_blank">{$=$take('index.text-link-2', 'lng')}</a></div>
+      <div class="link"><a href="https://www.jtbc.cn/?from=install" target="_blank">{$=$take('index.text-link-1', 'lng')}</a>&nbsp; | &nbsp;<a href="https://help.jtbc.cn/php/5.0/?from=install" target="_blank">{$=$take('index.text-link-2', 'lng')}</a></div>
       <div class="step"><span class="on">{$=$take('index.text-step-1', 'lng')}</span><span>{$=$take('index.text-step-2', 'lng')}</span><span>{$=$take('index.text-step-3', 'lng')}</span></div>
     </div>
-    <div class="tab_content">
-      <form is="jtbc-form" class="form" method="post" action="api?action=install">
+    <form is="jtbc-form" class="form" method="post" action="api?action=install">
+      <div class="tab_content">
         <div class="item on">
           <div class="license"><textarea readonly="readonly">{$license}</textarea></div>
         </div>
@@ -63,23 +63,23 @@
             <div class="image"></div>
           </div>
         </div>
-      </form>
-    </div>
-    <div class="bottom_bar">
-      <div class="item on">
-        <div><label class="checkbox"><input type="checkbox" name="agree" class="agree" checked="checked" /><span>{$=$take('index.text-agree', 'lng')}</span></label></div>
-        <div><button class="btn step-1-next">{$=$take('index.text-btn-next', 'lng')}</button></div>
       </div>
-      <div class="item">
-        <div><button class="btn step-2-prev">{$=$take('index.text-btn-prev', 'lng')}</button></div>
-        <div><button class="btn step-2-next">{$=$take('index.text-btn-next', 'lng')}</button></div>
+      <div class="bottom_bar">
+        <div class="item on">
+          <div><label class="checkbox"><input type="checkbox" name="agree" class="agree" checked="checked" /><span>{$=$take('index.text-agree', 'lng')}</span></label></div>
+          <div><button type="button" class="btn step-1-next">{$=$take('index.text-btn-next', 'lng')}</button></div>
+        </div>
+        <div class="item">
+          <div><button type="button" class="btn step-2-prev">{$=$take('index.text-btn-prev', 'lng')}</button></div>
+          <div><button type="button" class="btn step-2-next">{$=$take('index.text-btn-next', 'lng')}</button></div>
+        </div>
+        <div class="item">
+          <div><button type="button" class="btn step-3-prev">{$=$take('index.text-btn-prev', 'lng')}</button></div>
+          <div><button type="submit" class="btn done step-3-done" loading="{$=$take('index.text-loading', 'lng')}">{$=$take('index.text-btn-done', 'lng')}</button></div>
+        </div>
+        <div class="msg"></div>
       </div>
-      <div class="item">
-        <div><button class="btn step-3-prev">{$=$take('index.text-btn-prev', 'lng')}</button></div>
-        <div><button class="btn done step-3-done" loading="{$=$take('index.text-loading', 'lng')}">{$=$take('index.text-btn-done', 'lng')}</button></div>
-      </div>
-      <div class="msg"></div>
-    </div>
+    </form>
   </div>
 </div>
 <jtbc-script init="install" src="{$=$assets_path}/js/index.js"></jtbc-script>

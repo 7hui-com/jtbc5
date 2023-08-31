@@ -4,14 +4,8 @@ export default class jtbcScript extends HTMLElement {
   };
 
   #src = '';
-  #appended = false;
   #readied = false;
   #instance = null;
-  #rootNode = null;
-
-  get appended() {
-    return this.#appended;
-  };
 
   get src() {
     return this.#src;
@@ -25,32 +19,13 @@ export default class jtbcScript extends HTMLElement {
     return this.#instance;
   };
 
-  get rootNode() {
-    return this.#rootNode;
-  };
-
-  set src(value) {
-    this.#src = value;
+  set src(src) {
+    this.#src = src;
     this.loadScript();
   };
 
-  appendedCallback() {
-    this.#appended = true;
-    this.readiedCallback();
-  };
-
-  readiedCallback() {
-    if (this.ready == false)
-    {
-      if (this.appended == true && this.instance != null)
-      {
-        this.#readied = true;
-        if ('readiedCallback' in this.instance)
-        {
-          this.instance.readiedCallback();
-        };
-      };
-    };
+  isReadied() {
+    return this.#readied;
   };
 
   loadScript() {
@@ -61,6 +36,20 @@ export default class jtbcScript extends HTMLElement {
       this.#instance = new module.default(this);
       this.readiedCallback();
     });
+  };
+
+  readiedCallback() {
+    if (!this.isReadied())
+    {
+      if (this.isConnected && this.instance != null)
+      {
+        this.#readied = true;
+        if ('readiedCallback' in this.instance)
+        {
+          this.instance.readiedCallback();
+        };
+      };
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -74,14 +63,10 @@ export default class jtbcScript extends HTMLElement {
   };
 
   connectedCallback() {
-    if (this.rootNode.contains(this))
-    {
-      this.appendedCallback();
-    };
+    this.readiedCallback();
   };
 
   constructor() {
     super();
-    this.#rootNode = this.getRootNode();
   };
 };

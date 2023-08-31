@@ -50,7 +50,7 @@ container table.table td {
   padding: 10px 10px 10px 0px
 }
 container table.table th {
-  text-align: left; background: #f6f6f6
+  text-align: left; background: #f6f6f6; border-bottom: #e1e1e1 1px solid
 }
 container table.table td {
   text-align: left; background: #fff

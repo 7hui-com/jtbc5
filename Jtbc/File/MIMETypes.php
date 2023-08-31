@@ -6,7 +6,7 @@ namespace Jtbc\File;
 
 class MIMETypes
 {
-  private static $assetFileType = ['css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'json', 'mjs', 'mp3', 'mp4', 'png', 'svg', 'webp', 'woff', 'woff2', 'xml'];
+  private static $assetFileType = ['css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'json', 'mjs', 'mov', 'mp3', 'mp4', 'png', 'svg', 'webm', 'webp', 'woff', 'woff2', 'xml'];
 
   public static function getMIMEType(string $argName)
   {
@@ -43,6 +43,7 @@ class MIMETypes
       'mid' => 'audio/midi audio/x-midi',
       'midi' => 'audio/midi audio/x-midi',
       'mjs' => 'text/javascript',
+      'mov' => 'video/quicktime',
       'mp3' => 'audio/mpeg',
       'mp4' => 'video/mp4',
       'mpeg' => 'video/mpeg',

@@ -3,16 +3,19 @@ export default class jtbcFieldStar extends HTMLElement {
     return ['length', 'value', 'disabled'];
   };
 
+  #disabled = false;
+  #value = 0;
+
   get name() {
     return this.getAttribute('name');
   };
 
   get value() {
-    return this.currentValue;
+    return this.#value;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -24,32 +27,19 @@ export default class jtbcFieldStar extends HTMLElement {
       currentIndex += 1;
       currentIndex <= currentValue? el.classList.add('on'): el.classList.remove('on');
     });
-    this.currentValue = currentValue;
+    this.#value = currentValue;
   };
 
   set disabled(disabled) {
-    let currentDisabled = disabled;
-    if (this.currentDisabled != currentDisabled)
-    {
-      this.currentDisabled = currentDisabled? true: false;
-      if (this.currentDisabled == true)
-      {
-        this.setAttribute('disabled', true);
-        this.container.classList.add('disabled');
-      }
-      else
-      {
-        this.removeAttribute('disabled');
-        this.container.classList.remove('disabled');
-      };
-    };
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
     let that = this;
     let container = this.container;
     container.addEventListener('mouseleave', () => {
-      this.value = this.currentValue;
+      this.value = this.#value;
     });
     container.delegateEventListener('star', 'mouseover', function(){
       if (that.disabled != true)
@@ -79,7 +69,7 @@ export default class jtbcFieldStar extends HTMLElement {
       newStar.innerHTML = '<jtbc-svg name="star" class="star"></jtbc-svg><jtbc-svg name="star_fill" class="star_fill"></jtbc-svg>';
       container.append(newStar);
     };
-    this.value = this.currentValue;
+    this.value = this.#value;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -120,9 +110,7 @@ export default class jtbcFieldStar extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.currentValue = 0;
     this.currentLength = 5;
-    this.currentDisabled = false;
     this.render();
     this.#initEvents();
   };

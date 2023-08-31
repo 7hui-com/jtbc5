@@ -2,11 +2,12 @@ export default class index {
   install() {
     if (this.inited != true)
     {
-      let installEl = document.querySelector('div.install');
-      let formEl = installEl.querySelector('form.form');
+      this.inited = true;
+      let container = document.querySelector('div.install');
+      let formEl = container.querySelector('form.form');
       const gotoStep = step => {
-        installEl.querySelector('div.msg').innerText = '';
-        installEl.querySelectorAll('div.step span').forEach(span => {
+        container.querySelector('div.msg').innerText = '';
+        container.querySelectorAll('div.step span').forEach(span => {
           if (span.index() == step)
           {
             span.classList.add('on');
@@ -16,7 +17,7 @@ export default class index {
             span.classList.remove('on');
           };
         });
-        installEl.querySelectorAll('div.tab_content div.item').forEach(div => {
+        container.querySelectorAll('div.tab_content div.item').forEach(div => {
           if (div.index() == step)
           {
             div.classList.add('on');
@@ -26,7 +27,7 @@ export default class index {
             div.classList.remove('on');
           };
         });
-        installEl.querySelectorAll('div.bottom_bar div.item').forEach(div => {
+        container.querySelectorAll('div.bottom_bar div.item').forEach(div => {
           if (div.index() == step)
           {
             div.classList.add('on');
@@ -37,7 +38,7 @@ export default class index {
           };
         });
       };
-      installEl.delegateEventListener('form.form', 'submitend', e => {
+      container.delegateEventListener('form.form', 'submitend', e => {
         let res = e.detail.res;
         let self = e.currentTarget;
         if (res.ok)
@@ -58,7 +59,7 @@ export default class index {
           });
         };
       });
-      installEl.delegateEventListener('input.agree', 'change', function(e){
+      container.delegateEventListener('input.agree', 'change', function(e){
         let self = e.currentTarget;
         if (this.checked)
         {
@@ -69,11 +70,11 @@ export default class index {
           self.querySelector('button.step-1-next').classList.add('hide');
         };
       });
-      installEl.delegateEventListener('button.step-1-next', 'click', function(){ gotoStep(2); });
-      installEl.delegateEventListener('button.step-2-prev', 'click', function(){ gotoStep(1); });
-      installEl.delegateEventListener('button.step-2-next', 'click', function(){ gotoStep(3); });
-      installEl.delegateEventListener('button.step-3-prev', 'click', function(){ gotoStep(2); });
-      installEl.delegateEventListener('button.step-3-done', 'click', function(e){
+      container.delegateEventListener('button.step-1-next', 'click', function(){ gotoStep(2); });
+      container.delegateEventListener('button.step-2-prev', 'click', function(){ gotoStep(1); });
+      container.delegateEventListener('button.step-2-next', 'click', function(){ gotoStep(3); });
+      container.delegateEventListener('button.step-3-prev', 'click', function(){ gotoStep(2); });
+      container.delegateEventListener('button.step-3-done', 'click', function(e){
         let self = e.currentTarget;
         if (!this.classList.contains('locked'))
         {
@@ -83,7 +84,6 @@ export default class index {
           self.querySelector('div.msg').innerText = this.getAttribute('loading');
         };
       });
-      this.inited = true;
     };
   };
 

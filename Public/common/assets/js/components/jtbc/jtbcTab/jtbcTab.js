@@ -3,12 +3,19 @@ export default class jtbcTab extends HTMLDivElement {
     return ['value'];
   };
 
+  #value = 0;
+
+  get value() {
+    return this.#value;
+  };
+
   set value(value) {
     this.selectTabByIndex(Number.parseInt(value));
   };
 
-  get value() {
-    return this.currentValue;
+  #initEvents() {
+    let that = this;
+    this.delegateEventListener('tabtitle', 'click', function(){ that.selectTab(this); });
   };
 
   selectTab(node) {
@@ -34,7 +41,7 @@ export default class jtbcTab extends HTMLDivElement {
       if (indexTitle == index)
       {
         el.classList.add('on');
-        this.currentValue = index;
+        this.#value = index;
         let customEvent = new CustomEvent('tabchange', {
           bubbles: true,
           detail: {value: index},
@@ -68,9 +75,7 @@ export default class jtbcTab extends HTMLDivElement {
 
   constructor() {
     super();
-    let that = this;
     this.ready = false;
-    this.currentValue = 0;
-    this.delegateEventListener('tabtitle', 'click', function(){ that.selectTab(this); });
+    this.#initEvents();
   };
 };

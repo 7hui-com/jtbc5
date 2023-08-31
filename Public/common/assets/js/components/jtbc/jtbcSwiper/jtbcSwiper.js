@@ -6,16 +6,31 @@ export default class jtbcSwiper extends HTMLElement {
   };
 
   #param = null;
+  #basePath = null;
+  #libPath = null;
 
   get param() {
-    try
+    let result = {};
+    if (this.#param instanceof Object)
     {
-      let param = JSON.parse(this.#param);
-      return param instanceof Object? param: {};
+      result = this.#param;
     }
-    catch(e) {
-      console.log(e.message);
+    else
+    {
+      try
+      {
+        result = JSON.parse(this.#param);
+      }
+      catch(e)
+      {
+        throw new Error('Unexpected value');
+      };
     };
+    return result;
+  };
+
+  set param(param) {
+    this.#param = param;
   };
 
   #appendStylesheet(path) {
@@ -27,7 +42,18 @@ export default class jtbcSwiper extends HTMLElement {
       el.setAttribute('type', 'text/css');
       el.setAttribute('rel', 'stylesheet');
       el.setAttribute('href', path);
-      rootNode.head.appendChild(el);
+      if (rootNode instanceof ShadowRoot)
+      {
+        rootNode.prepend(el);
+      }
+      else if (rootNode instanceof Document)
+      {
+        rootNode.head.append(el);
+      }
+      else
+      {
+        throw new Error('Unexpected environment');
+      };
     };
   };
 
@@ -45,13 +71,14 @@ export default class jtbcSwiper extends HTMLElement {
         this.instance.push(new Swiper(item, this.param));
       });
     };
+    this.dispatchEvent(new CustomEvent('inited', {'detail': {'instance': this.instance}}));
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'param':
       {
-        this.#param = newVal;
+        this.param = newVal;
         break;
       };
     };
@@ -65,8 +92,8 @@ export default class jtbcSwiper extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
-    this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
-    this.swiperPath = new URL(this.basePath + '../../../vendor/swiper/');
-    this.#appendStylesheet(this.swiperPath.pathname + 'swiper-bundle.min.css');
+    this.#basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
+    this.#libPath = this.#basePath + '../../../vendor/swiper';
+    this.#appendStylesheet(this.#libPath + '/swiper-bundle.min.css');
   };
 };

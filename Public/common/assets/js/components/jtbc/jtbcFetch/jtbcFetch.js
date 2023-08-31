@@ -3,37 +3,25 @@ export default class jtbcFetch extends HTMLElement {
     return ['mode', 'method', 'basehref', 'body', 'url', 'interval'];
   };
 
-  #method = 'get';
-  #mode = 'queryString';
   #body = null;
   #baseHref = null;
+  #mode = 'queryString';
+  #method = 'get';
   #URL = null;
   #interval = null;
-
-  set href(value) {
-    this.dispatchEvent(new CustomEvent('hrefstart', {detail: {href: value}}));
-    if (this.loading == false && this.locked == false)
-    {
-      this.setAttribute('url', value);
-      this.#URL = value;
-      this.fetch();
-    }
-    else
-    {
-      this.dispatchEvent(new CustomEvent('hreferror', {detail: {href: value}}));
-    };
-  };
+  #modeList = ['queryString', 'json'];
+  #methodList = ['get', 'post', 'put', 'delete'];
 
   get body() {
     return this.#body;
   };
 
-  get method() {
-    return this.#method;
-  };
-
   get mode() {
     return this.#mode;
+  };
+
+  get method() {
+    return this.#method;
   };
 
   get href() {
@@ -42,6 +30,42 @@ export default class jtbcFetch extends HTMLElement {
 
   get fullURL() {
     return this.#baseHref? this.#baseHref + this.#URL: this.#URL;
+  };
+
+  set mode(mode) {
+    if (this.#modeList.includes(mode))
+    {
+      this.#mode = mode;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set method(method) {
+    if (this.#methodList.includes(method))
+    {
+      this.#method = method;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set href(href) {
+    this.dispatchEvent(new CustomEvent('hrefstart', {detail: {href: href}}));
+    if (this.loading == false && this.locked == false)
+    {
+      this.setAttribute('url', href);
+      this.#URL = href;
+      this.fetch();
+    }
+    else
+    {
+      this.dispatchEvent(new CustomEvent('hreferror', {detail: {href: href}}));
+    };
   };
 
   fetch() {
@@ -148,18 +172,12 @@ export default class jtbcFetch extends HTMLElement {
     switch(attr) {
       case 'mode':
       {
-        if (this.modeList.includes(newVal))
-        {
-          this.#mode = newVal;
-        };
+        this.mode = newVal;
         break;
       };
       case 'method':
       {
-        if (this.methodList.includes(newVal))
-        {
-          this.#method = newVal;
-        };
+        this.method = newVal;
         break;
       };
       case 'basehref':
@@ -193,10 +211,8 @@ export default class jtbcFetch extends HTMLElement {
 
   constructor() {
     super();
+    this.ready = false;
     this.locked = false;
     this.loading = false;
-    this.ready = false;
-    this.modeList = ['queryString', 'json'];
-    this.methodList = ['get', 'post', 'put', 'delete'];
   };
 };

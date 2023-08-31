@@ -110,6 +110,7 @@ export default class manage {
   initBackend() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       this.#bindFormEvents();
       let scarf = this.self.parentNode.querySelector('.scarf');
@@ -175,13 +176,13 @@ export default class manage {
           });
         };
       });
-      this.inited = true;
     };
   };
 
   initFrontend() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       this.#bindFormEvents();
       let scarf = this.self.parentNode.querySelector('.scarf');
@@ -220,7 +221,6 @@ export default class manage {
           };
         });
       });
-      this.inited = true;
     };
   };
 

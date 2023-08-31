@@ -20,7 +20,6 @@ export default class jtbcFader extends HTMLElement {
     this.querySelectorAll('[fade]').forEach(el => {
       if (el.dataset.faded == undefined)
       {
-        console.log(el.inViewport());
         if (el.inViewport())
         {
           el.dataset.faded = 'true';

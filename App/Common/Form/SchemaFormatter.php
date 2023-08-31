@@ -6,7 +6,6 @@ use Jtbc\JSON;
 use Jtbc\Converter;
 use Jtbc\Substance;
 use Jtbc\Validation;
-use Jtbc\Model\TinyModel;
 use Jtbc\Model\Automatic\FieldNameHelper;
 use Jtbc\Fetcher\ModelFetcher;
 use App\Universal\Dictionary\Dictionary;
@@ -16,6 +15,7 @@ class SchemaFormatter
   private $fieldName;
   private $baseURI;
   private $lang;
+  private $withTreeSource = ['cascader', 'linkage-selector'];
   private $withSource = ['radio', 'checkbox', 'select', 'select2', 'flat-selector', 'transfer', 'input-with-datalist'];
 
   private function getData($argSource, string $argSourceType)
@@ -135,6 +135,40 @@ class SchemaFormatter
     return $extra;
   }
 
+  private function getTreeData($argSource, string $argSourceType)
+  {
+    $result = [];
+    $source = $argSource;
+    $sourceType = $argSourceType;
+    if ($sourceType == 'data')
+    {
+      if (is_array($source))
+      {
+        $result = $source;
+      }
+    }
+    else if ($sourceType == 'dictionary')
+    {
+      if (is_string($source) && Validation::isNatural($source))
+      {
+        $sourceArr = Dictionary::get(argName: $source, argLang: $this -> lang);
+        if (is_array($sourceArr))
+        {
+          $result = Converter::convertToTreeOption($sourceArr);
+        }
+      }
+    }
+    else
+    {
+      $sourceArr = Jtbc::take($source, 'lng', false, null, Env::getLanguageByID($this -> lang));
+      if (is_array($sourceArr))
+      {
+        $result = Converter::convertToTreeOption($sourceArr);
+      }
+    }
+    return $result;
+  }
+
   public function getSchema(Substance $comment)
   {
     $type = $comment -> type;
@@ -142,6 +176,14 @@ class SchemaFormatter
     $required = $comment -> required === false? false: true;
     $text = $comment -> text ?? FieldNameHelper::getFieldText($fieldName);
     $result = ['text' => $text, 'name' => $fieldName, 'type' => $type, 'required' => $required, 'extra' => $this -> getExtra($comment)];
+    if ($comment -> exists('class'))
+    {
+      $class = $comment -> class;
+      if (is_string($class))
+      {
+        $result['class'] = $class;
+      }
+    }
     if (in_array($type, $this -> withSource))
     {
       $source = $comment -> source;
@@ -149,6 +191,15 @@ class SchemaFormatter
       if (!is_null($source))
       {
         $result['data'] = $this -> getData($source, $sourceType);
+      }
+    }
+    else if (in_array($type, $this -> withTreeSource))
+    {
+      $source = $comment -> source;
+      $sourceType = $comment -> sourceType ?? 'file';
+      if (!is_null($source))
+      {
+        $result['data'] = $this -> getTreeData($source, $sourceType);
       }
     }
     return $result;
@@ -174,6 +225,15 @@ class SchemaFormatter
           if (!is_null($source))
           {
             $item['data'] = $this -> getData($source, $sourceType);
+          }
+        }
+        else if (in_array($type, $this -> withTreeSource))
+        {
+          $source = $current -> source;
+          $sourceType = $current -> sourceType ?? 'file';
+          if (!is_null($source))
+          {
+            $result['data'] = $this -> getTreeData($source, $sourceType);
           }
         }
         $result[] = $item;

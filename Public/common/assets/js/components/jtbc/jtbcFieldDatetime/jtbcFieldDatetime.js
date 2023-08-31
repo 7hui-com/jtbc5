@@ -1,3 +1,6 @@
+import langHelper from '../../../library/lang/langHelper.js';
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcFieldDatetime extends HTMLElement {
   static get observedAttributes() {
     return ['lang', 'min', 'max', 'value', 'disabled', 'width', 'placeholder'];
@@ -5,25 +8,43 @@ export default class jtbcFieldDatetime extends HTMLElement {
 
   #changed = false;
   #closePickerTimeout;
-  #lang;
+  #lang = 'zh-cn';
   #minDate = null;
   #maxDate = null;
+  #disabled = false;
+  #value = '';
 
   get name() {
     return this.getAttribute('name');
   };
 
+  get lang() {
+    return this.#lang;
+  };
+
   get value() {
-    return this.currentValue;
+    return this.#value;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  set lang(lang) {
+    let container = this.container;
+    let calendar = container.querySelector('.calendar');
+    this.#lang = langHelper.getStandardLang(lang);
+    calendar.setAttribute('lang', this.#lang);
   };
 
   set value(value) {
     let container = this.container;
-    if (this.#isDateTime(value))
+    if (value.length == 0)
+    {
+      container.querySelector('input.datetime').value = this.#value = '';
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+    }
+    else if (validation.isDateTime(value))
     {
       let currentDate = new Date(value);
       let currentDateHours = currentDate.getHours();
@@ -34,7 +55,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
       currentDateSeconds = currentDateSeconds < 10? '0' + currentDateSeconds: currentDateSeconds;
       value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
       value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
-      container.querySelector('input.datetime').value = this.currentValue = value;
+      container.querySelector('input.datetime').value = this.#value = value;
       container.querySelector('.calendar').setAttribute('value', this.getDateString(currentDate));
       container.querySelectorAll('div.time div.item').forEach(item => {
         let currentItemValue = currentDateHours;
@@ -53,15 +74,8 @@ export default class jtbcFieldDatetime extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #changeValue() {
@@ -130,20 +144,8 @@ export default class jtbcFieldDatetime extends HTMLElement {
     };
   };
 
-  #isDateTime(datetime) {
-    let result = false;
-    let date = new Date(datetime);
-    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
-    if (date instanceof Date && !isNaN(date.getTime()) && dateRegExp.test(datetime))
-    {
-      result = true;
-    };
-    return result;
-  };
-
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {
@@ -158,16 +160,16 @@ export default class jtbcFieldDatetime extends HTMLElement {
     let datepicker = container.querySelector('div.datepicker');
     datetime.addEventListener('blur', function(){
       let value = this.value;
-      if (!that.#isDateTime(value))
+      if (!validation.isDateTime(value))
       {
         if (value.trim() == '')
         {
-          that.currentValue = '';
+          that.#value = '';
           that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
         }
         else
         {
-          this.value = that.currentValue;
+          this.value = that.#value;
         };
       }
       else
@@ -233,7 +235,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
         {
           datepicker.classList.remove('upper');
         };
-        if (that.#isDateTime(that.value))
+        if (validation.isDateTime(that.value))
         {
           calendar.render(that.value);
           calendar.setAttribute('value', that.getDateString(new Date(that.value)));
@@ -278,8 +280,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
     switch(attr) {
       case 'lang':
       {
-        this.#lang = newVal;
-        calendar.setAttribute('lang', this.#lang);
+        this.lang = newVal;
         break;
       };
       case 'min':
@@ -328,12 +329,10 @@ export default class jtbcFieldDatetime extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><input type="text" name="datetime" class="datetime" /><span class="box"></span><span class="btn"><jtbc-svg name="calendar"></jtbc-svg></span><div class="datepicker"><div class="date"><jtbc-calendar class="calendar"></jtbc-calendar></div><div class="time"><div class="item h"><ul></ul></div><div class="item m"><ul></ul></div><div class="item s"><ul></ul></div></div></div><div class="mask"></div></div>
+      <div class="container" style="display:none"><input type="text" name="datetime" class="datetime" /><span class="box"></span><span class="btn"><jtbc-svg name="calendar"></jtbc-svg></span><div class="datepicker"><div class="date"><jtbc-calendar class="calendar" lang="zh-cn"></jtbc-calendar></div><div class="time"><div class="item h"><ul></ul></div><div class="item m"><ul></ul></div><div class="item s"><ul></ul></div></div></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.currentValue = '';
-    this.currentDisabled = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#initTimeOptions();
     this.container.loadComponents().then(() => { this.#initEvents(); });

@@ -39,6 +39,14 @@ class Validator
         $fieldComment = $field -> comment;
         $fieldLength = intval($field -> length);
         $fieldText = FieldNameHelper::getFieldText($fieldName);
+        if ($fieldType == 'varchar')
+        {
+          $maxlength = $fieldLength;
+        }
+        else if (is_array($maxLengthOfStringFields) && array_key_exists($fieldType, $maxLengthOfStringFields))
+        {
+          $maxlength = $maxLengthOfStringFields[$fieldType];
+        }
         if (!Validation::isEmpty($fieldComment))
         {
           $comment = new Substance($fieldComment);
@@ -61,17 +69,6 @@ class Validator
           if ($comment -> exists('maxlength'))
           {
             $maxlength = intval($comment -> maxlength);
-          }
-          else
-          {
-            if ($fieldType == 'varchar')
-            {
-              $maxlength = $fieldLength;
-            }
-            else if (is_array($maxLengthOfStringFields) && array_key_exists($fieldType, $maxLengthOfStringFields))
-            {
-              $maxlength = $maxLengthOfStringFields[$fieldType];
-            }
           }
           if ($comment -> exists('text'))
           {

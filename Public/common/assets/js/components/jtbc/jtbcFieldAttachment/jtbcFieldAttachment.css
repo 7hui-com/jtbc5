@@ -95,10 +95,10 @@
   display: block; color: #999; text-align: right
 }
 .container div.mask {
-  width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100
+  width: 100%; height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100
 }
 .container.disabled div.mask {
-  z-index: 10000
+  opacity: 0.3; z-index: 10000
 }
 .container[partner] .textInsert {
   display: inline-block !important

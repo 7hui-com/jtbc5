@@ -2,6 +2,7 @@ export default class manage {
   initAdd() {
     if (this.inited != true)
     {
+      this.inited = true;
       let scarf = this.self.parentNode.querySelector('.scarf');
       scarf.delegateEventListener('input[name=mode]', 'change', function(){
         scarf.querySelectorAll('form item[group=value]').forEach(item => {
@@ -15,7 +16,6 @@ export default class manage {
           };
         });
       });
-      this.inited = true;
     };
   };
 

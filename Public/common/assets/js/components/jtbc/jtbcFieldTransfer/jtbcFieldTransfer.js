@@ -3,6 +3,9 @@ export default class jtbcFieldTransfer extends HTMLElement {
     return ['text', 'data', 'max', 'value', 'disabled', 'width', 'height', 'nonfilterable'];
   };
 
+  #disabled = false;
+  #nonfilterable = false;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -17,34 +20,27 @@ export default class jtbcFieldTransfer extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   get nonfilterable() {
-    return this.currentNonfilterable;
+    return this.#nonfilterable;
   };
 
   set value(value) {
     this.selected = [];
-    this.currentValue = value? JSON.parse(value): [];
-    if (Array.isArray(this.currentValue))
+    let selected = value? JSON.parse(value): [];
+    if (Array.isArray(selected))
     {
-      this.selected = this.currentValue;
+      this.selected = selected;
       this.container.dispatchEvent(new CustomEvent('update'));
     };
     this.reselect();
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   set nonfilterable(nonfilterable) {
@@ -60,7 +56,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
         el.classList.add('on');
       });
     };
-    this.currentNonfilterable = nonfilterable;
+    this.#nonfilterable = nonfilterable;
   };
 
   #initEvents() {
@@ -460,9 +456,6 @@ export default class jtbcFieldTransfer extends HTMLElement {
     this.container.querySelector('toolbar').loadComponents();
     this.currentData = null;
     this.currentMax = null;
-    this.currentValue = '';
-    this.currentDisabled = false;
-    this.currentNonfilterable = false;
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
     this.#initEvents();

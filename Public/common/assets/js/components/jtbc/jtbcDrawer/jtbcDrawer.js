@@ -49,7 +49,7 @@ export default class jtbcDrawer extends HTMLElement {
       let pluginStyle = document.createElement('style');
       pluginStyle.identity = this.#pluginStyleIdentity = Symbol();
       pluginStyle.setAttribute('type', 'text/css');
-      pluginStyle.innerText = 'html, body { width: calc(100% - ' + scrollbarWidth + 'px); overflow-y: hidden }';
+      pluginStyle.innerText = 'html, body { width: calc(100vw - ' + scrollbarWidth + 'px); overflow-y: hidden }';
       document.head.append(pluginStyle);
     };
   };

@@ -27,7 +27,7 @@ class FileHelper
     {
       $fileGroup = 1;
     }
-    else if (in_array($fileType, ['mp4', 'm4a', 'mov']))
+    else if (in_array($fileType, ['mov', 'mp4', 'webm']))
     {
       $fileGroup = 2;
     }

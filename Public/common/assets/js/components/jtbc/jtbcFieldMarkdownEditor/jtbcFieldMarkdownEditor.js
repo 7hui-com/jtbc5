@@ -1,3 +1,5 @@
+import langHelper from '../../../library/lang/langHelper.js';
+
 export default class jtbcFieldMarkdownEditor extends HTMLElement {
   static get observedAttributes() {
     return ['toolbar', 'value', 'disabled', 'width', 'height', 'lang', 'placeholder'];
@@ -69,20 +71,9 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
   };
 
   set lang(lang) {
-    if (['0', 'zh-cn'].includes(lang))
-    {
-      this.#lang = 'zh-cn';
-      this.#options.lang = 'zh_CN';
-    }
-    else if (['1', 'en'].includes(lang))
-    {
-      this.#lang = 'en';
-      this.#options.lang = 'en_US';
-    }
-    else
-    {
-      throw new Error('Unexpected value');
-    };
+    let langMap = {'zh-cn': 'zh_CN', 'en': 'en_US'};
+    this.#lang = langHelper.getStandardLang(lang);
+    this.#options.lang = langMap[this.#lang];
   };
 
   set value(value) {
@@ -95,15 +86,8 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
     this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #setHeight(height) {
@@ -122,15 +106,15 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     {
       if (fullscreen == true)
       {
+        document.body.classList.add('f11');
         container.classList.add('fullscreen');
-        document.body.classList.add('tox-fullscreen');
         document.documentElement.style.overflow = 'hidden';
         iframe.style.height = document.documentElement.clientHeight + 'px';
       }
       else
       {
+        document.body.classList.remove('f11');
         container.classList.remove('fullscreen');
-        document.body.classList.remove('tox-fullscreen');
         document.documentElement.style.overflow = null;
         iframe.style.height = iframe.dataset.height + 'px';
         if (iDocument != null)

@@ -1,5 +1,5 @@
 export default class manageUpgrade {
-  initDownloadAndUpgradeEvents() {
+  #initDownloadAndUpgradeEvents() {
     let that = this;
     let popup = this.self.parentNode.querySelector('.dialogPopup');
     let upgradeBox = popup.querySelector('.upgradeBox');
@@ -25,6 +25,19 @@ export default class manageUpgrade {
             {
               cloudService.dispatchEvent(new CustomEvent('loadurl'));
             };
+          }
+          else if (data.code == 4201)
+          {
+            this.miniMessage.push(data.message, () => {
+              let firstOpinion = null;
+              upgradeBox.querySelector('div.step2List')?.querySelectorAll('span.opinion select[role=field]').forEach(el => {
+                if (firstOpinion == null && el.value == '0')
+                {
+                  firstOpinion = el;
+                  el.scrollIntoView({'behavior': 'smooth', 'block': 'center'});
+                };
+              });
+            });
           }
           else
           {
@@ -73,22 +86,23 @@ export default class manageUpgrade {
   initKernel() {
     if (this.inited != true)
     {
-      this.initDownloadAndUpgradeEvents();
       this.inited = true;
+      this.#initDownloadAndUpgradeEvents();
     };
   };
 
   initPackage() {
     if (this.inited != true)
     {
-      this.initDownloadAndUpgradeEvents();
       this.inited = true;
+      this.#initDownloadAndUpgradeEvents();
     };
   };
 
   initModule() {
     if (this.inited != true)
     {
+      this.inited = true;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
       let step1 = popup.querySelector('.step1');
       step1.delegateEventListener('i.new', 'click', function(){
@@ -147,14 +161,14 @@ export default class manageUpgrade {
           downloadButton.setAttribute('url', downloadButton.getAttribute('baseurl') + '&genre=' + encodeURIComponent(this.getAttribute('genre')));
         };
       });
-      this.initDownloadAndUpgradeEvents();
-      this.inited = true;
+      this.#initDownloadAndUpgradeEvents();
     };
   };
 
   initPlugin() {
     if (this.inited != true)
     {
+      this.inited = true;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
       let step1 = popup.querySelector('.step1');
       step1.delegateEventListener('i.new', 'click', function(){
@@ -203,8 +217,7 @@ export default class manageUpgrade {
           downloadButton.setAttribute('url', downloadButton.getAttribute('baseurl') + '&genre=' + encodeURIComponent(this.getAttribute('genre')));
         };
       });
-      this.initDownloadAndUpgradeEvents();
-      this.inited = true;
+      this.#initDownloadAndUpgradeEvents();
     };
   };
 

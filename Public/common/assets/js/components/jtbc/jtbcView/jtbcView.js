@@ -12,31 +12,6 @@ export default class jtbcView extends HTMLElement {
   #virtualDOM = null;
   #builtInDirective = ['model', 'html'];
 
-  set data(data) {
-    if (Array.isArray(data))
-    {
-      this.#data = data;
-    }
-    else if (data instanceof Object)
-    {
-      this.#data = data;
-    }
-    else if (typeof data == 'string')
-    {
-      let dataValue = [];
-      try
-      {
-        dataValue = JSON.parse(data);
-      }
-      catch (e)
-      {
-        throw new Error('Unexpected data format');
-      };
-      this.#data = dataValue;
-    };
-    this.render();
-  };
-
   get data() {
     let that = this;
     let result = this.#dataProxy;
@@ -104,6 +79,31 @@ export default class jtbcView extends HTMLElement {
 
   get template() {
     return this.#template;
+  };
+
+  set data(data) {
+    if (Array.isArray(data))
+    {
+      this.#data = data;
+    }
+    else if (data instanceof Object)
+    {
+      this.#data = data;
+    }
+    else if (typeof data == 'string')
+    {
+      let dataValue = [];
+      try
+      {
+        dataValue = JSON.parse(data);
+      }
+      catch (e)
+      {
+        throw new Error('Unexpected data format');
+      };
+      this.#data = dataValue;
+    };
+    this.render();
   };
 
   #patchRealElement(el) {

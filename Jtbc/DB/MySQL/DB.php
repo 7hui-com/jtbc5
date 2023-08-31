@@ -28,9 +28,8 @@ class DB implements DBInterface
       $dsn = 'mysql:host=' . $this -> dbHost;
       if (!empty($this -> dbDatabase)) $dsn .= ';dbname=' . $this -> dbDatabase;
       $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . $this -> dbCharset,
-        PDO::ATTR_ERRMODE,
-        PDO::ERRMODE_EXCEPTION,
       ];
       $this -> conn = new PDO($dsn, $this -> dbUsername, $this -> dbPassword, $options);
     }

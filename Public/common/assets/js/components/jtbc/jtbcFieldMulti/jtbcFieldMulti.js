@@ -5,6 +5,9 @@ export default class jtbcFieldMulti extends HTMLElement {
     return ['text', 'columns', 'value', 'disabled', 'width'];
   };
 
+  #disabled = false;
+  #value = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -13,7 +16,7 @@ export default class jtbcFieldMulti extends HTMLElement {
     let result = '';
     if (this.inited == false)
     {
-      result = this.currentValue ?? '';
+      result = this.#value ?? '';
     }
     else
     {
@@ -34,7 +37,7 @@ export default class jtbcFieldMulti extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -61,15 +64,8 @@ export default class jtbcFieldMulti extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -82,6 +78,7 @@ export default class jtbcFieldMulti extends HTMLElement {
         newLi.querySelector('input[name=id]').value = this.getTempId();
         this.content.append(newLi);
         this.numReset();
+        newLi.scrollIntoView({'behavior': 'smooth'});
       };
     });
     container.delegateEventListener('.order.up', 'click', function(){
@@ -173,7 +170,7 @@ export default class jtbcFieldMulti extends HTMLElement {
         this.createLiElement(columns);
         this.liElement.loadComponents().then(() => {
           this.inited = true;
-          this.value = this.currentValue;
+          this.value = this.#value;
           this.textReset();
         });
       };
@@ -197,7 +194,7 @@ export default class jtbcFieldMulti extends HTMLElement {
       };
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = this.#value = newVal;
         break;
       };
       case 'disabled':
@@ -243,9 +240,7 @@ export default class jtbcFieldMulti extends HTMLElement {
     this.ready = false;
     this.inited = false;
     this.currentColumns = null;
-    this.currentDisabled = false;
     this.currentTempId = 0;
-    this.currentValue = null;
     this.liElement = null;
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');

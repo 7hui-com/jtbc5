@@ -45,8 +45,6 @@
     </main>
   </div>
 </div>
-<var id="imagePreviewer" is="jtbc-dialog-image-previewer"></var>
-<var id="materialExplorer" is="jtbc-dialog-helper" baseurl="{$>this.genre}/manage?type=fragment&amp;codename=universal/material:manageApi.explorer"></var>
 <template is="jtbc-template" id="notification" refetch="60" mode="target" target="div.topbar notification" url="{$>this.genre}/manage?type=notification">
   <h4><jtbc-svg name="bell_fill"></jtbc-svg><badge>${$notification.length}</badge></h4>
   <ul count="${$notification.length}">
@@ -60,6 +58,8 @@
     <li><em class="line"></em><a class="tit" is="jtbc-anchor" genre="${$genre}" href="${$link}"><jtbc-svg class="icon" name="${$icon}" title="${$title}"></jtbc-svg><b>${$title}</b><jtbc-svg class="triangle" name="triangle"></jtbc-svg><jtbc-svg class="${$children.length == 0? 'hide': 'arrow'}" name="arrow_down"></jtbc-svg></a>${$.customEvent('loadChildren', $.raw.children)}</li>
   </ul>
 </template>
+<jtbc-dialog-image-previewer id="imagePreviewer" class="hide"></jtbc-dialog-image-previewer>
+<jtbc-dialog-helper id="materialExplorer" class="hide" baseurl="{$>this.genre}/manage?type=fragment&amp;codename=universal/material:manageApi.explorer"></jtbc-dialog-helper>
 <jtbc-script init="initDashboard" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
     </item>
     <item>

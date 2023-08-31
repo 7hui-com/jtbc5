@@ -7,10 +7,6 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
   #language = 'markup';
   #fontSize = '14px';
 
-  #resetHeight() {
-    this.iFrame.style.height = this.iFrame.contentDocument.documentElement.offsetHeight + 'px';
-  };
-
   get value() {
     return this.#value;
   };
@@ -22,6 +18,10 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
   set value(value) {
     this.#value = value;
     this.syncValue();
+  };
+
+  #resetHeight() {
+    this.iFrame.style.height = this.iFrame.contentDocument.documentElement.offsetHeight + 'px';
   };
 
   syncValue() {
@@ -75,8 +75,8 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
     super();
     this.ready = false;
     this.inited = false;
-    let componentBasePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
-    this.prismDir = componentBasePath + '../../../vendor/prism/';
+    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
+    let libPath = basePath + '../../../vendor/prism';
     let shadowRoot = this.attachShadow({mode: 'open'});
     let shadowRootHTML = `
       <style type="text/css">
@@ -98,7 +98,7 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
       let prismjs = document.createElement('script');
       prismCss.setAttribute('type', 'text/css');
       prismCss.setAttribute('rel', 'stylesheet');
-      prismCss.setAttribute('href', this.prismDir + 'prism.css');
+      prismCss.setAttribute('href', libPath + '/prism.css');
       prismjs.addEventListener('load', () => {
         this.iFrame.contentWindow.Prism.manual = true;
         this.iFrame.contentDocument.querySelectorAll('code').forEach(el => {
@@ -106,7 +106,7 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
         });
         this.#resetHeight();
       });
-      prismjs.setAttribute('src', this.prismDir + 'prism.js');
+      prismjs.setAttribute('src', libPath + '/prism.js');
       this.iFrame.contentDocument.head.appendChild(prismCss);
       this.iFrame.contentDocument.head.appendChild(prismjs);
       this.iFrame.contentWindow.addEventListener('resize', () => {
@@ -114,6 +114,6 @@ export default class jtbcSyntaxHighlighter extends HTMLElement {
       });
       this.syncValue();
     });
-    this.iFrame.setAttribute('src', componentBasePath + 'highlighter.html');
+    this.iFrame.setAttribute('src', basePath + 'highlighter.html');
   };
 };

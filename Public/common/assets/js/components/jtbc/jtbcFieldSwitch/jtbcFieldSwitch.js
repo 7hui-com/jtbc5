@@ -3,47 +3,42 @@ export default class jtbcFieldSwitch extends HTMLElement {
     return ['value', 'disabled'];
   };
 
+  #disabled = false;
+  #value = 0;
+
   get name() {
     return this.getAttribute('name');
   };
 
   get value() {
-    return this.currentValue;
+    return this.#value;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
     let currentValue = parseInt(value);
     if (currentValue != 1) currentValue = 0;
-    if (this.currentValue != currentValue)
+    if (this.#value != currentValue)
     {
-      this.currentValue = currentValue;
+      this.#value = currentValue;
       this.setAttribute('value', currentValue);
-      if (this.currentValue == 1) this.container.classList.add('on');
-      else if (this.currentValue == 0) this.container.classList.remove('on');
+      if (this.#value == 1) this.container.classList.add('on');
+      else if (this.#value == 0) this.container.classList.remove('on');
       this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
     };
   };
 
   set disabled(disabled) {
-    let currentDisabled = disabled;
-    if (this.currentDisabled != currentDisabled)
-    {
-      this.currentDisabled = currentDisabled? true: false;
-      if (this.currentDisabled == true)
-      {
-        this.setAttribute('disabled', true);
-        this.container.classList.add('disabled');
-      }
-      else
-      {
-        this.removeAttribute('disabled');
-        this.container.classList.remove('disabled');
-      };
-    };
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
+  };
+
+  #initEvents() {
+    this.container.querySelector('b').addEventListener('click', () => { if (!this.disabled) this.value = 1; });
+    this.container.querySelector('u').addEventListener('click', () => { if (!this.disabled) this.value = 0; });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -72,14 +67,11 @@ export default class jtbcFieldSwitch extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <span class="switch" style="display:none"><b></b><u></u><em></em></span>
+      <div class="container" style="display:none"><b></b><u></u><em></em></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.container = shadowRoot.querySelector('span.switch');
-    this.container.querySelector('b').addEventListener('click', () => { if (!this.disabled) this.value = 1; });
-    this.container.querySelector('u').addEventListener('click', () => { if (!this.disabled) this.value = 0; });
-    this.currentValue = 0;
-    this.currentDisabled = false;
+    this.container = shadowRoot.querySelector('div.container');
+    this.#initEvents();
   };
 };

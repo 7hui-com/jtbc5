@@ -32,6 +32,32 @@ export default class jtbcExecution extends HTMLElement {
     this.#URL = URL;
   };
 
+  #initEvents() {
+    this.addEventListener('click', () => {
+      if (!this.isSilentMode())
+      {
+        let dialog = document.getElementById('dialog');
+        if (dialog != null)
+        {
+          dialog.confirm(this.message, () => {
+            this.execute();
+          }, this.textOk, this.textCancel);
+        }
+        else
+        {
+          if (window.confirm(this.message))
+          {
+            this.execute();
+          };
+        };
+      }
+      else
+      {
+        this.execute();
+      };
+    });
+  };
+
   isSilentMode() {
     return this.#silent == true? true: false;
   };
@@ -71,32 +97,6 @@ export default class jtbcExecution extends HTMLElement {
         this.locked = false;
       });
     };
-  };
-
-  #initEvents() {
-    this.addEventListener('click', () => {
-      if (!this.isSilentMode())
-      {
-        let dialog = document.getElementById('dialog');
-        if (dialog != null)
-        {
-          dialog.confirm(this.message, () => {
-            this.execute();
-          }, this.textOk, this.textCancel);
-        }
-        else
-        {
-          if (window.confirm(this.message))
-          {
-            this.execute();
-          };
-        };
-      }
-      else
-      {
-        this.execute();
-      };
-    });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

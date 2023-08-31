@@ -2,6 +2,7 @@ export default class communal {
   init() {
     if (this.inited != true)
     {
+      this.inited = true;
       let headerEl = document.querySelector('header');
       let headerholderEl = document.querySelector('headerholder');
       window.addEventListener('scroll', e => {
@@ -34,7 +35,6 @@ export default class communal {
           li.classList.add('on');
         };
       });
-      this.inited = true;
     };
   };
 

@@ -12,7 +12,7 @@
     </item>
     <item>
       <name><![CDATA[upload-allowed-extensions]]></name>
-      <zh-cn><![CDATA[jpg,gif,png,webp,svg,mp4,m4a,zip,rar,gz,doc,docx,xls,xlsx,ppt,pptx,pdf]]></zh-cn>
+      <zh-cn><![CDATA[jpg,gif,png,webp,svg,mov,mp4,webm,zip,rar,gz,doc,docx,xls,xlsx,ppt,pptx,pdf]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[upload-allowed-max-filesize]]></name>
@@ -28,7 +28,7 @@
     </item>
     <item>
       <name><![CDATA[upload-video-allowed-extensions]]></name>
-      <zh-cn><![CDATA[mp4,m4a]]></zh-cn>
+      <zh-cn><![CDATA[mov,mp4,webm]]></zh-cn>
     </item>
   </item_list>
 </xml>

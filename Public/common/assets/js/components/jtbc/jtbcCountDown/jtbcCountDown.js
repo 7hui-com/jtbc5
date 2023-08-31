@@ -1,3 +1,5 @@
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcCountDown extends HTMLElement {
   static get observedAttributes() {
     return ['target', 'autoplay'];
@@ -27,7 +29,7 @@ export default class jtbcCountDown extends HTMLElement {
   };
 
   set target(target) {
-    if (this.#isDateTime(target))
+    if (validation.isDateTime(target))
     {
       this.#played = false;
       this.#target = target;
@@ -52,18 +54,6 @@ export default class jtbcCountDown extends HTMLElement {
     window.addEventListener('scroll', e => this.#autoPlay());
   };
 
-  #isDateTime(datetime)
-  {
-    let result = false;
-    let date = new Date(datetime);
-    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
-    if (date instanceof Date && !isNaN(date.getTime()) && dateRegExp.test(datetime))
-    {
-      result = true;
-    };
-    return result;
-  };
-
   #run() {
     this.refresh();
     if (this.played == false)
@@ -82,6 +72,7 @@ export default class jtbcCountDown extends HTMLElement {
 
   refresh() {
     let currentTime = new Date();
+    let container = this.container;
     let value = {'days': 0, 'hours': 0, 'minutes': 0, 'seconds': 0};
     let milliseconds = {'day': 86400000, 'hour': 3600000, 'minute': 60000, 'second': 1000};
     let targetTime = this.target == null? null: new Date(this.target);
@@ -109,8 +100,13 @@ export default class jtbcCountDown extends HTMLElement {
         this.stop();
         this.dispatchEvent(new CustomEvent('timesup', {bubbles: true}));
       };
-      this.container.style.display = 'block';
-      this.container.querySelector('slot').assignedElements().forEach(el => {
+      container.style.display = 'block';
+      let slottedElements = container.querySelector('slot').assignedElements();
+      if (slottedElements.length === 0)
+      {
+        slottedElements = Object.values(container.querySelector('slot').children);
+      };
+      slottedElements.forEach(el => {
         if (el.hasAttribute('field'))
         {
           let currentField = el.getAttribute('field');

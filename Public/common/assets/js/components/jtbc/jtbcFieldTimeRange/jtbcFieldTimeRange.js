@@ -1,3 +1,5 @@
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcFieldTimeRange extends HTMLElement {
   static get observedAttributes() {
     return ['min-hour', 'max-hour', 'minute-step', 'second-step', 'value', 'disabled', 'width', 'placeholder_start', 'placeholder_end'];
@@ -100,7 +102,7 @@ export default class jtbcFieldTimeRange extends HTMLElement {
     let startTime = '';
     let endTime = '';
     let container = this.container;
-    if (this.#isTimeRange(value))
+    if (validation.isTimeRange(value))
     {
       this.#value = value;
       this.#selectTime();
@@ -120,15 +122,8 @@ export default class jtbcFieldTimeRange extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
     this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #resize() {
@@ -226,30 +221,9 @@ export default class jtbcFieldTimeRange extends HTMLElement {
     appendOptions('start', 'end');
   };
 
-  #isTime(time) {
-    let timeRegExp = /^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
-    return timeRegExp.test(time)? true: false;
-  };
-
-  #isTimeRange(value) {
-    let result = false;
-    if (value.includes('~'))
-    {
-      let valueArr = value.split('~');
-      if (valueArr.length == 2)
-      {
-        if (this.#isTime(valueArr[0]) && this.#isTime(valueArr[1]))
-        {
-          result = true;
-        };
-      };
-    };
-    return result;
-  };
-
   #compareTime(startTime, endTime) {
     let result = null;
-    if (this.#isTime(startTime) && this.#isTime(endTime))
+    if (validation.isTime(startTime) && validation.isTime(endTime))
     {
       result = 0;
       let [sh, sm, ss] = startTime.split(':').map(v => Number.parseInt(v));
@@ -277,8 +251,7 @@ export default class jtbcFieldTimeRange extends HTMLElement {
   };
 
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {
@@ -288,7 +261,7 @@ export default class jtbcFieldTimeRange extends HTMLElement {
   #selectTime() {
     let value = this.value;
     let container = this.container;
-    if (this.#isTimeRange(value))
+    if (validation.isTimeRange(value))
     {
       let [startTime, endTime] = value.split('~');
       const selectTime = (name, value) => {
@@ -321,9 +294,9 @@ export default class jtbcFieldTimeRange extends HTMLElement {
       });
       input.addEventListener('blur', function(){
         let value = this.value;
-        if (that.#isTime(value))
+        if (validation.isTime(value))
         {
-          if (that.#isTimeRange(that.value))
+          if (validation.isTimeRange(that.value))
           {
             let [startTime, endTime] = that.value.split('~');
             if (this.getAttribute('mode') == 'start')

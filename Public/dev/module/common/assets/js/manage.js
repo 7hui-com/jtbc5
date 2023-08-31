@@ -2,12 +2,12 @@ export default class manage {
   initSetting() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       let scarf = this.self.parentNode.querySelector('.scarf');
       scarf.delegateEventListener('select[name=tableName]', 'change', function(){
         that.main.href = this.getAttribute('url') + '&genre=' + encodeURIComponent(this.parentNode.getAttribute('genre')) + '&tableName=' + encodeURIComponent(this.value);
       });
-      this.inited = true;
     };
   };
 

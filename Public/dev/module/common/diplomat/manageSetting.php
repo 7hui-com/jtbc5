@@ -76,9 +76,12 @@ class Diplomat extends Ambassador {
       case 'time-range':
       case 'location-picker':
       case 'input-with-datalist':
+      case 'cascader':
+      case 'linkage-selector':
         $column -> setDataType('varchar', 200);
         break;
       case 'color':
+      case 'ipv4':
         $column -> setDataType('varchar', 20);
         break;
       case 'tag':

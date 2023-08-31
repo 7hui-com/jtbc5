@@ -1,4 +1,50 @@
 export default class managePopup {
+  #keyPrefix = 'jtbc_cloud_';
+
+  #setLocalStorage(paymentType, uniqueId, uniqueSign) {
+    let date = new Date();
+    let prefix = this.#keyPrefix;
+    localStorage.setItem(prefix + 'payment_type', paymentType);
+    localStorage.setItem(prefix + 'payment_timestamp', date.getTime());
+    localStorage.setItem(prefix + 'unique_id', uniqueId);
+    localStorage.setItem(prefix + 'unique_sign', uniqueSign);
+  };
+
+  #clearLocalStorage() {
+    let prefix = this.#keyPrefix;
+    localStorage.removeItem(prefix + 'payment_type');
+    localStorage.removeItem(prefix + 'payment_timestamp');
+    localStorage.removeItem(prefix + 'unique_id');
+    localStorage.removeItem(prefix + 'unique_sign');
+  };
+
+  #recheckRemotePaymentStatus() {
+    let prefix = this.#keyPrefix;
+    let paymentType = localStorage.getItem(prefix + 'payment_type');
+    let paymentTimestamp = localStorage.getItem(prefix + 'payment_timestamp');
+    let uniqueId = localStorage.getItem(prefix + 'unique_id');
+    let uniqueSign = localStorage.getItem(prefix + 'unique_sign');
+    if (paymentType != null && paymentTimestamp != null && uniqueId != null && uniqueSign != null)
+    {
+      let date = new Date();
+      paymentTimestamp = Number.parseInt(paymentTimestamp);
+      if (!Number.isNaN(paymentTimestamp))
+      {
+        let diff = date.getTime() - paymentTimestamp;
+        if (diff < 86400000)
+        {
+          this.uniqueId = uniqueId;
+          this.uniqueSign = uniqueSign;
+          this.checkRemotePaymentStatus(paymentType);
+        }
+        else
+        {
+          this.#clearLocalStorage();
+        };
+      };
+    };
+  };
+
   loadQRCode(el, paymentType) {
     if (!el.classList.contains('locked'))
     {
@@ -31,6 +77,7 @@ export default class managePopup {
             maskBoxEl.classList.add('on');
           };
           this.checkRemotePaymentStatus(paymentType);
+          this.#setLocalStorage(paymentType, this.uniqueId, this.uniqueSign);
         }
         else if (data.code == 4403)
         {
@@ -61,6 +108,7 @@ export default class managePopup {
         if (data.code == 1)
         {
           this.dialog.close();
+          this.#clearLocalStorage();
           let topbar = this.root.querySelector('.topbar');
           let cloudService = topbar.querySelector('.cloudservice');
           if (cloudService != null)
@@ -82,8 +130,10 @@ export default class managePopup {
   initCreate() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
+      this.#recheckRemotePaymentStatus();
       popup.delegateEventListener('button.create', 'click', function(){
         that.loadQRCode(this, 'create');
       });
@@ -93,15 +143,16 @@ export default class managePopup {
           e.target.classList.remove('on');
         };
       });
-      this.inited = true;
     };
   };
 
   initWelcome() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
+      this.#recheckRemotePaymentStatus();
       popup.delegateEventListener('a.renew', 'click', function(){
         that.loadQRCode(this, 'renew');
       });
@@ -117,7 +168,6 @@ export default class managePopup {
           e.target.classList.remove('on');
         };
       });
-      this.inited = true;
     };
   };
 

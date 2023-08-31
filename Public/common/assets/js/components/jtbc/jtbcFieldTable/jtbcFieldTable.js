@@ -3,6 +3,9 @@ export default class jtbcFieldTable extends HTMLElement {
     return ['text', 'columns', 'value', 'disabled', 'width'];
   };
 
+  #disabled = false;
+  #value = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -11,9 +14,9 @@ export default class jtbcFieldTable extends HTMLElement {
     let result = '';
     if (this.inited == false)
     {
-      if (this.currentValue != null)
+      if (this.#value != null)
       {
-        result = this.currentValue;
+        result = this.#value;
       };
     }
     else
@@ -56,7 +59,7 @@ export default class jtbcFieldTable extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -65,7 +68,7 @@ export default class jtbcFieldTable extends HTMLElement {
       let items = value? JSON.parse(value): [];
       if (this.inited == false)
       {
-        this.currentValue = value;
+        this.#value = value;
       }
       else if (this.inited == true && Array.isArray(items))
       {
@@ -88,15 +91,8 @@ export default class jtbcFieldTable extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -217,7 +213,7 @@ export default class jtbcFieldTable extends HTMLElement {
           break;
         };
         default: {
-          field = ['date', 'datetime', 'switch', 'currency-input', 'star', 'select2', 'upload', 'number', 'multi-select', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
+          field = ['date', 'datetime', 'switch', 'currency-input', 'ipv4', 'star', 'select2', 'upload', 'number', 'multi-select', 'cn-city-picker2'].includes(item.type)? this.renderOthers(item): null;
           break;
         };
       };
@@ -391,7 +387,7 @@ export default class jtbcFieldTable extends HTMLElement {
         textEmptyTips.setAttribute('colspan', theadTr.childElementCount);
         this.tbodyTrElement.loadComponents().then(() => {
           this.inited = true;
-          this.value = this.currentValue;
+          this.value = this.#value;
         });
       };
       this.container.classList.add('on');
@@ -414,7 +410,7 @@ export default class jtbcFieldTable extends HTMLElement {
       };
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = this.#value = newVal;
         break;
       };
       case 'disabled':
@@ -465,9 +461,7 @@ export default class jtbcFieldTable extends HTMLElement {
     this.ready = false;
     this.inited = false;
     this.currentColumns = null;
-    this.currentDisabled = false;
     this.currentTempId = 0;
-    this.currentValue = null;
     this.tbodyTrElement = null;
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');

@@ -8,22 +8,22 @@ export default class jtbcSvg extends HTMLElement {
   #name = '';
   #src = null;
 
-  set name(value) {
-    this.#name = value;
-    this.render();
-  };
-
   get name() {
     return this.#name;
   };
 
-  set src(value) {
-    this.#src = value;
+  get src() {
+    return this.#src;
+  };
+
+  set name(name) {
+    this.#name = name;
     this.render();
   };
 
-  get src() {
-    return this.#src;
+  set src(src) {
+    this.#src = src;
+    this.render();
   };
 
   render() {

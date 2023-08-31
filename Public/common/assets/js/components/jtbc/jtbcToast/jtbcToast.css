@@ -1,0 +1,87 @@
+:host {
+  opacity: 0; pointer-events: none; position: fixed; z-index: -2000000500; --sider-gap: 20px; --message-width: 260px; --message-height: 90px; --message-padding: 20px; --message-border-radius: 6px; --message-box-shadow: 0px 0px 20px rgb(0 0 0 / 30%); --message-font-size: 14px; --message-line-height: 140%; --message-info-background-color: #006699; --message-success-background-color: #006666; --message-warning-background-color: #cc6600; --message-error-background-color: #990000; --message-default-background-color: #000
+}
+:host(.on) {
+  opacity: 1; pointer-events: auto; z-index: 2000000500
+}
+:host([position='top-left']) {
+  top: 0px; left: 0px
+}
+:host([position='top-center']) {
+  top: 0px; left: 50%; transform: translate(-50%, 0)
+}
+:host([position='top-right']) {
+  top: 0px; right: 0px
+}
+:host([position='middle-left']) {
+  top: 50%; left: 0px; transform: translate(0, -50%)
+}
+:host([position='center']) {
+  top: 50%; left: 50%; transform: translate(-50%, -50%)
+}
+:host([position='middle-right']) {
+  top: 50%; right: 0px; transform: translate(0, -50%)
+}
+:host([position='bottom-left']) {
+  bottom: 0px; left: 0px
+}
+:host([position='bottom-center']) {
+  bottom: 0px; left: 50%; transform: translate(-50%, 0)
+}
+:host([position='bottom-right']) {
+  bottom: 0px; right: 0px
+}
+container {
+  display: block !important; position: relative; z-index: 100
+}
+container div.messages {
+  padding: var(--sider-gap)
+}
+container div.messages div.message {
+  width: var(--message-width); height: var(--message-height); background: var(--message-default-background-color); margin-bottom: calc(var(--message-padding) / 2); box-sizing: border-box; padding: 0px var(--message-padding); display: flex; align-items: center; justify-content: center; border-radius: var(--message-border-radius); box-shadow: var(--message-box-shadow); opacity: 0; transform: translate(0, var(--message-padding)); transition: all .3s ease
+}
+container div.messages div.message span.close {
+  display: block; width: calc(var(--message-padding) * 2); box-sizing: border-box; padding: calc(var(--message-padding) * 0.7); position: absolute; top: 0px; right: 0px; z-index: 100; cursor: pointer
+}
+container div.messages div.message span.close jtbc-svg {
+  width: 100%; height: 100%; --fore-color: #fff
+}
+container div.messages div.message div.icon {
+  width: 15%; aspect-ratio: 1/1
+}
+container div.messages div.message div.icon jtbc-svg {
+  width: 100%; height: 100%; --fore-color: #fff
+}
+container div.messages div.message div.content {
+  flex: 1; padding-left: var(--message-padding)
+}
+container div.messages div.message div.content span {
+  display: block; color: #fff; line-height: var(--message-line-height)
+}
+container div.messages div.message div.content span.title {
+  font-size: calc(var(--message-font-size) * 1.2); font-weight: bold; padding-bottom: calc(var(--message-padding) / 4)
+}
+container div.messages div.message div.content span.text {
+  font-size: var(--message-font-size)
+}
+container div.messages div.message[type=info] {
+  background-color: var(--message-info-background-color)
+}
+container div.messages div.message[type=success] {
+  background-color: var(--message-success-background-color)
+}
+container div.messages div.message[type=warning] {
+  background-color: var(--message-warning-background-color)
+}
+container div.messages div.message[type=error] {
+  background-color: var(--message-error-background-color)
+}
+container div.messages div.message.on {
+  opacity: 1; transform: translate(0, 0)
+}
+container div.messages div.message.out {
+  opacity: 0; margin-top: calc(0px - var(--message-height))
+}
+container div.messages:empty {
+  display: none
+}

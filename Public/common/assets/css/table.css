@@ -59,6 +59,31 @@ table.table th[min-width='200'] {
 table.table th[min-width='300'] {
   min-width: 300px
 }
+table.table th[orderby] {
+  position: relative
+}
+table.table th[orderby] span.asc,
+table.table th[orderby] span.desc {
+  width: 0px; height: 0px; border: #ccc 5px solid; position: absolute; right: 10px; cursor: pointer; transition: border-color .3s ease
+}
+table.table th[orderby] span.asc {
+  top: 50%; margin-top: -6px; border-top: 0px; border-left-color: transparent; border-right-color: transparent
+}
+table.table th[orderby] span.asc:hover {
+  border-bottom-color: #333
+}
+table.table th[orderby] span.desc {
+  bottom: 50%; margin-bottom: -6px; border-bottom: 0px; border-left-color: transparent; border-right-color: transparent
+}
+table.table th[orderby] span.desc:hover {
+  border-top-color: #333
+}
+table.table th[orderby=asc] span.asc {
+  border-bottom-color: #000
+}
+table.table th[orderby=desc] span.desc {
+  border-top-color: #000
+}
 table.table td {
   text-align: left; background: #fff
 }

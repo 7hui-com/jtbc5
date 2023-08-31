@@ -5,6 +5,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
 
   #width = null;
   #currentWidth = null;
+  #disabled = false;
 
   get name() {
     return this.getAttribute('name');
@@ -15,7 +16,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -30,15 +31,8 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #bindEvents(cm) {
@@ -129,14 +123,14 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
                     if (currentStatus == true)
                     {
                       cm.setOption('fullScreen', false);
+                      document.body.classList.remove('f11');
                       that.container.classList.remove('fullscreen');
-                      document.body.classList.remove('tox-fullscreen');
                     }
                     else
                     {
                       cm.setOption('fullScreen', true);
+                      document.body.classList.add('f11');
                       that.container.classList.add('fullscreen');
-                      document.body.classList.add('tox-fullscreen');
                     };
                     that.dispatchEvent(new CustomEvent('fullscreenchanged', {detail: {'instance': cm}, bubbles: true}));
                   };
@@ -145,8 +139,8 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
                   if (cm.getOption('fullScreen'))
                   {
                     cm.setOption('fullScreen', false);
+                    document.body.classList.remove('f11');
                     that.container.classList.remove('fullscreen');
-                    document.body.classList.remove('tox-fullscreen');
                     that.dispatchEvent(new CustomEvent('fullscreenchanged', {detail: {'instance': cm}, bubbles: true}));
                   };
                 },

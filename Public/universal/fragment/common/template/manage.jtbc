@@ -53,7 +53,7 @@
             </item>
             <item group="value" field="value_4" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><textarea class="editor" is="jtbc-editor" name="value_4" role="field"></textarea></div>
+              <div class="content"><jtbc-field-editor name="value_4" role="field"></jtbc-field-editor></div>
             </item>
             <item group="value" field="value_5" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
@@ -132,7 +132,7 @@
             </item>
             <item elseif="${$data.mode == 4}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><textarea class="editor" is="jtbc-editor" name="value" role="field">${$data.mode == 4? $data.value: ''}</textarea></div>
+              <div class="content"><jtbc-field-editor name="value_4" role="field" value="${$data.mode == 4? $data.value: ''}"></jtbc-field-editor></div>
             </item>
             <item elseif="${$data.mode == 5}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>

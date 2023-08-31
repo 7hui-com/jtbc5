@@ -169,6 +169,7 @@ class JtbcParser
       'convertJSONToArray' => Converter::class,
       'convertToArrayWithKey' => Converter::class,
       'convertToOption' => Converter::class,
+      'convertToTreeOption' => Converter::class,
       'convertToVersionString' => Converter::class,
       'createCSRFToken' => CSRFToken::class . '::create',
       'dataLoader' => DataLoader::class . '::load',

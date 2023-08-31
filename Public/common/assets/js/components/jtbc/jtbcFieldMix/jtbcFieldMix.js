@@ -5,6 +5,9 @@ export default class jtbcFieldMix extends HTMLElement {
     return ['columns', 'value', 'disabled', 'width'];
   };
 
+  #disabled = false;
+  #value = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -34,7 +37,7 @@ export default class jtbcFieldMix extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -55,15 +58,8 @@ export default class jtbcFieldMix extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   init() {
@@ -79,7 +75,7 @@ export default class jtbcFieldMix extends HTMLElement {
         liElement.loadComponents().then(() => {
           this.inited = true;
           this.content.append(liElement);
-          this.value = this.currentValue;
+          this.value = this.#value;
         });
       };
       this.container.classList.add('on');
@@ -96,7 +92,7 @@ export default class jtbcFieldMix extends HTMLElement {
       };
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = this.#value = newVal;
         break;
       };
       case 'disabled':
@@ -136,8 +132,6 @@ export default class jtbcFieldMix extends HTMLElement {
     this.ready = false;
     this.inited = false;
     this.currentColumns = null;
-    this.currentDisabled = false;
-    this.currentValue = null;
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');
   };

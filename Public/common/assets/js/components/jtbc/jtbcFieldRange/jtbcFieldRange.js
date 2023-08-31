@@ -139,15 +139,8 @@ export default class jtbcFieldRange extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
     this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {

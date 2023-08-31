@@ -2,8 +2,12 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcFieldAvatar extends HTMLElement {
   static get observedAttributes() {
-    return ['text-upload', 'text-preview', 'text-remove', 'action', 'value', 'disabled'];
+    return ['text-upload', 'text-preview', 'text-remove', 'action', 'value', 'disabled', 'tail'];
   };
+
+  #disabled = false;
+  #uploading = false;
+  #tail = null;
 
   get name() {
     return this.getAttribute('name');
@@ -16,50 +20,66 @@ export default class jtbcFieldAvatar extends HTMLElement {
     let inputFileUrl = container.querySelector('input.fileurl');
     if (inputFileUrl.value.trim().length != 0)
     {
-      result = JSON.stringify({'uploadid': inputUploadId.value, 'fileurl': inputFileUrl.value});
+      result = JSON.stringify({'uploadid': Number.parseInt(inputUploadId.value), 'fileurl': inputFileUrl.value});
     };
     return result;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  get uploading() {
+    return this.#uploading;
+  };
+
+  get tail() {
+    return this.#tail;
   };
 
   set value(value) {
-    this.currentValue = value;
     let container = this.container;
+    let avatar = container.querySelector('.avatar');
     let inputUploadId = container.querySelector('input.uploadid');
     let inputFileUrl = container.querySelector('input.fileurl');
-    if (this.currentValue.trim().length != 0)
+    if (value.trim().length == 0)
     {
-      let value = JSON.parse(this.currentValue);
-      let avatar = container.querySelector('.avatar');
-      inputUploadId.value = value.uploadid;
-      inputFileUrl.value = value.fileurl;
-      avatar.classList.add('uploaded');
-      avatar.style.backgroundImage = 'url(' + value.fileurl + ')';
+      inputUploadId.value = '';
+      inputFileUrl.value = '';
+      avatar.classList.remove('uploaded');
+      avatar.style.backgroundImage = 'none';
+    }
+    else
+    {
+      try
+      {
+        let content = JSON.parse(value);
+        inputUploadId.value = content.uploadid;
+        inputFileUrl.value = content.fileurl;
+        avatar.classList.add('uploaded');
+        avatar.style.backgroundImage = 'url(' + content.fileurl + ')';
+      }
+      catch(e)
+      {
+        throw new Error('Unexpected value');
+      };
     };
   };
 
   set disabled(disabled) {
-    this.currentDisabled = disabled;
-    let container = this.container;
-    if (disabled == true)
-    {
-      container.classList.add('disabled');
-    }
-    else
-    {
-      container.classList.remove('disabled');
-    };
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
+  };
+
+  set tail(tail) {
+    this.#tail = tail;
   };
 
   #initEvents() {
     let that = this;
     let container = this.container;
-    let dialog = document.getElementById('dialog');
     container.delegateEventListener('.upload', 'click', () => {
-      if (this.currentDisabled == false && this.currentUploading == false)
+      if (this.disabled == false && this.uploading == false)
       {
         container.querySelector('input.file').click();
       };
@@ -73,11 +93,11 @@ export default class jtbcFieldAvatar extends HTMLElement {
         this.value = null;
         avatarUploading.style.width = '0%';
         avatar.classList.remove('uploading');
-        that.currentUploading = false;
+        that.#uploading = false;
       };
       if (!avatar.classList.contains('uploading') && this.files.length == 1)
       {
-        that.currentUploading = true;
+        that.#uploading = true;
         avatar.classList.remove('uploaded');
         avatar.classList.add('uploading');
         avatarUploading.style.width = '100%';
@@ -92,25 +112,34 @@ export default class jtbcFieldAvatar extends HTMLElement {
           }, data => {
             if (data.code == 1)
             {
-              inputUploadId.value = data.param.uploadid;
-              inputFileUrl.value = data.param.fileurl;
               avatar.classList.add('uploaded');
+              inputUploadId.value = data.param.uploadid;
+              inputFileUrl.value = data.param.fileurl + (that.tail ?? '');
+              avatar.style.backgroundImage = 'url(' + inputFileUrl.value + ')';
             }
             else
             {
-              if (dialog == null)
+              let message = data.message;
+              if (that.dialog != null)
               {
-                window.alert(data.message);
+                that.dialog.alert(message);
               }
               else
               {
-                dialog.alert(data.message);
+                window.alert(message);
               };
             };
             resetStatus();
           }, target => {
-            let errorMessage = target.status + ' ' + target.statusText;
-            dialog != null? dialog.alert(errorMessage): window.alert(errorMessage);
+            let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
+            if (that.dialog != null)
+            {
+              that.dialog.alert(errorMessage);
+            }
+            else
+            {
+              window.alert(errorMessage);
+            };
             avatar.style.backgroundImage = 'none';
             resetStatus();
           });
@@ -121,14 +150,23 @@ export default class jtbcFieldAvatar extends HTMLElement {
       if (that.imagePreviewer != null)
       {
         let fileurl = container.querySelector('input.fileurl').value;
-        if (['.jpg','.gif','.png','.svg','.webp'].includes(fileurl.substring(fileurl.lastIndexOf('.'))))
+        let originalFileurl = fileurl;
+        if (fileurl.includes('?'))
         {
-          that.imagePreviewer.popup({'fileurl': fileurl});
+          fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
+        };
+        if (fileurl.includes('.'))
+        {
+          let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
+          if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+          {
+            that.imagePreviewer.popup({'fileurl': originalFileurl});
+          };
         };
       };
     });
     container.querySelector('.remove').addEventListener('click', function(){
-      if (that.currentUploading != true)
+      if (that.uploading != true)
       {
         let avatar = container.querySelector('.avatar');
         let inputUploadId = container.querySelector('input.uploadid');
@@ -183,6 +221,11 @@ export default class jtbcFieldAvatar extends HTMLElement {
         this.disabled = this.hasAttribute('disabled')? true: false;
         break;
       };
+      case 'tail':
+      {
+        this.tail = newVal;
+        break;
+      };
     };
   };
 
@@ -213,10 +256,8 @@ export default class jtbcFieldAvatar extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('container');
+    this.dialog = document.getElementById('dialog');
     this.imagePreviewer = document.getElementById('imagePreviewer');
-    this.currentValue = '';
-    this.currentDisabled = false;
-    this.currentUploading = false;
     this.#initEvents();
   };
 };

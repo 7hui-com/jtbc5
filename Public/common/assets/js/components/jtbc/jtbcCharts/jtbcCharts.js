@@ -5,6 +5,8 @@ export default class jtbcCharts extends HTMLElement {
 
   #option = null;
   #inited = false;
+  #basePath = null;
+  #libPath = null;
   instance = null;
 
   set option(option) {
@@ -19,7 +21,7 @@ export default class jtbcCharts extends HTMLElement {
       return new Promise((resolve) => {
         let parentNode = container.parentNode;
         let echartsScript = document.createElement('script');
-        echartsScript.src = this.echartsPath + 'echarts.min.js';
+        echartsScript.src = this.#libPath + '/echarts.min.js';
         parentNode.insertBefore(echartsScript, container);
         echartsScript.addEventListener('load', () => resolve(this));
       });
@@ -77,7 +79,8 @@ export default class jtbcCharts extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
+    this.#basePath = basePath;
+    this.#libPath = basePath + '../../../vendor/echarts';
     this.container = shadowRoot.querySelector('div.container');
-    this.echartsPath = basePath + '../../../vendor/echarts/';
   };
 };

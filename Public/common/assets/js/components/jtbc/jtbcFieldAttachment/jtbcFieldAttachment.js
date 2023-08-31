@@ -1,10 +1,20 @@
 export default class jtbcFieldAttachment extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'partner', 'action', 'value', 'disabled', 'width'];
+    return ['text', 'partner', 'action', 'value', 'disabled', 'tail', 'width'];
   };
+
+  #action = null;
+  #value = null;
+  #disabled = false;
+  #uploading = false;
+  #tail = null;
 
   get name() {
     return this.getAttribute('name');
+  };
+
+  get uploading() {
+    return this.#uploading;
   };
 
   get value() {
@@ -26,7 +36,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
     }
     else
     {
-      result = this.currentValue ?? '';
+      result = this.#value ?? '';
     };
     return result;
   };
@@ -51,7 +61,11 @@ export default class jtbcFieldAttachment extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  get tail() {
+    return this.#tail;
   };
 
   set action(action) {
@@ -73,15 +87,12 @@ export default class jtbcFieldAttachment extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
+  };
+
+  set tail(tail) {
+    this.#tail = tail;
   };
 
   #initEvents() {
@@ -92,12 +103,12 @@ export default class jtbcFieldAttachment extends HTMLElement {
       this.parentNode.querySelector('input.file').click();
     });
     container.querySelector('input.file').addEventListener('change', function(){
-      if (that.currentUploading != true)
+      if (that.uploading != true)
       {
-        that.currentUploading = true;
+        that.#uploading = true;
         progress.startUpload(this, (index, data) => {
-          if (data.code == 1) that.addUploadedItem(data.param);
-        }, () => { that.currentUploading = false; });
+          if (data.code == 1) that.addUploadedItem(data.param, that.tail);
+        }, () => { that.#uploading = false; });
       };
     });
     container.delegateEventListener('input[name=all]', 'change', function(){
@@ -301,9 +312,13 @@ export default class jtbcFieldAttachment extends HTMLElement {
     container.querySelector('icons.g2').classList.toggle('hide', !hasSelected);
   };
 
-  addUploadedItem(param) {
+  addUploadedItem(param, tail = null) {
     let container = this.container;
     container.querySelector('input[name=all]').disabled = false;
+    if (tail != null)
+    {
+      param.fileurl = param.fileurl + (tail ?? '');
+    };
     let tbody = container.querySelector('table.attachment').querySelector('tbody');
     let tr = document.createElement('tr');
     let td1 = document.createElement('td');
@@ -403,17 +418,22 @@ export default class jtbcFieldAttachment extends HTMLElement {
       };
       case 'action':
       {
-        this.action = this.currentAction = newVal;
+        this.action = this.#action = newVal;
         break;
       };
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = this.#value = newVal;
         break;
       };
       case 'disabled':
       {
         this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+      case 'tail':
+      {
+        this.tail = newVal;
         break;
       };
       case 'width':
@@ -433,11 +453,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
     super();
     this.ready = false;
     this.inited = false;
-    this.currentValue = null;
-    this.currentAction = null;
     this.currentPartner = null;
-    this.currentDisabled = false;
-    this.currentUploading = false;
     this.text = {
       'upload': 'Upload',
       'insert': 'Insert',
@@ -480,13 +496,13 @@ export default class jtbcFieldAttachment extends HTMLElement {
       this.inited = true;
       this.textReset();
       this.#initEvents();
-      if (this.currentValue != null)
+      if (this.#value != null)
       {
-        this.value = this.currentValue;
+        this.value = this.#value;
       };
-      if (this.currentAction != null)
+      if (this.#action != null)
       {
-        this.action = this.currentAction;
+        this.action = this.#action;
       };
       if (this.materialExplorer == null)
       {

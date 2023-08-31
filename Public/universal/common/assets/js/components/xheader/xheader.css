@@ -1,0 +1,163 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; position: relative; z-index: 1000; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-height: 80px; --header-container-background: #fff; --header-topmenu-height: 40px; --header-topmenu-background: #005f9b; --header-topmenu-hover-background: #004f7d; --header-topmenu-li-width: auto; --header-topmenu-submenu-hover-background: #024067; --header-topmenu-submenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-border-top: #005f9b 2px solid; --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #fff; --header-anchor-hover-color: #f4f4f4; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --header-mobile-topmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
+}
+.container {
+  display: block; box-sizing: border-box; width: 100%; height: var(--header-container-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-container-background); border-top: var(--header-border-top); position: relative; z-index: 100
+}
+.container div.box {
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
+}
+.container div.box logo {
+  display: block; width: var(--header-logo-width); height: 100%
+}
+.container div.box logo a {
+  display: inline-block; height: 100%
+}
+.container div.box logo img {
+  display: inline-block; height: 100%
+}
+.container div.box navicon {
+  display: none
+}
+.topmenu {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-topmenu-background); position: relative; z-index: var(--z-index)
+}
+.topmenu div.box {
+  display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); margin: auto; padding: 0px
+}
+.topmenu div.box div.top {
+  display: none
+}
+.topmenu div.box mainmenu {
+  display: block; box-sizing: border-box; width: 100%; height: var(--header-topmenu-height)
+}
+.topmenu div.box mainmenu ul {
+  display: flex; list-style: none; margin: 0px; padding: 0px; height: 100%; box-sizing: border-box
+}
+.topmenu div.box mainmenu ul li {
+  margin: 0px; padding: 0px; width: var(--header-topmenu-li-width); height: 100%; background: transparent; box-sizing: border-box; transition: background .3s ease
+}
+.topmenu div.box mainmenu ul li.on,
+.topmenu div.box mainmenu ul li:hover {
+  background: var(--header-topmenu-hover-background)
+}
+.topmenu div.box mainmenu ul li:hover > dl {
+  max-height: calc(var(--header-topmenu-height) * 10); box-shadow: var(--header-topmenu-submenu-box-shadow)
+}
+.topmenu div.box mainmenu ul li dl {
+  margin: 0px; padding: 0px; width: 100%; max-height: 100%; overflow: hidden; transition: max-height .3s ease, box-shadow .3s ease
+}
+.topmenu div.box mainmenu ul li dl dt {
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); display: flex; align-items: center; justify-content: space-between
+}
+.topmenu div.box mainmenu ul li dl dt > span.icon {
+  display: none
+}
+.topmenu div.box mainmenu ul li dl dd {
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); background: var(--header-topmenu-hover-background); transition: background .3s ease
+}
+.topmenu div.box mainmenu ul li dl dd.on,
+.topmenu div.box mainmenu ul li dl dd:hover {
+  background: var(--header-topmenu-submenu-hover-background)
+}
+.topmenu div.box mainmenu ul li > a,
+.topmenu div.box mainmenu ul li dl dt > a,
+.topmenu div.box mainmenu ul li dl dd > a {
+  display: flex; width: 100%; height: 100%; box-sizing: border-box; padding: 0px calc(var(--header-topmenu-height) / 2); align-items: center; justify-content: center; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); white-space: nowrap
+}
+.topmenu div.box mainmenu ul li > a:hover,
+.topmenu div.box mainmenu ul li dl dt > a:hover,
+.topmenu div.box mainmenu ul li dl dd > a:hover {
+  color: var(--header-anchor-hover-color) !important
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-container-height: 60px
+  }
+  .container div.box div.right {
+    display: none
+  }
+  .container div.box navicon {
+    display: block; width: 30px; height: 30px; position: relative; z-index: 100; cursor: pointer
+  }
+  .container div.box navicon span {
+    display: block; width: 100%; height: 2px; background: var(--header-navicon-color); margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box navicon span::before,
+  .container div.box navicon span::after {
+    content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box navicon span::before {
+    margin-top: -10px
+  }
+  .container div.box navicon span::after {
+    margin-top: 8px
+  }
+  .container div.box navicon.on span {
+    background: var(--header-container-background)
+  }
+  .container div.box navicon.on span::before {
+    transform: rotate(45deg); margin-top: -2px
+  }
+  .container div.box navicon.on span::after {
+    transform: rotate(-45deg); margin-top: -2px
+  }
+  .topmenu {
+    position: absolute; top: var(--header-container-height); left: 0px; z-index: 200; background: var(--header-mobile-mainmenu-background); max-height: 0px; overflow: hidden; transition: max-height .6s ease, box-shadow .3s ease
+  }
+  .topmenu div.box div.top {
+    display: block
+  }
+  .topmenu div.box mainmenu {
+    height: auto
+  }
+  .topmenu div.box mainmenu ul {
+    display: block; height: auto
+  }
+  .topmenu div.box mainmenu ul li {
+    border-bottom: var(--header-mobile-menu-li-border-bottom)
+  }
+  .topmenu div.box mainmenu ul li:last-of-type {
+    border-bottom: 0px
+  }
+  .topmenu div.box mainmenu ul li.on,
+  .topmenu div.box mainmenu ul li:hover {
+    background: transparent
+  }
+  .topmenu div.box mainmenu ul li.on > a,
+  .topmenu div.box mainmenu ul li dl dt > a {
+    font-weight: bold
+  }
+  .topmenu div.box mainmenu ul li:hover > dl {
+    box-shadow: none; max-height: var(--header-topmenu-height)
+  }
+  .topmenu div.box mainmenu ul li dl {
+    max-height: var(--header-topmenu-height)
+  }
+  .topmenu div.box mainmenu ul li dl dt > span.icon {
+    display: flex; width: 30px; height: var(--header-topmenu-height); margin-left: 30px; align-items: center; justify-content: center
+  }
+  .topmenu div.box mainmenu ul li dl dt > span.icon jtbc-svg {
+    width: 14px; height: 14px; --fore-color: var(--header-mobile-anchor-color)
+  }
+  .topmenu div.box mainmenu ul li dl dd {
+    background: none !important
+  }
+  .topmenu div.box mainmenu ul li > a,
+  .topmenu div.box mainmenu ul li dl dt > a,
+  .topmenu div.box mainmenu ul li dl dd > a {
+    justify-content: start; font-size: var(--header-mobile-anchor-font-size); color: var(--header-mobile-anchor-color); height: var(--header-topmenu-height)
+  }
+  .topmenu div.box mainmenu ul li dl dd > a {
+    font-size: calc(var(--header-mobile-anchor-font-size) - 2px)
+  }
+  .topmenu div.box mainmenu ul li dl dd > a::before {
+    content: '+'; font-size: var(--header-mobile-anchor-font-size); margin-right: 6px
+  }
+  .topmenu div.box mainmenu ul li.opened dl {
+    max-height: calc(var(--header-topmenu-height) * 10)
+  }
+  .topmenu.on {
+    max-height: calc(var(--header-topmenu-height) * 20); box-shadow: var(--header-mobile-topmenu-box-shadow)
+  }
+}

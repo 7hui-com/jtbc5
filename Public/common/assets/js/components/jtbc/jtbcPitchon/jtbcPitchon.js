@@ -3,30 +3,32 @@ export default class jtbcPitchon extends HTMLElement {
     return ['pitchon'];
   };
 
-  set pitchon(value) {
-    this.currentPitchon = value;
-    this.render();
-  };
+  #pitchon = null;
 
   get pitchon() {
-    let currentPitchon = this.currentPitchon;
-    if (currentPitchon == null)
+    let result = this.#pitchon;
+    if (result == null)
     {
       let currentURL = location.href;
       let url = new URL(currentURL);
       if (url.searchParams.has('pitchon'))
       {
-        currentPitchon = url.searchParams.get('pitchon');
+        result = url.searchParams.get('pitchon');
       }
       else if (currentURL.includes('#'))
       {
         let virtualUrl = currentURL.substring(currentURL.indexOf('#') + 1);
         let virtualParams = new URLSearchParams(virtualUrl);
-        if (virtualParams.has('pitchon')) currentPitchon = virtualParams.get('pitchon');
+        if (virtualParams.has('pitchon')) result = virtualParams.get('pitchon');
       };
-      currentPitchon = currentPitchon ?? this.getAttribute('pitchon_default') ?? this.parentNode.getAttribute('pitchon_default');
+      result = result ?? this.getAttribute('pitchon_default') ?? this.parentNode.getAttribute('pitchon_default');
     };
-    return currentPitchon;
+    return result;
+  };
+
+  set pitchon(pitchon) {
+    this.#pitchon = pitchon;
+    this.render();
   };
 
   render() {
@@ -47,7 +49,7 @@ export default class jtbcPitchon extends HTMLElement {
     switch(attr) {
       case 'pitchon':
       {
-        this.currentPitchon = newVal;
+        this.pitchon = newVal;
         break;
       };
     };
@@ -61,6 +63,5 @@ export default class jtbcPitchon extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentPitchon = null;
   };
 };

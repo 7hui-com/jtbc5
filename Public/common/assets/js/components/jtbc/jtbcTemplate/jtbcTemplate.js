@@ -5,20 +5,11 @@ export default class jtbcTemplate extends HTMLTemplateElement {
 
   #data = {};
   #dataProxy = null;
+  #mode = 'standard';
+  #parentEl = null;
   #silentMode = false;
-
-  set data(data) {
-    this.#data = data;
-    this.parentNode?.nodeType == 11? this.#silentMode = true: this.update();
-  };
-
-  set mode(mode) {
-    if (this.currentMode != mode) this.currentMode = mode;
-  };
-
-  set target(target) {
-    if (this.currentTarget != target) this.currentTarget = target;
-  };
+  #target = null;
+  #URL = null;
 
   get data() {
     let that = this;
@@ -82,15 +73,43 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   };
 
   get mode() {
-    return this.currentMode;
+    return this.#mode;
   };
 
   get target() {
-    return this.currentTarget;
+    return this.#target;
   };
 
   get url() {
-    return this.currentURL;
+    return this.#URL;
+  };
+
+  set data(data) {
+    this.#data = data;
+    let rootNode = this.getRootNode({'composed': true});
+    if (rootNode instanceof DocumentFragment)
+    {
+      this.#silentMode = true;
+    }
+    else
+    {
+      this.update();
+    };
+  };
+
+  set mode(mode) {
+    if (['standard', 'target'].includes(mode))
+    {
+      this.#mode = mode;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set target(target) {
+    this.#target = target;
   };
 
   getDataByKey(key, appointedData) {
@@ -139,6 +158,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
             el.innerHTML = newTemplate.outerHTML;
           });
         };
+        break;
       };
     };
   };
@@ -327,9 +347,8 @@ export default class jtbcTemplate extends HTMLTemplateElement {
             let selfieResult = '';
             if (data instanceof Object)
             {
-              let slyString = 'bc-';
               let selfieEl = document.createElement('template');
-              selfieEl.setAttribute('is', 'jt' + slyString + 'template');
+              selfieEl.setAttribute('is', 'jtbc-template');
               selfieEl.setAttribute('data', JSON.stringify(data));
               selfieEl.innerHTML = contentHTML;
               selfieResult = selfieEl.outerHTML;
@@ -379,10 +398,6 @@ export default class jtbcTemplate extends HTMLTemplateElement {
           documentTarget.querySelectorAll('temporary').forEach(el => {
             let newTemplate = this.temporary[el.getAttribute('e-index')].cloneNode(true);
             el.replaceWith(newTemplate);
-            if (newTemplate.parentNode.nodeType == 11)
-            {
-              newTemplate.setAttribute('jtbc', 'particular');
-            };
             if (!newTemplate.hasAttribute('key-data'))
             {
               if (!newTemplate.hasAttribute('data') && newTemplate.hasAttribute('key'))
@@ -459,12 +474,8 @@ export default class jtbcTemplate extends HTMLTemplateElement {
         documentFragment.querySelectorAll('[jtbc-original-src]').forEach(el => {
           el.renameAttribute('jtbc-original-src', 'src');
         });
-        this.currentParentNode = this.parentNode;
+        this.#parentEl = this.parentNode;
         this.replaceWith(documentFragment);
-        if (this.currentParentNode != null)
-        {
-          this.currentParentNode.querySelectorAll('template[jtbc=particular]').forEach(tpl => tpl.appendedCallback());
-        };
       });
       tempElement.loadComponents().then(() => {
         if (this.parentNode != null)
@@ -519,7 +530,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
       };
       case 'url':
       {
-        this.currentURL = newVal;
+        this.#URL = newVal;
         if (!this.hasAttribute('mt'))
         {
           this.fetch();
@@ -529,8 +540,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
     };
   };
 
-  appendedCallback() {
-    this.appended = true;
+  connectedCallback() {
     if (this.#silentMode == true)
     {
       this.#silentMode = false;
@@ -539,23 +549,15 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   };
 
   disconnectedCallback() {
-    this.dispatchEvent(new CustomEvent('rendercomplete', {detail: {parentNode: this.currentParentNode}}));
-    if (this.currentParentNode != null)
-    {
-      this.currentParentNode.dispatchEvent(new CustomEvent('rendercomplete'));
-      this.currentParentNode.dispatchEvent(new CustomEvent('renderend', {bubbles: true}));
-    };
+    let parentEl = this.#parentEl;
+    this.dispatchEvent(new CustomEvent('rendercomplete', {detail: {parentNode: parentEl}}));
+    parentEl?.dispatchEvent(new CustomEvent('rendercomplete'));
+    parentEl?.dispatchEvent(new CustomEvent('renderend', {bubbles: true}));
   };
 
   constructor() {
     super();
     this.locked = false;
-    this.appended = false;
     this.temporary = [];
-    this.#data = null;
-    this.currentMode = 'standard';
-    this.currentTarget = null;
-    this.currentURL = null;
-    this.currentParentNode = null;
   };
 };

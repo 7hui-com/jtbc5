@@ -14,8 +14,8 @@
 <meta charset="utf-8" />
 <meta name="keywords" content="{$=$htmlEncode($meta_keywords)}" />
 <meta name="description" content="{$=$htmlEncode($meta_description)}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <meta name="format-detection" content="telephone=no,email=no,adress=no" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 {$=$render('universal:render.stylesheet', $stylesheets)}
 <title>{$=$htmlEncode(implode(' - ', array_reverse(array_filter($meta_title))))}</title>
 {$=implode($call_hook('forestageEndOfHead') ?? [])}</head>

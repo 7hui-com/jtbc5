@@ -86,6 +86,61 @@ class Converter
     return implode('&', $tempArr);
   }
 
+  public static function convertToTreeOption(array $argArray)
+  {
+    $index = 0;
+    $result = [];
+    $array = $argArray;
+    $prefix = '_';
+    $getChildren = function(int $argIndex, int $argRank) use ($array, $prefix, &$getChildren)
+    {
+      $index = 0;
+      $result = [];
+      $currentRank = $argRank;
+      $nextRank = $currentRank + 1;
+      foreach ($array as $key => $val)
+      {
+        if ($index > $argIndex)
+        {
+          if (str_starts_with($key, str_repeat($prefix, $currentRank)))
+          {
+            if (!str_starts_with($key, str_repeat($prefix, $nextRank)))
+            {
+              $children = $getChildren($index, $nextRank);
+              $item = ['text' => $val, 'value' => substr($key, $currentRank)];
+              if (!empty($children))
+              {
+                $item['children'] = $children;
+              }
+              $result[] = $item;
+            }
+          }
+          else
+          {
+            break;
+          }
+        }
+        $index += 1;
+      }
+      return $result;
+    };
+    foreach ($array as $key => $val)
+    {
+      if (!str_starts_with($key, $prefix))
+      {
+        $children = $getChildren($index, 1);
+        $item = ['text' => $val, 'value' => $key];
+        if (!empty($children))
+        {
+          $item['children'] = $children;
+        }
+        $result[] = $item;
+      }
+      $index += 1;
+    }
+    return $result;
+  }
+
   public static function convertToVersionString(int $argVersionNumber)
   {
     return implode('.', str_split($argVersionNumber));

@@ -3,14 +3,21 @@ export default class jtbcAnchor extends HTMLAnchorElement {
     return ['href'];
   };
 
+  #href = null;
+
+  #initEvents() {
+    this.addEventListener('click', e => this.gotoLink(e));
+  };
+
   gotoLink(e) {
     e.preventDefault();
+    let href = this.#href;
     let target = this.getTarget();
-    if (this.currentHref != null)
+    if (href != null)
     {
-      if (this.currentHref.length != 0)
+      if (href.length != 0)
       {
-        target.href = this.currentHref;
+        target.href = href;
       };
     };
   };
@@ -19,7 +26,7 @@ export default class jtbcAnchor extends HTMLAnchorElement {
     switch(attr) {
       case 'href':
       {
-        this.currentHref = newVal;
+        this.#href = newVal;
         break;
       };
     };
@@ -32,7 +39,6 @@ export default class jtbcAnchor extends HTMLAnchorElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentHref = null;
-    this.addEventListener('click', (e) => { this.gotoLink(e); });
+    this.#initEvents();
   };
 };

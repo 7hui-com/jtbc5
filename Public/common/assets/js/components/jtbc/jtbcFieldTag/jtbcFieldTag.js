@@ -3,6 +3,8 @@ export default class jtbcFieldTag extends HTMLElement {
     return ['api', 'value', 'disabled', 'width'];
   };
 
+  #disabled = false;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -17,7 +19,7 @@ export default class jtbcFieldTag extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
@@ -38,15 +40,8 @@ export default class jtbcFieldTag extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -299,7 +294,6 @@ export default class jtbcFieldTag extends HTMLElement {
     this.ready = false;
     this.tags = [];
     this.container = shadowRoot.querySelector('div.container');
-    this.currentDisabled = false;
     this.currentApi = null;
     this.currentApiLoading = false;
     this.blurTimeout = null;

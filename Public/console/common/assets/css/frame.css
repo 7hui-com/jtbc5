@@ -494,6 +494,10 @@ body {
 .container .waiting.on bar {
   animation: waiting_bar 6s infinite ease; -webkit-animation: waiting_bar 6s infinite ease
 }
+body.f11 div.container,
+body.f11 div.container main {
+  z-index: 100000
+}
 @keyframes waiting_bar {
   0% { left: 0% }
   50% { left: 90% }

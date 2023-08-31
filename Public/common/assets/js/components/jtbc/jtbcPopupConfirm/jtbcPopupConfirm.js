@@ -27,8 +27,7 @@ export default class jtbcPopupConfirm extends HTMLElement {
   };
 
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {

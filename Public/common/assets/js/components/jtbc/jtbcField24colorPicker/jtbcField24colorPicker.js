@@ -3,6 +3,9 @@ export default class jtbcField24colorPicker extends HTMLElement {
     return ['value', 'disabled', 'width'];
   };
 
+  #disabled = false;
+  #value = null;
+
   get name() {
     return this.getAttribute('name');
   };
@@ -19,14 +22,14 @@ export default class jtbcField24colorPicker extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
-    this.currentValue = value;
+    this.#value = value;
     if (this.ready == true)
     {
-      let currentValue = this.currentValue;
+      let currentValue = this.#value;
       let picker = this.container.querySelector('div.picker');
       picker.querySelectorAll('item').forEach(el => {
         if (el.getAttribute('value') == currentValue)
@@ -42,15 +45,8 @@ export default class jtbcField24colorPicker extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -102,9 +98,9 @@ export default class jtbcField24colorPicker extends HTMLElement {
   connectedCallback() {
     this.#initEvents();
     this.ready = true;
-    if (this.currentValue != null)
+    if (this.#value != null)
     {
-      this.value = this.currentValue;
+      this.value = this.#value;
     };
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -121,7 +117,5 @@ export default class jtbcField24colorPicker extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.colorMap = ['#735244', '#c29682', '#627a9d', '#576c43', '#8580b1', '#67bdaa', '#d67e2c', '#505ba6', '#c15a63', '#5e3c6c', '#9dbc40', '#e0a32e', '#383d96', '#469449', '#af363c', '#e7c71f', '#bb5695', '#0885a1', '#f3f3f2', '#c8c8c8', '#a0a0a0', '#7a7a79', '#555555', '#343434'];
-    this.currentDisabled = false;
-    this.currentValue = null;
   };
 };

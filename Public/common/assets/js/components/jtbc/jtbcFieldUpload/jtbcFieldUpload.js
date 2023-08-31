@@ -2,8 +2,12 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcFieldUpload extends HTMLElement {
   static get observedAttributes() {
-    return ['text-upload', 'action', 'value', 'disabled', 'placeholder', 'width'];
+    return ['text-upload', 'action', 'value', 'disabled', 'placeholder', 'tail', 'width'];
   };
+
+  #disabled = false;
+  #uploading = false;
+  #tail = null;
 
   get name() {
     return this.getAttribute('name');
@@ -28,28 +32,42 @@ export default class jtbcFieldUpload extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  get uploading() {
+    return this.#uploading;
+  };
+
+  get tail() {
+    return this.#tail;
   };
 
   set value(value) {
-    this.currentValue = value;
     let container = this.container;
     let input = container.querySelector('input.fileurl');
-    if (this.currentValue.trim() == '')
+    if (value.trim().length == 0)
     {
       input.value = '';
     }
     else
     {
-      let value = JSON.parse(this.currentValue);
-      this.uploadid = value.uploadid;
-      this.fileurl = value.fileurl;
-      input.value = this.fileurl;
+      try
+      {
+        let content = JSON.parse(value);
+        this.uploadid = content.uploadid;
+        this.fileurl = content.fileurl;
+        input.value = this.fileurl;
+      }
+      catch(e)
+      {
+        throw new Error('Unexpected value');
+      };
     };
   };
 
   set disabled(disabled) {
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
     let container = this.container;
     let input = container.querySelector('input.fileurl');
     if (disabled == true)
@@ -64,11 +82,13 @@ export default class jtbcFieldUpload extends HTMLElement {
     };
   };
 
+  set tail(tail) {
+    this.#tail = tail;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let dialog = document.getElementById('dialog');
-    let miniMessage = document.getElementById('miniMessage');
     container.querySelector('input.fileurl').addEventListener('focus', () => {
       container.classList.add('focus');
     });
@@ -76,7 +96,7 @@ export default class jtbcFieldUpload extends HTMLElement {
       container.classList.remove('focus');
     });
     container.querySelector('button.upload').addEventListener('click', () => {
-      if (this.currentDisabled == false && this.currentUploading == false)
+      if (this.disabled == false && this.uploading == false)
       {
         container.querySelector('input.file').click();
       };
@@ -88,11 +108,13 @@ export default class jtbcFieldUpload extends HTMLElement {
       const resetStatus = () => {
         this.value = null;
         that.buttonTextReset();
+        that.#uploading = false;
         bar.style.width = '100%';
         btn.classList.remove('locked');
       };
       if (!btn.classList.contains('locked') && this.files.length == 1)
       {
+        that.#uploading = true;
         bar.style.width = '0%';
         btn.classList.add('locked');
         let currentUploader = new uploader(that.action);
@@ -103,27 +125,49 @@ export default class jtbcFieldUpload extends HTMLElement {
           if (data.code == 1)
           {
             that.uploadid = data.param.uploadid;
-            input.value = that.fileurl = data.param.fileurl;
+            input.value = that.fileurl = data.param.fileurl + (that.tail ?? '');
           }
           else
           {
-            if (that.hasAttribute('whisper') && miniMessage != null)
+            let message = data.message;
+            if (that.hasAttribute('whisper'))
             {
-              miniMessage.push(data.message);
-            }
-            else if (dialog != null)
-            {
-              dialog.alert(data.message);
+              if (that.miniMessage != null)
+              {
+                that.miniMessage.push(message);
+              }
+              else if (that.toast != null)
+              {
+                that.toast.showError(message);
+              }
+              else
+              {
+                window.alert(message);
+              };
             }
             else
             {
-              window.alert(data.message);
+              if (that.dialog != null)
+              {
+                that.dialog.alert(message);
+              }
+              else
+              {
+                window.alert(message);
+              };
             };
           };
           resetStatus();
         }, target => {
-          let errorMessage = target.status + ' ' + target.statusText;
-          dialog != null? dialog.alert(errorMessage): window.alert(errorMessage);
+          let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
+          if (that.dialog != null)
+          {
+            that.dialog.alert(errorMessage);
+          }
+          else
+          {
+            window.alert(errorMessage);
+          };
           resetStatus();
         });
       };
@@ -132,17 +176,25 @@ export default class jtbcFieldUpload extends HTMLElement {
       if (that.imagePreviewer != null)
       {
         let fileurl = this.value;
-        if (['.jpg','.gif','.png','.svg','.webp'].includes(fileurl.substring(fileurl.lastIndexOf('.'))))
+        let originalFileurl = fileurl;
+        if (fileurl.includes('?'))
         {
-          that.imagePreviewer.popup({'fileurl': fileurl});
+          fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
+        };
+        if (fileurl.includes('.'))
+        {
+          let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
+          if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+          {
+            that.imagePreviewer.popup({'fileurl': originalFileurl});
+          };
         };
       };
     });
   };
 
   buttonTextReset() {
-    let container = this.container;
-    container.querySelector('button.upload').innerText = this.textUpload;
+    this.container.querySelector('button.upload').innerText = this.textUpload;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -171,6 +223,11 @@ export default class jtbcFieldUpload extends HTMLElement {
       case 'placeholder':
       {
         this.container.querySelector('input.fileurl')?.setAttribute('placeholder', newVal);
+        break;
+      };
+      case 'tail':
+      {
+        this.tail = newVal;
         break;
       };
       case 'width':
@@ -203,10 +260,10 @@ export default class jtbcFieldUpload extends HTMLElement {
     this.uploadid = 0;
     this.fileurl = null;
     this.container = shadowRoot.querySelector('div.container');
+    this.dialog = document.getElementById('dialog');
+    this.toast = document.getElementById('toast');
+    this.miniMessage = document.getElementById('miniMessage');
     this.imagePreviewer = document.getElementById('imagePreviewer');
-    this.currentValue = '';
-    this.currentDisabled = false;
-    this.currentUploading = false;
     this.textUpload = 'Upload';
     this.#initEvents();
   };

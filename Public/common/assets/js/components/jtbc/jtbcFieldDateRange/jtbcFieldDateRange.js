@@ -1,10 +1,13 @@
+import langHelper from '../../../library/lang/langHelper.js';
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcFieldDateRange extends HTMLElement {
   static get observedAttributes() {
     return ['lang', 'min', 'max', 'value', 'disabled', 'width', 'placeholder_start', 'placeholder_end'];
   };
 
   #closePickerTimeout;
-  #lang = 0;
+  #lang = 'zh-cn';
   #value = '';
   #disabled = false;
   #minDate = null;
@@ -16,12 +19,21 @@ export default class jtbcFieldDateRange extends HTMLElement {
     return this.getAttribute('name');
   };
 
+  get lang() {
+    return this.#lang;
+  };
+
   get value() {
     return this.#value;
   };
 
   get disabled() {
     return this.#disabled;
+  };
+
+  set lang(lang) {
+    this.#lang = langHelper.getStandardLang(lang);
+    this.container.querySelectorAll('.calendar').forEach(calendar => { calendar.setAttribute('lang', this.#lang); });
   };
 
   set value(value) {
@@ -54,20 +66,8 @@ export default class jtbcFieldDateRange extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
     this.#disabled = disabled;
-  };
-
-  #isDate(value) {
-    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
-    return dateRegExp.test(value)? true: false;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #isDateRange(value) {
@@ -77,7 +77,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
       let valueArr = value.split('~');
       if (valueArr.length == 2)
       {
-        if (this.#isDate(valueArr[0]) && this.#isDate(valueArr[1]))
+        if (validation.isDate(valueArr[0]) && validation.isDate(valueArr[1]))
         {
           let startDate = new Date(valueArr[0]);
           let endDate = new Date(valueArr[1]);
@@ -102,7 +102,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
   #changeValue() {
     let currentStartDate = this.#startDate;
     let currentEndDate = this.#endDate;
-    if (this.#isDate(currentStartDate) && this.#isDate(currentEndDate))
+    if (validation.isDate(currentStartDate) && validation.isDate(currentEndDate))
     {
       this.value = currentStartDate + '~' + currentEndDate;
     };
@@ -117,13 +117,13 @@ export default class jtbcFieldDateRange extends HTMLElement {
     let currentEndDate = this.#endDate;
     calendarStartEl.getAllDateElements().forEach(el => el.classList.remove('through'));
     calendarEndEl.getAllDateElements().forEach(el => el.classList.remove('through'));
-    if ((this.#isDate(startDate) || this.#isDate(currentStartDate)) && (this.#isDate(endDate) || this.#isDate(currentEndDate)))
+    if ((validation.isDate(startDate) || validation.isDate(currentStartDate)) && (validation.isDate(endDate) || validation.isDate(currentEndDate)))
     {
-      if (this.#isDate(currentStartDate) && this.#isDate(currentEndDate))
+      if (validation.isDate(currentStartDate) && validation.isDate(currentEndDate))
       {
         let originalStartDate = new Date(currentStartDate);
         let originalEndDate = new Date(currentEndDate);
-        if (this.#isDate(startDate))
+        if (validation.isDate(startDate))
         {
           let tempDate = new Date(startDate);
           if (tempDate >= originalEndDate)
@@ -137,7 +137,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
             newEndDate = originalEndDate;
           };
         }
-        else if (this.#isDate(endDate))
+        else if (validation.isDate(endDate))
         {
           let tempDate = new Date(endDate);
           if (tempDate <= originalStartDate)
@@ -163,9 +163,9 @@ export default class jtbcFieldDateRange extends HTMLElement {
         newEndDate = new Date(endDate ?? currentEndDate);
       };
     }
-    else if (this.#isDate(startDate))
+    else if (validation.isDate(startDate))
     {
-      if (this.#isDate(currentStartDate))
+      if (validation.isDate(currentStartDate))
       {
         let tempDate1 = new Date(startDate);
         let tempDate2 = new Date(currentStartDate);
@@ -186,9 +186,9 @@ export default class jtbcFieldDateRange extends HTMLElement {
         calendarStartEl.value = startDate;
       };
     }
-    else if (this.#isDate(endDate))
+    else if (validation.isDate(endDate))
     {
-      if (this.#isDate(currentEndDate))
+      if (validation.isDate(currentEndDate))
       {
         let tempDate1 = new Date(endDate);
         let tempDate2 = new Date(currentEndDate);
@@ -257,7 +257,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
       if (calendar.getAttribute('mode') == 'start')
       {
         let startTargetDate = startMonth + '-01';
-        if (this.#isDate(startTargetDate))
+        if (validation.isDate(startTargetDate))
         {
           calendar.render(startTargetDate);
         };
@@ -265,14 +265,13 @@ export default class jtbcFieldDateRange extends HTMLElement {
       else
       {
         let endTargetDate = endMonth + '-01';
-        calendar.render(this.#isDate(endTargetDate)? endTargetDate: nextMonth + '-01');
+        calendar.render(validation.isDate(endTargetDate)? endTargetDate: nextMonth + '-01');
       };
     });
   };
 
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {
@@ -289,7 +288,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
       });
       input.addEventListener('blur', function(){
         let value = this.value;
-        if (that.#isDate(value))
+        if (validation.isDate(value))
         {
           if (this.getAttribute('mode') == 'start')
           {
@@ -373,11 +372,11 @@ export default class jtbcFieldDateRange extends HTMLElement {
           datepicker.classList.remove('upper');
         };
         datepicker.classList.add('on');
-        if (that.#isDate(that.#startDate))
+        if (validation.isDate(that.#startDate))
         {
           datepicker.querySelector('jtbc-calendar[mode=start]').render(that.#startDate);
         };
-        if (that.#isDate(that.#endDate))
+        if (validation.isDate(that.#endDate))
         {
           datepicker.querySelector('jtbc-calendar[mode=end]').render(that.#endDate);
         };
@@ -414,8 +413,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
     switch(attr) {
       case 'lang':
       {
-        this.#lang = newVal;
-        container.querySelectorAll('.calendar').forEach(calendar => { calendar.setAttribute('lang', this.#lang); });
+        this.lang = newVal;
         break;
       };
       case 'min':
@@ -479,8 +477,8 @@ export default class jtbcFieldDateRange extends HTMLElement {
         <span class="btn delete"><jtbc-svg name="close_small"></jtbc-svg></span>
         <span class="btn select"><jtbc-svg name="calendar"></jtbc-svg></span>
         <div class="datepicker">
-          <div class="start"><jtbc-calendar class="calendar calendar_start" mode="start" lang="0"></jtbc-calendar></div>
-          <div class="end"><jtbc-calendar class="calendar calendar_end" mode="end" lang="0"></jtbc-calendar></div>
+          <div class="start"><jtbc-calendar class="calendar calendar_start" mode="start" lang="zh-cn"></jtbc-calendar></div>
+          <div class="end"><jtbc-calendar class="calendar calendar_end" mode="end" lang="zh-cn"></jtbc-calendar></div>
         </div>
         <div class="mask"></div>
       </div>

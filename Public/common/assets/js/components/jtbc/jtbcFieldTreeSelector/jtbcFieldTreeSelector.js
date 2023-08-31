@@ -3,6 +3,9 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     return ['data', 'value', 'disabled'];
   };
 
+  #disabled = false;
+  #value = null;
+
   get data() {
     return this.currentData;
   };
@@ -26,7 +29,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set data(data) {
@@ -35,20 +38,13 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
   };
 
   set value(value) {
-    this.currentValue = value;
+    this.#value = value;
     this.resetChecked();
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -105,7 +101,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
 
   getValueArr() {
     let result = [];
-    let currentValue = this.currentValue;
+    let currentValue = this.#value;
     if (currentValue != null && currentValue.trim() != '')
     {
       result = JSON.parse(currentValue);
@@ -177,8 +173,6 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.currentData = null;
-    this.currentValue = null;
-    this.currentDisabled = false;
     this.template = shadowRoot.querySelector('template');
     this.container = shadowRoot.querySelector('div.container');
     this.#initEvents();

@@ -6,6 +6,8 @@ export default class jtbcFieldIconSelector extends HTMLElement {
   #icons = null;
   #iconsLoaded = false;
   #defaultIcons = 'aboutus,addressbook,administration,aidkit,airplane,alarm,alien,android,announcement,ant,aperture,api,app,apple,aquarium,archives,avatar,baby,badge,baseball,battery,bell_fill,bin,binoculars,book,books,boom,brain,brightness,brush,bug,bulb,bus,business,button,calculator,calendar,camera,car_battery,casette,cashbook,cat,chip,click,clothing,cloud_download,cloud_fill,cloud_ok,cloud_upload,clover,clubs,cny,code,compass,component,cone,container,control_power,copyright,coupon,coupons,crown,cube,cup_fill,dartboard,dashboard,db_fill,desktop,device,diagram,diamond,disallow,disc,dish,doctoral_cap,dog,done,donuts,doubt,dove,drawer,droplet,earth,electronics,emergency,environmental_protection,facial_mask,fan,fence,file,filebag,filebox,fire,floppy_disk,flower,folder,folder_upload,football,friends,ghost,gift,git,grid,group,hamburger,hardhat,headphones,heart_fill,heart_signal,hexagram,home,hops,horn,hospital,hotel,hotpot,icecream,image,jail,kettle,key,kit,lab,lifebuoy,list,location,log,lotus,love_fill,luckymoney,mail,maintenance,manager,map,mario,material,material_box,medal,message,mike,mobile,module,moneybag,monkey,mountain,mouse,mug,network,new,news,notebook,operator,orange,overview,package,pacman,palette,partnership,paw,person_fill,pet,petbell,phone,phonebook,photographic_film,pie,planet,plug,policeman,poo,postagestamp,power,power_cord,power_switch,printer,prize_wheel,protect_money,public_welfare,puzzle,pyramid,query,receipt,red_envelope,ribbon,robot,rocket,rostrum,rudder,safe,sale,salesroom,sdcard,server,setting,shampoo,shield,shopbag,shopcart,shop_fill,skull,slack,soccer_ball,spades,square,stack,stamp,star_circle,star_fill,starburst,stroopwafel,sun,sync,tag,target,task,taxi,template,tent,terminal,thumbsup,tomato,trafficlight,train,tree,trophy,truck,trunk,typhoon,union,usb,userfind,users,virus,wall,wallet,warning,washroom,wechat,wheel,yinyang';
+  #disabled = false;
+  #value = null;
 
   get name() {
     return this.getAttribute('name');
@@ -39,13 +41,13 @@ export default class jtbcFieldIconSelector extends HTMLElement {
     }
     else
     {
-      result = this.currentValue ?? '';
+      result = this.#value ?? '';
     };
     return result;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   get icons() {
@@ -92,7 +94,7 @@ export default class jtbcFieldIconSelector extends HTMLElement {
     }
     else
     {
-      this.currentValue = value;
+      this.#value = value;
     };
   };
 
@@ -105,15 +107,8 @@ export default class jtbcFieldIconSelector extends HTMLElement {
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -159,9 +154,9 @@ export default class jtbcFieldIconSelector extends HTMLElement {
         if (validIcons.length == index)
         {
           this.#iconsLoaded = true;
-          if (this.currentValue != null)
+          if (this.#value != null)
           {
-            this.value = this.currentValue;
+            this.value = this.#value;
           };
         };
       });
@@ -187,7 +182,7 @@ export default class jtbcFieldIconSelector extends HTMLElement {
       }
       case 'value':
       {
-        this.value = this.currentValue = newVal;
+        this.value = this.#value = newVal;
         break;
       };
       case 'icons':
@@ -225,9 +220,7 @@ export default class jtbcFieldIconSelector extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.currentValue = null;
     this.currentLimit = null;
-    this.currentDisabled = false;
     this.currentMode = 'single';
     this.#initEvents();
   };

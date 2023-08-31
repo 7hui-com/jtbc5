@@ -1,8 +1,13 @@
 import components from '../components/components.js';
 
 export default class extender {
+  #activeZIndex = 7777777;
+
   extend() {
     let that = this;
+    Window.prototype.getActiveZIndex = function() {
+      return that.#activeZIndex ++;
+    };
     Element.prototype.appendFragment = async function (fragment, preloadComponents = true) {
       if (fragment instanceof DocumentFragment)
       {
@@ -14,14 +19,12 @@ export default class extender {
           };
         };
         this.append(fragment);
-        this.querySelectorAll('jtbc-script,template[is="jtbc-template"]').forEach(el => {
-          if (!el.appended)
-          {
-            el.appendedCallback();
-          };
-        });
-        return this;
+      }
+      else
+      {
+        throw new Error('Unexpected argument(s)');
       };
+      return this;
     };
     Element.prototype.delegateEventListener = function(selector, type, listener) {
       this.addEventListener(type, function(e){
@@ -75,6 +78,26 @@ export default class extender {
     Element.prototype.empty = function() {
       this.innerHTML = '';
       return this;
+    };
+    Element.prototype.getDirectChildrenByClassName = function(className) {
+      let result = [];
+      Object.values(this.children).forEach(el => {
+        if (el.classList.contains(className))
+        {
+          result.push(el);
+        };
+      });
+      return result;
+    };
+    Element.prototype.getDirectChildrenByTagName = function(tagName) {
+      let result = [];
+      Object.values(this.children).forEach(el => {
+        if (tagName.toLowerCase() === el.tagName.toLowerCase())
+        {
+          result.push(el);
+        };
+      });
+      return result;
     };
     Element.prototype.getQueryString = function(name, attr = 'src') {
       let result = null;

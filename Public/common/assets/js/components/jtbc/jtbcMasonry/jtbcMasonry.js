@@ -8,6 +8,8 @@ export default class jtbcMasonry extends HTMLElement {
   #gutter = null;
   #param = null;
   masonry = null;
+  #basePath = null;
+  #libPath = null;
 
   get param() {
     let result = this.#param ?? {};
@@ -89,10 +91,10 @@ export default class jtbcMasonry extends HTMLElement {
     if (typeof Masonry == 'undefined')
     {
       let parentNode = container.parentNode;
-      let masonryScript = document.createElement('script');
-      masonryScript.src = this.vendorPath + 'masonry.pkgd.min.js';
-      parentNode.insertBefore(masonryScript, container);
-      masonryScript.addEventListener('load', () => this.#initMasonry());
+      let script = document.createElement('script');
+      script.src = this.#libPath + '/masonry.pkgd.min.js';
+      parentNode.insertBefore(script, container);
+      script.addEventListener('load', () => this.#initMasonry());
     }
     else
     {
@@ -136,7 +138,8 @@ export default class jtbcMasonry extends HTMLElement {
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     shadowRoot.innerHTML = `<style>:host { display: block; width: 100% } div.container { width: 100%; position: relative }</style><div class="container"><slot></slot></div>`;
     this.ready = false;
-    this.vendorPath = basePath + '../../../vendor/masonry/';
+    this.#basePath = basePath;
+    this.#libPath = basePath + '../../../vendor/masonry';
     this.container = shadowRoot.querySelector('div.container');
   };
 };

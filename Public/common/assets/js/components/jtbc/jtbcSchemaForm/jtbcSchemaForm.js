@@ -3,10 +3,21 @@ export default class jtbcSchemaForm extends HTMLDivElement {
     return ['data'];
   };
 
+  #data = null;
+
+  get data() {
+    return this.#data;
+  };
+
+  set data(data) {
+    this.#data = data;
+  };
+
   build() {
-    if (this.currentData != null)
+    let data = this.data;
+    if (data != null)
     {
-      let schema = JSON.parse(this.currentData);
+      let schema = JSON.parse(data);
       if (Array.isArray(schema))
       {
         let fragment = document.createDocumentFragment();
@@ -32,10 +43,6 @@ export default class jtbcSchemaForm extends HTMLDivElement {
             };
             case 'checkbox': {
               field = this.renderCheckbox(item);
-              break;
-            };
-            case 'editor': {
-              field = this.renderEditor(item);
               break;
             };
             case 'radio': {
@@ -135,13 +142,6 @@ export default class jtbcSchemaForm extends HTMLDivElement {
     return result;
   };
 
-  renderEditor(item) {
-    let result = document.createElement('textarea', {is: 'jtbc-editor'});
-    result.classList.add('editor');
-    result.setAttribute('is', 'jtbc-editor');
-    return result;
-  };
-
   renderRadio(item) {
     let result = null;
     if (Array.isArray(item.data))
@@ -217,7 +217,7 @@ export default class jtbcSchemaForm extends HTMLDivElement {
     switch(attr) {
       case 'data':
       {
-        this.currentData = newVal;
+        this.data = newVal;
         this.build();
         break;
       };
@@ -231,6 +231,5 @@ export default class jtbcSchemaForm extends HTMLDivElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentData = null;
   };
 };

@@ -22,10 +22,13 @@ class SQLFieldAssign
     $stringGroup = FieldsHelper::getMaxLengthOfStringFields($fieldType == 'varchar'? $fieldLength: null);
     if (array_key_exists($fieldName, $source))
     {
+      $formatedValue = null;
       $fieldValue = $source[$fieldName];
       $formatedName = SQLFormatter::formatName($fieldName);
-      $formatedValue = null;
-      if (is_null($fieldValue)) $formatedValue = 'null';
+      if (is_null($fieldValue))
+      {
+        $formatedValue = 'null';
+      }
       else if (is_array($fieldValue))
       {
         $isMatch = false;
@@ -87,7 +90,7 @@ class SQLFieldAssign
         {
           if (Validation::isEmpty($fieldValue))
           {
-            $formatedValue = null;
+            $formatedValue = 'null';
           }
           else if (!Validation::isDate($fieldValue))
           {
@@ -102,7 +105,7 @@ class SQLFieldAssign
         {
           if (Validation::isEmpty($fieldValue))
           {
-            $formatedValue = null;
+            $formatedValue = 'null';
           }
           else if (!Validation::isDateTime($fieldValue))
           {
@@ -117,7 +120,7 @@ class SQLFieldAssign
         {
           if (Validation::isEmpty($fieldValue))
           {
-            $formatedValue = null;
+            $formatedValue = 'null';
           }
           else if (!Validation::isTime($fieldValue))
           {
@@ -133,7 +136,14 @@ class SQLFieldAssign
           throw new NotSupportedException('"' . $fieldType . '" is not supported', 50415);
         }
       }
-      if (!is_null($formatedValue)) $result = [$formatedName, $formatedValue];
+      if (!is_null($formatedValue))
+      {
+        $result = [$formatedName, $formatedValue];
+      }
+      else
+      {
+        throw new NotSupportedException('"' . $fieldType . '" is not supported', 50415);
+      }
     }
     return $result;
   }

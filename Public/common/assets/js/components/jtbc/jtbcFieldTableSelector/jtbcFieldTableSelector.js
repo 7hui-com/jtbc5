@@ -3,19 +3,25 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     return ['api', 'href', 'type', 'max', 'value', 'placeholder', 'disabled', 'width'];
   };
 
+  #api = null;
+  #disabled = false;
+  #type = 'checkbox';
+  #placeholder = null;
+  #syncValue = null;
+
   get name() {
     return this.getAttribute('name');
   };
 
   get type() {
-    return this.currentType == 'radio'? 'radio': 'checkbox';
+    return this.#type == 'radio'? 'radio': 'checkbox';
   };
 
   get value() {
     let result = '';
-    if (this.currentValue != null)
+    if (this.#syncValue != null)
     {
-      result = this.currentValue;
+      result = this.#syncValue;
     }
     else
     {
@@ -50,23 +56,22 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
   };
 
   set value(value) {
     let container = this.container;
-    let selectedEl = container.querySelector('div.selected');
+    let selectedEl = container.querySelector('div.selected')?.empty();
     if (selectedEl != null)
     {
       this.selected = [];
-      selectedEl.innerHTML = '';
       if (value != '')
       {
         let valueArr = JSON.parse(value);
         if (Array.isArray(valueArr))
         {
           this.selected = valueArr;
-          let currentApi = this.currentApi ?? this.getAttribute('api');
+          let currentApi = this.#api ?? this.getAttribute('api');
           currentApi += '&selected=' + encodeURIComponent(value);
           fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
             if (data.code == 1)
@@ -86,20 +91,13 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     }
     else
     {
-      this.currentValue = value;
+      this.#syncValue = value;
     };
   };
 
   set disabled(disabled) {
-    if (disabled == true)
-    {
-      this.container.classList.add('disabled');
-    }
-    else
-    {
-      this.container.classList.remove('disabled');
-    };
-    this.currentDisabled = disabled;
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #initEvents() {
@@ -154,7 +152,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
                     chief.addEventListener('checkmax', () => {
                       if (!this.isVacant(true))
                       {
-                        if (this.currentType != 'radio')
+                        if (this.type != 'radio')
                         {
                           chief.querySelectorAll('input[name=id]').forEach(input => {
                             if (input.checked != true)
@@ -213,7 +211,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
                       };
                       chief.dispatchEvent(new CustomEvent('checkmax'));
                     });
-                    chief.delegateEventListener('jt' + String.fromCharCode(98, 99) + '-pagination', 'gotopage', e => {
+                    chief.delegateEventListener('jtbc-pagination', 'gotopage', e => {
                       changeChiefTemplateParams({'page': e.detail.page});
                     });
                     chief.delegateEventListener(String.fromCharCode(106, 116, 98, 99, 45) + 'tiny-search', 'search', e => {
@@ -291,18 +289,18 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   };
 
   syncPlaceholder() {
-    if (this.currentPlaceholder != null)
+    if (this.#placeholder != null)
     {
       let placeholderEl = this.container.querySelector('span.placeholder');
-      if (placeholderEl != null) placeholderEl.innerText = this.currentPlaceholder;
+      if (placeholderEl != null) placeholderEl.innerText = this.#placeholder;
     };
   };
 
   syncValue() {
-    if (this.currentValue != null)
+    if (this.#syncValue != null)
     {
-      this.value = this.currentValue;
-      this.currentValue = null;
+      this.value = this.#syncValue;
+      this.#syncValue = null;
     };
   };
 
@@ -337,7 +335,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     switch(attr) {
       case 'api':
       {
-        this.currentApi = newVal;
+        this.#api = newVal;
         break;
       };
       case 'href':
@@ -347,8 +345,8 @@ export default class jtbcFieldTableSelector extends HTMLElement {
       };
       case 'type':
       {
-        this.currentType = newVal.toLowerCase();
-        if (this.currentType == 'radio')
+        this.#type = newVal.toLowerCase();
+        if (this.type == 'radio')
         {
           this.setAttribute('max', '1');
         };
@@ -366,7 +364,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
       };
       case 'placeholder':
       {
-        this.currentPlaceholder = newVal;
+        this.#placeholder = newVal;
         this.syncPlaceholder();
         break;
       };
@@ -401,13 +399,8 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     this.ready = false;
     this.selected = [];
     this.preSelected = [];
-    this.currentDisabled = false;
-    this.currentApi = null;
     this.currentMax = null;
     this.currentHref = null;
-    this.currentType = null;
-    this.currentValue = null;
-    this.currentPlaceholder = null;
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
     this.container = shadowRoot.querySelector('div.container');

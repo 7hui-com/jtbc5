@@ -3,33 +3,34 @@ export default class jtbcChartCircle extends HTMLElement {
     return ['value'];
   };
 
+  #value = 0;
+
+  get value() {
+    return this.#value;
+  };
+
   set value(value) {
-    let currentValue = parseInt(value);
-    if (currentValue < 0) currentValue = 0;
-    else if (currentValue >= 100) currentValue = 100;
-    if (this.currentValue != currentValue)
+    let container = this.container;
+    let currentValue = Math.max(Math.min(Number.parseInt(value), 100), 0);
+    if (this.value != currentValue)
     {
-      this.currentValue = currentValue;
+      this.#value = currentValue;
       this.setAttribute('value', currentValue);
       let currentDeg = Math.round(360 * (currentValue / 100));
       if (currentDeg >= 180)
       {
-        this.container.querySelector('div.container').classList.add('full');
-        this.container.querySelector('span.c1').style.transform = 'rotate(180deg)';
-        this.container.querySelector('span.c2').style.transform = 'rotate(' + currentDeg + 'deg)';
+        container.querySelector('div.box').classList.add('full');
+        container.querySelector('span.c1').style.transform = 'rotate(180deg)';
+        container.querySelector('span.c2').style.transform = 'rotate(' + currentDeg + 'deg)';
       }
       else
       {
-        this.container.querySelector('div.container').classList.remove('full');
-        this.container.querySelector('span.c1').style.transform = 'rotate(' + currentDeg + 'deg)';
-        this.container.querySelector('span.c2').style.transform = 'rotate(0deg)';
+        container.querySelector('div.box').classList.remove('full');
+        container.querySelector('span.c1').style.transform = 'rotate(' + currentDeg + 'deg)';
+        container.querySelector('span.c2').style.transform = 'rotate(0deg)';
       };
-      this.container.querySelector('div.text b').innerHTML = currentValue;
+      container.querySelector('div.text b').innerText = currentValue;
     };
-  };
-
-  get value() {
-    return this.currentValue;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -52,18 +53,17 @@ export default class jtbcChartCircle extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="circle">
+      <div class="container">
         <div class="bg"></div>
-        <div class="container">
+        <div class="box">
           <span class="c1"></span>
           <span class="c2"></span>
         </div>
-        <div class="text"><b></b><em>%</em></div>
+        <div class="text"><slot><b></b><em>%</em></slot></div>
       </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.container = shadowRoot.querySelector('div.circle');
-    this.currentValue = 0;
+    this.container = shadowRoot.querySelector('div.container');
   };
 };

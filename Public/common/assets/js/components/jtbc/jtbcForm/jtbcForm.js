@@ -3,15 +3,42 @@ export default class jtbcForm extends HTMLFormElement {
     return ['mode', 'method'];
   };
 
-  #mode = null;
-  #method = null;
+  #mode = 'queryString';
+  #method = 'get';
   #locked = false;
-  #ready = false;
-  #dialog = null;
-  #miniMessage = null;
   #originalFormData = {};
   #modeList = ['queryString', 'json'];
-  #methodList = ['get', 'post', 'put', 'delete', 'head'];
+  #methodList = ['get', 'post', 'put', 'delete'];
+
+  get mode() {
+    return this.#mode;
+  };
+
+  get method() {
+    return this.#method;
+  };
+
+  set mode(mode) {
+    if (this.#modeList.includes(mode))
+    {
+      this.#mode = mode;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set method(method) {
+    if (this.#methodList.includes(method))
+    {
+      this.#method = method;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
 
   #initEvents() {
     this.resetOriginalFormData();
@@ -48,7 +75,7 @@ export default class jtbcForm extends HTMLFormElement {
   };
 
   isReady() {
-    return this.#ready;
+    return this.ready;
   };
 
   isLocked() {
@@ -154,11 +181,19 @@ export default class jtbcForm extends HTMLFormElement {
       this.dispatchEvent(submitStartEvent);
       if (submitStartEvent.detail.intercepted !== true)
       {
+        let headers = {};
         let method = this.#method;
         let action = this.getAttribute('action');
         let errorMode = this.getAttribute('error_mode');
-        let init = {'method': method};
-        if (['get', 'head'].includes(method))
+        let init = {'method': method, 'headers': headers};
+        Array.from(this.attributes).forEach(attr => {
+          let name = attr.name;
+          if (name.startsWith('header-'))
+          {
+            headers[name.substring(name.indexOf('-') + 1)] = this.getAttribute(name);
+          };
+        });
+        if (method == 'get')
         {
           let url = new URL(action);
           this.getFields().forEach(el => {
@@ -168,10 +203,8 @@ export default class jtbcForm extends HTMLFormElement {
         }
         else
         {
-          let headers = {};
           if (this.#mode == 'json') headers['Content-Type'] = 'application/json';
           else if (this.#mode == 'queryString') headers['Content-Type'] = 'application/x-www-form-urlencoded';
-          init.headers = headers;
           init.body = this.serialize();
         };
         fetch(action, init).then(res => {
@@ -182,6 +215,7 @@ export default class jtbcForm extends HTMLFormElement {
             let errorTipsEls = this.querySelectorAll('.errorTips');
             res.json().then(data => {
               let returnCode = data.code;
+              let returnMessage = data.message ?? '';
               if (returnCode == 1)
               {
                 this.resetOriginalFormData();
@@ -209,9 +243,10 @@ export default class jtbcForm extends HTMLFormElement {
               {
                 if (this.hasAttribute('bigmouth'))
                 {
+                  let bigmouth = this.getAttribute('bigmouth');
                   if (returnCode == 1)
                   {
-                    this.#dialog.close().then(() => {
+                    const doneCallback = () => {
                       let currentTarget = this.getTarget();
                       if (currentTarget != null)
                       {
@@ -224,19 +259,63 @@ export default class jtbcForm extends HTMLFormElement {
                           currentTarget.href = this.getAttribute('href');
                         };
                       };
-                    });
-                  }
-                  else
-                  {
-                    let message = data.message;
-                    let bigmouth = this.getAttribute('bigmouth');
-                    if (bigmouth == 'alert')
+                    };
+                    if (bigmouth == 'alert~')
                     {
-                      this.#dialog != null? this.#dialog.alert(message): window.alert(message);
+                      if (this.dialog != null)
+                      {
+                        this.dialog.alert(returnMessage, doneCallback);
+                      }
+                      else
+                      {
+                        window.alert(returnMessage);
+                        doneCallback();
+                      };
+                    }
+                    else if (bigmouth == 'toast~')
+                    {
+                      this.dialog?.close();
+                      if (this.toast != null)
+                      {
+                        this.toast.showSuccess(returnMessage, null, null, doneCallback);
+                      }
+                      else
+                      {
+                        window.alert(returnMessage);
+                        doneCallback();
+                      };
+                    }
+                    else if (bigmouth == 'mini-message~')
+                    {
+                      this.dialog?.close();
+                      if (this.miniMessage != null)
+                      {
+                        this.miniMessage.push(returnMessage, doneCallback);
+                      }
+                      else
+                      {
+                        window.alert(returnMessage);
+                        doneCallback();
+                      };
                     }
                     else
                     {
-                      this.#miniMessage?.push(message);
+                      this.dialog != null? this.dialog.close().then(() => doneCallback()): doneCallback(); 
+                    };
+                  }
+                  else
+                  {
+                    if (bigmouth.startsWith('alert'))
+                    {
+                      this.dialog != null? this.dialog.alert(returnMessage): window.alert(returnMessage);
+                    }
+                    else if (bigmouth.startsWith('toast'))
+                    {
+                      this.toast != null? this.toast.showError(returnMessage): window.alert(returnMessage);
+                    }
+                    else
+                    {
+                      this.miniMessage != null? this.miniMessage.push(returnMessage): window.alert(returnMessage);
                     };
                   };
                 };
@@ -247,14 +326,36 @@ export default class jtbcForm extends HTMLFormElement {
           {
             if (errorMode != 'silent')
             {
-              let errorMessage = res.status + ' ' + res.statusText;
-              this.#dialog == null? window.alert(errorMessage): this.#dialog.alert(errorMessage);
+              let errorMessage = res.status + String.fromCharCode(32) + res.statusText;
+              if (this.dialog != null)
+              {
+                this.dialog.alert(errorMessage);
+              }
+              else if (this.toast != null)
+              {
+                this.toast.showError(errorMessage, null, false);
+              }
+              else
+              {
+                window.alert(errorMessage);
+              };
             };
           };
         }).catch(error => {
           if (errorMode != 'silent')
           {
-            this.#dialog == null? window.alert(error): this.#dialog.alert(error);
+            if (this.dialog != null)
+            {
+              this.dialog.alert(error);
+            }
+            else if (this.toast != null)
+            {
+              this.toast.showError(error, null, false);
+            }
+            else
+            {
+              window.alert(error);
+            };
           };
         }).finally(() => {
           this.unlock();
@@ -306,33 +407,27 @@ export default class jtbcForm extends HTMLFormElement {
     switch(attr) {
       case 'mode':
       {
-        if (this.#modeList.includes(newVal))
-        {
-          this.#mode = newVal;
-        };
+        this.mode = newVal;
         break;
       };
       case 'method':
       {
-        if (this.#methodList.includes(newVal))
-        {
-          this.#method = newVal;
-        };
+        this.method = newVal;
         break;
       };
     };
   };
 
   connectedCallback() {
-    this.#ready = true;
+    this.ready = true;
   };
 
   constructor() {
     super();
-    this.#mode = this.#modeList[0];
-    this.#method = this.#methodList[0];
-    this.#dialog = document.getElementById('dialog');
-    this.#miniMessage = document.getElementById('miniMessage');
+    this.ready = false;
+    this.dialog = document.getElementById('dialog');
+    this.miniMessage = document.getElementById('miniMessage');
+    this.toast = document.getElementById('toast');
     this.#initEvents();
   };
 };

@@ -1,0 +1,36 @@
+:host {
+  display: inline-block; --size: 40px; --background-color: #f6f6f6; --background-selected-color: #3e868f; --tick-color: #fff; --border-color: #d1d1d1; --border-size: 1px; --z-index: 100
+}
+.container {
+  width: 100%; display: inline-block !important; position: relative; z-index: var(--z-index)
+}
+.container div.items {
+  width: calc(var(--size) * 3 + var(--border-size) * 4); box-sizing: border-box; border-top: var(--border-color) var(--border-size) solid; border-left: var(--border-color) var(--border-size) solid; display: grid; grid-template-columns: 1fr 1fr 1fr
+}
+.container div.items div.item {
+  width: var(--size); height: var(--size); background-color: var(--background-color); border-bottom: var(--border-color) var(--border-size) solid; border-right: var(--border-color) var(--border-size) solid; position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color .3s ease
+}
+.container div.items div.item::after {
+  content: '\2714'; color: var(--tick-color); font-size: calc(var(--size) / 3); transform: translate(-50%, -50%); opacity: 0; position: absolute; top: 50%; left: 50%; z-index: 100; transition: opacity .3s ease
+}
+.container div.items div.item.on {
+  background-color: var(--background-selected-color)
+}
+.container div.items div.item.on::after {
+  opacity: 1
+}
+.container div.items div.item.on slot {
+  display: none
+}
+.container div.items div.item.unavailable {
+  background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, #fff 25%, #fff 75%, #eee 75%, #eee 100%); background-size: calc(var(--size) / 4) calc(var(--size) / 4); background-position: 0px 0px, calc(var(--size) / 8) calc(var(--size) / 8); cursor: default
+}
+.container div.mask {
+  width: 100%; height: 100%; background: #dddddd; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: -100
+}
+.container.disabled div.items {
+  filter: grayscale(100%)
+}
+.container.disabled div.mask {
+  opacity: 0.3; z-index: 10000
+}

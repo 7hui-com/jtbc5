@@ -10,10 +10,6 @@ export default class jtbcChoiceSelector extends HTMLElement {
     return this.getAttribute('name');
   };
 
-  set value(value) {
-    this.setAttribute('value', value);
-  };
-
   get value() {
     if (this.#type == 'checkbox')
     {
@@ -32,6 +28,10 @@ export default class jtbcChoiceSelector extends HTMLElement {
       this.#value = checkedEl == null? '': checkedEl.value;
     };
     return this.#value;
+  };
+
+  set value(value) {
+    this.setAttribute('value', value);
   };
 
   update() {

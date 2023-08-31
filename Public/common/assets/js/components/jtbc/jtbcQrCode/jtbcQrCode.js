@@ -7,6 +7,8 @@ export default class jtbcQrCode extends HTMLElement {
   #size = null;
   #param = null;
   #rendered = false;
+  #basePath = null;
+  #libPath = null;
 
   get content() {
     return this.#content;
@@ -61,10 +63,10 @@ export default class jtbcQrCode extends HTMLElement {
       if (typeof kjua == 'undefined')
       {
         let parentNode = container.parentNode;
-        let kjuaScript = document.createElement('script');
-        kjuaScript.src = this.kjuaPath + 'kjua.min.js';
-        parentNode.insertBefore(kjuaScript, container);
-        kjuaScript.addEventListener('load', () => render());
+        let script = document.createElement('script');
+        script.src = this.#libPath + '/kjua.min.js';
+        parentNode.insertBefore(script, container);
+        script.addEventListener('load', () => render());
       }
       else
       {
@@ -107,7 +109,8 @@ export default class jtbcQrCode extends HTMLElement {
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     shadowRoot.innerHTML = `<style>:host { display: inline-block } div.container * { vertical-align: top }</style><div class="container"></div>`;
     this.ready = false;
-    this.kjuaPath = basePath + '../../../vendor/kjua/';
+    this.#basePath = basePath;
+    this.#libPath = basePath + '../../../vendor/kjua';
     this.container = shadowRoot.querySelector('div.container');
   };
 };

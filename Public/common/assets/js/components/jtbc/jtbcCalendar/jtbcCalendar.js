@@ -1,3 +1,6 @@
+import langHelper from '../../../library/lang/langHelper.js';
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcCalendar extends HTMLElement {
   static get observedAttributes() {
     return ['lang', 'min', 'max', 'value'];
@@ -20,7 +23,7 @@ export default class jtbcCalendar extends HTMLElement {
       let valueArr = [];
       let selectedDays = this.#selectedDays.split(',');
       selectedDays.forEach(date => {
-        if (this.#isDate(date))
+        if (validation.isDate(date))
         {
           valueArr.push(date);
         };
@@ -31,29 +34,12 @@ export default class jtbcCalendar extends HTMLElement {
   };
 
   set lang(lang) {
-    if (['0', 'zh-cn'].includes(lang))
-    {
-      this.#lang = 'zh-cn';
-      this.textReset();
-    }
-    else if (['1', 'en'].includes(lang))
-    {
-      this.#lang = 'en';
-      this.textReset();
-    }
-    else
-    {
-      throw new Error('Unexpected value');
-    };
+    this.#lang = langHelper.getStandardLang(lang);
+    this.textReset();
   };
 
   set value(value) {
     this.selectDays(value);
-  };
-
-  #isDate(value) {
-    let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
-    return dateRegExp.test(value)? true: false;
   };
 
   #getText() {

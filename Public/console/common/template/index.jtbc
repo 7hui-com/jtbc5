@@ -19,6 +19,8 @@
 {$=implode($call_hook('backstageEndOfHead') ?? [])}</head>
 <body>
 <container id="root" class="root"></container>
+<jtbc-toast id="toast"></jtbc-toast>
+<jtbc-drawer id="drawer"></jtbc-drawer>
 <jtbc-mini-message id="miniMessage"></jtbc-mini-message>
 <jtbc-dialog id="dialog" text-ok="{$=$take('communal.confirm', 'lng')}" text-cancel="{$=$take('communal.cancel', 'lng')}" plugin_css="{$>this.genre}/common/assets/dialog.css"></jtbc-dialog>
 <jtbc-dialog id="previewer" text-ok="{$=$take('communal.confirm', 'lng')}" text-cancel="{$=$take('communal.cancel', 'lng')}" plugin_css="{$>this.genre}/common/assets/dialog.css"></jtbc-dialog>

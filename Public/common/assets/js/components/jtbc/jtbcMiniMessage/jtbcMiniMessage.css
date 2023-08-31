@@ -7,15 +7,15 @@
 container {
   display: block !important; width: 100%; height: 100%; opacity: 0; position: relative; z-index: 100
 }
-container.on {
-  opacity: 1
-}
-.message {
+container span.message {
   display: block; padding: 10px 20px; font-size: var(--message-font-size); line-height: var(--message-line-height); background: var(--message-background); border-radius: var(--message-border-radius); color: var(--message-color); opacity: 0; transform: translate(-50%, -50%) scale(.4); position: absolute; top: 50%; left: 50%; z-index: 100
 }
-.message.on {
+container span.message.on {
   transform: translate(-50%, -50%) scale(1); opacity: 1; transition: all .3s ease
 }
-.message.out {
+container span.message.out {
   transform: translate(-50%, -50%) scale(1.1); opacity: 0
+}
+container.on {
+  opacity: 1
 }

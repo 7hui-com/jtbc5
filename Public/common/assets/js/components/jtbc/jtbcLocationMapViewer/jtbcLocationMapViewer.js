@@ -43,10 +43,10 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     return this.#constantApiKey;
   };
 
-  set type(value) {
-    if (this.#allowedTypes.includes(value))
+  set type(type) {
+    if (this.#allowedTypes.includes(type))
     {
-      this.#type = value;
+      this.#type = type;
     }
     else
     {
@@ -54,95 +54,12 @@ export default class jtbcLocationMapViewer extends HTMLElement {
     };
   };
 
-  set location(value) {
-    this.#location = value;
+  set location(location) {
+    this.#location = location;
   };
 
-  set information(value) {
-    this.#information = value;
-  };
-
-  addPoint(longitude, latitude, information = null, pointIndex = null) {
-    let result = null;
-    let map = this.#map;
-    let mapInstance = this.#mapInstance;
-    let mapContainer = this.#mapContainer;
-    if (this.type == 'tianditu')
-    {
-      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
-      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LngLat(longitude, latitude);
-      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon({'iconUrl': this.#icon, 'iconSize': new map.Point(30, 30), 'iconAnchor': new map.Point(15, 30)});
-      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker(currentPoint, {'icon': currentIcon});
-      if (information != null)
-      {
-        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow(information, {'offset': new map.Point(0, -40)});
-        currentInfoWindow.setLngLat(currentPoint);
-        currentMarker.addEventListener('click', function(){ mapInstance.openInfoWindow(currentInfoWindow); });
-      };
-      mapInstance.addOverLay(currentMarker);
-    }
-    else if (this.type == 'baidu')
-    {
-      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
-      let currentPoint = this.#points['point-' + currentPointIndex] = new map.Point(longitude, latitude);
-      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon(this.#icon, new map.Size(30, 30));
-      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker(currentPoint, {'icon': currentIcon});
-      if (information != null)
-      {
-        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow(information);
-        currentMarker.addEventListener('click', function(){ mapInstance.openInfoWindow(currentInfoWindow, currentPoint); });
-      };
-      mapInstance.addOverlay(currentMarker);
-    }
-    else if (this.type == 'amap')
-    {
-      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
-      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LngLat(longitude, latitude);
-      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon({'image': this.#icon, 'size': new map.Size(206, 206), 'imageSize': new map.Size(30, 30)});
-      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker({'map': mapInstance, 'position': currentPoint, 'icon': currentIcon, 'offset': new map.Pixel(-15, -30)});
-      if (information != null)
-      {
-        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow({'content': information, 'offset': new map.Pixel(0, -40)});
-        currentMarker.on('click', function(){ currentInfoWindow.open(mapInstance, currentMarker.getPosition()); });
-      };
-      mapInstance.add(currentMarker);
-    }
-    else if (this.type == 'qq')
-    {
-      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
-      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LatLng(latitude, longitude);
-      let currentCustomEvent = new CustomEvent('addMarker', {detail: {'mapInstance': mapInstance, 'icon': this.#icon, 'point': currentPoint}});
-      mapContainer.dispatchEvent(currentCustomEvent);
-      let currentMarker = this.#points['marker-' + currentPointIndex] = currentCustomEvent.detail.result;
-      if (information != null)
-      {
-        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow({'map': mapInstance, 'position': currentPoint, 'content': information, 'offset': { x: 0, y: -40 }}).close();
-        currentMarker.on('click', function(){ currentInfoWindow.open(); });
-      };
-    };
-    return result;
-  };
-
-  focusPoint(pointIndex) {
-    let points = this.#points;
-    let mapInstance = this.#mapInstance;
-    if (points.hasOwnProperty('point-' + pointIndex))
-    {
-      let point = points['point-' + pointIndex];
-      if (this.type == 'tianditu')
-      {
-        mapInstance.panTo(point);
-      }
-      else
-      {
-        mapInstance.setCenter(point);
-      };
-    };
-  };
-
-  getNextPointIndex() {
-    this.#pointIndex += 1;
-    return this.#pointIndex;
+  set information(information) {
+    this.#information = information;
   };
 
   #builded() {
@@ -302,6 +219,89 @@ export default class jtbcLocationMapViewer extends HTMLElement {
         break;
       };
     };
+  };
+
+  addPoint(longitude, latitude, information = null, pointIndex = null) {
+    let result = null;
+    let map = this.#map;
+    let mapInstance = this.#mapInstance;
+    let mapContainer = this.#mapContainer;
+    if (this.type == 'tianditu')
+    {
+      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
+      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LngLat(longitude, latitude);
+      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon({'iconUrl': this.#icon, 'iconSize': new map.Point(30, 30), 'iconAnchor': new map.Point(15, 30)});
+      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker(currentPoint, {'icon': currentIcon});
+      if (information != null)
+      {
+        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow(information, {'offset': new map.Point(0, -40)});
+        currentInfoWindow.setLngLat(currentPoint);
+        currentMarker.addEventListener('click', function(){ mapInstance.openInfoWindow(currentInfoWindow); });
+      };
+      mapInstance.addOverLay(currentMarker);
+    }
+    else if (this.type == 'baidu')
+    {
+      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
+      let currentPoint = this.#points['point-' + currentPointIndex] = new map.Point(longitude, latitude);
+      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon(this.#icon, new map.Size(30, 30));
+      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker(currentPoint, {'icon': currentIcon});
+      if (information != null)
+      {
+        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow(information);
+        currentMarker.addEventListener('click', function(){ mapInstance.openInfoWindow(currentInfoWindow, currentPoint); });
+      };
+      mapInstance.addOverlay(currentMarker);
+    }
+    else if (this.type == 'amap')
+    {
+      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
+      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LngLat(longitude, latitude);
+      let currentIcon = this.#points['icon-' + currentPointIndex] = new map.Icon({'image': this.#icon, 'size': new map.Size(206, 206), 'imageSize': new map.Size(30, 30)});
+      let currentMarker = this.#points['marker-' + currentPointIndex] = new map.Marker({'map': mapInstance, 'position': currentPoint, 'icon': currentIcon, 'offset': new map.Pixel(-15, -30)});
+      if (information != null)
+      {
+        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow({'content': information, 'offset': new map.Pixel(0, -40)});
+        currentMarker.on('click', function(){ currentInfoWindow.open(mapInstance, currentMarker.getPosition()); });
+      };
+      mapInstance.add(currentMarker);
+    }
+    else if (this.type == 'qq')
+    {
+      let currentPointIndex = result = pointIndex ?? this.getNextPointIndex();
+      let currentPoint = this.#points['point-' + currentPointIndex] = new map.LatLng(latitude, longitude);
+      let currentCustomEvent = new CustomEvent('addMarker', {detail: {'mapInstance': mapInstance, 'icon': this.#icon, 'point': currentPoint}});
+      mapContainer.dispatchEvent(currentCustomEvent);
+      let currentMarker = this.#points['marker-' + currentPointIndex] = currentCustomEvent.detail.result;
+      if (information != null)
+      {
+        let currentInfoWindow = this.#points['infoWindow-' + currentPointIndex] = new map.InfoWindow({'map': mapInstance, 'position': currentPoint, 'content': information, 'offset': { x: 0, y: -40 }}).close();
+        currentMarker.on('click', function(){ currentInfoWindow.open(); });
+      };
+    };
+    return result;
+  };
+
+  focusPoint(pointIndex) {
+    let points = this.#points;
+    let mapInstance = this.#mapInstance;
+    if (points.hasOwnProperty('point-' + pointIndex))
+    {
+      let point = points['point-' + pointIndex];
+      if (this.type == 'tianditu')
+      {
+        mapInstance.panTo(point);
+      }
+      else
+      {
+        mapInstance.setCenter(point);
+      };
+    };
+  };
+
+  getNextPointIndex() {
+    this.#pointIndex += 1;
+    return this.#pointIndex;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

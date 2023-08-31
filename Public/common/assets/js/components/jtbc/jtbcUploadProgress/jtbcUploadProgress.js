@@ -5,13 +5,19 @@ export default class jtbcUploadProgress extends HTMLElement {
     return ['action'];
   };
 
+  #initEvents() {
+    let container = this.container;
+    container.delegateEventListener('item.error', 'dblclick', function(){ this.classList.add('out'); });
+    container.delegateEventListener('item', 'transitionend', function(){ if (this.classList.contains('out')) this.remove(); });
+  };
+
   formatFileSize(filesize) {
     let result = filesize + 'B';
     if (filesize > 0)
     {
       let index = Math.floor(Math.log(filesize) / Math.log(1024));
       let sizename = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-      result = Math.round(filesize / Math.pow(1024, index), 2).toString() + sizename[index];
+      result = (Math.round(filesize / Math.pow(1024, index) * 100) / 100).toString() + sizename[index];
     };
     return result;
   };
@@ -114,7 +120,6 @@ export default class jtbcUploadProgress extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('div.container');
-    this.container.delegateEventListener('item.error', 'dblclick', function(){ this.classList.add('out'); });
-    this.container.delegateEventListener('item', 'transitionend', function(){ if (this.classList.contains('out')) this.remove(); });
+    this.#initEvents();
   };
 };

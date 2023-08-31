@@ -1,50 +1,70 @@
+import langHelper from '../../../library/lang/langHelper.js';
+import validation from '../../../library/validation/validation.js';
+
 export default class jtbcFieldDate extends HTMLElement {
   static get observedAttributes() {
     return ['lang', 'min', 'max', 'value', 'disabled', 'width', 'placeholder'];
   };
 
   #closePickerTimeout;
-  #lang;
+  #lang = 'zh-cn';
   #minDate = null;
   #maxDate = null;
+  #disabled = false;
+  #value = '';
 
   get name() {
     return this.getAttribute('name');
   };
 
+  get lang() {
+    return this.#lang;
+  };
+
   get value() {
-    return this.currentValue;
+    return this.#value;
   };
 
   get disabled() {
-    return this.currentDisabled;
+    return this.#disabled;
+  };
+
+  set lang(lang) {
+    let container = this.container;
+    let calendar = container.querySelector('.calendar');
+    this.#lang = langHelper.getStandardLang(lang);
+    calendar.setAttribute('lang', this.#lang);
   };
 
   set value(value) {
     let container = this.container;
-    let currentDate = new Date(value);
-    value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
-    value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
-    container.querySelector('input.date').value = this.currentValue = value;
-    container.querySelector('.calendar').setAttribute('value', this.currentValue);
-    this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-  };
-
-  set disabled(disabled) {
-    if (disabled == true)
+    if (value.length == 0)
     {
-      this.container.classList.add('disabled');
+      container.querySelector('input.date').value = this.#value = '';
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+    }
+    else if (validation.isDate(value))
+    {
+      let currentDate = new Date(value);
+      value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
+      value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
+      container.querySelector('input.date').value = this.#value = value;
+      container.querySelector('.calendar').setAttribute('value', this.#value);
+      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
     }
     else
     {
-      this.container.classList.remove('disabled');
+      throw new Error('Unexpected value');
     };
-    this.currentDisabled = disabled;
+  };
+
+  set disabled(disabled) {
+    this.#disabled = disabled;
+    this.container.classList.toggle('disabled', disabled);
   };
 
   #setZIndex() {
-    window.jtbcActiveZIndex = (window.jtbcActiveZIndex ?? 7777777) + 1;
-    this.style.setProperty('--z-index', window.jtbcActiveZIndex);
+    this.style.setProperty('--z-index', window.getActiveZIndex());
   };
 
   #unsetZIndex() {
@@ -59,19 +79,16 @@ export default class jtbcFieldDate extends HTMLElement {
     let datepicker = container.querySelector('div.datepicker');
     date.addEventListener('blur', function(){
       let value = this.value;
-      let date = new Date(value);
-      let dateRegExp = /^(\d{4})\-(\d{2})\-(\d{2})$/;
-      let isDate = date instanceof Date && !isNaN(date.getTime()) && dateRegExp.test(value);
-      if (isDate != true)
+      if (validation.isDate(value))
       {
         if (value.trim() == '')
         {
-          that.currentValue = '';
+          that.#value = '';
           that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
         }
         else
         {
-          this.value = that.currentValue;
+          this.value = that.#value;
         };
       }
       else
@@ -148,8 +165,7 @@ export default class jtbcFieldDate extends HTMLElement {
     switch(attr) {
       case 'lang':
       {
-        this.#lang = newVal;
-        calendar.setAttribute('lang', this.#lang);
+        this.lang = newVal;
         break;
       };
       case 'min':
@@ -198,12 +214,10 @@ export default class jtbcFieldDate extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><input type="text" name="date" class="date" /><span class="box"></span><span class="btn"><jtbc-svg name="calendar"></jtbc-svg></span><div class="datepicker"><jtbc-calendar class="calendar"></jtbc-calendar></div><div class="mask"></div></div>
+      <div class="container" style="display:none"><input type="text" name="date" class="date" /><span class="box"></span><span class="btn"><jtbc-svg name="calendar"></jtbc-svg></span><div class="datepicker"><jtbc-calendar class="calendar" lang="zh-cn"></jtbc-calendar></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.currentValue = '';
-    this.currentDisabled = false;
     this.container = shadowRoot.querySelector('div.container');
     this.container.loadComponents().then(() => { this.#initEvents(); });
   };

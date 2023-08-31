@@ -2,6 +2,7 @@ export default class manage {
   initSelector() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
       let selectGenre = popup.querySelector('select[name=genre]');
@@ -94,31 +95,30 @@ export default class manage {
           });
         };
       });
-      this.inited = true;
     };
   };
 
   initAdd() {
     if (this.inited != true)
     {
+      this.inited = true;
       let popup = this.self.parentNode.querySelector('.dialogPopup');
       popup.delegateEventListener('button.submit', 'click', () => {
         let form = popup.querySelector('form');
         form.setAttribute('href', form.getAttribute('basehref') + encodeURIComponent(form.querySelector('input[name=node]').value));
       });
-      this.inited = true;
     };
   };
 
   initList() {
     if (this.inited != true)
     {
+      this.inited = true;
       let that = this;
       let scarf = this.self.parentNode.querySelector('.scarf');
       scarf.delegateEventListener('select[name=node]', 'change', function(){
         that.main.href = this.parentNode.getAttribute('url') + encodeURIComponent(this.value);
       });
-      this.inited = true;
     };
   };
 

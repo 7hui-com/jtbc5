@@ -20,7 +20,7 @@ export default class jtbcTimeline extends HTMLElement {
     return this.#index;
   };
 
-  #initEvent() {
+  #initEvents() {
     this.mutationObserver = new MutationObserver(mutations => {
       mutations.forEach(mutation => mutation.target.render());
     });
@@ -92,6 +92,6 @@ export default class jtbcTimeline extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvent();
+    this.#initEvents();
   };
 };
