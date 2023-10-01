@@ -31,6 +31,6 @@ class Diplomat extends Ambassador {
 
   public function index(Request $req, Response $res)
   {
-    return $this -> list($req, $res);
+    return Jtbc::take('index.index') ?? $this -> list($req, $res);
   }
 }

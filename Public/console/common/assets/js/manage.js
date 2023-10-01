@@ -5,7 +5,7 @@ export default class manage {
       this.inited = true;
       let login = this.root.querySelector('.login');
       let firstStepFrom = login.querySelector('form[step=first]');
-      login.querySelectorAll('div.field input[role=field]').forEach(el => {
+      login.querySelectorAll('div.field *[role=field]').forEach(el => {
         el.addEventListener('focus', e => {
           e.target.parentElement.classList.add('on');
         });
@@ -25,6 +25,10 @@ export default class manage {
             else
             {
               login.querySelector('.message').innerText = data.message;
+              if (data.code == 4414)
+              {
+                login.querySelector('*[name=captcha]')?.loadCaptcha();
+              };
               if (data.hasOwnProperty('nextstep'))
               {
                 firstStepFrom.parentElement.html(data.nextstep);

@@ -8,7 +8,7 @@
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-background)
 }
 .container div.bottom div.box {
-  display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding)
+  display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--footer-page-inner-padding))
 }
 .container div.bottom div.box div.section {
   display: block; width: 25%; box-sizing: border-box; padding: 0px calc(var(--footer-gap) / 2)

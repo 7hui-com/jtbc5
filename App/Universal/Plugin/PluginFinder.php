@@ -108,9 +108,12 @@ class PluginFinder
       foreach ($plugins as $plugin)
       {
         $pluginGroup = Jtbc::take('global.' . $this -> folderName . '/' . $plugin . ':plugin.group', 'cfg');
-        if (trim(strtolower($pluginGroup)) == trim(strtolower($groupName)))
+        if (is_string($pluginGroup))
         {
-          $result[] = $plugin;
+          if (trim(strtolower($pluginGroup)) == trim(strtolower($groupName)))
+          {
+            $result[] = $plugin;
+          }
         }
       }
     }

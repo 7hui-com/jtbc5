@@ -110,25 +110,42 @@ class Category
     return $result;
   }
 
-  public function getList()
+  public function getList(array $argFilters = [])
   {
-    $result = null;
+    $result = [];
+    $filters = $argFilters;
+    $tempResult = [];
     $cacheName = $this -> cacheName;
     if ($this -> cacheTimeout == 0)
     {
-      $result = $this -> getDBList();
+      $tempResult = $this -> getDBList();
     }
     else
     {
       $cacheResult = $this -> cache -> get($cacheName);
       if (is_array($cacheResult))
       {
-        $result = $cacheResult;
+        $tempResult = $cacheResult;
       }
       else
       {
-        $result = $this -> getDBList();
-        $this -> cache -> put($cacheName, $result, time() + $this -> cacheTimeout);
+        $tempResult = $this -> getDBList();
+        $this -> cache -> put($cacheName, $tempResult, time() + $this -> cacheTimeout);
+      }
+    }
+    if (empty($filters))
+    {
+      $result = $tempResult;
+    }
+    else
+    {
+      foreach ($tempResult as $item)
+      {
+        $currentId = intval($item['id']);
+        if (in_array($currentId, $filters))
+        {
+          $result[] = $item;
+        }
       }
     }
     return $result;

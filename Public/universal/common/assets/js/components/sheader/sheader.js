@@ -61,7 +61,7 @@ export default class sheader extends HTMLElement {
   };
 
   render() {
-    let menuAnchors = [];
+    let menuItems = [];
     let container = this.container;
     let logo = container.querySelector('logo').empty();
     let mainmenu = container.querySelector('mainmenu').empty();
@@ -89,29 +89,31 @@ export default class sheader extends HTMLElement {
     };
     if (xMenu != null)
     {
-      xMenu.querySelectorAll('href').forEach(href => {
-        let menuAnchor = document.createElement('a');
-        menuAnchor.innerText = href.getAttribute('title');
-        menuAnchor.setAttribute('href', href.getAttribute('url'));
+      const createHref = source => {
+        let anchor = document.createElement('a');
+        anchor.innerText = source.getAttribute('title');
+        anchor.setAttribute('part', 'anchor');
+        anchor.setAttribute('href', source.getAttribute('url'));
         ['name', 'target'].forEach(attr => {
-          if (href.hasAttribute(attr))
+          if (source.hasAttribute(attr))
           {
-            menuAnchor.setAttribute(attr, href.getAttribute(attr));
+            anchor.setAttribute(attr, source.getAttribute(attr));
           };
         });
-        menuAnchors.push(menuAnchor);
-      });
+        return anchor;
+      };
+      xMenu.getDirectChildrenByTagName('href').forEach(el => menuItems.push(createHref(el)));
     };
-    if (menuAnchors.length != 0)
+    if (menuItems.length != 0)
     {
       let ul = document.createElement('ul');
-      menuAnchors.forEach(anchor => {
+      menuItems.forEach(item => {
         let li = document.createElement('li');
-        if (anchor.hasAttribute('name'))
+        if (item.hasAttribute('name'))
         {
-          li.setAttribute('name', anchor.getAttribute('name'));
+          li.setAttribute('name', item.getAttribute('name'));
         };
-        li.append(anchor);
+        li.append(item);
         ul.append(li);
       });
       mainmenu.append(ul);

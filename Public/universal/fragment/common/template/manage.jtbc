@@ -132,7 +132,7 @@
             </item>
             <item elseif="${$data.mode == 4}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-editor name="value_4" role="field" value="${$data.mode == 4? $data.value: ''}"></jtbc-field-editor></div>
+              <div class="content"><jtbc-field-editor name="value" role="field" value="${$data.mode == 4? $data.value: ''}"></jtbc-field-editor></div>
             </item>
             <item elseif="${$data.mode == 5}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>

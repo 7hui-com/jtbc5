@@ -75,7 +75,7 @@ class CaptchaCreator
     $currentFont = $this -> fonts[mt_rand(0, count($this -> fonts) - 1)];
     for ($i = 0; $i < $this -> codeLength; $i ++)
     {
-      imagettftext($codeImg, $this -> fontsize, mt_rand(-20, 20), $this -> imgWidth * 0.05 + $startX * $i + mt_rand(1, 4), $this -> imgHeight / 1.4, $codeFontColor, $currentFont, $codeArr[$i]);
+      imagettftext($codeImg, $this -> fontsize, mt_rand(-20, 20), round($this -> imgWidth * 0.05 + $startX * $i + mt_rand(1, 4)), round($this -> imgHeight / 1.4), $codeFontColor, $currentFont, $codeArr[$i]);
     }
     for ($x = 0; $x < $this -> imgWidth; $x ++)
     {

@@ -104,6 +104,7 @@ export default class xheader extends HTMLElement {
       const createHref = source => {
         let anchor = document.createElement('a');
         anchor.innerText = source.getAttribute('title');
+        anchor.setAttribute('part', 'anchor');
         anchor.setAttribute('href', source.getAttribute('url'));
         ['name', 'target'].forEach(attr => {
           if (source.hasAttribute(attr))

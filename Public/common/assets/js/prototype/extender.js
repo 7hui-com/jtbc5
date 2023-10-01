@@ -1,4 +1,5 @@
 import components from '../components/components.js';
+import broadcaster from '../library/broadcaster/broadcaster.js';
 
 export default class extender {
   #activeZIndex = 7777777;
@@ -7,6 +8,9 @@ export default class extender {
     let that = this;
     Window.prototype.getActiveZIndex = function() {
       return that.#activeZIndex ++;
+    };
+    Window.prototype.getBroadcaster = function(channel = null) {
+      return that.broadcaster.switch(channel);
     };
     Element.prototype.appendFragment = async function (fragment, preloadComponents = true) {
       if (fragment instanceof DocumentFragment)
@@ -238,6 +242,7 @@ export default class extender {
   };
 
   constructor(ver) {
+    this.broadcaster = new broadcaster();
     this.components = new components(ver);
   };
 };

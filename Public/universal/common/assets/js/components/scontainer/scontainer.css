@@ -1,0 +1,55 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-gap: 20px; --container-z-index: 100; --container-headline-height: calc(100vh / 4); --container-headline-min-height: 120px; --container-headline-max-height: 360px; --container-headline-mask-background: rgba(0, 0, 0, 0.3); --container-headline-title-font-size: 24px; --container-headline-title-color: #fff; --container-headline-title-line-height: 160%; --container-headline-title-letter-spacing: 0px; --container-headline-title-font-weight: normal; --container-headline-subtitle-font-size: 14px; --container-headline-subtitle-color: rgba(255, 255, 255, 0.7); --container-headline-subtitle-line-height: 160%; --container-headline-subtitle-letter-spacing: 0px; --container-headline-subtitle-font-weight: normal; --container-navigation-background: #f8f8f8; --container-navigation-border-top: 0px; --container-navigation-border-bottom: #eee 1px solid; --container-flex-direction: row; --container-sidebar-width: 25%
+}
+container {
+  display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); position: relative; z-index: var(--container-z-index)
+}
+container div.headline {
+  display: block; box-sizing: border-box; width: 100%; height: var(--container-headline-height); min-height: var(--container-headline-min-height); max-height: var(--container-headline-max-height); padding: var(--page-outer-padding, var(--container-page-outer-padding)); background: none center center no-repeat; background-size: cover; position: relative; z-index: 120
+}
+container div.headline::after {
+  content: ''; display: block; width: 100%; height: 100%; background: var(--container-headline-mask-background); position: absolute; top: 0px; left: 0px; z-index: 50
+}
+container div.headline div.box {
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: center; justify-content: center; position: relative; z-index: 100
+}
+container div.headline div.box div.text span.title {
+  display: block; font-size: var(--container-headline-title-font-size); color: var(--container-headline-title-color); line-height: var(--container-headline-title-line-height); letter-spacing: var(--container-headline-title-letter-spacing); font-weight: var(--container-headline-title-font-weight)
+}
+container div.headline div.box div.text span.subtitle {
+  display: block; font-size: var(--container-headline-subtitle-font-size); color: var(--container-headline-subtitle-color); line-height: var(--container-headline-subtitle-line-height); letter-spacing: var(--container-headline-subtitle-letter-spacing); font-weight: var(--container-headline-subtitle-font-weight)
+}
+container div.navigation {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding)); background: var(--container-navigation-background); border-top: var(--container-navigation-border-top); border-bottom: var(--container-navigation-border-bottom)
+}
+container div.navigation div.box {
+  width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding))
+}
+container div.container {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
+}
+container div.container div.box {
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; gap: var(--container-gap); flex-direction: var(--container-flex-direction)
+}
+container div.container div.box div.sidebar {
+  width: var(--container-sidebar-width)
+}
+container div.container div.box div.sidebar.hide {
+  display: none !important
+}
+container div.container div.box div.main {
+  flex: 1
+}
+container div.headline.hide,
+container div.navigation.hide,
+container div.container.hide {
+  display: none !important
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --container-gap: 15px; --container-sidebar-width: 100%
+  }
+  container div.container div.box div.main {
+    display: block; width: 100%
+  }
+}

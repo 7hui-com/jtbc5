@@ -115,7 +115,6 @@ export default class sfooter extends HTMLElement {
             <div class="section section-2" index="2"><div class="content"><slot class="content" name="copyright-right"></slot></div></div>
           </div>
         </div>
-        </div>
       </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;

@@ -1,0 +1,48 @@
+:host {
+  width: 100%; display: block; --z-index: 50; --container-padding: 10px 0px; --line-top: 18px; --line-height: 2px; --line-background: #f0f0f0; --number-size: 30px; --number-background: #f0f0f0; --number-background-on: #3e868f; --number-font-size: 12px; --number-color: #333; --number-color-on: #fff; --number-border: #fff 4px solid; --number-border-radius: 100%; --title-padding-top: 10px; --title-font-size: 14px; --title-font-weight: normal; --title-font-weight-on: bold; --title-color: #999; --title-color-on: #3e868f; --subtitle-font-size: 12px; --subtitle-font-weight: normal; --subtitle-font-weight-on: normal; --subtitle-color: #999; --subtitle-color-on: #333
+}
+container {
+  width: 100%; display: flex !important; align-items: flex-start; padding: var(--container-padding)
+}
+container div.step {
+  flex: 1; position: relative; z-index: var(--z-index)
+}
+container div.step div.number {
+  width: var(--number-size); height: var(--number-size); margin: auto; display: flex; align-items: center; justify-content: center; background: var(--number-background); border: var(--number-border); border-radius: var(--number-border-radius); font-size: var(--number-font-size); color: var(--number-color); position: relative; z-index: 100
+}
+container div.step div.title {
+  padding-top: var(--title-padding-top); line-height: 160%; font-size: var(--title-font-size); font-weight: var(--title-font-weight); color: var(--title-color); text-align: center
+}
+container div.step div.subtitle {
+  line-height: 160%; font-size: var(--subtitle-font-size); font-weight: var(--subtitle-font-weight); color: var(--subtitle-color); text-align: center
+}
+container div.step::before {
+  content: ''; width: 100%; height: var(--line-height); background: var(--line-background); position: absolute; top: var(--line-top); z-index: 10
+}
+container div.step:first-of-type::before {
+  width: 50%; right: 0px
+}
+container div.step:last-of-type::before {
+  width: 50%; left: 0px
+}
+container div.step.on div.number {
+  background: var(--number-background-on); color: var(--number-color-on)
+}
+container div.step.on div.title {
+  font-weight: var(--title-font-weight-on); color: var(--title-color-on)
+}
+container div.step.on div.subtitle {
+  font-weight: var(--subtitle-font-weight-on); color: var(--subtitle-color-on)
+}
+container[clickable=all] div.step div.number {
+  cursor: pointer
+}
+container[clickable=finished] div.step.on div.number {
+  cursor: pointer
+}
+container[clickable=unfinished] div.step div.number {
+  cursor: pointer
+}
+container[clickable=unfinished] div.step.on div.number {
+  cursor: default
+}

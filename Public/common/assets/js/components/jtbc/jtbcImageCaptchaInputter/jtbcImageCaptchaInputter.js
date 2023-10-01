@@ -1,3 +1,5 @@
+import formElementFinder from '../../../library/field/formElementFinder.js';
+
 export default class jtbcImageCaptchaInputter extends HTMLElement {
   static get observedAttributes() {
     return ['api', 'value', 'placeholder', 'disabled', 'width'];
@@ -43,6 +45,12 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
       that.loadCaptcha();
     });
     container.querySelectorAll('input.value').forEach(input => {
+      input.addEventListener('keydown', function(e){
+        if (e.keyCode == 13)
+        {
+          formElementFinder.requestSubmit(that);
+        };
+      });
       input.addEventListener('focus', function(){ container.classList.add('focus'); });
       input.addEventListener('blur', function(){ container.classList.remove('focus'); });
     });

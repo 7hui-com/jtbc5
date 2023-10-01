@@ -39,8 +39,15 @@ class Codename
               if (str_contains($firstFile, $keyPath))
               {
                 $firstGenre = StringHelper::getClipedString(StringHelper::getClipedString($firstFile, $keyPath, 'left+'), $rootPath, 'right+');
-                if (Validation::isEmpty($firstGenre)) $result = 'global.' . StringHelper::getClipedString($codename, '*', 'right');
-                else $result = 'global.' . $firstGenre . ':' . StringHelper::getClipedString($codename, '*', 'right');
+                if (Validation::isEmpty($firstGenre))
+                {
+                  $result = 'global.' . StringHelper::getClipedString($codename, '*', 'right');
+                }
+                else
+                {
+                  $firstGenre = str_replace(DIRECTORY_SEPARATOR, '/', $firstGenre);
+                  $result = 'global.' . $firstGenre . ':' . StringHelper::getClipedString($codename, '*', 'right');
+                }
               }
             }
           }

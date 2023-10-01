@@ -22,6 +22,7 @@ use Jtbc\Security\CSRFToken;
 use Jtbc\String\StringHelper;
 use Jtbc\Template\TinyRenderer;
 use Jtbc\Exception\NotCallableException;
+use Jtbc\Exception\SyntaxException;
 
 class JtbcParser
 {
@@ -32,6 +33,80 @@ class JtbcParser
   private static $EODString = [];
   private static $EOFString = [];
   private static $EOTString = [];
+
+  private static function conditionCheckUp($argString, $argEnvParamPrefix = '')
+  {
+    $result = $argString;
+    $envParamPrefix = $argEnvParamPrefix;
+    if (str_contains($result, '{%endif%}'))
+    {
+      $pregMatch = [];
+      preg_match_all('/{%if \(((?s).+){%endif%}/U', $result, $pregMatch, PREG_SET_ORDER);
+      if (!empty($pregMatch))
+      {
+        $getEligibleTemplate = function(array $conditions, string $envParamPrefix)
+        {
+          $result = '';
+          foreach ($conditions as $condition)
+          {
+            $pattern = $condition['pattern'];
+            $template = $condition['template'];
+            if ($pattern === true)
+            {
+              $result = $template;
+              break;
+            }
+            else if (self::execute($pattern, $envParamPrefix))
+            {
+              $result = $template;
+              break;
+            }
+          }
+          return $result;
+        };
+        foreach ($pregMatch as $item)
+        {
+          $tail = null;
+          $conditions = [];
+          $key = $item[0];
+          $content = $item[1];
+          if (str_contains($content, '{%else%}'))
+          {
+            if (substr_count($content, '{%else%}') === 1)
+            {
+              list($content, $tail) = explode('{%else%}', $content);
+              if (str_contains($tail, '{%elseif ('))
+              {
+                throw new SyntaxException('Invalid syntax', 50417);
+              }
+            }
+            else
+            {
+              throw new SyntaxException('Invalid syntax', 50417);
+            }
+          }
+          $contentArr = explode('{%elseif (', $content);
+          foreach ($contentArr as $part)
+          {
+            if (str_contains($part, ')%}'))
+            {
+              $conditions[] = ['pattern' => StringHelper::getClippedString($part, ')%}', 'left'), 'template' => StringHelper::getClippedString($part, ')%}', 'right+')];
+            }
+            else
+            {
+              throw new SyntaxException('Invalid syntax', 50417);
+            }
+          }
+          if (is_string($tail))
+          {
+            $conditions[] = ['pattern' => true, 'template' => $tail];
+          }
+          $result = str_replace($key, $getEligibleTemplate($conditions, $envParamPrefix), $result);
+        }
+      }
+    }
+    return $result;
+  }
 
   private static function execute($argString, $argEnvParamPrefix = '')
   {
@@ -336,6 +411,7 @@ class JtbcParser
     if (!Validation::isEmpty($tmpstr))
     {
       $firstMatchResult = [];
+      $tmpstr = self::conditionCheckUp($tmpstr, $envParamPrefix);
       $tempArr = explode('{$=', $tmpstr);
       foreach ($tempArr as $key => $value)
       {

@@ -16,6 +16,7 @@ class Diplomat extends Ambassador {
     $this -> addParam('meta_title', Jtbc::take('index.title', 'lng'));
     $this -> breadcrumbBuilder = new BreadcrumbBuilder($this -> getParam('genre'));
     $this -> category = new Category($this -> getParam('genre'), $this -> getParam('lang'), 1);
+    $this -> setParam('category', $this -> category);
   }
 
   public function list(Request $req, Response $res)
@@ -52,6 +53,7 @@ class Diplomat extends Ambassador {
     $model -> orderBy('time', 'desc');
     $data = $model -> getPage('*');
     $variables = [
+      'category' => $category,
       'pagenum' => $model -> pagination -> pageNum,
       'pagecount' => $model -> pagination -> pageCount,
     ];
@@ -74,10 +76,11 @@ class Diplomat extends Ambassador {
     {
       $rsTitle = strval($rs -> title);
       $rsCategory = intval($rs -> category);
+      $variables = ['category' => $rsCategory];
       $this -> addParam('meta_title', $rsTitle);
       $this -> breadcrumbBuilder -> batchAdd(Navigation::getBreadcrumb($this -> category, $rsCategory, '?type=list&category=#category#'));
       $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
-      $renderer = new Renderer('index.detail');
+      $renderer = new Renderer('index.detail', $variables);
       $result = $renderer -> render([$rs -> all()]);
     }
     else
@@ -89,6 +92,6 @@ class Diplomat extends Ambassador {
 
   public function index(Request $req, Response $res)
   {
-    return $this -> list($req, $res);
+    return Jtbc::take('index.index') ?? $this -> list($req, $res);
   }
 }

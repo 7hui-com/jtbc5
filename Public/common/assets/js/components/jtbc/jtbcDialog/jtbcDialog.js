@@ -1,6 +1,26 @@
 export default class jtbcDialog extends HTMLElement {
   static get observedAttributes() {
-    return ['text-ok', 'text-cancel'];
+    return ['popup-movable', 'text-ok', 'text-cancel'];
+  };
+
+  #popupMovable = true;
+
+  get popupMovable() {
+    return this.#popupMovable;
+  };
+
+  set popupMovable(popupMovable) {
+    let target = this.container.querySelector('.popup');
+    if (popupMovable === 'false')
+    {
+      this.#popupMovable = false;
+      target.classList.remove('movable');
+    }
+    else
+    {
+      this.#popupMovable = true;
+      target.classList.add('movable');
+    };
   };
 
   set href(href) {
@@ -54,6 +74,30 @@ export default class jtbcDialog extends HTMLElement {
       document.documentElement.style.overflow = null;
       container.querySelector('.dialog_fullpage').classList.remove('on');
     });
+    container.delegateEventListener('.dialog.popup.movable div.title', 'mousedown', function(e){
+      e.preventDefault();
+      let el = this;
+      let target = container.querySelector('.popup');
+      const move = function(e) {
+        let targetX = (el.translateX ?? 0) + e.screenX - el.startPosition.x;
+        let targetY = (el.translateY ?? 0) + e.screenY - el.startPosition.y;
+        target.translateX = targetX;
+        target.translateY = targetY;
+        target.style.marginLeft = (targetX * 2) + 'px';
+        target.style.marginTop = (targetY * 2) + 'px';
+      };
+      const stop = function(e) {
+        target.classList.remove('moving');
+        el.translateX = target.translateX;
+        el.translateY = target.translateY;
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', stop);
+      };
+      target.classList.add('moving');
+      el.startPosition = {'x': e.screenX, 'y': e.screenY};
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', stop);
+    });
     container.delegateEventListener('.dialog_fullpage', 'transitionend', function(){
       if (!this.classList.contains('on'))
       {
@@ -77,13 +121,13 @@ export default class jtbcDialog extends HTMLElement {
     {
       this.locked = true;
       let dialog = this.container.querySelector('.alert');
+      let link = dialog.querySelector('.link').empty();
       this.classList.add('on');
       this.container.classList.add('on');
       dialog.querySelector('.text').innerText = message;
       if (textOk != null) dialog.querySelector('button.ok').innerText = textOk;
       if (linkURL != null)
       {
-        let link = dialog.querySelector('.link');
         let anchor = document.createElement('a');
         anchor.setAttribute('target', '_blank');
         anchor.setAttribute('href', linkURL);
@@ -191,6 +235,7 @@ export default class jtbcDialog extends HTMLElement {
           this.buttonTextReset();
           this.classList.remove('on');
           this.container.querySelectorAll('.dialog').forEach(el => {
+            el.removeAttribute('style');
             el.classList.remove('on', 'out');
             if (el.classList.contains('popup'))
             {
@@ -235,6 +280,11 @@ export default class jtbcDialog extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'popup-movable':
+      {
+        this.popupMovable = newVal;
+        break;
+      };
       case 'text-ok':
       {
         this.textOk = newVal;
@@ -282,7 +332,7 @@ export default class jtbcDialog extends HTMLElement {
           </div>
         </div>
         <div class="dialog_item">
-          <div class="popup dialog">
+          <div class="popup dialog movable">
             <span class="close" role="dialog-close"><jtbc-svg name="close"></jtbc-svg></span>
             <div class="content"></div>
           </div>

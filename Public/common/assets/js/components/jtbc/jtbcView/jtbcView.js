@@ -1,3 +1,5 @@
+import proxyCreator from '../../../library/proxy/proxyCreator.js';
+
 export default class jtbcView extends HTMLElement {
   static get observedAttributes() {
     return ['data'];
@@ -13,62 +15,11 @@ export default class jtbcView extends HTMLElement {
   #builtInDirective = ['model', 'html'];
 
   get data() {
-    let that = this;
     let result = this.#dataProxy;
     if (result == null)
     {
-      const addProxy = origin => {
-        const addProxy = origin => {
-          return new Proxy(origin, {
-            'proxies': {},
-            get(target, key) {
-              let result = null;
-              if (key == '__isProxy')
-              {
-                result = true;
-              }
-              else if (this.proxies.hasOwnProperty(key))
-              {
-                result = this.proxies[key];
-              }
-              else
-              {
-                result = Reflect.get(target, key.startsWith('$_')? key.substring(2): key);
-              };
-              return result;
-            },
-            set(target, key, value) {
-              if (value.__isProxy === true)
-              {
-                this.proxies[key] = value;
-              }
-              else
-              {
-                if (Reflect.get(target, key) != value)
-                {
-                  if (Reflect.set(target, key, value))
-                  {
-                    that.update();
-                  };
-                };
-              };
-              return true;
-            },
-          });
-        };
-        const addProxies = proxy => {
-          Object.keys(proxy).forEach(key => {
-            let value = proxy[key];
-            if(typeof value == 'object')
-            {
-              proxy[key] = addProxies(addProxy(value));
-            };
-          });
-          return proxy;
-        };
-        return addProxies(addProxy(origin));
-      };
-      result = this.#dataProxy = addProxy(this.#data);
+      let proxy = new proxyCreator(() => this.update());
+      result = this.#dataProxy = proxy.create(this.#data);
     };
     return result;
   };
