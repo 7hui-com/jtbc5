@@ -20,7 +20,8 @@ spl_autoload_register(function($class) {
       $dir = strrev(strstr(strrev($filename), '/'));
       $filename = ltrim(strrchr($filename, '/'), '/');
     }
-    $target = 'Public/' . strtolower($dir) . 'common/interior/' . $filename;
+    $runDir = defined('JTBC_RUNDIR')? constant('JTBC_RUNDIR'): 'Public';
+    $target = $runDir . '/' . strtolower($dir) . 'common/interior/' . $filename;
   }
   else
   {
