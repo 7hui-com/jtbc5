@@ -7,6 +7,10 @@
   </configure>
   <item_list>
     <item>
+      <name><![CDATA[upload-allowed-extensions]]></name>
+      <zh-cn><![CDATA[jpg,gif,png,webp,svg,mov,mp4,webm,zip,rar,gz,doc,docx,xls,xlsx,ppt,pptx,pdf,txt,xml,jtbc,php]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[hasnotable]]></name>
       <zh-cn><![CDATA[true]]></zh-cn>
     </item>

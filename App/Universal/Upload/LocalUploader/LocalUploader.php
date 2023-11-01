@@ -68,7 +68,7 @@ class LocalUploader extends Uploader implements FileUploader
         $code = 0;
         $vars = [];
         $param = [];
-        $tempDir = Path::getActualRoute(Config::TEMP_DIR);
+        $tempDir = Path::getActualRoute(Path::getRuntimeDirectory('Upload'));
         $tempChunkDir = $tempDir . '/' . $randomString;
         if (!is_dir($tempChunkDir) && !@mkdir($tempChunkDir))
         {

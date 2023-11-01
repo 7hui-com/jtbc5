@@ -25,8 +25,8 @@
     <input type="hidden" name="hash" value="${$hash}" role="field" />
     <div class="editor"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="${$mode}" value="${$content}"></jtbc-field-code-editor></div>
     <div class="bar">
-      <span class="leftBtn"><button class="b2 submit" role="submit">{$=$take('::communal.save', 'lng')}</button></span>
-      <span class="rightBtn"><button class="b3 close">{$=$take('::communal.close', 'lng')}</button></span>
+      <span class="leftBtn"><button type="submit" class="b2 submit" role="submit">{$=$take('::communal.save', 'lng')}</button></span>
+      <span class="rightBtn"><button type="button" class="b3 close">{$=$take('::communal.close', 'lng')}</button></span>
     </div>
   </form>
 </template>]]></default>
@@ -40,7 +40,7 @@
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <div class="ppContainer">
-        <div class="ppWorkspace" text-new-folder="{$=$take('manage.text-new-folder', 'lng')}" action-new-folder="{$>this.genre}/manage?action=createFolder" text-new-file="{$=$take('manage.text-new-file', 'lng')}" action-new-file="{$>this.genre}/manage?action=createFile" action-rename="{$>this.genre}/manage?action=rename" action-delete="{$>this.genre}/manage?action=delete">
+        <div class="ppWorkspace" text-new-folder="{$=$take('manage.text-new-folder', 'lng')}" action-new-folder="{$>this.genre}/manage?action=createFolder" text-new-file="{$=$take('manage.text-new-file', 'lng')}" action-new-file="{$>this.genre}/manage?action=createFile" text-upload="{$=$take('manage.text-upload', 'lng')}" text-uploading="{$=$take('manage.text-uploading', 'lng')}" action-new-upload="{$>this.genre}/manage?action=addFile" action-rename="{$>this.genre}/manage?action=rename" action-delete="{$>this.genre}/manage?action=delete">
           <div class="side on">
             <div class="h3">
               <h3><em>{$=$take('manage.text-side-files', 'lng')}</em></h3>

@@ -19,7 +19,7 @@ class FileCache implements Cache
 
   private function getCacheDir()
   {
-    return Path::getActualRoute(Config::read(__CLASS__, 'dir'));
+    return Path::getActualRoute(Path::getRuntimeDirectory('Cache'));
   }
 
   private function getFileData()

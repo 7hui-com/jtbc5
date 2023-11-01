@@ -53,7 +53,7 @@
   padding: 10px; position: relative
 }
 .dialogPopup div.tinyForm > ul > li h5 {
-  margin: 0px; padding: 0px; font-weight: normal; color: #666666; line-height: 100%; padding-bottom: 10px
+  margin: 0px; padding: 0px; font-size: 12px; font-weight: normal; color: #666666; line-height: 100%; padding-bottom: 10px
 }
 .dialogPopup div.tinyForm > ul > li h6 {
   margin: 0px; padding: 0px; font-size: 12px; font-weight: normal; color: #999; pointer-events: none; position: absolute; top: 50%; right: 10px; transform: translate(0, -50%); z-index: 100

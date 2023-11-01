@@ -1,4 +1,20 @@
 export default class manage {
+  #uploader;
+  #uploading = false;
+
+  get uploading() {
+    return this.#uploading;
+  };
+
+  async #getUploader() {
+    let result = this.#uploader;
+    if (result == null)
+    {
+      result = this.#uploader = await window.loadModule(document.baseURI + this.root.dataset.assetsPath + 'js/library/upload/uploader.js');
+    };
+    return result;
+  };
+
   initList() {
     if (this.inited != true)
     {
@@ -6,31 +22,22 @@ export default class manage {
       let that = this;
       let scarf = this.self.parentNode.querySelector('.scarf');
       const getActiveTab = () => {
-        let result = null;
-        if (this.workspace != null)
-        {
-          result = this.workspace.querySelector('div.content div.tabs span.on');
-        };
-        return result;
+        return this.workspace.querySelector('div.content div.tabs span.on');
       };
       const getTabBySymbol = symbol => {
         let result = null;
-        if (this.workspace != null)
-        {
-          this.workspace.querySelectorAll('div.content div.tabs span').forEach(span => {
-            if (span.symbol == symbol)
-            {
-              result = span;
-            };
-          });
-        };
+        this.workspace.querySelectorAll('div.content div.tabs span').forEach(span => {
+          if (span.symbol == symbol)
+          {
+            result = span;
+          };
+        });
         return result;
       };
       const newFolder = (el = null) => {
         let rank = 0;
         let target = null;
         let parentPath = '';
-        let workspace = this.workspace;
         if (el != null)
         {
           if (el.classList.contains('on'))
@@ -47,7 +54,7 @@ export default class manage {
         }
         else
         {
-          target = workspace.querySelector('ul[content=files]');
+          target = this.workspace.querySelector('ul[content=files]');
         };
         if (target != null)
         {
@@ -59,9 +66,9 @@ export default class manage {
             let input = li.querySelector('input[name=filename]');
             target.appendChild(li);
             input.focus();
-            input.setAttribute('placeholder', workspace.getAttribute('text-new-folder'));
+            input.setAttribute('placeholder', this.workspace.getAttribute('text-new-folder'));
             input.previousElementSibling.value = parentPath;
-            input.parentElement.setAttribute('action', workspace.getAttribute('action-new-folder'));
+            input.parentElement.setAttribute('action', this.workspace.getAttribute('action-new-folder'));
             input.addEventListener('keydown', e => e.keyCode == 13? e.target.blur(): null);
             input.addEventListener('blur', e => {
               if (e.target.value == '')
@@ -95,7 +102,6 @@ export default class manage {
         let rank = 0;
         let target = null;
         let parentPath = '';
-        let workspace = this.workspace;
         if (el != null)
         {
           if (el.classList.contains('on'))
@@ -112,7 +118,7 @@ export default class manage {
         }
         else
         {
-          target = workspace.querySelector('ul[content=files]');
+          target = this.workspace.querySelector('ul[content=files]');
         };
         if (target != null)
         {
@@ -120,22 +126,49 @@ export default class manage {
           newLi.classList.add('new');
           newLi.classList.add('file');
           newLi.setAttribute('rank', rank + 1);
-          newLi.html('<span><i icon="others"></i><form class="form" is="jtbc-form" method="post" inconsequential="true"><input type="hidden" name="path" role="field" /><input type="text" name="filename" role="field" autocomplete="off" /></form></span>').then(li => {
+          newLi.html('<span><i icon="others"></i><form class="form" is="jtbc-form" method="post" inconsequential="true"><input type="hidden" name="path" role="field" /><input type="text" name="filename" role="field" autocomplete="off" /></form><div class="icon"><input type="file" class="file" multiple="multiple" /></div></span>').then(li => {
+            let file = li.querySelector('input.file');
             let input = li.querySelector('input[name=filename]');
+            let uploadIcon = document.createElement('u');
+            uploadIcon.classList.add('upload');
+            uploadIcon.setAttribute('title', this.workspace.getAttribute('text-upload'));
+            li.querySelector('div.icon').append(uploadIcon);
             target.appendChild(li);
             input.focus();
-            input.setAttribute('placeholder', workspace.getAttribute('text-new-file'));
+            input.setAttribute('placeholder', this.workspace.getAttribute('text-new-file'));
             input.previousElementSibling.value = parentPath;
-            input.parentElement.setAttribute('action', workspace.getAttribute('action-new-file'));
+            input.parentElement.setAttribute('action', this.workspace.getAttribute('action-new-file'));
+            file.addEventListener('change', function(){
+              if (this.files.length != 0)
+              {
+                li.remove();
+                that.#uploading = true;
+                Array.from(this.files).forEach((file, index) => newUpFile(file, target, rank, index));
+                that.#getUploader().then(uploader => tryUpload(uploader, this.files, target));
+              };
+            });
+            input.addEventListener('focus', e => li.classList.remove('picking'));
             input.addEventListener('keydown', e => e.keyCode == 13? e.target.blur(): null);
             input.addEventListener('blur', e => {
-              if (e.target.value == '')
+              if (e.target.value.length == 0)
               {
-                setTimeout(() => li.remove(), 300);
+                setTimeout(() => {
+                  if (!li.classList.contains('picking'))
+                  {
+                    li.remove();
+                  };
+                }, 300);
               }
               else
               {
                 input.parentElement.submit();
+              };
+            });
+            li.addEventListener('mouseleave', e => {
+              if (document.activeElement != input && li.classList.contains('picking'))
+              {
+                input.focus();
+                li.classList.remove('picking');
               };
             });
             input.parentElement.addEventListener('submitend', e => {
@@ -164,9 +197,74 @@ export default class manage {
                 };
               });
             });
+            uploadIcon.addEventListener('click', function(){
+              if (that.uploading === false)
+              {
+                file.click();
+                li.classList.add('picking');
+              }
+              else
+              {
+                that.miniMessage.push(that.workspace.getAttribute('text-uploading'));
+              };
+            });
             li.scrollIntoView({block: 'end', behavior: 'smooth'});
           });
         };
+      };
+      const newUpFile = (file, target, rank, index) => {
+        let newLi = document.createElement('li');
+        newLi.classList.add('new');
+        newLi.classList.add('file');
+        newLi.setAttribute('rank', rank + 1);
+        newLi.setAttribute('index', index);
+        newLi.setAttribute('uploading', 'true');
+        newLi.html('<span><i icon="others"></i><em icon="others"></em><div class="bar"></div></span>').then(li => {
+          let em = li.querySelector('em');
+          em.setAttribute('filename', file.name);
+          em.innerText = file.name;
+        });
+        target.append(newLi);
+      };
+      const tryUpload = (uploader, files, target) => {
+        let currentIndex = 0;
+        let currentErrorCount = 0;
+        let parentNode = target.parentElement.parentElement;
+        let action = this.workspace.getAttribute('action-new-upload');
+        let path = parentNode.hasAttribute('path')? parentNode.getAttribute('path'): '';
+        const uploadNextFile = () => {
+          let currentUploader = new uploader(action + '&path=' + encodeURIComponent(path));
+          let li = target.querySelector("li[index='" + currentIndex + "']");
+          currentUploader.upload(files[currentIndex], percent => {
+            li.querySelector('div.bar').style.width = percent + '%';
+          }, data => {
+            currentIndex += 1;
+            li.removeAttribute('uploading');
+            li.querySelector('div.bar').style.width = '100%';
+            if (data.code != 1)
+            {
+              currentErrorCount += 1;
+              li.setAttribute('uploading', 'error');
+              li.setAttribute('title', data.message);
+              li.addEventListener('dblclick', function() {
+                this.parentElement.querySelectorAll('li[uploading=error]').length === 1? reloadFiles(target): this.remove();
+              });
+            };
+            if (currentIndex < files.length)
+            {
+              uploadNextFile();
+            }
+            else
+            {
+              that.#uploading = false;
+              if (currentErrorCount === 0)
+              {
+                reloadFiles(target);
+              };
+            };
+          });
+        };
+        uploadNextFile();
       };
       const renameItem = el => {
         if (!el.classList.contains('renaming'))
@@ -226,49 +324,45 @@ export default class manage {
         }, scarf.getAttribute('text-ok'), scarf.getAttribute('text-cancel'));
       };
       const openFile = (path, filename, extension) => {
-        let workspace = this.workspace;
-        if (workspace != null)
+        let tabsEl = this.workspace.querySelector('div.content div.tabs');
+        let filesEl = this.workspace.querySelector('div.content div.files');
+        if (tabsEl != null && filesEl != null)
         {
-          let tabsEl = workspace.querySelector('div.content div.tabs');
-          let filesEl = workspace.querySelector('div.content div.files');
-          if (tabsEl != null && filesEl != null)
-          {
-            let totalCount = 0;
-            let hasOpend = false;
-            tabsEl.querySelectorAll('span').forEach(el => {
-              totalCount += 1;
-              if (el.getAttribute('path') == path)
-              {
-                hasOpend = true;
-                el.querySelector('em')?.click();
-              };
-            });
-            if (hasOpend === false)
+          let totalCount = 0;
+          let hasOpend = false;
+          tabsEl.querySelectorAll('span').forEach(el => {
+            totalCount += 1;
+            if (el.getAttribute('path') == path)
             {
-              if (totalCount >= 10)
-              {
-                this.dialog.alert(scarf.getAttribute('text-tips-1'));
-              }
-              else
-              {
-                let symbol = Symbol();
-                let newTab = document.createElement('span');
-                let newTabEm = document.createElement('em');
-                newTab.symbol = symbol;
-                newTab.setAttribute('path', path);
-                newTab.setAttribute('title', path);
-                newTab.setAttribute('icon', extension);
-                newTabEm.innerText = filename;
-                newTab.appendChild(newTabEm);
-                newTab.appendChild(document.createElement('i'));
-                let newFile = document.createElement('div');
-                newFile.symbol = symbol;
-                newFile.classList.add('file');
-                newFile.setAttribute('path', path);
-                tabsEl.appendChild(newTab);
-                filesEl.appendChild(newFile);
-                newTab.querySelector('em')?.click();
-              };
+              hasOpend = true;
+              el.querySelector('em')?.click();
+            };
+          });
+          if (hasOpend === false)
+          {
+            if (totalCount >= 10)
+            {
+              this.dialog.alert(scarf.getAttribute('text-tips-1'));
+            }
+            else
+            {
+              let symbol = Symbol();
+              let newTab = document.createElement('span');
+              let newTabEm = document.createElement('em');
+              newTab.symbol = symbol;
+              newTab.setAttribute('path', path);
+              newTab.setAttribute('title', path);
+              newTab.setAttribute('icon', extension);
+              newTabEm.innerText = filename;
+              newTab.appendChild(newTabEm);
+              newTab.appendChild(document.createElement('i'));
+              let newFile = document.createElement('div');
+              newFile.symbol = symbol;
+              newFile.classList.add('file');
+              newFile.setAttribute('path', path);
+              tabsEl.appendChild(newTab);
+              filesEl.appendChild(newFile);
+              newTab.querySelector('em')?.click();
             };
           };
         };
@@ -366,68 +460,71 @@ export default class manage {
           };
         };
       };
-      scarf.delegateEventListener('div.side div.h3 span.newFolder', 'click', () => newFolder());
-      scarf.delegateEventListener('div.side div.h3 span.newFile', 'click', () => newFile());
-      scarf.delegateEventListener('div.side div.explorer u.newFolder', 'click', function(){ newFolder(this.parentElement.parentElement.parentElement); });
-      scarf.delegateEventListener('div.side div.explorer u.newFile', 'click', function(){ newFile(this.parentElement.parentElement.parentElement); });
-      scarf.delegateEventListener('div.side div.explorer u.rename', 'click', function(){ renameItem(this.parentElement.parentElement.parentElement); });
-      scarf.delegateEventListener('div.side div.explorer u.delete', 'click', function(){ deleteItem(this.parentElement.parentElement.parentElement); });
-      scarf.delegateEventListener('div.side div.icon span.collapse', 'click', function(){
-        let side = that.workspace.querySelector('div.side');
-        if (side != null)
-        {
-          side.classList.remove('on');
-          side.nextElementSibling.classList.add('on');
-        };
-      });
-      scarf.delegateEventListener('div.collapse div.icon span.collapse', 'click', function(){
-        let collapse = that.workspace.querySelector('div.collapse');
-        if (collapse != null)
-        {
-          collapse.classList.remove('on');
-          collapse.previousElementSibling.classList.add('on');
-        };
-      });
-      scarf.delegateEventListener('div.content div.tabs span em', 'click', e => selectFile(e.target.parentElement));
-      scarf.delegateEventListener('div.content div.tabs span i', 'click', e => closeFile(e.target.parentElement));
-      scarf.delegateEventListener('div.content div.files button.close', 'click', e => closeFile(e.target));
-      scarf.delegateEventListener('div.content div.files form.form', 'submitend', e => {
-        let res = e.detail.res;
-        res.json().then(data => {
-          if (data.code == 1)
+      const initEvents = el => {
+        el.delegateEventListener('div.side div.h3 span.newFolder', 'click', () => newFolder());
+        el.delegateEventListener('div.side div.h3 span.newFile', 'click', () => newFile());
+        el.delegateEventListener('div.side div.explorer u.newFolder', 'click', function(){ newFolder(this.parentElement.parentElement.parentElement); });
+        el.delegateEventListener('div.side div.explorer u.newFile', 'click', function(){ newFile(this.parentElement.parentElement.parentElement); });
+        el.delegateEventListener('div.side div.explorer u.rename', 'click', function(){ renameItem(this.parentElement.parentElement.parentElement); });
+        el.delegateEventListener('div.side div.explorer u.delete', 'click', function(){ deleteItem(this.parentElement.parentElement.parentElement); });
+        el.delegateEventListener('div.side div.icon span.collapse', 'click', function(){
+          let side = that.workspace.querySelector('div.side');
+          if (side != null)
           {
-            e.target.querySelector('jtbc-field-code-editor[name=content]')?.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+            side.classList.remove('on');
+            side.nextElementSibling.classList.add('on');
           };
-          this.miniMessage.push(data.message);
         });
-      });
-      scarf.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'changed', e => {
-        let formEl = e.target.parentElement.parentElement;
-        let tab = getTabBySymbol(formEl.parentElement.symbol);
-        if (tab != null)
-        {
-          if (formEl.isFormDataChanged())
+        el.delegateEventListener('div.collapse div.icon span.collapse', 'click', function(){
+          let collapse = that.workspace.querySelector('div.collapse');
+          if (collapse != null)
           {
-            tab.classList.add('changed');
-          }
-          else
-          {
-            tab.classList.remove('changed');
+            collapse.classList.remove('on');
+            collapse.previousElementSibling.classList.add('on');
           };
-        };
-      });
-      scarf.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'fullscreenchanged', e => {
-        e.target.parentElement.nextElementSibling.classList.toggle('hide', e.target.isFullScreen());
-      });
-      scarf.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'save', e => {
-        let formEl = e.target.parentElement.parentElement;
-        formEl.querySelector('button.submit')?.click();
-      });
+        });
+        el.delegateEventListener('div.content div.tabs span em', 'click', e => selectFile(e.target.parentElement));
+        el.delegateEventListener('div.content div.tabs span i', 'click', e => closeFile(e.target.parentElement));
+        el.delegateEventListener('div.content div.files button.close', 'click', e => closeFile(e.target));
+        el.delegateEventListener('div.content div.files form.form', 'submitend', e => {
+          let res = e.detail.res;
+          res.json().then(data => {
+            if (data.code == 1)
+            {
+              e.target.querySelector('jtbc-field-code-editor[name=content]')?.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+            };
+            this.miniMessage.push(data.message);
+          });
+        });
+        el.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'changed', e => {
+          let formEl = e.target.parentElement.parentElement;
+          let tab = getTabBySymbol(formEl.parentElement.symbol);
+          if (tab != null)
+          {
+            if (formEl.isFormDataChanged())
+            {
+              tab.classList.add('changed');
+            }
+            else
+            {
+              tab.classList.remove('changed');
+            };
+          };
+        });
+        el.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'fullscreenchanged', e => {
+          e.target.parentElement.nextElementSibling.classList.toggle('hide', e.target.isFullScreen());
+        });
+        el.delegateEventListener('div.content div.files jtbc-field-code-editor[name=content]', 'save', e => {
+          let formEl = e.target.parentElement.parentElement;
+          formEl.querySelector('button.submit')?.click();
+        });
+      };
       scarf.addEventListener('renderend', e => {
         let target = e.target;
         if (target.classList.contains('scarf'))
         {
           this.workspace = target.querySelector('div.ppWorkspace');
+          initEvents(target);
         }
         else if (target.classList.contains('children'))
         {

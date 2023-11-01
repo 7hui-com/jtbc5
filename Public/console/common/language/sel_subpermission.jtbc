@@ -15,6 +15,10 @@
       <zh-cn><![CDATA[创建]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[download]]></name>
+      <zh-cn><![CDATA[下载]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[edit]]></name>
       <zh-cn><![CDATA[编辑]]></zh-cn>
     </item>

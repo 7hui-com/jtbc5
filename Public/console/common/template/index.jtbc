@@ -18,7 +18,7 @@
 <link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/global.css" />
 {$=implode($call_hook('backstageEndOfHead') ?? [])}</head>
 <body>
-<container id="root" class="root"></container>
+<container id="root" class="root" data-assets-path="common/assets/"></container>
 <jtbc-toast id="toast"></jtbc-toast>
 <jtbc-drawer id="drawer"></jtbc-drawer>
 <jtbc-mini-message id="miniMessage"></jtbc-mini-message>

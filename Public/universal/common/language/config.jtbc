@@ -115,6 +115,10 @@
       <zh-cn><![CDATA[处理]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[download]]></name>
+      <zh-cn><![CDATA[下载]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[edit]]></name>
       <zh-cn><![CDATA[编辑]]></zh-cn>
     </item>
@@ -425,6 +429,10 @@
     <item>
       <name><![CDATA[template]]></name>
       <zh-cn><![CDATA[模板]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text]]></name>
+      <zh-cn><![CDATA[文本]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[thumb]]></name>

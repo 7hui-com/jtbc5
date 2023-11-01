@@ -3,6 +3,7 @@ export default class jtbcJson2html extends HTMLElement {
     return ['value'];
   };
 
+  #value = null;
   #specialTags = ['hr', 'br', 'img'];
   #allowedTags = ['a', 'b', 'p', 'i', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'li', 'hr', 'br', 'em', 'img', 'sub', 'sup', 'del', 'mark', 'strong', 'table', 'tr', 'th', 'td'];
   #allowedGlobalAttributes = ['name', 'class', 'title'];
@@ -27,6 +28,15 @@ export default class jtbcJson2html extends HTMLElement {
     },
   };
 
+  get value() {
+    return this.#value ?? '';
+  };
+
+  set value(value) {
+    this.#value = value;
+    this.render();
+  };
+
   #isVaildContents(contents) {
     let result = false;
     if (Array.isArray(contents))
@@ -38,15 +48,6 @@ export default class jtbcJson2html extends HTMLElement {
       result = true;
     }
     return result;
-  };
-
-  set value(value) {
-    this.currentValue = value;
-    this.render();
-  };
-
-  get value() {
-    return this.currentValue;
   };
 
   addSpecialTags(...tags) {
@@ -100,12 +101,11 @@ export default class jtbcJson2html extends HTMLElement {
   };
 
   render() {
-    this.container.innerHTML = '';
     let that = this;
-    let contents = this.currentValue? JSON.parse(this.currentValue): [];
+    let contents = this.#value? JSON.parse(this.#value): [];
     if (!this.#isVaildContents(contents))
     {
-      this.currentValue = '';
+      this.#value = '';
     }
     else
     {
@@ -181,7 +181,7 @@ export default class jtbcJson2html extends HTMLElement {
         };
         parentEl.append(documentFragment);
       };
-      render(this.container, contents);
+      render(this.container.empty(), contents);
     };
   };
 
@@ -202,7 +202,6 @@ export default class jtbcJson2html extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentValue = '';
     let shadowRoot = this.attachShadow({mode: 'open'});
     let pluginCss = this.getAttribute('plugin_css');
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');

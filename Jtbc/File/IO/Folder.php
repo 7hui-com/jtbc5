@@ -4,6 +4,7 @@
 //******************************//
 namespace Jtbc\File\IO;
 use DirectoryIterator;
+use ZipArchive;
 
 class Folder
 {
@@ -93,6 +94,49 @@ class Folder
         {
           $result += $item -> getSize();
         }
+      }
+    }
+    return $result;
+  }
+
+  public static function zip(string $argDirPath, string $argZipPath, array $argSpecialFolders = [])
+  {
+    $result = false;
+    $dirPath = $argDirPath;
+    $zipPath = $argZipPath;
+    if (is_dir($dirPath) && !is_file($zipPath))
+    {
+      $zip = new ZipArchive();
+      $opened = $zip -> open($zipPath, ZipArchive::CREATE);
+      if ($opened === true)
+      {
+        $result = true;
+        $addDir = function(string $argDirPath, int $argPrefixLength) use (&$zip, &$addDir, $argSpecialFolders)
+        {
+          $dirIterator = new DirectoryIterator($argDirPath);
+          foreach ($dirIterator as $item)
+          {
+            $realPath = $item -> getRealPath();
+            $localPath = str_replace(DIRECTORY_SEPARATOR, '/', substr($realPath, $argPrefixLength));
+            if (!in_array($localPath, $argSpecialFolders))
+            {
+              if (!$item -> isDot())
+              {
+                if ($item -> isDir())
+                {
+                  $zip -> addEmptyDir($localPath);
+                  $addDir($realPath, $argPrefixLength);
+                }
+                else
+                {
+                  $zip -> addFile($realPath, $localPath);
+                }
+              }
+            }
+          }
+        };
+        $addDir($dirPath, strlen(realpath($dirPath)) + 1);
+        $zip -> close();
       }
     }
     return $result;

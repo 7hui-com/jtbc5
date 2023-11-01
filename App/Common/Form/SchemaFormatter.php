@@ -76,13 +76,23 @@ class SchemaFormatter
     return $result;
   }
 
-  private function getExtra(Substance $comment)
+  private function getExtra(Substance $comment, string $argSuffix = null)
   {
     $type = $comment -> type;
+    $suffix = strval($argSuffix);
     $extra = FieldTextGenerator::generate($type);
     if (in_array($type, ['avatar', 'attachment', 'gallery', 'upload']))
     {
-      $extra['action'] = $this -> baseURI . '?action=upload&scene=' . $this -> fieldName;
+      $scene = $comment -> scene;
+      if (is_null($scene))
+      {
+        $scene = $this -> fieldName;
+        if (!Validation::isEmpty($suffix))
+        {
+          $scene .= '-' . $suffix;
+        }
+      }
+      $extra['action'] = $this -> baseURI . '?action=upload&scene=' . $scene;
     }
     if (is_array($comment -> extra))
     {
@@ -217,7 +227,7 @@ class SchemaFormatter
         $name = $current -> name;
         $type = $current -> type;
         $text = $current -> text ?? FieldNameHelper::getFieldText($name);
-        $item = ['text' => $text, 'name' => $name, 'type' => $type, 'extra' => $this -> getExtra($current)];
+        $item = ['text' => $text, 'name' => $name, 'type' => $type, 'extra' => $this -> getExtra($current, $name)];
         if (in_array($type, $this -> withSource))
         {
           $source = $current -> source;

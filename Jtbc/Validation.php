@@ -389,6 +389,17 @@ class Validation
     return $bool;
   }
 
+  public static function isNumeric28($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    if (is_string($string) && strlen($string) == 28 && self::isNumber($string))
+    {
+      $bool = true;
+    }
+    return $bool;
+  }
+
   public static function isSlug($argString)
   {
     $bool = false;

@@ -23,6 +23,14 @@
       <zh-cn><![CDATA[新建文件夹]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-upload]]></name>
+      <zh-cn><![CDATA[上传]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-uploading]]></name>
+      <zh-cn><![CDATA[有文件正在上传中]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-side-files]]></name>
       <zh-cn><![CDATA[文件列表]]></zh-cn>
     </item>
@@ -61,6 +69,10 @@
     <item>
       <name><![CDATA[text-tips-3-2]]></name>
       <zh-cn><![CDATA[删除文件后可能导致功能异常且不可恢复，确定删除[${$filename}]吗？]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-add-file-code-4001]]></name>
+      <zh-cn><![CDATA[文件夹路径不合法]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-create-folder-code-4001]]></name>
@@ -153,6 +165,10 @@
     <item>
       <name><![CDATA[text-save-code-4040]]></name>
       <zh-cn><![CDATA[保存文件异常，请检查服务器权限或文件名规则]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-addfile]]></name>
+      <zh-cn><![CDATA[上传文件[{$[path]}]成功]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[log-createfolder]]></name>

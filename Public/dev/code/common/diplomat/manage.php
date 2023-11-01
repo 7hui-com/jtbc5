@@ -7,6 +7,8 @@ use App\Console\Common\EmptySubstance;
 use App\Console\Common\BasicSubstance;
 use App\Console\Log\Logger;
 use App\Console\Common\Ambassador;
+use App\Universal\Upload\chunkFile;
+use App\Universal\Upload\LocalUploader\LocalUploader;
 
 class Diplomat extends Ambassador {
   private $allowedExtensions = ['css', 'html', 'js', 'jtbc', 'php', 'svg', 'txt', 'xml'];
@@ -141,6 +143,48 @@ class Diplomat extends Ambassador {
   {
     $bs = new BasicSubstance($this);
     return $bs -> toJSON();
+  }
+
+  public function actionAddFile(Request $req)
+  {
+    $code = 0;
+    $param = '';
+    $message = null;
+    $path = strval($req -> get('path'));
+    if ($this -> guard -> role -> checkPermission('add'))
+    {
+      if (!$this -> isVaildPath($path)) $code = 4001;
+      else
+      {
+        $chunkFile = new chunkFile($req);
+        $targetPath = Path::getActualRoute($path . $chunkFile -> file['name']);
+        $uploader = new LocalUploader($this -> di, $this -> getParam('genre'), false);
+        $uploadFile = $uploader -> uploadFile($chunkFile, $targetPath);
+        if (!is_null($uploadFile))
+        {
+          $code = $uploadFile -> code;
+          $vars = $uploadFile -> vars;
+          $param = $uploadFile -> param;
+          $message = Jtbc::take('::communal.text-upload-code-' . $code, 'lng', false, $vars) ?? Jtbc::take('::communal.text-upload-code-others', 'lng');
+          if ($code == 1)
+          {
+            $code = 1;
+            Logger::log($this, 'manage.log-addfile', ['path' => $targetPath]);
+          }
+        }
+      }
+    }
+    else
+    {
+      $code = 4403;
+      $message = Jtbc::take('::communal.text-tips-error-4403', 'lng');
+    }
+    $ss = new Substance();
+    $ss -> code = $code;
+    $ss -> message = Jtbc::take('manage.text-add-file-code-' . $code, 'lng') ?: $message;
+    $ss -> param = $param;
+    $result = $ss -> toJSON();
+    return $result;
   }
 
   public function actionCreateFolder(Request $req)

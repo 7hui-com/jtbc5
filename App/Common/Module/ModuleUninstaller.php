@@ -54,7 +54,7 @@ class ModuleUninstaller extends Uninstaller
 
   public function __construct(string $argGenre, $argDBLink = null)
   {
-    $this -> module = new Module($argGenre);
+    $this -> module = new Module(argGenre: $argGenre, argIsCacheable: false);
     $this -> dbLink = $argDBLink;
   }
 }

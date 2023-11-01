@@ -18,7 +18,7 @@
     </toplink>
     <div class="chief">
       <h3>{$=$take('manage.text-tit-list-' . ($get_query_string('category')?: 'package'), 'lng')}</h3>
-      <rightarea><select name="filter" is="jtbc-select" value="${$filter}" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'filter' => null]))}&amp;filter="><option value="all">{$=$take('manage.text-filter-all', 'lng')}</option><option value="mine">{$=$take('manage.text-filter-mine', 'lng')}</option></select>&nbsp;&nbsp;<jtbc-tiny-search width="200" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'keyword' => null]))}" placeholder="{$=$take('universal:config.keyword', 'lng')}" keyword="${$keyword}"></jtbc-tiny-search></rightarea>
+      <rightarea><select name="filter" is="jtbc-select" value="${$filter}" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'filter' => null]))}&amp;filter="><option value="all">{$=$take('manage.text-filter-all', 'lng')}</option><option value="mine">{$=$take('manage.text-filter-mine', 'lng')}</option></select>&nbsp;&nbsp;<jtbc-tiny-search width="200" url="{$=$htmlEncode($request_query_rebuild(['type' => null, 'page' => null, 'keyword' => null]))}" placeholder="{$=$take('universal:config.keyword', 'lng')}" keyword="${$keyword}"></jtbc-tiny-search></rightarea>
       <div class="ppContainer" category="${$category}" keyword="${$keyword}">
         <div class="ppItemLoading"><span>{$=$take('manage.text-loading', 'lng')}</span></div>
         <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'originalList']))}">

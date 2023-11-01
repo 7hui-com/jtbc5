@@ -2,7 +2,6 @@
 namespace App\Common\ThirdParty;
 use ZipArchive;
 use Jtbc\Path;
-use Jtbc\JSON;
 use Jtbc\Substance;
 use Jtbc\Validation;
 use Jtbc\Phar\PharLoader;
@@ -208,7 +207,7 @@ class PharUpdater
         }
       }
       $this -> officialCommunicator = new OfficialCommunicator($appId, $appSecret);
-      $this -> thirdPartyFolderPath = Path::getActualRoute(ConfigReader::getBaseDir());
+      $this -> thirdPartyFolderPath = Path::getActualRoute(Path::getRuntimeDirectory('ThirdParty'));
     }
     else
     {

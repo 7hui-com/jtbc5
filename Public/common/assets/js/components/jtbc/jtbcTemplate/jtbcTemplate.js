@@ -410,7 +410,13 @@ export default class jtbcTemplate extends HTMLTemplateElement {
           {
             documentTarget.removeAttribute('isloop');
           }
-          else documentTarget.pullout();
+          else
+          {
+            Array.from(documentTarget.childNodes).forEach(cl => {
+              documentTarget.parentNode.insertBefore(cl, documentTarget);
+            });
+            documentTarget.remove();
+          };
         };
         documentFragment.querySelectorAll('[if]').forEach(el => {
           if (el.getAttribute('if') == 'true')
