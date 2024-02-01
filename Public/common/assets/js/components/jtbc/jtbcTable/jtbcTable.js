@@ -1,4 +1,75 @@
 export default class jtbcTable extends HTMLTableElement {
+  static get observedAttributes() {
+    return ['credentials', 'mode'];
+  };
+
+  #credentials = 'same-origin';
+  #mode = 'form';
+  #credentialsList = ['include', 'same-origin', 'omit'];
+  #modeList = ['form', 'json'];
+
+  get credentials() {
+    return this.#credentials;
+  };
+
+  get mode() {
+    return this.#mode;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set mode(mode) {
+    if (this.#modeList.includes(mode))
+    {
+      this.#mode = mode;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  #getFetchParams(identity, checked) {
+    let mode = this.#mode;
+    let result = {'method': 'post', 'credentials': this.#credentials};
+    if (mode == 'form')
+    {
+      let params = new URLSearchParams();
+      if (identity != null)
+      {
+        params.append('identity', identity);
+      };
+      if (Array.isArray(checked))
+      {
+        checked.forEach(item => {
+          params.append('id[]', item);
+        });
+      };
+      result.body = params.toString();
+      result.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    }
+    else if (mode == 'json')
+    {
+      result.headers = 'application/json';
+      let body = {'id': Array.isArray(checked)? checked: []};
+      if (identity != null)
+      {
+        body['identity'] = identity;
+      };
+      result.body = JSON.stringify(body);
+    };
+    return result;
+  };
+
   getRowElement(el) {
     let target = el.parentNode;
     while(target.tagName.toLowerCase() != 'tr')
@@ -46,20 +117,15 @@ export default class jtbcTable extends HTMLTableElement {
       let allSelectors = that.getAllSelectors();
       if (Array.isArray(allSelectors) && allSelectors.length != 0)
       {
-        let params = new URLSearchParams();
-        allSelectors.forEach(item => { params.append('id[]', item); });
+        let identity = null;
         if (that.draging.hasAttribute('identity'))
         {
-          params.append('identity', that.draging.getAttribute('identity'));
+          identity = that.draging.getAttribute('identity');
         };
         if (that.getAttribute('sorting') != 'true')
         {
           that.setAttribute('sorting', 'true');
-          fetch(that.getAttribute('sortApi'), {
-            'method': 'post',
-            'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
-            'body': params.toString(),
-          }).then(res => {
+          fetch(that.getAttribute('sortApi'), that.#getFetchParams(identity, allSelectors)).then(res => {
             that.setAttribute('sorting', 'false');
             that.dispatchEvent(new CustomEvent('sorted', {bubbles: true, detail: {res: res}}));
           });
@@ -167,6 +233,21 @@ export default class jtbcTable extends HTMLTableElement {
       });
     });
     this.observer.observe(this, {childList: true, subtree: true});
+  };
+
+  attributeChangedCallback(attr, oldVal, newVal) {
+    switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
+      case 'mode':
+      {
+        this.mode = newVal;
+        break;
+      };
+    };
   };
 
   connectedCallback() {

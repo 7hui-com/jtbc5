@@ -8,6 +8,7 @@ export default class jtbcSwiper extends HTMLElement {
   #param = null;
   #basePath = null;
   #libPath = null;
+  #stylesheet = null;
 
   get param() {
     let result = {};
@@ -55,6 +56,16 @@ export default class jtbcSwiper extends HTMLElement {
         throw new Error('Unexpected environment');
       };
     };
+    this.#stylesheet = el;
+  };
+
+  async #loadStylesheetRules(el) {
+    let cssRules = el?.sheet?.cssRules;
+    while (!cssRules instanceof CSSRuleList)
+    {
+      await nap(100);
+    };
+    return cssRules;
   };
 
   init() {
@@ -62,13 +73,14 @@ export default class jtbcSwiper extends HTMLElement {
     let swipers = this.querySelectorAll('div.swiper');
     if (swipers.length == 1)
     {
-      this.instance = new Swiper(swipers[0], this.param);
+      let el = swipers[0];
+      this.instance = new Swiper(el, this.param);
     }
     else
     {
       this.instance = [];
-      swipers.forEach(item => {
-        this.instance.push(new Swiper(item, this.param));
+      swipers.forEach(el => {
+        this.instance.push(new Swiper(el, this.param));
       });
     };
     this.dispatchEvent(new CustomEvent('inited', {'detail': {'instance': this.instance}}));
@@ -86,7 +98,7 @@ export default class jtbcSwiper extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
-    this.init();
+    this.#loadStylesheetRules(this.#stylesheet).then(cssRules => this.init());
   };
 
   constructor() {

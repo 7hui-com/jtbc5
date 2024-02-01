@@ -1,13 +1,15 @@
 export default class jtbcFieldSeaExplorer extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'max', 'value', 'singleton', 'disabled', 'width'];
+    return ['api', 'credentials', 'max', 'value', 'singleton', 'disabled', 'width'];
   };
 
   #api = null;
   #apiLoading = false;
+  #credentials = 'same-origin';
   #disabled = false;
   #tempValue = null;
   #singleton = false;
+  #credentialsList = ['include', 'same-origin', 'omit'];
 
   get api() {
     return this.#api;
@@ -15,6 +17,10 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
 
   get apiLoading() {
     return this.#apiLoading;
+  };
+
+  get credentials() {
+    return this.#credentials;
   };
 
   get name() {
@@ -34,6 +40,17 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     return this.#disabled;
   };
 
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
   set value(value) {
     this.selected = [];
     this.container.querySelector('div.selected').empty();
@@ -47,7 +64,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
         if (currentApi != null)
         {
           currentApi += '&selected=' + encodeURIComponent(JSON.stringify(valueArr));
-          fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
+          fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
             if (data.code == 1)
             {
               let dataResult = data.data.result;
@@ -72,6 +89,10 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   #initEvents() {
@@ -161,7 +182,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
           {
             this.#apiLoading = true;
             let currentApi = this.api + '&keyword=' + encodeURIComponent(currentValue);
-            fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
+            fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
               this.#apiLoading = false;
               if (data.code == 1)
               {
@@ -365,6 +386,11 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
       {
         this.#api = newVal;
         this.syncValue();
+        break;
+      };
+      case 'credentials':
+      {
+        this.credentials = newVal;
         break;
       };
       case 'max':

@@ -19,11 +19,14 @@ class StandardModel extends TinyModel
     return $result;
   }
 
-  public function autoValidate(Substance $argPocket = null)
+  public function autoValidate(Substance $argPocket = null, Substance $argCoffer = null)
   {
     $pocket = $argPocket ?? $this -> pocket;
-    $validator = new Validator($this -> table -> getTableInfo());
-    $result = $validator -> validate($pocket -> all());
+    $coffer = $argCoffer ?? $this -> coffer;
+    $tableInfo = $this -> table -> getTableInfo();
+    $validator = new Validator($tableInfo);
+    $sourceBuilder = new SourceBuilder($tableInfo);
+    $result = $validator -> validate($sourceBuilder -> rebuild($pocket -> all(), $coffer -> all()));
     return $result;
   }
 }

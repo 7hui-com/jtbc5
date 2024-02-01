@@ -2,9 +2,10 @@ import proxyCreator from '../../../library/proxy/proxyCreator.js';
 
 export default class jtbcTemplate extends HTMLTemplateElement {
   static get observedAttributes() {
-    return ['data', 'mode', 'target', 'url'];
+    return ['credentials', 'data', 'mode', 'target', 'url'];
   };
 
+  #credentials = 'same-origin';
   #data = {};
   #dataProxy = null;
   #mode = 'standard';
@@ -12,6 +13,11 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   #silentMode = false;
   #target = null;
   #URL = null;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get data() {
     let result = this.#dataProxy;
@@ -33,6 +39,17 @@ export default class jtbcTemplate extends HTMLTemplateElement {
 
   get url() {
     return this.#URL;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set data(data) {
@@ -61,6 +78,10 @@ export default class jtbcTemplate extends HTMLTemplateElement {
 
   set target(target) {
     this.#target = target;
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   getDataByKey(key, appointedData) {
@@ -449,7 +470,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
     {
       this.locked = true;
       this.dispatchEvent(new CustomEvent('fetchstart'));
-      fetch(this.url).then(res => {
+      fetch(this.url, this.#getFetchParams()).then(res => {
         let result = {};
         if (res.ok) result = res.json();
         else
@@ -471,6 +492,11 @@ export default class jtbcTemplate extends HTMLTemplateElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
       case 'data':
       {
         this.data = JSON.parse(newVal);

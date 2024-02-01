@@ -191,7 +191,6 @@ export default class broadcaster {
 
   async tryPublish(state = {}, channel = null, delay = 3000) {
     let result = await this.publish(state, channel);
-    const nap = delay => new Promise(resolve => setTimeout(resolve, delay));
     while (result === false)
     {
       await nap(delay);

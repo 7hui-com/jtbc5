@@ -78,6 +78,16 @@ export default class extender {
       this.innerHTML = '';
       return this;
     };
+    Element.prototype.getAttributes = function(prefix = null) {
+      let result = {};
+      this.getAttributeNames().forEach(name => {
+        if (prefix == null || name.startsWith(prefix + '-'))
+        {
+          result[name] = this.getAttribute(name);
+        };
+      });
+      return result;
+    };
     Element.prototype.getDirectChildrenByClassName = function(className) {
       let result = [];
       Object.values(this.children).forEach(el => {
@@ -186,17 +196,69 @@ export default class extender {
       };
       return that.components.load(getDependentComponents(this));
     };
-    Element.prototype.loadFragment = async function(url) {
+    Element.prototype.loadFragment = async function(url, mode = 'json', params = {}) {
       let result = this;
-      let res = await fetch(url);
-      let data = await (res.ok? res.json(): {});
-      if (data.code == 1)
+      if (mode == 'xml')
       {
-        result = this.html(data.fragment);
+        result = await this.loadFragmentFromXML(url, params);
       }
       else
       {
-        this.setAttribute('code', data.code);
+        result = await this.loadFragmentFromJSON(url, params);
+      };
+      return result;
+    };
+    Element.prototype.loadFragmentFromJSON = async function(url, params = {}) {
+      let result = this;
+      let res = await fetch(url);
+      let data = await (res.ok? res.json(): {});
+      if (data.hasOwnProperty('code'))
+      {
+        let code = Number.parseInt(data.code);
+        let fragment = data.fragment ?? '';
+        if (code == 1)
+        {
+          Object.keys(params).forEach(key => {
+            fragment = fragment.replaceAll('{{' + key + '}}', params[key]);
+          });
+          result = this.html(fragment);
+        }
+        else
+        {
+          this.setAttribute('code', code);
+        };
+      }
+      else
+      {
+        this.dispatchEvent(new CustomEvent('fetcherror'));
+      };
+      return result;
+    };
+    Element.prototype.loadFragmentFromXML = async function(url, params = {}) {
+      let result = this;
+      let res = await fetch(url);
+      let data = await (res.ok? res.text(): null);
+      if (data != null)
+      {
+        let parser = new DOMParser();
+        let dom = parser.parseFromString(data, 'text/xml');
+        let code = Number.parseInt(dom.querySelector('xml')?.getAttribute('code'));
+        let fragment = dom.querySelector('xml>fragment')?.textContent ?? '';
+        if (code == 1)
+        {
+          Object.keys(params).forEach(key => {
+            fragment = fragment.replaceAll('{{' + key + '}}', params[key]);
+          });
+          result = this.html(fragment);
+        }
+        else
+        {
+          this.setAttribute('code', code);
+        };
+      }
+      else
+      {
+        this.dispatchEvent(new CustomEvent('fetcherror'));
       };
       return result;
     };
@@ -229,6 +291,9 @@ export default class extender {
     };
     Window.prototype.loadModule = async function(url) {
       return (await import(url)).default;
+    };
+    Window.prototype.nap = function(delay) {
+      return new Promise(resolve => setTimeout(resolve, delay));
     };
   };
 

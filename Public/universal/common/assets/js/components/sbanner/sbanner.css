@@ -46,11 +46,16 @@
 .container div.box jtbc-swiper div.swiper-slide div.content {
   display: none
 }
+.container div.box jtbc-swiper div.swiper-slide-prev div.content,
+.container div.box jtbc-swiper div.swiper-slide-active div.content,
+.container div.box jtbc-swiper div.swiper-slide-next div.content {
+  display: flex
+}
 .container div.box jtbc-swiper div.swiper-slide div.content:empty {
   display: none !important
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content {
-  display: flex; width: calc(max(var(--banner-height), var(--banner-min-height)) / 2); max-width: 50%; max-height: 50%; aspect-ratio: 1/1; align-items: center; justify-content: center; border-radius: 100%; background: rgba(0, 0, 0, 0.7)
+  width: calc(max(var(--banner-height), var(--banner-min-height)) / 2); max-width: 50%; max-height: 50%; aspect-ratio: 1/1; align-items: center; justify-content: center; border-radius: 100%; background: rgba(0, 0, 0, 0.7)
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap {
   padding: var(--banner-gap)
@@ -68,7 +73,7 @@
   background: #000; color: #fff
 }
 .container div.box[theme=naive] jtbc-swiper div.swiper-slide div.content {
-  display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.2)
+  width: 100%; height: 100%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.2)
 }
 .container div.box[theme=naive] jtbc-swiper div.swiper-slide div.content div.wrap {
   padding: var(--banner-gap); text-align: center
@@ -86,7 +91,7 @@
   color: #fff; border-color: #fff
 }
 .container div.box[theme=sky] jtbc-swiper div.swiper-slide div.content {
-  display: flex; align-items: center; justify-content: center; background: rgba(0, 95, 155, 0.9)
+  align-items: center; justify-content: center; background: rgba(0, 95, 155, 0.9)
 }
 .container div.box[theme=sky] jtbc-swiper div.swiper-slide div.content div.wrap {
   padding: var(--banner-gap) calc(var(--banner-gap) * 2 - 4px) var(--banner-gap) calc(var(--banner-gap) * 2); text-align: center
@@ -105,7 +110,7 @@
   justify-content: flex-end
 }
 .container div.box[theme=half] jtbc-swiper div.swiper-slide div.content {
-  display: flex; width: 50%; height: 100%; align-items: center; background: rgba(0, 95, 155, 0.7)
+  width: 50%; height: 100%; align-items: center; background: rgba(0, 95, 155, 0.7)
 }
 .container div.box[theme=half] jtbc-swiper div.swiper-slide div.content div.wrap {
   padding: calc(var(--banner-gap) * 2)

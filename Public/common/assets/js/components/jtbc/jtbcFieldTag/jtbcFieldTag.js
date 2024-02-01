@@ -1,9 +1,15 @@
 export default class jtbcFieldTag extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'value', 'disabled', 'width'];
+    return ['api', 'credentials', 'value', 'disabled', 'width'];
   };
 
+  #credentials = 'same-origin';
   #disabled = false;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get name() {
     return this.getAttribute('name');
@@ -20,6 +26,17 @@ export default class jtbcFieldTag extends HTMLElement {
 
   get disabled() {
     return this.#disabled;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set value(value) {
@@ -42,6 +59,10 @@ export default class jtbcFieldTag extends HTMLElement {
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   #initEvents() {
@@ -119,7 +140,7 @@ export default class jtbcFieldTag extends HTMLElement {
           {
             this.currentApiLoading = true;
             let currentApi = this.currentApi + '&tag=' + encodeURIComponent(currentValue);
-            fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
+            fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
               this.currentApiLoading = false;
               if (data.code == 1)
               {
@@ -257,6 +278,11 @@ export default class jtbcFieldTag extends HTMLElement {
       case 'api':
       {
         this.currentApi = newVal;
+        break;
+      };
+      case 'credentials':
+      {
+        this.credentials = newVal;
         break;
       };
       case 'value':

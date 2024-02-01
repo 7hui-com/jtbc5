@@ -583,6 +583,7 @@ export default class manage {
           });
         };
       });
+      scarf.querySelectorAll('template').forEach(el => el.hasAttribute('mt')? el.fetch(): null);
     };
   };
 

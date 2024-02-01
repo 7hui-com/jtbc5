@@ -1,5 +1,5 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
+  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --input-font-size: 12px; --input-font-color: #000; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 1000
 }
 .container {
   width: 100%; display: block !important; position: relative; z-index: var(--z-index)
@@ -8,7 +8,7 @@
   box-sizing: border-box; outline: none
 }
 .container input.datetime {
-  width: calc(100% - 30px); height: 30px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
+  width: calc(100% - 30px); height: var(--height); background: transparent; font-size: var(--input-font-size); color: var(--input-font-color); padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px; position: relative; z-index: 200
 }
 .container input.datetime:focus + span.box {
   border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)

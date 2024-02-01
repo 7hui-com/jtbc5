@@ -100,7 +100,7 @@ export default class sfooter extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div part="container" class="container">
+      <div part="container" class="container" style="display:none">
         <div class="bottom">
           <div class="box">
             <div class="section section-1" index="1"><h3></h3><div class="content"><slot class="content" name="content-1"></slot></div></div>

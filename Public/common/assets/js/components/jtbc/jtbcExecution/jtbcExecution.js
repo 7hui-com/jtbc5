@@ -1,12 +1,18 @@
 export default class jtbcExecution extends HTMLElement {
   static get observedAttributes() {
-    return ['url', 'href', 'message', 'silent', 'text-ok', 'text-cancel'];
+    return ['credentials', 'url', 'href', 'message', 'silent', 'text-ok', 'text-cancel'];
   };
 
+  #credentials = 'same-origin';
   #href = null;
   #message = '';
   #URL = null;
   #silent = false;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get href() {
     return this.#href;
@@ -20,6 +26,17 @@ export default class jtbcExecution extends HTMLElement {
     return this.#URL;
   };
 
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
   set href(href) {
     this.#href = href;
   };
@@ -30,6 +47,10 @@ export default class jtbcExecution extends HTMLElement {
 
   set URL(URL) {
     this.#URL = URL;
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   #initEvents() {
@@ -67,7 +88,7 @@ export default class jtbcExecution extends HTMLElement {
     {
       this.locked = true;
       let miniMessage = document.getElementById('miniMessage');
-      fetch(this.URL).then(res => res.ok? res.json(): {}).then(data => {
+      fetch(this.URL, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
         if (Number.isInteger(data.code))
         {
           if (data.code != 1)
@@ -101,6 +122,11 @@ export default class jtbcExecution extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
       case 'href':
       {
         this.href = newVal;

@@ -1,13 +1,19 @@
 export default class jtbcFieldTableSelector extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'href', 'type', 'max', 'value', 'placeholder', 'disabled', 'width'];
+    return ['api', 'credentials', 'href', 'type', 'max', 'value', 'placeholder', 'disabled', 'width'];
   };
 
   #api = null;
+  #credentials = 'same-origin';
   #disabled = false;
   #type = 'checkbox';
   #placeholder = null;
   #syncValue = null;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get name() {
     return this.getAttribute('name');
@@ -59,6 +65,17 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     return this.#disabled;
   };
 
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
   set value(value) {
     let container = this.container;
     let selectedEl = container.querySelector('div.selected')?.empty();
@@ -73,7 +90,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
           this.selected = valueArr;
           let currentApi = this.#api ?? this.getAttribute('api');
           currentApi += '&selected=' + encodeURIComponent(value);
-          fetch(currentApi).then(res => res.ok? res.json(): {}).then(data => {
+          fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
             if (data.code == 1)
             {
               let dataResult = data.data.result;
@@ -98,6 +115,10 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   #initEvents() {
@@ -336,6 +357,11 @@ export default class jtbcFieldTableSelector extends HTMLElement {
       case 'api':
       {
         this.#api = newVal;
+        break;
+      };
+      case 'credentials':
+      {
+        this.credentials = newVal;
         break;
       };
       case 'href':

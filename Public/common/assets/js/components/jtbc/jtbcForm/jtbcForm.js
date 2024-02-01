@@ -1,14 +1,20 @@
 export default class jtbcForm extends HTMLFormElement {
   static get observedAttributes() {
-    return ['mode', 'method'];
+    return ['credentials', 'mode', 'method'];
   };
 
+  #credentials = 'same-origin';
   #mode = 'queryString';
   #method = 'get';
   #locked = false;
   #originalFormData = {};
+  #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get mode() {
     return this.#mode;
@@ -16,6 +22,17 @@ export default class jtbcForm extends HTMLFormElement {
 
   get method() {
     return this.#method;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set mode(mode) {
@@ -183,9 +200,10 @@ export default class jtbcForm extends HTMLFormElement {
       {
         let headers = {};
         let method = this.#method;
+        let credentials = this.#credentials;
         let action = this.getAttribute('action');
         let errorMode = this.getAttribute('error_mode');
-        let init = {'method': method, 'headers': headers};
+        let init = {'method': method, 'headers': headers, 'credentials': credentials};
         Array.from(this.attributes).forEach(attr => {
           let name = attr.name;
           if (name.startsWith('header-'))
@@ -405,6 +423,11 @@ export default class jtbcForm extends HTMLFormElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
       case 'mode':
       {
         this.mode = newVal;

@@ -208,7 +208,7 @@ export default class theader extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div part="container" class="container">
+      <div part="container" class="container" style="display:none">
         <div class="box">
           <logo part="logo"></logo>
           <mainmenu part="mainmenu"></mainmenu>

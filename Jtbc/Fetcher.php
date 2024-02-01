@@ -5,6 +5,7 @@
 namespace Jtbc;
 use Jtbc\Fetcher\JtbcFetcher;
 use Jtbc\Fetcher\ModelFetcher;
+use Jtbc\Fetcher\ModuleFetcher;
 use Jtbc\Fetcher\SQLFetcher;
 
 class Fetcher
@@ -21,6 +22,9 @@ class Fetcher
         break;
       case 'model':
         $data = ModelFetcher::fetch($param);
+        break;
+      case 'module':
+        $data = ModuleFetcher::fetch($param);
         break;
       case 'sql':
         $data = SQLFetcher::fetch($param);

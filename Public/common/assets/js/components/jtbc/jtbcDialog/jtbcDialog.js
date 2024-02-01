@@ -1,12 +1,29 @@
 export default class jtbcDialog extends HTMLElement {
   static get observedAttributes() {
-    return ['popup-movable', 'text-ok', 'text-cancel'];
+    return ['credentials', 'popup-movable', 'text-ok', 'text-cancel'];
   };
 
+  #credentials = 'same-origin';
   #popupMovable = true;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+
+  get credentials() {
+    return this.#credentials;
+  };
 
   get popupMovable() {
     return this.#popupMovable;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set popupMovable(popupMovable) {
@@ -32,16 +49,36 @@ export default class jtbcDialog extends HTMLElement {
     }
     else
     {
-      fetch(href).then(res => res.ok? res.json(): {}).then(data => {
-        if (Number.isInteger(data.code))
+      fetch(href, this.#getFetchParams()).then(res => res.ok? res.text(): '').then(text => {
+        let code, fragment = null;
+        if (text.startsWith('{'))
         {
-          if (data.code == 1)
+          try
           {
-            this.popup(data.fragment);
-          };
+            let content = JSON.parse(text);
+            code = Number.parseInt(content.code);
+            fragment = content.hasOwnProperty('fragment')? content.fragment: null;
+          }
+          catch(e) {};
+        }
+        else if (text.startsWith('<'))
+        {
+          let parser = new DOMParser();
+          let dom = parser.parseFromString(text, 'text/xml');
+          let fel = dom.querySelector('xml>fragment');
+          code = Number.parseInt(dom.querySelector('xml')?.getAttribute('code'));
+          fragment = (fel != null)? fel.textContent: null;
+        };
+        if (code == 1)
+        {
+          this.popup(fragment);
         };
       });
     };
+  };
+
+  #getFetchParams() {
+    return {'method': 'get', 'credentials': this.#credentials};
   };
 
   #initEvents() {
@@ -193,13 +230,32 @@ export default class jtbcDialog extends HTMLElement {
   };
 
   async open(url, callback) {
-    let res = await fetch(url);
+    let res = await fetch(url, this.#getFetchParams());
     if (res.ok)
     {
-      let data = await res.json();
-      if (data.code == 1)
+      let code, fragment = null;
+      let text = await res.text();
+      if (text.startsWith('{'))
       {
-        return this.popup(data.fragment, callback);
+        try
+        {
+          let content = JSON.parse(text);
+          code = Number.parseInt(content.code);
+          fragment = content.hasOwnProperty('fragment')? content.fragment: null;
+        }
+        catch(e) {};
+      }
+      else if (text.startsWith('<'))
+      {
+        let parser = new DOMParser();
+        let dom = parser.parseFromString(text, 'text/xml');
+        let fel = dom.querySelector('xml>fragment');
+        code = Number.parseInt(dom.querySelector('xml')?.getAttribute('code'));
+        fragment = (fel != null)? fel.textContent: null;
+      };
+      if (code == 1)
+      {
+        return this.popup(fragment, callback);
       };
     };
   };
@@ -280,6 +336,11 @@ export default class jtbcDialog extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
       case 'popup-movable':
       {
         this.popupMovable = newVal;

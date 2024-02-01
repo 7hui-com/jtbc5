@@ -252,7 +252,7 @@ CREATE TABLE `universal_category`  (
   `genre` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"required\":false}',
   `order` int(11) NULL DEFAULT 0 COMMENT '{\"required\":false,\"format\":\"int\"}',
   `time` datetime NULL DEFAULT NULL COMMENT '{\"format\":\"datetime\"}',
-  `lang` tinyint(4) NULL DEFAULT 0 COMMENT '{\"required\":false,\"format\":\"int\"}',
+  `lang` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
   `published` tinyint(4) NULL DEFAULT 0 COMMENT '{\"required\":false,\"format\":\"int\"}',
   `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
   PRIMARY KEY (`id`) USING BTREE,

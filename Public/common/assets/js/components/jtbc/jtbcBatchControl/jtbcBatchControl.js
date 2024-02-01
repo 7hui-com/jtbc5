@@ -1,11 +1,23 @@
 export default class jtbcBatchControl extends HTMLDivElement {
   static get observedAttributes() {
-    return ['url', 'partner', 'message', 'text-ok', 'text-cancel'];
+    return ['credentials', 'mode', 'url', 'partner', 'message', 'text-ok', 'text-cancel'];
   };
 
+  #credentials = 'same-origin';
+  #mode = 'form';
   #url = null;
   #partner = null;
   #message = null;
+  #credentialsList = ['include', 'same-origin', 'omit'];
+  #modeList = ['form', 'json'];
+
+  get credentials() {
+    return this.#credentials;
+  };
+
+  get mode() {
+    return this.#mode;
+  };
 
   get partner() {
     return document.getElementById(this.#partner) ?? document.querySelector(this.#partner);
@@ -28,6 +40,56 @@ export default class jtbcBatchControl extends HTMLDivElement {
     return result;
   };
 
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  set mode(mode) {
+    if (this.#modeList.includes(mode))
+    {
+      this.#mode = mode;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
+  };
+
+  #getFetchParams(type, checked) {
+    let mode = this.#mode;
+    let result = {'method': 'post', 'credentials': this.#credentials};
+    if (mode == 'form')
+    {
+      let params = new URLSearchParams();
+      params.set('type', type);
+      if (Array.isArray(checked))
+      {
+        checked.forEach(item => {
+          params.append('id[]', item);
+        });
+      };
+      result.body = params.toString();
+      result.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    }
+    else if (mode == 'json')
+    {
+      result.headers = 'application/json';
+      result.body = JSON.stringify({'type': type, 'id': Array.isArray(checked)? checked: []});
+    };
+    return result;
+  };
+
+  #initEvents() {
+    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+  };
+
   execute() {
     if (this.locked == false && this.url != null)
     {
@@ -35,21 +97,8 @@ export default class jtbcBatchControl extends HTMLDivElement {
       let type = this.type;
       let partner = this.partner;
       let checked = partner.getChecked();
-      let params = new URLSearchParams();
-      params.set('type', type.name);
-      if (Array.isArray(checked))
-      {
-        checked.forEach(item => {
-          params.append('id[]', item);
-        });
-      };
-      let fetchInit = {
-        'method': 'post',
-        'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
-        'body': params.toString(),
-      };
       let miniMessage = document.getElementById('miniMessage');
-      fetch(this.url, fetchInit).then(res => res.ok? res.json(): {}).then(data => {
+      fetch(this.url, this.#getFetchParams(type.name, checked)).then(res => res.ok? res.json(): {}).then(data => {
         if (Number.isInteger(data.code))
         {
           if (data.code != 1)
@@ -121,6 +170,16 @@ export default class jtbcBatchControl extends HTMLDivElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
+      case 'mode':
+      {
+        this.mode = newVal;
+        break;
+      };
       case 'partner':
       {
         this.#partner = newVal;
@@ -151,6 +210,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -159,6 +219,5 @@ export default class jtbcBatchControl extends HTMLDivElement {
     this.locked = false;
     this.textOk = null;
     this.textCancel = null;
-    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
   };
 };

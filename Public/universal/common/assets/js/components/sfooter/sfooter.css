@@ -2,7 +2,7 @@
   display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
 }
 .container {
-  display: block; box-sizing: border-box; width: 100%
+  display: block !important; box-sizing: border-box; width: 100%
 }
 .container div.bottom {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-background)

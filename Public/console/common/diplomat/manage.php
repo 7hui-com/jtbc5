@@ -228,7 +228,7 @@ class Diplomat extends Ambassador {
       $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-9', 'lng'), 'value' => get_cfg_var('post_max_size')];
       $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-10', 'lng'), 'value' => get_cfg_var('upload_max_filesize')];
       $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-11', 'lng'), 'value' => get_cfg_var('memory_limit')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-12', 'lng'), 'value' => FileHelper::formatFileSize(disk_free_space('./'))];
+      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-12', 'lng'), 'value' => function_exists('disk_free_space')? FileHelper::formatFileSize(disk_free_space('./')): Jtbc::take('manage.text-sys-param-12-unknown', 'lng')];
       $ss -> data = ['nav' => $nav, 'account_info' => $accountInfo, 'system_info' => $systemInfo];
     }
     $result = $ss -> toJSON();

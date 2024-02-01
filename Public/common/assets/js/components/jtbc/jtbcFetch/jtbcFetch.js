@@ -1,19 +1,26 @@
 export default class jtbcFetch extends HTMLElement {
   static get observedAttributes() {
-    return ['mode', 'method', 'basehref', 'body', 'url', 'interval'];
+    return ['credentials', 'mode', 'method', 'mustache', 'basehref', 'body', 'url', 'interval'];
   };
 
   #body = null;
   #baseHref = null;
+  #credentials = 'same-origin';
   #mode = 'queryString';
   #method = 'get';
   #URL = null;
   #interval = null;
+  #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete'];
+  #mustache = null;
 
   get body() {
     return this.#body;
+  };
+
+  get credentials() {
+    return this.#credentials;
   };
 
   get mode() {
@@ -24,12 +31,27 @@ export default class jtbcFetch extends HTMLElement {
     return this.#method;
   };
 
+  get mustache() {
+    return this.#mustache;
+  };
+
   get href() {
     return this.#URL;
   };
 
   get fullURL() {
     return this.#baseHref? this.#baseHref + this.#URL: this.#URL;
+  };
+
+  set credentials(credentials) {
+    if (this.#credentialsList.includes(credentials))
+    {
+      this.#credentials = credentials;
+    }
+    else
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set mode(mode) {
@@ -54,6 +76,10 @@ export default class jtbcFetch extends HTMLElement {
     };
   };
 
+  set mustache(mustache) {
+    this.#mustache = mustache;
+  };
+
   set href(href) {
     this.dispatchEvent(new CustomEvent('hrefstart', {detail: {href: href}}));
     if (this.loading == false && this.locked == false)
@@ -74,10 +100,11 @@ export default class jtbcFetch extends HTMLElement {
       this.loading = true;
       this.removeAttribute('code');
       this.dispatchEvent(new CustomEvent('fetchstart'));
+      let headers = {};
       let action = this.fullURL;
       let method = this.method;
-      let headers = {};
-      let init = {'method': method, 'headers': headers};
+      let credentials = this.#credentials;
+      let init = {'method': method, 'headers': headers, 'credentials': credentials};
       let currentName = this.getAttribute('name');
       const setTemplateData = data => {
         if (currentName != null && data != null)
@@ -110,31 +137,62 @@ export default class jtbcFetch extends HTMLElement {
         init.body = this.body;
       };
       fetch(action, init).then(res => {
-        let result = {};
-        if (res.ok) result = res.json();
+        let result = '';
+        if (res.ok) result = res.text();
         else
         {
           this.dispatchEvent(new CustomEvent('fetcherror', {detail: {res: res}}));
         };
         return result;
-      }).then(data => {
-        let code = data.code;
-        if (Number.isInteger(code))
+      }).then(text => {
+        let code, data, fragment = null;
+        if (text.startsWith('{'))
+        {
+          try
+          {
+            let content = JSON.parse(text);
+            code = Number.parseInt(content.code);
+            data = content.hasOwnProperty('data')? content.data: null;
+            fragment = content.hasOwnProperty('fragment')? content.fragment: null;
+          }
+          catch(e) {};
+        }
+        else if (text.startsWith('<'))
+        {
+          let parser = new DOMParser();
+          let dom = parser.parseFromString(text, 'text/xml');
+          let del = dom.querySelector('xml>data');
+          let fel = dom.querySelector('xml>fragment');
+          code = Number.parseInt(dom.querySelector('xml')?.getAttribute('code'));
+          data = (del != null)? del.textContent: null;
+          fragment = (fel != null)? fel.textContent: null;
+        };
+        if (code != null)
         {
           this.setAttribute('code', code);
-          if (data.hasOwnProperty('fragment'))
+          if (fragment != null)
           {
-            data.fragment = data.fragment ?? '';
-            this.html(data.fragment).then(() => {
-              setTemplateData(data.data);
+            if (this.mustache != null)
+            {
+              let params = this.getAttributes(this.mustache);
+              Object.keys(params).forEach(key => {
+                fragment = fragment.replaceAll('{{' + key + '}}', params[key]);
+              });
+            };
+            this.html(fragment).then(() => {
+              setTemplateData(data);
               this.dispatchEvent(new CustomEvent('fetchdone'));
             });
           }
           else
           {
-            if (code == 1) setTemplateData(data.data);
+            if (code == 1) setTemplateData(data);
             this.dispatchEvent(new CustomEvent('fetchdone'));
           };
+        }
+        else
+        {
+          this.dispatchEvent(new CustomEvent('dataerror'));
         };
       }).catch(e => {
         this.dispatchEvent(new CustomEvent('fetchcrash', {detail: {e: e}}));
@@ -170,6 +228,11 @@ export default class jtbcFetch extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'credentials':
+      {
+        this.credentials = newVal;
+        break;
+      };
       case 'mode':
       {
         this.mode = newVal;
@@ -178,6 +241,11 @@ export default class jtbcFetch extends HTMLElement {
       case 'method':
       {
         this.method = newVal;
+        break;
+      };
+      case 'mustache':
+      {
+        this.mustache = newVal;
         break;
       };
       case 'basehref':

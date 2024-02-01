@@ -99,6 +99,10 @@
       <zh-cn><![CDATA[服务器磁盘可用]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-sys-param-12-unknown]]></name>
+      <zh-cn><![CDATA[不可探知]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-modify-password-tit]]></name>
       <zh-cn><![CDATA[修改密码]]></zh-cn>
     </item>

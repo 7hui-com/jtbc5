@@ -76,7 +76,7 @@ class ModuleFinder
         $hasChildMode = strtolower(chr(74) . chr(84) . chr(66) . chr(67) . chr(70));
         foreach($orderArr as $key => $val)
         {
-          if (!Validation::isEmpty($val))
+          if (!Validation::isEmpty($val) && !str_contains($val, chr(47)) && !str_contains($val, chr(92)))
           {
             $filename = $path . $val . '/common/' . $guideFileName . $extension;
             if (is_file($filename))
