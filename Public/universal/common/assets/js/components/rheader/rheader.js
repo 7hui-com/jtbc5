@@ -1,4 +1,4 @@
-export default class hheader extends HTMLElement {
+export default class rheader extends HTMLElement {
   static get observedAttributes() {
     return ['pitchon'];
   };
@@ -15,21 +15,35 @@ export default class hheader extends HTMLElement {
   };
 
   #initEvents() {
+    let mainmenu = this.mainmenu;
     let container = this.container;
+    window.addEventListener('scroll', e => {
+      container.classList.toggle('sticky', (window.scrollY > 0));
+    });
     container.delegateEventListener('navicon', 'click', function(){
-      if (!this.classList.contains('on'))
+      if (mainmenu.classList.contains('on'))
       {
-        this.classList.add('on');
-        this.parentElement.querySelector('mainmenu')?.classList.add('on');
+        mainmenu.classList.remove('on');
       }
       else
       {
-        this.classList.remove('on');
-        this.parentElement.querySelector('mainmenu')?.classList.remove('on');
+        mainmenu.classList.add('on');
       };
     });
     container.delegateEventListener('span.icon', 'click', function() {
       this.parentElement.parentElement.parentElement.classList.toggle('opened');
+    });
+    mainmenu.addEventListener('click', e => {
+      if (e.target == mainmenu)
+      {
+        mainmenu.classList.remove('on');
+      };
+    });
+    mainmenu.delegateEventListener('navicon', 'click', function(){
+      if (mainmenu.classList.contains('on'))
+      {
+        mainmenu.classList.remove('on');
+      };
     });
   };
 
@@ -46,8 +60,8 @@ export default class hheader extends HTMLElement {
   #selectAnchor() {
     if (this.ready == true)
     {
-      let container = this.container;
-      container.querySelectorAll('mainmenu li').forEach(li => {
+      let mainmenu = this.mainmenu;
+      mainmenu.querySelectorAll('mainmenu li').forEach(li => {
         if (this.pitchon != null && li.getAttribute('name') == this.pitchon)
         {
           li.classList.add('on');
@@ -62,9 +76,10 @@ export default class hheader extends HTMLElement {
 
   render() {
     let menuItems = [];
+    let mainmenu = this.mainmenu;
     let container = this.container;
     let logo = container.querySelector('logo').empty();
-    let mainmenu = container.querySelector('mainmenu').empty();
+    let mm = mainmenu.querySelector('mainmenu').empty();
     let xLogo = this.querySelector('logo');
     let xMenu = this.querySelector('menu');
     if (xLogo != null)
@@ -102,7 +117,44 @@ export default class hheader extends HTMLElement {
         });
         return anchor;
       };
-      xMenu.getDirectChildrenByTagName('href').forEach(el => menuItems.push(createHref(el)));
+      xMenu.getDirectChildrenByTagName('href').forEach(el => {
+        let menuItem = null;
+        let subhref = el.querySelectorAll('href');
+        if (subhref.length == 0)
+        {
+          menuItem = createHref(el);
+        }
+        else
+        {
+          menuItem = document.createElement('dl');
+          if (el.hasAttribute('name'))
+          {
+            menuItem.setAttribute('name', el.getAttribute('name'));
+          };
+          let dt = document.createElement('dt');
+          if (el.hasAttribute('url'))
+          {
+            dt.append(createHref(el));
+          }
+          else
+          {
+            let span = document.createElement('span');
+            span.innerText = el.getAttribute('title');
+            if (el.hasAttribute('name'))
+            {
+              span.setAttribute('name', el.getAttribute('name'));
+            };
+            dt.append(span);
+          };
+          menuItem.append(dt);
+          subhref.forEach(href => {
+            let dd = document.createElement('dd');
+            dd.append(createHref(href));
+            menuItem.append(dd);
+          });
+        };
+        menuItems.push(menuItem);
+      });
     };
     if (menuItems.length != 0)
     {
@@ -116,7 +168,7 @@ export default class hheader extends HTMLElement {
         li.append(item);
         ul.append(li);
       });
-      mainmenu.append(ul);
+      mm.append(ul);
     };
     this.dispatchEvent(new CustomEvent('renderend'));
   };
@@ -151,9 +203,14 @@ export default class hheader extends HTMLElement {
       <div part="container" class="container" style="display:none">
         <div class="box">
           <logo part="logo"></logo>
-          <mainmenu part="mainmenu"></mainmenu>
-          <bottom><slot name="bottom"></slot></bottom>
           <navicon><span class="line"></span></navicon>
+        </div>
+      </div>
+      <div class="mainmenu" style="display:none">
+        <div class="box">
+          <navicon><span class="line"></span></navicon>
+          <mainmenu part="mainmenu"></mainmenu>
+          <div class="bottom"><slot name="bottom"></slot></div>
         </div>
       </div>
       <div part="placeholder" class="placeholder"></div>
@@ -161,6 +218,7 @@ export default class hheader extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
+    this.mainmenu = shadowRoot.querySelector('div.mainmenu');
     this.#initEvents();
   };
 };

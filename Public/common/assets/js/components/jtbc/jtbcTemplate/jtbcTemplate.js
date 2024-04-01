@@ -2,7 +2,7 @@ import proxyCreator from '../../../library/proxy/proxyCreator.js';
 
 export default class jtbcTemplate extends HTMLTemplateElement {
   static get observedAttributes() {
-    return ['credentials', 'data', 'mode', 'target', 'url'];
+    return ['credentials', 'data', 'mode', 'target', 'url', 'with-global-headers'];
   };
 
   #credentials = 'same-origin';
@@ -14,6 +14,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   #target = null;
   #URL = null;
   #credentialsList = ['include', 'same-origin', 'omit'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -81,7 +82,18 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   };
 
   #getFetchParams() {
-    return {'method': 'get', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'get', 'credentials': this.#credentials};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
+    return result;
   };
 
   getDataByKey(key, appointedData) {
@@ -519,6 +531,11 @@ export default class jtbcTemplate extends HTMLTemplateElement {
         {
           this.fetch();
         };
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

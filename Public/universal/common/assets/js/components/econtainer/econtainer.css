@@ -1,0 +1,32 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-gap: 20px; --container-z-index: 100; --container-flex-direction: row; --container-sidebar-width: 25%
+}
+container {
+  display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); position: relative; z-index: var(--container-z-index)
+}
+container div.container {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
+}
+container div.container div.box {
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; gap: var(--container-gap); flex-direction: var(--container-flex-direction)
+}
+container div.container div.box div.sidebar {
+  width: var(--container-sidebar-width)
+}
+container div.container div.box div.sidebar.hide {
+  display: none !important
+}
+container div.container div.box div.main {
+  flex: 1
+}
+container div.container.hide {
+  display: none !important
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --container-gap: 15px; --container-sidebar-width: 100%
+  }
+  container div.container div.box div.main {
+    display: block; width: 100%
+  }
+}

@@ -31,9 +31,15 @@ export default class scontainer extends HTMLElement {
 
   #initEvents() {
     let container = this.container;
+    container.querySelectorAll('div.container slot[name=main]').forEach(slot => {
+      slot.addEventListener('slotchange', function(){
+        this.assignedElements().forEach(el => el.classList.add('slotted'));
+      });
+    });
     container.querySelectorAll('div.container slot[name=sidebar]').forEach(slot => {
       slot.addEventListener('slotchange', function(){
-        let elementCount = this.assignedElements().length;
+        let assignedElements = this.assignedElements();
+        let elementCount = assignedElements.length;
         if (elementCount === 0)
         {
           this.parentElement.classList.add('hide');
@@ -41,6 +47,7 @@ export default class scontainer extends HTMLElement {
         else
         {
           this.parentElement.classList.remove('hide');
+          assignedElements.forEach(el => el.classList.add('slotted'));
         };
       });
     });

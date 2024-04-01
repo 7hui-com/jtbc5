@@ -1,3 +1,5 @@
+import * as echarts from '../../../vendor/echarts/echarts.esm.min.js';
+
 export default class jtbcCharts extends HTMLElement {
   static get observedAttributes() {
     return ['option', 'width', 'height'];
@@ -5,43 +7,33 @@ export default class jtbcCharts extends HTMLElement {
 
   #option = null;
   #inited = false;
-  #basePath = null;
-  #libPath = null;
   instance = null;
 
   set option(option) {
     this.#option = option;
-    this.#init();
-  };
-
-  #loadECharts() {
-    let container = this.container;
-    if (typeof echarts == 'undefined')
+    if (this.instance != null)
     {
-      return new Promise((resolve) => {
-        let parentNode = container.parentNode;
-        let echartsScript = document.createElement('script');
-        echartsScript.src = this.#libPath + '/echarts.min.js';
-        parentNode.insertBefore(echartsScript, container);
-        echartsScript.addEventListener('load', () => resolve(this));
-      });
-    }
-    else
-    {
-      return new Promise((resolve) => { resolve(this); });
+      this.instance.setOption(option instanceof Object? option: JSON.parse(option));
     };
   };
 
-  #init() {
+  #isCSSLoaded() {
+    return getComputedStyle(this.container).getPropertyValue('display') == 'none'? false: true;
+  };
+
+  async #init() {
     if (this.#inited === false)
     {
       this.#inited = true;
-      this.#loadECharts().then(() => {
-        let option = this.#option;
-        this.instance = echarts.init(this.container);
-        this.instance.setOption(option instanceof Object? option: JSON.parse(option));
-      });
+      let option = this.#option;
+      while (!this.#isCSSLoaded())
+      {
+        await nap(100);
+      };
+      this.instance = echarts.init(this.container);
+      this.instance.setOption(option instanceof Object? option: JSON.parse(option));
     };
+    return this;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -66,12 +58,12 @@ export default class jtbcCharts extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#init().then(el => el.dispatchEvent(new CustomEvent('inited', {bubbles: true})));
   };
 
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
@@ -79,8 +71,6 @@ export default class jtbcCharts extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.#basePath = basePath;
-    this.#libPath = basePath + '../../../vendor/echarts';
     this.container = shadowRoot.querySelector('div.container');
   };
 };

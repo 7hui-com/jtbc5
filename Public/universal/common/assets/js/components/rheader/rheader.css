@@ -1,0 +1,115 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 2800px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 15%; --header-mainmenu-mask-background: rgba(0, 0, 0, 0.8); --header-mainmenu-mask-z-index: 999999; --header-mainmenu-min-width: 300px; --header-mainmenu-border-left: 0px; --header-mainmenu-background: #fff; --header-mainmenu-navicon-padding: 20px; --header-mainmenu-bottom-background: transparent; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-navicon-color: #005f9b; --z-index: 1000
+}
+.container {
+  display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
+}
+.container div.box {
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--header-page-max-width); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
+}
+.container div.box logo {
+  display: block; width: var(--header-logo-width); height: 100%
+}
+.container div.box logo a {
+  display: inline-block; height: 100%
+}
+.container div.box logo img {
+  display: inline-block; height: 100%
+}
+.container div.box navicon {
+  display: block; width: 30px; height: 30px; position: relative; z-index: 100; cursor: pointer
+}
+.container div.box navicon span {
+  display: block; width: 100%; height: 2px; background: var(--header-navicon-color); margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+}
+.container div.box navicon span::before,
+.container div.box navicon span::after {
+  content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+}
+.container div.box navicon span::before {
+  margin-top: -10px
+}
+.container div.box navicon span::after {
+  margin-top: 8px
+}
+.container.sticky {
+  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow)
+}
+.mainmenu {
+  display: block !important; width: 100%; height: 100%; background: var(--header-mainmenu-mask-background); opacity: 0; pointer-events: none; position: fixed; top: 0px; left: 0px; z-index: calc(0 - var(--header-mainmenu-mask-z-index)); overflow: hidden; transition: all .3s ease
+}
+.mainmenu div.box {
+  display: block; width: 20%; min-width: var(--header-mainmenu-min-width); height: 100%; box-sizing: border-box; padding: calc(var(--header-anchor-padding) * 2) 0px; border-left: var(--header-mainmenu-border-left); overflow: auto; background: var(--header-mainmenu-background); position: absolute; top: 0px; right: 0px; z-index: 100; transform: translate(100%, 0); transition: all .3s ease
+}
+.mainmenu div.box navicon {
+  display: block; width: 30px; height: 30px; position: absolute; right: var(--header-mainmenu-navicon-padding); top: calc(var(--header-height) * 0.5 - 15px); z-index: 2000; cursor: pointer
+}
+.mainmenu div.box navicon span {
+  display: block; width: 100%; height: 2px; background: transparent; margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100
+}
+.mainmenu div.box navicon span::before,
+.mainmenu div.box navicon span::after {
+  content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+}
+.mainmenu div.box navicon span::before {
+  transform: rotate(45deg); margin-top: -2px
+}
+.mainmenu div.box navicon span::after {
+  transform: rotate(-45deg); margin-top: -2px
+}
+.mainmenu div.box mainmenu {
+  display: block; width: 100%
+}
+.mainmenu div.box mainmenu ul {
+  list-style: none; margin: 0px; padding: 0px
+}
+.mainmenu div.box mainmenu ul li {
+  margin: 0px; padding: 0px; position: relative
+}
+.mainmenu div.box mainmenu ul li dl {
+  margin: 0px; padding: 0px; width: 100%
+}
+.mainmenu div.box mainmenu ul li dl::before {
+  content: ''; position: absolute; top: var(--header-anchor-height); left: calc(var(--header-anchor-padding) * 1.5); width: 0px; height: calc(100% - var(--header-anchor-height) * 1.5); border-left: var(--header-anchor-color) 1px solid; opacity: .15; z-index: 1000; pointer-events: none
+}
+.mainmenu div.box mainmenu ul li dl dt {
+  margin: 0px; padding: 0px; width: 100%; position: relative
+}
+.mainmenu div.box mainmenu ul li dl dd {
+  margin: 0px; padding: 0px; width: 100%; box-sizing: border-box; padding-left: calc(var(--header-anchor-padding) * 1.5); position: relative
+}
+.mainmenu div.box mainmenu ul li dl dd::before {
+  content: ''; position: absolute; top: calc(var(--header-anchor-height) * 0.5); left: calc(var(--header-anchor-padding) * 1.5); width: calc(var(--header-anchor-padding) * 0.5); height: 0px; border-top: var(--header-anchor-color) 1px solid; opacity: .15; z-index: 1000; pointer-events: none
+}
+.mainmenu div.box mainmenu ul li dl dd > a {
+  display: flex; height: var(--header-anchor-height); align-items: center; padding: 0px var(--header-anchor-padding); font-size: calc(var(--header-anchor-font-size) - 2px); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); transition: color .2s ease
+}
+.mainmenu div.box mainmenu ul li dl dd > a:hover {
+  color: var(--header-submenu-anchor-hover-color)
+}
+.mainmenu div.box mainmenu ul li > a,
+.mainmenu div.box mainmenu ul li dl dt > a,
+.mainmenu div.box mainmenu ul li dl dt > span {
+  display: flex; height: var(--header-anchor-height); align-items: center; padding: 0px var(--header-anchor-padding); font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); position: relative; transition: color .2s ease
+}
+.mainmenu div.box mainmenu ul li > a:hover,
+.mainmenu div.box mainmenu ul li dl dt > a:hover {
+  color: var(--header-anchor-hover-color) !important
+}
+.mainmenu div.box div.bottom {
+  width: 100%; box-sizing: border-box; background: var(--header-mainmenu-bottom-background); padding: var(--header-mainmenu-navicon-padding); position: absolute; bottom: 0px; left: 0px; z-index: 1800
+}
+.mainmenu.on {
+  opacity: 1; pointer-events: auto; z-index: var(--header-mainmenu-mask-z-index)
+}
+.mainmenu.on div.box {
+  transform: translate(0, 0)
+}
+.placeholder {
+  width: 100%; height: var(--header-height); box-sizing: border-box
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-height: 60px; --header-anchor-padding: 15px; --header-submenu-margin-top: 0px
+  }
+}

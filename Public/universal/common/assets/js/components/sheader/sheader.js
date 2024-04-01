@@ -155,7 +155,7 @@ export default class sheader extends HTMLElement {
           <navicon><span class="line"></span></navicon>
         </div>
       </div>
-      <div class="placeholder"></div>
+      <div part="placeholder" class="placeholder"></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;

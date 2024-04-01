@@ -1,6 +1,6 @@
 export default class jtbcFetch extends HTMLElement {
   static get observedAttributes() {
-    return ['credentials', 'mode', 'method', 'mustache', 'basehref', 'body', 'url', 'interval'];
+    return ['credentials', 'mode', 'method', 'mustache', 'basehref', 'body', 'url', 'interval', 'with-global-headers'];
   };
 
   #body = null;
@@ -14,6 +14,7 @@ export default class jtbcFetch extends HTMLElement {
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete'];
   #mustache = null;
+  #withGlobalHeaders = null;
 
   get body() {
     return this.#body;
@@ -104,6 +105,7 @@ export default class jtbcFetch extends HTMLElement {
       let action = this.fullURL;
       let method = this.method;
       let credentials = this.#credentials;
+      let withGlobalHeaders = this.#withGlobalHeaders;
       let init = {'method': method, 'headers': headers, 'credentials': credentials};
       let currentName = this.getAttribute('name');
       const setTemplateData = data => {
@@ -121,6 +123,15 @@ export default class jtbcFetch extends HTMLElement {
               el.setAttribute('data', JSON.stringify(data));
             };
           });
+        };
+      };
+      if (withGlobalHeaders != null)
+      {
+        let broadcaster = getBroadcaster('fetch');
+        let state = broadcaster.getState();
+        if (state.hasOwnProperty(withGlobalHeaders))
+        {
+          headers = Object.assign(headers, state[withGlobalHeaders]);
         };
       };
       Array.from(this.attributes).forEach(attr => {
@@ -267,6 +278,11 @@ export default class jtbcFetch extends HTMLElement {
       {
         this.#interval = Number.parseInt(newVal);
         this.setInterval();
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

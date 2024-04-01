@@ -1,6 +1,6 @@
 export default class jtbcForm extends HTMLFormElement {
   static get observedAttributes() {
-    return ['credentials', 'mode', 'method'];
+    return ['credentials', 'mode', 'method', 'with-global-headers'];
   };
 
   #credentials = 'same-origin';
@@ -11,6 +11,7 @@ export default class jtbcForm extends HTMLFormElement {
   #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -201,9 +202,19 @@ export default class jtbcForm extends HTMLFormElement {
         let headers = {};
         let method = this.#method;
         let credentials = this.#credentials;
+        let withGlobalHeaders = this.#withGlobalHeaders;
         let action = this.getAttribute('action');
         let errorMode = this.getAttribute('error_mode');
         let init = {'method': method, 'headers': headers, 'credentials': credentials};
+        if (withGlobalHeaders != null)
+        {
+          let broadcaster = getBroadcaster('fetch');
+          let state = broadcaster.getState();
+          if (state.hasOwnProperty(withGlobalHeaders))
+          {
+            headers = Object.assign(headers, state[withGlobalHeaders]);
+          };
+        };
         Array.from(this.attributes).forEach(attr => {
           let name = attr.name;
           if (name.startsWith('header-'))
@@ -436,6 +447,11 @@ export default class jtbcForm extends HTMLFormElement {
       case 'method':
       {
         this.method = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

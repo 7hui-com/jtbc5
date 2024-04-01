@@ -1,6 +1,6 @@
 export default class jtbcFieldTableSelector extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'credentials', 'href', 'type', 'max', 'value', 'placeholder', 'disabled', 'width'];
+    return ['api', 'credentials', 'href', 'type', 'max', 'value', 'placeholder', 'disabled', 'with-global-headers', 'width'];
   };
 
   #api = null;
@@ -10,6 +10,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   #placeholder = null;
   #syncValue = null;
   #credentialsList = ['include', 'same-origin', 'omit'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -118,7 +119,18 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   };
 
   #getFetchParams() {
-    return {'method': 'get', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'get', 'credentials': this.#credentials};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
+    return result;
   };
 
   #initEvents() {
@@ -397,6 +409,11 @@ export default class jtbcFieldTableSelector extends HTMLElement {
       case 'disabled':
       {
         this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
       case 'width':

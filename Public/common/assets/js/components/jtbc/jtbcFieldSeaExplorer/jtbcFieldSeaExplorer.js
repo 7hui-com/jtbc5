@@ -1,6 +1,6 @@
 export default class jtbcFieldSeaExplorer extends HTMLElement {
   static get observedAttributes() {
-    return ['api', 'credentials', 'max', 'value', 'singleton', 'disabled', 'width'];
+    return ['api', 'credentials', 'max', 'value', 'singleton', 'disabled', 'with-global-headers', 'width'];
   };
 
   #api = null;
@@ -10,6 +10,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   #tempValue = null;
   #singleton = false;
   #credentialsList = ['include', 'same-origin', 'omit'];
+  #withGlobalHeaders = null;
 
   get api() {
     return this.#api;
@@ -92,7 +93,18 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   };
 
   #getFetchParams() {
-    return {'method': 'get', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'get', 'credentials': this.#credentials};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
+    return result;
   };
 
   #initEvents() {
@@ -410,6 +422,11 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
       case 'disabled':
       {
         this.disabled = this.hasAttribute('disabled')? true: false;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
       case 'width':

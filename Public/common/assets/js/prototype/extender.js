@@ -196,21 +196,21 @@ export default class extender {
       };
       return that.components.load(getDependentComponents(this));
     };
-    Element.prototype.loadFragment = async function(url, mode = 'json', params = {}) {
+    Element.prototype.loadFragment = async function(input, mode = 'json', params = {}) {
       let result = this;
       if (mode == 'xml')
       {
-        result = await this.loadFragmentFromXML(url, params);
+        result = await this.loadFragmentFromXML(input, params);
       }
       else
       {
-        result = await this.loadFragmentFromJSON(url, params);
+        result = await this.loadFragmentFromJSON(input, params);
       };
       return result;
     };
-    Element.prototype.loadFragmentFromJSON = async function(url, params = {}) {
+    Element.prototype.loadFragmentFromJSON = async function(input, params = {}) {
       let result = this;
-      let res = await fetch(url);
+      let res = await fetch(input);
       let data = await (res.ok? res.json(): {});
       if (data.hasOwnProperty('code'))
       {
@@ -234,9 +234,9 @@ export default class extender {
       };
       return result;
     };
-    Element.prototype.loadFragmentFromXML = async function(url, params = {}) {
+    Element.prototype.loadFragmentFromXML = async function(input, params = {}) {
       let result = this;
-      let res = await fetch(url);
+      let res = await fetch(input);
       let data = await (res.ok? res.text(): null);
       if (data != null)
       {

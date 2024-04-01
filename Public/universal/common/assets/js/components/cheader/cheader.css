@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 25%; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 15%; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
@@ -23,7 +23,7 @@
   display: block; flex: 1; height: 100%
 }
 .container div.box mainmenu ul {
-  display: flex; align-items: center; justify-content: flex-end; list-style: none; margin: 0px; padding: 0px; height: 100%
+  display: flex; align-items: center; justify-content: center; list-style: none; margin: 0px; padding: 0px; height: 100%
 }
 .container div.box mainmenu ul li {
   margin: 0px; padding: 0px; height: 100%; max-height: var(--header-anchor-height); transition: max-height .3s ease
@@ -81,6 +81,9 @@
 .container div.box mainmenu ul li.on > a::before,
 .container div.box mainmenu ul li.on dl dt > a::before {
   opacity: 1; bottom: 0px; background: var(--header-anchor-color)
+}
+.container div.box div.right {
+  display: flex; width: var(--header-logo-width); justify-content: right
 }
 .container.sticky {
   background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow)
@@ -182,5 +185,8 @@
   }
   .container div.box mainmenu.on {
     max-height: calc(var(--header-height) * 10); box-shadow: var(--header-mobile-mainmenu-box-shadow)
+  }
+  .container div.box div.right {
+    display: none
   }
 }

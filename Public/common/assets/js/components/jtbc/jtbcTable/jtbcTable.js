@@ -1,12 +1,13 @@
 export default class jtbcTable extends HTMLTableElement {
   static get observedAttributes() {
-    return ['credentials', 'mode'];
+    return ['credentials', 'mode', 'with-global-headers'];
   };
 
   #credentials = 'same-origin';
   #mode = 'form';
   #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['form', 'json'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -40,7 +41,17 @@ export default class jtbcTable extends HTMLTableElement {
 
   #getFetchParams(identity, checked) {
     let mode = this.#mode;
-    let result = {'method': 'post', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'post', 'credentials': this.#credentials, 'headers': {}};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
     if (mode == 'form')
     {
       let params = new URLSearchParams();
@@ -55,11 +66,11 @@ export default class jtbcTable extends HTMLTableElement {
         });
       };
       result.body = params.toString();
-      result.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      result.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     else if (mode == 'json')
     {
-      result.headers = 'application/json';
+      result.headers['Content-Type'] = 'application/json';
       let body = {'id': Array.isArray(checked)? checked: []};
       if (identity != null)
       {
@@ -245,6 +256,11 @@ export default class jtbcTable extends HTMLTableElement {
       case 'mode':
       {
         this.mode = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

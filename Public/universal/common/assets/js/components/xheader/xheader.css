@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; position: relative; z-index: 1000; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-height: 80px; --header-container-background: #fff; --header-topmenu-height: 40px; --header-topmenu-background: #005f9b; --header-topmenu-hover-background: #004f7d; --header-topmenu-li-width: auto; --header-topmenu-submenu-hover-background: #024067; --header-topmenu-submenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-border-top: #005f9b 2px solid; --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #fff; --header-anchor-hover-color: #f4f4f4; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --header-mobile-topmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
+  display: block; width: 100%; box-sizing: border-box; position: relative; z-index: 1000; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-height: 80px; --header-container-background: #fff; --header-topmenu-height: 40px; --header-topmenu-background: #005f9b; --header-topmenu-hover-background: #004f7d; --header-topmenu-li-width: auto; --header-topmenu-submenu-hover-background: #024067; --header-topmenu-submenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-border-top: #005f9b 2px solid; --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #fff; --header-anchor-hover-color: #f4f4f4; --header-anchor-icon-size: 30px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --header-mobile-topmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%; height: var(--header-container-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-container-background); border-top: var(--header-border-top); position: relative; z-index: 100
@@ -48,7 +48,7 @@
   margin: 0px; padding: 0px; width: 100%; max-height: 100%; overflow: hidden; transition: max-height .3s ease, box-shadow .3s ease
 }
 .topmenu div.box mainmenu ul li dl dt {
-  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); display: flex; align-items: center; justify-content: space-between
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); position: relative
 }
 .topmenu div.box mainmenu ul li dl dt > span.icon {
   display: none
@@ -62,8 +62,9 @@
 }
 .topmenu div.box mainmenu ul li > a,
 .topmenu div.box mainmenu ul li dl dt > a,
+.topmenu div.box mainmenu ul li dl dt > span,
 .topmenu div.box mainmenu ul li dl dd > a {
-  display: flex; width: 100%; height: 100%; box-sizing: border-box; padding: 0px calc(var(--header-topmenu-height) / 2); align-items: center; justify-content: center; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); white-space: nowrap
+  display: flex; width: 100%; height: 100%; box-sizing: border-box; padding: 0px calc(var(--header-topmenu-height) / 2); align-items: center; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); white-space: nowrap
 }
 .topmenu div.box mainmenu ul li > a:hover,
 .topmenu div.box mainmenu ul li dl dt > a:hover,
@@ -135,10 +136,10 @@
     max-height: var(--header-topmenu-height)
   }
   .topmenu div.box mainmenu ul li dl dt > span.icon {
-    display: flex; width: 30px; height: var(--header-topmenu-height); margin-left: 30px; align-items: center; justify-content: center
+    display: flex; width: var(--header-anchor-icon-size); height: var(--header-topmenu-height); padding: 0px; align-items: center; justify-content: center; transform: translate(0, calc(-50% + 2px)); position: absolute; top: 50%; right: 0px; z-index: 100
   }
   .topmenu div.box mainmenu ul li dl dt > span.icon jtbc-svg {
-    width: 14px; height: 14px; --fore-color: var(--header-mobile-anchor-color)
+    width: 14px; height: 14px; --fore-color: var(--header-anchor-color)
   }
   .topmenu div.box mainmenu ul li dl dd {
     background: none !important

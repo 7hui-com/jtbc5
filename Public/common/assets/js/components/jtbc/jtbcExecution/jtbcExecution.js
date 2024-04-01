@@ -1,6 +1,6 @@
 export default class jtbcExecution extends HTMLElement {
   static get observedAttributes() {
-    return ['credentials', 'url', 'href', 'message', 'silent', 'text-ok', 'text-cancel'];
+    return ['credentials', 'url', 'href', 'message', 'silent', 'with-global-headers', 'text-ok', 'text-cancel'];
   };
 
   #credentials = 'same-origin';
@@ -9,6 +9,7 @@ export default class jtbcExecution extends HTMLElement {
   #URL = null;
   #silent = false;
   #credentialsList = ['include', 'same-origin', 'omit'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -50,7 +51,18 @@ export default class jtbcExecution extends HTMLElement {
   };
 
   #getFetchParams() {
-    return {'method': 'get', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'get', 'credentials': this.#credentials};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
+    return result;
   };
 
   #initEvents() {
@@ -145,6 +157,11 @@ export default class jtbcExecution extends HTMLElement {
       case 'silent':
       {
         this.#silent = this.hasAttribute('silent')? true: false;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
       case 'text-ok':

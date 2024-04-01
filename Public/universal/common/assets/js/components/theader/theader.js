@@ -130,14 +130,14 @@ export default class theader extends HTMLElement {
             menuItem.setAttribute('name', el.getAttribute('name'));
           };
           let dt = document.createElement('dt');
+          let icon = document.createElement('span');
+          let jtbcSvg = document.createElement('jtbc-svg');
+          icon.classList.add('icon');
+          jtbcSvg.setAttribute('name', this.arrow);
+          icon.html(jtbcSvg.outerHTML).then(() => dt.append(icon));
           if (el.hasAttribute('url'))
           {
             dt.append(createHref(el));
-            let icon = document.createElement('span');
-            let jtbcSvg = document.createElement('jtbc-svg');
-            icon.classList.add('icon');
-            jtbcSvg.setAttribute('name', this.arrow);
-            icon.html(jtbcSvg.outerHTML).then(() => dt.append(icon));
           }
           else
           {
@@ -215,7 +215,7 @@ export default class theader extends HTMLElement {
           <navicon><span class="line"></span></navicon>
         </div>
       </div>
-      <div class="placeholder"></div>
+      <div part="placeholder" class="placeholder"></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;

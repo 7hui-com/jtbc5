@@ -53,7 +53,7 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
       {
         if (data != null)
         {
-          Object.keys(data).forEach(item => {
+          Object.keys(data.list).forEach(item => {
             if (value.indexOf(item) == 0)
             {
               result = item;
@@ -108,7 +108,15 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
       let res = await fetch(this.src);
       if (res.ok)
       {
-        result = this.#data = await res.json();
+        let data = await res.json();
+        if (data.code == 1)
+        {
+          result = this.#data = data.data;
+        }
+        else
+        {
+          throw new Error('Unexpected data');
+        };
       };
     };
     return result;
@@ -121,11 +129,11 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
       let provinceEl = container.querySelector('select.province');
       let province = document.createElement('select');
       province.classList.add('province');
-      province.options.add(new Option(this.textProvince, ''));
       this.getData().then(data => {
         if (data != null)
         {
-          Object.keys(data).forEach(item => {
+          province.options.add(new Option(data.province, ''));
+          Object.keys(data.list).forEach(item => {
             if (this.province != item)
             {
               province.options.add(new Option(item, item));
@@ -154,11 +162,11 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
     let cityEl = container.querySelector('select.city');
     let city = document.createElement('select');
     city.classList.add('city');
-    city.options.add(new Option(this.textCity, ''));
     this.getData().then(data => {
-      if (Object.keys(data).includes(province))
+      city.options.add(new Option(data.city, ''));
+      if (Object.keys(data.list).includes(province))
       {
-        data[province].forEach(item => {
+        data.list[province].forEach(item => {
           if (this.province == province && this.city == item)
           {
             city.options.add(new Option(item, item, false, true));
@@ -224,8 +232,6 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.textProvince = '=省=';
-    this.textCity = '=市/区=';
     this.src = basePath + 'data/mainland.json';
     this.#initEvents();
   };

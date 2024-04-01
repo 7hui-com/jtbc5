@@ -32,6 +32,17 @@ class Converter
     return $result;
   }
 
+  public static function convertNumericToTimestamp(string $argNumeric)
+  {
+    $result = false;
+    $numeric = $argNumeric;
+    if (Validation::isNumber($numeric) && strlen($numeric) == 14)
+    {
+      $result = intval(strtotime(substr($numeric, 0, 4) . '-' . substr($numeric, 4, 2) . '-' . substr($numeric, 6, 2) . ' ' . substr($numeric, 8, 2) . ':' . substr($numeric, 10, 2) . ':' . substr($numeric, 12, 2)));
+    }
+    return $result;
+  }
+
   public static function convertToArrayExceptNull(array $argArray)
   {
     $result = [];

@@ -14,10 +14,10 @@ container div.headline div.box {
   display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: center; justify-content: center; position: relative; z-index: 100
 }
 container div.headline div.box div.text span.title {
-  display: block; font-size: var(--container-headline-title-font-size); color: var(--container-headline-title-color); line-height: var(--container-headline-title-line-height); letter-spacing: var(--container-headline-title-letter-spacing); font-weight: var(--container-headline-title-font-weight)
+  display: block; font-size: var(--container-headline-title-font-size); color: var(--container-headline-title-color); line-height: var(--container-headline-title-line-height); letter-spacing: var(--container-headline-title-letter-spacing); font-weight: var(--container-headline-title-font-weight); text-align: center
 }
 container div.headline div.box div.text span.subtitle {
-  display: block; font-size: var(--container-headline-subtitle-font-size); color: var(--container-headline-subtitle-color); line-height: var(--container-headline-subtitle-line-height); letter-spacing: var(--container-headline-subtitle-letter-spacing); font-weight: var(--container-headline-subtitle-font-weight)
+  display: block; font-size: var(--container-headline-subtitle-font-size); color: var(--container-headline-subtitle-color); line-height: var(--container-headline-subtitle-line-height); letter-spacing: var(--container-headline-subtitle-letter-spacing); font-weight: var(--container-headline-subtitle-font-weight); text-align: center
 }
 container div.navigation {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding)); background: var(--container-navigation-background); border-top: var(--container-navigation-border-top); border-bottom: var(--container-navigation-border-bottom)

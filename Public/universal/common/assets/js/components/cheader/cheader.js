@@ -1,9 +1,14 @@
-export default class hheader extends HTMLElement {
+export default class cheader extends HTMLElement {
   static get observedAttributes() {
-    return ['pitchon'];
+    return ['arrow', 'pitchon'];
   };
 
+  #arrow = 'arrow_down';
   #pitchon = null;
+
+  get arrow() {
+    return this.#arrow;
+  };
 
   get pitchon() {
     return this.#pitchon;
@@ -14,8 +19,16 @@ export default class hheader extends HTMLElement {
     this.#selectAnchor();
   };
 
+  set arrow(arrow) {
+    this.#arrow = arrow;
+    this.container.querySelectorAll('dt').forEach(dt => dt.querySelector('span.icon jtbc-svg')?.setAttribute('name', arrow));
+  };
+
   #initEvents() {
     let container = this.container;
+    window.addEventListener('scroll', e => {
+      container.classList.toggle('sticky', (window.scrollY > 0));
+    });
     container.delegateEventListener('navicon', 'click', function(){
       if (!this.classList.contains('on'))
       {
@@ -102,7 +115,49 @@ export default class hheader extends HTMLElement {
         });
         return anchor;
       };
-      xMenu.getDirectChildrenByTagName('href').forEach(el => menuItems.push(createHref(el)));
+      xMenu.getDirectChildrenByTagName('href').forEach(el => {
+        let menuItem = null;
+        let subhref = el.querySelectorAll('href');
+        if (subhref.length == 0)
+        {
+          menuItem = createHref(el);
+        }
+        else
+        {
+          menuItem = document.createElement('dl');
+          if (el.hasAttribute('name'))
+          {
+            menuItem.setAttribute('name', el.getAttribute('name'));
+          };
+          let dt = document.createElement('dt');
+          let icon = document.createElement('span');
+          let jtbcSvg = document.createElement('jtbc-svg');
+          icon.classList.add('icon');
+          jtbcSvg.setAttribute('name', this.arrow);
+          icon.html(jtbcSvg.outerHTML).then(() => dt.append(icon));
+          if (el.hasAttribute('url'))
+          {
+            dt.append(createHref(el));
+          }
+          else
+          {
+            let span = document.createElement('span');
+            span.innerText = el.getAttribute('title');
+            if (el.hasAttribute('name'))
+            {
+              span.setAttribute('name', el.getAttribute('name'));
+            };
+            dt.append(span);
+          };
+          menuItem.append(dt);
+          subhref.forEach(href => {
+            let dd = document.createElement('dd');
+            dd.append(createHref(href));
+            menuItem.append(dd);
+          });
+        };
+        menuItems.push(menuItem);
+      });
     };
     if (menuItems.length != 0)
     {
@@ -123,6 +178,11 @@ export default class hheader extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'arrow':
+      {
+        this.arrow = newVal;
+        break;
+      };
       case 'pitchon':
       {
         this.pitchon = newVal;
@@ -152,7 +212,7 @@ export default class hheader extends HTMLElement {
         <div class="box">
           <logo part="logo"></logo>
           <mainmenu part="mainmenu"></mainmenu>
-          <bottom><slot name="bottom"></slot></bottom>
+          <div class="right"><slot name="right"></slot></div>
           <navicon><span class="line"></span></navicon>
         </div>
       </div>

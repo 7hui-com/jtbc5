@@ -1,11 +1,12 @@
 export default class jtbcDialog extends HTMLElement {
   static get observedAttributes() {
-    return ['credentials', 'popup-movable', 'text-ok', 'text-cancel'];
+    return ['credentials', 'popup-movable', 'with-global-headers', 'text-ok', 'text-cancel'];
   };
 
   #credentials = 'same-origin';
   #popupMovable = true;
   #credentialsList = ['include', 'same-origin', 'omit'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -78,7 +79,18 @@ export default class jtbcDialog extends HTMLElement {
   };
 
   #getFetchParams() {
-    return {'method': 'get', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'get', 'credentials': this.#credentials};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
+    return result;
   };
 
   #initEvents() {
@@ -344,6 +356,11 @@ export default class jtbcDialog extends HTMLElement {
       case 'popup-movable':
       {
         this.popupMovable = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
       case 'text-ok':

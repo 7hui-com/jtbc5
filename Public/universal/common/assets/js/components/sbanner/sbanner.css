@@ -58,7 +58,7 @@
   width: calc(max(var(--banner-height), var(--banner-min-height)) / 2); max-width: 50%; max-height: 50%; aspect-ratio: 1/1; align-items: center; justify-content: center; border-radius: 100%; background: rgba(0, 0, 0, 0.7)
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap {
-  padding: var(--banner-gap)
+  padding: var(--banner-gap); text-align: center
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
   width: 100%; display: block; font-size: 24px; color: #fff; text-align: center; line-height: 160%; padding-bottom: calc(var(--banner-gap) / 2)
@@ -67,7 +67,7 @@
   width: 100%; display: block; font-size: 16px; color: #999; text-align: center; line-height: 160%
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap a.link {
-  display: block; width: auto; margin: auto; margin-top: var(--banner-gap); padding: 10px 20px; line-height: 100%; background: #fff; color: #000; font-size: 14px; text-decoration: none; border-radius: 5px; transition: all .3s ease
+  display: inline-block; margin-top: var(--banner-gap); padding: 10px 20px; line-height: 100%; background: #fff; color: #000; font-size: 14px; text-decoration: none; border-radius: 5px; transition: all .3s ease
 }
 .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap a.link:hover {
   background: #000; color: #fff
@@ -133,12 +133,36 @@
 .container div.box[theme=half] jtbc-swiper div.swiper-slide:nth-child(even) div.content {
   justify-content: flex-end; text-align: right
 }
+.container div.box[theme=left] jtbc-swiper div.swiper-slide {
+  justify-content: center
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content {
+  width: 100%; max-width: var(--banner-page-max-width); height: 100%; align-items: center
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap {
+  padding: calc(var(--banner-gap) * 2)
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
+  width: 100%; display: block; font-size: 48px; color: #fff; line-height: 160%; padding-bottom: calc(var(--banner-gap) / 2); font-weight: lighter
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap span.subtitle {
+  width: 100%; display: block; font-size: 16px; color: rgba(255, 255, 255, 0.9); line-height: 160%
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap a.link {
+  display: inline-block; width: auto; margin: auto; margin-top: var(--banner-gap); padding: calc(var(--banner-gap) / 2) var(--banner-gap); line-height: 100%; background: rgba(0, 95, 155, 0.7); color: rgba(255, 255, 255, 0.9); font-size: 14px; text-decoration: none; transition: all .3s ease
+}
+.container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap a.link:hover {
+  background: rgba(0, 95, 155, 1); color: rgba(255, 255, 255, 1)
+}
 .container.on {
   display: block !important
 }
 @media screen and (max-width: 960px) {
   :host {
     --banner-gap: 15px; --banner-height: min(400px, 100vh)
+  }
+  .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content {
+    width: calc(max(var(--banner-height), var(--banner-min-height)) / 3 * 2); max-width: 80%; max-height: 80%
   }
   .container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
     font-size: 20px
@@ -168,7 +192,16 @@
   .container div.box[theme=half] jtbc-swiper div.swiper-slide {
     align-items: flex-end; justify-content: flex-end !important
   }
+  .container div.box[theme=half] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding: calc(var(--banner-gap) * 3)
+  }
   .container div.box[theme=half] jtbc-swiper div.swiper-slide div.content {
     width: 100%; height: auto; justify-content: flex-start !important; text-align: left !important
+  }
+  .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding: calc(var(--banner-gap) * 4)
+  }
+  .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
+    font-size: 32px
   }
 }

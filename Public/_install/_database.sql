@@ -301,7 +301,7 @@ CREATE TABLE `universal_fragment`  (
 INSERT INTO `universal_fragment` VALUES (1, 'beian', '备案号', 1, '', '2021-12-31 0:00:00', 0, 1, 0);
 INSERT INTO `universal_fragment` VALUES (2, 'address', '详细地址', 1, '', '2021-12-31 0:00:00', 0, 1, 0);
 INSERT INTO `universal_fragment` VALUES (3, 'phone', '联系电话', 1, '', '2021-12-31 0:00:00', 0, 1, 0);
-INSERT INTO `universal_fragment` VALUES (4, 'wechat_qrcode', '微信公众号二维码', 2, '', '2021-12-31 0:00:00', 0, 1, 0);
+INSERT INTO `universal_fragment` VALUES (4, 'wechat_qrcode', '微信公众号二维码', 2, '{\"uploadid\":0,\"fileurl\":\"https://www.jtbc.cn/common/assets/images/qrcode.png\"}', '2021-12-31 0:00:00', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for universal_link

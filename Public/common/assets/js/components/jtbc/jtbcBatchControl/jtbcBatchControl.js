@@ -1,6 +1,6 @@
 export default class jtbcBatchControl extends HTMLDivElement {
   static get observedAttributes() {
-    return ['credentials', 'mode', 'url', 'partner', 'message', 'text-ok', 'text-cancel'];
+    return ['credentials', 'mode', 'url', 'partner', 'message', 'with-global-headers', 'text-ok', 'text-cancel'];
   };
 
   #credentials = 'same-origin';
@@ -10,6 +10,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
   #message = null;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['form', 'json'];
+  #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
@@ -64,7 +65,17 @@ export default class jtbcBatchControl extends HTMLDivElement {
 
   #getFetchParams(type, checked) {
     let mode = this.#mode;
-    let result = {'method': 'post', 'credentials': this.#credentials};
+    let withGlobalHeaders = this.#withGlobalHeaders;
+    let result = {'method': 'post', 'credentials': this.#credentials, 'headers': {}};
+    if (withGlobalHeaders != null)
+    {
+      let broadcaster = getBroadcaster('fetch');
+      let state = broadcaster.getState();
+      if (state.hasOwnProperty(withGlobalHeaders))
+      {
+        result.headers = state[withGlobalHeaders];
+      };
+    };
     if (mode == 'form')
     {
       let params = new URLSearchParams();
@@ -76,11 +87,11 @@ export default class jtbcBatchControl extends HTMLDivElement {
         });
       };
       result.body = params.toString();
-      result.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      result.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     else if (mode == 'json')
     {
-      result.headers = 'application/json';
+      result.headers['Content-Type'] = 'application/json';
       result.body = JSON.stringify({'type': type, 'id': Array.isArray(checked)? checked: []});
     };
     return result;
@@ -193,6 +204,11 @@ export default class jtbcBatchControl extends HTMLDivElement {
       case 'url':
       {
         this.#url = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
       case 'text-ok':
