@@ -31,6 +31,7 @@ trait Edit
           $model -> pocket -> published = 0;
         }
       }
+      $this -> hook -> beforeAutoValidate -> trigger($model, 'edit');
       $autoValidate = $model -> autoValidate();
       if ($autoValidate === true)
       {

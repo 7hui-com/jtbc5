@@ -60,6 +60,11 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     return $bool;
   }
 
+  public function each(callable $func)
+  {
+    return array_walk($this -> body, $func);
+  }
+
   public function exists($argName)
   {
     $bool = false;
@@ -68,9 +73,77 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     return $bool;
   }
 
+  public function filter(callable $func)
+  {
+    return new Substance(array_filter($this -> body, $func, ARRAY_FILTER_USE_BOTH));
+  }
+
+  public function first($argMode = 'value')
+  {
+    $result = null;
+    if (!empty($this -> body))
+    {
+      $key = array_key_first($this -> body);
+      $value = $this -> body[$key];
+      $result = match($argMode)
+      {
+        'key' => $key,
+        'value' => $value,
+        'substance' => new Substance(['key' => $key, 'value' => $value]),
+      };
+    }
+    return $result;
+  }
+
   public function isEmpty()
   {
     return empty($this -> body);
+  }
+
+  public function keys()
+  {
+    return array_keys($this -> body);
+  }
+
+  public function krsort()
+  {
+    krsort($this -> body);
+    return $this;
+  }
+
+  public function ksort()
+  {
+    ksort($this -> body);
+    return $this;
+  }
+
+  public function last($argMode = 'value')
+  {
+    $result = null;
+    if (!empty($this -> body))
+    {
+      $key = array_key_last($this -> body);
+      $value = $this -> body[$key];
+      $result = match($argMode)
+      {
+        'key' => $key,
+        'value' => $value,
+        'substance' => new Substance(['key' => $key, 'value' => $value]),
+      };
+    }
+    return $result;
+  }
+
+  public function merge(Substance ...$substance)
+  {
+    $arrays = [];
+    foreach ($substance as $ss)
+    {
+      $arrays[] = $ss -> toArray();
+    }
+    $this -> body = array_merge($this -> toArray(), ...$arrays);
+    $this -> resetKeys();
+    return $this;
   }
 
   public function toArray()
@@ -107,6 +180,11 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
       }
     }
     return $result;
+  }
+
+  public function values()
+  {
+    return array_values($this -> body);
   }
 
   public function rewind(): void

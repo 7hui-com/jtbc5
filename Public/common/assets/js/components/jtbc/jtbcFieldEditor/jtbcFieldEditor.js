@@ -84,9 +84,10 @@ export default class jtbcFieldEditor extends HTMLElement {
     let container = this.container;
     let iWindow = this.#iWindow = el.contentWindow;
     let iDocument = this.#iDocument = el.contentDocument;
-    let language = this.lang == 'zh-cn'? 'zh-Hans': 'en';
+    let language = this.lang == 'zh-cn'? 'zh_CN': 'en';
     iDocument.querySelector('textarea.textarea').value = this.#value;
     iWindow.tinymce.init({
+      license_key: 'gpl',
       autosave_ask_before_unload: false,
       statusbar: false,
       min_height: 300,

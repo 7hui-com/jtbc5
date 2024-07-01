@@ -4,6 +4,7 @@
 //******************************//
 namespace Jtbc\Template;
 use Jtbc\Encoder;
+use Jtbc\Substance;
 use Jtbc\Exception\NotSupportedException;
 
 class Template
@@ -58,17 +59,33 @@ class Template
   {
     $data = $argData;
     $placeHolderIndex = $this -> placeHolderIndex;
-    for ($i = 0; $i <= $placeHolderIndex; $i ++)
+    $replaceTags = function($tpl, array $data, string $prefix = '') use (&$replaceTags)
     {
-      $loopGroup = $this -> loopGroup[$i];
-      $loopGroupLine = $this -> loopGroupLine[$i];
-      foreach ($data as $key => $val)
+      $result = $tpl;
+      if (is_string($result) && !empty($data))
       {
-        if (is_scalar($val) || is_null($val))
+        foreach ($data as $key => $value)
         {
-          $loopGroup = str_replace('{$' . $key . '}', Encoder::htmlEncode($val), $loopGroup);
+          if (is_scalar($value) || is_null($value))
+          {
+            $result = str_replace('{$' . $prefix . $key . '}', Encoder::htmlEncode($value), $result);
+          }
+          else if (is_array($value))
+          {
+            $result = $replaceTags($result, $value, $prefix . $key . '::');
+          }
+          else if ($value instanceof Substance)
+          {
+            $result = $replaceTags($result, $value -> toArray(), $prefix . $key . '::');
+          }
         }
       }
+      return $result;
+    };
+    for ($i = 0; $i <= $placeHolderIndex; $i ++)
+    {
+      $loopGroupLine = $this -> loopGroupLine[$i];
+      $loopGroup = $replaceTags($this -> loopGroup[$i], $data);
       if (is_callable($loopCallBack))
       {
         $loopGroup = $loopCallBack($loopGroup);

@@ -379,6 +379,32 @@ class Validation
     return $bool;
   }
 
+  public static function isPercent($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    if (substr_count($string, '%') == 1 && str_ends_with($string, '%'))
+    {
+      $bool = self::isPercentage(substr($string, 0, -1));
+    }
+    return $bool;
+  }
+
+  public static function isPercentage($argString)
+  {
+    $bool = false;
+    $string = $argString;
+    $percentage = intval($string);
+    if (strval($percentage) == strval($string))
+    {
+      if ($percentage >= 0 && $percentage <= 100)
+      {
+        $bool = true;
+      }
+    }
+    return $bool;
+  }
+
   public static function isSlug($argString)
   {
     $bool = false;

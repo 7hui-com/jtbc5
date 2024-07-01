@@ -361,7 +361,7 @@ export default class jtbcCalendar extends HTMLElement {
     container.querySelector('.textMonday').innerText = text.monday;
     container.querySelector('.textTuesday').innerText = text.tuesday;
     container.querySelector('.textWednesday').innerText = text.wednesday;
-    container.querySelector('.textThursday').innerText = text.tuesday;
+    container.querySelector('.textThursday').innerText = text.thursday;
     container.querySelector('.textFriday').innerText = text.friday;
     container.querySelector('.textSaturday').innerText = text.saturday;
     container.querySelector('.textSunday').innerText = text.sunday;

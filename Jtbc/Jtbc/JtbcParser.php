@@ -4,6 +4,7 @@
 //******************************//
 namespace Jtbc\Jtbc;
 use Closure;
+use Throwable;
 use Jtbc\Config;
 use Jtbc\Converter;
 use Jtbc\Env;
@@ -121,7 +122,14 @@ class JtbcParser
       }
       $string = preg_replace('/\$([^\_].[0-9a-zA-Z_]*)\(/', self::class . '::getAliasFunction(\'${1}\')(', $string);
       $string = preg_replace('/\$([^\_].[0-9a-zA-Z_]*)/', Env::class . '::getParam(\'$this\') -> getParam(trim(\'${1}\'))', $string);
-      $result = eval('return ' . $string . ';');
+      try
+      {
+        $result = eval('return ' . $string . ';');
+      }
+      catch(Throwable $e)
+      {
+        throw new SyntaxException('Invalid expression: ' . $argString, $e -> getCode()?: 50418);
+      }
     }
     return $result;
   }

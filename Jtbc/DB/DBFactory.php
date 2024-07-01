@@ -14,6 +14,21 @@ class DBFactory
 {
   private static $instances = [];
 
+  private static function getServers()
+  {
+    $result = new Substance();
+    $data = Config::get('DB/MySQL', 'server');
+    if (is_array($data))
+    {
+      $result = new Substance($data);
+    }
+    else
+    {
+      throw new UnexpectedException('Unexpected configuration', 50801);
+    }
+    return $result;
+  }
+
   public static function getInstance(string $argDBLink = null)
   {
     $db = null;
@@ -24,34 +39,51 @@ class DBFactory
     }
     else
     {
-      $server = Config::get('DB/MySQL', 'server');
-      if (is_array($server))
+      $servers = self::getServers();
+      if ($servers -> exists($dbLink))
       {
-        if (array_key_exists($dbLink, $server))
+        $config = new Substance($servers[$dbLink]);
+        $db = new DB($config -> HOST, $config -> DATABASE, $config -> USERNAME, $config -> PASSWORD);
+        if ($db -> errCode == 0)
         {
-          $config = new Substance($server[$dbLink]);
-          $db = new DB($config -> HOST, $config -> DATABASE, $config -> USERNAME, $config -> PASSWORD);
-          if ($db -> errCode == 0)
-          {
-            self::$instances[$dbLink] = $db;
-          }
-          else
-          {
-            throw new DBException($db -> errMessage, $db -> errCode);
-            $db = null;
-          }
+          self::$instances[$dbLink] = $db;
         }
         else
         {
-          throw new NotExistException('The name "' . $dbLink . '" does not exist', 50404);
+          throw new DBException($db -> errMessage, $db -> errCode);
+          $db = null;
         }
       }
       else
       {
-        throw new UnexpectedException('Unexpected configuration', 50801);
+        throw new NotExistException('The name "' . $dbLink . '" does not exist', 50404);
       }
     }
     return $db;
+  }
+
+  public static function getInstanceByNames(string ...$args)
+  {
+    $result = null;
+    if (empty($args))
+    {
+      $result = self::getInstance();
+    }
+    else
+    {
+      $name = null;
+      $servers = self::getServers();
+      foreach ($args as $value)
+      {
+        if ($servers -> exists($value))
+        {
+          $name = $value;
+          break;
+        }
+      }
+      $result = self::getInstance($name);
+    }
+    return $result;
   }
 
   public static function getInstances()

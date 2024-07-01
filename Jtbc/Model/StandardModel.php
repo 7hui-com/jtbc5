@@ -4,11 +4,33 @@
 //******************************//
 namespace Jtbc\Model;
 use Jtbc\Substance;
+use Jtbc\Validation;
 use Jtbc\Model\Automatic\Validator;
 use Jtbc\Model\Automatic\SourceBuilder;
 
 class StandardModel extends TinyModel
 {
+  private $validationRules;
+
+  public function addValidationRule(string $argFormat, int $argErrorCode, callable $func)
+  {
+    $result = false;
+    $format = $argFormat;
+    $errorCode = $argErrorCode;
+    if (Validation::isNatural($format))
+    {
+      if (!$this -> validationRules -> exists($format))
+      {
+        $result = true;
+        $validationRule = new Substance();
+        $validationRule -> func = $func;
+        $validationRule -> errorCode = $errorCode;
+        $this -> validationRules[$format] = $validationRule;
+      }
+    }
+    return $result;
+  }
+
   public function autoSave(Substance $argPocket = null, Substance $argCoffer = null)
   {
     $pocket = $argPocket ?? $this -> pocket;
@@ -24,9 +46,15 @@ class StandardModel extends TinyModel
     $pocket = $argPocket ?? $this -> pocket;
     $coffer = $argCoffer ?? $this -> coffer;
     $tableInfo = $this -> table -> getTableInfo();
-    $validator = new Validator($tableInfo);
+    $validator = new Validator($tableInfo, $this -> validationRules);
     $sourceBuilder = new SourceBuilder($tableInfo);
     $result = $validator -> validate($sourceBuilder -> rebuild($pocket -> all(), $coffer -> all()));
     return $result;
+  }
+
+  public function __construct(...$args)
+  {
+    parent::__construct(...$args);
+    $this -> validationRules = new Substance();
   }
 }

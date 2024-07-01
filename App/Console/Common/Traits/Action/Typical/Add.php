@@ -33,6 +33,7 @@ trait Add
           $model -> pocket -> published = 0;
         }
       }
+      $this -> hook -> beforeAutoValidate -> trigger($model, 'add');
       $autoValidate = $model -> autoValidate();
       if ($autoValidate === true)
       {

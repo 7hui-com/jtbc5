@@ -4,7 +4,6 @@
 //******************************//
 namespace Jtbc\Model\Automatic;
 use Jtbc\Jtbc;
-use Jtbc\JSON;
 use Jtbc\Substance;
 use Jtbc\Validation;
 use Jtbc\DAL\FieldsHelper;
@@ -13,6 +12,27 @@ use Jtbc\Exception\ErrorCollector;
 class Validator
 {
   private $tableInfo;
+  private $validationRules;
+
+  private function getErrorCodeFromValidationRules($argFormat, $argFieldValue)
+  {
+    $result = false;
+    $format = strval($argFormat);
+    $fieldValue = $argFieldValue;
+    if ($this -> validationRules -> exists($format))
+    {
+      $validationRule = $this -> validationRules[$format];
+      if (!($validationRule -> func)($fieldValue))
+      {
+        $result = $validationRule -> errorCode;
+      }
+      else
+      {
+        $result = null;
+      }
+    }
+    return $result;
+  }
 
   public function validate(array $argSource, array $argMessageMap = [])
   {
@@ -150,6 +170,10 @@ class Validator
             {
               if (!Validation::isDateTimeRange($fieldValue)) $code = 4919;
             }
+            else if ($format == 'domain')
+            {
+              if (!Validation::isDomain($fieldValue)) $code = 4922;
+            }
             else if ($format == 'email')
             {
               if (!Validation::isEmail($fieldValue)) $code = 4903;
@@ -190,6 +214,14 @@ class Validator
             {
               if (!Validation::isNatural($fieldValue)) $code = 4911;
             }
+            else if ($format == 'percent')
+            {
+              if (!Validation::isPercent($fieldValue)) $code = 4923;
+            }
+            else if ($format == 'percentage')
+            {
+              if (!Validation::isPercentage($fieldValue)) $code = 4924;
+            }
             else if ($format == 'slug')
             {
               if (!Validation::isSlug($fieldValue)) $code = 4917;
@@ -208,7 +240,11 @@ class Validator
             }
             else
             {
-              $code = 4900;
+              $errorCode = $this -> getErrorCodeFromValidationRules($format, $fieldValue);
+              if (!is_null($errorCode))
+              {
+                $code = is_int($errorCode)? $errorCode: 4900;
+              }
             }
           }
           if (!is_null($code))
@@ -237,8 +273,9 @@ class Validator
     return $result;
   }
 
-  public function __construct(array $argTableInfo)
+  public function __construct(array $argTableInfo, Substance $validationRules = null)
   {
     $this -> tableInfo = $argTableInfo;
+    $this -> validationRules = $validationRules ?? new Substance();
   }
 }

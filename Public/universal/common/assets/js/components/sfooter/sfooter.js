@@ -101,7 +101,7 @@ export default class sfooter extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
-        <div class="bottom">
+        <div part="bottom" class="bottom">
           <div class="box">
             <div class="section section-1" index="1"><h3></h3><div class="content"><slot class="content" name="content-1"></slot></div></div>
             <div class="section section-2" index="2"><h3></h3><div class="content"><slot class="content" name="content-2"></slot></div></div>
@@ -109,7 +109,7 @@ export default class sfooter extends HTMLElement {
             <div class="section section-4" index="4"><h3></h3><div class="content"><slot class="content" name="content-4"></slot></div></div>
           </div>
         </div>
-        <div class="copyright">
+        <div part="copyright" class="copyright">
           <div class="box">
             <div class="section section-1" index="1"><div class="content"><slot class="content" name="copyright-left"></slot></div></div>
             <div class="section section-2" index="2"><div class="content"><slot class="content" name="copyright-right"></slot></div></div>

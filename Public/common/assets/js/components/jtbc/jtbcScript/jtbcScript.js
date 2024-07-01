@@ -3,9 +3,14 @@ export default class jtbcScript extends HTMLElement {
     return ['src'];
   };
 
+  #instance = null;
+  #metaUrl = null;
   #src = '';
   #readied = false;
-  #instance = null;
+
+  get metaUrl() {
+    return this.#metaUrl;
+  };
 
   get src() {
     return this.#src;
@@ -22,6 +27,18 @@ export default class jtbcScript extends HTMLElement {
   set src(src) {
     this.#src = src;
     this.loadScript();
+  };
+
+  getBasePath() {
+    return this.metaUrl.substring(0, this.metaUrl.lastIndexOf('/components/')) + '/';
+  };
+
+  getFolderPath() {
+    return this.metaUrl.substring(0, this.metaUrl.lastIndexOf('/')) + '/';
+  };
+
+  getRootPath() {
+    return this.metaUrl.substring(0, this.metaUrl.lastIndexOf('/common/')) + '/';
   };
 
   isReadied() {
@@ -68,5 +85,6 @@ export default class jtbcScript extends HTMLElement {
 
   constructor() {
     super();
+    this.#metaUrl = import.meta.url;
   };
 };

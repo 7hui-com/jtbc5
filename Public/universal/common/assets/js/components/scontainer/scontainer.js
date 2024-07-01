@@ -31,6 +31,11 @@ export default class scontainer extends HTMLElement {
 
   #initEvents() {
     let container = this.container;
+    container.querySelectorAll('div.headline slot[name=headline]').forEach(slot => {
+      slot.addEventListener('slotchange', function(){
+        this.assignedElements().forEach(el => el.classList.add('slotted'));
+      });
+    });
     container.querySelectorAll('div.container slot[name=main]').forEach(slot => {
       slot.addEventListener('slotchange', function(){
         this.assignedElements().forEach(el => el.classList.add('slotted'));
@@ -111,7 +116,7 @@ export default class scontainer extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">
-        <div part="headline" class="headline hide"><div part="headline-box" class="box"><slot name="headline"><div class="text"><span class="title"></span><span class="subtitle"></span></div></slot></div></div>
+        <div part="headline" class="headline hide"><div part="headline-box" class="box"><slot name="headline"><div part="headline-text" class="text"><span part="headline-title" class="title"></span><span part="headline-subtitle" class="subtitle"></span></div></slot></div></div>
         <div part="navigation" class="navigation hide"><div part="navigation-box" class="box"></div></div>
         <div part="container" class="container"><div part="container-box" class="box"><div part="sidebar" class="sidebar hide"><slot name="sidebar"></slot></div><div part="main" class="main"><slot name="main"></slot></div></div></div>
       </container>
