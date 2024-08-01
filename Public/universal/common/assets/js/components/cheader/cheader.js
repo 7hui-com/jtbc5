@@ -33,16 +33,19 @@ export default class cheader extends HTMLElement {
       if (!this.classList.contains('on'))
       {
         this.classList.add('on');
-        this.parentElement.querySelector('mainmenu')?.classList.add('on');
+        container.querySelector('mainmenu')?.classList.add('on');
       }
       else
       {
         this.classList.remove('on');
-        this.parentElement.querySelector('mainmenu')?.classList.remove('on');
+        container.querySelector('mainmenu')?.classList.remove('on');
       };
     });
     container.delegateEventListener('span.icon', 'click', function() {
       this.parentElement.parentElement.parentElement.classList.toggle('opened');
+    });
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
     });
   };
 
@@ -213,7 +216,10 @@ export default class cheader extends HTMLElement {
           <logo part="logo"></logo>
           <mainmenu part="mainmenu"></mainmenu>
           <div class="right"><slot name="right"></slot></div>
-          <navicon><span class="line"></span></navicon>
+          <div class="navicon">
+            <slot name="navicon-right"></slot>
+            <navicon><span class="line"></span></navicon>
+          </div>
         </div>
       </div>
       <div part="placeholder" class="placeholder"></div>

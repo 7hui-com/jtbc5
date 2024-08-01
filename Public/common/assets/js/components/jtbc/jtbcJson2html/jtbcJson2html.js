@@ -6,7 +6,7 @@ export default class jtbcJson2html extends HTMLElement {
   #value = null;
   #specialTags = ['hr', 'br', 'img'];
   #allowedTags = ['a', 'b', 'p', 'i', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'li', 'hr', 'br', 'em', 'img', 'sub', 'sup', 'del', 'mark', 'strong', 'table', 'tr', 'th', 'td'];
-  #allowedGlobalAttributes = ['name', 'class', 'title'];
+  #allowedGlobalAttributes = ['name', 'class', 'title', 'is'];
   #allowedAttributes = {
     'a': ['href', 'target'],
     'p': ['align'],
@@ -109,11 +109,9 @@ export default class jtbcJson2html extends HTMLElement {
     }
     else
     {
-      let render = function(parentEl, contents)
-      {
+      const render = function(parentEl, contents) {
         let documentFragment = document.createDocumentFragment();
-        let appendElement = function(content)
-        {
+        const appendElement = function(content) {
           Object.keys(content).forEach(item => {
             let attrs = null;
             let tagName = item;
@@ -127,6 +125,10 @@ export default class jtbcJson2html extends HTMLElement {
               let newElement = document.createElement(tagName);
               if (attrs != null)
               {
+                if (attrs.has('is'))
+                {
+                  newElement = document.createElement(tagName, {'is': attrs.get('is')});
+                };
                 let allowedAttrs = that.#allowedGlobalAttributes;
                 if (that.#allowedAttributes.hasOwnProperty(tagName))
                 {

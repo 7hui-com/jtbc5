@@ -13,26 +13,7 @@
     <h1>{$=$take('index.title', 'lng')}</h1>
     <span class="menu hand"><jtbc-svg name="navicon"></jtbc-svg></span>
     <right>{$=implode($call_hook('backstageTopbarFrontPart') ?? [])}
-      <template is="jtbc-template" url="{$>this.genre}/manage?type=info">
-        <account class="section">
-          <h3>${$name}<jtbc-svg name="arrow_down"></jtbc-svg></h3>
-          <ul>
-            <template is="jtbc-template" key="submenu">
-              <li><a class="item" is="jtbc-anchor" href="${$href}" target="${$target}">${$text}</a></li>
-            </template>
-            <li><a class="item" is="jtbc-anchor" href="{$>this.genre}/manage?type=fragment&amp;codename={$>this.genre}:manage.modifyPassword" target="dialog">{$=$take('manage.modify-password', 'lng')}</a></li>
-            <li><jtbc-execution class="item hand" url="{$>this.genre}/manage?action=logout" message="{$=$take('manage.logout-confirm', 'lng')}" text-ok="{$=$take('manage.logout-confirm-ok', 'lng')}" text-cancel="{$=$take('manage.logout-confirm-cancel', 'lng')}" href="./{$>this.genre}/" target="#location">{$=$take('manage.logout', 'lng')}</jtbc-execution></li>
-          </ul>
-        </account>
-        <lang class="section" lang="${$currentLang}" url="{$>this.genre}/manage?action=setLang">
-          <h3><flag class="f${$currentLang}" title="{$=$take('manage.current-lang', 'lng')}"></flag><span>${$currentLangText}</span><jtbc-svg name="arrow_down"></jtbc-svg></h3>
-          <ul>
-            <template is="jtbc-template" key="lang">
-              <li><span class="item lang" lang="${$lang}"><flag class="f${$lang}"></flag><span class="hand">${$text}</span></span></li>
-            </template>
-          </ul>
-        </lang>
-      </template>
+      <rightmenu></rightmenu>
       <notification class="section hide"></notification>{$=implode($call_hook('backstageTopbarRearPart') ?? [])}
       <cloudservice class="cloudservice" url="{$>this.genre}/manage?type=hasCloudService"></cloudservice>
     </right>
@@ -45,7 +26,27 @@
     </main>
   </div>
 </div>
-<template is="jtbc-template" id="notification" refetch="60" mode="target" target="div.topbar notification" url="{$>this.genre}/manage?type=notification">
+<template is="jtbc-template" id="rightmenu" mode="target" target="div.topbar rightmenu" url="{$>this.genre}/manage?type=info">
+  <account class="section">
+    <h3>${$name}<jtbc-svg name="arrow_down"></jtbc-svg></h3>
+    <ul>
+      <template is="jtbc-template" key="submenu">
+        <li><a class="item" is="jtbc-anchor" href="${$href}" target="${$target}">${$text}</a></li>
+      </template>
+      <li><a class="item" is="jtbc-anchor" href="{$>this.genre}/manage?type=fragment&amp;codename={$>this.genre}:manage.modifyPassword" target="dialog">{$=$take('manage.modify-password', 'lng')}</a></li>
+      <li><jtbc-execution class="item hand" url="{$>this.genre}/manage?action=logout" message="{$=$take('manage.logout-confirm', 'lng')}" text-ok="{$=$take('manage.logout-confirm-ok', 'lng')}" text-cancel="{$=$take('manage.logout-confirm-cancel', 'lng')}" href="./{$>this.genre}/" target="#location">{$=$take('manage.logout', 'lng')}</jtbc-execution></li>
+    </ul>
+  </account>
+  <lang class="section" lang="${$currentLang}" url="{$>this.genre}/manage?action=setLang">
+    <h3><flag lang="${$currentLang}" title="{$=$take('manage.current-lang', 'lng')}"></flag><span>${$currentLangText}</span><jtbc-svg name="arrow_down"></jtbc-svg></h3>
+    <ul>
+      <template is="jtbc-template" key="lang">
+        <li><span class="item lang" lang="${$lang}"><flag lang="${$lang}"></flag><span class="hand">${$text}</span></span></li>
+      </template>
+    </ul>
+  </lang>
+</template>
+<template is="jtbc-template" id="notification" refetch="10" mode="target" target="div.topbar notification" url="{$>this.genre}/manage?type=notification">
   <h4><jtbc-svg name="bell_fill"></jtbc-svg><badge>${$notification.length}</badge></h4>
   <ul count="${$notification.length}">
     <template is="jtbc-template" key="notification">

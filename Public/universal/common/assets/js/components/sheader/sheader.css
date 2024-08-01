@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-navicon-color: #005f9b; --header-mobile-anchor-font-size: 20px; ; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --z-index: 1000
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-anchor-color: var(--header-anchor-color); --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-navicon-color: #005f9b; --header-mobile-anchor-font-size: 20px; ; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --z-index: 1000
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
@@ -53,7 +53,7 @@
   width: 50%; background: var(--header-anchor-color)
 }
 .container.sticky {
-  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow)
+  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-anchor-color: var(--header-sticky-anchor-color)
 }
 .placeholder {
   width: 100%; height: var(--header-height); box-sizing: border-box
@@ -79,7 +79,7 @@
     margin-top: 8px
   }
   .container div.box navicon.on span {
-    background: var(--header-background)
+    background: transparent
   }
   .container div.box navicon.on span::before {
     transform: rotate(45deg); margin-top: -2px

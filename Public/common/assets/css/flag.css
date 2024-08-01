@@ -1,0 +1,16 @@
+flag[lang='0'],
+flag[lang='zh-cn'] {
+  background-image: url(../svg/lang/zh-cn.svg)
+}
+flag[lang='1'],
+flag[lang='en'] {
+  background-image: url(../svg/lang/en.svg)
+}
+flag[lang='2'],
+flag[lang='ja'] {
+  background-image: url(../svg/lang/ja.svg)
+}
+flag[lang='3'],
+flag[lang='ko'] {
+  background-image: url(../svg/lang/ja.svg)
+}

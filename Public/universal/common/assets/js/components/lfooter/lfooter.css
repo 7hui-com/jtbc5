@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
+  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-card-background: #222; --footer-card-transform: translate(0, -40px); --footer-card-gap: 80px; --footer-card-font-color: #999; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%
@@ -10,50 +10,61 @@
 .container div.bottom div.box {
   display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--footer-page-inner-padding))
 }
-.container div.bottom div.box div.section {
-  display: block; width: 25%; box-sizing: border-box; padding: 0px calc(var(--footer-gap) / 2)
+.container div.bottom div.box div.card {
+  width: 35%; max-width: 500px; min-width: 300px; box-sizing: border-box; padding: calc(var(--footer-gap) * 2); background: var(--footer-card-background); transform: var(--footer-card-transform)
 }
-.container div.bottom div.box div.section:first-of-type,
-.container div.bottom div.box div.section:last-of-type {
-  padding: 0px
+.container div.bottom div.box div.card div.logo {
+  width: 100%; padding-bottom: var(--footer-card-gap)
 }
-.container div.bottom div.box div.section h3 {
+.container div.bottom div.box div.card div.logo img {
+  width: var(--footer-logo-width); filter: var(--footer-logo-filter)
+}
+.container div.bottom div.box div.card div.content {
+  --footer-font-color: var(--footer-card-font-color)
+}
+.container div.bottom div.box div.sections {
+  flex: 1; display: flex; box-sizing: border-box; padding-left: calc(var(--footer-gap) * 2); gap: var(--footer-gap)
+}
+.container div.bottom div.box div.sections div.section {
+  flex: 1; box-sizing: border-box
+}
+.container div.bottom div.box h3 {
   margin: 0px; padding: 0px; font-size: calc(var(--footer-font-size) + 2px); color: var(--footer-font-color); line-height: 120%
 }
-.container div.bottom div.box div.section div.content {
+.container div.bottom div.box div.content {
   width: 100%; padding-top: calc(var(--footer-gap) * 3 / 4); font-size: var(--footer-font-size)
 }
-.container div.bottom div.box div.section div.content span.href {
+.container div.bottom div.box div.content span.href {
   display: flex; flex-wrap: wrap; align-items: center; padding: calc(var(--footer-gap) / 4) 0px
 }
-.container div.bottom div.box div.section div.content span.href a {
+.container div.bottom div.box div.content span.href a {
   font-size: var(--footer-font-size); color: var(--footer-font-color); text-decoration: none; line-height: 160%; display: inline-block; border-bottom: transparent 1px solid
 }
-.container div.bottom div.box div.section div.content span.href a:hover {
+.container div.bottom div.box div.content span.href a:hover {
   border-color: var(--footer-font-color)
 }
-.container div.bottom div.box div.section div.content span.href::before {
+.container div.bottom div.box div.content span.href::before {
   content: '\2022'; font-size: var(--footer-font-size); color: var(--footer-font-color); display: block; padding-right: calc(var(--footer-gap) / 4)
 }
-.container div.bottom div.box div.section div.content span.picture {
+.container div.bottom div.box div.content span.picture {
   display: block; width: 100%; padding: calc(var(--footer-gap) / 4) 0px
 }
-.container div.bottom div.box div.section div.content span.picture img {
+.container div.bottom div.box div.content span.picture img {
   display: block; max-width: var(--footer-picture-max-width)
 }
-.container div.bottom div.box div.section div.content span.text {
+.container div.bottom div.box div.content span.text {
   display: block; width: 100%; padding: calc(var(--footer-gap) / 4) 0px; line-height: 160%; font-size: var(--footer-font-size); color: var(--footer-font-color)
 }
-.container div.bottom div.box div.section div.content span.text[size='1.5'] {
+.container div.bottom div.box div.content span.text[size='1.5'] {
   font-size: calc(var(--footer-font-size) * 1.5); padding: 0px
 }
-.container div.bottom div.box div.section div.content span.text[size='2'] {
+.container div.bottom div.box div.content span.text[size='2'] {
   font-size: calc(var(--footer-font-size) * 2); padding: 0px
 }
-.container div.bottom div.box div.section div.content span.text[size='2.5'] {
+.container div.bottom div.box div.content span.text[size='2.5'] {
   font-size: calc(var(--footer-font-size) * 2.5); padding: 0px
 }
-.container div.bottom div.box div.section div.content span.text[size='3'] {
+.container div.bottom div.box div.content span.text[size='3'] {
   font-size: calc(var(--footer-font-size) * 3); padding: 0px
 }
 .container div.copyright {
@@ -99,12 +110,14 @@
   :host {
     --footer-page-outer-padding: 0px 15px; --footer-page-inner-padding: 15px 0px; --footer-height: 60px; --footer-picture-max-width: 75%
   }
-  .container div.bottom div.box div.section {
-    width: 50%; padding: 0px !important
+  .container div.bottom div.box div.card {
+    width: 100%; max-width: 100%
   }
-  .container div.bottom div.box div.section-3,
-  .container div.bottom div.box div.section-4 {
-    width: 100%; margin-top: var(--footer-gap)
+  .container div.bottom div.box div.sections {
+    width: 100%; padding-left: 0px; flex-wrap: wrap
+  }
+  .container div.bottom div.box div.sections div.section {
+    flex: auto; width: calc(50% - var(--footer-gap) / 2); padding-left: 0px
   }
   .container div.copyright div.box {
     display: block

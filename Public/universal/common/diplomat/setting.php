@@ -1,5 +1,6 @@
 <?php
 namespace Jtbc;
+use App\Universal\Common\Setting;
 
 class Diplomat extends Diplomatist
 {
@@ -7,7 +8,7 @@ class Diplomat extends Diplomatist
   {
     $language = strval($req -> get('language'));
     $backurl = strval($req -> get('backurl') ?? Path::getActualRoute('./'));
-    $res -> cookie -> set('language', $language);
+    Setting::changeLanguage($res, $language);
     $res -> header -> set('location', $backurl);
   }
 }

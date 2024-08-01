@@ -79,6 +79,7 @@ export default class manage {
             if (data.code == 1)
             {
               that.leftmenu?.fetch();
+              that.rightmenu?.fetch();
               that.dialog.alert(data.message);
             }
             else
@@ -228,6 +229,7 @@ export default class manage {
     this.main = document.getElementById('main');
     this.dialog = document.getElementById('dialog');
     this.leftmenu = document.getElementById('leftmenu');
+    this.rightmenu = document.getElementById('rightmenu');
     this.miniMessage = document.getElementById('miniMessage');
     this.imagePreviewer = document.getElementById('imagePreviewer');
   };

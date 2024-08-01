@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 15%; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-anchor-color: var(--header-anchor-color); --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 15%; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-color: var(--header-anchor-color); --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
@@ -16,7 +16,10 @@
 .container div.box logo img {
   display: inline-block; height: 100%
 }
-.container div.box navicon {
+.container div.box div.navicon {
+  display: none
+}
+.container div.box div.navicon navicon {
   display: none
 }
 .container div.box mainmenu {
@@ -50,7 +53,7 @@
   margin: 0px; padding: 0px; width: 100%; height: var(--header-anchor-height); background: var(--header-submenu-background); overflow: hidden; position: relative; z-index: 200; transition: background-color .3s ease
 }
 .container div.box mainmenu ul li dl dd > a {
-  display: flex; height: 100%; align-items: center; justify-content: center; font-size: calc(var(--header-anchor-font-size) - 2px); color: var(--header-anchor-color); text-decoration: none; transition: all .3s ease
+  display: flex; height: 100%; align-items: center; justify-content: center; font-size: calc(var(--header-anchor-font-size) - 2px); color: var(--header-submenu-anchor-color); text-decoration: none; transition: all .3s ease
 }
 .container div.box mainmenu ul li dl dd > a:hover {
   background: var(--header-submenu-anchor-hover-background); font-weight: var(--header-submenu-anchor-hover-font-weight); color: var(--header-submenu-anchor-hover-color)
@@ -86,7 +89,7 @@
   display: flex; width: var(--header-logo-width); justify-content: right
 }
 .container.sticky {
-  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow)
+  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-anchor-color: var(--header-sticky-anchor-color)
 }
 .placeholder {
   width: 100%; height: var(--header-height); box-sizing: border-box
@@ -95,29 +98,32 @@
   :host {
     --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-height: 60px; --header-anchor-padding: 15px; --header-anchor-icon-size: 30px; --header-submenu-margin-top: 0px
   }
-  .container div.box navicon {
+  .container div.box div.navicon {
+    display: flex; align-items: center
+  }
+  .container div.box div.navicon navicon {
     display: block; width: 30px; height: 30px; position: relative; z-index: 100; cursor: pointer
   }
-  .container div.box navicon span {
+  .container div.box div.navicon navicon span {
     display: block; width: 100%; height: 2px; background: var(--header-navicon-color); margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
   }
-  .container div.box navicon span::before,
-  .container div.box navicon span::after {
+  .container div.box div.navicon navicon span::before,
+  .container div.box div.navicon navicon span::after {
     content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
   }
-  .container div.box navicon span::before {
+  .container div.box div.navicon navicon span::before {
     margin-top: -10px
   }
-  .container div.box navicon span::after {
+  .container div.box div.navicon navicon span::after {
     margin-top: 8px
   }
-  .container div.box navicon.on span {
-    background: var(--header-background)
+  .container div.box div.navicon navicon.on span {
+    background: transparent
   }
-  .container div.box navicon.on span::before {
+  .container div.box div.navicon navicon.on span::before {
     transform: rotate(45deg); margin-top: -2px
   }
-  .container div.box navicon.on span::after {
+  .container div.box div.navicon navicon.on span::after {
     transform: rotate(-45deg); margin-top: -2px
   }
   .container div.box mainmenu {

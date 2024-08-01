@@ -64,6 +64,9 @@ body {
 .topbar right {
   display: block; height: 50px; text-align: right; position: absolute; top: 0px; right: 20px; z-index: 100
 }
+.topbar right rightmenu {
+  display: contents
+}
 .topbar right .section {
   display: inline-block; height: 50px; line-height: 50px; padding: 0px 10px; vertical-align: top; position: relative; z-index: 100; transition: background-color .3s ease
 }
@@ -102,18 +105,6 @@ body {
 }
 .topbar right lang.section flag {
   display: inline-block; width: 30px; height: 20px; margin-right: 10px; vertical-align: middle; background-position: center center; background-repeat: no-repeat
-}
-.topbar right lang.section flag.f0 {
-  background-image: url(../svg/lang/cn.svg)
-}
-.topbar right lang.section flag.f1 {
-  background-image: url(../svg/lang/en.svg)
-}
-.topbar right lang.section flag.f2 {
-  background-image: url(../svg/lang/jp.svg)
-}
-.topbar right lang.section flag.f3 {
-  background-image: url(../svg/lang/kr.svg)
 }
 .topbar right lang.section ul li .item {
   padding: 0px 10px; text-align: left; cursor: pointer

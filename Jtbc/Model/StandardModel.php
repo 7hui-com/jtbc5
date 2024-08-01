@@ -41,6 +41,11 @@ class StandardModel extends TinyModel
     return $result;
   }
 
+  public function autoSubmit(...$args): bool
+  {
+    return is_numeric($this -> autoSave(...$args));
+  }
+
   public function autoValidate(Substance $argPocket = null, Substance $argCoffer = null)
   {
     $pocket = $argPocket ?? $this -> pocket;

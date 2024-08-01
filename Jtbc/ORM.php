@@ -233,6 +233,11 @@ abstract class ORM
     return $result;
   }
 
+  public function submit(...$args): bool
+  {
+    return is_numeric($this -> save(...$args));
+  }
+
   public function truncate(bool $argAreYouSure = false)
   {
     $result = false;

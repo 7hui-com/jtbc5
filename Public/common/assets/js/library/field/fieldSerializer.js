@@ -2,6 +2,31 @@ export default class fieldSerializer {
   #mode;
   #parentElement;
 
+  #getConvertedValue(el) {
+    let result = el.value;
+    if (el.hasAttribute('converter'))
+    {
+      switch (el.getAttribute('converter')) {
+        case 'int':
+        {
+          result = Number.parseInt(result);
+          break;
+        };
+        case 'float':
+        {
+          result = Number.parseFloat(result);
+          break;
+        };
+        case 'object':
+        {
+          result = JSON.parse(result);
+          break;
+        };
+      };
+    };
+    return result;
+  };
+
   #isMultiField(el) {
     let result = false;
     if (el.getAttribute('multi') == 'true') result = true;
@@ -49,7 +74,7 @@ export default class fieldSerializer {
           {
             if (!this.#isMultiField(el))
             {
-              if (this.#isValidField(el)) params[el.name] = el.value;
+              if (this.#isValidField(el)) params[el.name] = this.#getConvertedValue(el);
             }
             else
             {
@@ -57,7 +82,7 @@ export default class fieldSerializer {
               fields.forEach(mel => {
                 if (mel.name == el.name)
                 {
-                  if (this.#isValidField(mel)) multiElValue.push(mel.value);
+                  if (this.#isValidField(mel)) multiElValue.push(this.#getConvertedValue(mel));
                 };
               });
               params[el.name] = multiElValue;

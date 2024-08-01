@@ -7,6 +7,7 @@ use Jtbc\Substance;
 use Jtbc\DB\DBFactory;
 use App\Common\Installer;
 use App\Common\Module\MultiModuleHooksManager;
+use App\Console\Common\Lang\LangManager;
 
 class PackageInstaller extends Installer
 {
@@ -120,6 +121,12 @@ class PackageInstaller extends Installer
                 {
                   $this -> lastErrorCode = 1144;
                 }
+              }
+              $langManager = new LangManager();
+              $metaLang = is_array($meta -> lang)? $meta -> lang: [];
+              if ($langManager -> setLang($metaLang) !== true)
+              {
+                $this -> lastErrorCode = 1155;
               }
               $metaRegisterHooks = $meta -> register_hooks;
               if (is_array($metaRegisterHooks))

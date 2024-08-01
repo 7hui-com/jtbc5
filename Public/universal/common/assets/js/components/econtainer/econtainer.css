@@ -1,8 +1,8 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-gap: 20px; --container-z-index: 100; --container-flex-direction: row; --container-sidebar-width: 25%
+  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-background-size: cover; --container-gap: 20px; --container-z-index: 100; --container-flex-direction: row; --container-sidebar-width: 25%
 }
 container {
-  display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); position: relative; z-index: var(--container-z-index)
+  display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); background-size: var(--container-background-size); position: relative; z-index: var(--container-z-index)
 }
 container div.container {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))

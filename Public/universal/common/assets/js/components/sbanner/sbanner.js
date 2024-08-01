@@ -56,46 +56,56 @@ export default class sbanner extends HTMLElement {
       pagination.empty();
       container.classList.add('on');
       let slidesCount = this.#slidesCount;
-      const buttonStatusReset = (index, total) => {
-        buttonPrev.classList.remove('disabled');
-        buttonNext.classList.remove('disabled');
-        if (this.loop != true)
-        {
-          if (index == 0)
+      if (slidesCount <= 1)
+      {
+        buttonPrev.classList.add('hide');
+        buttonNext.classList.add('hide');
+      }
+      else
+      {
+        buttonPrev.classList.remove('hide');
+        buttonNext.classList.remove('hide');
+        const buttonStatusReset = (index, total) => {
+          buttonPrev.classList.remove('disabled');
+          buttonNext.classList.remove('disabled');
+          if (this.loop != true)
           {
-            buttonPrev.classList.add('disabled');
-          }
-          else if (index >= (total - 1))
-          {
-            buttonNext.classList.add('disabled');
+            if (index == 0)
+            {
+              buttonPrev.classList.add('disabled');
+            }
+            else if (index >= (total - 1))
+            {
+              buttonNext.classList.add('disabled');
+            };
           };
+          pagination.querySelectorAll('span.dot').forEach(dot => {
+            dot.classList.toggle('active', dot.dataset.i == index);
+          });
         };
-        pagination.querySelectorAll('span.dot').forEach(dot => {
-          dot.classList.toggle('active', dot.dataset.i == index);
+        for (let i = 0; i < slidesCount; i ++)
+        {
+          let dot = document.createElement('span');
+          dot.classList.add('dot');
+          dot.setAttribute('part', 'dot');
+          dot.dataset.i = i;
+          pagination.append(dot);
+        };
+        buttonStatusReset(instance.realIndex, slidesCount);
+        instance.on('slideChangeTransitionEnd', swiper => buttonStatusReset(swiper.realIndex, slidesCount));
+        buttonPrev.addEventListener('click', e => instance.slidePrev());
+        buttonNext.addEventListener('click', e => instance.slideNext());
+        pagination.delegateEventListener('span.dot', 'click', e => {
+          if (this.loop == false)
+          {
+            instance.slideTo(e.target.dataset.i);
+          }
+          else
+          {
+            instance.slideToLoop(e.target.dataset.i);
+          };
         });
       };
-      for (let i = 0; i < slidesCount; i ++)
-      {
-        let dot = document.createElement('span');
-        dot.classList.add('dot');
-        dot.setAttribute('part', 'dot');
-        dot.dataset.i = i;
-        pagination.append(dot);
-      };
-      buttonStatusReset(instance.realIndex, slidesCount);
-      instance.on('slideChangeTransitionEnd', swiper => buttonStatusReset(swiper.realIndex, slidesCount));
-      buttonPrev.addEventListener('click', e => instance.slidePrev());
-      buttonNext.addEventListener('click', e => instance.slideNext());
-      pagination.delegateEventListener('span.dot', 'click', e => {
-        if (this.loop == false)
-        {
-          instance.slideTo(e.target.dataset.i);
-        }
-        else
-        {
-          instance.slideToLoop(e.target.dataset.i);
-        };
-      });
     };
   };
 
@@ -144,9 +154,12 @@ export default class sbanner extends HTMLElement {
         this.#slidesCount ++;
         let contentItems = [];
         let slide = document.createElement('div');
+        let mask = document.createElement('div');
         let content = document.createElement('div');
         slide.classList.add('swiper-slide');
         slide.style.backgroundImage = 'url(' + picture.getAttribute('src') + ')';
+        mask.classList.add('mask');
+        mask.setAttribute('part', 'mask');
         content.classList.add('content');
         content.setAttribute('part', 'content');
         if (picture.hasAttribute('title'))
@@ -183,7 +196,7 @@ export default class sbanner extends HTMLElement {
           contentItems.forEach(item => contentWrap.append(item));
           content.append(contentWrap);
         };
-        slide.append(content);
+        slide.append(mask, content);
         wrapper.append(slide);
       });
       div.append(wrapper, jButtonPrev, bButtonNext, pagination);

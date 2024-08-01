@@ -7,6 +7,7 @@ export default class jtbcFullHeightContainer extends HTMLElement {
   #height = null;
   #minHeight = null;
   #maxHeight = null;
+  #resizeObserver = null;
 
   get offset() {
     return this.#offset;
@@ -25,8 +26,8 @@ export default class jtbcFullHeightContainer extends HTMLElement {
   };
 
   #initEvents() {
-    this.resizeObserver = new ResizeObserver(entries => this.setHeight());
-    this.resizeObserver.observe(document.documentElement);
+    this.#resizeObserver = () => this.setHeight();
+    window.addEventListener('resize', this.#resizeObserver);
   };
 
   setHeight() {
@@ -66,7 +67,7 @@ export default class jtbcFullHeightContainer extends HTMLElement {
   };
 
   disconnectedCallback() {
-    this.resizeObserver.disconnect();
+    window.removeEventListener('resize', this.#resizeObserver);
   };
 
   constructor() {

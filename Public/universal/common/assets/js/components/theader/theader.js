@@ -33,12 +33,12 @@ export default class theader extends HTMLElement {
       if (!this.classList.contains('on'))
       {
         this.classList.add('on');
-        this.parentElement.querySelector('mainmenu')?.classList.add('on');
+        container.querySelector('mainmenu')?.classList.add('on');
       }
       else
       {
         this.classList.remove('on');
-        this.parentElement.querySelector('mainmenu')?.classList.remove('on');
+        container.querySelector('mainmenu')?.classList.remove('on');
       };
     });
     container.delegateEventListener('span.icon', 'click', function() {

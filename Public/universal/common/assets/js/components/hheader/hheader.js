@@ -20,16 +20,16 @@ export default class hheader extends HTMLElement {
       if (!this.classList.contains('on'))
       {
         this.classList.add('on');
-        this.parentElement.querySelector('mainmenu')?.classList.add('on');
+        container.querySelector('mainmenu')?.classList.add('on');
       }
       else
       {
         this.classList.remove('on');
-        this.parentElement.querySelector('mainmenu')?.classList.remove('on');
+        container.querySelector('mainmenu')?.classList.remove('on');
       };
     });
-    container.delegateEventListener('span.icon', 'click', function() {
-      this.parentElement.parentElement.parentElement.classList.toggle('opened');
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
     });
   };
 

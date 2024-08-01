@@ -1,3 +1,5 @@
+import fieldSerializer from '../../../library/field/fieldSerializer.js';
+
 export default class jtbcForm extends HTMLFormElement {
   static get observedAttributes() {
     return ['credentials', 'mode', 'method', 'with-global-headers'];
@@ -135,22 +137,6 @@ export default class jtbcForm extends HTMLFormElement {
       };
     };
     return result;
-  };
-
-  isMultiField(el) {
-    let isMulti = false;
-    if (el.getAttribute('multi') == 'true') isMulti = true;
-    else
-    {
-      if (el instanceof HTMLInputElement)
-      {
-        if (el.getAttribute('type') == 'checkbox')
-        {
-          isMulti = true;
-        };
-      };
-    };
-    return isMulti;
   };
 
   isValidField(el) {
@@ -394,42 +380,7 @@ export default class jtbcForm extends HTMLFormElement {
   };
 
   serialize() {
-    let result = null;
-    let fields = this.getFields();
-    if (this.#mode == 'json')
-    {
-      let params = {};
-      fields.forEach(el => {
-        if (!params.hasOwnProperty(el.name))
-        {
-          if (!this.isMultiField(el))
-          {
-            if (this.isValidField(el)) params[el.name] = el.value;
-          }
-          else
-          {
-            let multiElValue = [];
-            fields.forEach(mel => {
-              if (mel.name == el.name)
-              {
-                if (this.isValidField(mel)) multiElValue.push(mel.value);
-              };
-            });
-            params[el.name] = multiElValue;
-          };
-        };
-      });
-      result = JSON.stringify(params);
-    }
-    else if (this.#mode == 'queryString')
-    {
-      let params = new URLSearchParams();
-      fields.forEach(el => {
-        if (this.isValidField(el)) params.append(el.name, el.value);
-      });
-      result = params.toString();
-    };
-    return result;
+    return (new fieldSerializer(this, this.#mode)).serialize();
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

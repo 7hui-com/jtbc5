@@ -42,6 +42,9 @@ export default class xheader extends HTMLElement {
     topmenu.delegateEventListener('span.icon', 'click', function() {
       this.parentElement.parentElement.parentElement.classList.toggle('opened');
     });
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
+    });
   };
 
   #initObserver() {

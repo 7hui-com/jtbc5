@@ -1,4 +1,4 @@
-export default class sfooter extends HTMLElement {
+export default class lfooter extends HTMLElement {
   #initEvents() {
     let container = this.container;
     container.delegateEventListener('slot', 'slotchange', function(){
@@ -67,14 +67,35 @@ export default class sfooter extends HTMLElement {
     };
     if (xBottom != null)
     {
+      let xLogo = xBottom.querySelector('logo');
+      let logo = bottom.querySelector('div.logo');
+      let sections = bottom.querySelector('div.sections');
+      if (logo != null && xLogo != null)
+      {
+        let logoImg = document.createElement('img');
+        xLogo.getAttributeNames().forEach(name => logoImg.setAttribute(name, xLogo.getAttribute(name)));
+        logo.append(logoImg);
+        if (xLogo.childElementCount != 0)
+        {
+          appendContent(xLogo, logo.parentElement.querySelector('slot.content').empty());
+        };
+      };
       xBottom.querySelectorAll('section').forEach(section => {
         let index = section.index();
-        let el = bottom.querySelector('div.section-' + index);
-        if (el != null)
-        {
-          el.querySelector('h3').innerText = section.getAttribute('title') ?? '';
-          appendContent(section, el.querySelector('slot.content').empty());
-        };
+        let newSection = document.createElement('div');
+        let newSectionH3 = document.createElement('h3');
+        let newSectionContent = document.createElement('div');
+        let newSectionSlotContent = document.createElement('slot');
+        newSection.classList.add('section');
+        newSectionH3.setAttribute('part', 'h3');
+        newSectionH3.innerText = section.getAttribute('title') ?? '';
+        newSectionContent.classList.add('content');
+        newSectionSlotContent.classList.add('content');
+        newSectionSlotContent.setAttribute('name', 'content-' + index);
+        newSectionContent.append(newSectionSlotContent);
+        newSection.append(newSectionH3, newSectionContent);
+        sections.append(newSection);
+        appendContent(section, newSectionSlotContent);
       });
     };
     if (xCopyright != null)
@@ -110,10 +131,11 @@ export default class sfooter extends HTMLElement {
       <div part="container" class="container" style="display:none">
         <div part="bottom" class="bottom">
           <div class="box">
-            <div class="section section-1" index="1"><h3 part="h3"></h3><div class="content"><slot class="content" name="content-1"></slot></div></div>
-            <div class="section section-2" index="2"><h3 part="h3"></h3><div class="content"><slot class="content" name="content-2"></slot></div></div>
-            <div class="section section-3" index="3"><h3 part="h3"></h3><div class="content"><slot class="content" name="content-3"></slot></div></div>
-            <div class="section section-4" index="4"><h3 part="h3"></h3><div class="content"><slot class="content" name="content-4"></slot></div></div>
+            <div part="card" class="card">
+              <div part="logo" class="logo"></div>
+              <div class="content"><slot class="content" name="content-card"></slot></div>
+            </div>
+            <div part="sections" class="sections"></div>
           </div>
         </div>
         <div part="copyright" class="copyright">

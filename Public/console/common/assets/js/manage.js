@@ -77,10 +77,9 @@ export default class manage {
                 let flag = langEl.querySelector('flag');
                 if (flag != null)
                 {
-                  flag.className = 'f' + data.data.currentLang;
+                  flag.setAttribute('lang', data.data.currentLang);
                   flag.nextElementSibling.innerText = data.data.currentLangText;
-                  let navLastAnchor = container.querySelector('nav a[is=jtbc-anchor]:last-of-type');
-                  if (navLastAnchor != null) navLastAnchor.click();
+                  container.querySelector('nav a[is=jtbc-anchor]:last-of-type')?.click();
                 };
                 langEl.setAttribute('lang', data.data.currentLang);
               };

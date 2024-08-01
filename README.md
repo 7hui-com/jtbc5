@@ -51,4 +51,4 @@ if (!-f $request_filename) {
 </configuration>
 ```
 
-© 2004~2022 上海七慧网络科技有限公司 All Rights Reserved.
+© 2004~2024 上海七慧网络科技有限公司 All Rights Reserved.

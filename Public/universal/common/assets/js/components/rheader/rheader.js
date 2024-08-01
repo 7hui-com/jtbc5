@@ -45,6 +45,9 @@ export default class rheader extends HTMLElement {
         mainmenu.classList.remove('on');
       };
     });
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
+    });
   };
 
   #initObserver() {

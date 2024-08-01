@@ -204,6 +204,6 @@ export default class mixedFieldCreator {
 
   constructor(columns) {
     this.columns = columns;
-    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'selector', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'currency-input', 'ipv4', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
+    this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'selector', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'currency-input', 'ipv4', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'icon-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
   };
 };

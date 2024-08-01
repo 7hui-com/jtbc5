@@ -21,13 +21,13 @@ container div.content div.swiper {
   width: 100%; height: 100%
 }
 container div.content div.swiper div.prev {
-  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: (0, -50%); position: absolute; top: 50%; left: 0px; z-index: 100
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: translate(0, -50%); position: absolute; top: 50%; left: 0px; z-index: 100
 }
 container div.content div.swiper div.prev jtbc-svg {
   width: calc(var(--icon-size) * 1.5); height: calc(var(--icon-size) * 1.5); --fore-color: #fff
 }
 container div.content div.swiper div.next {
-  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: (0, -50%); position: absolute; top: 50%; right: 0px; z-index: 100
+  width: calc(var(--icon-size) * 3); height: calc(var(--icon-size) * 3); display: flex; align-items: center; justify-content: center; cursor: pointer; transform: translate(0, -50%); position: absolute; top: 50%; right: 0px; z-index: 100
 }
 container div.content div.swiper div.next jtbc-svg {
   width: calc(var(--icon-size) * 1.5); height: calc(var(--icon-size) * 1.5); --fore-color: #fff
@@ -42,7 +42,7 @@ container div.thumb {
   width: 100%; box-sizing: border-box; padding: var(--thumb-padding); gap: calc(var(--thumb-padding) / 2); display: flex; align-items: center; justify-content: center
 }
 container div.thumb div.item {
-  height: 100%; cursor: pointer; user-select: none
+  height: 100%; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center
 }
 container div.thumb div.item img {
   display: block; box-sizing: border-box; border: transparent 2px solid

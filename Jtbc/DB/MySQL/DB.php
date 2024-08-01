@@ -52,17 +52,17 @@ class DB implements DBInterface
 
   public function beginTransaction()
   {
-    return $this -> exec('START TRANSACTION');
+    return $this -> conn -> beginTransaction();
   }
 
   public function commit()
   {
-    return $this -> exec('COMMIT');
+    return $this -> conn -> commit();
   }
 
   public function rollback()
   {
-    return $this -> exec('ROLLBACK');
+    return $this -> conn -> rollBack();
   }
 
   public function fetch($argSQL)

@@ -74,6 +74,7 @@ class Diplomat extends Ambassador {
       case 'date-range':
       case 'datetime-range':
       case 'time-range':
+      case 'icon-picker':
       case 'location-picker':
       case 'input-with-datalist':
       case 'cascader':
