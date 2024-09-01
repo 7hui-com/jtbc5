@@ -49,6 +49,9 @@
 .container div.box jtbc-swiper div.swiper-slide div.mask {
   width: 100%; height: 100%; background: transparent center center no-repeat; background-size: cover; position: absolute; top: 0px; left: 0px; z-index: 50
 }
+.container div.box jtbc-swiper div.swiper-slide div.frontstage {
+  display: none; position: absolute; bottom: 0px; left: 50%; z-index: 150
+}
 .container div.box jtbc-swiper div.swiper-slide div.content {
   display: none; position: relative; z-index: 100
 }

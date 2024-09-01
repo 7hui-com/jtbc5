@@ -59,7 +59,7 @@
   display: block; width: 100%; color: #999999; text-align: center
 }
 .ppItemDetail {
-  width: 800px; min-height: 576px
+  width: 40vw; min-width: 600px; max-width: 900px
 }
 .ppItemDetail div.intro {
   width: 100%; box-sizing: border-box; padding: 10px; display: flex; align-items: flex-end; background-image: linear-gradient(#ffffff, #f6f6f6); position: relative
@@ -68,7 +68,7 @@
   width: 100px; height: 100px; overflow: hidden
 }
 .ppItemDetail div.intro div.icon img {
-  width: 100%; vertical-align: top
+  width: 100%; display: block; box-sizing: border-box; border: #dddddd 1px solid
 }
 .ppItemDetail div.intro div.bigText {
   flex: 1; padding: 0px 10px 0px 0px
@@ -86,7 +86,7 @@
   width: 100%; display: flex
 }
 .ppItemDetail div.mainContent div.tabcontent {
-  flex: 1; box-sizing: border-box; padding: 20px; height: 360px; overflow: auto
+  flex: 1; box-sizing: border-box; padding: 20px; height: 40vh; min-height: 250px; max-height: 450px; overflow: auto
 }
 .ppItemDetail div.mainContent div.basic {
   width: 180px; box-sizing: border-box; background: #f6f6f6; border-left: #e1e1e1 1px solid
@@ -249,7 +249,7 @@
   border-bottom-width: 1px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px
 }
 .ppItemDetail div.tinyForm {
-  overflow: hidden; position: relative; z-index: 100
+  overflow: hidden; max-height: none; position: relative; z-index: 100
 }
 .ppItemDetail div.tinyForm div.tabtitle {
   padding: 0px 10px; background: #f6f6f6
@@ -279,10 +279,10 @@
   color: #ddd; padding-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
 }
 .ppContainer[category='package'] .ppItemList div.item div.text span.price {
-  font-size: 20px
+  font-size: 16px
 }
 .ppContainer[category='package'] .ppItemList div.item div.text::after {
-  content: ''; width: 80px; height: 80px; background: rgba(0, 0, 0, .8); border-radius: 100%; position: absolute; top: -30px; right: -10px; z-index: 10
+  content: ''; width: 70px; height: 70px; background: rgba(0, 0, 0, 0.8); border-radius: 100%; position: absolute; top: -30px; right: -10px; z-index: 10
 }
 .ppContainer[category='package'] .ppItemList div.item:hover div.text div.info {
   bottom: 0px; background: rgba(62, 134, 143, 1)
@@ -293,5 +293,11 @@
   }
   .ppContainer[category='package'] .ppItemList {
     grid-template-columns: repeat(4, 1fr)
+  }
+  .ppContainer[category='package'] .ppItemList div.item div.text span.price {
+    font-size: 20px
+  }
+  .ppContainer[category='package'] .ppItemList div.item div.text::after {
+    width: 80px; height: 80px
   }
 }

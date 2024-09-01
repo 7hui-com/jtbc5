@@ -12,6 +12,7 @@ class Plugin
   private $folderName;
   private $genre;
   private $fullPath;
+  private $fileNodeName = 'zh-cn';
 
   public function getId()
   {
@@ -160,7 +161,7 @@ class Plugin
       if ($setable === true)
       {
         $pluginFilePath = Path::getActualRoute($this -> genre . '/common/plugin.jtbc');
-        if (JtbcWriter::putNodeContent($pluginFilePath, 'cfg', 'enabled', $enabled === true? 'true': 'false'))
+        if (JtbcWriter::putNodeContent($pluginFilePath, 'cfg', 'enabled', $enabled === true? 'true': 'false', $this -> fileNodeName))
         {
           $result = true;
         }

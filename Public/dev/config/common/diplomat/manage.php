@@ -1,6 +1,7 @@
 <?php
 namespace Jtbc;
 use Jtbc\Jtbc\Codename;
+use Jtbc\Jtbc\JtbcReader;
 use Jtbc\Jtbc\JtbcWriter;
 use Jtbc\Config\ClassicConfigManager;
 use App\Common\Config\ConfigItemsScanner;
@@ -117,23 +118,39 @@ class Diplomat extends Ambassador {
     $ss = new Substance();
     $post = $req -> post();
     $group = intval($req -> get('group'));
+    $lang = $this -> guard -> role -> getLang();
     if ($this -> guard -> role -> checkPermission('edit'))
     {
+      $language = Env::getLanguageByID($lang);
+      $writeFile = function(array $task, string $type) use ($language)
+      {
+        $result = true;
+        foreach ($task as $key => $value)
+        {
+          $codename = new Codename($key, $type);
+          $keyword = $codename -> getKeyword();
+          $filePath = $codename -> getFilepath();
+          if (JtbcWriter::putNodeContent($filePath, $type, $keyword, $value, JtbcReader::hasField($filePath, $language)? $language: JtbcReader::getDefaultNodeName(strval(JtbcReader::getConfigure($filePath, 'field')))) !== true)
+          {
+            $result = false;
+            break;
+          }
+        }
+        return $result;
+      };
       if ($group == 1)
       {
         $sysname = strval($req -> post('sysname'));
         $title = strval($req -> post('title'));
         $keywords = strval($req -> post('keywords'));
         $description = strval($req -> post('description'));
-        $codename1 = new Codename('::index.title', 'lng');
-        $codename2 = new Codename('global.communal.title', 'lng');
-        $codename3 = new Codename('global.communal.keywords', 'lng');
-        $codename4 = new Codename('global.communal.description', 'lng');
-        $wroteStatus1 = JtbcWriter::putNodeContent($codename1 -> getFilepath(), 'lng', 'title', $sysname);
-        $wroteStatus2 = JtbcWriter::putNodeContent($codename2 -> getFilepath(), 'lng', 'title', $title);
-        $wroteStatus3 = JtbcWriter::putNodeContent($codename3 -> getFilepath(), 'lng', 'keywords', $keywords);
-        $wroteStatus4 = JtbcWriter::putNodeContent($codename4 -> getFilepath(), 'lng', 'description', $description);
-        if ($wroteStatus1 && $wroteStatus2 && $wroteStatus3 && $wroteStatus4)
+        $task = [
+          '::index.title' => $sysname,
+          'global.communal.title' => $title,
+          'global.communal.keywords' => $keywords,
+          'global.communal.description' => $description,
+        ];
+        if ($writeFile($task, 'lng'))
         {
           $code = 1;
           Logger::log($this, 'manage.log-edit-' . $group);
@@ -154,13 +171,13 @@ class Diplomat extends Ambassador {
         {
           $code = $uploadFile -> code;
           $vars = $uploadFile -> vars;
-          $param = $uploadFile -> param;
           $message = Jtbc::take('::communal.text-upload-code-' . $code, 'lng', false, $vars) ?? Jtbc::take('::communal.text-upload-code-others', 'lng');
           if ($code == 1)
           {
-            $codename = new Codename('global.communal.logo', 'lng');
-            $wroteStatus = JtbcWriter::putNodeContent($codename -> getFilepath(), 'cfg', 'logo', $logoName);
-            if ($wroteStatus == true)
+            $task = [
+              'global.communal.logo' => $logoName,
+            ];
+            if ($writeFile($task, 'lng'))
             {
               $code = 1;
               Logger::log($this, 'manage.log-edit-' . $group);
@@ -187,11 +204,11 @@ class Diplomat extends Ambassador {
           }
           $extensionsValue = implode(',', $extensionsTempArr);
         }
-        $codename1 = new Codename('global.config.upload-allowed-max-filesize', 'cfg');
-        $codename2 = new Codename('global.config.upload-allowed-extensions', 'cfg');
-        $wroteStatus1 = JtbcWriter::putNodeContent($codename1 -> getFilepath(), 'cfg', 'upload-allowed-max-filesize', $maxFilesize);
-        $wroteStatus2 = JtbcWriter::putNodeContent($codename2 -> getFilepath(), 'cfg', 'upload-allowed-extensions', $extensionsValue);
-        if ($wroteStatus1 && $wroteStatus2)
+        $task = [
+          'global.config.upload-allowed-max-filesize' => $maxFilesize,
+          'global.config.upload-allowed-extensions' => $extensionsValue,
+        ];
+        if ($writeFile($task, 'cfg'))
         {
           $code = 1;
           Logger::log($this, 'manage.log-edit-' . $group);
@@ -203,7 +220,6 @@ class Diplomat extends Ambassador {
       }
       else if ($group == 4)
       {
-        
         $key = strval($req -> get('key'));
         if (Validation::isConstantName($key))
         {

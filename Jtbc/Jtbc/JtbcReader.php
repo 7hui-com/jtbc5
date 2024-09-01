@@ -8,6 +8,7 @@ use DOMDocument;
 use Jtbc\Env;
 use Jtbc\Jtbc;
 use Jtbc\Validation;
+use Jtbc\String\StringHelper;
 
 class JtbcReader
 {
@@ -27,6 +28,21 @@ class JtbcReader
         break;
       default:
         $result = Env::getLanguage();
+    }
+    return $result;
+  }
+
+  public static function getDefaultNodeName(string $argField)
+  {
+    $result = null;
+    $field = $argField;
+    if (str_contains($field, ','))
+    {
+      $arr = explode(',', $field);
+      if (count($arr) >= 2)
+      {
+        $result = $arr[1];
+      }
     }
     return $result;
   }
@@ -92,19 +108,24 @@ class JtbcReader
         $field = $xpath -> query($query) -> item(0) -> nodeValue;
         $query = '//xml/configure/base';
         $base = $xpath -> query($query) -> item(0) -> nodeValue;
-        $fieldArr = explode(',', $field);
-        $fieldLength = count($fieldArr);
-        if ($fieldLength >= 2)
+        if (str_contains($field, ','))
         {
           $alias = [];
-          if (!in_array($nodeName, $fieldArr)) $nodeName = $fieldArr[1];
+          $keyField = StringHelper::getClippedString($field, ',');
+          if (!StringHelper::contains($field, $nodeName))
+          {
+            $nodeName = self::getDefaultNodeName($field);
+          }
           $query = '//xml/' . $base . '/' . $node;
           $rests = $xpath -> query($query);
           foreach ($rests as $rest)
           {
-            $nodeKey = $rest -> getElementsByTagName(current($fieldArr)) -> item(0) -> nodeValue;
+            $nodeKey = $rest -> getElementsByTagName($keyField) -> item(0) -> nodeValue;
             $nodeDom = $rest -> getElementsByTagName($nodeName);
-            if ($nodeDom -> length == 0) $nodeDom = $rest -> getElementsByTagName($fieldArr[1]);
+            if ($nodeDom -> length == 0)
+            {
+              $nodeDom = $rest -> getElementsByTagName(self::getDefaultNodeName($field));
+            }
             $nodeDomObj = $nodeDom -> item(0);
             $nodeDomValue = $nodeDomObj -> nodeValue;
             if (!is_null($type) && Validation::isEmpty($nodeDomValue))
@@ -141,6 +162,18 @@ class JtbcReader
       self::$param[$dataKey] = $data;
     }
     return $data;
+  }
+
+  public static function hasField(string $argSourcefile, string $argFieldName)
+  {
+    $result = null;
+    $sourceFile = $argSourcefile;
+    $fieldName = $argFieldName;
+    if (is_file($sourceFile))
+    {
+      $result = StringHelper::contains(strval(self::getConfigure($sourceFile, 'field')), $fieldName);
+    }
+    return $result;
   }
 
   public static function hasNode(string $argSourcefile, string $argNodeKey)

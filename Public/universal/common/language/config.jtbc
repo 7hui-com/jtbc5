@@ -347,6 +347,10 @@
       <zh-cn><![CDATA[发布]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[qrcode]]></name>
+      <zh-cn><![CDATA[二维码]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[rank]]></name>
       <zh-cn><![CDATA[等级]]></zh-cn>
     </item>

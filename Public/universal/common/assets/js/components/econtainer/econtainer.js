@@ -5,10 +5,8 @@ export default class econtainer extends HTMLElement {
 
   #initEvents() {
     let container = this.container;
-    container.querySelectorAll('div.container slot[name=main]').forEach(slot => {
-      slot.addEventListener('slotchange', function(){
-        this.assignedElements().forEach(el => el.classList.add('slotted'));
-      });
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
     });
     container.querySelectorAll('div.container slot[name=sidebar]').forEach(slot => {
       slot.addEventListener('slotchange', function(){
@@ -21,7 +19,6 @@ export default class econtainer extends HTMLElement {
         else
         {
           this.parentElement.classList.remove('hide');
-          assignedElements.forEach(el => el.classList.add('slotted'));
         };
       });
     });
@@ -48,6 +45,7 @@ export default class econtainer extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">
+        <div part="cushion" class="cushion"><slot name="cushion"></slot></div>
         <div part="container" class="container"><div part="container-box" class="box"><div part="sidebar" class="sidebar hide"><slot name="sidebar"></slot></div><div part="main" class="main"><slot name="main"></slot></div></div></div>
       </container>
     `;

@@ -32,9 +32,10 @@ export default class manage {
       let autostart = this.self.getAttribute('autostart');
       let dialogPopup = parentNode.querySelector('div.dialogPopup');
       dialogPopup.addEventListener('renderend', function(){
+        this.querySelector('div[content=loading]')?.classList.add('hide');
         if (autostart == 'true')
         {
-          this.querySelectorAll('button.b4.install').forEach(btn => { btn.click(); });
+          this.querySelector('button.b4.install')?.click();
         };
       });
       dialogPopup.delegateEventListener('.screenshots', 'clicked', function(e){

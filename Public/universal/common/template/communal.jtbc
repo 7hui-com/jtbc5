@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[header]]></name>
+      <default><![CDATA[<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="keywords" content="{$=$htmlEncode($meta_keywords)}" />
+<meta name="description" content="{$=$htmlEncode($meta_description)}" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+{$=$render('universal:render.stylesheet', $stylesheets)}
+<title>{$=$htmlEncode(implode(' - ', array_reverse(array_filter($meta_title))))}</title>
+</head>
+<body data-genre="{$>genre}">]]></default>
+    </item>
+    <item>
+      <name><![CDATA[footer]]></name>
+      <default><![CDATA[<script type="module">import('./{$=$root_assets_path}/js/jtbc.js').then(module => { window.jtbc = new module.default(); });</script>
+</body>
+</html>]]></default>
+    </item>
+  </item_list>
+</xml>

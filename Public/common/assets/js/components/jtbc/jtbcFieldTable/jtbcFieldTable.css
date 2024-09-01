@@ -15,6 +15,7 @@ container input[type=text]:focus {
   border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
 }
 container jtbc-field-upload,
+container jtbc-field-icon-picker,
 container jtbc-field-currency-input {
   width: 100%
 }

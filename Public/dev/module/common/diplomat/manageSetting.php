@@ -476,10 +476,11 @@ class Diplomat extends Ambassador {
       $module = new Module($genre);
       if ($module -> isExists())
       {
-        $modulePath = $module -> getPath();
+        $moduleNodeName = 'zh-cn';
         $moduleTitlePathType = 'cfg';
+        $modulePath = $module -> getPath();
         $moduleTitlePath = $modulePath . '/common/guide.jtbc';
-        $changedIcon = empty($moduleIcon)? false: JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'icon', $moduleIcon);
+        $changedIcon = empty($moduleIcon)? false: JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'icon', $moduleIcon, $moduleNodeName);
         if ($module -> getTitle(true) ==  $module -> getTitle(false))
         {
           if (!is_null(Jtbc::take('global.' . $genre . ':index.title', 'lng')))
@@ -488,7 +489,7 @@ class Diplomat extends Ambassador {
             $moduleTitlePath = $modulePath . '/common/language/index.jtbc';
           }
         }
-        $changedTitle = JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'title', $moduleTitle);
+        $changedTitle = JtbcWriter::putNodeContent($moduleTitlePath, $moduleTitlePathType, 'title', $moduleTitle, $moduleNodeName);
         if ($changedIcon === true || $changedTitle === true)
         {
           $code = 1;

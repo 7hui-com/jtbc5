@@ -1,0 +1,168 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-card-background: transparent; --footer-card-transform: none; --footer-card-font-color: #999; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
+}
+.container {
+  display: block !important; box-sizing: border-box; width: 100%
+}
+.container div.bottom {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-background)
+}
+.container div.bottom div.box {
+  display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--footer-page-inner-padding))
+}
+.container div.bottom div.box div.card {
+  width: 30%; max-width: 500px; min-width: 300px; box-sizing: border-box; background: var(--footer-card-background); transform: var(--footer-card-transform)
+}
+.container div.bottom div.box div.card div.logo {
+  width: 100%
+}
+.container div.bottom div.box div.card div.logo img {
+  width: var(--footer-logo-width); filter: var(--footer-logo-filter)
+}
+.container div.bottom div.box div.card div.content {
+  --footer-font-color: var(--footer-card-font-color)
+}
+.container div.bottom div.box div.card div.media {
+  width: 100%; padding-top: calc(var(--footer-gap) * 1.5); padding-bottom: var(--footer-gap); display: flex; flex-wrap: wrap; justify-content: left; gap: var(--footer-media-icon-gap)
+}
+.container div.bottom div.box div.card div.media div.icon {
+  width: var(--footer-media-icon-size); height: var(--footer-media-icon-size); box-sizing: border-box; padding: calc(var(--footer-media-icon-size) / 5); border: var(--footer-media-icon-border); border-radius: 100%; position: relative
+}
+.container div.bottom div.box div.card div.media div.icon jtbc-svg {
+  display: block; width: 100%; height: 100%; --fore-color: var(--footer-media-icon-color)
+}
+.container div.bottom div.box div.card div.media div.icon div.qrcode {
+  width: 160px; box-sizing: border-box; border: var(--footer-media-qrocde-border); border-radius: 5px; transform: translate(-50%, calc(0px - var(--footer-gap))); opacity: 0; pointer-events: none; position: absolute; bottom: calc(100% - var(--footer-gap)); left: 50%; z-index: 10; transition: all 0.3s ease
+}
+.container div.bottom div.box div.card div.media div.icon div.qrcode img {
+  display: block; width: 100%; border-radius: 5px; position: relative; z-index: 20
+}
+.container div.bottom div.box div.card div.media div.icon div.qrcode::after {
+  content: ''; display: block; width: 0px; height: 0px; border-top: var(--footer-media-qrocde-triangle-color) 10px solid; border-right: transparent 10px solid; border-bottom: transparent 10px solid; border-left: transparent 10px solid; transform: translate(-50%, 0); position: absolute; bottom: -16px; left: 50%; z-index: 10
+}
+.container div.bottom div.box div.card div.media div.icon:hover div.qrcode {
+  bottom: 100%; opacity: 1
+}
+.container div.bottom div.box div.card div.media div.icon:nth-child(1) div.qrcode {
+  transform: translate(calc(0px - var(--footer-media-icon-size) / 2), calc(0px - var(--footer-gap)))
+}
+.container div.bottom div.box div.card div.media div.icon:nth-child(1) div.qrcode::after {
+  transform: translate(0, 0); left: calc(var(--footer-media-icon-size) / 2 - 10px)
+}
+.container div.bottom div.box div.sections {
+  flex: 1; display: flex; box-sizing: border-box; padding-left: calc(var(--footer-gap) * 2); gap: var(--footer-gap)
+}
+.container div.bottom div.box div.sections div.section {
+  flex: 1; box-sizing: border-box
+}
+.container div.bottom div.box h3 {
+  margin: 0px; padding: 0px; font-size: calc(var(--footer-font-size) + 2px); color: var(--footer-font-color); line-height: 120%
+}
+.container div.bottom div.box div.content {
+  width: 100%; padding-top: calc(var(--footer-gap) * 3 / 4); font-size: var(--footer-font-size)
+}
+.container div.bottom div.box div.content span.href {
+  display: flex; flex-wrap: wrap; align-items: center; padding: calc(var(--footer-gap) / 4) 0px
+}
+.container div.bottom div.box div.content span.href a {
+  font-size: var(--footer-font-size); color: var(--footer-font-color); text-decoration: none; line-height: 160%; display: inline-block; border-bottom: transparent 1px solid
+}
+.container div.bottom div.box div.content span.href a:hover {
+  border-color: var(--footer-font-color)
+}
+.container div.bottom div.box div.content span.href::before {
+  content: '\2022'; font-size: var(--footer-font-size); color: var(--footer-font-color); display: block; padding-right: calc(var(--footer-gap) / 4)
+}
+.container div.bottom div.box div.content span.picture {
+  display: block; width: 100%; padding: calc(var(--footer-gap) / 4) 0px
+}
+.container div.bottom div.box div.content span.picture img {
+  display: block; max-width: var(--footer-picture-max-width)
+}
+.container div.bottom div.box div.content span.text {
+  display: block; width: 100%; padding: calc(var(--footer-gap) / 4) 0px; line-height: 160%; font-size: var(--footer-font-size); color: var(--footer-font-color)
+}
+.container div.bottom div.box div.content span.text[size='1.5'] {
+  font-size: calc(var(--footer-font-size) * 1.5); padding: 0px
+}
+.container div.bottom div.box div.content span.text[size='2'] {
+  font-size: calc(var(--footer-font-size) * 2); padding: 0px
+}
+.container div.bottom div.box div.content span.text[size='2.5'] {
+  font-size: calc(var(--footer-font-size) * 2.5); padding: 0px
+}
+.container div.bottom div.box div.content span.text[size='3'] {
+  font-size: calc(var(--footer-font-size) * 3); padding: 0px
+}
+.container div.copyright {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-copyright-background)
+}
+.container div.copyright div.box {
+  display: flex; flex-wrap: wrap; justify-content: space-between; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: calc(var(--footer-gap) * 0.75) 0px
+}
+.container div.copyright div.box div.section div.content {
+  display: flex; align-items: center
+}
+.container div.copyright div.box div.section div.content span.href {
+  margin: 0px calc(var(--footer-gap) / 4)
+}
+.container div.copyright div.box div.section div.content span.href a {
+  font-size: var(--footer-copyright-font-size); color: var(--footer-copyright-font-color); text-decoration: none; line-height: 150%; display: inline-block; border-bottom: transparent 1px solid
+}
+.container div.copyright div.box div.section div.content span.href a:hover {
+  border-color: var(--footer-font-color)
+}
+.container div.copyright div.box div.section div.content span.picture {
+  margin: 0px calc(var(--footer-gap) / 4)
+}
+.container div.copyright div.box div.section div.content span.picture img {
+  display: block
+}
+.container div.copyright div.box div.section div.content span.text {
+  line-height: 160%; font-size: var(--footer-copyright-font-size); color: var(--footer-copyright-font-color)
+}
+.container div.copyright div.box div.section div.content span.text[size='1.5'] {
+  font-size: calc(var(--footer-copyright-font-size) * 1.5); padding: 0px
+}
+.container div.copyright div.box div.section div.content span.text[size='2'] {
+  font-size: calc(var(--footer-copyright-font-size) * 2); padding: 0px
+}
+.container div.copyright div.box div.section div.content span.text[size='2.5'] {
+  font-size: calc(var(--footer-copyright-font-size) * 2.5); padding: 0px
+}
+.container div.copyright div.box div.section div.content span.text[size='3'] {
+  font-size: calc(var(--footer-copyright-font-size) * 3); padding: 0px
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --footer-page-outer-padding: 0px 15px; --footer-page-inner-padding: 15px 0px; --footer-height: 60px; --footer-picture-max-width: 75%
+  }
+  .container div.bottom div.box div.card {
+    width: 100%; max-width: 100%; margin-bottom: calc(var(--footer-gap) * 2); padding: var(--footer-gap) 0px; border-bottom: var(--footer-media-icon-border)
+  }
+  .container div.bottom div.box div.card div.logo,
+  .container div.bottom div.box div.card div.content {
+    text-align: center
+  }
+  .container div.bottom div.box div.card div.media {
+    justify-content: center
+  }
+  .container div.bottom div.box div.card div.media div.icon:nth-child(1) div.qrcode {
+    transform: translate(-50%, calc(0px - var(--footer-gap)))
+  }
+  .container div.bottom div.box div.card div.media div.icon:nth-child(1) div.qrcode::after {
+    transform: translate(-50%, 0); left: 50%
+  }
+  .container div.bottom div.box div.sections {
+    width: 100%; padding-left: 0px; flex-wrap: wrap
+  }
+  .container div.bottom div.box div.sections div.section {
+    flex: auto; width: calc(50% - var(--footer-gap) / 2); padding-left: 0px
+  }
+  .container div.copyright div.box {
+    display: block
+  }
+  .container div.copyright div.box div.section div.content {
+    justify-content: center
+  }
+}

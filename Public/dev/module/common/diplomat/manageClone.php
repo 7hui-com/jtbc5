@@ -9,7 +9,6 @@ use Jtbc\Module\ModuleHelper;
 use Jtbc\String\StringHelper;
 use App\Common\Module\InteriorNamespaceModifier;
 use App\Common\Module\ModuleHooksManager;
-use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
 
@@ -125,16 +124,17 @@ class Diplomat extends Ambassador {
             }
             else
             {
+              $newModuleNodeName = 'zh-cn';
               $newModuleTitlePathType = 'cfg';
               $newModuleTitlePath = $newModulePath . '/common/guide.jtbc';
-              $changedIcon = JtbcWriter::putNodeContent($newModuleTitlePath, $newModuleTitlePathType, 'icon', $moduleIcon);
+              $changedIcon = JtbcWriter::putNodeContent($newModuleTitlePath, $newModuleTitlePathType, 'icon', $moduleIcon, $newModuleNodeName);
               $newModuleTitle = Jtbc::take('global.' . $moduleName . ':index.title', 'lng');
               if ($newModuleTitle != null)
               {
                 $newModuleTitlePathType = 'lng';
                 $newModuleTitlePath = $newModulePath . '/common/language/index.jtbc';
               }
-              $changedTitle = JtbcWriter::putNodeContent($newModuleTitlePath, $newModuleTitlePathType, 'title', $moduleTitle);
+              $changedTitle = JtbcWriter::putNodeContent($newModuleTitlePath, $newModuleTitlePathType, 'title', $moduleTitle, $newModuleNodeName);
               if ($changedIcon === true && $changedTitle === true)
               {
                 $code = 1;
@@ -150,7 +150,7 @@ class Diplomat extends Ambassador {
                     {
                       if ($configVal == $cloneMapKey)
                       {
-                        JtbcWriter::putNodeContent($newModuleConfigPath, 'cfg', $configKey, $cloneMapVal);
+                        JtbcWriter::putNodeContent($newModuleConfigPath, 'cfg', $configKey, $cloneMapVal, $newModuleNodeName);
                         break;
                       }
                     }

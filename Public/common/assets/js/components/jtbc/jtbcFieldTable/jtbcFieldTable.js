@@ -213,7 +213,7 @@ export default class jtbcFieldTable extends HTMLElement {
           break;
         };
         default: {
-          field = ['date', 'datetime', 'switch', 'currency-input', 'ipv4', 'star', 'select2', 'selector', 'upload', 'number', 'multi-select', 'linkage-selector'].includes(item.type)? this.renderOthers(item): null;
+          field = ['date', 'datetime', 'switch', 'currency-input', 'ipv4', 'icon-picker', 'star', 'select2', 'selector', 'upload', 'number', 'multi-select', 'linkage-selector'].includes(item.type)? this.renderOthers(item): null;
           break;
         };
       };

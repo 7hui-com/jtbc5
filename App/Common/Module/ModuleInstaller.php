@@ -85,7 +85,6 @@ class ModuleInstaller extends Installer
       if ($opened === true)
       {
         $meta = $this -> getMetaData($zipArchive);
-        $updatePhars = $meta -> update_phars;
         if ($this -> hasExistedDBTables($meta))
         {
           $this -> lastErrorCode = 1021;
@@ -139,15 +138,15 @@ class ModuleInstaller extends Installer
             {
               $changedTitle = false;
               $guideFilePath = $fullModulePath . '/common/guide.jtbc';
-              $changedIcon = JtbcWriter::putNodeContent($guideFilePath, 'cfg', 'icon', $moduleIcon);
+              $changedIcon = JtbcWriter::putNodeContent($guideFilePath, 'cfg', 'icon', $moduleIcon, $this -> fileNodeName);
               if (!is_null(Jtbc::take('global.' . $genre . ':index.title', 'lng')))
               {
                 $indexLanguageFilePath = $fullModulePath . '/common/language/index.jtbc';
-                $changedTitle = JtbcWriter::putNodeContent($indexLanguageFilePath, 'lng', 'title', $moduleTitle);
+                $changedTitle = JtbcWriter::putNodeContent($indexLanguageFilePath, 'lng', 'title', $moduleTitle, $this -> fileNodeName);
               }
               else
               {
-                $changedTitle = JtbcWriter::putNodeContent($guideFilePath, 'cfg', 'title', $moduleTitle);
+                $changedTitle = JtbcWriter::putNodeContent($guideFilePath, 'cfg', 'title', $moduleTitle, $this -> fileNodeName);
               }
               if ($changedIcon === true && $changedTitle === true)
               {

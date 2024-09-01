@@ -130,7 +130,7 @@ export default class lfooter extends HTMLElement {
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
         <div part="bottom" class="bottom">
-          <div class="box">
+          <div part="bottom-box" class="box">
             <div part="card" class="card">
               <div part="logo" class="logo"></div>
               <div class="content"><slot class="content" name="content-card"></slot></div>
@@ -139,7 +139,7 @@ export default class lfooter extends HTMLElement {
           </div>
         </div>
         <div part="copyright" class="copyright">
-          <div class="box">
+          <div part="copyright-box" class="box">
             <div class="section section-1" index="1"><div class="content"><slot class="content" name="copyright-left"></slot></div></div>
             <div class="section section-2" index="2"><div class="content"><slot class="content" name="copyright-right"></slot></div></div>
           </div>

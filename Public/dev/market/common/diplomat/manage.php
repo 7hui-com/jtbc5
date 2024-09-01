@@ -13,6 +13,7 @@ use App\Console\Common\BasicSubstance;
 use App\Console\Common\EmptySubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
+use App\Universal\Common\Setting;
 use App\Universal\Common\DataCleaner;
 use App\Universal\Plugin\PluginFinder;
 use App\Universal\Plugin\PluginInstaller;
@@ -172,7 +173,7 @@ class Diplomat extends Ambassador {
     return $es -> toJSON();
   }
 
-  public function actionInstall(Request $req, Cache $cache)
+  public function actionInstall(Request $req, Response $res, Cache $cache)
   {
     $code = 0;
     $message = null;
@@ -297,6 +298,8 @@ class Diplomat extends Ambassador {
               {
                 $code = 1;
                 $cache -> removeAll();
+                $this -> guard -> role -> setLang(Env::getDefaultLang());
+                Setting::changeLanguage($res, Env::getDefaultLanguage());
                 Logger::log($this, 'manage.log-install-package', ['type_id' => $typeId]);
               }
               else

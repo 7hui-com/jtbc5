@@ -43,6 +43,9 @@
 .dialogPopup div.button.central {
   height: 60px; padding-top: 15px; background: #fdfdfd; text-align: center; border-top: #dddddd 1px solid
 }
+.dialogPopup div.tinyBox {
+  width: 100%; padding: 10px; box-sizing: border-box
+}
 .dialogPopup div.tinyForm {
   width: 100%; max-height: 600px; overflow-y: auto
 }

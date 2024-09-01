@@ -6,7 +6,6 @@ use Jtbc\JSON;
 use Jtbc\Substance;
 use Jtbc\Validation;
 use Jtbc\Jtbc\JtbcWriter;
-use Jtbc\Exception\EmptyException;
 use App\Common\ThirdParty\PharUpdater;
 
 abstract class Installer
@@ -16,6 +15,7 @@ abstract class Installer
   protected $premiumSign;
   protected $zipFilePath;
   protected $lastErrorCode = 0;
+  protected $fileNodeName = 'zh-cn';
 
   protected function clean(string $argWorkPath)
   {
@@ -54,8 +54,8 @@ abstract class Installer
     {
       if (!is_null($this -> sign) && !is_null($this -> premiumSign))
       {
-        $changedSign = JtbcWriter::putNodeContent($filePath, 'cfg', 'sign', $this -> sign);
-        $changedPremiumSign = JtbcWriter::putNodeContent($filePath, 'cfg', 'premium-sign', $this -> premiumSign);
+        $changedSign = JtbcWriter::putNodeContent($filePath, 'cfg', 'sign', $this -> sign, $this -> fileNodeName);
+        $changedPremiumSign = JtbcWriter::putNodeContent($filePath, 'cfg', 'premium-sign', $this -> premiumSign, $this -> fileNodeName);
         if ($changedSign === true && $changedPremiumSign === true)
         {
           $result = true;

@@ -24,6 +24,7 @@ export default class scontainer extends HTMLElement {
       this.#breadcrumb = breadcrumb;
       let jtbcBreadcrumb = document.createElement('jtbc-breadcrumb');
       jtbcBreadcrumb.setAttribute('data', breadcrumb);
+      jtbcBreadcrumb.setAttribute('part', 'breadcrumb');
       navigation.classList.remove('hide');
       navigation.querySelector('div.box').html(jtbcBreadcrumb.outerHTML);
     };

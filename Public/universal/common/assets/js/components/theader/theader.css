@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-anchor-color: var(--header-anchor-color); --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 25%; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-color: var(--header-anchor-color); --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-logo-filter: none; --header-sticky-anchor-color: var(--header-anchor-color); --header-sticky-navicon-color: var(--header-navicon-color); --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 25%; --header-logo-filter: none; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-font-size: calc(var(--header-anchor-font-size) - 2px); --header-submenu-anchor-color: var(--header-anchor-color); --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
@@ -8,7 +8,7 @@
   display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
 }
 .container div.box logo {
-  display: block; width: var(--header-logo-width); height: 100%
+  display: block; width: var(--header-logo-width); height: 100%; filter: var(--header-logo-filter)
 }
 .container div.box logo a {
   display: inline-block; height: 100%
@@ -50,7 +50,7 @@
   margin: 0px; padding: 0px; width: 100%; height: var(--header-anchor-height); background: var(--header-submenu-background); overflow: hidden; position: relative; z-index: 200; transition: background-color .3s ease
 }
 .container div.box mainmenu ul li dl dd > a {
-  display: flex; height: 100%; align-items: center; justify-content: center; font-size: calc(var(--header-anchor-font-size) - 2px); color: var(--header-submenu-anchor-color); text-decoration: none; transition: all .3s ease
+  display: flex; height: 100%; padding: 0px calc(var(--header-anchor-padding) / 2); align-items: center; justify-content: center; font-size: var(--header-submenu-anchor-font-size); color: var(--header-submenu-anchor-color); text-decoration: none; transition: all .3s ease
 }
 .container div.box mainmenu ul li dl dd > a:hover {
   background: var(--header-submenu-anchor-hover-background); font-weight: var(--header-submenu-anchor-hover-font-weight); color: var(--header-submenu-anchor-hover-color)
@@ -83,7 +83,7 @@
   opacity: 1; bottom: 0px; background: var(--header-anchor-color)
 }
 .container.sticky {
-  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-anchor-color: var(--header-sticky-anchor-color)
+  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-logo-filter: var(--header-sticky-logo-filter); --header-anchor-color: var(--header-sticky-anchor-color); --header-navicon-color: var(--header-sticky-navicon-color)
 }
 .placeholder {
   width: 100%; height: var(--header-height); box-sizing: border-box

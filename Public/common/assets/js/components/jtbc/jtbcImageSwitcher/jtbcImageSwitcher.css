@@ -1,0 +1,57 @@
+:host {
+  display: block; width: 100%; --height: 500px; --z-index: 100; --image-border: #d1d1d1 1px solid; --thumb-width: 60px; --thumb-opacity: 0.35; --thumb-border-color: transparent; --thumb-selected-border-color: #e02222; --button-color: #000000
+}
+.container {
+  width: 100%; height: var(--height); display: block !important; position: relative; z-index: var(--z-index)
+}
+.container div.image {
+  width: 100%; height: calc(var(--height) - var(--thumb-width) - 12px); box-sizing: border-box; border: var(--image-border); position: relative; z-index: 20
+}
+.container div.image img {
+  width: 100%; height: 100%; object-fit: cover; opacity: 0; position: absolute; top: 0px; left: 0px; z-index: 100; transition: opacity 0.3s ease
+}
+.container div.image img.on {
+  opacity: 1; z-index: 180
+}
+.container div.thumb {
+  width: calc(100% - 50px); height: var(--thumb-width); overflow: hidden; transform: translate(-50%, 0); user-select: none; position: absolute; bottom: 0px; left: 50%; z-index: 10
+}
+.container div.thumb ul {
+  list-style: none; margin: 0px; padding: 0px; display: flex; position: absolute; top: 0px; left: 0px; z-index: 10; transition: left 0.3s ease
+}
+.container div.thumb ul li {
+  width: var(--thumb-width); height: var(--thumb-width); padding: 0px 4px
+}
+.container div.thumb ul li:first-of-type {
+  padding-left: 0px
+}
+.container div.thumb ul li:last-of-type {
+  padding-right: 0px
+}
+.container div.thumb ul li img {
+  width: 100%; height: 100%; display: block; box-sizing: border-box; object-fit: cover; border: var(--thumb-border-color) 2px solid; opacity: var(--thumb-opacity); cursor: pointer
+}
+.container div.thumb ul li.on img {
+  border-color: var(--thumb-selected-border-color); opacity: 1
+}
+.container div.button-left {
+  width: 20px; height: var(--thumb-width); user-select: none; display: flex; align-items: center; justify-content: center; position: absolute; bottom: 0px; left: 0px; z-index: 10; cursor: pointer
+}
+.container div.button-left jtbc-svg {
+  width: 20px; height: 20px; --fore-color: var(--button-color)
+}
+.container div.button-left.disabled {
+  opacity: 0.3; cursor: default
+}
+.container div.button-right {
+  width: 20px; height: var(--thumb-width); user-select: none; display: flex; align-items: center; justify-content: center; position: absolute; bottom: 0px; right: 0px; z-index: 10; cursor: pointer
+}
+.container div.button-right jtbc-svg {
+  width: 20px; height: 20px; --fore-color: var(--button-color)
+}
+.container div.button-right.disabled {
+  opacity: 0.3; cursor: default
+}
+.container.clickable div.image {
+  cursor: pointer
+}

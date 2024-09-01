@@ -1,0 +1,212 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-height: 80px; --header-background: #fff; --header-border-top: #005f9b 2px solid; --header-border-bottom: #eee 1px solid; --header-sticky-background: #fff; --header-sticky-logo-filter: none; --header-sticky-anchor-color: var(--header-anchor-color); --header-sticky-navicon-color: var(--header-navicon-color); --header-sticky-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-logo-width: 15%; --header-logo-filter: none; --header-anchor-padding: 20px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: bold; --header-anchor-color: #005f9b; --header-anchor-hover-color: #333; --header-anchor-icon-size: 10px; --header-anchor-icon-right: 2px; --header-submenu-margin-top: 10px; --header-submenu-background: #fff; --header-submenu-anchor-font-size: calc(var(--header-anchor-font-size) - 2px); --header-submenu-anchor-color: var(--header-anchor-color); --header-submenu-anchor-hover-background: #f7f7f7; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #005f9b; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 5px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-font-weight: normal; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: rgba(0, 95, 155, .95); --header-mobile-mainmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
+}
+.container {
+  display: block !important; box-sizing: border-box; width: 100%; height: var(--header-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-background); border-top: var(--header-border-top); border-bottom: var(--header-border-bottom); position: fixed; top: 0px; left: 0px; z-index: var(--z-index); transition: background-color .3s ease
+}
+.container div.box {
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
+}
+.container div.box logo {
+  display: block; width: var(--header-logo-width); height: 100%; filter: var(--header-logo-filter)
+}
+.container div.box logo a {
+  display: inline-block; height: 100%
+}
+.container div.box logo img {
+  display: inline-block; height: 100%
+}
+.container div.box div.sides {
+  width: calc((100% - var(--header-logo-width)) / 2); height: 100%; display: flex; flex-wrap: wrap; align-items: center
+}
+.container div.box div.sides[position=left],
+.container div.box div.sides[position=left] leftmenu {
+  justify-content: left
+}
+.container div.box div.sides[position=right],
+.container div.box div.sides[position=right] rightmenu {
+  justify-content: right
+}
+.container div.box div.navicon {
+  display: none
+}
+.container div.box div.navicon navicon {
+  display: none
+}
+.container div.box div.mainmenu {
+  display: none
+}
+.container div.box .menu {
+  display: flex; align-items: center; height: 100%
+}
+.container div.box .menu ul {
+  display: flex; align-items: center; justify-content: center; list-style: none; margin: 0px; padding: 0px; height: 100%
+}
+.container div.box .menu ul li {
+  margin: 0px; padding: 0px; height: 100%; max-height: var(--header-anchor-height); transition: max-height .3s ease
+}
+.container div.box .menu ul li:hover > dl {
+  max-height: calc(var(--header-height) * 5); box-shadow: var(--header-submenu-hover-box-shadow)
+}
+.container div.box .menu ul li dl {
+  margin: 0px; padding: 0px; width: 100%; max-height: 100%; overflow: hidden; transition: max-height .3s ease, box-shadow .3s ease
+}
+.container div.box .menu ul li dl dt {
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-anchor-height); position: relative
+}
+.container div.box .menu ul li dl dt > span.icon {
+  display: flex; width: var(--header-anchor-icon-size); height: var(--header-anchor-height); padding: 0px; align-items: center; justify-content: center; transform: translate(0, calc(-50% + 2px)); position: absolute; top: 50%; right: var(--header-anchor-icon-right); z-index: 100
+}
+.container div.box .menu ul li dl dt > span.icon jtbc-svg {
+  width: var(--header-anchor-icon-size); height: var(--header-anchor-icon-size); --fore-color: var(--header-anchor-color)
+}
+.container div.box .menu ul li dl dt::after {
+  content: ''; width: 0px; height: 0px; border-left: transparent 8px solid; border-right: transparent 8px solid; border-bottom: var(--header-submenu-background) 8px solid; transform: translate(-50%, 0px); position: absolute; top: calc(var(--header-anchor-height) + var(--header-submenu-margin-top) - 6px); left: 50%; z-index: 100
+}
+.container div.box .menu ul li dl dd {
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-anchor-height); background: var(--header-submenu-background); overflow: hidden; position: relative; z-index: 200; transition: background-color .3s ease
+}
+.container div.box .menu ul li dl dd > a {
+  display: flex; height: 100%; padding: 0px calc(var(--header-anchor-padding) / 2); align-items: center; justify-content: center; font-size: var(--header-submenu-anchor-font-size); color: var(--header-submenu-anchor-color); text-decoration: none; transition: all .3s ease
+}
+.container div.box .menu ul li dl dd > a:hover {
+  background: var(--header-submenu-anchor-hover-background); font-weight: var(--header-submenu-anchor-hover-font-weight); color: var(--header-submenu-anchor-hover-color)
+}
+.container div.box .menu ul li dl dd:first-of-type {
+  margin-top: var(--header-submenu-margin-top); border-top-left-radius: var(--header-submenu-border-radius); border-top-right-radius: var(--header-submenu-border-radius)
+}
+.container div.box .menu ul li dl dd:last-of-type {
+  border-bottom-left-radius: var(--header-submenu-border-radius); border-bottom-right-radius: var(--header-submenu-border-radius)
+}
+.container div.box .menu ul li > a,
+.container div.box .menu ul li dl dt > a,
+.container div.box .menu ul li dl dt > span {
+  display: flex; height: 100%; align-items: center; padding: 0px var(--header-anchor-padding); font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); position: relative; transition: color .2s ease
+}
+.container div.box .menu ul li > a::before,
+.container div.box .menu ul li dl dt > a::before {
+  content: ''; position: absolute; width: calc(100% - calc(var(--header-anchor-padding) * 2)); left: 50%; bottom: -2px; transform: translate(-50%, 0); height: 2px; opacity: 0; background: var(--header-anchor-hover-color); transition: opacity .2s ease, background-color .3s ease, bottom .3s ease
+}
+.container div.box .menu ul li > a:hover,
+.container div.box .menu ul li dl dt > a:hover {
+  color: var(--header-anchor-hover-color) !important
+}
+.container div.box .menu ul li > a:hover::before,
+.container div.box .menu ul li dl dt > a:hover::before {
+  opacity: 1; bottom: 0px; background: var(--header-anchor-hover-color) !important
+}
+.container div.box .menu ul li.on > a::before,
+.container div.box .menu ul li.on dl dt > a::before {
+  opacity: 1; bottom: 0px; background: var(--header-anchor-color)
+}
+.container.sticky {
+  background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-logo-filter: var(--header-sticky-logo-filter); --header-anchor-color: var(--header-sticky-anchor-color); --header-navicon-color: var(--header-sticky-navicon-color)
+}
+.placeholder {
+  width: 100%; height: var(--header-height); box-sizing: border-box
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-height: 60px; --header-anchor-padding: 15px; --header-anchor-icon-size: 30px; --header-submenu-margin-top: 0px
+  }
+  .container div.box div.sides {
+    display: none
+  }
+  .container div.box div.navicon {
+    display: flex; align-items: center
+  }
+  .container div.box div.navicon navicon {
+    display: block; width: 30px; height: 30px; position: relative; z-index: 100; cursor: pointer
+  }
+  .container div.box div.navicon navicon span {
+    display: block; width: 100%; height: 2px; background: var(--header-navicon-color); margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box div.navicon navicon span::before,
+  .container div.box div.navicon navicon span::after {
+    content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box div.navicon navicon span::before {
+    margin-top: -10px
+  }
+  .container div.box div.navicon navicon span::after {
+    margin-top: 8px
+  }
+  .container div.box div.navicon navicon.on span {
+    background: transparent
+  }
+  .container div.box div.navicon navicon.on span::before {
+    transform: rotate(45deg); margin-top: -2px
+  }
+  .container div.box div.navicon navicon.on span::after {
+    transform: rotate(-45deg); margin-top: -2px
+  }
+  .container div.box div.mainmenu {
+    display: block
+  }
+  .container div.box div.mainmenu.on .menu {
+    max-height: calc(var(--header-height) * 10); box-shadow: var(--header-mobile-mainmenu-box-shadow)
+  }
+  .container div.box .menu {
+    width: 100%; height: auto; max-height: 0px; overflow: hidden; background: var(--header-mobile-mainmenu-background); display: block; position: absolute; top: 100%; left: 0px; z-index: 200; transition: max-height .3s ease, box-shadow .3s ease
+  }
+  .container div.box .menu ul {
+    display: block; width: 100%; height: auto
+  }
+  .container div.box .menu ul li {
+    border-bottom: var(--header-mobile-menu-li-border-bottom)
+  }
+  .container div.box .menu ul li:last-of-type {
+    border-bottom: 0px
+  }
+  .container div.box .menu ul li.on,
+  .container div.box .menu ul li:hover {
+    background: transparent
+  }
+  .container div.box .menu ul li.on > a,
+  .container div.box .menu ul li.on dl dt > a {
+    font-weight: bold !important
+  }
+  .container div.box .menu ul li:hover > dl {
+    box-shadow: none; max-height: var(--header-anchor-height)
+  }
+  .container div.box .menu ul li dl {
+    max-height: var(--header-anchor-height)
+  }
+  .container div.box .menu ul li dl dt > span.icon {
+    padding: 0px var(--header-anchor-padding); right: 0px; transform: translate(0, -50%)
+  }
+  .container div.box .menu ul li dl dt > span.icon jtbc-svg {
+    width: 14px; height: 14px; --fore-color: var(--header-mobile-anchor-color)
+  }
+  .container div.box .menu ul li dl dt::after {
+    display: none
+  }
+  .container div.box .menu ul li dl dd {
+    background: none !important; height: calc(100% - 4px)
+  }
+  .container div.box .menu ul li > a,
+  .container div.box .menu ul li dl dt > a,
+  .container div.box .menu ul li dl dt > span,
+  .container div.box .menu ul li dl dd > a {
+    justify-content: start; font-size: var(--header-mobile-anchor-font-size); font-weight: var(--header-mobile-anchor-font-weight); color: var(--header-mobile-anchor-color); height: var(--header-anchor-height)
+  }
+  .container div.box .menu ul li > a::before,
+  .container div.box .menu ul li dl dt > a::before {
+    display: none
+  }
+  .container div.box .menu ul li > a:hover,
+  .container div.box .menu ul li dl dt > a:hover,
+  .container div.box .menu ul li dl dd > a:hover {
+    background: transparent; color: var(--header-mobile-anchor-color) !important
+  }
+  .container div.box .menu ul li dl dd > a {
+    padding: 0px calc(var(--header-anchor-height) / 2); font-size: calc(var(--header-mobile-anchor-font-size) - 2px); height: calc(var(--header-anchor-height) - 4px)
+  }
+  .container div.box .menu ul li dl dd > a::before {
+    content: '+'; font-size: var(--header-mobile-anchor-font-size); margin-right: 6px
+  }
+  .container div.box .menu ul li.opened,
+  .container div.box .menu ul li.opened dl {
+    max-height: calc(var(--header-anchor-height) * 10)
+  }
+}

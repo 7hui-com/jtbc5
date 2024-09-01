@@ -60,6 +60,7 @@
 <div class="dialogPopup">
   <div class="title">{$=$take('manage.text-tit-' . ($get_query_string('category')?: 'package'), 'lng')}</div>
   <div class="ppItemDetail">
+    <div class="tinyBox" content="loading"><span class="ash">{$=$take('manage.text-loading', 'lng')}</span></div>
     <template is="jtbc-template" mt="true" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'originalDetail']))}">
       <template is="jtbc-template" key="data">
         <div class="intro">

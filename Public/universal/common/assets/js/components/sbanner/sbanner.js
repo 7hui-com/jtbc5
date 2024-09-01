@@ -109,6 +109,13 @@ export default class sbanner extends HTMLElement {
     };
   };
 
+  #initEvents() {
+    let container = this.container;
+    container.delegateEventListener('slot', 'slotchange', function(){
+      this.assignedElements().forEach(el => el.classList.add('slotted'));
+    });
+  };
+
   #initObserver() {
     let target = this.getDirectChildrenByTagName('var');
     if (target.length === 1)
@@ -155,11 +162,18 @@ export default class sbanner extends HTMLElement {
         let contentItems = [];
         let slide = document.createElement('div');
         let mask = document.createElement('div');
+        let frontstage = document.createElement('div');
+        let frontstageSlot = document.createElement('slot');
         let content = document.createElement('div');
         slide.classList.add('swiper-slide');
         slide.style.backgroundImage = 'url(' + picture.getAttribute('src') + ')';
         mask.classList.add('mask');
         mask.setAttribute('part', 'mask');
+        frontstage.classList.add('frontstage');
+        frontstage.setAttribute('part', 'frontstage');
+        frontstageSlot.setAttribute('part', 'frontstage-slot')
+        frontstageSlot.setAttribute('name', 'frontstage-' + this.#slidesCount);
+        frontstage.append(frontstageSlot);
         content.classList.add('content');
         content.setAttribute('part', 'content');
         if (picture.hasAttribute('title'))
@@ -196,7 +210,7 @@ export default class sbanner extends HTMLElement {
           contentItems.forEach(item => contentWrap.append(item));
           content.append(contentWrap);
         };
-        slide.append(mask, content);
+        slide.append(mask, frontstage, content);
         wrapper.append(slide);
       });
       div.append(wrapper, jButtonPrev, bButtonNext, pagination);
@@ -232,6 +246,7 @@ export default class sbanner extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
     this.#initObserver();
   };
 
