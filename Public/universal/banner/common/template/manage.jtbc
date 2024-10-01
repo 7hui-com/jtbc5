@@ -87,7 +87,7 @@
               <th width="20" class="${$.param.can_order? 'center': 'hide'}">{$=$take('::communal.th-sort', 'lng')}</th>
               <th width="20" class="center"><input type="checkbox" value="1" role="selector" /></th>
               <th width="40" class="center">{$=$take('universal:config.id', 'lng')}</th>
-              <th>{$=$take('config.name', 'lng')}</th>
+              <th>{$=$take('universal:config.title', 'lng')}</th>
               <th width="120">{$=$take('universal:config.time', 'lng')}</th>
               <th width="40" class="center">{$=$take('universal:config.status', 'lng')}</th>
               <th width="60" class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>
@@ -98,7 +98,7 @@
               <td role="draghandle" class="${$.param.can_order? 'normal': 'hide'}"></td>
               <td class="center"><input type="checkbox" name="id" value="${$id}" role="selector" /></td>
               <td class="center">${$id}</td>
-              <td><a if="${$.param.can_edit}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}">${$name}</a><span else>${$name}</span></td>
+              <td><a if="${$.param.can_edit}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}">${$title}</a><span else>${$title}</span></td>
               <td>${$time}</td>
               <td class="center"><span class="status" status="${$published}"></span></td>
               <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>

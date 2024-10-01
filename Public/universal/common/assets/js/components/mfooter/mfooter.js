@@ -144,13 +144,16 @@ export default class mfooter extends HTMLElement {
         };
       });
     };
-    this.container.loadComponents().then(result => this.dispatchEvent(new CustomEvent('renderend')));
+    this.container.loadComponents().then(result => {
+      this.dispatchEvent(new CustomEvent('renderend'));
+      this.parentElement.setAttribute('footer', 'renderend');
+    });
   };
 
   connectedCallback() {
-    this.ready = true;
     this.render();
     this.#initObserver();
+    this.ready = true;
   };
 
   disconnectedCallback() {

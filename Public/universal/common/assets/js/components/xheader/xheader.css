@@ -1,11 +1,11 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; position: relative; z-index: 1000; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-height: 80px; --header-container-background: #fff; --header-topmenu-height: 40px; --header-topmenu-background: #005f9b; --header-topmenu-hover-background: #004f7d; --header-topmenu-li-width: auto; --header-topmenu-submenu-hover-background: #024067; --header-topmenu-submenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-border-top: #005f9b 2px solid; --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #fff; --header-anchor-hover-color: #f4f4f4; --header-anchor-icon-size: 30px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --header-mobile-topmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-height: 80px; --header-container-background: #fff; --header-topmenu-height: 40px; --header-topmenu-background: #005f9b; --header-topmenu-hover-background: #004f7d; --header-topmenu-li-width: auto; --header-topmenu-submenu-hover-background: #024067; --header-topmenu-submenu-anchor-hover-color: var(--header-anchor-hover-color); --header-topmenu-submenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --header-border-top: #005f9b 2px solid; --header-logo-width: 25%; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #fff; --header-anchor-hover-color: #f4f4f4; --header-anchor-icon-size: 30px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: #999 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --header-mobile-topmenu-box-shadow: 0px 2px 2px rgb(0 0 0 / 5%); --z-index: 1000
 }
 .container {
-  display: block !important; box-sizing: border-box; width: 100%; height: var(--header-container-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-container-background); border-top: var(--header-border-top); position: relative; z-index: 100
+  display: block !important; box-sizing: border-box; width: 100%; height: var(--header-container-height); padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-container-background); border-top: var(--header-border-top); position: relative; z-index: var(--z-index)
 }
 .container div.box {
-  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between; position: relative; z-index: 100
 }
 .container div.box logo {
   display: block; width: var(--header-logo-width); height: 100%
@@ -16,14 +16,20 @@
 .container div.box logo img {
   display: inline-block; height: 100%
 }
+.container div.box div.slogan {
+  transform: translate(0, -50%); position: absolute; top: 50%; left: var(--header-logo-width); z-index: 100
+}
 .container div.box navicon {
   display: none
 }
 .topmenu {
-  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-topmenu-background); position: relative; z-index: var(--z-index)
+  display: block !important; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-topmenu-background); position: relative; z-index: var(--z-index)
+}
+.topmenu.fixed {
+  position: fixed; top: 0px
 }
 .topmenu div.box {
-  display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); margin: auto; padding: 0px
+  display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); margin: auto; padding: 0px; position: relative
 }
 .topmenu div.box div.top {
   display: none
@@ -66,14 +72,33 @@
 .topmenu div.box mainmenu ul li dl dd > a {
   display: flex; width: 100%; height: 100%; box-sizing: border-box; padding: 0px calc(var(--header-topmenu-height) / 2); align-items: center; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); white-space: nowrap
 }
+.topmenu div.box mainmenu ul li dl dd > a {
+  font-size: calc(var(--header-anchor-font-size) - 2px)
+}
 .topmenu div.box mainmenu ul li > a:hover,
 .topmenu div.box mainmenu ul li dl dt > a:hover,
 .topmenu div.box mainmenu ul li dl dd > a:hover {
   color: var(--header-anchor-hover-color) !important
 }
+.topmenu div.box mainmenu ul li dl dd.on > a,
+.topmenu div.box mainmenu ul li dl dd:hover > a {
+  color: var(--header-topmenu-submenu-anchor-hover-color) !important
+}
+.topmenu div.box div.topmenu-right {
+  height: var(--header-topmenu-height); position: absolute; bottom: 0px; right: 0px; z-index: 100
+}
+.placeholder {
+  width: 100%; height: var(--header-topmenu-height); background: var(--header-topmenu-background); display: none
+}
+.placeholder.on {
+  display: block
+}
 @media screen and (max-width: 960px) {
   :host {
     --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-container-height: 60px
+  }
+  .container {
+    position: fixed; top: 0px
   }
   .container div.box div.right {
     display: none
@@ -104,7 +129,7 @@
     transform: rotate(-45deg); margin-top: -2px
   }
   .topmenu {
-    position: absolute; top: var(--header-container-height); left: 0px; z-index: 200; background: var(--header-mobile-mainmenu-background); max-height: 0px; overflow: hidden; transition: max-height .6s ease, box-shadow .3s ease
+    position: fixed !important; top: var(--header-container-height) !important; left: 0px; background: var(--header-mobile-mainmenu-background); max-height: 0px; overflow: hidden; transition: max-height .6s ease, box-shadow .3s ease
   }
   .topmenu div.box div.top {
     display: block
@@ -126,7 +151,7 @@
     background: transparent
   }
   .topmenu div.box mainmenu ul li.on > a,
-  .topmenu div.box mainmenu ul li dl dt > a {
+  .topmenu div.box mainmenu ul li.on dl dt > a {
     font-weight: bold
   }
   .topmenu div.box mainmenu ul li:hover > dl {
@@ -146,11 +171,15 @@
   }
   .topmenu div.box mainmenu ul li > a,
   .topmenu div.box mainmenu ul li dl dt > a,
+  .topmenu div.box mainmenu ul li dl dt > span,
   .topmenu div.box mainmenu ul li dl dd > a {
-    justify-content: start; font-size: var(--header-mobile-anchor-font-size); color: var(--header-mobile-anchor-color); height: var(--header-topmenu-height)
+    padding-left: 0px; justify-content: start; font-size: var(--header-mobile-anchor-font-size); color: var(--header-mobile-anchor-color); height: var(--header-topmenu-height)
+  }
+  .topmenu div.box mainmenu ul li dl dd {
+    height: calc(var(--header-topmenu-height) * 0.8)
   }
   .topmenu div.box mainmenu ul li dl dd > a {
-    font-size: calc(var(--header-mobile-anchor-font-size) - 2px)
+    padding-left: 0px; height: calc(var(--header-topmenu-height) * 0.8); font-size: calc(var(--header-mobile-anchor-font-size) - 2px)
   }
   .topmenu div.box mainmenu ul li dl dd > a::before {
     content: '+'; font-size: var(--header-mobile-anchor-font-size); margin-right: 6px
@@ -158,7 +187,13 @@
   .topmenu div.box mainmenu ul li.opened dl {
     max-height: calc(var(--header-topmenu-height) * 10)
   }
+  .topmenu div.box div.topmenu-right {
+    display: none
+  }
   .topmenu.on {
     max-height: calc(var(--header-topmenu-height) * 20); box-shadow: var(--header-mobile-topmenu-box-shadow)
+  }
+  .placeholder {
+    width: 100%; height: var(--header-container-height); display: block !important
   }
 }

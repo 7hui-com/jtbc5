@@ -24,6 +24,8 @@ CREATE TABLE `aboutus`  (
 -- Records of aboutus
 -- ----------------------------
 INSERT INTO `aboutus` VALUES (1, '公司简介', '', '', 0, '2021-12-31 0:00:00', 0, 1, 0);
+INSERT INTO `aboutus` VALUES (2, '企业文化', '', '', 0, '2021-12-31 1:00:00', 0, 1, 0);
+INSERT INTO `aboutus` VALUES (3, '公司荣誉', '', '', 0, '2021-12-31 2:00:00', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for console_account
@@ -124,6 +126,50 @@ CREATE TABLE `console_role`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for contactus
+-- ----------------------------
+DROP TABLE IF EXISTS `contactus`;
+CREATE TABLE `contactus`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
+  `fullname` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `phone` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\",\"format\":\"email\"}',
+  `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `time` datetime NULL DEFAULT NULL COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"datetime\"}',
+  `lang` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  `deleted` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `a_delete`(`deleted` ASC, `lang` ASC) USING BTREE,
+  INDEX `a_time`(`time` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of contactus
+-- ----------------------------
+INSERT INTO `contactus` VALUES (1, '************', '400 - *** - ***', 'business@jtbc.cn', '上海市浦东新区滨江大道 x 号', '2024-10-01 00:00:00', 0, 0);
+
+-- ----------------------------
+-- Table structure for feedback
+-- ----------------------------
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE `feedback`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
+  `unique_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"mode\":\"manual\",\"required\":false}',
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `mobile` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\",\"format\":\"mobile\"}',
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\",\"format\":\"email\"}',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"type\":\"textarea\"}',
+  `time` datetime NULL DEFAULT NULL COMMENT '{\"type\":\"datetime\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
+  `lang` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  `disposed` tinyint NULL DEFAULT 0 COMMENT '{\"type\":\"switch\",\"required\":false,\"format\":\"int\"}',
+  `deleted` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `delete`(`deleted` ASC, `lang` ASC, `disposed` ASC) USING BTREE,
+  INDEX `time`(`time` ASC) USING BTREE,
+  INDEX `unique_id`(`unique_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for news
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
@@ -135,24 +181,6 @@ CREATE TABLE `news`  (
   `summary` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"textarea\",\"required\":false}',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"type\":\"editor\",\"required\":false}',
   `attachment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '{\"type\":\"attachment\",\"required\":false,\"has_upload\":true,\"extra\":{\"partner\":\"content\"}}',
-  `time` datetime(0) NULL DEFAULT NULL COMMENT '{\"type\":\"datetime\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
-  `lang` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
-  `published` tinyint(4) NULL DEFAULT 0 COMMENT '{\"type\":\"switch\",\"required\":false,\"format\":\"int\"}',
-  `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `a_delete`(`deleted`, `lang`, `published`) USING BTREE,
-  INDEX `a_time`(`time`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for partnership
--- ----------------------------
-DROP TABLE IF EXISTS `partnership`;
-CREATE TABLE `partnership`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
-  `logo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"upload\",\"has_upload\":true}',
-  `order` int(11) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
   `time` datetime(0) NULL DEFAULT NULL COMMENT '{\"type\":\"datetime\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
   `lang` tinyint(4) NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
   `published` tinyint(4) NULL DEFAULT 0 COMMENT '{\"type\":\"switch\",\"required\":false,\"format\":\"int\"}',
@@ -221,6 +249,32 @@ CREATE TABLE `team`  (
   INDEX `a_delete`(`deleted`, `lang`, `published`) USING BTREE,
   INDEX `a_time`(`time`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for universal_banner
+-- ----------------------------
+DROP TABLE IF EXISTS `universal_banner`;
+CREATE TABLE `universal_banner`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '{\"mode\":\"auto\"}',
+  `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `subtitle` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"upload\",\"has_upload\":true}',
+  `linkurl` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"text\"}',
+  `target` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '{\"type\":\"select\",\"source\":\"sel_target.*\"}',
+  `order` int NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  `time` datetime NULL DEFAULT NULL COMMENT '{\"type\":\"datetime\",\"format\":\"datetime\",\"hidden\":[\"add\"]}',
+  `lang` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  `published` tinyint NULL DEFAULT 0 COMMENT '{\"type\":\"switch\",\"required\":false,\"format\":\"int\"}',
+  `deleted` tinyint NULL DEFAULT 0 COMMENT '{\"mode\":\"manual\",\"required\":false,\"format\":\"int\"}',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `a_delete`(`deleted` ASC, `lang` ASC, `published` ASC) USING BTREE,
+  INDEX `a_time`(`time` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of universal_banner
+-- ----------------------------
+INSERT INTO `universal_banner` VALUES (1, '纯净开源，商用免费', '起源于2006年的开源一体化内容管理系统解决方案', '{\"uploadid\":0,\"fileurl\":\"/common/assets/package/images/banner.svg\"}', 'aboutus/', '_self', 0, '2021-12-31 0:00:00', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for universal_captcha

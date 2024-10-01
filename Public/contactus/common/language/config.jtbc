@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[fullname]]></name>
+      <zh-cn><![CDATA[公司全称]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[phone]]></name>
+      <zh-cn><![CDATA[联系电话]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[email]]></name>
+      <zh-cn><![CDATA[电子邮件]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[address]]></name>
+      <zh-cn><![CDATA[详细地址]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

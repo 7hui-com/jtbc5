@@ -64,7 +64,7 @@ header box mainmenu ul li a {
 }
 header box mainmenu ul li a::before,
 header box mainmenu ul li a::after {
-  content: ''; position: absolute; width: 0%; bottom: 0px; height: 2px; background: #333; transition: width .2s ease, background .2s ease
+  content: ''; position: absolute; width: 0%; bottom: 0px; height: 2px; background: #333; transition: width .2s ease, background-color .2s ease
 }
 header box mainmenu ul li a::before {
   left: 50%
@@ -98,8 +98,14 @@ navigation box {
 container {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding); background: #fff
 }
+container[bg=variety] {
+  background: #f9f9f9
+}
 container box {
   display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: flex-start; justify-content: space-between
+}
+container box div.main {
+  width: 100%; padding-bottom: var(--page-gap)
 }
 container box main {
   display: block; flex: 1
@@ -147,7 +153,7 @@ footer bottom box section p.phone {
   font-size: 2.4rem; line-height: 100%; padding-bottom: 10px
 }
 footer bottom box section p.qrcode img {
-  width: 50%; max-width: 215px; vertical-align: top
+  width: 50%; max-width: 215px; display: block
 }
 footer bottom box section ul {
   list-style: disc; padding-left: 20px
@@ -156,10 +162,10 @@ footer bottom box section ul li {
   padding-bottom: 5px; color: #fff; line-height: 160%
 }
 footer bottom box section a {
-  color: #fff
+  color: #fff; display: inline-block; padding-bottom: 2px; border-bottom: transparent 1px solid
 }
 footer bottom box section a:hover {
-  color: #fff; text-decoration: underline
+  color: #fff; border-color: #fff
 }
 footer copyright {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding)
@@ -186,7 +192,10 @@ div.list {
   width: 100%; display: grid; grid-template-columns: 1fr; grid-gap: var(--page-gap)
 }
 div.list div.row {
-  display: flex; box-sizing: border-box; align-items: center
+  width: 100%; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; padding-bottom: var(--page-gap); border-bottom: #eee 1px solid
+}
+div.list div.row:last-of-type {
+  border-bottom: 0px
 }
 div.list div.row div.image {
   width: 25%; box-sizing: border-box; padding-right: var(--page-gap)
@@ -195,31 +204,70 @@ div.list div.row div.text {
   flex: 1
 }
 div.list div.row p[type=title] {
-  font-size: 1.6rem; line-height: 160%; font-weight: bold; padding-bottom: 10px
+  font-size: 1.6rem; line-height: 160%; font-weight: bold; padding-bottom: calc(var(--page-gap) / 2)
+}
+div.list div.row p[type=title] a {
+  color: #005f9b; transition: all 0.3s ease
+}
+div.list div.row p[type=title] a:hover {
+  color: #000000
 }
 div.list div.row p[type=image] img {
-  width: 100%; vertical-align: top
+  width: 100%; display: block
 }
 div.list div.row p[type=info] {
-  line-height: 160%; color: #999; padding-bottom: 10px
+  line-height: 160%; color: #999; padding-bottom: calc(var(--page-gap) / 2)
 }
 div.list div.row p[type=summary] {
   font-size: 1.4rem; line-height: 160%; color: #666
 }
 div.list div.row.wrapped {
-  padding: var(--page-gap); border: #eee 1px dashed
+  padding: var(--page-gap); border: #eee 1px solid
+}
+div.list div.item p[type=date] {
+  font-family: Georgia; font-size: 3.6rem; color: #999; padding-bottom: var(--page-gap); border-bottom: #999 1px solid
 }
 div.list div.item p[type=title] {
-  padding-top: 10px; font-size: 1.4rem; text-align: center
+  padding-top: var(--page-gap); line-height: 120%; font-size: 1.4rem; text-align: center
+}
+div.list div.item p[type=title] a {
+  color: #005f9b; transition: all 0.3s ease
+}
+div.list div.item p[type=title] a:hover {
+  color: #000000
 }
 div.list div.item p[type=info] {
-  padding-top: 10px; color: #999; text-align: center
+  padding-top: calc(var(--page-gap) / 2); color: #999; text-align: center
+}
+div.list div.item p[type=summary] {
+  padding-top: calc(var(--page-gap) / 2); font-size: 1.4rem; line-height: 160%; color: #999
 }
 div.list div.item p[type=image] img {
-  width: 100%; vertical-align: top
+  width: 100%; display: block
+}
+div.list div.item p[type=image] img.avatar {
+  width: 75%; margin: auto; border-radius: 100%
 }
 div.list div.item p[type=image] img.circle {
   border-radius: 100%
+}
+div.list div.item p[type=icon] {
+  text-align: center
+}
+div.list div.item p[type=icon] jtbc-svg {
+  width: 40px; height: 40px; --fore-color: #005f9b
+}
+div.list div.item p[align=left] {
+  text-align: left
+}
+div.list div.item p[align=center] {
+  text-align: center
+}
+div.list div.item p[align=right] {
+  text-align: right
+}
+div.list div.item.wrapped {
+  padding: var(--page-gap); border: #eee 1px solid
 }
 div.list[mode=a] {
   grid-template-columns: 1fr
@@ -244,7 +292,7 @@ div.detail h1.title {
 }
 div.list div.content,
 div.detail div.content {
-  width: 100%; padding: 1rem 0rem; font-size: 1.4rem; line-height: 160%
+  width: 100%; padding: 1rem 0rem; font-size: 1.4rem; line-height: 160%; word-break: break-all
 }
 div.list div.content img,
 div.detail div.content img {
@@ -277,6 +325,16 @@ div.pagination {
 }
 div.pagination[total='1'] {
   display: none
+}
+div.section_title {
+  width: 100%; margin-top: var(--page-gap); padding-bottom: var(--page-gap)
+}
+div.section_title h3 {
+  width: 100%; font-size: 2.4rem; color: #005f9b; font-weight: normal; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: calc(var(--page-gap) / 2)
+}
+div.section_title h3::before,
+div.section_title h3::after {
+  display: block; content: ''; width: 50px; height: 2px; background: #005f9b
 }
 @media screen and (max-width: 960px) {
   body {
@@ -374,17 +432,12 @@ div.pagination[total='1'] {
   footer copyright box section a.beian {
     display: inline-block; padding: 0px
   }
-  div.list div.row {
-    align-items: flex-start
-  }
   div.list div.row div.image {
-    width: 40%
+    width: 100%; padding-right: 0px; padding-bottom: calc(var(--page-gap) / 2)
   }
-  div.list[mode=b] {
-    grid-template-columns: 1fr
-  }
+  div.list[mode=b],
   div.list[mode=c] {
-    grid-template-columns: repeat(2, 1fr)
+    grid-template-columns: 1fr
   }
   div.list[mode=d] {
     grid-template-columns: repeat(2, 1fr)

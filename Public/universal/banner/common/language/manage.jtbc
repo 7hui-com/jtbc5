@@ -8,35 +8,35 @@
   <item_list>
     <item>
       <name><![CDATA[text-menu-1]]></name>
-      <zh-cn><![CDATA[全部伙伴列表]]></zh-cn>
+      <zh-cn><![CDATA[全部通栏列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-menu-2]]></name>
-      <zh-cn><![CDATA[已发布的伙伴列表]]></zh-cn>
+      <zh-cn><![CDATA[已发布的通栏列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-menu-3]]></name>
-      <zh-cn><![CDATA[暂未发布的伙伴列表]]></zh-cn>
+      <zh-cn><![CDATA[暂未发布的通栏列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-menu-4]]></name>
-      <zh-cn><![CDATA[添加新伙伴]]></zh-cn>
+      <zh-cn><![CDATA[添加新通栏]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-add]]></name>
-      <zh-cn><![CDATA[添加新伙伴]]></zh-cn>
+      <zh-cn><![CDATA[添加新通栏]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-edit]]></name>
-      <zh-cn><![CDATA[编辑伙伴]]></zh-cn>
+      <zh-cn><![CDATA[编辑通栏]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tit-list]]></name>
-      <zh-cn><![CDATA[伙伴列表]]></zh-cn>
+      <zh-cn><![CDATA[通栏列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tips-list-null]]></name>
-      <zh-cn><![CDATA[当前条件下没有找到任何伙伴]]></zh-cn>
+      <zh-cn><![CDATA[当前条件下没有找到任何通栏]]></zh-cn>
     </item>
   </item_list>
 </xml>

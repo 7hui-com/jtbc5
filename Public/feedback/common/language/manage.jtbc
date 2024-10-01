@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[text-menu-1]]></name>
+      <zh-cn><![CDATA[全部留言列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-2]]></name>
+      <zh-cn><![CDATA[已处理的留言列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-3]]></name>
+      <zh-cn><![CDATA[待处理的留言列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-edit]]></name>
+      <zh-cn><![CDATA[编辑留言]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tit-list]]></name>
+      <zh-cn><![CDATA[留言列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-list-null]]></name>
+      <zh-cn><![CDATA[当前条件下没有找到任何留言]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-notification-tips]]></name>
+      <zh-cn><![CDATA[您有{$[count]}条待处理的留言]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-notification-button-text]]></name>
+      <zh-cn><![CDATA[处理]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

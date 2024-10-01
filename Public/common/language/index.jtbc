@@ -7,15 +7,7 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[banner-slogan]]></name>
-      <zh-cn><![CDATA[纯净开源，商用免费]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[banner-subtitle]]></name>
-      <zh-cn><![CDATA[起源于2006年的开源一体化内容管理系统解决方案]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[banner-link-more]]></name>
+      <name><![CDATA[text-view-more]]></name>
       <zh-cn><![CDATA[了解更多]]></zh-cn>
     </item>
   </item_list>

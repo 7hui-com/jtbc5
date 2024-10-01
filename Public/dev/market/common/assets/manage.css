@@ -1,5 +1,44 @@
 .ppContainer {
-  width: 100%
+  width: 100%; container-type: inline-size; container-name: ppContainer
+}
+.ppTagList {
+  width: 100%; padding-bottom: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 5px
+}
+.ppTagList a {
+  padding: 5px 10px; font-size: 90%; background: linear-gradient(#404b59, #364150); color: rgba(255, 255, 255, 0.75); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); border-radius: 4px; transition: all 0.3s ease
+}
+.ppTagList a:hover {
+  color: rgba(255, 255, 255, 1)
+}
+.ppTagList a[background='1'] {
+  background: linear-gradient(#58b1ba, #47a0a8)
+}
+.ppTagList a[background='2'] {
+  background: linear-gradient(#1283c4, #0172b3)
+}
+.ppTagList a[background='3'] {
+  background: linear-gradient(#a3b81f, #92a70d)
+}
+.ppTagList a[background='4'] {
+  background: linear-gradient(#ed5698, #f01f7a)
+}
+.ppTagList a[background='5'] {
+  background: linear-gradient(#34cf57, #29a846)
+}
+.ppTagList a[background='6'] {
+  background: linear-gradient(#802a2a, #5e2612)
+}
+.ppTagList a[background='7'] {
+  background: linear-gradient(#e3170d, #b22222)
+}
+.ppTagList a[background='8'] {
+  background: linear-gradient(#ff6100, #d2691e)
+}
+.ppTagList a[background='9'] {
+  background: linear-gradient(#8a2be2, #9933fa)
+}
+.ppTagList a[background='10'] {
+  background: linear-gradient(#191970, #0b1746)
 }
 .ppItemList {
   width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 10px; row-gap: 10px
@@ -285,9 +324,9 @@
   content: ''; width: 70px; height: 70px; background: rgba(0, 0, 0, 0.8); border-radius: 100%; position: absolute; top: -30px; right: -10px; z-index: 10
 }
 .ppContainer[category='package'] .ppItemList div.item:hover div.text div.info {
-  bottom: 0px; background: rgba(62, 134, 143, 1)
+  bottom: 0px; background: rgba(62, 134, 143, 0.7); backdrop-filter: blur(2px)
 }
-@media screen and (min-width: 1680px) {
+@container ppContainer (width > 1440px) {
   .ppItemList {
     grid-template-columns: repeat(3, 1fr)
   }

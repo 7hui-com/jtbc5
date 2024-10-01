@@ -3,8 +3,18 @@ export default class jtbcTinySearch extends HTMLElement {
     return ['url', 'keyword', 'placeholder', 'width'];
   };
 
+  #url = null;
+
+  get url() {
+    return this.#url;
+  };
+
   get keyword() {
     return this.container.querySelector('input.keyword').value;
+  };
+
+  set url(url) {
+    this.#url = url;
   };
 
   set keyword(keyword) {
@@ -19,18 +29,20 @@ export default class jtbcTinySearch extends HTMLElement {
 
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('span.btn', 'click', () => {
-      if (this.currentUrl != null)
+    container.delegateEventListener('div.btn', 'click', e => {
+      if (this.url != null)
       {
         let target = this.getTarget();
-        target.href = this.currentUrl + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
+        target.href = this.url + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
       };
       this.dispatchEvent(new CustomEvent('search', {detail: {keyword: this.keyword}, bubbles: true}));
     });
-    container.querySelector('input.keyword').addEventListener('keyup', (e) => {
+    container.querySelector('input.keyword').addEventListener('focus', e => container.classList.add('on'));
+    container.querySelector('input.keyword').addEventListener('blur', e => container.classList.remove('on'));
+    container.querySelector('input.keyword').addEventListener('keyup', e => {
       if (e.which == 13)
       {
-        container.querySelector('span.btn').click();
+        container.querySelector('div.btn').click();
       };
     });
   };
@@ -39,7 +51,7 @@ export default class jtbcTinySearch extends HTMLElement {
     switch(attr) {
       case 'url':
       {
-        this.currentUrl = newVal;
+        this.url = newVal;
         break;
       };
       case 'keyword':
@@ -70,12 +82,14 @@ export default class jtbcTinySearch extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><input type="text" name="keyword" class="keyword" autocomplete="off" /><span class="box"></span><span class="btn"><jtbc-svg name="search"></jtbc></span></div>
+      <div class="container" style="display:none">
+        <div class="input"><input type="text" name="keyword" class="keyword" autocomplete="off" /></div>
+        <div class="btn"><jtbc-svg name="search"></jtbc></div>
+      </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.currentUrl = null;
     this.container.loadComponents().then(() => { this.#initEvents(); });
   };
 };

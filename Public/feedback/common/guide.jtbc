@@ -8,11 +8,11 @@
   <item_list>
     <item>
       <name><![CDATA[title]]></name>
-      <zh-cn pointer="global.{$&gt;this.genre}:index.title" pointerType="lng"></zh-cn>
+      <zh-cn pointer="global.{$&gt;this.genre}:index.title" pointerType="lng"/>
     </item>
     <item>
       <name><![CDATA[icon]]></name>
-      <zh-cn><![CDATA[partnership]]></zh-cn>
+      <zh-cn><![CDATA[notebook]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[link]]></name>
@@ -20,11 +20,11 @@
     </item>
     <item>
       <name><![CDATA[batch]]></name>
-      <zh-cn><![CDATA[publish,delete]]></zh-cn>
+      <zh-cn><![CDATA[dispose,delete]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[subpermissions]]></name>
-      <zh-cn><![CDATA[add,edit,publish,order,delete]]></zh-cn>
+      <zh-cn><![CDATA[edit,dispose,delete]]></zh-cn>
     </item>
   </item_list>
 </xml>

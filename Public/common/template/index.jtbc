@@ -9,33 +9,35 @@
     <item>
       <name><![CDATA[index]]></name>
       <default><![CDATA[{$=$take('global.communal.header')}
-<banner>
-  <box>
-    <slogan>{$=$take('index.banner-slogan', 'lng')}</slogan>
-    <subtitle>{$=$take('index.banner-subtitle', 'lng')}</subtitle>
-    <a class="more" href="{$=$getActualRoute('aboutus/')}">{$=$take('index.banner-link-more', 'lng')}</a>
-  </box>
-</banner>
+<web-universal-sbanner theme="left" autoplay="autoplay" loop="loop">
+  <var>
+    <banner>{$=$render($fetch(['genre' => 'universal/banner', 'limit' => 10]), ^^^EOF
+      <picture src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" title="{$title}" subtitle="{$subtitle}" link-text="{$=$take('global.index.text-view-more', 'lng')}" link-href="{$linkurl}" link-target="{$target}"></picture>EOF^^^)}
+    </banner>
+  </var>
+</web-universal-sbanner>
 <container>
   <box>
-    <main>
-      <div class="home_section">
-        <h3>{$=$take('global.product:index.title', 'lng')}</h3>
-        <div class="box">{$=$render('global.render.home-product-list', $fetch(['genre' => 'product', 'limit' => 4]))}</div>
-      </div>
-      <div class="home_section">
-        <h3>{$=$take('global.news:index.title', 'lng')}</h3>
-        <div class="box">{$=$render('global.render.home-news-list', $fetch(['genre' => 'news', 'limit' => 3]))}</div>
-      </div>
-      <div class="home_section">
-        <h3>{$=$take('global.team:index.title', 'lng')}</h3>
-        <div class="box">{$=$render('global.render.home-team-list', $fetch(['genre' => 'team', 'limit' => 4]))}</div>
-      </div>
-      <div class="home_section">
-        <h3>{$=$take('global.partnership:index.title', 'lng')}</h3>
-        <div class="box">{$=$render('global.render.home-partnership-list', $fetch(['genre' => 'partnership', 'limit' => 6]))}</div>
-      </div>
-    </main>
+    <div class="main">
+      <div class="section_title"><h3>{$=$take('global.product:index.title', 'lng')}</h3></div>
+      <div class="box">{$=$render('global.render.home-product-list', $fetch(['genre' => 'product', 'limit' => 8]))}</div>
+    </div>
+  </box>
+</container>
+<container bg="variety">
+  <box>
+    <div class="main">
+      <div class="section_title"><h3>{$=$take('global.news:index.title', 'lng')}</h3></div>
+      <div class="box">{$=$render('global.render.home-news-list', $fetch(['genre' => 'news', 'limit' => 6]))}</div>
+    </div>
+  </box>
+</container>
+<container>
+  <box>
+    <div class="main">
+      <div class="section_title"><h3>{$=$take('global.team:index.title', 'lng')}</h3></div>
+      <div class="box">{$=$render('global.render.home-team-list', $fetch(['genre' => 'team', 'limit' => 4]))}</div>
+    </div>
   </box>
 </container>
 {$=$take('global.communal.footer')}]]></default>

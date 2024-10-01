@@ -40,7 +40,7 @@ container .main div.list > ul > li {
   width: 100%; box-sizing: border-box; margin-top: 10px; padding: 10px; border: #d1d1d1 1px solid
 }
 container .main div.list > ul > li div.bar {
-  width: calc(100% + 20px); padding: 10px; box-sizing: border-box; margin-left: -10px; margin-top: -10px; background: #f6f6f6; position: relative; z-index: 100
+  width: calc(100% + 20px); padding: 10px; box-sizing: border-box; margin-left: -10px; margin-top: -10px; background: #f6f6f6; border-bottom: #d1d1d1 1px solid; position: relative; z-index: 100
 }
 container .main div.list > ul > li div.bar span.num {
   line-height: 20px

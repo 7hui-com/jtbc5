@@ -7,8 +7,12 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[name]]></name>
-      <zh-cn><![CDATA[名称]]></zh-cn>
+      <name><![CDATA[0]]></name>
+      <zh-cn><![CDATA[待处理]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[1]]></name>
+      <zh-cn><![CDATA[已处理]]></zh-cn>
     </item>
   </item_list>
 </xml>

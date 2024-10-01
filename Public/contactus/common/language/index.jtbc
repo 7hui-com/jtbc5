@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,zh-cn</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[title]]></name>
+      <zh-cn><![CDATA[联系我们]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tip]]></name>
+      <zh-cn><![CDATA[如果您有任何需要，可以通过填写下方表单联系我们，我们会尽快与您取得联系。]]></zh-cn>
+    </item>
+  </item_list>
+</xml>

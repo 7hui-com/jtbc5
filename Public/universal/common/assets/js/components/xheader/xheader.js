@@ -27,6 +27,18 @@ export default class xheader extends HTMLElement {
   #initEvents() {
     let topmenu = this.topmenu;
     let container = this.container;
+    window.addEventListener('scroll', e => {
+      if (document.documentElement.scrollTop >= this.offsetHeight)
+      {
+        this.topmenu.classList.add('fixed');
+        this.placeholder.classList.add('on');
+      }
+      else
+      {
+        this.topmenu.classList.remove('fixed');
+        this.placeholder.classList.remove('on');
+      };
+    });
     container.delegateEventListener('navicon', 'click', function(){
       if (!this.classList.contains('on'))
       {
@@ -213,18 +225,21 @@ export default class xheader extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
-        <div class="box">
+        <div part="container-box" class="box">
           <logo part="logo"></logo>
-          <div class="right"><slot name="right"></slot></div>
+          <div part="slogan" class="slogan"><slot name="slogan"></slot></div>
+          <div part="right" class="right"><slot name="right"></slot></div>
           <navicon><span class="line"></span></navicon>
         </div>
       </div>
-      <div part="topmenu" class="topmenu"><div class="box"><div class="top"><slot name="top"></slot></div><mainmenu part="mainmenu"></mainmenu></div></div>
+      <div part="topmenu" class="topmenu" style="display:none"><div class="box"><div part="top" class="top"><slot name="top"></slot></div><mainmenu part="mainmenu"></mainmenu><div part="topmenu-right" class="topmenu-right"><slot name="topmenu-right"></slot></div></div></div>
+      <div part="placeholder" class="placeholder"></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.topmenu = shadowRoot.querySelector('div.topmenu');
     this.container = shadowRoot.querySelector('div.container');
+    this.placeholder = shadowRoot.querySelector('div.placeholder');
     this.#initEvents();
   };
 };

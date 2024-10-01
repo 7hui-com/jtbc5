@@ -204,7 +204,7 @@ export default class rheader extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
-        <div class="box">
+        <div part="container-box" class="box">
           <logo part="logo"></logo>
           <navicon><span class="line"></span></navicon>
         </div>

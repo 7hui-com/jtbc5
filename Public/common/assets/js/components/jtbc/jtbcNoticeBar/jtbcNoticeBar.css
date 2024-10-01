@@ -1,0 +1,33 @@
+:host {
+  display: block; --height: 30px; --font-size: 14px; --font-color: #333333; --anchor-color: #0000ee; --anchor-hover-color: #0000ee; --icon-color: #333333; --icon-size: 20px
+}
+container {
+  display: block !important
+}
+container div.notice {
+  width: 100%; height: var(--height); display: flex; align-items: center; justify-content: space-between
+}
+container div.notice div.icon {
+  width: var(--height); height: 100%; margin-right: calc(var(--height) / 3); display: flex; align-items: center; justify-content: center
+}
+container div.notice div.icon jtbc-svg {
+  width: var(--icon-size); height: var(--icon-size); --fore-color: var(--icon-color)
+}
+container div.content {
+  flex: 1; height: 100%; overflow: hidden
+}
+container div.content div.items {
+  width: 100%; font-size: var(--font-size); color: var(--font-color)
+}
+container div.content div.items div.item {
+  width: 100%; height: var(--height); line-height: var(--height); position: relative; text-overflow: ellipsis; overflow: hidden
+}
+container div.content div.items div.item a.anchor {
+  display: inline-block; max-width: 100%; color: var(--anchor-color); text-decoration: none; text-overflow: ellipsis; overflow: hidden; transition: all 0.3s ease
+}
+container div.content div.items div.item a.anchor:hover {
+  color: var(--anchor-hover-color)
+}
+container div.content div.items div.item span.subtitle {
+  transform: translate(0px, -50%); position: absolute; top: 50%; right: 0px; z-index: 100
+}

@@ -17,7 +17,7 @@
     <main>
       <div class="list" mode="d">{@}
         <div class="item">
-          <p type="image"><a href="./?type=detail&amp;id={$id}"><img class="circle" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
+          <p type="image"><a href="./?type=detail&amp;id={$id}"><img class="avatar" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
           <p type="title"><a href="./?type=detail&amp;id={$id}">{$name}</a></p>
           <p type="info">{$position}</p>
         </div>{@}

@@ -1,0 +1,70 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-background-size: cover; --container-gap: 20px; --container-z-index: 100; --container-headline-height: calc(100vh / 4); --container-headline-min-height: 220px; --container-headline-max-height: 260px; --container-headline-mask-background: transparent; --container-headline-box-border-bottom: #dbdbdb 1px solid; --container-headline-title-font-size: 40px; --container-headline-title-color: #333; --container-headline-title-line-height: 160%; --container-headline-title-letter-spacing: 0px; --container-headline-title-font-weight: bold; --container-headline-subtitle-font-size: 175px; --container-headline-subtitle-color: #f6f6f6; --container-headline-subtitle-line-height: 100%; --container-headline-subtitle-letter-spacing: 20px; --container-headline-subtitle-font-weight: bold; --container-headline-subtitle-bottom: 0px; --container-navigation-background: #f8f8f8; --container-navigation-padding: 20px; --container-flex-direction: row; --container-sidebar-width: 25%
+}
+container {
+  display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); background-size: var(--container-background-size); position: relative; z-index: var(--container-z-index)
+}
+container div.hide {
+  display: none !important
+}
+container div.headline {
+  display: block; box-sizing: border-box; width: 100%; height: var(--container-headline-height); min-height: var(--container-headline-min-height); max-height: var(--container-headline-max-height); padding: var(--page-outer-padding, var(--container-page-outer-padding)); background: none center center no-repeat; background-size: cover; position: relative; z-index: 120
+}
+container div.headline::after {
+  content: ''; display: block; width: 100%; height: 100%; background: var(--container-headline-mask-background); position: absolute; top: 0px; left: 0px; z-index: 50
+}
+container div.headline div.box {
+  width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); height: 100%; margin: auto; box-sizing: border-box; padding: var(--page-inner-padding, var(--container-page-inner-padding)); border-bottom: var(--container-headline-box-border-bottom); position: relative; z-index: 100
+}
+container div.headline div.box div.text {
+  width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: center; justify-content: space-between; overflow: hidden; position: relative; z-index: 100
+}
+container div.headline div.box div.text div.title {
+  font-size: var(--container-headline-title-font-size); color: var(--container-headline-title-color); line-height: var(--container-headline-title-line-height); letter-spacing: var(--container-headline-title-letter-spacing); font-weight: var(--container-headline-title-font-weight); position: relative; z-index: 200
+}
+container div.headline div.box div.text div.subtitle {
+  font-size: var(--container-headline-subtitle-font-size); color: var(--container-headline-subtitle-color); line-height: var(--container-headline-subtitle-line-height); letter-spacing: var(--container-headline-subtitle-letter-spacing); font-weight: var(--container-headline-subtitle-font-weight); white-space: nowrap; position: absolute; left: 0px; bottom: var(--container-headline-subtitle-bottom); z-index: 80
+}
+container div.headline div.box div.text div.navigation {
+  box-sizing: border-box; background: var(--container-navigation-background); padding: var(--container-navigation-padding); position: relative; z-index: 120
+}
+container div.container {
+  display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
+}
+container div.container div.box {
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; gap: var(--container-gap); flex-direction: var(--container-flex-direction)
+}
+container div.container div.box div.sidebar {
+  width: var(--container-sidebar-width)
+}
+container div.container div.box div.sidebar.hide {
+  display: none !important
+}
+container div.container div.box div.main {
+  flex: 1
+}
+@media screen and (max-width: 1280px) {
+  container div.headline div.box div.text div.subtitle {
+    font-size: calc(var(--container-headline-subtitle-font-size) * 0.8)
+  }
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --container-gap: 15px; --container-sidebar-width: 100%; --container-headline-title-font-size: 36px; --container-headline-subtitle-font-size: 40px; --container-headline-subtitle-color: #dbdbdb; --container-headline-subtitle-letter-spacing: 2px
+  }
+  container div.headline div.box div.text {
+    align-items: flex-end
+  }
+  container div.headline div.box div.text div.title,
+  container div.headline div.box div.text div.subtitle,
+  container div.headline div.box div.text div.navigation {
+    width: 100%
+  }
+  container div.headline div.box div.text div.subtitle {
+    position: static; left: auto; bottom: auto; padding-bottom: var(--container-gap)
+  }
+  container div.container div.box div.sidebar,
+  container div.container div.box div.main {
+    display: block; width: 100%
+  }
+}

@@ -6,5 +6,5 @@ namespace Config\App\Common\Hook;
 
 class BackStageHook
 {
-  public const HOOKS = [];
+  public const HOOKS = ['feedback' => 'Web\\Feedback\\Notification::hookHandle'];
 }

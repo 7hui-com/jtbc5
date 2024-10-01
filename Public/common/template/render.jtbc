@@ -8,7 +8,7 @@
   <item_list>
     <item>
       <name><![CDATA[home-product-list]]></name>
-      <default><![CDATA[<div class="list home_product_list" mode="d">{@}
+      <default><![CDATA[<div class="list" mode="d">{@}
   <div class="item">
     <p type="image"><a href="product/?type=detail&amp;id={$id}"><img src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" alt="{$title}" /></a></p>
     <p type="title"><a href="product/?type=detail&amp;id={$id}">{$title}</a></p>
@@ -17,29 +17,21 @@
     </item>
     <item>
       <name><![CDATA[home-news-list]]></name>
-      <default><![CDATA[<div class="list home_news_list" mode="c">{@}
+      <default><![CDATA[<div class="list" mode="c">{@}
   <div class="item">
     <p type="date">{$=$formatDate(#time, 1)}</p>
-    <p type="title"><a href="news/?type=detail&amp;id={$id}">{$title}</a></p>
+    <p type="title" align="left"><a href="news/?type=detail&amp;id={$id}">{$title}</a></p>
     <p type="summary">{$=$htmlEncode(#summary, 2)}</p>
   </div>{@}
 </div>]]></default>
     </item>
     <item>
       <name><![CDATA[home-team-list]]></name>
-      <default><![CDATA[<div class="list home_team_list" mode="d">{@}
+      <default><![CDATA[<div class="list" mode="d">{@}
   <div class="item">
-    <p type="image"><a href="team/?type=detail&amp;id={$id}"><img class="circle" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
+    <p type="image"><a href="team/?type=detail&amp;id={$id}"><img class="avatar" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
     <p type="title"><a href="team/?type=detail&amp;id={$id}">{$name}</a></p>
     <p type="info">{$position}</p>
-  </div>{@}
-</div>]]></default>
-    </item>
-    <item>
-      <name><![CDATA[home-partnership-list]]></name>
-      <default><![CDATA[<div class="list home_partnership_list" mode="f">{@}
-  <div class="item">
-    <p type="image"><img src="{$=$htmlEncode($getValueFromJSON(#logo, 'fileurl'))}" alt="{$name}" /></p>
   </div>{@}
 </div>]]></default>
     </item>

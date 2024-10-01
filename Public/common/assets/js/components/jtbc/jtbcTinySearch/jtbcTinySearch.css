@@ -1,30 +1,27 @@
 :host {
-  width: 500px; display: inline-block; --background-color: #ffffff; --background-focus-color: #ffffff; --button-color: #555; --button-hover-color: #333; --input-border-color: #d1d1d1; --input-border-color-focus: #333
+  width: 500px; display: inline-block; --height: 30px; --background-color: #ffffff; --background-focus-color: #ffffff; --button-color: #555; --button-hover-color: #333; --input-border-color: #d1d1d1; --input-border-color-focus: #333
 }
 .container {
-  width: 100%; display: block !important; text-align: right; position: relative; z-index: 100
+  width: 100%; background: var(--background-color); border: var(--input-border-color) 1px solid; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; transition: all .3s ease
 }
-.container input {
+.container div.input {
+  display: block; flex: 1
+}
+.container div.input input {
   box-sizing: border-box; outline: none
 }
-.container input[type=text] {
-  width: calc(100% - 40px); height: 28px; background: transparent; padding: 0px 0px 0px 10px; border: 0px; border-radius: 0px
+.container div.input input[type=text] {
+  width: 100%; height: var(--height); background: transparent; padding: 0px 10px; border: 0px; border-radius: 0px
 }
-.container input.keyword {
-  position: absolute; top: 1px; left: 1px; z-index: 200
+.container div.btn {
+  display: block; width: var(--height); height: var(--height); box-sizing: border-box; padding: 6px; background: var(--button-color); transition: all .3s ease; position: relative; z-index: 1000; cursor: pointer
 }
-.container input.keyword:focus + span.box {
-  border-color: var(--input-border-color-focus); background: var(--background-focus-color)
-}
-.container span.box {
-  display: block; width: 100%; height: 100%; background: var(--background-color); box-sizing: border-box; border: var(--input-border-color) 1px solid; position: absolute; top: 0px; left: 0px; z-index: 100; pointer-events: none; transition: all .3s ease
-}
-.container span.btn {
-  display: inline-block; width: 28px; height: 28px; box-sizing: border-box; margin: 1px; padding: 6px; vertical-align: top; background: var(--button-color); transition: all .3s ease; position: relative; z-index: 1000; cursor: pointer
-}
-.container span.btn jtbc-svg {
+.container div.btn jtbc-svg {
   width: 100%; height: 100%; --fore-color: #ffffff
 }
-.container span.btn:hover {
+.container div.btn:hover {
   background: var(--button-hover-color)
+}
+.container.on {
+  border-color: var(--input-border-color-focus); background: var(--background-focus-color)
 }

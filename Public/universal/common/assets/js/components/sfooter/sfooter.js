@@ -89,12 +89,13 @@ export default class sfooter extends HTMLElement {
       });
     };
     this.dispatchEvent(new CustomEvent('renderend'));
+    this.parentElement.setAttribute('footer', 'renderend');
   };
 
   connectedCallback() {
-    this.ready = true;
     this.render();
     this.#initObserver();
+    this.ready = true;
   };
 
   disconnectedCallback() {

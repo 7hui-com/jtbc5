@@ -1,0 +1,25 @@
+.feedback_wrap {
+  width: 100%; box-sizing: border-box; margin-top: var(--page-gap); padding: var(--page-gap); border: #eee 1px solid
+}
+.feedback_wrap div.tip {
+  padding: calc(var(--page-gap) / 2) 0px; color: #999
+}
+.feedback_form {
+  width: 100%
+}
+.feedback_form ul li {
+  padding-bottom: var(--page-gap)
+}
+.feedback_form ul li input,
+.feedback_form ul li textarea {
+  width: 100%
+}
+.feedback_form div.message {
+  padding-bottom: var(--page-gap); text-align: center; color: #de2910
+}
+.feedback_form div.message:empty {
+  display: none
+}
+.feedback_form div.button {
+  text-align: center
+}

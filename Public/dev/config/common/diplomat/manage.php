@@ -19,11 +19,13 @@ class Diplomat extends Ambassador {
   public function list1()
   {
     $bs = new BasicSubstance($this);
+    $lang = $this -> guard -> role -> getLang();
+    $language = Env::getLanguageByID($lang);
     $bs -> data -> info = [
-      'sysname' => Jtbc::take('::index.title', 'lng'),
-      'title' => Jtbc::take('global.communal.title', 'lng'),
-      'keywords' => Jtbc::take('global.communal.keywords', 'lng'),
-      'description' => Jtbc::take('global.communal.description', 'lng'),
+      'sysname' => Jtbc::take('::index.title', 'lng', false, null, $language),
+      'title' => Jtbc::take('global.communal.title', 'lng', false, null, $language),
+      'keywords' => Jtbc::take('global.communal.keywords', 'lng', false, null, $language),
+      'description' => Jtbc::take('global.communal.description', 'lng', false, null, $language),
     ];
     return $bs -> toJSON();
   }
@@ -31,7 +33,9 @@ class Diplomat extends Ambassador {
   public function list2()
   {
     $bs = new BasicSubstance($this);
-    $logoPath = $this -> assetsFolder . '/' . strval(Jtbc::take('global.communal.logo', 'lng'));
+    $lang = $this -> guard -> role -> getLang();
+    $language = Env::getLanguageByID($lang);
+    $logoPath = $this -> assetsFolder . '/' . strval(Jtbc::take('global.communal.logo', 'lng', false, null, $language));
     $logoFullPath = Path::getActualRoute($logoPath . '?rand=' . Random::getRandomMix());
     $bs -> data -> info = [
       'logo' => $logoFullPath,

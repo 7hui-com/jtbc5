@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[edit]]></name>
+      <default><![CDATA[<var genre="{$>this.genre}"></var>
+<div class="scarf">
+  <template is="jtbc-template" url="{$>this.genre}/manage?type=edit">
+    <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
+    <div class="manager">
+      <div class="chief">
+        <h3>{$=$take('manage.text-tit-edit', 'lng')}</h3>
+        <form is="jtbc-form" method="post" action="{$>this.genre}/manage?action=edit&amp;id=${$data.id}">
+          <div class="sheet">
+            <div is="jtbc-schema-form" data="${$.htmlEncode(JSON.stringify($.raw.form))}"></div>
+            <item class="formSubmit hide">
+              <label class="name"></label>
+              <div class="content">
+                <jtbc-error-tips class="errorTips" no_error="silent"></jtbc-error-tips>
+                <div class="btn"><button class="b2" role="submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+              </div>
+            </item>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+</div>]]></default>
+    </item>
+  </item_list>
+</xml>

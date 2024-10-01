@@ -31,8 +31,8 @@
         <li genre="product"><a href="{$=$getActualRoute('product/')}">{$=$take('global.product:index.title', 'lng')}</a></li>
         <li genre="news"><a href="{$=$getActualRoute('news/')}">{$=$take('global.news:index.title', 'lng')}</a></li>
         <li genre="team"><a href="{$=$getActualRoute('team/')}">{$=$take('global.team:index.title', 'lng')}</a></li>
-        <li genre="partnership"><a href="{$=$getActualRoute('partnership/')}">{$=$take('global.partnership:index.title', 'lng')}</a></li>
         <li genre="recruitment"><a href="{$=$getActualRoute('recruitment/')}">{$=$take('global.recruitment:index.title', 'lng')}</a></li>
+        <li genre="contactus"><a href="{$=$getActualRoute('contactus/')}">{$=$take('global.contactus:index.title', 'lng')}</a></li>
       </ul>
     </mainmenu>
   </box>
@@ -51,16 +51,16 @@
       <section>
         <h3>{$=$take('global.communal.footer-qrcode', 'lng')}</h3>
         <p class="qrcode">{$=$render('universal:render.value-img', App\Universal\Fragment\FragmentFetcher::fetch('wechat_qrcode'))}</p>
-      </section>
+      </section>{$=$render($fetch(['genre' => 'contactus', 'limit' => 1]), ^^^EOF
       <section>
         <h3>{$=$take('global.communal.footer-address', 'lng')}</h3>
-        <p>{$=$render('universal:render.value', App\Universal\Fragment\FragmentFetcher::fetch('address'))}</p>
+        <p>{$address}</p>
       </section>
       <section>
         <h3>{$=$take('global.communal.footer-phone', 'lng')}</h3>
-        <p class="phone">{$=$render('universal:render.value', App\Universal\Fragment\FragmentFetcher::fetch('phone'))}</p>
+        <p class="phone">{$phone}</p>
         <p>{$=$take('global.communal.footer-phone-tips', 'lng')}</p>
-      </section>
+      </section>EOF^^^)}
     </box>
   </bottom>
   <copyright>

@@ -252,7 +252,7 @@ export default class vheader extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" slotmode="all" style="display:none">
-        <div class="box">
+        <div part="container-box" class="box">
           <logo part="logo"></logo>
           <mainmenu part="mainmenu"></mainmenu>
           <div class="right"><slot name="right"></slot></div>

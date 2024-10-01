@@ -22,6 +22,9 @@
       <div class="ppContainer" category="${$category}" keyword="${$keyword}">
         <div class="ppItemLoading"><span>{$=$take('manage.text-loading', 'lng')}</span></div>
         <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'originalList']))}">
+          <template is="jtbc-template" key="tags">
+            <div class="ppTagList" isloop="true"><a is="jtbc-anchor" background="${$background}" href="codename=dev/market:manage.list&amp;category=package&amp;pitchon=a.toplink-list-1&amp;keyword=${$.htmlEncode(encodeURIComponent($.raw.tag))}">${$tag}</a></div>
+          </template>
           <template is="jtbc-template" key="data">
             <div class="ppItemList" isloop="true">
               <div class="item">

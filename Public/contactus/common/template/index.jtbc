@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml mode="jtbc" author="jetiben">
+  <configure>
+    <node>item</node>
+    <field>name,default</field>
+    <base>item_list</base>
+  </configure>
+  <item_list>
+    <item>
+      <name><![CDATA[index]]></name>
+      <default><![CDATA[{$=$take('global.communal.header')}
+<navigation>
+  <box><jtbc-breadcrumb data="{$=$htmlEncode($breadcrumb)}"></jtbc-breadcrumb></box>
+</navigation>
+<container>
+  <box>
+    <main>
+      <div class="list" mode="c">
+        <div class="item wrapped">
+          <p type="icon"><jtbc-svg name="phone"></jtbc-svg></p>
+          <p type="info">{$=$take('config.phone', 'lng')}</p>
+          <p type="title"><a href="tel:{$phone}">{$phone}</a></p>
+        </div>
+        <div class="item wrapped">
+          <p type="icon"><jtbc-svg name="message"></jtbc-svg></p>
+          <p type="info">{$=$take('config.email', 'lng')}</p>
+          <p type="title"><a href="mailto:{$email}">{$email}</a></p>
+        </div>
+        <div class="item wrapped">
+          <p type="icon"><jtbc-svg name="location"></jtbc-svg></p>
+          <p type="info">{$=$take('config.address', 'lng')}</p>
+          <p type="title">{$address}</p>
+        </div>
+      </div>
+      <div class="feedback_wrap">
+        <h3>{$fullname}</h3>
+        <div class="tip">{$=$take('index.text-tip', 'lng')}</div>
+        <div class="feedback_form">
+          <form class="form" method="post" action="{$=$getActualRoute('feedback/')}api?action=add&amp;sign={$[sign]}" onsubmit="return false">
+            <input type="hidden" name="time" role="field" value="{$=$now()}" />
+            <input type="hidden" name="timestamp" role="field" value="{$[timestamp]}" />
+            <input type="hidden" name="unique_id" role="field" value="{$[unique_id]}" />
+            <ul>
+              <li><input type="text" name="name" role="field" placeholder="{$=$take('universal:config.name', 'lng')}" /></li>
+              <li><input type="text" name="mobile" role="field" placeholder="{$=$take('universal:config.mobile', 'lng')}" /></li>
+              <li><input type="text" name="email" role="field" placeholder="{$=$take('universal:config.email', 'lng')}" /></li>
+              <li><textarea name="content" role="field" placeholder="{$=$take('universal:config.content', 'lng')}"></textarea></li>
+            </ul>
+            <div class="message"></div>
+            <div class="button"><button type="submit" class="b2 submit">{$=$take('universal:config.submit', 'lng')}</button></div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </box>
+</container>
+<jtbc-script init="initForm" src="{$=$getActualRoute('feedback/')}{$=$assets_path}/js/feedback.js"></jtbc-script>
+{$=$take('global.communal.footer')}]]></default>
+    </item>
+  </item_list>
+</xml>

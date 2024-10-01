@@ -49,6 +49,7 @@ container div.container.hide {
   :host {
     --container-gap: 15px; --container-sidebar-width: 100%
   }
+  container div.container div.box div.sidebar,
   container div.container div.box div.main {
     display: block; width: 100%
   }

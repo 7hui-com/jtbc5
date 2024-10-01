@@ -2,13 +2,13 @@
   width: 500px; display: inline-block; vertical-align: top; --height: 30px; --selected-item-color: #3e868f; --border-color: #d1d1d1; --button-color: #5cb85c; --button-hover-color: #449d44
 }
 .container {
-  width: 100%; min-height: var(--height); display: block !important; cursor: text; background: #ffffff; box-sizing: border-box; border: var(--border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: relative; z-index: 100; transition: all .3s ease
+  width: 100%; min-height: var(--height); display: flex !important; align-items: center; cursor: text; background: #ffffff; box-sizing: border-box; border: var(--border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: relative; z-index: 100; transition: all .3s ease
 }
 .container div.location {
-  display: block; width: 100%; box-sizing: border-box; padding: 0px 40px 0px 0px
+  flex: 1
 }
 .container div.location span {
-  display: block; width: 100%; height: calc(var(--height) - 2px); line-height: calc(var(--height) - 2px); box-sizing: border-box; margin: 0px; padding: 0px 30px 0px 10px; background: var(--selected-item-color); border: 0px; border-radius: 0px; position: relative; cursor: pointer
+  display: flex; width: 100%; height: var(--height); box-sizing: border-box; align-items: center; margin: 0px; padding: 0px 30px 0px 10px; background: var(--selected-item-color); border: 0px; border-radius: 0px; position: relative; cursor: pointer
 }
 .container div.location span em {
   display: block; width: 100%; font-style: normal; color: #fff; white-space: nowrap; word-break: keep-all; overflow: hidden; text-overflow: ellipsis
@@ -17,13 +17,13 @@
   margin: 0px; width: 8px; height: 8px; --fore-color: #fff; transform: translate(0, -50%); position: absolute; top: 50%; right: 10px; z-index: 100
 }
 .container span.placeholder {
-  display: none; padding-left: 10px; line-height: calc(var(--height) - 2px); color: #757575
+  display: none; padding-left: 10px; color: #757575; transform: translate(0px, -50%); position: absolute; top: 50%; left: 0px; z-index: 100
 }
 .container div.location:empty + span.placeholder {
-  display: inline-block
+  display: block
 }
 .container a.selector {
-  width: 40px; height: 100%; background: var(--button-color); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .3s ease; position: absolute; top: 0px; right: 0px; z-index: 100
+  width: 40px; height: var(--height); background: var(--button-color); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease
 }
 .container a.selector:hover {
   background: var(--button-hover-color)

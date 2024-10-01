@@ -294,7 +294,7 @@ export default class lheader extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
-        <div class="box">
+        <div part="container-box" class="box">
           <div class="sides" position="left"><leftmenu part="leftmenu" class="menu"></leftmenu></div>
           <logo part="logo"></logo>
           <div class="sides" position="right"><rightmenu part="rightmenu" class="menu"></rightmenu><slot name="right"></slot></div>

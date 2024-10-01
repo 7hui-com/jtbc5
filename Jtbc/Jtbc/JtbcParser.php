@@ -128,7 +128,7 @@ class JtbcParser
       }
       catch(Throwable $e)
       {
-        throw new SyntaxException('Invalid expression: ' . $argString, $e -> getCode()?: 50418);
+        throw new SyntaxException('Invalid expression: ' . $argString, 50418);
       }
     }
     return $result;
@@ -264,6 +264,7 @@ class JtbcParser
       'getActualRoute' => Path::class,
       'getBestMatchedString' => StringHelper::class,
       'getClipedString' => StringHelper::class,
+      'getConfig' => Config::class,
       'getEODString' => self::class,
       'getEOFString' => self::class,
       'getEOTString' => self::class,
