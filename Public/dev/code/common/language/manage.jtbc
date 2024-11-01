@@ -35,12 +35,32 @@
       <zh-cn><![CDATA[文件列表]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-side-search]]></name>
+      <zh-cn><![CDATA[按文件内容搜索]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-side-search-placeholder]]></name>
+      <zh-cn><![CDATA[文本关键词]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-side-search-loading]]></name>
+      <zh-cn><![CDATA[正在搜索中..]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-side-search-nothing]]></name>
+      <zh-cn><![CDATA[没有匹配到任何文件]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-side-collapse]]></name>
       <zh-cn><![CDATA[折叠文件列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-side-recover]]></name>
       <zh-cn><![CDATA[展开文件列表]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-side-back]]></name>
+      <zh-cn><![CDATA[回到文件列表]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-content-empty]]></name>
@@ -69,6 +89,10 @@
     <item>
       <name><![CDATA[text-tips-3-2]]></name>
       <zh-cn><![CDATA[删除文件后可能导致功能异常且不可恢复，确定删除[${$filename}]吗？]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-4]]></name>
+      <zh-cn><![CDATA[必须输入至少两个字才能进行搜索]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-add-file-code-4001]]></name>

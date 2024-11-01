@@ -7,6 +7,9 @@
 .ppWorkspace div.side {
   width: 20%; min-width: 320px; background: #ececec; border-left: #e1e1e1 1px solid; border-bottom: #e1e1e1 1px solid; display: none; position: relative; z-index: 20
 }
+.ppWorkspace div.side div[group=list] {
+  width: 100%; height: 100%
+}
 .ppWorkspace div.side div.h3 {
   width: 100%; height: 30px; position: relative; z-index: 10
 }
@@ -21,6 +24,12 @@
 }
 .ppWorkspace div.side div.h3 div.icon span {
   display: block; width: 18px; height: 18px; margin-left: 6px; background: none center center no-repeat; cursor: pointer
+}
+.ppWorkspace div.side div.h3 div.icon span.back {
+  background-image: url(svg/back.svg)
+}
+.ppWorkspace div.side div.h3 div.icon span.search {
+  background-image: url(svg/search.svg)
 }
 .ppWorkspace div.side div.h3 div.icon span.newFolder {
   background-image: url(svg/folder.new.svg)
@@ -226,6 +235,60 @@
 }
 .ppWorkspace div.side div.explorer ul li.on > span i[icon=folder] {
   background-image: url(svg/folder.opened.svg)
+}
+.ppWorkspace div.side div.search {
+  width: 100%; height: calc(100% - 30px); box-sizing: border-box; border-top: rgba(180, 180, 180, .5) 1px solid; padding-bottom: 10px; overflow-x: hidden; overflow-y: auto
+}
+.ppWorkspace div.side div.search div.input {
+  width: 100%; box-sizing: border-box; padding: 10px
+}
+.ppWorkspace div.side div.search div.input jtbc-tiny-search {
+  width: 100%
+}
+.ppWorkspace div.side div.search div.loading {
+  width: 100%; box-sizing: border-box; padding: 10px; font-size: 14px; color: #999999; text-align: center
+}
+.ppWorkspace div.side div.search div.result ul li {
+  width: 100%; position: relative
+}
+.ppWorkspace div.side div.search div.result ul li span {
+  width: 100%; box-sizing: border-box; display: flex; align-items: flex-start; padding: 5px 10px
+}
+.ppWorkspace div.side div.search div.result ul li span i {
+  display: block; width: 18px; min-width: 18px; height: 18px; min-height: 18px; background: url(svg/extension/others.svg) center center no-repeat; background-size: contain; margin-right: 4px
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=css] {
+  background-image: url(svg/extension/css.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=html] {
+  background-image: url(svg/extension/html.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=js] {
+  background-image: url(svg/extension/js.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=jtbc] {
+  background-image: url(svg/extension/jtbc.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=php] {
+  background-image: url(svg/extension/php.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=svg] {
+  background-image: url(svg/extension/svg.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=txt] {
+  background-image: url(svg/extension/txt.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span i[icon=xml] {
+  background-image: url(svg/extension/xml.svg)
+}
+.ppWorkspace div.side div.search div.result ul li span em {
+  font-style: normal; font-size: 12px; line-height: 18px; color: #333333; word-break: break-all; cursor: pointer
+}
+.ppWorkspace div.side div.search div.result ul li span:hover {
+  background: rgba(255, 255, 255, .5)
+}
+.ppWorkspace div.side div.search div.nothing {
+  width: 100%; box-sizing: border-box; padding: 10px; font-size: 14px; color: #f92672; text-align: center
 }
 .ppWorkspace div.side.on {
   display: block

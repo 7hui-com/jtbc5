@@ -397,6 +397,61 @@ export default class manage {
           };
         };
       };
+      const searchFile = keyword => {
+        let el = this.workspace.querySelector('div.side div.search');
+        let loading = el.querySelector('div.loading');
+        let result = el.querySelector('div.result').empty();
+        let nothing = el.querySelector('div.nothing').empty();
+        if (keyword != null && keyword.length >= 2)
+        {
+          const renderList = data => {
+            result.classList.remove('hide');
+            let ul = document.createElement('ul');
+            data.forEach(item => {
+              let li = document.createElement('li');
+              let span = document.createElement('span');
+              let i = document.createElement('i');
+              let em = document.createElement('em');
+              li.classList.add('file');
+              li.setAttribute('title', item.filename);
+              li.setAttribute('filename', item.filename);
+              li.setAttribute('hash', item.hash);
+              li.setAttribute('path', item.path);
+              i.setAttribute('icon', item.icon);
+              em.setAttribute('icon', item.icon);
+              em.setAttribute('path', item.path);
+              em.innerText = item.path;
+              span.append(i, em);
+              li.append(span);
+              ul.append(li);
+            });
+            result.append(ul);
+          };
+          loading.classList.remove('hide');
+          result.classList.add('hide');
+          nothing.classList.add('hide');
+          fetch(el.getAttribute('url') + '&keywords=' + encodeURIComponent(keyword)).then(res => res.ok? res.json(): {}).then(data => {
+            loading.classList.add('hide');
+            if (data.code == 1)
+            {
+              if (data.data.data.length != 0)
+              {
+                renderList(data.data.data);
+              }
+              else
+              {
+                nothing.classList.remove('hide');
+                nothing.innerText = nothing.getAttribute('text');
+              };
+            };
+          });
+        }
+        else
+        {
+          nothing.classList.remove('hide');
+          nothing.innerText = scarf.getAttribute('text-tips-4');
+        };
+      };
       const selectFile = el => {
         let symbol = el.symbol;
         el.parentElement.querySelectorAll('span').forEach(span => {
@@ -432,6 +487,18 @@ export default class manage {
           };
         });
       };
+      const switchSide = type => {
+        that.workspace.querySelectorAll('div.side div[group=list]').forEach(el => {
+          if (el.getAttribute('type') == type)
+          {
+            el.classList.remove('hide');
+          }
+          else
+          {
+            el.classList.add('hide');
+          };
+        });
+      };
       const reloadFiles = el => {
         let parent = el.parentElement;
         if (!parent.classList.contains('children'))
@@ -461,18 +528,30 @@ export default class manage {
         };
       };
       const initEvents = el => {
+        el.delegateEventListener('div.side div.h3 span.search', 'click', () => switchSide('search'));
         el.delegateEventListener('div.side div.h3 span.newFolder', 'click', () => newFolder());
         el.delegateEventListener('div.side div.h3 span.newFile', 'click', () => newFile());
+        el.delegateEventListener('div.side div.h3 span.back', 'click', () => switchSide('list'));
         el.delegateEventListener('div.side div.explorer u.newFolder', 'click', function(){ newFolder(this.parentElement.parentElement.parentElement); });
         el.delegateEventListener('div.side div.explorer u.newFile', 'click', function(){ newFile(this.parentElement.parentElement.parentElement); });
         el.delegateEventListener('div.side div.explorer u.rename', 'click', function(){ renameItem(this.parentElement.parentElement.parentElement); });
         el.delegateEventListener('div.side div.explorer u.delete', 'click', function(){ deleteItem(this.parentElement.parentElement.parentElement); });
+        el.delegateEventListener('div.side div.search jtbc-tiny-search.keywords', 'search', e => searchFile(e.detail.keyword));
         el.delegateEventListener('div.side div.icon span.collapse', 'click', function(){
           let side = that.workspace.querySelector('div.side');
           if (side != null)
           {
             side.classList.remove('on');
             side.nextElementSibling.classList.add('on');
+          };
+        });
+        el.delegateEventListener('div.side ul li.file em', 'click', function(){
+          if (this.getAttribute('icon') != 'others')
+          {
+            let path = this.getAttribute('path');
+            let filename = path.includes('/')? path.substring(path.lastIndexOf('/') + 1): path;
+            let extension = filename.substring(filename.lastIndexOf('.') + 1);
+            openFile(path, filename, extension);
           };
         });
         el.delegateEventListener('div.collapse div.icon span.collapse', 'click', function(){
@@ -568,17 +647,6 @@ export default class manage {
             });
             el.querySelector('em')?.addEventListener('click', function(){
               this.parentElement.querySelector('i')?.click();
-            });
-          });
-          target.querySelectorAll('li.file').forEach(el => {
-            el.querySelector('em')?.addEventListener('click', function(){
-              if (this.getAttribute('icon') != 'others')
-              {
-                let path = this.getAttribute('path');
-                let filename = path.includes('/')? path.substring(path.lastIndexOf('/') + 1): path;
-                let extension = filename.substring(filename.lastIndexOf('.') + 1);
-                openFile(path, filename, extension);
-              };
             });
           });
         };

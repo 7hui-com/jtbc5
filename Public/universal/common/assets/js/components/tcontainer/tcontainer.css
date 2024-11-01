@@ -32,16 +32,19 @@ container div.container {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
 }
 container div.container div.box {
-  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; gap: var(--container-gap); flex-direction: var(--container-flex-direction)
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; flex-direction: var(--container-flex-direction)
 }
 container div.container div.box div.sidebar {
   width: var(--container-sidebar-width)
 }
+container div.container div.box div.main {
+  width: calc(100% - var(--container-sidebar-width) - var(--container-gap))
+}
 container div.container div.box div.sidebar.hide {
   display: none !important
 }
-container div.container div.box div.main {
-  flex: 1
+container div.container div.box div.sidebar.hide + div.main {
+  width: 100%
 }
 @media screen and (max-width: 1280px) {
   container div.headline div.box div.text div.subtitle {
@@ -50,7 +53,7 @@ container div.container div.box div.main {
 }
 @media screen and (max-width: 960px) {
   :host {
-    --container-gap: 15px; --container-sidebar-width: 100%; --container-headline-title-font-size: 36px; --container-headline-subtitle-font-size: 40px; --container-headline-subtitle-color: #dbdbdb; --container-headline-subtitle-letter-spacing: 2px
+    --container-gap: 15px; --container-headline-title-font-size: 36px; --container-headline-subtitle-font-size: 40px; --container-headline-subtitle-color: #dbdbdb; --container-headline-subtitle-letter-spacing: 2px
   }
   container div.headline div.box div.text {
     align-items: flex-end

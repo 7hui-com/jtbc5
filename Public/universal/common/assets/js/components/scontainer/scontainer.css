@@ -29,16 +29,19 @@ container div.container {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
 }
 container div.container div.box {
-  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; gap: var(--container-gap); flex-direction: var(--container-flex-direction)
+  display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; flex-direction: var(--container-flex-direction)
 }
 container div.container div.box div.sidebar {
   width: var(--container-sidebar-width)
 }
+container div.container div.box div.main {
+  width: calc(100% - var(--container-sidebar-width) - var(--container-gap))
+}
 container div.container div.box div.sidebar.hide {
   display: none !important
 }
-container div.container div.box div.main {
-  flex: 1
+container div.container div.box div.sidebar.hide + div.main {
+  width: 100%
 }
 container div.headline.hide,
 container div.navigation.hide,
@@ -46,9 +49,6 @@ container div.container.hide {
   display: none !important
 }
 @media screen and (max-width: 960px) {
-  :host {
-    --container-gap: 15px; --container-sidebar-width: 100%
-  }
   container div.container div.box div.sidebar,
   container div.container div.box div.main {
     display: block; width: 100%

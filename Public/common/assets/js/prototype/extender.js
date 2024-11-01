@@ -283,6 +283,13 @@ export default class extender {
 
   #addPrototypeToWindow() {
     let that = this;
+    Window.prototype.checkComputedStyle = async function(el, key, value) {
+      while (getComputedStyle(el).getPropertyValue(key) != value)
+      {
+        await nap(100);
+      };
+      return true;
+    };
     Window.prototype.getActiveZIndex = function() {
       return that.#activeZIndex ++;
     };

@@ -1,0 +1,12 @@
+:host {
+  display: block
+}
+.container {
+  width: 100%; display: block !important; overflow: hidden
+}
+.container div.box {
+  width: 100%; display: flex; align-items: center
+}
+.container div.box div.content {
+  flex: none
+}

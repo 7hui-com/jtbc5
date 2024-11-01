@@ -28,6 +28,10 @@
     </item>
     <item>
       <name><![CDATA[verify]]></name>
+      <zh-cn><![CDATA[验证]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[review]]></name>
       <zh-cn><![CDATA[审核]]></zh-cn>
     </item>
     <item>

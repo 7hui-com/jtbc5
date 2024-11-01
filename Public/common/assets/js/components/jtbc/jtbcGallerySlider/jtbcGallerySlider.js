@@ -102,11 +102,11 @@ export default class jtbcGallerySlider extends HTMLElement {
     container.delegateEventListener('div.content div.next', 'click', function(){
       that.swiper?.slideNext(that.slideSpeed);
     });
-    container.delegateEventListener('div.thumb div.item', 'click', function(){
+    container.delegateEventListener('div.thumbnail div.item', 'click', function(){
       let index = Number.parseInt(this.getAttribute('index'));
       that.swiper?.slideToLoop(index, that.slideSpeed);
     });
-    container.delegateEventListener('div.thumb div.button', 'click', function(){
+    container.delegateEventListener('div.thumbnail div.button', 'click', function(){
       this.parentNode.classList.toggle('on');
     });
     container.delegateEventListener('[role=gallery-slider-close]', 'click', e => that.close());
@@ -172,19 +172,7 @@ export default class jtbcGallerySlider extends HTMLElement {
           index += 1;
         });
         contentEl.append(el);
-        if (this.thumb == 'hide')
-        {
-          let buttonEl = document.createElement('div');
-          let buttonSvgUp = document.createElement('jtbc-svg');
-          let buttonSvgDown = document.createElement('jtbc-svg');
-          buttonSvgUp.setAttribute('name', 'arrow_up');
-          buttonSvgDown.setAttribute('name', 'arrow_down');
-          buttonEl.classList.add('button');
-          buttonEl.append(buttonSvgUp, buttonSvgDown);
-          thumbEl.append(buttonEl);
-          paginationEl.classList.add('hide');
-        }
-        else if (this.thumb == 'show')
+        if (['show', 'hide'].includes(this.thumb))
         {
           paginationEl.classList.add('hide');
         };
@@ -198,6 +186,7 @@ export default class jtbcGallerySlider extends HTMLElement {
             if (Number.parseInt(item.getAttribute('index')) == currentIndex)
             {
               item.classList.add('on');
+              item.scrollIntoView({behavior: 'smooth', inline: 'center'});
             }
             else
             {
@@ -262,7 +251,7 @@ export default class jtbcGallerySlider extends HTMLElement {
     this.ready = false;
     let shadowRoot = this.attachShadow({mode: 'open'});
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
-    shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container part="container" thumb="show" style="display:none"><div class="close" part="close" role="gallery-slider-close"><jtbc-svg name="close" part="svg-close"></jtbc-svg></div><div class="content" part="content"></div><div class="pagination"></div><div class="thumb" part="thumb" size="contain"></div></container>`;
+    shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container part="container" thumb="show" style="display:none"><div class="close" part="close" role="gallery-slider-close"><jtbc-svg name="close" part="svg-close"></jtbc-svg></div><div class="content" part="content"></div><div class="pagination"></div><div class="thumbnail"><div class="box"><div class="thumb" part="thumb" size="contain"></div></div><div class="button"><jtbc-svg name="arrow_up"></jtbc-svg><jtbc-svg name="arrow_down"></jtbc-svg></div></div></container>`;
     this.container = shadowRoot.querySelector('container');
     this.container.loadComponents().then(() => this.#initEvents());
   };

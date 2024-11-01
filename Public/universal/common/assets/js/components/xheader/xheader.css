@@ -41,7 +41,7 @@
   display: flex; list-style: none; margin: 0px; padding: 0px; height: 100%; box-sizing: border-box
 }
 .topmenu div.box mainmenu ul li {
-  margin: 0px; padding: 0px; width: var(--header-topmenu-li-width); height: 100%; background: transparent; box-sizing: border-box; transition: background .3s ease
+  margin: 0px; padding: 0px; width: var(--header-topmenu-li-width); height: 100%; background: transparent; box-sizing: border-box; transition: background-color .3s ease
 }
 .topmenu div.box mainmenu ul li.on,
 .topmenu div.box mainmenu ul li:hover {
@@ -60,7 +60,7 @@
   display: none
 }
 .topmenu div.box mainmenu ul li dl dd {
-  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); background: var(--header-topmenu-hover-background); transition: background .3s ease
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-topmenu-height); background: var(--header-topmenu-hover-background); transition: background-color .3s ease
 }
 .topmenu div.box mainmenu ul li dl dd.on,
 .topmenu div.box mainmenu ul li dl dd:hover {
@@ -68,9 +68,12 @@
 }
 .topmenu div.box mainmenu ul li > a,
 .topmenu div.box mainmenu ul li dl dt > a,
-.topmenu div.box mainmenu ul li dl dt > span,
+.topmenu div.box mainmenu ul li dl dt > span[name],
 .topmenu div.box mainmenu ul li dl dd > a {
   display: flex; width: 100%; height: 100%; box-sizing: border-box; padding: 0px calc(var(--header-topmenu-height) / 2); align-items: center; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); white-space: nowrap
+}
+.topmenu div.box mainmenu ul li dl dt > span[name] {
+  cursor: default
 }
 .topmenu div.box mainmenu ul li dl dd > a {
   font-size: calc(var(--header-anchor-font-size) - 2px)
@@ -151,7 +154,8 @@
     background: transparent
   }
   .topmenu div.box mainmenu ul li.on > a,
-  .topmenu div.box mainmenu ul li.on dl dt > a {
+  .topmenu div.box mainmenu ul li.on dl dt > a,
+  .topmenu div.box mainmenu ul li.on dl dt > span[name] {
     font-weight: bold
   }
   .topmenu div.box mainmenu ul li:hover > dl {
@@ -171,7 +175,7 @@
   }
   .topmenu div.box mainmenu ul li > a,
   .topmenu div.box mainmenu ul li dl dt > a,
-  .topmenu div.box mainmenu ul li dl dt > span,
+  .topmenu div.box mainmenu ul li dl dt > span[name],
   .topmenu div.box mainmenu ul li dl dd > a {
     padding-left: 0px; justify-content: start; font-size: var(--header-mobile-anchor-font-size); color: var(--header-mobile-anchor-color); height: var(--header-topmenu-height)
   }

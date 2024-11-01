@@ -7,9 +7,8 @@ export default class jtbcMasonry extends HTMLElement {
   #columnName = 'item';
   #gutter = null;
   #param = null;
-  masonry = null;
-  #basePath = null;
   #libPath = null;
+  masonry = null;
 
   get param() {
     let result = this.#param ?? {};
@@ -41,19 +40,6 @@ export default class jtbcMasonry extends HTMLElement {
         throw new Error('Unexpected value');
       };
     };
-  };
-
-  bindImgLoadEvents() {
-    let that = this;
-    this.querySelectorAll('img').forEach(img => {
-      if (!img.hasAttribute('masonry-load-binded'))
-      {
-        img.setAttribute('masonry-load-binded', 'true');
-        img.addEventListener('load', function(){
-          that.masonry?.layout();
-        });
-      };
-    });
   };
 
   #initMasonry() {
@@ -102,6 +88,19 @@ export default class jtbcMasonry extends HTMLElement {
     };
   };
 
+  bindImgLoadEvents() {
+    let that = this;
+    this.querySelectorAll('img').forEach(img => {
+      if (!img.hasAttribute('masonry-load-binded'))
+      {
+        img.setAttribute('masonry-load-binded', 'true');
+        img.addEventListener('load', function(){
+          that.masonry?.layout();
+        });
+      };
+    });
+  };
+
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'column-width':
@@ -136,9 +135,12 @@ export default class jtbcMasonry extends HTMLElement {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
     let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
-    shadowRoot.innerHTML = `<style>:host { display: block; width: 100% } div.container { width: 100%; position: relative }</style><div class="container"><slot></slot></div>`;
+    let shadowRootHTML = `
+      <style>:host { display: block; width: 100% } div.container { width: 100%; position: relative }</style>
+      <div part="container" class="container"><slot></slot></div>
+    `;
+    shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.#basePath = basePath;
     this.#libPath = basePath + '../../../vendor/masonry';
     this.container = shadowRoot.querySelector('div.container');
   };

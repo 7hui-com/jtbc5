@@ -35,19 +35,33 @@
       <name><![CDATA[list]]></name>
       <default><![CDATA[<var genre="{$>this.genre}"></var>
 <link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/manage.css" />
-<div class="scarf" text-tips-1="{$=$take('manage.text-tips-1', 'lng')}" text-tips-2="{$=$take('manage.text-tips-2', 'lng')}" text-tips-3-1="{$=$take('manage.text-tips-3-1', 'lng')}" text-tips-3-2="{$=$take('manage.text-tips-3-2', 'lng')}" text-ok="{$=$take('::communal.confirm', 'lng')}" text-cancel="{$=$take('::communal.cancel', 'lng')}">
+<div class="scarf" text-tips-1="{$=$take('manage.text-tips-1', 'lng')}" text-tips-2="{$=$take('manage.text-tips-2', 'lng')}" text-tips-3-1="{$=$take('manage.text-tips-3-1', 'lng')}" text-tips-3-2="{$=$take('manage.text-tips-3-2', 'lng')}" text-tips-4="{$=$take('manage.text-tips-4', 'lng')}" text-ok="{$=$take('::communal.confirm', 'lng')}" text-cancel="{$=$take('::communal.cancel', 'lng')}">
   <template is="jtbc-template" mt="true" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <div class="ppContainer">
         <div class="ppWorkspace" text-new-folder="{$=$take('manage.text-new-folder', 'lng')}" action-new-folder="{$>this.genre}/manage?action=createFolder" text-new-file="{$=$take('manage.text-new-file', 'lng')}" action-new-file="{$>this.genre}/manage?action=createFile" text-upload="{$=$take('manage.text-upload', 'lng')}" text-uploading="{$=$take('manage.text-uploading', 'lng')}" action-new-upload="{$>this.genre}/manage?action=addFile" action-rename="{$>this.genre}/manage?action=rename" action-delete="{$>this.genre}/manage?action=delete">
           <div class="side on">
-            <div class="h3">
-              <h3><em>{$=$take('manage.text-side-files', 'lng')}</em></h3>
-              <div class="icon"><span class="newFolder" title="{$=$take('manage.text-new-folder', 'lng')}"></span><span class="newFile" title="{$=$take('manage.text-new-file', 'lng')}"></span><span class="collapse" title="{$=$take('manage.text-side-collapse', 'lng')}"></span></div>
+            <div group="list" type="list">
+              <div class="h3">
+                <h3><em>{$=$take('manage.text-side-files', 'lng')}</em></h3>
+                <div class="icon"><span class="search" title="{$=$take('manage.text-side-search', 'lng')}"></span><span class="newFolder" title="{$=$take('manage.text-new-folder', 'lng')}"></span><span class="newFile" title="{$=$take('manage.text-new-file', 'lng')}"></span><span class="collapse" title="{$=$take('manage.text-side-collapse', 'lng')}"></span></div>
+              </div>
+              <div class="explorer">
+                <jtbc-fetch url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$=urlencode('{$>this.genre}')}:manage.part-files"></jtbc-fetch>
+              </div>
             </div>
-            <div class="explorer">
-              <jtbc-fetch url="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$=urlencode('{$>this.genre}')}:manage.part-files"></jtbc-fetch>
+            <div group="list" type="search" class="hide">
+              <div class="h3">
+                <h3><em>{$=$take('manage.text-side-search', 'lng')}</em></h3>
+                <div class="icon"><span class="back" title="{$=$take('manage.text-side-back', 'lng')}"></span></div>
+              </div>
+              <div class="search" url="{$>this.genre}/manage?type=search">
+                <div class="input"><jtbc-tiny-search class="keywords" placeholder="{$=$take('manage.text-side-search-placeholder', 'lng')}"></jtbc-tiny-search></div>
+                <div class="loading hide">{$=$take('manage.text-side-search-loading', 'lng')}</div>
+                <div class="result hide"></div>
+                <div class="nothing hide" text="{$=$take('manage.text-side-search-nothing', 'lng')}">{$=$take('manage.text-side-search-nothing', 'lng')}</div>
+              </div>
             </div>
           </div>
           <div class="collapse">

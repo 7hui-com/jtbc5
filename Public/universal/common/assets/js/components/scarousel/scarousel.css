@@ -1,126 +1,78 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; position: relative; z-index: 100; --carousel-background: transparent; --carousel-button-size: 60px; --carousel-button-color: #fff
+  display: block; width: 100%; box-sizing: border-box; --carousel-title-anchor-color: #333333; --carousel-title-anchor-hover-color: #005f9b; --carousel-subtitle-color: #999999; --carousel-button-size: 60px; --carousel-button-color: #005f9b
 }
 .container {
-  box-sizing: border-box; width: 100%
+  width: 100%; box-sizing: border-box; display: block !important
 }
 .container div.box {
-  display: block; box-sizing: border-box; width: 100%; background: var(--carousel-background)
-}
-.container div.box jtbc-swiper {
-  display: block; width: 100%; height: 100%
-}
-.container div.box jtbc-swiper div.swiper {
-  width: 100%; height: 100%
-}
-.container div.box jtbc-swiper div.swiper div.button {
-  width: var(--carousel-button-size); height: var(--carousel-button-size); display: flex; align-items: center; justify-content: center; transform: translate(0, -50%); cursor: pointer; position: absolute; top: 50%; z-index: 120
-}
-.container div.box jtbc-swiper div.swiper div.button jtbc-svg {
-  width: calc(var(--carousel-button-size) / 2); height: calc(var(--carousel-button-size) / 2); --fore-color: var(--carousel-button-color)
-}
-.container div.box jtbc-swiper div.swiper div.button.hide {
-  display: none !important
-}
-.container div.box jtbc-swiper div.swiper div.button.disabled {
-  filter: grayscale(100%); cursor: default; opacity: .3
-}
-.container div.box jtbc-swiper div.swiper div.button.disabled jtbc-svg {
-  --fore-color: #fff
-}
-.container div.box jtbc-swiper div.swiper div.button-prev {
-  left: 0px
-}
-.container div.box jtbc-swiper div.swiper div.button-next {
-  right: 0px
-}
-.container div.box jtbc-swiper div.swiper-slide {
-  width: 100%; height: 100%
-}
-.container div.box jtbc-swiper div.swiper-slide div.content {
-  width: 100%; box-sizing: border-box; position: relative
-}
-.container div.box jtbc-swiper div.swiper-slide div.content:empty {
-  display: none !important
-}
-.container div.box jtbc-swiper div.swiper-slide div.content div.wrap div.image {
   width: 100%; box-sizing: border-box
 }
-.container div.box jtbc-swiper div.swiper-slide div.content div.wrap div.image img {
+.container div.box div.glide {
+  width: 100%; box-sizing: border-box; position: relative
+}
+.container div.box div.glide * {
+  box-sizing: inherit
+}
+.container div.box div.glide__track {
+  width: calc(100% - var(--carousel-button-size) * 2); margin: auto; overflow: hidden
+}
+.container div.box div.glide__slides {
+  width: 100%; list-style: none; backface-visibility: hidden; transform-style: preserve-3d; touch-action: pan-Y; overflow: hidden; margin: 0px; padding: 0px; white-space: nowrap; display: flex; flex-wrap: nowrap; will-change: transform; position: relative
+}
+.container div.box div.glide__slides--dragging {
+  user-select: none
+}
+.container div.box div.glide__slide {
+  width: 100%; height: 100%; flex-shrink: 0; white-space: normal; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent
+}
+.container div.box div.glide__slide a {
+  user-select: none; -webkit-user-drag: none; -moz-user-select: none; -ms-user-select: none
+}
+.container div.box div.glide__arrows {
+  -webkit-touch-callout: none; user-select: none
+}
+.container div.box div.glide__bullets {
+  -webkit-touch-callout: none; user-select: none
+}
+.container div.box div.glide--rtl {
+  direction: rtl
+}
+.container div.box div.button {
+  width: var(--carousel-button-size); height: var(--carousel-button-size); display: flex; align-items: center; justify-content: center; transform: translate(0, -50%); position: absolute; top: 50%; z-index: 100; cursor: pointer
+}
+.container div.box div.button-prev {
+  left: 0px
+}
+.container div.box div.button-next {
+  right: 0px
+}
+.container div.box div.button jtbc-svg {
+  width: 50%; height: 50%; --fore-color: var(--carousel-button-color)
+}
+.container div.box div.content {
+  width: 100%; box-sizing: border-box; position: relative
+}
+.container div.box div.content:empty {
+  display: none !important
+}
+.container div.box div.content div.wrap div.image {
+  width: 100%; box-sizing: border-box
+}
+.container div.box div.content div.wrap div.image img {
   display: block; width: 100%
 }
-.container div.box jtbc-swiper div.swiper-slide div.content div.wrap div.text {
+.container div.box div.content div.wrap div.text {
   width: 100%; box-sizing: border-box; padding: 5px 10px
 }
-.container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap div.text {
-  background: #f4f4f4
-}
-.container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title {
+.container div.box div.content div.wrap div.text div.title {
   padding: 10px 0px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
 }
-.container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a {
-  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: #333333; text-decoration: none; padding-bottom: 2px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
+.container div.box div.content div.wrap div.text div.title a {
+  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: var(--carousel-title-anchor-color); text-decoration: none; padding-bottom: 2px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
 }
-.container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a:hover {
-  color: #5b9dd9; border-color: #5b9dd9
+.container div.box div.content div.wrap div.text div.title a:hover {
+  color: var(--carousel-title-anchor-hover-color); border-color: var(--carousel-title-anchor-hover-color)
 }
-.container div.box[theme=default] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.subtitle {
-  padding-bottom: 10px; text-align: center; color: #999999; font-size: 14px; line-height: 160%
-}
-.container div.box[theme=cover] jtbc-swiper div.swiper-slide div.content div.wrap div.text {
-  background: rgba(0, 0, 0, 0.7); position: absolute; left: 0px; bottom: 0px; z-index: 10
-}
-.container div.box[theme=cover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title {
-  padding: 10px 0px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
-}
-.container div.box[theme=cover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a {
-  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: #ffffff; text-decoration: none; padding-bottom: 2px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
-}
-.container div.box[theme=cover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a:hover {
-  color: #ffffff; border-color: #ffffff
-}
-.container div.box[theme=cover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.subtitle {
-  padding-bottom: 10px; text-align: center; color: rgba(255, 255, 255, 0.7); font-size: 14px; line-height: 160%
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide div.content div.wrap div.text {
-  background: rgba(0, 0, 0, 0.7); position: absolute; left: 0px; bottom: -100%; z-index: 10; transition: bottom 0.3s ease
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title {
-  padding: 10px 0px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a {
-  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: #ffffff; text-decoration: none; padding-bottom: 2px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a:hover {
-  color: #ffffff; border-color: #ffffff
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.subtitle {
-  padding-bottom: 10px; text-align: center; color: rgba(255, 255, 255, 0.7); font-size: 14px; line-height: 160%
-}
-.container div.box[theme=hover] jtbc-swiper div.swiper-slide:hover div.content div.wrap div.text {
-  bottom: 0px
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content {
-  background: #f4f4f4; box-shadow: 0px 2px 2px rgb(0 0 0 / 5%)
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.image {
-  padding: 20px
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.image img {
-  border-radius: 100%
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title {
-  padding: 10px 0px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a {
-  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: #333333; text-decoration: none; padding-bottom: 2px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.title a:hover {
-  color: #5b9dd9; border-color: #5b9dd9
-}
-.container div.box[theme=circle] jtbc-swiper div.swiper-slide div.content div.wrap div.text div.subtitle {
-  padding-bottom: 10px; text-align: center; color: #999999; font-size: 14px; line-height: 160%
-}
-.container.on {
-  display: block !important
+.container div.box div.content div.wrap div.text div.subtitle {
+  padding-bottom: 10px; text-align: center; color: var(--carousel-subtitle-color); font-size: 14px; line-height: 160%
 }

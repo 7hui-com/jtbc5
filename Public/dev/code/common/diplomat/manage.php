@@ -1,6 +1,7 @@
 <?php
 namespace Jtbc;
 use DirectoryIterator;
+use Jtbc\File\FileSearcher;
 use Jtbc\File\IO\Folder;
 use Jtbc\String\StringHelper;
 use App\Console\Common\EmptySubstance;
@@ -54,7 +55,6 @@ class Diplomat extends Ambassador {
     $dir = strval($req -> get('dir') ?? './');
     $rank = $dir == './'? 1: substr_count($dir, '/') + 1;
     $currentPath = realpath(Path::getActualRoute($dir));
-    $icon = explode(',', '');
     if (is_dir($currentPath))
     {
       $folders = $files = [];
@@ -143,6 +143,37 @@ class Diplomat extends Ambassador {
   {
     $bs = new BasicSubstance($this);
     return $bs -> toJSON();
+  }
+
+  public function search(Request $req)
+  {
+    $data = [];
+    $keywords = strval($req -> get('keywords'));
+    if (!Validation::isEmpty($keywords))
+    {
+      $filePath = './';
+      $fileSearcher = new FileSearcher($filePath);
+      $fileSearcher -> setAllowedExtensions($this -> allowedExtensions);
+      $searchResult = $fileSearcher -> search(...explode(chr(32), $keywords));
+      if (!empty($searchResult))
+      {
+        foreach ($searchResult as $item)
+        {
+          $filename = StringHelper::getClippedString($item, '/', 'right');
+          $extension = StringHelper::getClippedString($item, '.', 'right');
+          $data[] = [
+            'filename' => $filename,
+            'path' => $item,
+            'extension' => $extension,
+            'icon' => $extension,
+            'hash' => Encoder::saltedMD5($item),
+          ];
+        }
+      }
+    }
+    $es = new EmptySubstance();
+    $es -> data -> data = $data;
+    return $es -> toJSON();
   }
 
   public function actionAddFile(Request $req)

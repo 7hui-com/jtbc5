@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-card-background: transparent; --footer-card-transform: none; --footer-card-font-color: #999; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
+  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-card-background: transparent; --footer-card-transform: none; --footer-card-font-color: #999; --footer-mobile-card-border: var(--footer-media-icon-border); --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%
@@ -138,7 +138,7 @@
     --footer-page-outer-padding: 0px 15px; --footer-page-inner-padding: 15px 0px; --footer-height: 60px; --footer-picture-max-width: 75%
   }
   .container div.bottom div.box div.card {
-    width: 100%; max-width: 100%; margin-bottom: calc(var(--footer-gap) * 2); padding: var(--footer-gap) 0px; border-bottom: var(--footer-media-icon-border)
+    width: 100%; max-width: 100%; margin-bottom: calc(var(--footer-gap) * 2); padding: var(--footer-gap) 0px; border-bottom: var(--footer-mobile-card-border)
   }
   .container div.bottom div.box div.card div.logo,
   .container div.bottom div.box div.card div.content {

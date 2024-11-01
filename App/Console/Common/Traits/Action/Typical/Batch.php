@@ -30,6 +30,7 @@ trait Batch
           'disable' => 'disabled',
           'dispose' => 'disposed',
           'verify' => 'verified',
+          'review' => 'reviewed',
           'lock' => 'locked',
           'publish' => 'published',
           'recommend' => 'recommended',

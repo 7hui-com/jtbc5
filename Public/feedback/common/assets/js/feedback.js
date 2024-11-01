@@ -14,7 +14,7 @@ export default class feedback {
               if (!button.classList.contains('locked'))
               {
                 button.classList.add('locked');
-                fetch(self.getAttribute('action'), {'method': 'post', 'headers': {'Content-Type': 'application/x-www-form-urlencoded'}, 'body': fieldSerializer.serialize()}).then(res => res.ok? res.json(): {}).then(data => {
+                fetch(self.getAttribute('action'), fieldSerializer.makeFetchOptions()).then(res => res.ok? res.json(): {}).then(data => {
                   if (data.code == 1)
                   {
                     self.reset();

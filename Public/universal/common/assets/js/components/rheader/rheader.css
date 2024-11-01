@@ -92,6 +92,11 @@
 .mainmenu div.box mainmenu ul li dl dt > span {
   display: flex; height: var(--header-anchor-height); align-items: center; padding: 0px var(--header-anchor-padding); font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); position: relative; transition: color .2s ease
 }
+.mainmenu div.box mainmenu ul li.on > a,
+.mainmenu div.box mainmenu ul li.on dl dt > a,
+.mainmenu div.box mainmenu ul li.on dl dt > span {
+  font-weight: bold
+}
 .mainmenu div.box mainmenu ul li > a:hover,
 .mainmenu div.box mainmenu ul li dl dt > a:hover {
   color: var(--header-anchor-hover-color) !important

@@ -26,6 +26,10 @@ export default class mfooter extends HTMLElement {
       source.querySelectorAll('text,href,picture').forEach(el => {
         let tagName = el.tagName.toLowerCase();
         let span = document.createElement('span');
+        if (el.hasAttribute('part'))
+        {
+          span.setAttribute('part', el.getAttribute('part'));
+        };
         if (tagName == 'text')
         {
           span.classList.add('text');
@@ -171,8 +175,8 @@ export default class mfooter extends HTMLElement {
           <div part="bottom-box" class="box">
             <div part="card" class="card">
               <div part="logo" class="logo"></div>
-              <div class="content"><slot class="content" name="content-card"></slot></div>
-              <div class="media"><slot class="media" name="content-media"></slot></div>
+              <div part="content" class="content"><slot class="content" name="content-card"></slot></div>
+              <div part="media" class="media"><slot class="media" name="content-media"></slot></div>
             </div>
             <div part="sections" class="sections"></div>
           </div>

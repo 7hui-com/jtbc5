@@ -9,22 +9,22 @@ body {
   background: #005f9b; font-size: 1.2rem; font-family: "Microsoft YaHei", Arial, Verdana; color: #333; --page-max-width: 1400px; --page-gap: 20px; --page-outer-padding: 0px var(--page-gap); --page-inner-padding: var(--page-gap) 0px
 }
 h1 {
-  font-size: 3.2rem
+  font-size: 3.2rem; line-height: 140%
 }
 h2 {
-  font-size: 2.4rem
+  font-size: 2.4rem; line-height: 140%
 }
 h3 {
-  font-size: 2rem
+  font-size: 2rem; line-height: 140%
 }
 h4 {
-  font-size: 1.6rem
+  font-size: 1.6rem; line-height: 140%
 }
 h5 {
-  font-size: 1.4rem
+  font-size: 1.4rem; line-height: 140%
 }
 h6 {
-  font-size: 1.2rem
+  font-size: 1.2rem; line-height: 140%
 }
 .hand {
   cursor: pointer
@@ -288,15 +288,39 @@ div.detail {
   width: 100%
 }
 div.detail h1.title {
-  font-size: 2.4rem; line-height: 160%; padding-bottom: var(--page-gap); border-bottom: #eee 1px solid
+  font-size: 2.4rem; line-height: 160%; padding: 0px 0px var(--page-gap) 0px; border-bottom: #eee 1px solid
 }
 div.list div.content,
 div.detail div.content {
-  width: 100%; padding: 1rem 0rem; font-size: 1.4rem; line-height: 160%; word-break: break-all
+  width: 100%; padding: 1rem 0rem; font-size: 1.4rem; line-height: 140%; word-break: break-all
 }
 div.list div.content img,
 div.detail div.content img {
   max-width: 100%
+}
+div.list div.content h1,
+div.detail div.content h1 {
+  padding: 1.6rem 0rem
+}
+div.list div.content h2,
+div.detail div.content h2 {
+  padding: 1.2rem 0rem
+}
+div.list div.content h3,
+div.detail div.content h3 {
+  padding: 1rem 0rem
+}
+div.list div.content h4,
+div.detail div.content h4 {
+  padding: 0.8rem 0rem
+}
+div.list div.content h5,
+div.detail div.content h5 {
+  padding: 0.7rem 0rem
+}
+div.list div.content h6,
+div.detail div.content h6 {
+  padding: 0.6rem 0rem
 }
 div.list div.content p,
 div.detail div.content p {

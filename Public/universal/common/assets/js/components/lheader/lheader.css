@@ -80,11 +80,15 @@
 }
 .container div.box .menu ul li > a,
 .container div.box .menu ul li dl dt > a,
-.container div.box .menu ul li dl dt > span {
+.container div.box .menu ul li dl dt > span[name] {
   display: flex; height: 100%; align-items: center; padding: 0px var(--header-anchor-padding); font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); position: relative; transition: color .2s ease
 }
+.container div.box .menu ul li dl dt > span[name] {
+  cursor: default
+}
 .container div.box .menu ul li > a::before,
-.container div.box .menu ul li dl dt > a::before {
+.container div.box .menu ul li dl dt > a::before,
+.container div.box .menu ul li dl dt > span[name]::before {
   content: ''; position: absolute; width: calc(100% - calc(var(--header-anchor-padding) * 2)); left: 50%; bottom: -2px; transform: translate(-50%, 0); height: 2px; opacity: 0; background: var(--header-anchor-hover-color); transition: opacity .2s ease, background-color .3s ease, bottom .3s ease
 }
 .container div.box .menu ul li > a:hover,
@@ -96,7 +100,8 @@
   opacity: 1; bottom: 0px; background: var(--header-anchor-hover-color) !important
 }
 .container div.box .menu ul li.on > a::before,
-.container div.box .menu ul li.on dl dt > a::before {
+.container div.box .menu ul li.on dl dt > a::before,
+.container div.box .menu ul li.on dl dt > span[name]::before {
   opacity: 1; bottom: 0px; background: var(--header-anchor-color)
 }
 .container.sticky {
@@ -163,7 +168,8 @@
     background: transparent
   }
   .container div.box .menu ul li.on > a,
-  .container div.box .menu ul li.on dl dt > a {
+  .container div.box .menu ul li.on dl dt > a,
+  .container div.box .menu ul li.on dl dt > span[name] {
     font-weight: bold !important
   }
   .container div.box .menu ul li:hover > dl {
@@ -186,12 +192,13 @@
   }
   .container div.box .menu ul li > a,
   .container div.box .menu ul li dl dt > a,
-  .container div.box .menu ul li dl dt > span,
+  .container div.box .menu ul li dl dt > span[name],
   .container div.box .menu ul li dl dd > a {
     justify-content: start; font-size: var(--header-mobile-anchor-font-size); font-weight: var(--header-mobile-anchor-font-weight); color: var(--header-mobile-anchor-color); height: var(--header-anchor-height)
   }
   .container div.box .menu ul li > a::before,
-  .container div.box .menu ul li dl dt > a::before {
+  .container div.box .menu ul li dl dt > a::before,
+  .container div.box .menu ul li dl dt > span[name]::before {
     display: none
   }
   .container div.box .menu ul li > a:hover,

@@ -1,0 +1,93 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --focus-text-height: 50px; --focus-text-background: rgba(0, 0, 0, 0.6); --focus-title-font-size: 14px; --focus-title-anchor-color: rgba(255, 255, 255, 0.9); --focus-title-anchor-hover-color: rgba(255, 255, 255, 1); --focus-button-size: 60px; --focus-button-color: #005f9b; --focus-nav-item-background: rgba(255, 255, 255, 0.6); --focus-nav-item-active-background: rgba(255, 255, 255, 1); --focus-nav-item-size: calc(var(--focus-text-height) / 5); --focus-nav-item-border-radius: 0%
+}
+.container {
+  width: 100%; box-sizing: border-box; display: block !important
+}
+.container div.box {
+  width: 100%; box-sizing: border-box
+}
+.container div.box div.glide {
+  width: 100%; box-sizing: border-box; position: relative
+}
+.container div.box div.glide * {
+  box-sizing: inherit
+}
+.container div.box div.glide__track {
+  width: 100%; overflow: hidden
+}
+.container div.box div.glide__slides {
+  width: 100%; list-style: none; backface-visibility: hidden; transform-style: preserve-3d; touch-action: pan-Y; overflow: hidden; margin: 0px; padding: 0px; white-space: nowrap; display: flex; flex-wrap: nowrap; will-change: transform; position: relative
+}
+.container div.box div.glide__slides--dragging {
+  user-select: none
+}
+.container div.box div.glide__slide {
+  width: 100%; height: 100%; flex-shrink: 0; white-space: normal; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent
+}
+.container div.box div.glide__slide a {
+  user-select: none; -webkit-user-drag: none; -moz-user-select: none; -ms-user-select: none
+}
+.container div.box div.glide__arrows {
+  -webkit-touch-callout: none; user-select: none
+}
+.container div.box div.glide__bullets {
+  -webkit-touch-callout: none; user-select: none
+}
+.container div.box div.glide--rtl {
+  direction: rtl
+}
+.container div.box div.button {
+  width: var(--focus-button-size); height: var(--focus-button-size); display: flex; align-items: center; justify-content: center; transform: translate(0, -50%); position: absolute; top: 50%; z-index: 100; cursor: pointer
+}
+.container div.box div.button-prev {
+  left: 0px
+}
+.container div.box div.button-next {
+  right: 0px
+}
+.container div.box div.button jtbc-svg {
+  width: 50%; height: 50%; --fore-color: var(--focus-button-color)
+}
+.container div.box div.content {
+  width: 100%; box-sizing: border-box; position: relative
+}
+.container div.box div.content:empty {
+  display: none !important
+}
+.container div.box div.content div.wrap div.image {
+  width: 100%; box-sizing: border-box
+}
+.container div.box div.content div.wrap div.image img {
+  display: block; width: 100%
+}
+.container div.box div.nav {
+  display: none
+}
+.container div.box div.content div.wrap div.text {
+  width: 100%; box-sizing: border-box; height: var(--focus-text-height); background: var(--focus-text-background); display: flex; align-items: center; position: absolute; bottom: 0px; z-index: 100
+}
+.container div.box div.content div.wrap div.text div.title {
+  width: 100%; box-sizing: border-box; padding: 0px 10px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+.container div.box div.content div.wrap div.text div.title a {
+  display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--focus-title-font-size); color: var(--focus-title-anchor-color); text-decoration: none; padding: 2px 0px; border-bottom: transparent 1px dashed; line-height: 160%; transition: all 0.3s ease
+}
+.container div.box div.content div.wrap div.text div.title a:hover {
+  color: var(--focus-title-anchor-hover-color); border-color: var(--focus-title-anchor-hover-color)
+}
+.container[theme=classic] div.box div.button {
+  display: none
+}
+.container[theme=classic] div.box div.content div.wrap div.text div.title {
+  width: 75%; padding: 0px 20px; text-align: left
+}
+.container[theme=classic] div.box div.nav {
+  width: 25%; box-sizing: border-box; padding-right: 20px; height: var(--focus-text-height); display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--focus-nav-item-size) / 2); position: absolute; bottom: 0px; right: 0px; z-index: 110
+}
+.container[theme=classic] div.box div.nav div.nav-item {
+  width: var(--focus-nav-item-size); height: var(--focus-nav-item-size); background: var(--focus-nav-item-background); border-radius: var(--focus-nav-item-border-radius); cursor: pointer
+}
+.container[theme=classic] div.box div.nav div.nav-item.glide__bullet--active {
+  background: var(--focus-nav-item-active-background)
+}

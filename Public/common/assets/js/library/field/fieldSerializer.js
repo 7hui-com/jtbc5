@@ -59,6 +59,30 @@ export default class fieldSerializer {
     return result;
   };
 
+  getContentType() {
+    let result = null;
+    let mode = this.#mode;
+    if (mode == 'json')
+    {
+      result = 'application/json';
+    }
+    else if (mode == 'queryString')
+    {
+      result = 'application/x-www-form-urlencoded';
+    };
+    return result;
+  };
+
+  makeFetchOptions(method = 'POST') {
+    return {
+      'method': method,
+      'headers': {
+        'Content-Type': this.getContentType(),
+      },
+      'body': this.serialize(),
+    };
+  };
+
   serialize() {
     let result = null;
     let mode = this.#mode;

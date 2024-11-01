@@ -26,6 +26,10 @@ export default class lfooter extends HTMLElement {
       source.querySelectorAll('text,href,picture').forEach(el => {
         let tagName = el.tagName.toLowerCase();
         let span = document.createElement('span');
+        if (el.hasAttribute('part'))
+        {
+          span.setAttribute('part', el.getAttribute('part'));
+        };
         if (tagName == 'text')
         {
           span.classList.add('text');

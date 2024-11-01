@@ -19,6 +19,19 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     return this.#disabled;
   };
 
+  get hintBase() {
+    let result = [];
+    if ('hintBase' in this.dataset)
+    {
+      try
+      {
+        result = JSON.parse(this.dataset.hintBase);
+      }
+      catch(e) {};
+    };
+    return result;
+  };
+
   set value(value) {
     if (this.codeMirror == null)
     {
@@ -39,6 +52,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     cm.on('change', instance => {
       this.dispatchEvent(new CustomEvent('changed', {detail: {'instance': instance}, bubbles: true}));
     });
+    cm.on('keypress', instance => instance.showHint());
   };
 
   #resize(entries) {
@@ -148,6 +162,37 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
                   that.dispatchEvent(new CustomEvent('save', {detail: {'instance': cm}, bubbles: true}));
                 },
               },
+              hintOptions: {
+                container: this.container,
+                hint: function(cm) {
+                  return new Promise(function(resolve) {
+                    let hintBase = that.hintBase;
+                    if (Array.isArray(hintBase) && hintBase.length != 0)
+                    {
+                      let cursor = cm.getCursor(), line = cm.getLine(cursor.line);
+                      let start = cursor.ch, end = cursor.ch;
+                      while (start && /\$|\^|\#|\w/.test(line.charAt(start - 1))) -- start;
+                      while (end < line.length && /\w/.test(line.charAt(end))) ++ end;
+                      let word = line.slice(start, end);
+                      if (word.length != 0)
+                      {
+                        let showlist = [];
+                        showlist.push(word);
+                        for (let i = 0; i < hintBase.length; i++)
+                        {
+                          if (hintBase[i].indexOf(word) == 0 && hintBase[i] != word) showlist.push(hintBase[i]);
+                        };
+                        if (showlist.length >= 2)
+                        {
+                          return resolve({list: showlist, from: CodeMirror.Pos(cursor.line, start), to: CodeMirror.Pos(cursor.line, end)});
+                        }
+                        else return resolve(null);
+                      };
+                    };
+                    return resolve(null);
+                  });
+                },
+              },
             });
             this.#bindEvents(this.codeMirror);
             this.dispatchEvent(new CustomEvent('loaded', {detail: {'cm': this.codeMirror}, bubbles: true}));
@@ -243,6 +288,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
       <style>@import url('${codemirrorDir}/theme/eclipse.css');</style>
       <style>@import url('${codemirrorDir}/theme/monokai.css');</style>
       <style>@import url('${codemirrorDir}/addon/display/fullscreen.css');</style>
+      <style>@import url('${codemirrorDir}/addon/hint/show-hint.css');</style>
       <container style="display:none">
         <div class="main"><textarea name="code"></textarea></div>
         <div class="mask"></div>
@@ -274,6 +320,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
         'selection/active-line.js',
         'display/fullscreen.js',
         'display/placeholder.js',
+        'hint/show-hint.js',
       ];
       let addonLoaded = 0;
       let addonCount = addon.length;

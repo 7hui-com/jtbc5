@@ -66,7 +66,7 @@
           <div class="sheet">
             <item class="skinny"><span class="tips">{$=$take('manage.text-file', 'lng')}&nbsp;${$filePath}</span></item>
             <item>
-              <div class="content"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="htmlmixed" value="${$data.content}" height="500"></jtbc-field-code-editor></div>
+              <div class="content"><jtbc-field-code-editor name="content" role="field" theme="monokai" mode="htmlmixed" value="${$data.content}" height="500" data-hint-base="{$=$htmlEncode($take('config.hint-base', 'lng'))}"></jtbc-field-code-editor></div>
             </item>
             <item>
               <div class="content">

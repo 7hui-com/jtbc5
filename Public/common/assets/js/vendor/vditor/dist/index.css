@@ -1,5 +1,5 @@
 /*!
- * Vditor v3.10.6 - A markdown editor written in TypeScript.
+ * Vditor v3.10.7 - A markdown editor written in TypeScript.
  *
  * MIT License
  *
@@ -25,7 +25,7 @@
  *
  */
 /*!
- * Vditor v3.10.6 - A markdown editor written in TypeScript.
+ * Vditor v3.10.7 - A markdown editor written in TypeScript.
  *
  * MIT License
  *
@@ -1050,6 +1050,7 @@
 .vditor-reset .language-mindmap,
 .vditor-reset .language-plantuml,
 .vditor-reset .language-mermaid,
+.vditor-reset .language-smiles,
 .vditor-reset .language-markmap,
 .vditor-reset .language-abc,
 .vditor-reset .language-flowchart,

@@ -1,0 +1,456 @@
+.preset_brief {
+  width: 100%; box-sizing: border-box; --preset-primary-color: #333333; --preset-secondary-color: #666666; --preset-border-color: #d1d1d1; --preset-gap: var(--page-gap, 20px)
+}
+.preset_brief[nickname=leo] {
+  container-type: inline-size; container-name: preset_brief_leo
+}
+.preset_brief[nickname=leo] div.brief {
+  width: 100%; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: space-between; border: var(--preset-border-color) 1px solid
+}
+.preset_brief[nickname=leo] div.brief div.image {
+  width: 40%
+}
+.preset_brief[nickname=leo] div.brief div.image img {
+  width: 100%; height: 100%; display: block; object-fit: cover
+}
+.preset_brief[nickname=leo] div.brief div.text {
+  flex: 1; box-sizing: border-box
+}
+.preset_brief[nickname=leo] div.brief div.text div.title {
+  padding: calc(var(--preset-gap) / 2) var(--preset-gap) 0px var(--preset-gap); font-size: 2.4rem; color: var(--preset-primary-color); line-height: 160%
+}
+.preset_brief[nickname=leo] div.brief div.text div.summary {
+  padding: var(--preset-gap); font-size: 1.4rem; color: var(--preset-secondary-color); line-height: 160%
+}
+.preset_brief[nickname=leo] div.brief.reverse {
+  flex-direction: row-reverse
+}
+.preset_brief[nickname=leo] div.brief.borderless {
+  border: 0px
+}
+.preset_brief[nickname=leo] div.brief.borderless div.title,
+.preset_brief[nickname=leo] div.brief.borderless div.summary {
+  padding-right: 0px
+}
+.preset_brief[nickname=leo] div.brief.borderless.reverse div.title,
+.preset_brief[nickname=leo] div.brief.borderless.reverse div.summary {
+  padding-left: 0px
+}
+.preset_figure {
+  width: 100%; box-sizing: border-box; --preset-color: rgba(0, 0, 0, 0.7); --preset-number-color: #333333; --preset-icon-color: #333333; --preset-gap: var(--page-gap, 20px); --preset-particular-font-family: Arial
+}
+.preset_figure[nickname=aria] {
+  container-type: inline-size; container-name: preset_figure_aria
+}
+.preset_figure[nickname=aria] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--preset-gap)
+}
+.preset_figure[nickname=aria] div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap)
+}
+.preset_figure[nickname=aria] div.items div.item div.icon {
+  width: 60px; margin: auto
+}
+.preset_figure[nickname=aria] div.items div.item div.icon jtbc-svg {
+  width: 60px; height: 60px; --fore-color: var(--preset-icon-color)
+}
+.preset_figure[nickname=aria] div.items div.item div.text {
+  width: 100%; padding-top: var(--preset-gap)
+}
+.preset_figure[nickname=aria] div.items div.item div.text div.number {
+  text-align: center
+}
+.preset_figure[nickname=aria] div.items div.item div.text div.number jtbc-count-up {
+  font-family: var(--preset-particular-font-family); font-size: 4rem; color: var(--preset-number-color)
+}
+.preset_figure[nickname=aria] div.items div.item div.text div.number em {
+  font-size: 1.4rem; font-style: normal; color: var(--preset-color); padding-left: 0.2rem
+}
+.preset_figure[nickname=aria] div.items div.item div.text div.summary {
+  font-size: 1.4rem; padding-top: calc(var(--preset-gap) / 4); color: var(--preset-color); text-align: center
+}
+.preset_links {
+  width: 100%; box-sizing: border-box; --preset-anchor-background: transparent; --preset-anchor-color: #333333; --preset-anchor-border: #333333 1px solid; --preset-anchor-hover-background: #000000; --preset-anchor-hover-color: #ffffff; --preset-anchor-hover-border: #333333 1px solid; --preset-gap: var(--page-gap, 20px)
+}
+.preset_links[nickname=liam] div.links {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: calc(var(--preset-gap) / 2)
+}
+.preset_links[nickname=liam] div.links a {
+  display: inline-block; padding: calc(var(--preset-gap) / 2) var(--preset-gap); font-size: 1.4rem; line-height: 100%; background: var(--preset-anchor-background); color: var(--preset-anchor-color); border: var(--preset-anchor-border); transition: all 0.3s ease
+}
+.preset_links[nickname=liam] div.links a:hover {
+  background: var(--preset-anchor-hover-background); color: var(--preset-anchor-hover-color); border: var(--preset-anchor-hover-border)
+}
+.preset_links[nickname=liam] div.links.left {
+  justify-content: flex-start
+}
+.preset_links[nickname=liam] div.links.right {
+  justify-content: flex-end
+}
+.preset_list {
+  width: 100%; box-sizing: border-box; --preset-primary-color: #333333; --preset-secondary-color: #666666; --preset-tertiary-color: #999999; --preset-anchor-color: #333333; --preset-anchor-hover-color: #000000; --preset-border-color: #d1d1d1; --preset-gap: var(--page-gap, 20px); --preset-particular-font-family: Arial
+}
+.preset_list[nickname=amelia] {
+  container-type: inline-size; container-name: preset_list_amelia
+}
+.preset_list[nickname=amelia] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(6, 1fr); padding: var(--preset-gap) 0px; gap: var(--preset-gap)
+}
+.preset_list[nickname=amelia] div.items div.item {
+  width: 100%; box-sizing: border-box; border: var(--preset-border-color) 1px solid; border-bottom: var(--preset-tertiary-color) 2px solid
+}
+.preset_list[nickname=amelia] div.items div.item div.image {
+  width: 100%; overflow: hidden
+}
+.preset_list[nickname=amelia] div.items div.item div.image img {
+  display: block; width: 100%; transition: all 0.3s ease
+}
+.preset_list[nickname=amelia] div.items div.item div.image:hover img {
+  transform: scale(1.1)
+}
+.preset_list[nickname=amelia] div.items div.item div.image img.static {
+  transition: none
+}
+.preset_list[nickname=amelia] div.items div.item div.image:hover img.static {
+  transform: none
+}
+.preset_list[nickname=amelia] div.items div.item div.title {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: calc(var(--preset-gap) / 2) var(--preset-gap); border-top: var(--preset-border-color) 1px solid; font-size: 1.4rem; color: var(--preset-anchor-color)
+}
+.preset_list[nickname=amelia] div.items div.item div.title.center {
+  justify-content: center
+}
+.preset_list[nickname=amelia] div.items div.item div.title a {
+  font-size: 1.4rem; color: var(--preset-anchor-color); display: block; padding-bottom: 0.2rem; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_list[nickname=amelia] div.items div.item div.title a:hover {
+  color: var(--preset-anchor-hover-color); border-bottom-color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=amelia] div.items div.item div.subtitle {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0px var(--preset-gap) calc(var(--preset-gap) / 2) var(--preset-gap); color: var(--preset-tertiary-color)
+}
+.preset_list[nickname=amelia] div.items div.item div.subtitle.center {
+  justify-content: center
+}
+.preset_list[nickname=amelia] div.items div.item div.summary {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap); padding-top: 0px; font-size: 1.2rem; color: var(--preset-secondary-color); line-height: 160%
+}
+.preset_list[nickname=amelia] div.items div.item.border1px {
+  border: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=amelia] div.items div.item.borderless {
+  border: 0px
+}
+.preset_list[nickname=amelia] div.items div.item.borderless div.title,
+.preset_list[nickname=amelia] div.items div.item.borderless div.subtitle {
+  border: 0px; padding-left: 0px; padding-right: 0px
+}
+.preset_list[nickname=amelia] div.items div.item.borderless div.summary {
+  padding: 0px
+}
+.preset_list[nickname=anna] {
+  container-type: inline-size; container-name: preset_list_anna
+}
+.preset_list[nickname=anna] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 1fr; padding: var(--preset-gap) 0px
+}
+.preset_list[nickname=anna] div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; border-bottom: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=anna] div.items div.item:last-of-type {
+  border-bottom: 0px
+}
+.preset_list[nickname=anna] div.items div.item div.date {
+  width: 180px
+}
+.preset_list[nickname=anna] div.items div.item div.date span {
+  display: block; font-family: var(--preset-particular-font-family); font-size: 4.8rem; line-height: 120%; color: var(--preset-primary-color); text-align: center
+}
+.preset_list[nickname=anna] div.items div.item div.date em {
+  display: block; font-style: normal; font-family: var(--preset-particular-font-family); font-size: 2.4rem; line-height: 160%; color: var(--preset-secondary-color); text-align: center
+}
+.preset_list[nickname=anna] div.items div.item div.date u {
+  text-decoration: none; font-family: var(--preset-particular-font-family); display: none; color: var(--preset-primary-color)
+}
+.preset_list[nickname=anna] div.items div.item div.image {
+  width: 220px
+}
+.preset_list[nickname=anna] div.items div.item div.image img {
+  display: block; width: 100%
+}
+.preset_list[nickname=anna] div.items div.item div.image + div.text {
+  padding-left: var(--preset-gap)
+}
+.preset_list[nickname=anna] div.items div.item div.text {
+  flex: 1; box-sizing: border-box
+}
+.preset_list[nickname=anna] div.items div.item div.text p.title {
+  width: 100%; padding-bottom: calc(var(--preset-gap) / 2)
+}
+.preset_list[nickname=anna] div.items div.item div.text p.title a {
+  display: inline-block; font-size: 1.6rem; color: var(--preset-anchor-color); line-height: 160%; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_list[nickname=anna] div.items div.item div.text p.title a:hover {
+  color: var(--preset-anchor-hover-color); border-color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=anna] div.items div.item div.text p.summary {
+  font-size: 1.4rem; color: var(--preset-secondary-color); line-height: 160%
+}
+.preset_list[nickname=bella] {
+  container-type: inline-size; container-name: preset_list_bella
+}
+.preset_list[nickname=bella] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(6, 1fr); padding: var(--preset-gap) 0px; gap: var(--preset-gap)
+}
+.preset_list[nickname=bella] div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap); border: var(--preset-border-color) 1px solid; border-bottom: var(--preset-tertiary-color) 2px solid; transition: all .3s ease
+}
+.preset_list[nickname=bella] div.items div.item div.date {
+  font-family: var(--preset-particular-font-family); font-size: 2.4rem; font-weight: bold; color: var(--preset-primary-color); line-height: 100%; padding-bottom: var(--preset-gap)
+}
+.preset_list[nickname=bella] div.items div.item div.title {
+  padding-bottom: calc(var(--preset-gap) * 1.5); position: relative
+}
+.preset_list[nickname=bella] div.items div.item div.title a {
+  display: block; color: var(--preset-anchor-color); font-size: 1.6rem; line-height: 160%
+}
+.preset_list[nickname=bella] div.items div.item div.title a:hover {
+  color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=bella] div.items div.item div.title::after {
+  content: ''; width: 50px; height: 2px; background: var(--preset-anchor-hover-color); position: absolute; bottom: var(--preset-gap); left: 0px; z-index: 100; transition: all 0.3s ease
+}
+.preset_list[nickname=bella] div.items div.item div.title:hover::after {
+  width: 100%
+}
+.preset_list[nickname=bella] div.items div.item div.summary {
+  font-size: 1.4rem; color: var(--preset-secondary-color); line-height: 160%
+}
+.preset_list[nickname=bella] div.items div.item.border1px {
+  border: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=bella] div.items div.item.borderless {
+  border: 0px; padding: 0px
+}
+.preset_list[nickname=emma] {
+  container-type: inline-size; container-name: preset_list_emma
+}
+.preset_list[nickname=emma] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); padding: var(--preset-gap) 0px; gap: var(--preset-gap)
+}
+.preset_list[nickname=emma] div.items div.item {
+  width: 100%; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; padding: var(--preset-gap); border: var(--preset-border-color) 1px solid; border-bottom: var(--preset-tertiary-color) 2px solid
+}
+.preset_list[nickname=emma] div.items div.item div.image {
+  width: 40%; overflow: hidden
+}
+.preset_list[nickname=emma] div.items div.item div.image img {
+  display: block; width: 100%; transition: all 0.3s ease
+}
+.preset_list[nickname=emma] div.items div.item div.image:hover img {
+  transform: scale(1.1)
+}
+.preset_list[nickname=emma] div.items div.item div.image img.static {
+  transition: none
+}
+.preset_list[nickname=emma] div.items div.item div.image:hover img.static {
+  transform: none
+}
+.preset_list[nickname=emma] div.items div.item div.text {
+  flex: 1; padding-left: var(--preset-gap)
+}
+.preset_list[nickname=emma] div.items div.item div.text div.title {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: calc(var(--preset-gap) / 2) 0px; font-size: 1.4rem; color: var(--preset-anchor-color)
+}
+.preset_list[nickname=emma] div.items div.item div.text div.title a {
+  font-size: 1.4rem; color: var(--preset-anchor-color); display: block; padding-bottom: 0.2rem; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_list[nickname=emma] div.items div.item div.text div.title a:hover {
+  color: var(--preset-anchor-hover-color); border-bottom-color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=emma] div.items div.item div.text div.subtitle {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding-bottom: calc(var(--preset-gap) / 2); color: var(--preset-tertiary-color)
+}
+.preset_list[nickname=emma] div.items div.item div.text div.summary {
+  width: 100%; box-sizing: border-box; font-size: 1.2rem; color: var(--preset-secondary-color); line-height: 160%; padding-top: calc(var(--preset-gap) / 2); border-top: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=emma] div.items div.item.border1px {
+  border: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=emma] div.items div.item.borderless {
+  border: 0px; padding: 0px
+}
+.preset_neighbor_links {
+  width: 100%; box-sizing: border-box; --preset-color: #333333; --preset-anchor-color: #333333; --preset-anchor-hover-color: #ff0000; --preset-empty-color: #999999; --preset-gap: var(--page-gap, 20px)
+}
+.preset_neighbor_links[nickname=ella] div.links {
+  width: 100%; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; padding: var(--preset-gap) 0px
+}
+.preset_neighbor_links[nickname=ella] div.links dl dt {
+  font-size: 1.4rem; padding-bottom: calc(var(--preset-gap) / 2); font-weight: bold; color: var(--preset-color)
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd a {
+  display: inline-flex; align-items: center; gap: calc(var(--preset-gap) / 4)
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd a span {
+  display: block; flex: 1; font-size: 1.4rem; color: var(--preset-anchor-color); padding: 0.2rem 0rem; line-height: 140%; border-top: transparent 1px dashed; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd a jtbc-svg {
+  display: block; width: 1.4rem; height: 1.4rem; --fore-color: var(--preset-anchor-color)
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd a:hover span {
+  color: var(--preset-anchor-hover-color); border-bottom-color: var(--preset-anchor-hover-color)
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd a:hover jtbc-svg {
+  --fore-color: var(--preset-anchor-hover-color)
+}
+.preset_neighbor_links[nickname=ella] div.links dl dd:empty::after {
+  content: attr(empty); font-size: 1.4rem; color: var(--preset-empty-color); padding: 0.2rem 0rem; line-height: 140%; border-top: transparent 1px dashed; border-bottom: transparent 1px dashed
+}
+.preset_neighbor_links[nickname=ella] div.links dl:last-child dt,
+.preset_neighbor_links[nickname=ella] div.links dl:last-child dd {
+  text-align: right
+}
+.preset_section {
+  width: 100%; box-sizing: border-box; --preset-primary-color: #333333; --preset-secondary-color: #666666; --preset-tertiary-color: rgba(0, 0, 0, 0.1); --preset-gap: var(--page-gap, 20px); --preset-particular-font-family: Arial
+}
+.preset_section[nickname=mia] {
+  container-type: inline-size; container-name: preset_section_mia
+}
+.preset_section[nickname=mia] div.title {
+  width: 100%; padding-bottom: var(--preset-gap)
+}
+.preset_section[nickname=mia] div.title h3 {
+  margin: 0px; padding: 0px; position: relative
+}
+.preset_section[nickname=mia] div.title h3 span {
+  display: block; font-size: 3.2rem; padding-bottom: 2.4rem; line-height: 120%; color: var(--preset-primary-color); font-weight: normal; text-align: center; position: relative; z-index: 200
+}
+.preset_section[nickname=mia] div.title h3 em {
+  font-family: var(--preset-particular-font-family); font-size: 2.4rem; color: var(--preset-tertiary-color); line-height: 120%; transform: translate(-50%, -50%); white-space: nowrap; font-style: normal; font-weight: lighter; position: absolute; left: 50%; bottom: 0px; z-index: 100
+}
+.preset_section[nickname=mia] div.title h3::before {
+  content: ''; display: block; width: 30px; height: 4px; background: var(--preset-primary-color); position: absolute; bottom: 0px; right: 50%; z-index: 300
+}
+.preset_section[nickname=mia] div.title h3::after {
+  content: ''; display: block; width: 30px; height: 4px; background: var(--preset-secondary-color); position: absolute; bottom: 0px; left: 50%; z-index: 300
+}
+@container preset_brief_leo (width <= 960px) {
+  .preset_brief[nickname=leo] div.brief div.image {
+    width: 100%
+  }
+  .preset_brief[nickname=leo] div.brief div.image img {
+    width: 100%; height: auto; object-fit: none
+  }
+  .preset_brief[nickname=leo] div.brief div.text {
+    width: 100%; padding: var(--preset-gap) 0px
+  }
+  .preset_brief[nickname=leo] div.brief.borderless div.title,
+  .preset_brief[nickname=leo] div.brief.borderless div.summary {
+    padding-left: 0px; padding-right: 0px
+  }
+}
+@container preset_figure_aria (width <= 960px) {
+  .preset_figure[nickname=aria] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_amelia (width <= 1680px) {
+  .preset_list[nickname=amelia] div.items {
+    grid-template-columns: repeat(5, 1fr)
+  }
+}
+@container preset_list_amelia (width <= 1440px) {
+  .preset_list[nickname=amelia] div.items {
+    grid-template-columns: repeat(4, 1fr)
+  }
+}
+@container preset_list_amelia (width <= 1280px) {
+  .preset_list[nickname=amelia] div.items {
+    grid-template-columns: repeat(3, 1fr)
+  }
+}
+@container preset_list_amelia (width <= 960px) {
+  .preset_list[nickname=amelia] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_amelia (width <= 640px) {
+  .preset_list[nickname=amelia] div.items {
+    grid-template-columns: repeat(1, 1fr)
+  }
+}
+@container preset_list_anna (width <= 960px) {
+  .preset_list[nickname=anna] div.items div.item div.date {
+    width: 100%
+  }
+  .preset_list[nickname=anna] div.items div.item div.date span {
+    display: none
+  }
+  .preset_list[nickname=anna] div.items div.item div.date em {
+    display: none
+  }
+  .preset_list[nickname=anna] div.items div.item div.date u {
+    display: block; padding-bottom: calc(var(--preset-gap) / 2); font-size: 2.4rem
+  }
+  .preset_list[nickname=anna] div.items div.item div.image {
+    width: 100%; padding-bottom: var(--preset-gap)
+  }
+  .preset_list[nickname=anna] div.items div.item div.image + div.text {
+    padding-left: 0px
+  }
+  .preset_list[nickname=anna] div.items div.item div.text {
+    width: 100%; padding: 0px
+  }
+}
+@container preset_list_bella (width <= 1920px) {
+  .preset_list[nickname=bella] div.items {
+    grid-template-columns: repeat(4, 1fr)
+  }
+}
+@container preset_list_bella (width <= 1440px) {
+  .preset_list[nickname=bella] div.items {
+    grid-template-columns: repeat(3, 1fr)
+  }
+}
+@container preset_list_bella (width <= 960px) {
+  .preset_list[nickname=bella] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_bella (width <= 640px) {
+  .preset_list[nickname=bella] div.items {
+    grid-template-columns: repeat(1, 1fr)
+  }
+}
+@container preset_list_emma (width <= 1920px) {
+  .preset_list[nickname=emma] div.items {
+    grid-template-columns: repeat(3, 1fr)
+  }
+}
+@container preset_list_emma (width <= 1440px) {
+  .preset_list[nickname=emma] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_emma (width <= 960px) {
+  .preset_list[nickname=emma] div.items {
+    grid-template-columns: repeat(1, 1fr)
+  }
+}
+@container preset_list_emma (width <= 640px) {
+  .preset_list[nickname=emma] div.items div.item div.image {
+    width: 100%
+  }
+  .preset_list[nickname=emma] div.items div.item div.text {
+    padding-left: 0px; padding-top: calc(var(--preset-gap) / 2)
+  }
+}
+@container preset_section_mia (width <= 640px) {
+  .preset_section[nickname=mia] div.title h3 span {
+    font-size: 2.6rem; padding-bottom: 2rem
+  }
+  .preset_section[nickname=mia] div.title h3 em {
+    font-size: 2rem
+  }
+}

@@ -1,125 +1,60 @@
 export default class scarousel extends HTMLElement {
   static get observedAttributes() {
-    return ['autoplay', 'loop', 'theme', 'gap'];
+    return ['breakpoints', 'gap'];
   };
 
-  #autoplay = false;
-  #loop = false;
-  #theme = 'default';
+  #breakpoints = {
+    640: { perView : 1 },
+    960: { perView : 2 },
+    1280: { perView : 3 },
+  };
   #gap = 20;
   #slidesCount = 0;
 
   get autoplay() {
-    return this.#autoplay;
+    let result = false;
+    if (this.hasAttribute('autoplay') && this.getAttribute('autoplay') != 'false')
+    {
+      result = true;
+    };
+    return result;
   };
 
-  get loop() {
-    return this.#loop;
-  };
-
-  get theme() {
-    return this.#theme;
+  get breakpoints() {
+    return this.#breakpoints;
   };
 
   get gap() {
     return this.#gap;
   };
 
-  set autoplay(autoplay) {
-    this.#autoplay = autoplay == null? false: true;
-  };
-
-  set loop(loop) {
-    this.#loop = loop == null? false: true;
-  };
-
-  set theme(theme) {
-    this.#theme = theme;
-    this.container.querySelector('div.box')?.setAttribute('theme', theme);
+  set breakpoints(breakpoints) {
+    try
+    {
+      this.#breakpoints = JSON.parse(breakpoints);
+    }
+    catch(e)
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   set gap(gap) {
     this.#gap = isFinite(gap)? Number.parseInt(gap): 20;
   };
 
-  #getSwiperParam() {
+  #getParam() {
     let result = {
-      slidesPerView: 1,
-      spaceBetween: this.#gap,
-      breakpointsBase: 'container',
-      breakpoints: {
-        640: {
-          slidesPerView : 2,
-        },
-        960: {
-          slidesPerView : 3,
-        },
-        1280: {
-          slidesPerView : 4,
-        },
-        1600: {
-          slidesPerView : 5,
-        },
-        1920: {
-          slidesPerView : 6,
-        },
-        2240: {
-          slidesPerView : 7,
-        },
-        2560: {
-          slidesPerView : 8,
-        },
-        2880: {
-          slidesPerView : 9,
-        },
-        3200: {
-          slidesPerView : 10,
-        },
-      },
+      type: 'carousel',
+      perView: 4,
+      gap: this.gap,
+      breakpoints: this.breakpoints,
     };
     if (this.autoplay === true)
     {
-      result.autoplay = {'delay': 5000};
-    };
-    if (this.loop === true)
-    {
-      result.loop = true;
+      result.autoplay = 5000;
     };
     return result;
-  };
-
-  #initButtons(instance) {
-    let container = this.container;
-    let buttonPrev = container.querySelector('div.button-prev');
-    let buttonNext = container.querySelector('div.button-next');
-    if (buttonPrev != null && buttonNext != null)
-    {
-      container.classList.add('on');
-      let slidesCount = this.#slidesCount;
-      if (slidesCount <= 1)
-      {
-        buttonPrev.classList.add('hide');
-        buttonNext.classList.add('hide');
-      }
-      else
-      {
-        buttonPrev.classList.remove('hide');
-        buttonNext.classList.remove('hide');
-        const buttonStatusReset = (isBeginning, isEnd) => {
-          buttonPrev.classList.remove('disabled');
-          buttonNext.classList.remove('disabled');
-          if (this.loop != true)
-          {
-            buttonPrev.classList.toggle('disabled', isBeginning);
-            buttonNext.classList.toggle('disabled', isEnd);
-          };
-        };
-        buttonStatusReset(true, false);
-        instance.on('slideChangeTransitionEnd', swiper => buttonStatusReset(swiper.isBeginning, swiper.isEnd));
-        buttonPrev.addEventListener('click', e => instance.slidePrev());
-        buttonNext.addEventListener('click', e => instance.slideNext());
-      };
-    };
   };
 
   #initObserver() {
@@ -134,38 +69,46 @@ export default class scarousel extends HTMLElement {
 
   render() {
     let container = this.container;
-    let box = container.querySelector('div.box').empty();
+    let el = container.querySelector('div.box').empty();
     let xCarousel = this.querySelector('carousel');
     if (xCarousel != null)
     {
       this.#slidesCount = 0;
-      let swiper = document.createElement('jtbc-swiper');
+      let glide = document.createElement('jtbc-glide');
       let div = document.createElement('div');
-      let wrapper = document.createElement('div');
+      let track = document.createElement('div');
+      let slides = document.createElement('div');
+      let controls = document.createElement('div');
       let jButtonPrev = document.createElement('div');
       let tButtonPrevSvg = document.createElement('jtbc-svg');
       let bButtonNext = document.createElement('div');
       let cButtonNextSvg = document.createElement('jtbc-svg');
-      div.classList.add('swiper');
-      wrapper.classList.add('swiper-wrapper');
+      div.classList.add('glide');
+      track.classList.add('glide__track');
+      track.setAttribute('data-glide-el', 'track');
+      slides.classList.add('glide__slides');
+      controls.setAttribute('data-glide-el', 'controls');
       jButtonPrev.classList.add('button');
       jButtonPrev.classList.add('button-prev');
+      jButtonPrev.setAttribute('data-glide-dir', '<');
       jButtonPrev.setAttribute('part', 'button-prev');
       tButtonPrevSvg.setAttribute('name', 'arrow_left');
       tButtonPrevSvg.setAttribute('part', 'button-prev-svg');
       jButtonPrev.append(tButtonPrevSvg);
       bButtonNext.classList.add('button');
       bButtonNext.classList.add('button-next');
+      bButtonNext.setAttribute('data-glide-dir', '>');
       bButtonNext.setAttribute('part', 'button-next');
       cButtonNextSvg.setAttribute('name', 'arrow_right');
       cButtonNextSvg.setAttribute('part', 'button-next-svg');
       bButtonNext.append(cButtonNextSvg);
+      controls.append(jButtonPrev, bButtonNext);
       xCarousel.getDirectChildrenByTagName('item').forEach(item => {
         this.#slidesCount ++;
         let contentItems = [];
         let slide = document.createElement('div');
         let content = document.createElement('div');
-        slide.classList.add('swiper-slide');
+        slide.classList.add('glide__slide');
         content.classList.add('content');
         content.setAttribute('part', 'content');
         if (item.hasAttribute('image'))
@@ -235,33 +178,23 @@ export default class scarousel extends HTMLElement {
           content.append(contentWrap);
         };
         slide.append(content);
-        wrapper.append(slide);
+        slides.append(slide);
       });
-      div.append(wrapper, jButtonPrev, bButtonNext);
-      swiper.append(div);
-      swiper.setAttribute('param', JSON.stringify(this.#getSwiperParam()));
-      swiper.addEventListener('inited', e => this.#initButtons(e.detail.instance));
-      box.append(swiper);
-      box.loadComponents();
+      track.append(slides);
+      div.append(track, controls);
+      glide.append(div);
+      glide.setAttribute('param', JSON.stringify(this.#getParam()));
+      el.append(glide);
+      el.loadComponents();
     };
     this.dispatchEvent(new CustomEvent('renderend'));
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
-      case 'autoplay':
+      case 'breakpoints':
       {
-        this.autoplay = newVal
-        break;
-      };
-      case 'loop':
-      {
-        this.loop = newVal
-        break;
-      };
-      case 'theme':
-      {
-        this.theme = newVal;
+        this.breakpoints = newVal;
         break;
       };
       case 'gap':
@@ -273,9 +206,11 @@ export default class scarousel extends HTMLElement {
   };
 
   connectedCallback() {
-    this.ready = true;
-    this.render();
-    this.#initObserver();
+    checkComputedStyle(this.container, 'display', 'block').then(() => {
+      this.render();
+      this.ready = true;
+      this.#initObserver();
+    });
   };
 
   disconnectedCallback() {
@@ -289,7 +224,7 @@ export default class scarousel extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
-        <div class="box" theme="default"></div>
+        <div part="container-box" class="box"></div>
       </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
