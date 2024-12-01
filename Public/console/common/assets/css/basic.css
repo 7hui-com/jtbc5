@@ -46,6 +46,9 @@ icons jtbc-svg:hover {
 .filegroup[filegroup='4'] {
   background: #5b0233
 }
+.filegroup[filegroup='5'] {
+  background: #9b0909
+}
 .highlight {
   display: inline-block; line-height: 100%; padding: 4px; background: #000000; color: #ffffff
 }

@@ -1,8 +1,14 @@
 :host {
-  display: none; --error-border-left: #e7505a 5px solid; --no-error-border-left: #336633 5px solid; --background: #ececec; --margin: 0px 0px 20px 0px; --padding: 0px 20px 0px 0px; --font-size: 14px; --line-height: 26px
+  display: block; --error-border-left: #e7505a 5px solid; --no-error-border-left: #336633 5px solid; --background: #ececec; --margin: 0px 0px 20px 0px; --padding: 0px 20px 0px 0px; --font-size: 14px; --line-height: 26px
 }
-:host(.on) {
+container {
+  display: none; transition: all 0.3s ease
+}
+container.on {
   display: inline-block
+}
+container.on.out {
+  opacity: 0
 }
 container ul {
   margin: var(--margin); padding: var(--padding); font-size: var(--font-size); background: var(--background)

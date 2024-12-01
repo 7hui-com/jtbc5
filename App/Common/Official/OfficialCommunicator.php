@@ -64,7 +64,7 @@ class OfficialCommunicator
     $this -> data -> {$name} = $value;
   }
 
-  public function __construct(int $argAppId = null, string $argAppSecret = null)
+  public function __construct(?int $argAppId = null, ?string $argAppSecret = null)
   {
     $this -> appId = $argAppId;
     $this -> appSecret = $argAppSecret;

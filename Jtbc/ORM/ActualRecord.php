@@ -32,7 +32,7 @@ class ActualRecord extends ArrayIterator implements JsonSerializable
     return is_null($this -> callback)? parent::current(): call_user_func($this -> callback, parent::current());
   }
 
-  public function __construct($argArray, callable $callback = null)
+  public function __construct($argArray, ?callable $callback = null)
   {
     parent::__construct($argArray);
     $this -> callback = $callback;

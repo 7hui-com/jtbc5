@@ -9,7 +9,7 @@ use Jtbc\Validation;
 
 class FieldNameHelper
 {
-  public static function getFieldText(string $argFieldName, string $argGenre = null)
+  public static function getFieldText(string $argFieldName, ?string $argGenre = null)
   {
     $result = null;
     $fieldName = $argFieldName;

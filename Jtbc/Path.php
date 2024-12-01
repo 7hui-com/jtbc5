@@ -126,7 +126,7 @@ class Path
     return implode('\\', $folders);
   }
 
-  public static function getRuntimeDirectory(string $argSubFolder = null)
+  public static function getRuntimeDirectory(?string $argSubFolder = null)
   {
     $subFolder = $argSubFolder;
     $path = '../' . (defined('JTBC_RUNTIME_DIRECTORY')? constant('JTBC_RUNTIME_DIRECTORY'): 'Runtime');

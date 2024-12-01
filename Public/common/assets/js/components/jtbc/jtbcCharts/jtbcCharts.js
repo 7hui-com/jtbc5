@@ -9,6 +9,10 @@ export default class jtbcCharts extends HTMLElement {
   #inited = false;
   instance = null;
 
+  get option() {
+    return this.#option;
+  };
+
   set option(option) {
     this.#option = option;
     if (this.instance != null)
@@ -17,21 +21,17 @@ export default class jtbcCharts extends HTMLElement {
     };
   };
 
-  #isCSSLoaded() {
-    return getComputedStyle(this.container).getPropertyValue('display') == 'none'? false: true;
-  };
-
   async #init() {
+    let container = this.container;
     if (this.#inited === false)
     {
       this.#inited = true;
       let option = this.#option;
-      while (!this.#isCSSLoaded())
-      {
-        await nap(100);
-      };
-      this.instance = echarts.init(this.container);
+      await checkComputedStyle(container, 'display', 'block');
+      this.instance = echarts.init(container);
       this.instance.setOption(option instanceof Object? option: JSON.parse(option));
+      this.resizeObserver = new ResizeObserver(entries => this.instance.resize());
+      this.resizeObserver.observe(this);
     };
     return this;
   };
@@ -59,6 +59,10 @@ export default class jtbcCharts extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.#init().then(el => el.dispatchEvent(new CustomEvent('inited', {bubbles: true})));
+  };
+
+  disconnectedCallback() {
+    this.resizeObserver?.disconnect();
   };
 
   constructor() {

@@ -27,12 +27,20 @@
       <zh-cn><![CDATA[模块基本设置]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-search-placeholder]]></name>
+      <zh-cn><![CDATA[关键词筛选]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-tips-config]]></name>
       <zh-cn><![CDATA[模块名不可直接修改，如确实需要变更，可在了解变更后影响的前提下手动维护源码目录]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-submit-config]]></name>
       <zh-cn><![CDATA[保存设置]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-code-4000]]></name>
+      <zh-cn><![CDATA[字段类型和格式校验不能为空]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-code-4001]]></name>

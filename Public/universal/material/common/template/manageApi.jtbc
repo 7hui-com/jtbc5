@@ -14,7 +14,7 @@
   <div class="tinyForm">
     <div class="materialExplorer hide" baseurl="{$>this.genre}/manageApi" updateurl="{$>this.genre}/manageApi?action=updateHot">
       <div class="top">
-        <div class="tab"><tabtitle class="on" value="-1">{$=$take('manage.text-explorer-tab-0', 'lng')}</tabtitle><tabtitle value="1">{$=$take('manage.text-explorer-tab-1', 'lng')}</tabtitle><tabtitle value="2">{$=$take('manage.text-explorer-tab-2', 'lng')}</tabtitle><tabtitle value="3">{$=$take('manage.text-explorer-tab-3', 'lng')}</tabtitle><tabtitle value="4">{$=$take('manage.text-explorer-tab-4', 'lng')}</tabtitle><tabtitle value="0">{$=$take('manage.text-explorer-tab-100', 'lng')}</tabtitle></div>
+        <div class="tab"><tabtitle class="on" value="-1">{$=$take('manage.text-explorer-tab-0', 'lng')}</tabtitle><tabtitle value="1">{$=$take('manage.text-explorer-tab-1', 'lng')}</tabtitle><tabtitle value="2">{$=$take('manage.text-explorer-tab-2', 'lng')}</tabtitle><tabtitle value="3">{$=$take('manage.text-explorer-tab-3', 'lng')}</tabtitle><tabtitle value="4">{$=$take('manage.text-explorer-tab-4', 'lng')}</tabtitle><tabtitle value="5">{$=$take('manage.text-explorer-tab-5', 'lng')}</tabtitle><tabtitle value="0">{$=$take('manage.text-explorer-tab-100', 'lng')}</tabtitle></div>
         <div class="bar">
           <span><input type="text" name="keyword" class="keyword" autocomplete="off" placeholder="{$=$take('manage.text-explorer-keyword', 'lng')}" /></span>
           <span class="order"><em>{$=$take('manage.text-explorer-order-hot', 'lng')}</em><jtbc-svg name="order_desc"></jtbc-svg><dl><dd value="hot">{$=$take('manage.text-explorer-order-hot', 'lng')}</dd><dd value="new">{$=$take('manage.text-explorer-order-new', 'lng')}</dd></dl></span>

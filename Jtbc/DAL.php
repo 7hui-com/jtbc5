@@ -121,7 +121,7 @@ class DAL
     $this -> SQLBuilder -> {$name} = $value;
   }
 
-  public function __construct(string $argTable, string $argDBLink = null, bool $argAutoFilter = true)
+  public function __construct(string $argTable, ?string $argDBLink = null, bool $argAutoFilter = true)
   {
     $table = $argTable;
     $DBLink = $argDBLink;

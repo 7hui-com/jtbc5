@@ -1,14 +1,23 @@
 .ppSetting {
-  width: 640px
+  width: 680px
+}
+.ppSetting div.mainFrom {
+  min-height: 360px
+}
+.ppSetting div.mainFrom > ul {
+  position: relative; z-index: 100
 }
 .ppSetting div.additional {
-  width: 100%; box-sizing: border-box; margin: 0px auto; padding: 0px 20px 20px 20px
+  width: 100%; box-sizing: border-box; margin: 0px auto; padding: 0px 20px 20px 20px; position: relative; z-index: 50
 }
 .ppSetting div.additional fieldset {
   display: block; min-width: inherit; margin: 0px; padding: 0px; border: #d1d1d1 1px solid; border-radius: 5px
 }
 .ppSetting div.additional fieldset legend {
   margin-left: 20px; padding: 0 10px; font-size: 14px; color: #333333
+}
+.ppSetting jtbc-field-selector.selector {
+  position: relative; z-index: 50; --options-max-height: 200px
 }
 .ppSettingConfig {
   width: 550px; margin: 0px auto; max-height: 400px; overflow-y: scroll

@@ -15,7 +15,7 @@ abstract class Uploader
   protected $genre = null;
   public $scene = null;
 
-  protected function checkFile(chunkFile $chunkFile, string $argTargetPath = null)
+  protected function checkFile(chunkFile $chunkFile, ?string $argTargetPath = null)
   {
     $code = 0;
     $vars = [];

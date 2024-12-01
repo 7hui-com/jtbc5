@@ -12,7 +12,7 @@ class Guide
     return $moduleFinder -> getModules();
   }
 
-  public static function getAllGenreTitle(array $argGenreArr = null)
+  public static function getAllGenreTitle(?array $argGenreArr = null)
   {
     $result = [];
     $genreArr = $argGenreArr ?? self::getAllGenre();
@@ -59,7 +59,7 @@ class Guide
     return $result;
   }
 
-  public static function getFirstValidGenre(array $argGenreArr = null)
+  public static function getFirstValidGenre(?array $argGenreArr = null)
   {
     $result = null;
     $genreArr = $argGenreArr ?? self::getAllGenre();

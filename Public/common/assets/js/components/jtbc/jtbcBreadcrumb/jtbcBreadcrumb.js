@@ -20,9 +20,12 @@ export default class jtbcBreadcrumb extends HTMLElement {
       {
         this.#data = currentData;
         this.render();
-      }
+      };
     }
-    catch(e) { console.log(e.message); };
+    catch(e)
+    {
+      throw new Error('Unexpected value');
+    };
   };
 
   render() {

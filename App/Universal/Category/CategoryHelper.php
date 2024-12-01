@@ -4,7 +4,7 @@ use Jtbc\Env;
 
 class CategoryHelper
 {
-  public static function getFamily(string $argGenre, int $argFatherId, bool $argIncludeSelf = true, int $argLang = null, int $argPublished = null)
+  public static function getFamily(string $argGenre, int $argFatherId, bool $argIncludeSelf = true, ?int $argLang = null, ?int $argPublished = null)
   {
     $genre = $argGenre;
     $fatherId = $argFatherId;
@@ -15,7 +15,7 @@ class CategoryHelper
     return $category -> getChildIdById($fatherId, $includeSelf);
   }
 
-  public static function getIdByTitle(string $argGenre, string $argTitle, int $argLang = null, int $argPublished = null)
+  public static function getIdByTitle(string $argGenre, string $argTitle, ?int $argLang = null, ?int $argPublished = null)
   {
     $result = null;
     $genre = $argGenre;
@@ -37,7 +37,7 @@ class CategoryHelper
     return $result;
   }
 
-  public static function getNearestFatherId(string $argGenre, int $argId, int $argLang = null, int $argPublished = null)
+  public static function getNearestFatherId(string $argGenre, int $argId, ?int $argLang = null, ?int $argPublished = null)
   {
     $id = $argId;
     $genre = $argGenre;
@@ -48,7 +48,7 @@ class CategoryHelper
     return empty($children)? intval(self::getRecordById($genre, $id, 'father_id', $lang, $published)): $id;
   }
 
-  public static function getRecordById(string $argGenre, int $argId, string $argFieldName = null, int $argLang = null, int $argPublished = null)
+  public static function getRecordById(string $argGenre, int $argId, ?string $argFieldName = null, ?int $argLang = null, ?int $argPublished = null)
   {
     $id = $argId;
     $genre = $argGenre;
@@ -59,7 +59,7 @@ class CategoryHelper
     return $category -> getRecordById($id, $fieldName);
   }
 
-  public static function getTitleById(string $argGenre, int $argId, int $argLang = null, int $argPublished = null)
+  public static function getTitleById(string $argGenre, int $argId, ?int $argLang = null, ?int $argPublished = null)
   {
     return strval(self::getRecordById($argGenre, $argId, 'title', $argLang, $argPublished));
   }

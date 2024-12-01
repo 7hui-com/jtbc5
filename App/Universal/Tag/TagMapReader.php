@@ -5,7 +5,7 @@ class TagMapReader
 {
   private $genre;
 
-  public function getList(int $argAssociatedId = null, int $argStatus = null)
+  public function getList(?int $argAssociatedId = null, ?int $argStatus = null)
   {
     $status = $argStatus;
     $associatedId = $argAssociatedId;

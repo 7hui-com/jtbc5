@@ -8,15 +8,19 @@
   <item_list>
     <item>
       <name><![CDATA[1]]></name>
-      <zh-cn><![CDATA[单行文本]]></zh-cn>
+      <zh-cn><![CDATA[文本]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[2]]></name>
-      <zh-cn><![CDATA[单张图片]]></zh-cn>
+      <zh-cn><![CDATA[图片]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[3]]></name>
       <zh-cn><![CDATA[多行文本]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[8]]></name>
+      <zh-cn><![CDATA[区块]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[4]]></name>

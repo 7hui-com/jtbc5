@@ -35,6 +35,10 @@
       <zh-cn><![CDATA[请输入关键字]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[enter-text-here]]></name>
+      <zh-cn><![CDATA[在此处输入文本]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[files-list]]></name>
       <zh-cn><![CDATA[文件列表]]></zh-cn>
     </item>

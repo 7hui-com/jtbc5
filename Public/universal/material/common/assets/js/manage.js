@@ -28,6 +28,21 @@ export default class manage {
           that.dialog.alert(scarf.getAttribute('data-tips-previewer'), null, null, fileurl);
         };
       });
+      scarf.delegateEventListener('span.copy', 'click', function(){
+        let self = this;
+        if (navigator.clipboard == undefined)
+        {
+          that.miniMessage.push(self.getAttribute('message-failed'));
+        }
+        else
+        {
+          navigator.clipboard.writeText(self.getAttribute('fileurl')).then(function(){
+            that.miniMessage.push(self.getAttribute('message-succeed'));
+          }, function(){
+            that.miniMessage.push(self.getAttribute('message-failed'));
+          });
+        };
+      });
       scarf.delegateEventListener('button.add', 'click', function(){
         this.parentNode.querySelector('input.file').click();
       });

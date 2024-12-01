@@ -6,7 +6,7 @@ use Jtbc\Substance;
 
 class XMLOutputter
 {
-  public static function output(int $argCode, string $argMessage = null, array $argData = null)
+  public static function output(int $argCode, ?string $argMessage = null, ?array $argData = null)
   {
     $code = $argCode;
     $message = $argMessage;

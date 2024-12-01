@@ -45,7 +45,7 @@ class Template
     }
   }
 
-  public function assign(array $argVars, callable $loopCallBack = null)
+  public function assign(array $argVars, ?callable $loopCallBack = null)
   {
     $vars = $argVars;
     foreach ($vars as $item)
@@ -55,7 +55,7 @@ class Template
     return $this;
   }
 
-  public function insertLoopGroupLine(array $argData, callable $loopCallBack = null)
+  public function insertLoopGroupLine(array $argData, ?callable $loopCallBack = null)
   {
     $data = $argData;
     $placeHolderIndex = $this -> placeHolderIndex;
@@ -95,7 +95,7 @@ class Template
     return $this;
   }
 
-  public function getResult(callable $templateParser = null)
+  public function getResult(?callable $templateParser = null)
   {
     $placeHolderIndex = $this -> placeHolderIndex;
     $result = is_null($templateParser)? $this -> template: $templateParser($this -> template);

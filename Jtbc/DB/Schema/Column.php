@@ -42,7 +42,7 @@ class Column
     $this -> comment = $argComment;
   }
 
-  public function setDataType(string $argDataType, int $argSize = null)
+  public function setDataType(string $argDataType, ?int $argSize = null)
   {
     $dataType = $argDataType;
     $size = $argSize;

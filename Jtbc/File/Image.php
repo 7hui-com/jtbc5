@@ -27,7 +27,7 @@ class Image
     return $this -> imageType;
   }
 
-  public function watermarkText(string $argText, string $argTTFFilePath, int $argFontSize = 14, int $argOrigin = 0, int $argX = null, int $argY = null, array $argColorRGBA = null)
+  public function watermarkText(string $argText, string $argTTFFilePath, int $argFontSize = 14, int $argOrigin = 0, ?int $argX = null, ?int $argY = null, ?array $argColorRGBA = null)
   {
     $bool = true;
     $x = $y = 20;
@@ -93,7 +93,7 @@ class Image
     return $bool;
   }
 
-  public function watermarkImage(string $argImageFileName, int $argOrigin = 0, int $argX = null, int $argY = null, int $argOpacity = 100)
+  public function watermarkImage(string $argImageFileName, int $argOrigin = 0, ?int $argX = null, ?int $argY = null, int $argOpacity = 100)
   {
     $bool = true;
     $x = $y = 20;

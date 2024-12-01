@@ -23,10 +23,24 @@ export default class manageSetting {
         selectedOption.classList.remove('hidden');
       };
     });
-    popup.querySelector('select[name=comment_type]').addEventListener('change', function(){
+    popup.querySelector('jtbc-field-selector[name=comment_type]').addEventListener('selected', function(){
       this.disabled = true;
       let currentType = this.value;
-      let currentText = this.options[this.selectedIndex].text;
+      const getTextByType = type => {
+        let result = '';
+        let options = JSON.parse(this.getAttribute('data'));
+        if (Array.isArray(options))
+        {
+          options.forEach(option => {
+            if (option.value == type)
+            {
+              result = option.text;
+            };
+          });
+        };
+        return result;
+      };
+      let currentText = getTextByType(currentType);
       let nodeMap = {
         'attachment': 7,
         'cascader': 4,
@@ -36,6 +50,7 @@ export default class manageSetting {
         'datetime': 10,
         'flat-selector': 4,
         'input-with-datalist': 4,
+        'input-with-select': 4,
         'linkage-selector': 4,
         'location-picker': 9,
         'mix': 2,

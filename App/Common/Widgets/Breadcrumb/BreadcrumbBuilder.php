@@ -12,7 +12,7 @@ class BreadcrumbBuilder
   private $genre;
   private $pocket = [];
 
-  public function add(string $argText, string $argHref = null)
+  public function add(string $argText, ?string $argHref = null)
   {
     $text = $argText;
     $href = $argHref;

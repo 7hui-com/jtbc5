@@ -322,6 +322,14 @@ div.list div.content h6,
 div.detail div.content h6 {
   padding: 0.6rem 0rem
 }
+div.list div.content a,
+div.detail div.content a {
+  color: #5b9dd9; text-decoration: underline
+}
+div.list div.content a:hover,
+div.detail div.content a:hover {
+  color: #e7505a; text-decoration: underline
+}
 div.list div.content p,
 div.detail div.content p {
   margin: 0px; padding: 1rem 0px

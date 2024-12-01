@@ -27,7 +27,7 @@ class Permission
     return $result;
   }
 
-  public function hasPermission(string $argItemName, string $argSubOrSegmentName = null, string $argSegmentKey = null)
+  public function hasPermission(string $argItemName, ?string $argSubOrSegmentName = null, ?string $argSegmentKey = null)
   {
     $result = false;
     $itemName = $argItemName;

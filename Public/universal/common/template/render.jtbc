@@ -35,6 +35,10 @@
       <default><![CDATA[{$value}]]></default>
     </item>
     <item>
+      <name><![CDATA[value-block]]></name>
+      <default><![CDATA[<jtbc-block-viewer value="{$value}"></jtbc-block-viewer>]]></default>
+    </item>
+    <item>
       <name><![CDATA[value-img]]></name>
       <default><![CDATA[<img src="{$=$htmlEncode($getValueFromJSON(#value, 'fileurl'))}" alt="{$name}" />]]></default>
     </item>

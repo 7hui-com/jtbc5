@@ -273,7 +273,7 @@ class Validator
     return $result;
   }
 
-  public function __construct(array $argTableInfo, Substance $validationRules = null)
+  public function __construct(array $argTableInfo, ?Substance $validationRules = null)
   {
     $this -> tableInfo = $argTableInfo;
     $this -> validationRules = $validationRules ?? new Substance();

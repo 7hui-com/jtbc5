@@ -6,7 +6,7 @@ namespace Jtbc\DAL;
 
 class FieldsHelper
 {
-  public static function getMaxLengthOfStringFields(int $argVarcharLength = null)
+  public static function getMaxLengthOfStringFields(?int $argVarcharLength = null)
   {
     return [
       'text' => 20000,
@@ -27,7 +27,7 @@ class FieldsHelper
     ];
   }
 
-  public static function isOutOfLength(string $argFieldType, int $argStringLength, int $argVarcharLength = null)
+  public static function isOutOfLength(string $argFieldType, int $argStringLength, ?int $argVarcharLength = null)
   {
     $result = false;
     $fieldType = $argFieldType;

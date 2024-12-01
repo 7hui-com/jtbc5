@@ -2,7 +2,7 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcFieldUpload extends HTMLElement {
   static get observedAttributes() {
-    return ['text-upload', 'action', 'value', 'disabled', 'placeholder', 'tail', 'width'];
+    return ['text-upload', 'action', 'accept', 'value', 'disabled', 'placeholder', 'tail', 'width'];
   };
 
   #disabled = false;
@@ -208,6 +208,11 @@ export default class jtbcFieldUpload extends HTMLElement {
       case 'action':
       {
         this.action = newVal;
+        break;
+      };
+      case 'accept':
+      {
+        this.container.querySelector('input.file')?.setAttribute('accept', newVal);
         break;
       };
       case 'value':

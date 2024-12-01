@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<title></title>
+<link type="text/css" rel="stylesheet" href="editor.css" />
+</head>
+<body>
+<div class="editor"></div>
+<div class="dialog"></div>
+<jtbc-mini-message id="miniMessage" class="miniMessage"></jtbc-mini-message>
+<script type="module">
+import jtbc from '../../../jtbc.js';
+import EditorJS from '../../../vendor/editorjs/editorjs.esm.min.js';
+import Paragraph from '../../../vendor/editorjs/plugins/paragraph/paragraph.esm.min.js';
+import Header from '../../../vendor/editorjs/plugins/header/header.esm.min.js';
+import List from '../../../vendor/editorjs/plugins/list/nested-list.esm.min.js';
+import Table from '../../../vendor/editorjs/plugins/table/table.esm.min.js';
+import Underline from '../../../vendor/editorjs/plugins/underline/underline.esm.min.js';
+import Strikethrough from '../../../vendor/editorjs/plugins/strikethrough/strikethrough.esm.min.js';
+import InlineCode from '../../../vendor/editorjs/plugins/inline-code/inline-code.esm.min.js';
+import Marker from '../../../vendor/editorjs/plugins/marker/marker.esm.min.js';
+window.jtbc = new jtbc();
+window.editorjs = {
+  'main': EditorJS,
+  'plugins': {
+    'paragraph': Paragraph,
+    'header': Header,
+    'list': List,
+    'table': Table,
+    'underline': Underline,
+    'strikethrough': Strikethrough,
+    'inlineCode': InlineCode,
+    'marker': Marker,
+  },
+};
+</script>
+</body>
+</html>

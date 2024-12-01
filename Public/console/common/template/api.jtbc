@@ -17,7 +17,7 @@
           <em><jtbc-svg name="person"></jtbc-svg></em><input is="jtbc-input" type="text" role="field" name="username" class="username" placeholder="{$=$take('universal:config.username', 'lng')}" />
         </div>
         <div class="field">
-          <em><jtbc-svg name="lock"></jtbc-svg></em><input is="jtbc-input" type="password" role="field" name="password" class="password" placeholder="{$=$take('universal:config.password', 'lng')}" />
+          <em><jtbc-svg name="lock"></jtbc-svg></em><input is="jtbc-input" type="password" role="field" name="password" class="password" autocomplete="current-password" placeholder="{$=$take('universal:config.password', 'lng')}" />
         </div>{$=implode($call_hook('backstageLoginFormSlot') ?? [])}
         <div class="button"><label class="checkbox"><input type="checkbox" role="field" name="remember" value="1" /><span>{$=$take('api.remember', 'lng')}</span></label><button role="submit" class="b1" loading="{$=$take('api.logining', 'lng')}">{$=$take('universal:config.login', 'lng')}</button></div>
       </form>

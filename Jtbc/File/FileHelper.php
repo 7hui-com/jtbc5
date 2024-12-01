@@ -39,6 +39,10 @@ class FileHelper
     {
       $fileGroup = 4;
     }
+    else if (in_array($fileType, ['mp3', 'wav']))
+    {
+      $fileGroup = 5;
+    }
     return $fileGroup;
   }
 }

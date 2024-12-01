@@ -1,7 +1,7 @@
 <?php
 ob_start();
 set_time_limit(900);
-error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+error_reporting(E_ALL & ~E_DEPRECATED);
 date_default_timezone_set('Asia/Shanghai');
 spl_autoload_register(function($class) {
   $root = realpath(__DIR__ . '/../');

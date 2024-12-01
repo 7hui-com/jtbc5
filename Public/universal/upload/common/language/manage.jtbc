@@ -34,5 +34,17 @@
       <name><![CDATA[text-tips-list-null]]></name>
       <zh-cn><![CDATA[当前条件下没有找到任何上传]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[text-copy-fileurl]]></name>
+      <zh-cn><![CDATA[复制网址]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-message-copy-succeed]]></name>
+      <zh-cn><![CDATA[复制成功]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-message-copy-failed]]></name>
+      <zh-cn><![CDATA[复制失败]]></zh-cn>
+    </item>
   </item_list>
 </xml>

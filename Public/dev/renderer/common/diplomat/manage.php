@@ -337,7 +337,7 @@ class Diplomat extends Ambassador {
     return $folder . (empty($folder)? '': '/') . 'common/template/' . $filename;
   }
 
-  private function getTemplateFiles(string $argGenre = null)
+  private function getTemplateFiles(?string $argGenre = null)
   {
     $result = [];
     $genre = $argGenre;

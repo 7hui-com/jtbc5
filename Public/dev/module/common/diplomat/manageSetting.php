@@ -129,7 +129,7 @@ class Diplomat extends Ambassador {
     {
       $comment -> hidden = ['add'];
     }
-    if (in_array($commentType, ['avatar', 'upload', 'gallery', 'attachment', 'mix', 'table', 'multi', 'multi-group']))
+    if (in_array($commentType, ['avatar', 'upload', 'gallery', 'attachment', 'mix', 'table', 'multi', 'multi-group', 'block-editor']))
     {
       $comment -> has_upload = true;
     }
@@ -223,45 +223,54 @@ class Diplomat extends Ambassador {
     $genre = strval($req -> post('genre'));
     $tableName = strval($req -> post('tableName'));
     $fieldName = strval($req -> post('field_name'));
+    $commentType = strval($req -> post('comment_type'));
+    $commentFormat = strval($req -> post('comment_format'));
     if ($this -> guard -> role -> checkPermission('setting'))
     {
-      $module = new Module($genre);
-      if ($module -> isSettingAble !== true)
+      if (Validation::isEmpty($commentType) || Validation::isEmpty($commentFormat))
       {
-        $code = 4001;
-      }
-      else if (!in_array($tableName, $module -> getTableNameList()))
-      {
-        $code = 4002;
-      }
-      else if (!Validation::isNatural($fieldName))
-      {
-        $code = 4003;
+        $code = 4000;
       }
       else
       {
-        $model = new TinyModel($tableName);
-        if ($model -> table -> hasField($fieldName))
+        $module = new Module($genre);
+        if ($module -> isSettingAble !== true)
         {
-          $code = 4004;
+          $code = 4001;
+        }
+        else if (!in_array($tableName, $module -> getTableNameList()))
+        {
+          $code = 4002;
+        }
+        else if (!Validation::isNatural($fieldName))
+        {
+          $code = 4003;
         }
         else
         {
-          $db = DBFactory::getInstance();
-          $info = new Substance($req -> post());
-          $columnManager = new ColumnManager($db, $tableName);
-          $addColumn = $columnManager -> addColumn($this -> getColumn($info));
-          if (is_numeric($addColumn))
+          $model = new TinyModel($tableName);
+          if ($model -> table -> hasField($fieldName))
           {
-            $code = 1;
-            $schemaViewer = new SchemaViewer($db);
-            $schemaViewer -> removeCache($tableName);
-            Logger::log($this, 'manageSetting.log-addField', ['tableName' => $tableName, 'fieldName' => $fieldName]);
+            $code = 4004;
           }
           else
           {
-            $code = 4040;
-            $message = $columnManager -> lastErrorInfo;
+            $db = DBFactory::getInstance();
+            $info = new Substance($req -> post());
+            $columnManager = new ColumnManager($db, $tableName);
+            $addColumn = $columnManager -> addColumn($this -> getColumn($info));
+            if (is_numeric($addColumn))
+            {
+              $code = 1;
+              $schemaViewer = new SchemaViewer($db);
+              $schemaViewer -> removeCache($tableName);
+              Logger::log($this, 'manageSetting.log-addField', ['tableName' => $tableName, 'fieldName' => $fieldName]);
+            }
+            else
+            {
+              $code = 4040;
+              $message = $columnManager -> lastErrorInfo;
+            }
           }
         }
       }
@@ -288,59 +297,68 @@ class Diplomat extends Ambassador {
     $newFieldName = strval($req -> post('new_field_name'));
     $tabMode = intval($req -> post('tab_mode'));
     $comment = strval($req -> post('comment'));
+    $commentType = strval($req -> post('comment_type'));
+    $commentFormat = strval($req -> post('comment_format'));
     if ($this -> guard -> role -> checkPermission('setting'))
     {
-      $module = new Module($genre);
-      if ($module -> isSettingAble !== true)
+      if ($tabMode != 0 && (Validation::isEmpty($commentType) || Validation::isEmpty($commentFormat)))
       {
-        $code = 4001;
-      }
-      else if (!in_array($tableName, $module -> getTableNameList()))
-      {
-        $code = 4002;
-      }
-      else if (!Validation::isNatural($fieldName) || !Validation::isNatural($newFieldName))
-      {
-        $code = 4003;
+        $code = 4000;
       }
       else
       {
-        $model = new TinyModel($tableName);
-        if (!$model -> table -> hasField($fieldName))
+        $module = new Module($genre);
+        if ($module -> isSettingAble !== true)
         {
-          $code = 4005;
+          $code = 4001;
         }
-        else if ($tabMode == 0 && !Validation::isJSON($comment))
+        else if (!in_array($tableName, $module -> getTableNameList()))
         {
-          $code = 4006;
+          $code = 4002;
+        }
+        else if (!Validation::isNatural($fieldName) || !Validation::isNatural($newFieldName))
+        {
+          $code = 4003;
         }
         else
         {
-          $db = DBFactory::getInstance();
-          $columnManager = new ColumnManager($db, $tableName);
-          $changeColumn = null;
-          if ($tabMode == 0)
+          $model = new TinyModel($tableName);
+          if (!$model -> table -> hasField($fieldName))
           {
-            $currentColumn = new ColumnLoader($columnManager -> getColumnInfo($fieldName));
-            $currentColumn -> setComment($comment);
-            $changeColumn = $columnManager -> changeColumn($currentColumn -> get(), $newFieldName);
+            $code = 4005;
+          }
+          else if ($tabMode == 0 && !Validation::isJSON($comment))
+          {
+            $code = 4006;
           }
           else
           {
-            $info = new Substance($req -> post());
-            $changeColumn = $columnManager -> changeColumn($this -> getColumn($info), $newFieldName);
-          }
-          if (is_numeric($changeColumn))
-          {
-            $code = 1;
-            $schemaViewer = new SchemaViewer($db);
-            $schemaViewer -> removeCache($tableName);
-            Logger::log($this, 'manageSetting.log-editField', ['tableName' => $tableName, 'fieldName' => $fieldName, 'newFieldName' => $newFieldName]);
-          }
-          else
-          {
-            $code = 4040;
-            $message = $columnManager -> lastErrorInfo;
+            $db = DBFactory::getInstance();
+            $columnManager = new ColumnManager($db, $tableName);
+            $changeColumn = null;
+            if ($tabMode == 0)
+            {
+              $currentColumn = new ColumnLoader($columnManager -> getColumnInfo($fieldName));
+              $currentColumn -> setComment($comment);
+              $changeColumn = $columnManager -> changeColumn($currentColumn -> get(), $newFieldName);
+            }
+            else
+            {
+              $info = new Substance($req -> post());
+              $changeColumn = $columnManager -> changeColumn($this -> getColumn($info), $newFieldName);
+            }
+            if (is_numeric($changeColumn))
+            {
+              $code = 1;
+              $schemaViewer = new SchemaViewer($db);
+              $schemaViewer -> removeCache($tableName);
+              Logger::log($this, 'manageSetting.log-editField', ['tableName' => $tableName, 'fieldName' => $fieldName, 'newFieldName' => $newFieldName]);
+            }
+            else
+            {
+              $code = 4040;
+              $message = $columnManager -> lastErrorInfo;
+            }
           }
         }
       }

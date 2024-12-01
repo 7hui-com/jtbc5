@@ -198,7 +198,7 @@ class Guard implements GuardInterface
     return $result;
   }
 
-  function __construct(DI $di, string $argCurrentGenre = null)
+  function __construct(DI $di, ?string $argCurrentGenre = null)
   {
     $this -> di = $di;
     $this -> currentGenre = $argCurrentGenre ?? Path::getCurrentGenre();

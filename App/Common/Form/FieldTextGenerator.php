@@ -83,6 +83,10 @@ class FieldTextGenerator
       $text -> errorTips1 = Jtbc::take('universal:phrases.you-can-only-select-x-items-at-most', 'lng');
       $result = ['text' => $text -> toJSON()];
     }
+    else if ($name == 'block-editor')
+    {
+      $result = ['placeholder' => Jtbc::take('universal:phrases.enter-text-here', 'lng')];
+    }
     return $result;
   }
 }

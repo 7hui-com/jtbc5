@@ -114,7 +114,7 @@ abstract class ORM
     return $result;
   }
 
-  public function possesses($argRelated, string $argForeignKey = null, string $argLocalKey = null, array $argAdditionalWhere = null)
+  public function possesses($argRelated, ?string $argForeignKey = null, ?string $argLocalKey = null, ?array $argAdditionalWhere = null)
   {
     $related = $argRelated;
     $foreignKey = $argForeignKey ?? $this -> getTableName() . '_id';
@@ -152,7 +152,7 @@ abstract class ORM
     return $relatedInstance;
   }
 
-  public function belongsTo($argRelated, string $argForeignKey = null, string $argTargetKey = null, array $argAdditionalWhere = null)
+  public function belongsTo($argRelated, ?string $argForeignKey = null, ?string $argTargetKey = null, ?array $argAdditionalWhere = null)
   {
     $related = $argRelated;
     $targetKey = $argTargetKey ?? 'id';
@@ -211,7 +211,7 @@ abstract class ORM
     return $result;
   }
 
-  public function save(Substance $argPocket = null)
+  public function save(?Substance $argPocket = null)
   {
     $result = false;
     $pocket = $argPocket ?? $this -> pocket;

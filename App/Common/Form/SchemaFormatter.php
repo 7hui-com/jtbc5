@@ -16,7 +16,7 @@ class SchemaFormatter
   private $baseURI;
   private $lang;
   private $withTreeSource = ['cascader', 'linkage-selector'];
-  private $withSource = ['radio', 'checkbox', 'select', 'select2', 'flat-selector', 'transfer', 'input-with-datalist'];
+  private $withSource = ['radio', 'checkbox', 'select', 'select2', 'flat-selector', 'transfer', 'input-with-datalist', 'input-with-select'];
 
   private function getData($argSource, string $argSourceType)
   {
@@ -76,12 +76,12 @@ class SchemaFormatter
     return $result;
   }
 
-  private function getExtra(Substance $comment, string $argSuffix = null)
+  private function getExtra(Substance $comment, ?string $argSuffix = null)
   {
     $type = $comment -> type;
     $suffix = strval($argSuffix);
     $extra = FieldTextGenerator::generate($type);
-    if (in_array($type, ['avatar', 'attachment', 'gallery', 'upload']))
+    if (in_array($type, ['avatar', 'attachment', 'gallery', 'upload', 'block-editor']))
     {
       $scene = $comment -> scene;
       if (is_null($scene))

@@ -5,7 +5,7 @@ use Jtbc\Model\TinyModel;
 
 class Model extends TinyModel
 {
-  public function __construct(string $argSubTable = null)
+  public function __construct(?string $argSubTable = null)
   {
     $subTable = $argSubTable;
     $module = new Module('universal/tag');

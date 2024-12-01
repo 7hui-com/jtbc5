@@ -61,7 +61,7 @@ class PluginRecognizer
     return $result;
   }
 
-  public function __construct(string $argGenre = null)
+  public function __construct(?string $argGenre = null)
   {
     $this -> pluginId = 0;
     $this -> pluginVersion = 0;

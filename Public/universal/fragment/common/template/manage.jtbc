@@ -33,19 +33,19 @@
             </item>
             <item field="mode">
               <label class="name"><r></r><span>{$=$take('config.mode', 'lng')}</span></label>
-              <div class="content">{$=$takeAndFormatToRadio('sel_mode.*', 'mode', 1)}</div>
+              <div class="content">{$=$takeAndFormatToRadio('sel_mode.*', 'mode', 8)}</div>
             </item>
             <item field="name">
               <label class="name"><span>{$=$take('config.name', 'lng')}</span></label>
               <div class="content"><input is="jtbc-input" type="text" name="name" role="field" /></div>
             </item>
-            <item group="value" field="value_1">
+            <item group="value" field="value_1" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
               <div class="content"><input is="jtbc-input" type="text" name="value_1" role="field" /></div>
             </item>
             <item group="value" field="value_2" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-upload name="value_2" role="field" whisper="whisper" text-upload="{$=$take('universal:config.upload', 'lng')}" action="{$>this.genre}/manage?action=upload&amp;scene=image"></jtbc-field-upload></div>
+              <div class="content"><jtbc-field-upload name="value_2" role="field" whisper="whisper" text-upload="{$=$take('universal:config.upload', 'lng')}" action="${$visibleUri}?action=upload&amp;scene=image"></jtbc-field-upload></div>
             </item>
             <item group="value" field="value_3" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
@@ -57,15 +57,19 @@
             </item>
             <item group="value" field="value_5" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-gallery name="value_5" role="field" text="${$fieldGalleryText}" action="{$>this.genre}/manage?action=upload&amp;scene=gallery"></jtbc-field-gallery></div>
+              <div class="content"><jtbc-field-gallery name="value_5" role="field" text="${$fieldGalleryText}" action="${$visibleUri}?action=upload&amp;scene=gallery"></jtbc-field-gallery></div>
             </item>
             <item group="value" field="value_6" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-attachment name="value_6" role="field" text="${$fieldAttachmentText}" action="{$>this.genre}/manage?action=upload&amp;scene=attachment"></jtbc-field-attachment></div>
+              <div class="content"><jtbc-field-attachment name="value_6" role="field" text="${$fieldAttachmentText}" action="${$visibleUri}?action=upload&amp;scene=attachment"></jtbc-field-attachment></div>
             </item>
             <item group="value" field="value_7" class="hide">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
               <div class="content"><jtbc-field-table name="value_7" role="field" text="${$fieldTableText}" columns="{$=$htmlEncode($jsonEncode([['name' => 'key', 'type' => 'text', 'text' => $take('universal:config.key', 'lng')], ['name' => 'value', 'type' => 'text', 'text' => $take('universal:config.value', 'lng')]]))}"></jtbc-field-table></div>
+            </item>
+            <item group="value" field="value_8">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-block-editor name="value_8" role="field" placeholder="{$=$take('universal:phrases.enter-text-here', 'lng')}" action="${$visibleUri}?action=upload"></jtbc-field-block-editor></div>
             </item>
             <item field="published">
               <label class="name"><span>{$=$take('universal:config.published', 'lng')}</span></label>
@@ -124,7 +128,7 @@
             </item>
             <item elseif="${$data.mode == 2}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-upload name="value" role="field" whisper="whisper" text-upload="{$=$take('universal:config.upload', 'lng')}" action="{$>this.genre}/manage?action=upload&amp;scene=image" value="${$data.mode == 2? $data.value: ''}"></jtbc-field-upload></div>
+              <div class="content"><jtbc-field-upload name="value" role="field" whisper="whisper" text-upload="{$=$take('universal:config.upload', 'lng')}" action="${$visibleUri}?action=upload&amp;scene=image" value="${$data.mode == 2? $data.value: ''}"></jtbc-field-upload></div>
             </item>
             <item elseif="${$data.mode == 3}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
@@ -136,15 +140,19 @@
             </item>
             <item elseif="${$data.mode == 5}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-gallery name="value" role="field" text="${$fieldGalleryText}" action="{$>this.genre}/manage?action=upload&amp;scene=gallery" value="${$data.mode == 5? $data.value: ''}"></jtbc-field-gallery></div>
+              <div class="content"><jtbc-field-gallery name="value" role="field" text="${$fieldGalleryText}" action="${$visibleUri}?action=upload&amp;scene=gallery" value="${$data.mode == 5? $data.value: ''}"></jtbc-field-gallery></div>
             </item>
             <item elseif="${$data.mode == 6}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
-              <div class="content"><jtbc-field-attachment name="value" role="field" text="${$fieldAttachmentText}" action="{$>this.genre}/manage?action=upload&amp;scene=attachment" value="${$data.mode == 6? $data.value: ''}"></jtbc-field-attachment></div>
+              <div class="content"><jtbc-field-attachment name="value" role="field" text="${$fieldAttachmentText}" action="${$visibleUri}?action=upload&amp;scene=attachment" value="${$data.mode == 6? $data.value: ''}"></jtbc-field-attachment></div>
             </item>
             <item elseif="${$data.mode == 7}" field="value">
               <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
               <div class="content"><jtbc-field-table name="value" role="field" text="${$fieldTableText}" columns="{$=$htmlEncode($jsonEncode([['name' => 'key', 'type' => 'text', 'text' => $take('universal:config.key', 'lng')], ['name' => 'value', 'type' => 'text', 'text' => $take('universal:config.value', 'lng')]]))}" value="${$data.mode == 7? $data.value: ''}"></jtbc-field-table></div>
+            </item>
+            <item elseif="${$data.mode == 8}" field="value">
+              <label class="name"><span>{$=$take('config.value', 'lng')}</span></label>
+              <div class="content"><jtbc-field-block-editor name="value" role="field" value="${$data.mode == 8? $data.value: ''}" placeholder="{$=$take('universal:phrases.enter-text-here', 'lng')}" action="${$visibleUri}?action=upload"></jtbc-field-block-editor></div>
             </item>
             <item field="published">
               <label class="name"><span>{$=$take('universal:config.published', 'lng')}</span></label>

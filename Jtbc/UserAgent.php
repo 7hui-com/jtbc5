@@ -94,7 +94,7 @@ class UserAgent
     return str_contains($this -> userAgent, 'alipay');
   }
 
-  public function __construct(string $argUserAgent = null)
+  public function __construct(?string $argUserAgent = null)
   {
     $this -> userAgent = !is_null($argUserAgent)? strtolower($argUserAgent): '';
   }

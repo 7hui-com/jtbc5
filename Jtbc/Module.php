@@ -104,7 +104,7 @@ class Module
     return $result;
   }
 
-  public function getFileList(string $argFileType = null)
+  public function getFileList(?string $argFileType = null)
   {
     $result = [];
     $fileType = $argFileType;
@@ -260,7 +260,7 @@ class Module
     return $result;
   }
 
-  public function __construct(string $argGenre = null, string $argGuideFileName = 'guide', bool $argIsCacheable = true)
+  public function __construct(?string $argGenre = null, string $argGuideFileName = 'guide', bool $argIsCacheable = true)
   {
     $this -> genre = $argGenre ?? Path::getCurrentGenre();
     $this -> guideFileName = $argGuideFileName;

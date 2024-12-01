@@ -1,14 +1,55 @@
 export default class jtbcErrorTips extends HTMLElement {
   static get observedAttributes() {
-    return ['data', 'no_error_href'];
+    return ['data', 'no_error_href', 'timeout'];
+  };
+
+  #data = null;
+  #noErrorHref = null;
+  #timeout = 5000;
+  #timeoutHandler;
+
+  get data() {
+    return this.#data;
+  };
+
+  get noErrorHref() {
+    return this.#noErrorHref;
+  };
+
+  get timeout() {
+    return this.#timeout;
+  };
+
+  set data(data) {
+    this.#data = data;
+  };
+
+  set noErrorHref(noErrorHref) {
+    this.#noErrorHref = noErrorHref;
+  };
+
+  set timeout(timeout) {
+    this.#timeout = Number.parseInt(timeout);
+  };
+
+  #initEvents() {
+    let container = this.container;
+    container.addEventListener('transitionend', function(){
+      if (this.classList.contains('on') && this.classList.contains('out'))
+      {
+        this.classList.remove('on');
+        this.classList.remove('out');
+      };
+    });
   };
 
   render() {
-    if (this.currentData != null)
+    clearTimeout(this.#timeoutHandler);
+    if (this.data != null)
     {
       let noError = true;
       let noErrorAttr = this.getAttribute('no_error');
-      let data = JSON.parse(this.currentData);
+      let data = JSON.parse(this.data);
       let ul = document.createElement('ul');
       if (Array.isArray(data))
       {
@@ -26,21 +67,22 @@ export default class jtbcErrorTips extends HTMLElement {
       if (noError == true && noErrorAttr != 'silent')
       {
         let target = this.getTarget('no_error_target');
-        if (this.currentNoErrorHref == null)
+        if (this.noErrorHref == null)
         {
           target.reload();
         }
         else
         {
-          target.href = this.currentNoErrorHref;
+          target.href = this.noErrorHref;
         };
         this.dispatchEvent(new CustomEvent('noerror'));
       }
       else
       {
-        this.classList.add('on');
+        this.container.classList.add('on');
         this.container.querySelector('ul').replaceWith(ul);
-        this.scrollIntoView({block: 'end', behavior: 'smooth'});
+        this.scrollIntoView({'block': 'end', 'behavior': 'smooth'});
+        this.#timeoutHandler = setTimeout(() => this.container.classList.add('out'), this.timeout);
       };
     };
   };
@@ -49,13 +91,18 @@ export default class jtbcErrorTips extends HTMLElement {
     switch(attr) {
       case 'data':
       {
-        this.currentData = newVal;
+        this.data = newVal;
         this.render();
         break;
       };
       case 'no_error_href':
       {
-        this.currentNoErrorHref = newVal;
+        this.noErrorHref = newVal;
+        break;
+      };
+      case 'timeout':
+      {
+        this.timeout = newVal;
         break;
       };
     };
@@ -68,8 +115,6 @@ export default class jtbcErrorTips extends HTMLElement {
   constructor() {
     super();
     this.ready = false;
-    this.currentData = null;
-    this.currentNoErrorHref = null;
     let shadowRoot = this.attachShadow({mode: 'open'});
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
@@ -80,5 +125,6 @@ export default class jtbcErrorTips extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('container');
+    this.#initEvents();
   };
 };

@@ -4,5 +4,5 @@ use Jtbc\Substance;
 
 interface SMS
 {
-  public function send(string $argMobile, string $argTemplateCode, array $argParam, array $argExtension = null): Substance;
+  public function send(string $argMobile, string $argTemplateCode, array $argParam, ?array $argExtension = null): Substance;
 }

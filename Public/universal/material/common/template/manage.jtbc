@@ -8,7 +8,7 @@
   <item_list>
     <item>
       <name><![CDATA[part-toplink]]></name>
-      <default><![CDATA[<jtbc-pitchon><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;filegroup=1&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;filegroup=2&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-4" href="codename={$>this.genre}:manage.list&amp;filegroup=3&amp;pitchon=a.toplink-list-4">{$=$take('manage.text-menu-4', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-5" href="codename={$>this.genre}:manage.list&amp;filegroup=4&amp;pitchon=a.toplink-list-5">{$=$take('manage.text-menu-5', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-100" href="codename={$>this.genre}:manage.list&amp;filegroup=0&amp;pitchon=a.toplink-list-100">{$=$take('manage.text-menu-100', 'lng')}</a></jtbc-pitchon>]]></default>
+      <default><![CDATA[<jtbc-pitchon><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;filegroup=1&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;filegroup=2&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-4" href="codename={$>this.genre}:manage.list&amp;filegroup=3&amp;pitchon=a.toplink-list-4">{$=$take('manage.text-menu-4', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-5" href="codename={$>this.genre}:manage.list&amp;filegroup=4&amp;pitchon=a.toplink-list-5">{$=$take('manage.text-menu-5', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-6" href="codename={$>this.genre}:manage.list&amp;filegroup=5&amp;pitchon=a.toplink-list-6">{$=$take('manage.text-menu-6', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-100" href="codename={$>this.genre}:manage.list&amp;filegroup=0&amp;pitchon=a.toplink-list-100">{$=$take('manage.text-menu-100', 'lng')}</a></jtbc-pitchon>]]></default>
     </item>
     <item>
       <name><![CDATA[edit]]></name>
@@ -84,7 +84,7 @@
                 <th>{$=$take('config.filename', 'lng')}</th>
                 <th width="100" class="center">{$=$take('universal:config.filesize', 'lng')}</th>
                 <th width="120">{$=$take('universal:config.time', 'lng')}</th>
-                <th width="60" class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>
+                <th width="80">{$=$take('universal:config.control', 'lng')}</th>
               </tr>
             </thead>
             <tbody isloop="true">
@@ -94,7 +94,7 @@
                 <td><span class="filegroup" filegroup="${$filegroup}">${$filetype}</span><span type="fileurl" class="hand" filegroup="${$filegroup}" fileurl="${$fileurl}" title="${$filepath}">${$filename}</span></td>
                 <td class="center">${$filesize_text}</td>
                 <td>${$time}</td>
-                <td class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}"><icons><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
+                <td><icons><span class="copy" fileurl="${$fileurl}" message-succeed="{$=$take('manage.text-message-copy-succeed', 'lng')}" message-failed="{$=$take('manage.text-message-copy-failed', 'lng')}"><jtbc-svg name="copy" title="{$=$take('manage.text-copy-fileurl', 'lng')}"></jtbc-svg></span><a class="${$.param.can_edit? 'normal': 'hide'}" is="jtbc-anchor" href="codename={$>this.genre}:manage.edit&amp;id=${$id}"><jtbc-svg name="edit" title="{$=$take('universal:config.edit', 'lng')}"></jtbc-svg></a><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
               </tr>
             </tbody>
             <tfoot>

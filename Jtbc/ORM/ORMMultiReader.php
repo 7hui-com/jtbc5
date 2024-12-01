@@ -378,7 +378,7 @@ class ORMMultiReader
     return $this;
   }
 
-  public function __construct(ORM $leftORM, ORM $rightORM, string $argMode = 'inner', string $argDBLink = null)
+  public function __construct(ORM $leftORM, ORM $rightORM, string $argMode = 'inner', ?string $argDBLink = null)
   {
     $mode = $argMode;
     $DBLink = $argDBLink;

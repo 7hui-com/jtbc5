@@ -29,7 +29,7 @@ class DBFactory
     return $result;
   }
 
-  public static function getInstance(string $argDBLink = null)
+  public static function getInstance(?string $argDBLink = null)
   {
     $db = null;
     $dbLink = $argDBLink ?? 'default';

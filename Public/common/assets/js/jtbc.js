@@ -4,7 +4,9 @@ export default class jtbc {
   observe(target) {
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
-        mutation.addedNodes.forEach(node => node.loadComponents());
+        mutation.addedNodes.forEach(node => {
+          if (node instanceof Element) node.loadComponents();
+        });
       });
     });
     this.observer.observe(target, {'childList': true, 'subtree': true});
@@ -19,11 +21,7 @@ export default class jtbc {
     this.ver = url.searchParams.get('ver');
     this.extender = new extender(this.ver);
     this.extender.extend();
-    document.body.loadComponents().then(result => {
-      if (target instanceof Element)
-      {
-        this.observe(target);
-      };
-    });
+    document.body?.loadComponents();
+    if (target instanceof Element) this.observe(target);
   };
 };

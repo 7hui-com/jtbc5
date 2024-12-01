@@ -6,7 +6,7 @@ use Config\Diplomatist as Config;
 
 class Model extends TinyModel
 {
-  public function __construct(string $argKey = null)
+  public function __construct(?string $argKey = null)
   {
     $key = $argKey;
     $module = new Module(Config::CONSOLE_DIR . '/cloud');

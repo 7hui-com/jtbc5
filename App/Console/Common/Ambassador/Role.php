@@ -21,7 +21,7 @@ class Role implements RoleInterface
   private $permissionInstance = null;
   private $cookieLangName = 'console_lang';
 
-  public function checkPermission(string $argSubOrSegmentName = null, string $argSegmentKey = null)
+  public function checkPermission(?string $argSubOrSegmentName = null, ?string $argSegmentKey = null)
   {
     return $this -> permission -> hasPermission($this -> currentGenre, $argSubOrSegmentName, $argSegmentKey);
   }

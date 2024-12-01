@@ -8,7 +8,7 @@ class SchemaBuilder
 {
   public $fields = [];
 
-  private function addField(string $argType, string $argName, string $argText = null)
+  private function addField(string $argType, string $argName, ?string $argText = null)
   {
     $type = $argType;
     $name = $argName;

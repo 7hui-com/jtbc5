@@ -12,7 +12,7 @@ class Dictionary
     return 'universal-dictionary-' . $argName;
   }
 
-  public static function get(string $argName, string $argKey = null, int $argLang = null)
+  public static function get(string $argName, ?string $argKey = null, ?int $argLang = null)
   {
     $key = $argKey;
     $name = $argName;
@@ -60,7 +60,7 @@ class Dictionary
     return $result;
   }
 
-  public static function getByKeys(string $argName, array $argKeys = [], int $argLang = null)
+  public static function getByKeys(string $argName, array $argKeys = [], ?int $argLang = null)
   {
     $result = [];
     $keys = $argKeys;

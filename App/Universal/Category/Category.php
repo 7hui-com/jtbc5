@@ -174,7 +174,7 @@ class Category
     return $getResultFromTree($this -> getTree());
   }
 
-  public function getRecordById(int $argId, string $argFieldName = null)
+  public function getRecordById(int $argId, ?string $argFieldName = null)
   {
     $result = null;
     $id = $argId;
@@ -275,7 +275,7 @@ class Category
     return $result;
   }
 
-  public function __construct(string $argGenre, int $argLang, int $argPublished = null)
+  public function __construct(string $argGenre, int $argLang, ?int $argPublished = null)
   {
     $this -> genre = $argGenre;
     $this -> lang = $argLang;

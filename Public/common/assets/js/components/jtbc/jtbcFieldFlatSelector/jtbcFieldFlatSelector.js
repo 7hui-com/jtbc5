@@ -68,7 +68,10 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
         let value = this.getAttribute('value');
         if (that.selected.includes(value))
         {
-          that.shiftSelectedValue(value);
+          if (!(that.#type == 'radio') && that.selected.length === 1)
+          {
+            that.shiftSelectedValue(value);
+          };
         }
         else
         {
@@ -125,6 +128,7 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
           let newItemText = document.createElement('span');
           newItem.setAttribute('value', item.value);
           newItemText.innerText = item.text;
+          newItemText.setAttribute('title', item.text);
           newItem.append(newItemEm, newItemText);
           container.appendChild(newItem);
         });

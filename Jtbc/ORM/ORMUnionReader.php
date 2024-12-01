@@ -112,7 +112,7 @@ class ORMUnionReader
     return $result;
   }
 
-  public function add(string $argName, ORM $ORM, array $argFields = null)
+  public function add(string $argName, ORM $ORM, ?array $argFields = null)
   {
     $this -> queue[$argName] = ['instance' => $ORM, 'fields' => $argFields];
     return $this;

@@ -62,7 +62,7 @@ class Env
     }
   }
 
-  public static function getLang(string $argLanguage = null)
+  public static function getLang(?string $argLanguage = null)
   {
     $lang = 0;
     $language = $argLanguage ?? self::getLanguage();

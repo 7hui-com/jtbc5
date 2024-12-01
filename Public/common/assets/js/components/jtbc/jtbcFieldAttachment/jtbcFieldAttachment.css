@@ -82,6 +82,9 @@
 .container .filegroup[filegroup='4'] {
   background: #5b0233
 }
+.container .filegroup[filegroup='5'] {
+  background: #9b0909
+}
 .container span.filename {
   cursor: pointer
 }

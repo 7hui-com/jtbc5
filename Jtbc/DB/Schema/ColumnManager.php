@@ -19,7 +19,7 @@ class ColumnManager
   public $lastErrorCode;
   public $lastErrorInfo;
 
-  private function getAfterColumnString(string $argAfterColumnName = null)
+  private function getAfterColumnString(?string $argAfterColumnName = null)
   {
     $result = '';
     $afterColumnName = $argAfterColumnName;
@@ -44,7 +44,7 @@ class ColumnManager
     return $result;
   }
 
-  public function addColumn(Column $column, string $argAfterColumnName = null)
+  public function addColumn(Column $column, ?string $argAfterColumnName = null)
   {
     $result = null;
     $afterColumnName = $argAfterColumnName;
@@ -91,7 +91,7 @@ class ColumnManager
     return $result;
   }
 
-  public function changeColumn(Column $column, string $argNewColumnName, string $argAfterColumnName = null)
+  public function changeColumn(Column $column, string $argNewColumnName, ?string $argAfterColumnName = null)
   {
     $result = null;
     $newColumnName = $argNewColumnName;
@@ -129,7 +129,7 @@ class ColumnManager
     return $result;
   }
 
-  public function modifyColumn(Column $column, string $argAfterColumnName = null)
+  public function modifyColumn(Column $column, ?string $argAfterColumnName = null)
   {
     $result = null;
     $afterColumnName = $argAfterColumnName;

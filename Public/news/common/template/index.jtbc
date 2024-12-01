@@ -7,10 +7,6 @@
   </configure>
   <item_list>
     <item>
-      <name><![CDATA[part-image]]></name>
-      <default><![CDATA[<div class="image"><p type="image"><a href="./?type=detail&amp;id={$id}"><img src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" alt="{$title}" /></a></p></div>]]></default>
-    </item>
-    <item>
       <name><![CDATA[list]]></name>
       <default><![CDATA[{$=$take('global.communal.header')}
 <navigation>
@@ -20,7 +16,7 @@
   <box>
     <main>
       <div class="list">{@}
-        <div class="row">{$=empty(#image)? '': $render('index.part-image', [#raw])}
+        <div class="row">{$=empty(#image)? '': $render([#raw], ^^^EOF<div class="image"><p type="image"><a href="./?type=detail&amp;id={$id}"><img src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" alt="{$title}" /></a></p></div>EOF^^^)}
           <div class="text">
             <p type="title"><a href="./?type=detail&amp;id={$id}">{$title}</a></p>
             <p type="info">{$=$take('universal:phrases.published-at', 'lng')}: {$=$formatDate(#time, 21)}</p>

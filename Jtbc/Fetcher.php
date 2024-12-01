@@ -10,7 +10,7 @@ use Jtbc\Fetcher\SQLFetcher;
 
 class Fetcher
 {
-  public static function fetch(array $argParam, string $argMode = 'model', callable $filter = null)
+  public static function fetch(array $argParam, string $argMode = 'model', ?callable $filter = null)
   {
     $mode = $argMode;
     $param = $argParam;

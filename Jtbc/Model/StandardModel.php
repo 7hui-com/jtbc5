@@ -31,7 +31,7 @@ class StandardModel extends TinyModel
     return $result;
   }
 
-  public function autoSave(Substance $argPocket = null, Substance $argCoffer = null)
+  public function autoSave(?Substance $argPocket = null, ?Substance $argCoffer = null)
   {
     $pocket = $argPocket ?? $this -> pocket;
     $coffer = $argCoffer ?? $this -> coffer;
@@ -46,7 +46,7 @@ class StandardModel extends TinyModel
     return is_numeric($this -> autoSave(...$args));
   }
 
-  public function autoValidate(Substance $argPocket = null, Substance $argCoffer = null)
+  public function autoValidate(?Substance $argPocket = null, ?Substance $argCoffer = null)
   {
     $pocket = $argPocket ?? $this -> pocket;
     $coffer = $argCoffer ?? $this -> coffer;

@@ -27,7 +27,7 @@ class Renderer
     return $this -> template;
   }
 
-  public function render(array $argData = [], callable $loopCallBack = null)
+  public function render(array $argData = [], ?callable $loopCallBack = null)
   {
     $result = '';
     $data = $argData;
@@ -78,7 +78,7 @@ class Renderer
     return $this;
   }
 
-  public function __construct(string $argCodename = null, array $argVariables = [], string $argEnvParamPrefix = '')
+  public function __construct(?string $argCodename = null, array $argVariables = [], string $argEnvParamPrefix = '')
   {
     $codename = $argCodename;
     $variables = $argVariables;

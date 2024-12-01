@@ -178,14 +178,14 @@
     <input type="hidden" name="genre" role="field" value="{$=$htmlEncode($get_query_string('genre'))}" />
     <input type="hidden" name="tableName" role="field" value="{$=$htmlEncode($get_query_string('tableName'))}" />
     <div class="ppSetting">
-      <div class="tinyForm">
+      <div class="mainFrom tinyForm">
         <ul>
           <li><input is="jtbc-input" type="text" name="field_name" role="field" placeholder="{$=$take('config.field_name', 'lng')}" width="100%" /></li>
-          <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
           <li class="flex">
-            <span class="column"><select is="jtbc-select" name="comment_type" role="field" width="100%" api="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting">{$=$takeAndFormatToOption('sel_type.*')}</select><h6 class="far">{$=$take('config.comment_type', 'lng')}</h6></span>
-            <span class="column"><select is="jtbc-select" name="comment_format" role="field" width="100%">{$=$takeAndFormatToOption('sel_format.*')}</select><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
+            <span class="column"><jtbc-field-selector searchable="searchable" search-placeholder="{$=$take('{$>self.path}.text-search-placeholder', 'lng')}" class="selector" data="{$=$htmlEncode($jsonEncode($convertToOption($take('sel_type.*', 'lng'))))}" name="comment_type" role="field" width="100%" api="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting" value="text"></jtbc-field-selector><h6 class="far">{$=$take('config.comment_type', 'lng')}</h6></span>
+            <span class="column"><jtbc-field-selector searchable="searchable" search-placeholder="{$=$take('{$>self.path}.text-search-placeholder', 'lng')}" class="selector" data="{$=$htmlEncode($jsonEncode($convertToOption($take('sel_format.*', 'lng'))))}" name="comment_format" role="field" width="100%" value="nothing"></jtbc-field-selector><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
           </li>
+          <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
           <li><input is="jtbc-input" type="text" name="field_default" role="field" placeholder="{$=$take('config.field_default', 'lng')}" width="100%" /></li>
           <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" role="field" name="field_text_auto" value="1" checked="checked" /><span>{$=$take('manage.text-tips-1', 'lng')}</span></label></li>
         </ul>
@@ -212,7 +212,6 @@
         <div class="tinyForm">
           <ul>
             <li><input is="jtbc-input" type="text" name="new_field_name" role="field" placeholder="{$=$take('config.field_name', 'lng')}" value="${$data.field}" width="100%" /></li>
-            <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
           </ul>
           <div is="jtbc-tab" class="tabMode" value="0">
             <div class="tabtitle"><tabtitle>{$=$take('{$>self.path}.text-tit-edit-mode-1', 'lng')}</tabtitle><tabtitle>{$=$take('{$>self.path}.text-tit-edit-mode-2', 'lng')}</tabtitle></div>
@@ -225,12 +224,13 @@
                 </div>
               </tabcontent>
               <tabcontent>
-                <div class="tinyForm">
+                <div class="mainFrom tinyForm">
                   <ul>
                     <li class="flex">
-                      <span class="column"><select is="jtbc-select" name="comment_type" role="field" width="100%" api="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting">{$=$takeAndFormatToOption('sel_type.*')}</select><h6 class="far">{$=$take('config.comment_type', 'lng')}</h6></span>
-                      <span class="column"><select is="jtbc-select" name="comment_format" role="field" width="100%">{$=$takeAndFormatToOption('sel_format.*')}</select><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
+                      <span class="column"><jtbc-field-selector searchable="searchable" search-placeholder="{$=$take('{$>self.path}.text-search-placeholder', 'lng')}" class="selector" data="{$=$htmlEncode($jsonEncode($convertToOption($take('sel_type.*', 'lng'))))}" name="comment_type" role="field" width="100%" api="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manageSetting" value="text"></jtbc-field-selector><h6 class="far">{$=$take('config.comment_type', 'lng')}</h6></span>
+                      <span class="column"><jtbc-field-selector searchable="searchable" search-placeholder="{$=$take('{$>self.path}.text-search-placeholder', 'lng')}" class="selector" data="{$=$htmlEncode($jsonEncode($convertToOption($take('sel_format.*', 'lng'))))}" name="comment_format" role="field" width="100%" value="nothing"></jtbc-field-selector><h6 class="far">{$=$take('config.comment_format', 'lng')}</h6></span>
                     </li>
+                    <li name="li-field-text" class="hide"><input is="jtbc-input" type="text" name="field_text" role="field" placeholder="{$=$take('config.field_text', 'lng')}" width="100%" /></li>
                     <li><input is="jtbc-input" type="text" name="field_default" role="field" placeholder="{$=$take('config.field_default', 'lng')}" width="100%" /></li>
                     <li><label class="checkbox"><input type="checkbox" name="comment_required" role="field" value="1" /><span>{$=$take('config.comment_required', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" name="comment_hidden_add" role="field" value="1" /><span>{$=$take('config.comment_hidden_add', 'lng')}</span></label>&nbsp;&nbsp;<label class="checkbox"><input type="checkbox" role="field" name="field_text_auto" value="1" checked="checked" /><span>{$=$take('manage.text-tips-1', 'lng')}</span></label></li>
                   </ul>

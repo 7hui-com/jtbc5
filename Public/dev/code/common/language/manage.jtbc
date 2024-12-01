@@ -135,6 +135,10 @@
       <zh-cn><![CDATA[新建文件异常，请检查服务器权限或文件名规则]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-delete-code-4000]]></name>
+      <zh-cn><![CDATA[当前功能所在的路径不可删除]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-delete-code-4001]]></name>
       <zh-cn><![CDATA[文件或文件夹已经不存在]]></zh-cn>
     </item>

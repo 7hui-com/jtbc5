@@ -30,7 +30,7 @@
                 <th width="100" class="center">{$=$take('universal:config.genre', 'lng')}</th>
                 <th width="100" class="center">{$=$take('universal:config.filesize', 'lng')}</th>
                 <th width="120">{$=$take('universal:config.time', 'lng')}</th>
-                <th width="40" class="${$.param.can_delete? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>
+                <th width="60">{$=$take('universal:config.control', 'lng')}</th>
               </tr>
             </thead>
             <tbody isloop="true">
@@ -41,7 +41,7 @@
                 <td class="center">${$genre}</td>
                 <td class="center">${$filesize_text}</td>
                 <td>${$time}</td>
-                <td class="${$.param.can_delete? 'normal': 'hide'}"><icons><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
+                <td><icons><span class="copy" fileurl="${$fileurl}" message-succeed="{$=$take('manage.text-message-copy-succeed', 'lng')}" message-failed="{$=$take('manage.text-message-copy-failed', 'lng')}"><jtbc-svg name="copy" title="{$=$take('manage.text-copy-fileurl', 'lng')}"></jtbc-svg></span><jtbc-execution class="${$.param.can_delete? 'normal': 'hide'}" url="{$>this.genre}/manage?action=delete&amp;id=${$id}" message="{$=$take('::communal.control-confirm-delete-id', 'lng')} [${$id}] {$=$take('::communal.q', 'lng')}"><jtbc-svg name="trash" title="{$=$take('universal:config.delete', 'lng')}"></jtbc-svg></jtbc-execution></icons></td>
               </tr>
             </tbody>
             <tfoot>

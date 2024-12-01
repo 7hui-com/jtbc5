@@ -19,6 +19,22 @@ class Diplomat extends Ambassador {
     return Encoder::saltedMD5($argPath) == trim($argHash)? true: false;
   }
 
+  private function isUnremovablePath(string $argPath)
+  {
+    $bool = false;
+    $path = $argPath;
+    $genre = strval($this -> getParam('genre'));
+    if (str_starts_with($path, $genre . '/'))
+    {
+      $bool = true;
+    }
+    else if ($path == StringHelper::getClippedString($genre, '/', 'left+') . '/')
+    {
+      $bool = true;
+    }
+    return $bool;
+  }
+
   private function isVaildPath(string $argPath)
   {
     $bool = false;
@@ -277,7 +293,8 @@ class Diplomat extends Ambassador {
     $path = strval($req -> get('path'));
     $hash = strval($req -> get('hash'));
     $fullPath = Path::getActualRoute($path);
-    if (!is_dir($fullPath) && !is_file($fullPath)) $code = 4001;
+    if ($this -> isUnremovablePath($path)) $code = 4000;
+    else if (!is_dir($fullPath) && !is_file($fullPath)) $code = 4001;
     else if (!$this -> isVaildPath($path)) $code = 4002;
     else if (!$this -> isCorrectHash($path, $hash)) $code = 4003;
     else

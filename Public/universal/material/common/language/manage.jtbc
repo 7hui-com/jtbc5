@@ -27,6 +27,10 @@
       <zh-cn><![CDATA[压缩包素材列表]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-menu-6]]></name>
+      <zh-cn><![CDATA[音频素材列表]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-menu-100]]></name>
       <zh-cn><![CDATA[其他素材列表]]></zh-cn>
     </item>
@@ -55,6 +59,10 @@
       <zh-cn><![CDATA[添加新素材]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-copy-fileurl]]></name>
+      <zh-cn><![CDATA[复制网址]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-edit-replace]]></name>
       <zh-cn><![CDATA[替换文件]]></zh-cn>
     </item>
@@ -79,6 +87,10 @@
       <zh-cn><![CDATA[压缩包]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-explorer-tab-5]]></name>
+      <zh-cn><![CDATA[音频]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-explorer-tab-100]]></name>
       <zh-cn><![CDATA[其他]]></zh-cn>
     </item>
@@ -93,6 +105,14 @@
     <item>
       <name><![CDATA[text-explorer-order-new]]></name>
       <zh-cn><![CDATA[按最新]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-message-copy-succeed]]></name>
+      <zh-cn><![CDATA[复制成功]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-message-copy-failed]]></name>
+      <zh-cn><![CDATA[复制失败]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-add-code-4001]]></name>

@@ -29,7 +29,7 @@ class StringHelper
     return $result;
   }
 
-  public static function desensitize(string $argString, int $argStart = null, int $argLength = null, string $argTargetChar = '*')
+  public static function desensitize(string $argString, ?int $argStart = null, ?int $argLength = null, string $argTargetChar = '*')
   {
     $result = null;
     $string = $argString;
@@ -123,7 +123,7 @@ class StringHelper
     return $result;
   }
 
-  public static function getLeftString(string $argString, int $argLength, string $argEllipsis = null)
+  public static function getLeftString(string $argString, int $argLength, ?string $argEllipsis = null)
   {
     $string = $argString;
     $length = max(0, $argLength);

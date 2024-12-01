@@ -35,7 +35,7 @@ class PaginationCreator
     return $ss -> toArray();
   }
 
-  public static function render(int $argCurrentPage, int $argTotalPage, string $argLinkUrl, int $argMaxlength = 7, string $argCodename = null)
+  public static function render(int $argCurrentPage, int $argTotalPage, string $argLinkUrl, int $argMaxlength = 7, ?string $argCodename = null)
   {
     return TinyRenderer::render($argCodename ?? 'universal:render.pagination', [self::createLinks($argCurrentPage, $argTotalPage, $argLinkUrl, $argMaxlength)]);
   }

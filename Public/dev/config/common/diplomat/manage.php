@@ -243,15 +243,18 @@ class Diplomat extends Ambassador {
               foreach ($formSchema as $item)
               {
                 $ss = new Substance($item);
-                $name = $ss -> name;
-                $format = $ss -> format;
-                $value = $req -> post($name);
-                $constantName = $key . '_' . $name;
-                if ($format == 'int')
+                if (!in_array($ss -> type, ['tips']))
                 {
-                  $value = intval($value);
+                  $name = $ss -> name;
+                  $format = $ss -> format;
+                  $value = $req -> post($name);
+                  $constantName = $key . '_' . $name;
+                  if ($format == 'int')
+                  {
+                    $value = intval($value);
+                  }
+                  $classicConfigManager -> {strtoupper($constantName)} = $value;
                 }
-                $classicConfigManager -> {strtoupper($constantName)} = $value;
               }
               $saved = $classicConfigManager -> save();
               if ($saved === true)

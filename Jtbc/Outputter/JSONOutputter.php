@@ -4,7 +4,7 @@ use Jtbc\Substance;
 
 class JSONOutputter
 {
-  public static function output(int $argCode, string $argMessage = null, array $argData = null)
+  public static function output(int $argCode, ?string $argMessage = null, ?array $argData = null)
   {
     $code = $argCode;
     $message = $argMessage;

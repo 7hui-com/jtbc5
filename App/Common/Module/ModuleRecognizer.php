@@ -79,7 +79,7 @@ class ModuleRecognizer
     return $result;
   }
 
-  public function __construct(string $argGenre = null)
+  public function __construct(?string $argGenre = null)
   {
     $this -> moduleId = 0;
     $this -> moduleVersion = 0;

@@ -1,8 +1,11 @@
 export default class index {
+  #timeoutHandler;
+
   install() {
-    if (this.inited != true)
+    let that = this;
+    if (that.inited != true)
     {
-      this.inited = true;
+      that.inited = true;
       let container = document.querySelector('div.install');
       let formEl = container.querySelector('form.form');
       const gotoStep = step => {
@@ -46,14 +49,17 @@ export default class index {
           res.json().then(data => {
             if (data.code == 1)
             {
-              setTimeout(function(){
+              nap(6000).then(() => {
                 location.href = data.redirect_url;
-              }, 6000);
+              });
             }
             else
             {
               gotoStep([4001, 4002, 4003, 4031, 4041].includes(data.code)? 2: 3);
               self.querySelector('button.step-3-done').classList.remove('locked');
+              that.#timeoutHandler = setTimeout(() => {
+                self.querySelector('div.msg').innerText = '';
+              }, 5000);
             };
             self.querySelector('div.msg').innerText = data.message;
           });
@@ -80,6 +86,7 @@ export default class index {
         {
           formEl.submit();
           this.classList.add('locked');
+          clearTimeout(that.#timeoutHandler);
           this.parentElement.parentElement.classList.remove('on');
           self.querySelector('div.msg').innerText = this.getAttribute('loading');
         };

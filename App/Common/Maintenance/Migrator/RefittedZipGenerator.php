@@ -35,7 +35,7 @@ class RefittedZipGenerator
     return $this -> basePath . '/' . basename($this -> taskFilePath, '.zip');
   }
 
-  public function generate(string $argGenre, string $argTargetTaskFilePath = null)
+  public function generate(string $argGenre, ?string $argTargetTaskFilePath = null)
   {
     $result = false;
     $genre = $argGenre;

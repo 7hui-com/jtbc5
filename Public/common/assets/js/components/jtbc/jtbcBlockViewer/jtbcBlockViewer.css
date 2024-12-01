@@ -1,0 +1,795 @@
+:host {
+  display: block; --font-color: #000000; --font-secondary-color: #666666; --icon-color: #333333; --border-color: #d1d1d1; --anchor-color: #5b9dd9; --anchor-hover-color: #e7505a; --quote-background: #f6f6f6; --quote-border-left: #666666 2px solid; --quote-font-color: #666666
+}
+h1,h2,h3,h4,h5,h6 {
+  margin: 0px; padding: 0.6em 0px; line-height: 140%
+}
+h1 {
+  font-size: 32px
+}
+h2 {
+  font-size: 24px
+}
+h3 {
+  font-size: 20px
+}
+h4 {
+  font-size: 16px
+}
+h5 {
+  font-size: 14px
+}
+h6 {
+  font-size: 12px
+}
+p {
+  width: 100%; margin: 0px; padding: 0.4em 0em; line-height: 1.6em
+}
+p.indent {
+  width: 100%; box-sizing: border-box; padding-left: 10%; padding-right: 10%
+}
+code.inline-code {
+  background: #818b981f; padding: 2px 4px; border-radius: 5px; margin: 0px 1px; font-family: inherit; font-size: 0.85em; font-weight: 500; letter-spacing: 0.3px
+}
+.cdx-underline {
+  text-decoration: underline
+}
+.cdx-strikethrough {
+  text-decoration: line-through
+}
+.cdx-marker {
+  background: rgba(245,235,111,.29); padding: 3px 0px
+}
+.cdx-nested-list {
+  margin: 0px; padding: 0px; outline: none; counter-reset: item; list-style: none
+}
+.cdx-nested-list__item {
+  display: flex; margin: 2px 0px; line-height: 1.6em
+}
+.cdx-nested-list__item-body {
+  flex-grow: 2
+}
+.cdx-nested-list__item-content,
+.cdx-nested-list__item-children {
+  flex-basis: 100%
+}
+.cdx-nested-list__item-content {
+  word-break: break-word; white-space: pre-wrap
+}
+.cdx-nested-list__item:before {
+  counter-increment: item; margin-right: 5px; white-space: nowrap
+}
+.cdx-nested-list--ordered > .cdx-nested-list__item:before {
+  content: counters(item, '.') '. '
+}
+.cdx-nested-list--unordered > .cdx-nested-list__item:before {
+  content: '•'
+}
+div.container {
+  width: 100%; display: block !important; font-size: 14px; color: var(--font-color); word-break: break-all; container-type: inline-size; container-name: container
+}
+div.container *[data-alignment=left] {
+  text-align: left
+}
+div.container *[data-alignment=center] {
+  text-align: center
+}
+div.container *[data-alignment=right] {
+  text-align: center
+}
+div.container a {
+  color: var(--anchor-color); text-decoration: underline
+}
+div.container a:hover {
+  color: var(--anchor-hover-color); text-decoration: underline
+}
+div.container div.block_table {
+  width: 100%; box-sizing: border-box; padding: 10px 0px
+}
+div.container div.block_table table {
+  width: 100%; border-collapse: separate; border-spacing: 0px
+}
+div.container div.block_table table tr:first-of-type th,
+div.container div.block_table table tr:first-of-type td {
+  border-top: var(--border-color) 1px solid
+}
+div.container div.block_table table tr th:last-child,
+div.container div.block_table table tr td:last-child {
+  border-right: var(--border-color) 1px solid
+}
+div.container div.block_table table th,
+div.container div.block_table table td {
+  padding: 10px; text-align: left; border-left: var(--border-color) 1px solid; border-bottom: var(--border-color) 1px solid
+}
+div.container div.block_image {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center
+}
+div.container div.block_image img {
+  display: block; width: auto; max-width: 100%
+}
+div.container div.block_image[data-align=left] {
+  justify-content: flex-start
+}
+div.container div.block_image[data-align=center] {
+  justify-content: center
+}
+div.container div.block_image[data-align=right] {
+  justify-content: flex-end
+}
+div.container div.block_image[data-width='20%'] img {
+  width: 20%
+}
+div.container div.block_image[data-width='30%'] img {
+  width: 30%
+}
+div.container div.block_image[data-width='40%'] img {
+  width: 40%
+}
+div.container div.block_image[data-width='50%'] img {
+  width: 50%
+}
+div.container div.block_image[data-width='60%'] img {
+  width: 60%
+}
+div.container div.block_image[data-width='70%'] img {
+  width: 70%
+}
+div.container div.block_image[data-width='80%'] img {
+  width: 80%
+}
+div.container div.block_image[data-width='90%'] img {
+  width: 90%
+}
+div.container div.block_image[data-width='100%'] img {
+  width: 100%
+}
+div.container div.block_two_images {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; --image-gap: 20px
+}
+div.container div.block_two_images div.image {
+  width: calc(50% - var(--image-gap) / 2)
+}
+div.container div.block_two_images div.image img {
+  display: block; width: 100%
+}
+div.container div.block_two_images[data-align-items=top] {
+  align-items: flex-start
+}
+div.container div.block_two_images[data-align-items=middle] {
+  align-items: center
+}
+div.container div.block_two_images[data-align-items=bottom] {
+  align-items: flex-end
+}
+div.container div.block_two_images[data-align-items=stretch] div.image {
+  align-self: stretch
+}
+div.container div.block_two_images[data-align-items=stretch] div.image img {
+  width: 100%; height: 100%; object-fit: cover
+}
+div.container div.block_two_images[data-ratio='3 / 7'] div.image1 {
+  width: calc(30% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='3 / 7'] div.image2 {
+  width: calc(70% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='4 / 6'] div.image1 {
+  width: calc(40% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='4 / 6'] div.image2 {
+  width: calc(60% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='5 / 5'] div.image1 {
+  width: calc(50% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='5 / 5'] div.image2 {
+  width: calc(50% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='6 / 4'] div.image1 {
+  width: calc(60% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='6 / 4'] div.image2 {
+  width: calc(40% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='7 / 3'] div.image1 {
+  width: calc(70% - var(--image-gap) / 2)
+}
+div.container div.block_two_images[data-ratio='7 / 3'] div.image2 {
+  width: calc(30% - var(--image-gap) / 2)
+}
+div.container div.block_audio {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center
+}
+div.container div.block_audio audio {
+  display: block; max-width: 100%
+}
+div.container div.block_audio[data-align=left] {
+  justify-content: flex-start
+}
+div.container div.block_audio[data-align=center] {
+  justify-content: center
+}
+div.container div.block_audio[data-align=right] {
+  justify-content: flex-end
+}
+div.container div.block_audio[data-width='20%'] audio {
+  width: 20%
+}
+div.container div.block_audio[data-width='30%'] audio {
+  width: 30%
+}
+div.container div.block_audio[data-width='40%'] audio {
+  width: 40%
+}
+div.container div.block_audio[data-width='50%'] audio {
+  width: 50%
+}
+div.container div.block_audio[data-width='60%'] audio {
+  width: 60%
+}
+div.container div.block_audio[data-width='70%'] audio {
+  width: 70%
+}
+div.container div.block_audio[data-width='80%'] audio {
+  width: 80%
+}
+div.container div.block_audio[data-width='90%'] audio {
+  width: 90%
+}
+div.container div.block_audio[data-width='100%'] audio {
+  width: 100%
+}
+div.container div.block_video {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center
+}
+div.container div.block_video video {
+  display: block; width: auto; max-width: 100%
+}
+div.container div.block_video[data-align=left] {
+  justify-content: flex-start
+}
+div.container div.block_video[data-align=center] {
+  justify-content: center
+}
+div.container div.block_video[data-align=right] {
+  justify-content: flex-end
+}
+div.container div.block_video[data-width='20%'] video {
+  width: 20%
+}
+div.container div.block_video[data-width='30%'] video {
+  width: 30%
+}
+div.container div.block_video[data-width='40%'] video {
+  width: 40%
+}
+div.container div.block_video[data-width='50%'] video {
+  width: 50%
+}
+div.container div.block_video[data-width='60%'] video {
+  width: 60%
+}
+div.container div.block_video[data-width='70%'] video {
+  width: 70%
+}
+div.container div.block_video[data-width='80%'] video {
+  width: 80%
+}
+div.container div.block_video[data-width='90%'] video {
+  width: 90%
+}
+div.container div.block_video[data-width='100%'] video {
+  width: 100%
+}
+div.container div.block_mixed_text {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; --text-gap: 20px
+}
+div.container div.block_mixed_text div.image {
+  width: 50%; align-self: stretch
+}
+div.container div.block_mixed_text div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover
+}
+div.container div.block_mixed_text div.text {
+  flex: 1; box-sizing: border-box; padding-left: var(--text-gap)
+}
+div.container div.block_mixed_text div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%; padding-bottom: 10px
+}
+div.container div.block_mixed_text div.text div.title br {
+  display: none
+}
+div.container div.block_mixed_text div.text div.content {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: var(--font-secondary-color)
+}
+div.container div.block_mixed_text[data-layout='1'] {
+  flex-direction: row-reverse
+}
+div.container div.block_mixed_text[data-layout='1'] div.text {
+  padding-left: 0px; padding-right: var(--text-gap)
+}
+div.container div.block_mixed_text[data-titleless='1'] div.text div.title {
+  display: none
+}
+div.container div.block_mixed_text[data-stretchable='0'] div.image {
+  align-self: auto
+}
+div.container div.block_mixed_text[data-align-items='top'] {
+  align-items: flex-start
+}
+div.container div.block_mixed_text[data-align-items='middle'] {
+  align-items: center
+}
+div.container div.block_mixed_text[data-align-items='bottom'] {
+  align-items: flex-end
+}
+div.container div.block_mixed_text[data-text-align='left'] div.text {
+  text-align: left
+}
+div.container div.block_mixed_text[data-text-align='center'] div.text {
+  text-align: center
+}
+div.container div.block_mixed_text[data-text-align='right'] div.text {
+  text-align: right
+}
+div.container div.block_mixed_text[data-image-width='30%'] div.image {
+  width: 30%
+}
+div.container div.block_mixed_text[data-image-width='40%'] div.image {
+  width: 40%
+}
+div.container div.block_mixed_text[data-image-width='50%'] div.image {
+  width: 50%
+}
+div.container div.block_mixed_text[data-image-width='60%'] div.image {
+  width: 60%
+}
+div.container div.block_mixed_text[data-image-width='70%'] div.image {
+  width: 70%
+}
+div.container div.block_diagram {
+  width: 100%; --image-gap: 20px
+}
+div.container div.block_diagram div.items {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; gap: var(--image-gap); container-type: inline-size; container-name: block_diagram_items_m
+}
+div.container div.block_diagram div.items div.item {
+  width: 100%; box-sizing: border-box; border: var(--border-color) 1px solid
+}
+div.container div.block_diagram div.items div.item div.image {
+  width: 100%
+}
+div.container div.block_diagram div.items div.item div.image img {
+  display: block; width: 100%
+}
+div.container div.block_diagram div.items div.item div.text {
+  width: 100%; box-sizing: border-box; padding: 10px 15px; display: grid; grid-template-columns: 1fr; gap: 5px
+}
+div.container div.block_diagram div.items div.item div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%
+}
+div.container div.block_diagram div.items div.item div.text div.subtitle {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: var(--font-secondary-color)
+}
+div.container div.block_diagram[data-image-size=xs] div.items {
+  container-name: block_diagram_items_xs
+}
+div.container div.block_diagram[data-image-size=s] div.items {
+  container-name: block_diagram_items_s
+}
+div.container div.block_diagram[data-image-size=m] div.items {
+  container-name: block_diagram_items_m
+}
+div.container div.block_diagram[data-image-size=l] div.items {
+  container-name: block_diagram_items_l
+}
+div.container div.block_diagram[data-image-size=xl] div.items {
+  container-name: block_diagram_items_xl
+}
+div.container div.block_diagram[data-justify-content=left] div.items {
+  justify-content: flex-start
+}
+div.container div.block_diagram[data-justify-content=center] div.items {
+  justify-content: center
+}
+div.container div.block_diagram[data-justify-content=right] div.items {
+  justify-content: flex-end
+}
+div.container div.block_diagram[data-text-align=left] div.items div.item div.text {
+  text-align: left
+}
+div.container div.block_diagram[data-text-align=center] div.items div.item div.text {
+  text-align: center
+}
+div.container div.block_diagram[data-text-align=right] div.items div.item div.text {
+  text-align: right
+}
+div.container div.block_diagram[data-borderless='1'] div.items div.item {
+  border: 0px
+}
+div.container div.block_diagram[data-borderless='1'] div.items div.item div.text {
+  padding-left: 0px; padding-right: 0px
+}
+div.container div.block_diagram[data-textless='1'] div.items div.item div.text {
+  display: none
+}
+div.container div.block_diagram[data-titleless='1'] div.items div.item div.text div.title {
+  display: none
+}
+div.container div.block_diagram[data-subtitleless='1'] div.items div.item div.text div.subtitle {
+  display: none
+}
+div.container div.block_memo {
+  width: 100%; box-sizing: border-box; --item-gap: 20px; --inner-gap: 20px; --border-radius: 0px; --background-color: none; --title-color: var(--font-color); --content-color: var(--font-secondary-color)
+}
+div.container div.block_memo div.items {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; gap: var(--item-gap); container-type: inline-size; container-name: block_memo_items_m
+}
+div.container div.block_memo div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--inner-gap); background-color: var(--background-color); border: var(--border-color) 1px solid; border-radius: var(--border-radius); overflow: hidden
+}
+div.container div.block_memo div.items div.item div.image {
+  width: 100%
+}
+div.container div.block_memo div.items div.item div.image jtbc-svg {
+  width: 75px; height: 75px; --fore-color: var(--icon-color)
+}
+div.container div.block_memo div.items div.item div.text {
+  width: 100%; box-sizing: border-box; padding-top: var(--inner-gap); display: grid; grid-template-columns: 1fr; gap: calc(var(--inner-gap) / 4)
+}
+div.container div.block_memo div.items div.item div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%; color: var(--title-color)
+}
+div.container div.block_memo div.items div.item div.text div.title br {
+  display: none
+}
+div.container div.block_memo div.items div.item div.text div.content {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: var(--content-color)
+}
+div.container div.block_memo[data-icon-position=left] div.items div.item {
+  display: flex; align-items: flex-start; flex-wrap: wrap
+}
+div.container div.block_memo[data-icon-position=left] div.items div.item div.image {
+  width: 75px
+}
+div.container div.block_memo[data-icon-position=left][data-icon-size=s] div.items div.item div.image {
+  width: 50px
+}
+div.container div.block_memo[data-icon-position=left][data-icon-size=m] div.items div.item div.image {
+  width: 75px
+}
+div.container div.block_memo[data-icon-position=left][data-icon-size=l] div.items div.item div.image {
+  width: 100px
+}
+div.container div.block_memo[data-icon-position=left] div.items div.item div.text {
+  flex: 1; padding-top: 0px; padding-left: var(--inner-gap)
+}
+div.container div.block_memo[data-icon-position=none] div.items div.item div.image {
+  display: none
+}
+div.container div.block_memo[data-icon-position=none] div.items div.item div.text {
+  padding-top: 0px
+}
+div.container div.block_memo[data-icon-size=s] div.items div.item div.image jtbc-svg {
+  width: 50px; height: 50px
+}
+div.container div.block_memo[data-icon-size=m] div.items div.item div.image jtbc-svg {
+  width: 75px; height: 75px
+}
+div.container div.block_memo[data-icon-size=l] div.items div.item div.image jtbc-svg {
+  width: 100px; height: 100px
+}
+div.container div.block_memo[data-item-size=s] div.items {
+  container-name: block_memo_items_s
+}
+div.container div.block_memo[data-item-size=m] div.items {
+  container-name: block_memo_items_m
+}
+div.container div.block_memo[data-item-size=l] div.items {
+  container-name: block_memo_items_l
+}
+div.container div.block_memo[data-justify-content=left] div.items {
+  justify-content: flex-start
+}
+div.container div.block_memo[data-justify-content=center] div.items {
+  justify-content: center
+}
+div.container div.block_memo[data-justify-content=right] div.items {
+  justify-content: flex-end
+}
+div.container div.block_memo[data-text-align=left] div.items div.item div.image,
+div.container div.block_memo[data-text-align=left] div.items div.item div.text {
+  text-align: left
+}
+div.container div.block_memo[data-text-align=center] div.items div.item div.image,
+div.container div.block_memo[data-text-align=center] div.items div.item div.text {
+  text-align: center
+}
+div.container div.block_memo[data-text-align=right] div.items div.item div.image,
+div.container div.block_memo[data-text-align=right] div.items div.item div.text {
+  text-align: right
+}
+div.container div.block_memo[data-titleless='1'] div.items div.item div.text div.title {
+  display: none
+}
+div.container div.block_chart {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center
+}
+div.container div.block_chart div.box {
+  width: auto; max-width: 100%
+}
+div.container div.block_chart[data-align=left] {
+  justify-content: flex-start
+}
+div.container div.block_chart[data-align=center] {
+  justify-content: center
+}
+div.container div.block_chart[data-align=right] {
+  justify-content: flex-end
+}
+div.container div.block_chart[data-width='20%'] div.box {
+  width: 20%
+}
+div.container div.block_chart[data-width='30%'] div.box {
+  width: 30%
+}
+div.container div.block_chart[data-width='40%'] div.box {
+  width: 40%
+}
+div.container div.block_chart[data-width='50%'] div.box {
+  width: 50%
+}
+div.container div.block_chart[data-width='60%'] div.box {
+  width: 60%
+}
+div.container div.block_chart[data-width='70%'] div.box {
+  width: 70%
+}
+div.container div.block_chart[data-width='80%'] div.box {
+  width: 80%
+}
+div.container div.block_chart[data-width='90%'] div.box {
+  width: 90%
+}
+div.container div.block_chart[data-width='100%'] div.box {
+  width: 100%
+}
+div.container div.block_chart[data-width='20%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='30%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='40%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='50%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='60%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='70%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='80%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='90%'] div.box jtbc-charts,
+div.container div.block_chart[data-width='100%'] div.box jtbc-charts {
+  width: 100%
+}
+div.container div.block_quote {
+  width: 100%
+}
+div.container div.block_quote div.text {
+  width: 100%; box-sizing: border-box; padding: 10px; background: var(--quote-background); border-left: var(--quote-border-left); font-size: 12px; color: var(--quote-font-color); line-height: 140%
+}
+div.container div.block_delimiter {
+  width: 100%; height: 30px; display: flex; align-items: center
+}
+div.container div.block_delimiter::after {
+  content: ''; display: block; width: 100%; height: 0px; border-top: var(--border-color) 1px solid
+}
+@container container (width <= 640px) {
+  div.container div.block_image[data-width] img {
+    width: 100% !important
+  }
+  div.container div.block_two_images div.image {
+    width: 100% !important
+  }
+  div.container div.block_two_images div.image2 {
+    margin-top: var(--image-gap)
+  }
+  div.container div.block_video[data-width] video {
+    width: 100% !important
+  }
+  div.container div.block_audio[data-width] audio {
+    width: 100% !important
+  }
+  div.container div.block_chart div.box {
+    width: 100% !important
+  }
+  div.container div.block_chart div.box jtbc-charts {
+    width: 100% !important
+  }
+}
+@container container (width <= 800px) {
+  div.container div.block_mixed_text div.image {
+    width: 100% !important; align-self: auto !important
+  }
+  div.container div.block_mixed_text div.text {
+    width: 100% !important; align-self: auto !important; padding: var(--text-gap) 0px !important
+  }
+}
+@container block_diagram_items_xs (width >= 160px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_xs (width >= 320px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_xs (width >= 640px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_xs (width >= 800px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_xs (width >= 960px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_xs (width >= 1120px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_xs (width >= 1280px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_xs (width >= 1440px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(11.1% - var(--image-gap) * 8 / 9)
+  }
+}
+@container block_diagram_items_xs (width >= 1600px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(10% - var(--image-gap) * 9 / 10)
+  }
+}
+@container block_diagram_items_s (width >= 320px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_s (width >= 640px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_s (width >= 800px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_s (width >= 960px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_s (width >= 1120px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_s (width >= 1280px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_s (width >= 1440px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_s (width >= 1600px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(11.1% - var(--image-gap) * 8 / 9)
+  }
+}
+@container block_diagram_items_m (width >= 640px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_m (width >= 800px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_m (width >= 960px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_m (width >= 1120px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_m (width >= 1280px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_m (width >= 1440px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_m (width >= 1600px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_l (width >= 800px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_l (width >= 960px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_l (width >= 1120px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_l (width >= 1280px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_l (width >= 1440px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_l (width >= 1600px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_xl (width >= 960px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_xl (width >= 1280px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_xl (width >= 1600px) {
+  div.container div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_memo_items_s (width >= 640px) {
+  div.container div.block_memo div.items div.item {
+    width: calc(50% - var(--item-gap) * 1 / 2)
+  }
+}
+@container block_memo_items_s (width >= 960px) {
+  div.container div.block_memo div.items div.item {
+    width: calc(25% - var(--item-gap) * 3 / 4)
+  }
+}
+@container block_memo_items_m (width >= 960px) {
+  div.container div.block_memo div.items div.item {
+    width: calc(33.33% - var(--item-gap) * 2 / 3)
+  }
+}
+@container block_memo_items_l (width >= 960px) {
+  div.container div.block_memo div.items div.item {
+    width: calc(50% - var(--item-gap) * 1 / 2)
+  }
+}

@@ -1,0 +1,1109 @@
+@import url('../../../../css/form.css');
+@import url('../../../../css/table.css');
+* {
+  margin: 0px; padding: 0px
+}
+html {
+  width: 100%; height: 100%
+}
+body {
+  width: 100%; height: 100%; background: #fff; color: #000; font-size: 14px; font-family: Arial, Verdana
+}
+a {
+  color: #5b9dd9; text-decoration: underline
+}
+a:hover {
+  color: #e7505a; text-decoration: underline
+}
+h1,h2,h3,h4,h5,h6 {
+  margin: 0px; padding: 0.6em 0px !important; line-height: 140% !important
+}
+h1 {
+  font-size: 32px
+}
+h2 {
+  font-size: 24px
+}
+h3 {
+  font-size: 20px
+}
+h4 {
+  font-size: 16px
+}
+h5 {
+  font-size: 14px
+}
+h6 {
+  font-size: 12px
+}
+div.dialog {
+  width: 100%; height: 100%; background: rgba(255, 255, 255, .75); display: flex; align-items: center; justify-content: center; position: fixed; top: 0px; left: 0px; z-index: 10; opacity: 0; transition: opacity 0.3s ease
+}
+div.dialog.on {
+  opacity: 1; z-index: 100000
+}
+div.editor {
+  width: 100%; position: relative; z-index: 100
+}
+div.editor .codex-editor--narrow .ce-block div.icons {
+  margin-top: 40px
+}
+div.editor .codex-editor__redactor {
+  padding: 20px 0px 60px 0px !important
+}
+div.editor .cdx-block {
+  max-width: 100% !important
+}
+div.editor .ce-block__content,
+div.editor .ce-toolbar__content {
+  max-width: calc(100% - 140px) !important
+}
+div.editor .ce-popover--opened {
+  max-height: 360px
+}
+div.editor .ce-inline-toolbar .ce-popover__items {
+  overflow: hidden
+}
+div.editor .ce-tune-alignment--right {
+  text-align: right
+}
+div.editor .ce-tune-alignment--center {
+  text-align: center
+}
+div.editor .ce-tune-alignment--left {
+  text-align: left
+}
+div.editor .ce-block div.ce-paragraph.indent {
+  box-sizing: border-box; padding-left: 10%; padding-right: 10%
+}
+div.editor .ce-block div.icons {
+  padding: 6px; border: #eff0f1 1px solid; border-radius: 6px; box-shadow: 0px 3px 15px -3px rgba(13, 20, 33, .1); pointer-events: none; opacity: 0; transform: translate(0px, -6px) scale(0.6); position: absolute; top: var(--padding-top, 0px); right: -54px; transition: all 0.3s ease
+}
+div.editor .ce-block div.icons div.icon {
+  padding: 6px; border-radius: 6px; background: #ffffff; cursor: pointer; transition: all 0.3s ease
+}
+div.editor .ce-block div.icons div.icon jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+div.editor .ce-block div.icons div.icon:hover {
+  background: #f8f8f8
+}
+div.editor .ce-block div.icons div.icon:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.editor .ce-block div.icons input.file {
+  display: none
+}
+div.editor .ce-block:hover div.icons {
+  pointer-events: all; opacity: 1; transform: translate(0px, 0px) scale(1)
+}
+div.editor .ce-block__content div.block_image {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_image div.image {
+  width: auto; max-width: 100%; min-height: 30px; position: relative; --image-uploading-width: 100%
+}
+div.editor .ce-block__content div.block_image div.image::after {
+  content: ''; display: block; width: var(--image-uploading-width); height: 100%; position: absolute; top: 0%; right: 0%; background: rgba(255, 255, 255, .75); z-index: 1000; display: none; transition: width .3s ease
+}
+div.editor .ce-block__content div.block_image div.image img {
+  display: block; width: auto; max-width: 100%
+}
+div.editor .ce-block__content div.block_image div.image:empty {
+  width: 100%; height: 200px; background: #f6f6f6
+}
+div.editor .ce-block__content div.block_image div.image:empty::before {
+  content: ''; display: block; min-height: 50%; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/image.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%); cursor: pointer
+}
+div.editor .ce-block__content div.block_image div.image.uploading::after {
+  display: block
+}
+div.editor .ce-block__content div.block_image[data-align=left] {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_image[data-align=center] {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_image[data-align=right] {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_image[data-width='20%'] div.image {
+  width: 20%
+}
+div.editor .ce-block__content div.block_image[data-width='30%'] div.image {
+  width: 30%
+}
+div.editor .ce-block__content div.block_image[data-width='40%'] div.image {
+  width: 40%
+}
+div.editor .ce-block__content div.block_image[data-width='50%'] div.image {
+  width: 50%
+}
+div.editor .ce-block__content div.block_image[data-width='60%'] div.image {
+  width: 60%
+}
+div.editor .ce-block__content div.block_image[data-width='70%'] div.image {
+  width: 70%
+}
+div.editor .ce-block__content div.block_image[data-width='80%'] div.image {
+  width: 80%
+}
+div.editor .ce-block__content div.block_image[data-width='90%'] div.image {
+  width: 90%
+}
+div.editor .ce-block__content div.block_image[data-width='100%'] div.image {
+  width: 100%
+}
+div.editor .ce-block__content div.block_image[data-width='20%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='30%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='40%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='50%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='60%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='70%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='80%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='90%'] div.image img,
+div.editor .ce-block__content div.block_image[data-width='100%'] div.image img {
+  width: 100%
+}
+div.editor .ce-block__content div.block_two_images {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; --padding-top: 0px; --padding-bottom: 0px; --image-gap: 20px
+}
+div.editor .ce-block__content div.block_two_images div.image {
+  width: calc(50% - var(--image-gap) / 2); position: relative; --image-uploading-width: 100%
+}
+div.editor .ce-block__content div.block_two_images div.image div.box {
+  width: 100%; position: relative
+}
+div.editor .ce-block__content div.block_two_images div.image div.box::after {
+  content: ''; display: block; width: var(--image-uploading-width); height: 100%; position: absolute; top: 0%; right: 0%; background: rgba(255, 255, 255, .75); z-index: 1000; display: none; transition: width .3s ease
+}
+div.editor .ce-block__content div.block_two_images div.image div.box img {
+  display: block; width: 100%
+}
+div.editor .ce-block__content div.block_two_images div.image div.box:empty {
+  width: 100%; min-height: 200px; background: #f6f6f6
+}
+div.editor .ce-block__content div.block_two_images div.image div.box:empty::before {
+  content: ''; display: block; height: 50%; max-height: 160px; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/image.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%); cursor: pointer
+}
+div.editor .ce-block__content div.block_two_images div.image div.box.uploading::after {
+  display: block
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons {
+  display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 6px; border: #eff0f1 1px solid; border-radius: 6px; box-shadow: 0px 3px 15px -3px rgba(13, 20, 33, .1); transform: translate(-50%, -50%) scale(0.6); opacity: 0; position: absolute; top: 50%; left: 50%; z-index: 100; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon {
+  padding: 6px; border-radius: 6px; background: #ffffff; cursor: pointer; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon:hover {
+  background: #f8f8f8
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon.on {
+  background: #e24a4a !important
+}
+div.editor .ce-block__content div.block_two_images div.image div.buttons div.icon.on jtbc-svg {
+  --fore-color: #ffffff !important
+}
+div.editor .ce-block__content div.block_two_images div.image:hover div.buttons {
+  transform: translate(-50%, -50%) scale(1); opacity: 1
+}
+div.editor .ce-block__content div.block_two_images div.image:has(div.box:empty) div.buttons {
+  display: none
+}
+div.editor .ce-block__content div.block_two_images div.image input.file {
+  display: none
+}
+div.editor .ce-block__content div.block_two_images div.image1 div.buttons div.icon[icon=arrow_left],
+div.editor .ce-block__content div.block_two_images div.image2 div.buttons div.icon[icon=arrow_right] {
+  background: #ffffff !important; filter: grayscale(100%); opacity: 0.1; cursor: default
+}
+div.editor .ce-block__content div.block_two_images div.image1 div.buttons div.icon[icon=arrow_left]:hover jtbc-svg,
+div.editor .ce-block__content div.block_two_images div.image2 div.buttons div.icon[icon=arrow_right]:hover jtbc-svg {
+  --fore-color: #666666
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=top] {
+  align-items: flex-start
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=middle] {
+  align-items: center
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=bottom] {
+  align-items: flex-end
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=stretch] div.image {
+  align-self: stretch
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=stretch] div.image div.box {
+  height: 100%
+}
+div.editor .ce-block__content div.block_two_images[data-align-items=stretch] div.image div.box img {
+  width: 100%; height: 100%; object-fit: cover
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='3 / 7'] div.image1 {
+  width: calc(30% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='3 / 7'] div.image2 {
+  width: calc(70% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='4 / 6'] div.image1 {
+  width: calc(40% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='4 / 6'] div.image2 {
+  width: calc(60% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='5 / 5'] div.image1 {
+  width: calc(50% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='5 / 5'] div.image2 {
+  width: calc(50% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='6 / 4'] div.image1 {
+  width: calc(60% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='6 / 4'] div.image2 {
+  width: calc(40% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='7 / 3'] div.image1 {
+  width: calc(70% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_two_images[data-ratio='7 / 3'] div.image2 {
+  width: calc(30% - var(--image-gap) / 2)
+}
+div.editor .ce-block__content div.block_audio {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_audio div.audio {
+  width: auto; max-width: 100%
+}
+div.editor .ce-block__content div.block_audio div.audio audio {
+  display: block; max-width: 100%
+}
+div.editor .ce-block__content div.block_audio[data-align=left] {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_audio[data-align=center] {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_audio[data-align=right] {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_audio[data-width='20%'] div.audio {
+  width: 20%
+}
+div.editor .ce-block__content div.block_audio[data-width='30%'] div.audio {
+  width: 30%
+}
+div.editor .ce-block__content div.block_audio[data-width='40%'] div.audio {
+  width: 40%
+}
+div.editor .ce-block__content div.block_audio[data-width='50%'] div.audio {
+  width: 50%
+}
+div.editor .ce-block__content div.block_audio[data-width='60%'] div.audio {
+  width: 60%
+}
+div.editor .ce-block__content div.block_audio[data-width='70%'] div.audio {
+  width: 70%
+}
+div.editor .ce-block__content div.block_audio[data-width='80%'] div.audio {
+  width: 80%
+}
+div.editor .ce-block__content div.block_audio[data-width='90%'] div.audio {
+  width: 90%
+}
+div.editor .ce-block__content div.block_audio[data-width='100%'] div.audio {
+  width: 100%
+}
+div.editor .ce-block__content div.block_audio[data-width='20%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='30%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='40%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='50%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='60%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='70%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='80%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='90%'] div.audio audio,
+div.editor .ce-block__content div.block_audio[data-width='100%'] div.audio audio {
+  width: 100%
+}
+div.editor .ce-block__content div.block_video {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_video div.video {
+  width: auto; max-width: 100%; min-height: 30px; position: relative; --video-uploading-width: 100%
+}
+div.editor .ce-block__content div.block_video div.video::after {
+  content: ''; display: block; width: var(--video-uploading-width); height: 100%; position: absolute; top: 0%; right: 0%; background: rgba(255, 255, 255, .75); z-index: 1000; display: none; transition: width .3s ease
+}
+div.editor .ce-block__content div.block_video div.video video {
+  display: block; width: auto; max-width: 100%
+}
+div.editor .ce-block__content div.block_video div.video:empty {
+  width: 100%; height: 200px; background: #f6f6f6
+}
+div.editor .ce-block__content div.block_video div.video:empty::before {
+  content: ''; display: block; min-height: 50%; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/video.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%); cursor: pointer
+}
+div.editor .ce-block__content div.block_video div.video.uploading::after {
+  display: block
+}
+div.editor .ce-block__content div.block_video[data-align=left] {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_video[data-align=center] {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_video[data-align=right] {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_video[data-width='20%'] div.video {
+  width: 20%
+}
+div.editor .ce-block__content div.block_video[data-width='30%'] div.video {
+  width: 30%
+}
+div.editor .ce-block__content div.block_video[data-width='40%'] div.video {
+  width: 40%
+}
+div.editor .ce-block__content div.block_video[data-width='50%'] div.video {
+  width: 50%
+}
+div.editor .ce-block__content div.block_video[data-width='60%'] div.video {
+  width: 60%
+}
+div.editor .ce-block__content div.block_video[data-width='70%'] div.video {
+  width: 70%
+}
+div.editor .ce-block__content div.block_video[data-width='80%'] div.video {
+  width: 80%
+}
+div.editor .ce-block__content div.block_video[data-width='90%'] div.video {
+  width: 90%
+}
+div.editor .ce-block__content div.block_video[data-width='100%'] div.video {
+  width: 100%
+}
+div.editor .ce-block__content div.block_video[data-width='20%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='30%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='40%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='50%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='60%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='70%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='80%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='90%'] div.video video,
+div.editor .ce-block__content div.block_video[data-width='100%'] div.video video {
+  width: 100%
+}
+div.editor .ce-block__content div.block_mixed_text {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; --padding-top: 0px; --padding-bottom: 0px; --text-gap: 20px
+}
+div.editor .ce-block__content div.block_mixed_text div.image {
+  width: 50%; align-self: stretch; position: relative; --image-uploading-width: 100%
+}
+div.editor .ce-block__content div.block_mixed_text div.image::after {
+  content: ''; display: block; width: var(--image-uploading-width); height: 100%; position: absolute; top: 0%; right: 0%; background: rgba(255, 255, 255, .75); z-index: 1000; display: none; transition: width .3s ease
+}
+div.editor .ce-block__content div.block_mixed_text div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover
+}
+div.editor .ce-block__content div.block_mixed_text div.image:empty {
+  min-height: 200px; background: #f6f6f6
+}
+div.editor .ce-block__content div.block_mixed_text div.image:empty::before {
+  content: ''; display: block; height: 50%; max-height: 160px; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/image.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%); cursor: pointer
+}
+div.editor .ce-block__content div.block_mixed_text div.image.uploading::after {
+  display: block
+}
+div.editor .ce-block__content div.block_mixed_text div.text {
+  flex: 1; box-sizing: border-box; padding-left: var(--text-gap); position: relative
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%; padding-bottom: 10px
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.title[data-empty=true]::after {
+  content: attr(placeholder); color: #999999
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.title br {
+  display: none
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.content {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: #666666
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.content[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.content[data-empty=true]::after {
+  content: attr(placeholder); color: #999999
+}
+div.editor .ce-block__content div.block_mixed_text div.text div.title:focus,
+div.editor .ce-block__content div.block_mixed_text div.text div.content:focus {
+  outline: none
+}
+div.editor .ce-block__content div.block_mixed_text[data-layout='1'] {
+  flex-direction: row-reverse
+}
+div.editor .ce-block__content div.block_mixed_text[data-layout='1'] div.text {
+  padding-left: 0px; padding-right: var(--text-gap)
+}
+div.editor .ce-block__content div.block_mixed_text[data-titleless='1'] div.text div.title {
+  visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 10; pointer-events: none
+}
+div.editor .ce-block__content div.block_mixed_text[data-stretchable='0'] div.image {
+  align-self: auto
+}
+div.editor .ce-block__content div.block_mixed_text[data-align-items='top'] {
+  align-items: flex-start
+}
+div.editor .ce-block__content div.block_mixed_text[data-align-items='middle'] {
+  align-items: center
+}
+div.editor .ce-block__content div.block_mixed_text[data-align-items='bottom'] {
+  align-items: flex-end
+}
+div.editor .ce-block__content div.block_mixed_text[data-text-align='left'] div.text {
+  text-align: left
+}
+div.editor .ce-block__content div.block_mixed_text[data-text-align='center'] div.text {
+  text-align: center
+}
+div.editor .ce-block__content div.block_mixed_text[data-text-align='right'] div.text {
+  text-align: right
+}
+div.editor .ce-block__content div.block_mixed_text[data-image-width='30%'] div.image {
+  width: 30%
+}
+div.editor .ce-block__content div.block_mixed_text[data-image-width='40%'] div.image {
+  width: 40%
+}
+div.editor .ce-block__content div.block_mixed_text[data-image-width='50%'] div.image {
+  width: 50%
+}
+div.editor .ce-block__content div.block_mixed_text[data-image-width='60%'] div.image {
+  width: 60%
+}
+div.editor .ce-block__content div.block_mixed_text[data-image-width='70%'] div.image {
+  width: 70%
+}
+div.editor .ce-block__content div.block_diagram {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px; --image-gap: 20px
+}
+div.editor .ce-block__content div.block_diagram div.items {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; gap: var(--image-gap); position: relative; container-type: inline-size; container-name: block_diagram_items_m
+}
+div.editor .ce-block__content div.block_diagram div.items div.item {
+  width: 100%; box-sizing: border-box; border: #d1d1d1 1px solid; position: relative
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.image {
+  width: 100%; position: relative
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.image img {
+  display: block; width: 100%
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.image.empty {
+  background: #f6f6f6; cursor: pointer
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.image.empty::after {
+  content: ''; display: block; width: 50%; height: 50%; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/image.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%)
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text {
+  width: 100%; box-sizing: border-box; padding: 10px 15px; display: grid; grid-template-columns: 1fr; gap: 5px
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.title[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.title[data-empty=true]::after {
+  content: attr(placeholder); color: #999999
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.subtitle {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: #666666
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.subtitle[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.subtitle[data-empty=true]::after {
+  content: attr(placeholder); color: #999999
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.title:focus,
+div.editor .ce-block__content div.block_diagram div.items div.item div.text div.subtitle:focus {
+  outline: none
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons {
+  display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 6px; border: #eff0f1 1px solid; border-radius: 6px; box-shadow: 0px 3px 15px -3px rgba(13, 20, 33, .1); transform: translate(-50%, -12px) scale(0.6); opacity: 0; position: absolute; top: 12px; left: 50%; z-index: 100; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon {
+  padding: 6px; border-radius: 6px; background: #ffffff; cursor: pointer; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon:hover {
+  background: #f8f8f8
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon.on {
+  background: #e24a4a !important
+}
+div.editor .ce-block__content div.block_diagram div.items div.item div.buttons div.icon.on jtbc-svg {
+  --fore-color: #ffffff !important
+}
+div.editor .ce-block__content div.block_diagram div.items div.item input.file {
+  display: none
+}
+div.editor .ce-block__content div.block_diagram div.items div.item:hover div.buttons {
+  transform: translate(-50%, 0px) scale(1); opacity: 1
+}
+div.editor .ce-block__content div.block_diagram div.items div.item:first-of-type div.buttons div.icon[icon=arrow_left],
+div.editor .ce-block__content div.block_diagram div.items div.item:last-of-type div.buttons div.icon[icon=arrow_right] {
+  background: #ffffff !important; filter: grayscale(100%); opacity: 0.1; cursor: default
+}
+div.editor .ce-block__content div.block_diagram div.items div.item:first-of-type div.buttons div.icon[icon=arrow_left]:hover jtbc-svg,
+div.editor .ce-block__content div.block_diagram div.items div.item:last-of-type div.buttons div.icon[icon=arrow_right]:hover jtbc-svg {
+  --fore-color: #666666
+}
+div.editor .ce-block__content div.block_diagram[data-image-size=xs] div.items {
+  container-name: block_diagram_items_xs
+}
+div.editor .ce-block__content div.block_diagram[data-image-size=s] div.items {
+  container-name: block_diagram_items_s
+}
+div.editor .ce-block__content div.block_diagram[data-image-size=m] div.items {
+  container-name: block_diagram_items_m
+}
+div.editor .ce-block__content div.block_diagram[data-image-size=l] div.items {
+  container-name: block_diagram_items_l
+}
+div.editor .ce-block__content div.block_diagram[data-image-size=xl] div.items {
+  container-name: block_diagram_items_xl
+}
+div.editor .ce-block__content div.block_diagram[data-justify-content=left] div.items {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_diagram[data-justify-content=center] div.items {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_diagram[data-justify-content=right] div.items {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_diagram[data-text-align=left] div.items div.item div.text {
+  text-align: left
+}
+div.editor .ce-block__content div.block_diagram[data-text-align=center] div.items div.item div.text {
+  text-align: center
+}
+div.editor .ce-block__content div.block_diagram[data-text-align=right] div.items div.item div.text {
+  text-align: right
+}
+div.editor .ce-block__content div.block_diagram[data-borderless='1'] div.items div.item {
+  border: 0px
+}
+div.editor .ce-block__content div.block_diagram[data-borderless='1'] div.items div.item div.text {
+  padding-left: 0px; padding-right: 0px
+}
+div.editor .ce-block__content div.block_diagram[data-textless='1'] div.items div.item div.text {
+  visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 10; pointer-events: none
+}
+div.editor .ce-block__content div.block_diagram[data-titleless='1'] div.items div.item div.text div.title {
+  visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 10; pointer-events: none
+}
+div.editor .ce-block__content div.block_diagram[data-subtitleless='1'] div.items div.item div.text div.subtitle {
+  visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 10; pointer-events: none
+}
+div.editor .ce-block__content div.block_memo {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px; --item-gap: 20px; --inner-gap: 20px; --border-color: #d1d1d1; --border-radius: 0px; --background-color: none; --icon-color: #333333; --title-color: #000000; --content-color: #666666
+}
+div.editor .ce-block__content div.block_memo div.items {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; gap: var(--item-gap); position: relative; container-type: inline-size; container-name: block_memo_items_m
+}
+div.editor .ce-block__content div.block_memo div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--inner-gap); background-color: var(--background-color); border: var(--border-color) 1px solid; border-radius: var(--border-radius); overflow: hidden; position: relative
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.image {
+  width: 100%; position: relative
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.image jtbc-svg {
+  width: 75px; height: 75px; --fore-color: var(--icon-color); cursor: pointer
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text {
+  width: 100%; box-sizing: border-box; padding-top: var(--inner-gap); display: grid; grid-template-columns: 1fr; gap: calc(var(--inner-gap) / 4)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.title {
+  font-size: 16px; font-weight: bold; line-height: 160%; color: var(--title-color)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.title[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.title[data-empty=true]::after {
+  content: attr(placeholder); color: rgb(from var(--title-color) r g b / 0.5)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.content {
+  font-size: 14px; font-weight: normal; line-height: 140%; color: var(--content-color)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.content[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.content[data-empty=true]::after {
+  content: attr(placeholder); color: rgb(from var(--content-color) r g b / 0.5)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.title:focus,
+div.editor .ce-block__content div.block_memo div.items div.item div.text div.content:focus {
+  outline: none
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons {
+  display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 6px; border: #eff0f1 1px solid; border-radius: 6px; transform: translate(-50%, 0px); opacity: 0; position: absolute; top: -41px; left: 50%; z-index: 100; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon {
+  padding: 6px; border-radius: 6px; background: #ffffff; cursor: pointer; transition: all 0.3s ease
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #666666
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon:hover {
+  background: #f8f8f8
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon.on {
+  background: #e24a4a !important
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.icon.on jtbc-svg {
+  --fore-color: #ffffff !important
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons div.handler {
+  width: 40px; height: 20px; box-sizing: border-box; border: #eff0f1 1px solid; border-top: 0px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; background: url(images/arrow.svg) #ffffff center center no-repeat; background-size: 16px; transform: translate(-50%, -1px); position: absolute; bottom: -20px; left: 50%; z-index: 100; cursor: pointer
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons.on {
+  top: 12px; box-shadow: 0px 3px 15px -3px rgba(13, 20, 33, .1)
+}
+div.editor .ce-block__content div.block_memo div.items div.item div.buttons.on div.handler {
+  background-image: url(images/close.svg)
+}
+div.editor .ce-block__content div.block_memo div.items div.item:hover div.buttons {
+  opacity: 1
+}
+div.editor .ce-block__content div.block_memo div.items div.item:first-of-type div.buttons div.icon[icon=arrow_left],
+div.editor .ce-block__content div.block_memo div.items div.item:last-of-type div.buttons div.icon[icon=arrow_right] {
+  background: #ffffff !important; filter: grayscale(100%); opacity: 0.1; cursor: default
+}
+div.editor .ce-block__content div.block_memo div.items div.item:first-of-type div.buttons div.icon[icon=arrow_left]:hover jtbc-svg,
+div.editor .ce-block__content div.block_memo div.items div.item:last-of-type div.buttons div.icon[icon=arrow_right]:hover jtbc-svg {
+  --fore-color: #666666
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left] div.items div.item {
+  display: flex; align-items: flex-start; flex-wrap: wrap
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left] div.items div.item div.image {
+  width: 75px
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left][data-icon-size=s] div.items div.item div.image {
+  width: 50px
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left][data-icon-size=m] div.items div.item div.image {
+  width: 75px
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left][data-icon-size=l] div.items div.item div.image {
+  width: 100px
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=left] div.items div.item div.text {
+  flex: 1; padding-top: 0px; padding-left: var(--inner-gap)
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=none] div.items div.item div.image {
+  display: none
+}
+div.editor .ce-block__content div.block_memo[data-icon-position=none] div.items div.item div.text {
+  padding-top: 0px
+}
+div.editor .ce-block__content div.block_memo[data-icon-size=s] div.items div.item div.image jtbc-svg {
+  width: 50px; height: 50px
+}
+div.editor .ce-block__content div.block_memo[data-icon-size=m] div.items div.item div.image jtbc-svg {
+  width: 75px; height: 75px
+}
+div.editor .ce-block__content div.block_memo[data-icon-size=l] div.items div.item div.image jtbc-svg {
+  width: 100px; height: 100px
+}
+div.editor .ce-block__content div.block_memo[data-item-size=s] div.items {
+  container-name: block_memo_items_s
+}
+div.editor .ce-block__content div.block_memo[data-item-size=m] div.items {
+  container-name: block_memo_items_m
+}
+div.editor .ce-block__content div.block_memo[data-item-size=l] div.items {
+  container-name: block_memo_items_l
+}
+div.editor .ce-block__content div.block_memo[data-justify-content=left] div.items {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_memo[data-justify-content=center] div.items {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_memo[data-justify-content=right] div.items {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_memo[data-text-align=left] div.items div.item div.image,
+div.editor .ce-block__content div.block_memo[data-text-align=left] div.items div.item div.text {
+  text-align: left
+}
+div.editor .ce-block__content div.block_memo[data-text-align=center] div.items div.item div.image,
+div.editor .ce-block__content div.block_memo[data-text-align=center] div.items div.item div.text {
+  text-align: center
+}
+div.editor .ce-block__content div.block_memo[data-text-align=right] div.items div.item div.image,
+div.editor .ce-block__content div.block_memo[data-text-align=right] div.items div.item div.text {
+  text-align: right
+}
+div.editor .ce-block__content div.block_memo[data-titleless='1'] div.items div.item div.text div.title {
+  visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 10; pointer-events: none
+}
+div.editor .ce-block__content div.block_chart {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_chart div.chart {
+  width: auto; max-width: 100%; min-height: 30px
+}
+div.editor .ce-block__content div.block_chart[data-align=left] {
+  justify-content: flex-start
+}
+div.editor .ce-block__content div.block_chart[data-align=center] {
+  justify-content: center
+}
+div.editor .ce-block__content div.block_chart[data-align=right] {
+  justify-content: flex-end
+}
+div.editor .ce-block__content div.block_chart[data-width='20%'] div.chart {
+  width: 20%
+}
+div.editor .ce-block__content div.block_chart[data-width='30%'] div.chart {
+  width: 30%
+}
+div.editor .ce-block__content div.block_chart[data-width='40%'] div.chart {
+  width: 40%
+}
+div.editor .ce-block__content div.block_chart[data-width='50%'] div.chart {
+  width: 50%
+}
+div.editor .ce-block__content div.block_chart[data-width='60%'] div.chart {
+  width: 60%
+}
+div.editor .ce-block__content div.block_chart[data-width='70%'] div.chart {
+  width: 70%
+}
+div.editor .ce-block__content div.block_chart[data-width='80%'] div.chart {
+  width: 80%
+}
+div.editor .ce-block__content div.block_chart[data-width='90%'] div.chart {
+  width: 90%
+}
+div.editor .ce-block__content div.block_chart[data-width='100%'] div.chart {
+  width: 100%
+}
+div.editor .ce-block__content div.block_chart[data-width='20%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='30%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='40%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='50%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='60%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='70%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='80%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='90%'] div.chart jtbc-charts,
+div.editor .ce-block__content div.block_chart[data-width='100%'] div.chart jtbc-charts {
+  width: 100%
+}
+div.editor .ce-block__content div.block_quote {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_quote div.text {
+  width: 100%; box-sizing: border-box; padding: 10px; background: #f6f6f6; border-left: #666666 2px solid; font-size: 12px; color: #666666; line-height: 140%
+}
+div.editor .ce-block__content div.block_quote div.text:focus {
+  outline: none
+}
+div.editor .ce-block__content div.block_quote div.text[data-empty=true] br {
+  display: none
+}
+div.editor .ce-block__content div.block_quote div.text[data-empty=true]::after {
+  content: attr(placeholder); color: #999999
+}
+div.editor .ce-block__content div.block_code {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px
+}
+div.editor .ce-block__content div.block_delimiter {
+  width: 100%; height: 30px; display: flex; align-items: center
+}
+div.editor .ce-block__content div.block_delimiter::after {
+  content: ''; display: block; width: 100%; height: 0px; border-top: #d1d1d1 1px solid
+}
+div.settings {
+  width: 640px; box-sizing: border-box; background: #ffffff; border: #eff0f1 1px solid; border-radius: 6px; box-shadow: 0px 3px 15px -3px rgba(13, 20, 33, .1); transform: scale(0.9); opacity: 0; position: relative; transition: all 0.3s ease
+}
+div.settings.on {
+  transform: scale(1); opacity: 1
+}
+div.settings.on.out {
+  transform: scale(1.1); opacity: 0
+}
+div.settings h3 {
+  margin: 0px; padding: 12px !important; font-size: 16px; font-weight: normal; line-height: 100%
+}
+div.settings div.close {
+  cursor: pointer; position: absolute; top: 12px; right: 12px; z-index: 100
+}
+div.settings div.close jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #999999
+}
+div.settings div.close:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.settings div.box {
+  width: 100%; box-sizing: border-box; max-height: 450px; overflow: auto
+}
+div.settings div.content {
+  width: 100%; box-sizing: border-box; padding: 12px; padding-top: 0px; display: grid; grid-template-columns: 1fr; gap: 12px
+}
+div.settings div.content div.icons {
+  width: 100%; max-height: 400px; overflow: auto
+}
+div.settings div.content div.icons jtbc-field-icon-selector {
+  --columns-width: 40px
+}
+div.settings div.content div.row {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 12px
+}
+div.settings div.content div.row div.item {
+  width: 100%
+}
+div.settings div.content div.row div.item.hide {
+  display: none
+}
+div.settings div.content div.row div.item[size='s'] {
+  width: auto
+}
+div.settings div.content div.row div.item h4 {
+  margin: 0px; padding: 0px !important; padding-bottom: 6px !important; font-weight: normal; font-size: 14px; color: #999999
+}
+div.settings div.content div.row div.item div.field {
+  width: 100%
+}
+div.settings div.content div.row div.item div.field textarea.textarea {
+  width: 100%
+}
+div.settings div.footer {
+  width: 100%; box-sizing: border-box; padding: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; border-top: #eff0f1 1px solid
+}
+div.settings div.icons {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px
+}
+div.settings div.icons div.icon {
+  padding: 6px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease
+}
+div.settings div.icons div.icon jtbc-svg {
+  width: 14px; height: 14px; --fore-color: #666666
+}
+div.settings div.icons div.icon:hover jtbc-svg {
+  --fore-color: #000000
+}
+div.settings div.icons div.icon.on {
+  background: #e24a4a !important
+}
+div.settings div.icons div.icon.on jtbc-svg {
+  --fore-color: #ffffff !important
+}
+div.settings table.table tbody tr:first-of-type div.icon.arrow_up,
+div.settings table.table tbody tr:last-of-type div.icon.arrow_down {
+  background: #ffffff !important; filter: grayscale(100%); opacity: 0.1; cursor: default
+}
+@container block_diagram_items_xs (width >= 160px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_xs (width >= 320px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_xs (width >= 640px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_xs (width >= 800px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_xs (width >= 960px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_xs (width >= 1120px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_xs (width >= 1280px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_xs (width >= 1440px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(11.1% - var(--image-gap) * 8 / 9)
+  }
+}
+@container block_diagram_items_xs (width >= 1600px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(10% - var(--image-gap) * 9 / 10)
+  }
+}
+@container block_diagram_items_s (width >= 320px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_s (width >= 640px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_s (width >= 800px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_s (width >= 960px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_s (width >= 1120px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_s (width >= 1280px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_s (width >= 1440px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_s (width >= 1600px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(11.1% - var(--image-gap) * 8 / 9)
+  }
+}
+@container block_diagram_items_m (width >= 640px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_m (width >= 800px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_m (width >= 960px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_m (width >= 1120px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_m (width >= 1280px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_m (width >= 1440px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_m (width >= 1600px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(12.5% - var(--image-gap) * 7 / 8)
+  }
+}
+@container block_diagram_items_l (width >= 800px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_l (width >= 960px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_l (width >= 1120px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_diagram_items_l (width >= 1280px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(20% - var(--image-gap) * 4 / 5)
+  }
+}
+@container block_diagram_items_l (width >= 1440px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(16.66% - var(--image-gap) * 5 / 6)
+  }
+}
+@container block_diagram_items_l (width >= 1600px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(14.28% - var(--image-gap) * 6 / 7)
+  }
+}
+@container block_diagram_items_xl (width >= 960px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(50% - var(--image-gap) * 1 / 2)
+  }
+}
+@container block_diagram_items_xl (width >= 1280px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(33.33% - var(--image-gap) * 2 / 3)
+  }
+}
+@container block_diagram_items_xl (width >= 1600px) {
+  div.editor .ce-block__content div.block_diagram div.items div.item {
+    width: calc(25% - var(--image-gap) * 3 / 4)
+  }
+}
+@container block_memo_items_s (width >= 640px) {
+  div.editor .ce-block__content div.block_memo div.items div.item {
+    width: calc(50% - var(--item-gap) * 1 / 2)
+  }
+}
+@container block_memo_items_s (width >= 960px) {
+  div.editor .ce-block__content div.block_memo div.items div.item {
+    width: calc(25% - var(--item-gap) * 3 / 4)
+  }
+}
+@container block_memo_items_m (width >= 960px) {
+  div.editor .ce-block__content div.block_memo div.items div.item {
+    width: calc(33.33% - var(--item-gap) * 2 / 3)
+  }
+}
+@container block_memo_items_l (width >= 960px) {
+  div.editor .ce-block__content div.block_memo div.items div.item {
+    width: calc(50% - var(--item-gap) * 1 / 2)
+  }
+}

@@ -6,7 +6,6 @@ use App\Common\Form\FieldTextGenerator;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Common\Traits\Action;
-use App\Universal\Upload\UploadedStatus;
 
 class Diplomat extends Ambassador {
   use Action\Typical\Add {
@@ -30,9 +29,31 @@ class Diplomat extends Ambassador {
     return $result;
   }
 
+  public function __start()
+  {
+    $this -> hook -> afterDelete = function($id)
+    {
+      $model = new TinyModel(autoFilter: false);
+      $model -> where -> id = intval($id);
+      $rs = $model -> get();
+      if (!is_null($rs))
+      {
+        $rsId = intval($rs -> id);
+        $rsKey = strval($rs -> key);
+        $rsDeleted = intval($rs -> deleted);
+        if ($rsDeleted === 1)
+        {
+          $model -> pocket -> key = $rsKey . '~' . $rsId;
+          $model -> submit();
+        }
+      };
+    };
+  }
+
   public function add()
   {
     $bs = new BasicSubstance($this);
+    $bs -> data -> visibleUri = $this -> getParam('visible_uri');
     $bs -> data -> fieldGalleryText = $this -> getFieldText('gallery');
     $bs -> data -> fieldAttachmentText = $this -> getFieldText('attachment');
     $bs -> data -> fieldTableText = $this -> getFieldText('table');
@@ -58,6 +79,7 @@ class Diplomat extends Ambassador {
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;
     $bs -> data -> status = $status;
+    $bs -> data -> visibleUri = $this -> getParam('visible_uri');
     $bs -> data -> fieldGalleryText = $this -> getFieldText('gallery');
     $bs -> data -> fieldAttachmentText = $this -> getFieldText('attachment');
     $bs -> data -> fieldTableText = $this -> getFieldText('table');
@@ -108,7 +130,6 @@ class Diplomat extends Ambassador {
     {
       $result = null;
       $key = strval($req -> post('key'));
-      
       if (!Validation::isEmpty($key))
       {
         $model = new TinyModel();
