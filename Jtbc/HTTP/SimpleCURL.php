@@ -205,6 +205,23 @@ class SimpleCURL
     return $this;
   }
 
+  public function setHeaders(array $argHeaders)
+  {
+    foreach ($argHeaders as $name => $value)
+    {
+      if (is_string($name) && is_scalar($value))
+      {
+        $content = strval($value);
+        if (is_bool($value))
+        {
+          $content = ($value === true)? 'true': 'false';
+        }
+        $this -> setHeader($name, $content);
+      }
+    }
+    return $this;
+  }
+
   public function setParam(array $argParam)
   {
     $this -> param = new Substance($argParam);

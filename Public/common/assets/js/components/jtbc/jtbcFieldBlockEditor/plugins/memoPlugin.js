@@ -835,6 +835,7 @@ export default class memoPlugin {
     let wrapper = this.wrapper = document.createElement('div');
     let items = document.createElement('div');
     let icons = document.createElement('div');
+    let emptyInput = document.createElement('input');
     wrapper.classList.add('block_memo');
     items.classList.add('items');
     icons.classList.add('icons');
@@ -848,7 +849,8 @@ export default class memoPlugin {
       icon.setAttribute('title', this.api.i18n.t(item.charAt(0).toUpperCase() + item.slice(1)));
       icons.append(icon);
     });
-    wrapper.append(items, icons);
+    emptyInput.setAttribute('type', 'hidden');
+    wrapper.append(items, icons, emptyInput);
     this.#setData();
     this.#initEvents();
     return wrapper;

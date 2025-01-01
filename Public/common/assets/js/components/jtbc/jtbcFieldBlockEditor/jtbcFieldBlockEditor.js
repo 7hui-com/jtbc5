@@ -8,6 +8,7 @@ import diagramPlugin from './plugins/diagramPlugin.js';
 import memoPlugin from './plugins/memoPlugin.js';
 import chartPlugin from './plugins/chartPlugin.js';
 import quotePlugin from './plugins/quotePlugin.js';
+import attachmentPlugin from './plugins/attachmentPlugin.js';
 import codePlugin from './plugins/codePlugin.js';
 import delimiterPlugin from './plugins/delimiterPlugin.js';
 import alignmentPlugin from './plugins/alignmentPlugin.js';
@@ -60,6 +61,10 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
 
   get tail() {
     return this.#tail;
+  };
+
+  get contentType() {
+    return 'block';
   };
 
   get iWindow() {
@@ -165,7 +170,7 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
       this.#editor = new iWindow.editorjs.main({
         'holder': holder,
         'logLevel': 'ERROR',
-        'inlineToolbar': ['bold', 'italic', 'underline', 'strikethrough', 'marker', 'link', 'inlineCode'],
+        'inlineToolbar': ['bold', 'italic', 'underline', 'strikethrough', 'marker', 'colorPicker', 'link', 'inlineCode'],
         'defaultBlock': 'paragraph',
         'tools': {
           'paragraph': {
@@ -233,6 +238,10 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
             'config': pluginConfig,
             'inlineToolbar': true,
           },
+          'attachment': {
+            'class': attachmentPlugin,
+            'config': pluginConfig,
+          },
           'code': {
             'class': codePlugin,
             'config': pluginConfig,
@@ -251,6 +260,10 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
           'marker': {
             'class': iWindow.editorjs.plugins.marker,
             'shortcut': 'Ctrl+M',
+          },
+          'colorPicker': {
+            'class': iWindow.editorjs.plugins.colorPicker,
+            'shortcut': 'Ctrl+P',
           },
           'inlineCode': {
             'class': iWindow.editorjs.plugins.inlineCode,

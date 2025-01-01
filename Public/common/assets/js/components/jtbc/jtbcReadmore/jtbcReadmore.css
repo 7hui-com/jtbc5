@@ -1,0 +1,37 @@
+:host {
+  width: 100%; display: block; --mask-height: 80px; --mask-background: linear-gradient(to bottom, #ffffff00, #ffffffff); --z-index: auto
+}
+div.container {
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index)
+}
+div.container div.content {
+  width: 100%; height: auto; overflow: hidden; position: relative; z-index: 100
+}
+div.container div.content::after {
+  content: ''; display: block; width: 100%; height: var(--mask-height); background: var(--mask-background); position: absolute; left: 0px; bottom: 0px; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease
+}
+div.container div.fold,
+div.container div.unfold {
+  transform: translate(-50%, 0px); position: absolute; bottom: 0px; left: 50%; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s ease
+}
+div.container div.btn {
+  width: 50px; height: 30px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer; border-top-left-radius: 10px; border-top-right-radius: 10px
+}
+div.container div.btn jtbc-svg {
+  width: 16px; height: 16px; --fore-color: #999999
+}
+div.container div.btn:hover jtbc-svg {
+  --fore-color: #333333
+}
+div.container[fold=true] div.unfold {
+  opacity: 1; pointer-events: all
+}
+div.container[fold=true] div.content::after {
+  opacity: 1
+}
+div.container[fold=false] div.fold {
+  pointer-events: all
+}
+div.container[fold=false]:hover div.fold {
+  opacity: 1
+}

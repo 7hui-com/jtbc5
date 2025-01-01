@@ -117,15 +117,18 @@ export default class jtbcFieldUpload extends HTMLElement {
         that.#uploading = true;
         bar.style.width = '0%';
         btn.classList.add('locked');
+        let file = this.files[0];
         let currentUploader = new uploader(that.action);
-        currentUploader.upload(this.files[0], percent => {
+        currentUploader.upload(file, percent => {
           btn.innerText = percent + '%';
           bar.style.width = percent + '%';
         }, data => {
           if (data.code == 1)
           {
+            that.filename = file.name;
             that.uploadid = data.param.uploadid;
             input.value = that.fileurl = data.param.fileurl + (that.tail ?? '');
+            that.dispatchEvent(new CustomEvent('uploaded', {'bubbles': true, 'detail': {'uploadid': that.uploadid, 'filename': that.filename, 'fileurl': that.fileurl}}));
           }
           else
           {

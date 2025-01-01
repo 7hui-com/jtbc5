@@ -133,20 +133,30 @@ export default class jtbcFieldAttachment extends HTMLElement {
           let fileurl = param.fileurl;
           let filegroup = param.filegroup;
           partner.forEach(el => {
-            if (el.contentType == 'markdown')
+            if (el.contentType == 'block')
             {
-              filename = filename.replaceAll('[', '\\[');
-              filename = filename.replaceAll(']', '\\]');
-              if (filegroup == 1)
-              {
-                el.insertContent('![' + filename + '](' + fileurl + ')');
-              }
-              else
-              {
-                el.insertContent('[' + filename + '](' + fileurl + ')');
-              };
+              el.editor.isReady.then(() => {
+                let blocks = el.editor.blocks;
+                el.scrollIntoView({'behavior': 'smooth'});
+                if (filegroup == 1)
+                {
+                  blocks.insert('image', {'image': {'uploadid': 0, 'fileurl': fileurl}});
+                }
+                else if (filegroup == 2)
+                {
+                  blocks.insert('video', {'video': {'uploadid': 0, 'fileurl': fileurl}});
+                }
+                else
+                {
+                  let content = document.createElement('a');
+                  content.innerText = filename;
+                  content.setAttribute('href', fileurl);
+                  blocks.insert('paragraph', {'text': content.outerHTML});
+                };
+                blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
+              });
             }
-            else
+            else if (el.contentType == 'html')
             {
               if (filegroup == 1)
               {
@@ -157,8 +167,8 @@ export default class jtbcFieldAttachment extends HTMLElement {
               else if (filegroup == 2)
               {
                 let content = document.createElement('video');
-                content.setAttribute('width', 480);
-                content.setAttribute('width', 270);
+                content.setAttribute('width', 640);
+                content.setAttribute('height', 360);
                 content.setAttribute('controls', 'controls');
                 content.setAttribute('src', fileurl);
                 el.insertContent(content.outerHTML);
@@ -169,6 +179,19 @@ export default class jtbcFieldAttachment extends HTMLElement {
                 content.innerText = filename;
                 content.setAttribute('href', fileurl);
                 el.insertContent(content.outerHTML);
+              };
+            }
+            else if (el.contentType == 'markdown')
+            {
+              filename = filename.replaceAll('[', '\\[');
+              filename = filename.replaceAll(']', '\\]');
+              if (filegroup == 1)
+              {
+                el.insertContent('![' + filename + '](' + fileurl + ')');
+              }
+              else
+              {
+                el.insertContent('[' + filename + '](' + fileurl + ')');
               };
             };
           });
@@ -183,20 +206,25 @@ export default class jtbcFieldAttachment extends HTMLElement {
               let filename = param.filename;
               let fileurl = param.fileurl;
               let filegroup = param.filegroup;
-              if (el.contentType == 'markdown')
+              if (el.contentType == 'block')
               {
-                filename = filename.replaceAll('[', '\\[');
-                filename = filename.replaceAll(']', '\\]');
                 if (filegroup == 1)
                 {
-                  contentArr.push('![' + filename + '](' + fileurl + ')');
+                  contentArr.push({'type': 'image', 'data': {'image': {'uploadid': 0, 'fileurl': fileurl}}});
+                }
+                else if (filegroup == 2)
+                {
+                  contentArr.push({'type': 'video', 'data': {'video': {'uploadid': 0, 'fileurl': fileurl}}});
                 }
                 else
                 {
-                  contentArr.push('[' + filename + '](' + fileurl + ')');
+                  let content = document.createElement('a');
+                  content.innerText = filename;
+                  content.setAttribute('href', fileurl);
+                  contentArr.push({'type': 'paragraph', 'data': {'text': content.outerHTML}});
                 };
               }
-              else
+              else if (el.contentType == 'html')
               {
                 let p = document.createElement('p');
                 if (filegroup == 1)
@@ -208,8 +236,8 @@ export default class jtbcFieldAttachment extends HTMLElement {
                 else if (filegroup == 2)
                 {
                   let content = document.createElement('video');
-                  content.setAttribute('width', 480);
-                  content.setAttribute('width', 270);
+                  content.setAttribute('width', 640);
+                  content.setAttribute('height', 360);
                   content.setAttribute('controls', 'controls');
                   content.setAttribute('src', fileurl);
                   p.append(content);
@@ -222,15 +250,37 @@ export default class jtbcFieldAttachment extends HTMLElement {
                   p.append(content);
                 };
                 contentArr.push(p.outerHTML);
+              }
+              else if (el.contentType == 'markdown')
+              {
+                filename = filename.replaceAll('[', '\\[');
+                filename = filename.replaceAll(']', '\\]');
+                if (filegroup == 1)
+                {
+                  contentArr.push('![' + filename + '](' + fileurl + ')');
+                }
+                else
+                {
+                  contentArr.push('[' + filename + '](' + fileurl + ')');
+                };
               };
             });
-            if (el.contentType == 'markdown')
+            if (el.contentType == 'block')
             {
-              el.insertContent(contentArr.join(String.fromCharCode(13, 10)));
+              el.editor.isReady.then(() => {
+                let blocks = el.editor.blocks;
+                el.scrollIntoView({'behavior': 'smooth'});
+                contentArr.forEach(content => blocks.insert(content.type, content.data));
+                blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
+              });
             }
-            else
+            else if (el.contentType == 'html')
             {
               el.insertContent(contentArr.join(''));
+            }
+            else if (el.contentType == 'markdown')
+            {
+              el.insertContent(contentArr.join(String.fromCharCode(13, 10)));
             };
           });
         };
@@ -284,19 +334,17 @@ export default class jtbcFieldAttachment extends HTMLElement {
         this.replaceWith(span);
       });
     });
-    if (this.imagePreviewer != null)
-    {
-      container.delegateEventListener('.attachment tr', 'dblclick', function(){
-        if (this.hasAttribute('param'))
+    container.delegateEventListener('span.filegroup', 'click', function(){
+      if (that.imagePreviewer != null)
+      {
+        let tr = this.parentNode.parentNode;
+        let param = JSON.parse(tr.getAttribute('param'));
+        if (param.filegroup == 1)
         {
-          let param = JSON.parse(this.getAttribute('param'));
-          if (param.filegroup == 1)
-          {
-            imagePreviewer.popup(param);
-          };
+          imagePreviewer.popup(param);
         };
-      });
-    };
+      };
+    });
   };
 
   #resetIcons() {

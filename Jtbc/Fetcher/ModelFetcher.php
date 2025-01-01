@@ -4,11 +4,10 @@
 //******************************//
 namespace Jtbc\Fetcher;
 use Jtbc\Env;
-use Jtbc\Jtbc;
 use Jtbc\Module;
 use Jtbc\Substance;
-use Jtbc\Validation;
 use Jtbc\Model\TinyModel;
+use Jtbc\Exception\NotExistException;
 
 class ModelFetcher
 {
@@ -21,7 +20,17 @@ class ModelFetcher
     if (is_null($table))
     {
       $module = new Module($ss -> genre);
-      $table = $ss -> exists('subtable')? $module -> getTableNameByKey($ss -> subtable): $module -> getTableName();
+      if ($module -> isExists())
+      {
+        $table = $ss -> exists('subtable')? $module -> getTableNameByKey($ss -> subtable): $module -> getTableName();
+      }
+      else
+      {
+        if ($ss -> mode == 'strict')
+        {
+          throw new NotExistException('Module "' . $ss -> genre . '" does not exist', 50404);
+        }
+      }
     }
     if (is_string($table))
     {

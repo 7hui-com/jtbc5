@@ -1,5 +1,5 @@
 icon {
-  display: inline-block; width: 40px; height: 40px; background: #ffffff; box-sizing: border-box; padding: 7px; border: #d1d1d1 1px solid
+  display: inline-flex; width: 40px; height: 40px; background: #ffffff; box-sizing: border-box; padding: 7px; border: #d1d1d1 1px solid
 }
 icon jtbc-svg {
   display: block; width: 100%; height: 100%; --fore-color: #666666; opacity: 1
@@ -14,10 +14,10 @@ icon.button jtbc-svg:hover {
   opacity: 1
 }
 icons {
-  display: inline-block
+  display: inline-flex; flex-wrap: wrap; align-items: center
 }
 icons jtbc-svg {
-  display: inline-block; vertical-align: middle; width: 16px; height: 16px; margin-right: 5px; opacity: 0.6; cursor: pointer; transition: all .3s ease
+  display: block; width: 16px; height: 16px; margin-right: 5px; opacity: 0.6; cursor: pointer; transition: all .3s ease
 }
 icons jtbc-svg:hover {
   opacity: 1

@@ -277,6 +277,14 @@ export default class chartPlugin {
         tbody.append(createRow(item.name, item.value));
       });
     };
+    const renderFootContent = tfoot => {
+      let tr = document.createElement('tr');
+      let td = document.createElement('td');
+      td.setAttribute('colspan', '3');
+      td.innerText = this.api.i18n.t('No data');
+      tr.append(td);
+      tfoot.append(tr);
+    };
     let settings = document.createElement('div');
     settings.classList.add('settings');
     let h3 = document.createElement('h3');
@@ -294,6 +302,7 @@ export default class chartPlugin {
     let table = document.createElement('table');
     let thead = document.createElement('thead');
     let tbody = document.createElement('tbody');
+    let tfoot = document.createElement('tfoot');
     table.classList.add('table');
     let theadTr = document.createElement('tr');
     let theadTh1 = document.createElement('th');
@@ -317,8 +326,9 @@ export default class chartPlugin {
     theadTr.append(theadTh1, theadTh2, theadTh3);
     thead.append(theadTr);
     renderBodyContent(tbody);
+    renderFootContent(tfoot);
     tbody.classList.add('tbody');
-    table.append(thead, tbody);
+    table.append(thead, tbody, tfoot);
     content.append(table);
     box.append(content);
     let btnCancel = document.createElement('button');

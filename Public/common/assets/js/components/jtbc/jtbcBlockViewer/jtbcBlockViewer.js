@@ -644,6 +644,59 @@ export default class jtbcBlockViewer extends HTMLElement {
     return result;
   };
 
+  #renderAttachment(block) {
+    let result = null;
+    let data = block.data;
+    if (data.hasOwnProperty('files') && Array.isArray(data.files) && data.files.length != 0)
+    {
+      let paddingTop = Number.parseInt(data.paddingTop);
+      let paddingBottom = Number.parseInt(data.paddingBottom);
+      result = document.createElement('div');
+      result.classList.add('block_attachment');
+      if (paddingTop != 0)
+      {
+        result.style.paddingTop = paddingTop + 'px';
+      };
+      if (paddingBottom != 0)
+      {
+        result.style.paddingBottom = paddingBottom + 'px';
+      };
+      let items = document.createElement('div');
+      items.classList.add('attachment');
+      data.files.forEach(file => {
+        let extension = 'others';
+        let fileurl = file.fileurl;
+        let filename = file.filename;
+        if (fileurl.includes('/'))
+        {
+          let name = fileurl.substring(fileurl.lastIndexOf('/') + 1);
+          if (name.includes('.'))
+          {
+            extension = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
+          };
+        };
+        let el = document.createElement('div');
+        let elExtension = document.createElement('div');
+        let elFilename = document.createElement('div');
+        el.classList.add('file');
+        let icon = document.createElement('jtbc-file-icons');
+        icon.setAttribute('icon', extension);
+        elExtension.classList.add('extension');
+        elExtension.append(icon);
+        let anchor = document.createElement('a');
+        anchor.innerText = filename;
+        anchor.setAttribute('href', fileurl);
+        anchor.setAttribute('download', filename);
+        elFilename.classList.add('filename');
+        elFilename.append(anchor);
+        el.append(elExtension, elFilename);
+        items.append(el);
+      });
+      result.append(items);
+    };
+    return result;
+  };
+
   #renderCode(block) {
     let result = null;
     let data = block.data;
@@ -760,6 +813,11 @@ export default class jtbcBlockViewer extends HTMLElement {
               case 'quote':
               {
                 blocks.push(this.#renderQuote(block));
+                break;
+              };
+              case 'attachment':
+              {
+                blocks.push(this.#renderAttachment(block));
                 break;
               };
               case 'code':

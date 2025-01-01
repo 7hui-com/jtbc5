@@ -5,7 +5,7 @@ container {
   width: 100%; height: 100%; display: block !important
 }
 container svg {
-  vertical-align: top
+  display: block
 }
 container svg g.fore {
   fill: var(--fore-color)

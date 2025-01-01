@@ -834,6 +834,48 @@ div.editor .ce-block__content div.block_quote div.text[data-empty=true] br {
 div.editor .ce-block__content div.block_quote div.text[data-empty=true]::after {
   content: attr(placeholder); color: #999999
 }
+div.editor .ce-block__content div.block_attachment {
+  width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px; --uploading-width: 0%
+}
+div.editor .ce-block__content div.block_attachment div.attachment {
+  width: 100%
+}
+div.editor .ce-block__content div.block_attachment div.attachment.uploading {
+  filter: grayscale(100%); pointer-events: none
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file {
+  width: 100%; display: flex; align-items: flex-start; flex-wrap: wrap
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file div.extension {
+  width: 20px; height: 30px; box-sizing: border-box; padding: 5px 0px
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file div.extension jtbc-file-icons {
+  display: block; width: 100%; height: 100%; --fore-color: #5b9dd9
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file div.filename {
+  flex: 1; box-sizing: border-box; padding-left: 4px
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file div.filename a {
+  min-height: 30px; display: inline-flex; align-items: center; line-height: 200%
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file div.filename a:focus {
+  outline: none
+}
+div.editor .ce-block__content div.block_attachment div.attachment div.file:has(a:hover) div.extension jtbc-file-icons {
+  --fore-color: #e7505a
+}
+div.editor .ce-block__content div.block_attachment div.attachment:empty {
+  width: 100%; height: 100px; background: #f6f6f6
+}
+div.editor .ce-block__content div.block_attachment div.attachment:empty::before {
+  content: ''; display: block; min-height: 75%; aspect-ratio: 1 / 1; position: absolute; top: 50%; left: 50%; background: url(images/empty.svg) center center no-repeat; background-size: cover; transform: translate(-50%, -50%); cursor: pointer
+}
+div.editor .ce-block__content div.block_attachment::after {
+  content: ''; width: var(--uploading-width); height: 2px; background: #449d44; opacity: 0; transition: all 0.3s ease; position: absolute; left: 0px; bottom: 0px; z-index: 100
+}
+div.editor .ce-block__content div.block_attachment:has(div.attachment.uploading)::after {
+  opacity: 1
+}
 div.editor .ce-block__content div.block_code {
   width: 100%; box-sizing: border-box; padding-top: var(--padding-top); padding-bottom: var(--padding-bottom); position: relative; --padding-top: 0px; --padding-bottom: 0px
 }

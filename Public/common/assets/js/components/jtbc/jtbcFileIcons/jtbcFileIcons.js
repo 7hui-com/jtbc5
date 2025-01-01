@@ -11,11 +11,15 @@ export default class jtbcFileIcons extends HTMLElement {
   };
 
   set icon(icon) {
-    this.#icon = this.#icons.includes(icon)? icon: 'others';
     this.container.empty();
-    let newImg = document.createElement('img');
-    newImg.setAttribute('src', this.basePath + '/svg/' + this.icon + '.svg');
-    this.container.append(newImg);
+    this.#icon = this.#icons.includes(icon)? icon: 'others';
+    let src = this.basePath + '/svg/' + this.icon + '.svg';
+    fetch(src).then(res => res.ok? res.text(): null).then(data => {
+      if (data != null)
+      {
+        this.container.innerHTML = data;
+      };
+    });
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -35,7 +39,8 @@ export default class jtbcFileIcons extends HTMLElement {
   constructor() {
     super();
     let shadowRoot = this.attachShadow({mode: 'open'});
-    shadowRoot.innerHTML = `<container style="display:block"></container>`;
+    let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
+    shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"></container>`;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
     this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/'));
