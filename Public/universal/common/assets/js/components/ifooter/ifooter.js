@@ -1,4 +1,4 @@
-export default class lfooter extends HTMLElement {
+export default class ifooter extends HTMLElement {
   #initEvents() {
     let container = this.container;
     container.delegateEventListener('slot', 'slotchange', function(){
@@ -110,19 +110,7 @@ export default class lfooter extends HTMLElement {
     };
     if (xBottom != null)
     {
-      let xLogo = xBottom.querySelector('logo');
-      let logo = bottom.querySelector('div.logo');
       let sections = bottom.querySelector('div.sections');
-      if (logo != null && xLogo != null)
-      {
-        let logoImg = document.createElement('img');
-        xLogo.getAttributeNames().forEach(name => logoImg.setAttribute(name, xLogo.getAttribute(name)));
-        logo.append(logoImg);
-        if (xLogo.childElementCount != 0)
-        {
-          appendContent(xLogo, logo.parentElement.querySelector('slot.content').empty());
-        };
-      };
       xBottom.querySelectorAll('section').forEach(section => {
         let index = section.index();
         let newSection = document.createElement('div');
@@ -175,10 +163,6 @@ export default class lfooter extends HTMLElement {
       <div part="container" class="container" style="display:none">
         <div part="bottom" class="bottom">
           <div part="bottom-box" class="box">
-            <div part="card" class="card">
-              <div part="logo" class="logo"></div>
-              <div class="content"><slot class="content" name="content-card"></slot></div>
-            </div>
             <div part="sections" class="sections"></div>
           </div>
         </div>

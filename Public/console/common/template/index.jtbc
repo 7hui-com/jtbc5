@@ -17,7 +17,7 @@
 <base href="{$=$getActualRoute('./')}" jtbc-default-target="main" />
 <link type="text/css" rel="stylesheet" href="{$>this.genre}/common/assets/global.css" />
 {$=implode($call_hook('backstageEndOfHead') ?? [])}</head>
-<body>
+<body spellcheck="false">
 <container id="root" class="root" data-assets-path="common/assets/"></container>
 <jtbc-toast id="toast"></jtbc-toast>
 <jtbc-drawer id="drawer"></jtbc-drawer>

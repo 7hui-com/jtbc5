@@ -1,4 +1,6 @@
+import uploader from '../../../library/upload/uploader.js';
 import langHelper from '../../../library/lang/langHelper.js';
+import formElementFinder from '../../../library/field/formElementFinder.js';
 
 export default class jtbcFieldEditor extends HTMLElement {
   static get observedAttributes() {
@@ -80,13 +82,27 @@ export default class jtbcFieldEditor extends HTMLElement {
     this.#height = Math.max(this.#minHeight, Number.parseInt(height));
   };
 
+  #getPartnerByName(name) {
+    let result = null;
+    let formElement = formElementFinder.find(this);
+    if (formElement != null)
+    {
+      formElement.form.querySelectorAll('[name=' + name + ']').forEach(el => {
+        if (el.getAttribute('partner') == this.getAttribute('name'))
+        {
+          result = el;
+        };
+      });
+    };
+    return result;
+  };
+
   #loadEditor(el) {
     let container = this.container;
     let iWindow = this.#iWindow = el.contentWindow;
     let iDocument = this.#iDocument = el.contentDocument;
     let language = this.lang == 'zh-cn'? 'zh_CN': 'en';
-    iDocument.querySelector('textarea.textarea').value = this.#value;
-    iWindow.tinymce.init({
+    let config = {
       license_key: 'gpl',
       autosave_ask_before_unload: false,
       statusbar: false,
@@ -118,7 +134,32 @@ export default class jtbcFieldEditor extends HTMLElement {
           };
         });
       },
-    });
+    };
+    let attachment = this.#getPartnerByName('attachment');
+    if (attachment != null)
+    {
+      let attachmentAction = attachment.getAttribute('action');
+      let attachmentTail = attachment.getAttribute('tail');
+      config.images_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+        let currentUploader = new uploader(attachmentAction);
+        currentUploader.upload(blobInfo.blob(), percent => progress(percent), data => {
+          if (data.code == 1)
+          {
+            resolve(data.param.fileurl);
+            if (attachment.addUploadedItem instanceof Function)
+            {
+              attachment.addUploadedItem(data.param, attachmentTail);
+            };
+          }
+          else
+          {
+            reject(data.message);
+          };
+        }, target => reject(target.status + String.fromCharCode(32) + target.statusText));
+      });
+    };
+    iDocument.querySelector('textarea.textarea').value = this.#value;
+    iWindow.tinymce.init(config);
   };
 
   #initEditor() {

@@ -3,6 +3,7 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc;
+use Jtbc\String\StringHelper;
 
 class Converter
 {
@@ -95,6 +96,72 @@ class Converter
       $tempArr[] = $key . '=' . $val;
     }
     return implode('&', $tempArr);
+  }
+
+  public static function convertToStandardIPv6(string $argString)
+  {
+    $result = false;
+    $string = $argString;
+    if (Validation::isIPv6($string))
+    {
+      if ($string == '::')
+      {
+        $result = '0:0:0:0:0:0:0:0';
+      }
+      else
+      {
+        if (str_contains($string, '.'))
+        {
+          $prefix = StringHelper::getClippedString($string, ':', 'left+');
+          $suffix = StringHelper::getClippedString($string, ':', 'right');
+          if (Validation::isIPv4($suffix))
+          {
+            $array = explode('.', $suffix);
+            $p1 = dechex(intval($array[0]));
+            $p2 = dechex(intval($array[1]));
+            $p3 = dechex(intval($array[2]));
+            $p4 = dechex(intval($array[3]));
+            if (strlen($p2) === 1)
+            {
+              $p2 = '0' . $p2;
+            }
+            if (strlen($p4) === 1)
+            {
+              $p4 = '0' . $p4;
+            }
+            $result = self::convertToStandardIPv6($prefix . ':' . $p1 . $p2 . ':' . $p3 . $p4);
+          }
+        }
+        else if (str_contains($string, '::'))
+        {
+          $array = ['0', '0', '0', '0', '0', '0', '0', '0'];
+          $prefix = StringHelper::getClippedString($string, '::', 'left+');
+          $suffix = StringHelper::getClippedString($string, '::', 'right');
+          if (!Validation::isEmpty($prefix))
+          {
+            $tempArr = explode(':', $prefix);
+            foreach ($tempArr as $key => $value)
+            {
+              $array[$key] = $value;
+            }
+          }
+          if (!Validation::isEmpty($suffix))
+          {
+            $tempArr = explode(':', $suffix);
+            foreach ($tempArr as $key => $value)
+            {
+              $array[count($array) - count($tempArr) + $key] = $value;
+            }
+          }
+          $result = implode(':', $array);
+        }
+        else
+        {
+          $result = $string;
+        }
+      }
+    }
+    return $result;
   }
 
   public static function convertToTreeOption(array $argArray)

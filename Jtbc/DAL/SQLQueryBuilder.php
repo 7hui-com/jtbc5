@@ -57,12 +57,18 @@ class SQLQueryBuilder extends SQLConditionBuilder
     return $this;
   }
 
-  public function orderBy($argField, $argDescOrAsc = 'desc')
+  public function orderBy($argField, $argValue = 'desc')
   {
     $field = $argField;
-    $descOrAsc = $argDescOrAsc;
-    if (strtolower($descOrAsc) == 'asc') $descOrAsc = 'asc';
-    $this -> orderBy[] = [$field, $descOrAsc];
+    $value = $argValue;
+    if (is_array($value))
+    {
+      $this -> orderBy[] = [$field, $value];
+    }
+    else if (is_string($value))
+    {
+      $this -> orderBy[] = [$field, (strtolower($value) == 'asc'? 'asc': 'desc')];
+    }
     return $this;
   }
 
@@ -247,18 +253,57 @@ class SQLQueryBuilder extends SQLConditionBuilder
       $newOrderBy = [];
       foreach ($orderBy as $item)
       {
-        list($field, $descOrAsc) = $item;
-        if (strtolower($field) == 'rand()')
+        list($field, $value) = $item;
+        if (is_array($value))
         {
-          $newOrderBy[] = 'rand() ' . $descOrAsc;
+          if ($schemaViewer -> hasField($table, $field) || in_array($field, $virtualFields))
+          {
+            $getValues = function(array $value)
+            {
+              $result = 'null';
+              if (!empty($value) && Validation::isArrayList($value))
+              {
+                $tempArr = [];
+                foreach ($value as $item)
+                {
+                  if (is_int($item) || is_float($item))
+                  {
+                    $tempArr[] = $item;
+                  }
+                  else if (is_string($item))
+                  {
+                    $tempArr[] = '\'' . addslashes($item) . '\'';
+                  }
+                }
+                $result = empty($tempArr)? 'null': implode(',', $tempArr);
+              }
+              return $result;
+            };
+            $newOrderBy[] = 'field(' . SQLFormatter::formatName($field) . ',' . $getValues($value). ')';
+          }
+          else
+          {
+            throw new NotExistException('Column "' . $field . '" does not exist', 50404);
+          }
         }
-        else if ($schemaViewer -> hasField($table, $field) || in_array($field, $virtualFields))
+        else if (is_string($value) && in_array($value, ['asc', 'desc']))
         {
-          $newOrderBy[] = SQLFormatter::formatName($field) . ' ' . $descOrAsc;
+          if (strtolower($field) == 'rand()')
+          {
+            $newOrderBy[] = 'rand() ' . $value;
+          }
+          else if ($schemaViewer -> hasField($table, $field) || in_array($field, $virtualFields))
+          {
+            $newOrderBy[] = SQLFormatter::formatName($field) . ' ' . $value;
+          }
+          else
+          {
+            throw new NotExistException('Column "' . $field . '" does not exist', 50404);
+          }
         }
         else
         {
-          throw new NotExistException('Column "' . $field . '" does not exist', 50404);
+          throw new UnexpectedException('Unexpected value type', 50801);
         }
       }
       $result .= ' order by ' . implode(',', $newOrderBy);

@@ -107,7 +107,7 @@ class LocalUploader extends Uploader implements FileUploader
                     {
                       $this -> removeChunkDir($tempChunkDir);
                       $fileType = pathinfo($fullTargetPath, PATHINFO_EXTENSION);
-                      if (in_array($fileType, ['jpg','gif','png']) && Validation::isJSON($config -> imageResize))
+                      if (in_array($fileType, ['jpeg', 'jpg', 'gif', 'png']) && Validation::isJSON($config -> imageResize))
                       {
                         $image = new Image($fullTargetPath);
                         $imageResize = new Substance($config -> imageResize);

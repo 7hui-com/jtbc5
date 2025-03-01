@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-card-background: #222; --footer-card-transform: translate(0, -40px); --footer-card-gap: 80px; --footer-card-font-color: #999; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
+  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%
@@ -8,22 +8,10 @@
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-background)
 }
 .container div.bottom div.box {
-  display: flex; flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--footer-page-inner-padding))
-}
-.container div.bottom div.box div.card {
-  width: 35%; max-width: 500px; min-width: 300px; box-sizing: border-box; padding: calc(var(--footer-gap) * 2); background: var(--footer-card-background); transform: var(--footer-card-transform)
-}
-.container div.bottom div.box div.card div.logo {
-  width: 100%; padding-bottom: var(--footer-card-gap)
-}
-.container div.bottom div.box div.card div.logo img {
-  width: var(--footer-logo-width); filter: var(--footer-logo-filter)
-}
-.container div.bottom div.box div.card div.content {
-  --footer-font-color: var(--footer-card-font-color)
+  display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--footer-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--footer-page-inner-padding))
 }
 .container div.bottom div.box div.sections {
-  flex: 1; display: flex; box-sizing: border-box; padding-left: calc(var(--footer-gap) * 2); gap: var(--footer-gap)
+  display: flex; box-sizing: border-box; width: 100%; gap: var(--footer-gap)
 }
 .container div.bottom div.box div.sections div.section {
   flex: 1; box-sizing: border-box
@@ -137,11 +125,8 @@
   :host {
     --footer-page-outer-padding: 0px 15px; --footer-page-inner-padding: 15px 0px; --footer-height: 60px; --footer-picture-max-width: 75%
   }
-  .container div.bottom div.box div.card {
-    width: 100%; max-width: 100%
-  }
   .container div.bottom div.box div.sections {
-    width: 100%; padding-left: 0px; flex-wrap: wrap
+    width: 100%; flex-wrap: wrap
   }
   .container div.bottom div.box div.sections div.section {
     flex: auto; width: calc(50% - var(--footer-gap) / 2); padding-left: 0px

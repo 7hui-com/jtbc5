@@ -20,6 +20,7 @@ use Jtbc\Validation;
 use Jtbc\Fetcher\DataLoader;
 use Jtbc\File\FileHelper;
 use Jtbc\Security\CSRFToken;
+use Jtbc\Array\ArrayHelper;
 use Jtbc\String\StringHelper;
 use Jtbc\Template\TinyRenderer;
 use Jtbc\Exception\NotCallableException;
@@ -280,6 +281,8 @@ class JtbcParser
       'jsonEncode' => JSON::class . '::encode',
       'now' => Date::class,
       'render' => TinyRenderer::class,
+      'reorder1DArray' => ArrayHelper::class,
+      'reorder2DArray' => ArrayHelper::class,
       'saltedMD5' => Encoder::class,
       'take' => Jtbc::class,
       'takeAndFormatToCheckbox' => JtbcFormatter::class . '::checkbox',

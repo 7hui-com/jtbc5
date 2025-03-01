@@ -10,9 +10,34 @@ export default class manage {
         el.addEventListener('rendercomplete', () => {
           let chiefEl = parentNode.querySelector('div.chief');
           chiefEl.addEventListener('renderend', e => {
-            if (e.target.classList.contains('ppContainer'))
+            let self = e.target;
+            if (self.classList.contains('ppContainer'))
             {
-              e.target.querySelector('div.ppItemLoading').classList.add('hide');
+              let itemList = self.querySelector('div.ppItemList');
+              self.querySelector('div.ppItemLoading').classList.add('hide');
+              if (self.getAttribute('category') == 'package' && itemList != null)
+              {
+                itemList.delegateEventListener('div.icon', 'mouseover', function(){
+                  let img = this.querySelector('img');
+                  let boxHeight = Number.parseInt(this.offsetHeight);
+                  if (img != null)
+                  {
+                    let imgHeight = Number.parseInt(img.offsetHeight);
+                    if (boxHeight != 0 && imgHeight != 0 && imgHeight > boxHeight)
+                    {
+                      img.style.transitionDuration = ((imgHeight - boxHeight) / 150) + 's';
+                      img.style.transform = 'translateY(-' + (imgHeight - boxHeight) + 'px)';
+                    };
+                  };
+                });
+                itemList.delegateEventListener('div.icon', 'mouseout', function(){
+                  let img = this.querySelector('img');
+                  if (img != null)
+                  {
+                    img.style.transform = 'translateY(0px)';
+                  };
+                });
+              };
             };
           });
           chiefEl.delegateEventListener('select[name=filter]', 'change', function(){

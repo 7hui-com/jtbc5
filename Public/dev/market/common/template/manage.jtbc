@@ -29,7 +29,7 @@
             <div class="ppItemList" isloop="true">
               <div class="item">
                 <div class="text">
-                  <div class="icon"><a is="jtbc-anchor" title="{$=$take('config.type_id', 'lng')}: ${$type_id}" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog"><img src="${$images}" alt="${$type_id}" /></a></div>
+                  <div class="icon"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog"><img src="${$.parent.getAttribute('category') == 'package'? $homepage_screenshot: $images}" alt="${$type_id}" /></a></div>
                   <div class="info">
                     <a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog">${$.markKeywords($title, $.htmlEncode($.parent.getAttribute('keyword')))}</a>
                     <p>${$.markKeywords($intro, $.htmlEncode($.parent.getAttribute('keyword')))}</p>

@@ -98,7 +98,7 @@
   display: block; width: 100%; color: #999999; text-align: center
 }
 .ppItemDetail {
-  width: 40vw; min-width: 600px; max-width: 900px
+  width: 50vw; min-width: 720px; max-width: 960px
 }
 .ppItemDetail div.intro {
   width: 100%; box-sizing: border-box; padding: 10px; display: flex; align-items: flex-end; background-image: linear-gradient(#ffffff, #f6f6f6); position: relative
@@ -300,13 +300,16 @@
   position: relative; z-index: 1000
 }
 .ppContainer[category='package'] .ppItemList {
-  grid-template-columns: repeat(3, 1fr)
+  grid-template-columns: repeat(2, 1fr)
 }
 .ppContainer[category='package'] .ppItemList div.item div.text {
   display: block; padding: 0px
 }
 .ppContainer[category='package'] .ppItemList div.item div.text div.icon {
   width: 100%; height: auto; aspect-ratio: 16 / 10; overflow: hidden
+}
+.ppContainer[category='package'] .ppItemList div.item div.text div.icon img {
+  transform: translateY(0px); transition: transform 2s ease
 }
 .ppContainer[category='package'] .ppItemList div.item div.text div.info {
   width: 100%; padding: 10px; box-sizing: border-box; background: rgba(62, 134, 143, .5); position: absolute; bottom: -28px; left: 0px; z-index: 100; transition: all .3s ease
@@ -326,10 +329,17 @@
 .ppContainer[category='package'] .ppItemList div.item:hover div.text div.info {
   bottom: 0px; background: rgba(62, 134, 143, 0.7); backdrop-filter: blur(2px)
 }
+@container ppContainer (width > 1120px) {
+  .ppContainer[category='package'] .ppItemList {
+    grid-template-columns: repeat(3, 1fr)
+  }
+}
 @container ppContainer (width > 1440px) {
   .ppItemList {
     grid-template-columns: repeat(3, 1fr)
   }
+}
+@container ppContainer (width > 1680px) {
   .ppContainer[category='package'] .ppItemList {
     grid-template-columns: repeat(4, 1fr)
   }

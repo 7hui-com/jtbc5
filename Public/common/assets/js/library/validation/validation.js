@@ -116,6 +116,82 @@ export default class validation {
     return result;
   };
 
+  static isIPV6(ip) {
+    let result = false;
+    if (validation.isStandardIPv6(ip))
+    {
+      result = true;
+    }
+    else if (ip.includes('.') && ip.includes(':'))
+    {
+      let prefix = ip.substring(0, ip.lastIndexOf(':'));
+      let suffix = ip.substring(ip.lastIndexOf(':') + 1);
+      if (validation.isIPV4(suffix))
+      {
+        let ipv4Arr = suffix.split('.');
+        let p1 = Number.parseInt(ipv4Arr[0]).toString(16);
+        let p2 = Number.parseInt(ipv4Arr[1]).toString(16);
+        let p3 = Number.parseInt(ipv4Arr[2]).toString(16);
+        let p4 = Number.parseInt(ipv4Arr[3]).toString(16);
+        if (p2.length === 1)
+        {
+          p2 = '0' + p2;
+        };
+        if (p4.length === 1)
+        {
+          p4 = '0' + p4;
+        };
+        result = validation.isIPV6(prefix + ':' + p1 + p2 + ':' + p3 + p4);
+      };
+    }
+    else if (ip.includes('::'))
+    {
+      let ipArr = ip.split('::');
+      if (ipArr.length === 2)
+      {
+        let prefix = ipArr[0];
+        let suffix = ipArr[1];
+        let ipv6Arr = ['0', '0', '0', '0', '0', '0', '0', '0'];
+        if (prefix.length != 0)
+        {
+          let tempArr = prefix.split(':');
+          tempArr.forEach((value, key) => ipv6Arr[key] = value);
+        };
+        if (suffix.length != 0)
+        {
+          let tempArr = suffix.split(':');
+          tempArr.forEach((value, key) => ipv6Arr[ipv6Arr.length - tempArr.length + key] = value);
+        };
+        result = validation.isIPV6(ipv6Arr.join(':'));
+      };
+    };
+    return result;
+  };
+
+  static isStandardIPv6(ip) {
+    let result = false;
+    let ipArr = ip.split(':');
+    if (ipArr.length == 8)
+    {
+      result = true;
+      ipArr.forEach(num => {
+        if (num.length == 0)
+        {
+          result = false;
+        }
+        else
+        {
+          let current = Number.parseInt(num, 16);
+          if (Number.isNaN(current) || current < 0 || current > 65535)
+          {
+            result = false;
+          };
+        };
+      });
+    };
+    return result;
+  };
+
   static isTime(time) {
     let re = /^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
     return re.test(time);

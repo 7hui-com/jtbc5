@@ -228,7 +228,7 @@
     max-height: calc(var(--header-height) * 10); box-shadow: var(--header-mobile-mainmenu-box-shadow)
   }
   .container div.box div.right {
-    display: none
+    display: none !important
   }
   .container[slotmode=pc] div.box mainmenu ul > li > div.premier div.submenu.slotted ol {
     display: block

@@ -20,6 +20,12 @@
 .container div.bottom div.box div.section h3 {
   margin: 0px; padding: 0px; font-size: calc(var(--footer-font-size) + 2px); color: var(--footer-font-color); line-height: 120%
 }
+.container div.bottom div.box div.section h3:empty {
+  display: none
+}
+.container div.bottom div.box div.section h3:empty + div.content {
+  padding-top: 0px
+}
 .container div.bottom div.box div.section div.content {
   width: 100%; padding-top: calc(var(--footer-gap) * 3 / 4); font-size: var(--footer-font-size)
 }

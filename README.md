@@ -29,8 +29,8 @@ curl https://download.jtbc.cn/php/5.0/debian-jtbc-install.sh | sudo sh
 
 ## 手动配置：
 
-1.需要将站点主目录设置为`Public`目录。
-2.需要`HTTP Server`支持`PATH_INFO`并将所有请求`转发至入口文件`即可。
+1. 需要将站点主目录设置为`Public`目录。
+2. 需要`HTTP Server`支持`PATH_INFO`并将所有请求`转发至入口文件`即可。
 
 ### 1.Nginx
 
