@@ -6,6 +6,14 @@ use Jtbc\Validation;
 
 class Setting
 {
+  public static function restoreLanguage(Response $res)
+  {
+    $result = true;
+    $res -> cookie -> set('language', null);
+    $res -> cookie -> set('language_updated_at', null);
+    return $result;
+  }
+
   public static function changeLanguage(Response $res, string $argLanguage)
   {
     $result = false;

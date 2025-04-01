@@ -31,8 +31,8 @@
                 <div class="text">
                   <div class="icon"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog"><img src="${$.parent.getAttribute('category') == 'package'? $homepage_screenshot: $images}" alt="${$type_id}" /></a></div>
                   <div class="info">
-                    <a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog">${$.markKeywords($title, $.htmlEncode($.parent.getAttribute('keyword')))}</a>
-                    <p>${$.markKeywords($intro, $.htmlEncode($.parent.getAttribute('keyword')))}</p>
+                    <a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.detail&amp;category=${encodeURIComponent($.parent.getAttribute('category'))}&amp;id=${$id}" target="dialog">${$title}</a>
+                    <p>${$intro}</p>
                   </div>
                   <span if="${$price == 0}" class="price">{$=$take('manage.text-free', 'lng')}</span>
                   <span else class="price">{$=$take('manage.text-rmb', 'lng')}${$price}</span>

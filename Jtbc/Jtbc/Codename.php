@@ -41,12 +41,12 @@ class Codename
                 $firstGenre = StringHelper::getClipedString(StringHelper::getClipedString($firstFile, $keyPath, 'left+'), $rootPath, 'right+');
                 if (Validation::isEmpty($firstGenre))
                 {
-                  $result = 'global.' . StringHelper::getClipedString($codename, '*', 'right');
+                  $result = 'global.' . StringHelper::getClipedString($codename, '*', 'right+');
                 }
                 else
                 {
                   $firstGenre = str_replace(DIRECTORY_SEPARATOR, '/', $firstGenre);
-                  $result = 'global.' . $firstGenre . ':' . StringHelper::getClipedString($codename, '*', 'right');
+                  $result = 'global.' . $firstGenre . ':' . StringHelper::getClipedString($codename, '*', 'right+');
                 }
               }
             }

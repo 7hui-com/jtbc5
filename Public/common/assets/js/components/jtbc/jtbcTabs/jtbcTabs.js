@@ -63,6 +63,7 @@ export default class jtbcTabs extends HTMLElement {
     this.#panes.forEach(item => {
       let newItem = document.createElement('div');
       newItem.classList.add('label');
+      newItem.setAttribute('part', 'label');
       newItem.pane = item.el;
       newItem.innerText = item.label;
       newItem.dataset.index = item.index;
@@ -139,7 +140,7 @@ export default class jtbcTabs extends HTMLElement {
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
       <div class="container" style="display:none">
-        <div class="tabs"></div>
+        <div class="tabs" part="tabs"></div>
         <div class="content"><slot></slot></div>
       </div>
     `;

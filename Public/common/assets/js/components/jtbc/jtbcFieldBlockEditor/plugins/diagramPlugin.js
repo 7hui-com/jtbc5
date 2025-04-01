@@ -334,10 +334,22 @@ export default class diagramPlugin {
       };
     });
     textSubtitle.addEventListener('keydown', e => {
-      if (e.shiftKey && e.key == 'Enter')
+      if (e.key == 'Enter')
       {
         e.preventDefault();
         e.stopPropagation();
+        if (e.shiftKey == false)
+        {
+          let nextEl = e.target.parentElement.parentElement.nextElementSibling;
+          if (nextEl != null)
+          {
+            nextEl.querySelector('div.title')?.focus();
+          }
+          else
+          {
+            this.api.caret.setToNextBlock('start', 0);
+          };
+        };
       };
     });
     text.append(textTitle, textSubtitle);

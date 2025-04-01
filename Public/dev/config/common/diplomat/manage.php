@@ -179,7 +179,7 @@ class Diplomat extends Ambassador {
           if ($code == 1)
           {
             $task = [
-              'global.communal.logo' => $logoName,
+              'global.communal.logo' => $logoName . '?ver=' . Random::getNumeric28(),
             ];
             if ($writeFile($task, 'lng'))
             {

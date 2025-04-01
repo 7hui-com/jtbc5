@@ -72,6 +72,7 @@ export default class htmlInspector {
     let rule = this.#rule;
     let documentRange = document.createRange();
     let fragment = documentRange.createContextualFragment(this.#html);
+    const htmlEncode = str => str.replace(/[&<>"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[tag] || tag));
     if (rule instanceof Object)
     {
       fragment.childNodes.forEach(node => {
@@ -103,7 +104,7 @@ export default class htmlInspector {
           }
           else if (node.nodeType == 3)
           {
-            result += node.nodeValue;
+            result += htmlEncode(node.nodeValue);
           };
         };
       });

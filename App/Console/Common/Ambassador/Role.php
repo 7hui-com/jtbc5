@@ -157,7 +157,7 @@ class Role implements RoleInterface
     return $this -> permissionInstance;
   }
 
-  public function getRoleLangs()
+  public function getRoleLangs(): array
   {
     $result = [];
     $roleLang = $this -> roleLang;
@@ -200,6 +200,16 @@ class Role implements RoleInterface
     return $lang;
   }
 
+  public function getLangs(): array
+  {
+    $result = Jtbc::take('::sel_lang.*', 'lng');
+    if (!is_array($result))
+    {
+      $result = [];
+    }
+    return $result;
+  }
+
   public function getCurrentBatch()
   {
     $result = [];
@@ -237,8 +247,7 @@ class Role implements RoleInterface
   {
     $bool = false;
     $lang = intval($argLang);
-    $allLang = Jtbc::take('::sel_lang.*', 'lng');
-    if (array_key_exists($lang, $allLang))
+    if (array_key_exists($lang, $this -> getLangs()))
     {
       $this -> lang = $lang;
       $this -> di -> response -> cookie -> set($this -> cookieLangName, $lang, time() + 60 * 60 * 24 * 365);
@@ -283,6 +292,15 @@ class Role implements RoleInterface
         $this -> policies = Validation::isEmpty($rs -> permission)? []: JSON::decode($rs -> permission);
       }
     }
-    $this -> lang = intval($this -> di -> request -> cookie -> get($this -> cookieLangName));
+    $langs = $this -> getLangs();
+    $cookieLang = $this -> di -> request -> cookie -> get($this -> cookieLangName);
+    if (!is_null($cookieLang) && array_key_exists(intval($cookieLang), $langs))
+    {
+      $this -> lang = intval($cookieLang);
+    }
+    else
+    {
+      $this -> lang = intval(array_key_first($langs));
+    }
   }
 }

@@ -1,8 +1,11 @@
 <?php
 namespace App\Console\Common\Lang;
+use Jtbc\Env;
 use Jtbc\Path;
 use Jtbc\JSON;
 use Jtbc\Jtbc;
+use Jtbc\Config\ClassicConfigManager;
+use Config\Env as EnvConfig;
 use Config\Diplomatist as Config;
 
 class LangManager
@@ -65,6 +68,7 @@ class LangManager
       else
       {
         $content = [];
+        $defaultLang = null;
         $content[] = '<?xml version="1.0" encoding="utf-8"?>';
         $content[] = '<xml mode="jtbc" author="jetiben">';
         $content[] = '  <configure>';
@@ -81,13 +85,33 @@ class LangManager
             $content[] = '      <name><![CDATA[' . intval($language['key']) . ']]></name>';
             $content[] = '      <zh-cn><![CDATA[' . strval($language['text']) . ']]></zh-cn>';
             $content[] = '    </item>';
+            if (is_null($defaultLang))
+            {
+              $defaultLang = intval($language['key']);
+            }
           }
         }
         $content[] = '  </item_list>';
         $content[] = '</xml>';
         if (@file_put_contents($filePath, implode(chr(13) . chr(10), $content)))
         {
-          $result = true;
+          $classicConfigManager = new ClassicConfigManager(EnvConfig::class);
+          if (!$classicConfigManager -> isWritable())
+          {
+            $this -> lastErrorCode = 1011;
+          }
+          else
+          {
+            $classicConfigManager -> LANGUAGE = Env::getLanguageByID(is_int($defaultLang)? $defaultLang: 0);
+            if ($classicConfigManager -> save())
+            {
+              $result = true;
+            }
+            else
+            {
+              $this -> lastErrorCode = 1014;
+            }
+          }
         }
         else
         {

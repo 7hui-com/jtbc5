@@ -21,6 +21,22 @@
     <item>
       <name><![CDATA[3]]></name>
       <zh-cn><![CDATA[한국어]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[4]]></name>
+      <zh-cn><![CDATA[Français]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[5]]></name>
+      <zh-cn><![CDATA[Русский]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[6]]></name>
+      <zh-cn><![CDATA[Español]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[7]]></name>
+      <zh-cn><![CDATA[العربية]]></zh-cn>
     </item>-->
   </item_list>
 </xml>

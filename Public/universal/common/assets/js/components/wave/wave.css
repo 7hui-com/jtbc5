@@ -1,0 +1,38 @@
+:host {
+  display: block; width: 100%; height: 100px; box-sizing: border-box; --wave-layer1-fill: rgba(0, 95, 155, 0.3); --wave-layer2-fill: rgba(0, 95, 155, 0.6); --wave-layer3-fill: rgba(0, 95, 155, 1)
+}
+.container {
+  width: 100%; height: 100%; box-sizing: border-box; display: block !important
+}
+.container svg.wave {
+  width: 100%; height: 100%
+}
+.container g.parallax > use {
+  animation: move-forever 12s linear infinite; transform-origin: 50% 50%
+}
+.container g.parallax > use.wave-layer1 {
+  fill: var(--wave-layer1-fill)
+}
+.container g.parallax > use.wave-layer2 {
+  fill: var(--wave-layer2-fill)
+}
+.container g.parallax > use.wave-layer3 {
+  fill: var(--wave-layer3-fill)
+}
+.container g.parallax > use:nth-child(1) {
+  animation-delay: -1s
+}
+.container g.parallax > use:nth-child(2) {
+  animation-delay: -2s; animation-duration: 5s
+}
+.container g.parallax > use:nth-child(3) {
+  animation-delay: -3s; animation-duration: 3s
+}
+@keyframes move-forever {
+  0% {
+    transform: translate(-90px, 0%)
+  }
+  100% {
+    transform: translate(85px, 0%)
+  }
+}

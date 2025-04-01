@@ -1,5 +1,5 @@
 :host {
-  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-logo-width: 33.33%; --footer-logo-filter: grayscale(100%) brightness(100); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
+  display: block; width: 100%; box-sizing: border-box; --footer-page-max-width: 1400px; --footer-page-outer-padding: 0px 20px; --footer-page-inner-padding: 20px 0px; --footer-background: #333; --footer-gap: 20px; --footer-font-size: 12px; --footer-font-color: #fff; --footer-picture-max-width: 50%; --footer-logo-width: 33.33%; --footer-logo-filter: brightness(0) invert(1); --footer-media-icon-size: 45px; --footer-media-icon-gap: 15px; --footer-media-icon-border: rgba(255, 255, 255, 0.3) 1px solid; --footer-media-icon-color: #ffffff; --footer-media-qrocde-border: rgba(0, 0, 0, 0.7) 2px solid; --footer-media-qrocde-triangle-color: #fff; --footer-copyright-background: transparent; --footer-copyright-font-size: 12px; --footer-copyright-font-color: #fff
 }
 .container {
   display: block !important; box-sizing: border-box; width: 100%
@@ -81,6 +81,12 @@
 }
 .container div.bottom div.box div.content span.media span.icon:hover span.qrcode {
   bottom: 100%; opacity: 1
+}
+.container div.bottom div.box div.content span.media span.icon:first-of-type span.qrcode {
+  transform: translate(calc(0px - var(--footer-media-icon-size) / 2), calc(0px - var(--footer-gap)))
+}
+.container div.bottom div.box div.content span.media span.icon:first-of-type span.qrcode::after {
+  transform: translate(0, 0); left: calc(var(--footer-media-icon-size) / 2 - 10px)
 }
 .container div.copyright {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--footer-page-outer-padding)); background: var(--footer-copyright-background)

@@ -352,7 +352,7 @@ class Validation
     $string = $argString;
     if (!self::isEmpty($string))
     {
-      if (preg_match('/^[A-Za-z0-9_.\x{0020}\x{00b7}\x{4e00}-\x{9fa5}]+$/u', $string)) $bool = true;
+      if (preg_match('/^[A-Za-z0-9\x{0020}\x{00b7}\x{4e00}-\x{9fa5}_,.-]+$/u', $string)) $bool = true;
     }
     return $bool;
   }

@@ -4,8 +4,8 @@ export default class langswitcher extends HTMLElement {
   };
 
   #backurl = null;
-  #langs = {'zh-cn': 0, 'en': 1, 'ja': 2, 'ko': 3};
-  #langsText = {'zh-cn': '简体中文', 'en': 'English', 'ja': '日本語', 'ko': '한국어'};
+  #langs = {'zh-cn': 0, 'en': 1, 'ja': 2, 'ko': 3, 'fr': 4, 'ru': 5, 'es': 6, 'ar': 7};
+  #langsText = {'zh-cn': '简体中文', 'en': 'English', 'ja': '日本語', 'ko': '한국어', 'fr': 'Français', 'ru': 'Русский', 'es': 'Español', 'ar': 'اللغة العربية'};
   #options = [];
   #value = null;
 

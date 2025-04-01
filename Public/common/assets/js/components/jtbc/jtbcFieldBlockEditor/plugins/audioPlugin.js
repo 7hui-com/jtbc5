@@ -6,6 +6,12 @@ export default class audioPlugin {
     };
   };
 
+  static get pasteConfig() {
+    return {
+      tags: [{'audio': {'src': true}}],
+    };
+  };
+
   #paddingTop = 0;
   #paddingBottom = 0;
   #width = 'auto';
@@ -341,6 +347,15 @@ export default class audioPlugin {
       'width': this.#width,
       'align': this.#align,
       'audio': this.#audio,
+    };
+  };
+
+  onPaste(e) {
+    if (e.type == 'tag')
+    {
+      this.#audio.uploadid = 0;
+      this.#audio.fileurl = e.detail.data.src;
+      this.#setData();
     };
   };
 

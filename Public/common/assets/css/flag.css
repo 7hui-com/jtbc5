@@ -12,5 +12,21 @@ flag[lang='ja'] {
 }
 flag[lang='3'],
 flag[lang='ko'] {
-  background-image: url(../svg/lang/ja.svg)
+  background-image: url(../svg/lang/ko.svg)
+}
+flag[lang='4'],
+flag[lang='fr'] {
+  background-image: url(../svg/lang/fr.svg)
+}
+flag[lang='5'],
+flag[lang='ru'] {
+  background-image: url(../svg/lang/ru.svg)
+}
+flag[lang='6'],
+flag[lang='es'] {
+  background-image: url(../svg/lang/es.svg)
+}
+flag[lang='7'],
+flag[lang='ar'] {
+  background-image: url(../svg/lang/ar.svg)
 }

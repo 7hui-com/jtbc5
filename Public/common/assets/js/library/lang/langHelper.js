@@ -9,13 +9,29 @@ export default class langHelper {
     {
       result = 'en';
     }
-    else if (['2', 'ja-jp'].includes(lang))
+    else if (['2', 'ja'].includes(lang))
     {
-      result = 'ja-jp';
+      result = 'ja';
     }
-    else if (['3', 'ko-kr'].includes(lang))
+    else if (['3', 'ko'].includes(lang))
     {
-      result = 'ko-kr';
+      result = 'ko';
+    }
+    else if (['4', 'fr'].includes(lang))
+    {
+      result = 'fr';
+    }
+    else if (['5', 'ru'].includes(lang))
+    {
+      result = 'ru';
+    }
+    else if (['6', 'es'].includes(lang))
+    {
+      result = 'es';
+    }
+    else if (['7', 'ar'].includes(lang))
+    {
+      result = 'ar';
     };
     return result;
   };

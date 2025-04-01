@@ -36,6 +36,55 @@
 .preset_brief[nickname=leo] div.brief.borderless.reverse div.summary {
   padding-left: 0px
 }
+.preset_category {
+  width: 100%; --preset-gap: var(--page-gap, 20px); --preset-background: #000000; --preset-anchor-hover-background: #333333; --preset-anchor-color: #ffffff; --preset-anchor-hover-color: #ffffff
+}
+.preset_category[nickname=maya] {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding-bottom: var(--preset-gap)
+}
+.preset_category[nickname=maya] ul {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; background: var(--preset-background); border-radius: var(--preset-gap); padding: 0px var(--preset-gap)
+}
+.preset_category[nickname=maya] ul li a {
+  display: block; line-height: 120%; padding: calc(var(--preset-gap) / 2) var(--preset-gap); background: transparent; font-size: 1.4rem; color: var(--preset-anchor-color); transition: all .3s ease
+}
+.preset_category[nickname=maya] ul li a:hover,
+.preset_category[nickname=maya] ul li.pitchon a {
+  background: var(--preset-anchor-hover-background); color: var(--preset-anchor-hover-color)
+}
+.preset_feature {
+  width: 100%; box-sizing: border-box; --preset-item-background: #ffffff; --preset-item-border: #d1d1d1 1px solid; --preset-title-color: #333333; --preset-summary-color: #999999; --preset-icon-size: 60px; --preset-icon-color: #333333;  --preset-anchor-background: transparent; --preset-anchor-color: #333333; --preset-anchor-border: #333333 1px solid; --preset-anchor-hover-background: #000000; --preset-anchor-hover-color: #ffffff; --preset-anchor-hover-border: #333333 1px solid; --preset-gap: var(--page-gap, 20px)
+}
+.preset_feature[nickname=luka] {
+  container-type: inline-size; container-name: preset_feature_luka
+}
+.preset_feature[nickname=luka] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--preset-gap)
+}
+.preset_feature[nickname=luka] div.items div.item {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap); display: grid; grid-template-columns: 1fr; gap: var(--preset-gap); background: var(--preset-item-background); border: var(--preset-item-border)
+}
+.preset_feature[nickname=luka] div.items div.item div.title {
+  font-size: 2.4rem; color: var(--preset-title-color); text-align: center
+}
+.preset_feature[nickname=luka] div.items div.item div.icon {
+  text-align: center
+}
+.preset_feature[nickname=luka] div.items div.item div.icon jtbc-svg {
+  width: var(--preset-icon-size); height: var(--preset-icon-size); --fore-color: var(--preset-icon-color)
+}
+.preset_feature[nickname=luka] div.items div.item div.summary {
+  font-size: 1.4rem; line-height: 160%; color: var(--preset-summary-color); text-align: center
+}
+.preset_feature[nickname=luka] div.items div.item div.links {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: calc(var(--preset-gap) / 2)
+}
+.preset_feature[nickname=luka] div.items div.item div.links a {
+  display: block; padding: calc(var(--preset-gap) / 2) var(--preset-gap); font-size: 1.4rem; line-height: 100%; background: var(--preset-anchor-background); color: var(--preset-anchor-color); border: var(--preset-anchor-border); transition: all 0.3s ease
+}
+.preset_feature[nickname=luka] div.items div.item div.links a:hover {
+  background: var(--preset-anchor-hover-background); color: var(--preset-anchor-hover-color); border: var(--preset-anchor-hover-border)
+}
 .preset_figure {
   width: 100%; box-sizing: border-box; --preset-color: rgba(0, 0, 0, 0.7); --preset-number-color: #333333; --preset-icon-color: #333333; --preset-gap: var(--page-gap, 20px); --preset-particular-font-family: Arial
 }
@@ -76,7 +125,7 @@
   width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: calc(var(--preset-gap) / 2)
 }
 .preset_links[nickname=liam] div.links a {
-  display: inline-block; padding: calc(var(--preset-gap) / 2) var(--preset-gap); font-size: 1.4rem; line-height: 100%; background: var(--preset-anchor-background); color: var(--preset-anchor-color); border: var(--preset-anchor-border); transition: all 0.3s ease
+  display: block; padding: calc(var(--preset-gap) / 2) var(--preset-gap); font-size: 1.4rem; line-height: 100%; background: var(--preset-anchor-background); color: var(--preset-anchor-color); border: var(--preset-anchor-border); transition: all 0.3s ease
 }
 .preset_links[nickname=liam] div.links a:hover {
   background: var(--preset-anchor-hover-background); color: var(--preset-anchor-hover-color); border: var(--preset-anchor-hover-border)
@@ -89,6 +138,60 @@
 }
 .preset_list {
   width: 100%; box-sizing: border-box; --preset-primary-color: #333333; --preset-secondary-color: #666666; --preset-tertiary-color: #999999; --preset-anchor-color: #333333; --preset-anchor-hover-color: #000000; --preset-border-color: #d1d1d1; --preset-gap: var(--page-gap, 20px); --preset-particular-font-family: Arial
+}
+.preset_list[nickname=aiden] {
+  container-type: inline-size; container-name: preset_list_aiden
+}
+.preset_list[nickname=aiden] div.items {
+  width: 100%; box-sizing: border-box
+}
+.preset_list[nickname=aiden] div.items div.item {
+  width: 100%; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: space-between
+}
+.preset_list[nickname=aiden] div.items div.item div.image {
+  width: 50%; overflow: hidden
+}
+.preset_list[nickname=aiden] div.items div.item div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease
+}
+.preset_list[nickname=aiden] div.items div.item div.image:hover img {
+  transform: scale(1.1)
+}
+.preset_list[nickname=aiden] div.items div.item div.image img.static {
+  transition: none
+}
+.preset_list[nickname=aiden] div.items div.item div.image:hover img.static {
+  transform: none
+}
+.preset_list[nickname=aiden] div.items div.item div.text {
+  width: 50%; display: flex; flex-wrap: wrap; overflow: hidden; align-items: flex-start
+}
+.preset_list[nickname=aiden] div.items div.item div.text.middle {
+  align-items: center
+}
+.preset_list[nickname=aiden] div.items div.item div.text.bottom {
+  align-items: flex-end
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content {
+  width: 100%; box-sizing: border-box; padding: var(--preset-gap); display: grid; grid-template-columns: 1fr; gap: calc(var(--preset-gap) / 2)
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content div.title {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; font-size: 2.4rem; color: var(--preset-anchor-color)
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content div.title a {
+  font-size: 2.4rem; color: var(--preset-anchor-color); display: block; padding-bottom: 0.2rem; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content div.title a:hover {
+  color: var(--preset-anchor-hover-color); border-bottom-color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content div.subtitle {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; font-size: 1.4rem; color: var(--preset-tertiary-color)
+}
+.preset_list[nickname=aiden] div.items div.item div.text div.content div.summary {
+  width: 100%; box-sizing: border-box; font-size: 1.4rem; color: var(--preset-secondary-color); line-height: 160%; padding-top: calc(var(--preset-gap) / 2); border-top: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=aiden] div.items div.item:nth-child(even) {
+  flex-direction: row-reverse
 }
 .preset_list[nickname=amelia] {
   container-type: inline-size; container-name: preset_list_amelia
@@ -232,6 +335,30 @@
 .preset_list[nickname=bella] div.items div.item.borderless {
   border: 0px; padding: 0px
 }
+.preset_list[nickname=cora] {
+  width: 100%
+}
+.preset_list[nickname=cora] ul {
+  width: 100%; padding: calc(var(--preset-gap) / 2) 0px
+}
+.preset_list[nickname=cora] ul li {
+  width: 100%; padding: calc(var(--preset-gap) / 4) 0px; display: flex; align-items: center; justify-content: space-between; gap: var(--preset-gap)
+}
+.preset_list[nickname=cora] ul li a.title {
+  display: block; line-height: 140%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.4rem; color: var(--preset-anchor-color); padding-bottom: 0.2rem; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.preset_list[nickname=cora] ul li a.title:hover {
+  color: var(--preset-anchor-hover-color); border-bottom-color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=cora] ul li span.date {
+  display: block; font-size: 1.2rem; color: var(--preset-tertiary-color); white-space: nowrap
+}
+.preset_list[nickname=cora][split=true] ul li:nth-child(5n) {
+  margin-bottom: calc(var(--preset-gap) / 2); padding-bottom: calc(var(--preset-gap) / 4 * 3); border-bottom: var(--preset-border-color) 1px solid
+}
+.preset_list[nickname=cora][split=true] ul li:last-of-type {
+  margin-bottom: 0px; padding-bottom: calc(var(--preset-gap) / 4); border-bottom: 0px
+}
 .preset_list[nickname=emma] {
   container-type: inline-size; container-name: preset_list_emma
 }
@@ -350,9 +477,25 @@
     padding-left: 0px; padding-right: 0px
   }
 }
+@container preset_feature_luka (width <= 960px) {
+  .preset_feature[nickname=luka] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_feature_luka (width <= 640px) {
+  .preset_feature[nickname=luka] div.items {
+    grid-template-columns: 1fr
+  }
+}
 @container preset_figure_aria (width <= 960px) {
   .preset_figure[nickname=aria] div.items {
     grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_aiden (width <= 640px) {
+  .preset_list[nickname=aiden] div.items div.item div.image,
+  .preset_list[nickname=aiden] div.items div.item div.text {
+    width: 100%
   }
 }
 @container preset_list_amelia (width <= 1680px) {

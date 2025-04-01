@@ -280,7 +280,7 @@ class ORMUnionReader
     return $this;
   }
 
-  public function __construct(string $argDBLink = null)
+  public function __construct(?string $argDBLink = null)
   {
     $DBLink = $argDBLink;
     if (!is_null($DBLink))

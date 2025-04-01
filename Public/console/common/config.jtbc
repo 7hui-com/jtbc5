@@ -16,7 +16,7 @@
     </item>
     <item>
       <name><![CDATA[available-languages]]></name>
-      <zh-cn><![CDATA[{"zh-cn":{"key":0,"text":"简体中文"},"en":{"key":1,"text":"English"},"ja":{"key":2,"text":"日本語"},"ko":{"key":3,"text":"한국어"}}]]></zh-cn>
+      <zh-cn><![CDATA[{"zh-cn":{"key":0,"text":"简体中文"},"en":{"key":1,"text":"English"},"ja":{"key":2,"text":"日本語"},"ko":{"key":3,"text":"한국어"},"fr":{"key":4,"text":"Français"},"ru":{"key":5,"text":"Русский"},"es":{"key":6,"text":"Español"},"ar":{"key":7,"text":"العربية"}}]]></zh-cn>
     </item>
   </item_list>
 </xml>

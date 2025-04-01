@@ -1,0 +1,330 @@
+.container_section {
+  --preset-title-color: #000000; --preset-subtitle-color: #0000001a; --preset-line-primary-color: #000000; --preset-line-secondary-color: #666666
+}
+.container_section[nickname=alan] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=alan] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=alan] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=alan] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=alan] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=colt] {
+  padding-bottom: 10px !important; position: relative
+}
+.container_section[nickname=colt] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=colt] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=colt] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=colt] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=colt] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=colt]::before {
+  content: ''; display: block; width: 40px; height: 3px; background: var(--preset-line-primary-color); transform: translate(-50%, 0px); position: absolute; bottom: 0px; left: 50%; z-index: 60
+}
+.container_section[nickname=colt]::after {
+  content: ''; display: block; width: 140px; height: 1px; background: var(--preset-line-secondary-color); transform: translate(-50%, 0px); position: absolute; bottom: 1px; left: 50%; z-index: 50
+}
+.container_section[nickname=mason] {
+  padding-bottom: 24px !important; position: relative
+}
+.container_section[nickname=mason] div.title {
+  width: 100%; text-align: center; padding-top: 30px; position: relative; z-index: 20
+}
+.container_section[nickname=mason] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=mason] div.subtitle {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px; position: absolute; bottom: 90px; z-index: 10
+}
+.container_section[nickname=mason] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=mason] div.subtitle span.text {
+  line-height: 120%; font-size: 20px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=mason] div.subtitle::before,
+.container_section[nickname=mason] div.subtitle::after {
+  content: ''; display: block; width: 10px; height: 10px; background: var(--preset-subtitle-color); transform: rotate(45deg)
+}
+.container_section[nickname=mason]::before {
+  content: ''; display: block; width: 110px; height: 20px; background-color: var(--preset-line-primary-color); mask-image: url(../svg/zigzag.svg); mask-size: 20px; mask-repeat: repeat-x; transform: translate(-50%, 0px); position: absolute; bottom: 0px; left: 50%; z-index: 50
+}
+.container_section[nickname=naomi] {
+  padding-bottom: 10px !important; position: relative
+}
+.container_section[nickname=naomi] div.title {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px
+}
+.container_section[nickname=naomi] div.title span.text {
+  display: block; line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=naomi] div.title::before,
+.container_section[nickname=naomi] div.title::after {
+  display: block; content: ''; width: 60px; height: 2px; border-top: var(--preset-line-primary-color) 1px solid; border-bottom: var(--preset-line-secondary-color) 1px solid
+}
+.container_section[nickname=naomi] div.subtitle {
+  width: 100%; text-align: center
+}
+.container_section[nickname=naomi] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=naomi] div.subtitle span.text {
+  line-height: 120%; font-size: 18px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=nova] {
+  padding-bottom: 10px !important; position: relative
+}
+.container_section[nickname=nova] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=nova] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=nova] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=nova] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=nova] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=nova]::before {
+  content: ''; display: block; width: 30px; height: 4px; background: var(--preset-line-primary-color); position: absolute; bottom: 0px; right: 50%; z-index: 50
+}
+.container_section[nickname=nova]::after {
+  content: ''; display: block; width: 30px; height: 4px; background: var(--preset-line-secondary-color); position: absolute; bottom: 0px; left: 50%; z-index: 50
+}
+.container_section[nickname=owen] {
+  position: relative
+}
+.container_section[nickname=owen] div.title {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px
+}
+.container_section[nickname=owen] div.title span.text {
+  display: block; line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=owen] div.title::before,
+.container_section[nickname=owen] div.title::after {
+  display: block; content: ''; width: 50px; height: 2px; background: var(--preset-line-primary-color)
+}
+.container_section[nickname=owen] div.subtitle {
+  width: 100%; text-align: center
+}
+.container_section[nickname=owen] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=owen] div.subtitle span.text {
+  line-height: 120%; font-size: 18px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=sophia] {
+  padding-bottom: 40px !important; position: relative
+}
+.container_section[nickname=sophia] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=sophia] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=sophia] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=sophia] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=sophia] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=sophia] div.subtitle::after {
+  content: '\00a7'; display: block; font-family: Georgia; font-size: 36px; font-weight: lighter; line-height: 100%; color: var(--preset-line-primary-color); transform: translate(-50%, 36px); position: absolute; bottom: 0px; left: 50%; z-index: 30
+}
+.container_section[nickname=sophia]::before {
+  content: ''; display: block; width: 80px; height: 1px; background: var(--preset-line-secondary-color); position: absolute; bottom: 20px; right: calc(50% + 20px); z-index: 50
+}
+.container_section[nickname=sophia]::after {
+  content: ''; display: block; width: 80px; height: 1px; background: var(--preset-line-secondary-color); position: absolute; bottom: 20px; left: calc(50% + 20px); z-index: 50
+}
+.container_section[nickname=wave] {
+  padding-bottom: 24px !important; position: relative
+}
+.container_section[nickname=wave] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=wave] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=wave] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=wave] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=wave] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=wave]::before {
+  content: ''; display: block; width: 110px; height: 20px; background-color: var(--preset-line-primary-color); mask-image: url(../svg/wave.svg); mask-size: 20px; mask-repeat: repeat-x; transform: translate(-50%, 0px); position: absolute; bottom: 0px; left: 50%; z-index: 50
+}
+.container_section[nickname=zigzag] {
+  padding-bottom: 24px !important; position: relative
+}
+.container_section[nickname=zigzag] div.title {
+  width: 100%; text-align: center; position: relative; z-index: 20
+}
+.container_section[nickname=zigzag] div.title span.text {
+  line-height: 160%; font-size: 36px; color: var(--preset-title-color)
+}
+.container_section[nickname=zigzag] div.subtitle {
+  width: 100%; text-align: center; margin-top: -30px; position: relative; z-index: 10
+}
+.container_section[nickname=zigzag] div.subtitle:has(span.text:empty) {
+  display: none
+}
+.container_section[nickname=zigzag] div.subtitle span.text {
+  line-height: 120%; font-size: 36px; color: var(--preset-subtitle-color)
+}
+.container_section[nickname=zigzag]::before {
+  content: ''; display: block; width: 110px; height: 20px; background-color: var(--preset-line-primary-color); mask-image: url(../svg/zigzag.svg); mask-size: 20px; mask-repeat: repeat-x; transform: translate(-50%, 0px); position: absolute; bottom: 0px; left: 50%; z-index: 50
+}
+@media screen and (max-width: 960px) {
+  .container_section[nickname=alan] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=alan] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=alan] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=colt] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=colt] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=colt] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=colt]::before {
+    width: 30px
+  }
+  .container_section[nickname=colt]::after {
+    width: 90px
+  }
+  .container_section[nickname=mason] {
+    padding-bottom: 18px !important
+  }
+  .container_section[nickname=mason] div.title {
+    padding-top: 20px
+  }
+  .container_section[nickname=mason] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=mason] div.subtitle {
+    bottom: 60px
+  }
+  .container_section[nickname=mason] div.subtitle {
+    gap: 10px
+  }
+  .container_section[nickname=mason] div.subtitle span.text {
+    font-size: 14px
+  }
+  .container_section[nickname=mason] div.subtitle::before,
+  .container_section[nickname=mason] div.subtitle::after {
+    width: 6px; height: 6px
+  }
+  .container_section[nickname=mason]::before {
+    width: 90px; height: 14px; mask-size: 14px
+  }
+  .container_section[nickname=naomi] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=naomi] div.subtitle span.text {
+    font-size: 14px
+  }
+  .container_section[nickname=nova] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=nova] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=nova] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=nova]::before {
+    height: 2px
+  }
+  .container_section[nickname=nova]::after {
+    height: 2px
+  }
+  .container_section[nickname=owen] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=owen] div.subtitle span.text {
+    font-size: 14px
+  }
+  .container_section[nickname=sophia] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=sophia] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=sophia] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=sophia] div.subtitle::after {
+    font-size: 24px; transform: translate(-50%, 32px)
+  }
+  .container_section[nickname=sophia]::before {
+    width: 40px
+  }
+  .container_section[nickname=sophia]::after {
+    width: 40px
+  }
+  .container_section[nickname=wave] {
+    padding-bottom: 18px !important
+  }
+  .container_section[nickname=wave] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=wave] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=wave] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=wave]::before {
+    width: 90px; height: 14px; mask-size: 14px
+  }
+  .container_section[nickname=zigzag] {
+    padding-bottom: 18px !important
+  }
+  .container_section[nickname=zigzag] div.title span.text {
+    font-size: 24px
+  }
+  .container_section[nickname=zigzag] div.subtitle {
+    margin-top: -16px
+  }
+  .container_section[nickname=zigzag] div.subtitle span.text {
+    font-size: 20px
+  }
+  .container_section[nickname=zigzag]::before {
+    width: 90px; height: 14px; mask-size: 14px
+  }
+}

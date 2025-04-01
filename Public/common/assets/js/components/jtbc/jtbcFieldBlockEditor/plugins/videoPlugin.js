@@ -8,6 +8,12 @@ export default class videoPlugin {
     };
   };
 
+  static get pasteConfig() {
+    return {
+      tags: [{'video': {'src': true, 'poster': true}}],
+    };
+  };
+
   #paddingTop = 0;
   #paddingBottom = 0;
   #width = 'auto';
@@ -462,6 +468,17 @@ export default class videoPlugin {
       'align': this.#align,
       'poster': this.#poster,
       'video': this.#video,
+    };
+  };
+
+  onPaste(e) {
+    if (e.type == 'tag')
+    {
+      this.#video.uploadid = 0;
+      this.#video.fileurl = e.detail.data.src;
+      this.#poster.uploadid = 0;
+      this.#poster.fileurl = e.detail.data.poster;
+      this.#setData();
     };
   };
 

@@ -1,8 +1,12 @@
+@import url('../../../css/container.css');
 :host {
-  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px 20px; --container-page-inner-padding: 20px 0px; --container-background: #fff; --container-background-size: cover; --container-gap: 20px; --container-z-index: 100; --container-headline-height: calc(100vh / 4); --container-headline-min-height: 120px; --container-headline-max-height: 360px; --container-headline-mask-background: rgba(0, 0, 0, 0.3); --container-headline-title-font-size: 24px; --container-headline-title-color: #fff; --container-headline-title-line-height: 160%; --container-headline-title-letter-spacing: 0px; --container-headline-title-font-weight: normal; --container-headline-subtitle-font-size: 14px; --container-headline-subtitle-color: rgba(255, 255, 255, 0.7); --container-headline-subtitle-line-height: 160%; --container-headline-subtitle-letter-spacing: 0px; --container-headline-subtitle-font-weight: normal; --container-navigation-background: #f8f8f8; --container-navigation-border-top: 0px; --container-navigation-border-bottom: #eee 1px solid; --container-flex-direction: row; --container-sidebar-width: 25%
+  display: block; width: 100%; box-sizing: border-box; --container-page-max-width: 1400px; --container-page-outer-padding: 0px var(--container-gap); --container-page-inner-padding: var(--container-gap) 0px; --container-background: #fff; --container-background-size: cover; --container-gap: 20px; --container-z-index: 100; --container-headline-height: calc(100vh / 4); --container-headline-min-height: 120px; --container-headline-max-height: 360px; --container-headline-mask-background: rgba(0, 0, 0, 0.3); --container-headline-title-font-size: 24px; --container-headline-title-color: #fff; --container-headline-title-line-height: 160%; --container-headline-title-letter-spacing: 0px; --container-headline-title-font-weight: normal; --container-headline-subtitle-font-size: 14px; --container-headline-subtitle-color: rgba(255, 255, 255, 0.7); --container-headline-subtitle-line-height: 160%; --container-headline-subtitle-letter-spacing: 0px; --container-headline-subtitle-font-weight: normal; --container-navigation-background: #f8f8f8; --container-navigation-border-top: 0px; --container-navigation-border-bottom: #eee 1px solid; --container-flex-direction: row; --container-sidebar-width: 25%
 }
 container {
   display: block !important; box-sizing: border-box; width: 100%; background: var(--container-background); background-size: var(--container-background-size); position: relative; z-index: var(--container-z-index)
+}
+container div.hide {
+  display: none !important
 }
 container div.headline {
   display: block; box-sizing: border-box; width: 100%; height: var(--container-headline-height); min-height: var(--container-headline-min-height); max-height: var(--container-headline-max-height); padding: var(--page-outer-padding, var(--container-page-outer-padding)); background: none center center no-repeat; background-size: cover; position: relative; z-index: 120
@@ -28,6 +32,9 @@ container div.navigation div.box {
 container div.container {
   display: block; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--container-page-outer-padding))
 }
+container div.container div.section {
+  display: block; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding-top: calc(var(--container-gap) * 2)
+}
 container div.container div.box {
   display: flex; width: 100%; max-width: var(--page-max-width, var(--container-page-max-width)); margin: auto; padding: var(--page-inner-padding, var(--container-page-inner-padding)); flex-wrap: wrap; box-sizing: border-box; align-items: flex-start; justify-content: space-between; flex-direction: var(--container-flex-direction)
 }
@@ -36,9 +43,6 @@ container div.container div.box div.sidebar {
 }
 container div.container div.box div.main {
   width: calc(100% - var(--container-sidebar-width) - var(--container-gap))
-}
-container div.container div.box div.sidebar.hide {
-  display: none !important
 }
 container div.container div.box div.sidebar.hide + div.main {
   width: 100%
@@ -49,6 +53,9 @@ container div.container.hide {
   display: none !important
 }
 @media screen and (max-width: 960px) {
+  :host {
+    --container-gap: 15px
+  }
   container div.container div.box div.sidebar,
   container div.container div.box div.main {
     display: block; width: 100%

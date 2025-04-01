@@ -101,7 +101,7 @@ export default class jtbcFieldEditor extends HTMLElement {
     let container = this.container;
     let iWindow = this.#iWindow = el.contentWindow;
     let iDocument = this.#iDocument = el.contentDocument;
-    let language = this.lang == 'zh-cn'? 'zh_CN': 'en';
+    let langsMap = {'ar': 'ar', 'en': 'en', 'es': 'es', 'fr': 'fr_FR', 'ja': 'ja', 'ko': 'ko_KR', 'ru': 'ru', 'zh-cn': 'zh_CN'};
     let config = {
       license_key: 'gpl',
       autosave_ask_before_unload: false,
@@ -115,7 +115,7 @@ export default class jtbcFieldEditor extends HTMLElement {
       menubar: false,
       convert_urls: false,
       placeholder: this.placeholder,
-      language: language,
+      language: langsMap[this.lang] ?? 'en',
       setup: function(editor) {
         editor.on('focus', e => container.classList.add('focused'));
         editor.on('blur', e => container.classList.remove('focused'));

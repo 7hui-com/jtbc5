@@ -35,10 +35,11 @@ export default class jtbcBlockViewer extends HTMLElement {
     let result = null;
     let data = block.data;
     let tunes = block.tunes;
+    let inspector = new htmlInspector(data.text, 'block-editor');
     if ([1, 2, 3, 4, 5, 6].includes(data.level))
     {
       result = document.createElement('h' + data.level);
-      result.innerText = data.text;
+      result.innerHTML = inspector.getFilteredHTML();
       if (result.childNodes.length === 0)
       {
         result.innerHTML = this.#noBreakSpace;

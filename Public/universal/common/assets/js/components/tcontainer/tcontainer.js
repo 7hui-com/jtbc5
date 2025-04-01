@@ -1,10 +1,11 @@
 export default class tcontainer extends HTMLElement {
   static get observedAttributes() {
-    return ['breadcrumb', 'headline-title', 'headline-subtitle'];
+    return ['breadcrumb', 'headline-title', 'headline-subtitle', 'section-title', 'section-subtitle', 'section-nickname'];
   };
 
   #breadcrumb;
   #headline = {};
+  #section = {'title': null, 'subtitle': null, 'nickname': 'alan'};
 
   get breadcrumb() {
     return this.#breadcrumb;
@@ -59,7 +60,6 @@ export default class tcontainer extends HTMLElement {
     let headline = container.querySelector('div.headline');
     let headlineTitle = this.#headline.title ?? '';
     let headlineSubtitle = this.#headline.subtitle ?? '';
-    console.log(headlineTitle.length);
     if (headlineTitle.length === 0 && headlineSubtitle.length === 0)
     {
       headline.classList.add('hide');
@@ -69,6 +69,25 @@ export default class tcontainer extends HTMLElement {
       headline.classList.remove('hide');
       headline.querySelector('div.title').innerText = headlineTitle;
       headline.querySelector('div.subtitle').innerText = headlineSubtitle;
+    };
+  };
+
+  #resetSection() {
+    let container = this.container;
+    let section = container.querySelector('div.section');
+    let sectionTitle = this.#section.title ?? '';
+    let sectionSubtitle = this.#section.subtitle ?? '';
+    let sectionNickname = this.#section.nickname ?? '';
+    if (sectionTitle.length === 0 && sectionSubtitle.length === 0)
+    {
+      section.classList.add('hide');
+    }
+    else
+    {
+      section.classList.remove('hide');
+      section.setAttribute('nickname', sectionNickname);
+      section.querySelector('div.title span.text').innerText = sectionTitle;
+      section.querySelector('div.subtitle span.text').innerText = sectionSubtitle;
     };
   };
 
@@ -89,6 +108,24 @@ export default class tcontainer extends HTMLElement {
       {
         this.#headline.subtitle = newVal;
         this.#resetHeadline();
+        break;
+      };
+      case 'section-title':
+      {
+        this.#section.title = newVal;
+        this.#resetSection();
+        break;
+      };
+      case 'section-subtitle':
+      {
+        this.#section.subtitle = newVal;
+        this.#resetSection();
+        break;
+      };
+      case 'section-nickname':
+      {
+        this.#section.nickname = newVal;
+        this.#resetSection();
         break;
       };
     };
@@ -114,7 +151,7 @@ export default class tcontainer extends HTMLElement {
             </div>
           </div>
         </div>
-        <div part="container" class="container"><div part="container-box" class="box"><div part="sidebar" class="sidebar hide"><slot name="sidebar"></slot></div><div part="main" class="main"><slot name="main"></slot></div></div></div>
+        <div part="container" class="container"><div part="section" class="section container_section hide" nickname="alan"><div part="section-title" class="title"><span part="section-title-text" class="text"></span></div><div part="section-subtitle" class="subtitle"><span part="section-subtitle-text" class="text"></span></div></div><div part="container-box" class="box"><div part="sidebar" class="sidebar hide"><slot name="sidebar"></slot></div><div part="main" class="main"><slot name="main"></slot></div></div></div>
       </container>
     `;
     shadowRoot.innerHTML = shadowRootHTML;

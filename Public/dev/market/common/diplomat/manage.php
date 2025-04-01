@@ -298,8 +298,7 @@ class Diplomat extends Ambassador {
               {
                 $code = 1;
                 $cache -> removeAll();
-                $this -> guard -> role -> setLang(Env::getDefaultLang());
-                Setting::changeLanguage($res, Env::getDefaultLanguage());
+                Setting::restoreLanguage($res);
                 Logger::log($this, 'manage.log-install-package', ['type_id' => $typeId]);
               }
               else

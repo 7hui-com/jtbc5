@@ -8,6 +8,12 @@ export default class imagePlugin {
     };
   };
 
+  static get pasteConfig() {
+    return {
+      tags: [{'img': {'src': true}}],
+    };
+  };
+
   #paddingTop = 0;
   #paddingBottom = 0;
   #width = 'auto';
@@ -388,6 +394,15 @@ export default class imagePlugin {
       'width': this.#width,
       'align': this.#align,
       'image': this.#image,
+    };
+  };
+
+  onPaste(e) {
+    if (e.type == 'tag')
+    {
+      this.#image.uploadid = 0;
+      this.#image.fileurl = e.detail.data.src;
+      this.#setData();
     };
   };
 
