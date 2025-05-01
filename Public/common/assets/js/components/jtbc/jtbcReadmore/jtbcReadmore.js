@@ -1,4 +1,4 @@
-import anime from '../../../vendor/anime/anime.esm.min.js';
+import { animate } from '../../../vendor/anime/anime.esm.min.js';
 
 export default class jtbcReadmore extends HTMLElement {
   static get observedAttributes() {
@@ -72,12 +72,11 @@ export default class jtbcReadmore extends HTMLElement {
       {
         that.#locked = true;
         content.style.height = this.contentHeight + 'px';
-        anime({
-          targets: content,
+        animate(content, {
           height: this.maxHeight,
           duration: this.duration,
-          easing: 'easeOutQuart',
-          complete: function() {
+          ease: 'inOutQuint',
+          onComplete: function() {
             that.#locked = false;
             content.classList.remove('unfolded');
             content.parentElement.setAttribute('fold', 'true');
@@ -91,12 +90,11 @@ export default class jtbcReadmore extends HTMLElement {
       {
         that.#locked = true;
         content.classList.add('unfolded');
-        anime({
-          targets: content,
+        animate(content, {
           height: this.contentHeight,
           duration: this.duration,
-          easing: 'easeOutQuart',
-          complete: function() {
+          ease: 'inOutQuint',
+          onComplete: function() {
             that.#locked = false;
             content.style.height = 'auto';
             content.parentElement.setAttribute('fold', 'false');

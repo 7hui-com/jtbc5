@@ -72,16 +72,17 @@ class Diplomat extends Ambassador {
     $ss = new Substance();
     $id = $req -> post('id');
     $type = strval($req -> post('type'));
-    if (is_array($id))
+    if (Validation::isJSON($id))
     {
-      if ($type == 'delete')
+      $idArr = JSON::decode($id);
+      if ($type == 'delete' && is_array($idArr))
       {
         $code = 1;
-        foreach ($id as $currentId)
+        foreach ($idArr as $currentId)
         {
           $this -> di -> cache -> remove($currentId);
         }
-        Logger::log($this, '::communal.log-batch', ['id' => implode(',', $id), 'type' => $type]);
+        Logger::log($this, '::communal.log-batch', ['id' => implode(',', $idArr), 'type' => $type]);
       }
     }
     $ss -> code = $code;

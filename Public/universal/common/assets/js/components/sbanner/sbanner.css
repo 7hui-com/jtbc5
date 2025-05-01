@@ -149,7 +149,7 @@
   width: 100%; max-width: var(--banner-page-max-width); height: 100%; align-items: center
 }
 .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap {
-  padding: calc(var(--banner-gap) * 2)
+  padding: 0px calc(var(--banner-gap) * 2)
 }
 .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
   width: 100%; display: block; font-size: 48px; color: #fff; line-height: 160%; padding-bottom: calc(var(--banner-gap) / 2); font-weight: lighter
@@ -170,7 +170,7 @@
   width: 100%; max-width: var(--banner-page-max-width); height: 100%; align-items: center; justify-content: flex-end
 }
 .container div.box[theme=right] jtbc-swiper div.swiper-slide div.content div.wrap {
-  padding: calc(var(--banner-gap) * 2); text-align: right
+  padding: 0px calc(var(--banner-gap) * 2); text-align: right
 }
 .container div.box[theme=right] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
   width: 100%; display: block; font-size: 48px; color: #fff; line-height: 160%; padding-bottom: calc(var(--banner-gap) / 2); font-weight: lighter; position: relative; z-index: 10
@@ -200,7 +200,7 @@
   justify-content: flex-end
 }
 .container div.box[theme=couple] jtbc-swiper div.swiper-slide div.content div.wrap {
-  padding: calc(var(--banner-gap) * 2); 
+  padding: 0px calc(var(--banner-gap) * 2) 
 }
 .container div.box[theme=couple] jtbc-swiper div.swiper-slide:nth-child(odd) div.content div.wrap {
   text-align: left
@@ -231,6 +231,20 @@
 }
 .container.on {
   display: block !important
+}
+@media screen and (max-width: 1440px) {
+  .container div.box[theme=naive] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding-left: calc(var(--banner-gap) * 3); padding-right: calc(var(--banner-gap) * 3)
+  }
+  .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding-left: calc(var(--banner-gap) * 3); padding-right: calc(var(--banner-gap) * 3)
+  }
+  .container div.box[theme=right] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding-left: calc(var(--banner-gap) * 3); padding-right: calc(var(--banner-gap) * 3)
+  }
+  .container div.box[theme=couple] jtbc-swiper div.swiper-slide div.content div.wrap {
+    padding-left: calc(var(--banner-gap) * 3); padding-right: calc(var(--banner-gap) * 3)
+  }
 }
 @media screen and (max-width: 960px) {
   :host {
@@ -273,20 +287,11 @@
   .container div.box[theme=half] jtbc-swiper div.swiper-slide div.content {
     width: 100%; height: auto; justify-content: flex-start !important; text-align: left !important
   }
-  .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap {
-    padding: calc(var(--banner-gap) * 4)
-  }
   .container div.box[theme=left] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
     font-size: 32px
   }
-  .container div.box[theme=right] jtbc-swiper div.swiper-slide div.content div.wrap {
-    padding: calc(var(--banner-gap) * 4)
-  }
   .container div.box[theme=right] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
     font-size: 32px
-  }
-  .container div.box[theme=couple] jtbc-swiper div.swiper-slide div.content div.wrap {
-    padding: calc(var(--banner-gap) * 4)
   }
   .container div.box[theme=couple] jtbc-swiper div.swiper-slide div.content div.wrap span.title {
     font-size: 32px

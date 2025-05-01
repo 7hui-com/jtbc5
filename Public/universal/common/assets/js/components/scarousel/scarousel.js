@@ -85,6 +85,7 @@ export default class scarousel extends HTMLElement {
       let cButtonNextSvg = document.createElement('jtbc-svg');
       div.classList.add('glide');
       track.classList.add('glide__track');
+      track.setAttribute('part', 'track');
       track.setAttribute('data-glide-el', 'track');
       slides.classList.add('glide__slides');
       controls.setAttribute('data-glide-el', 'controls');

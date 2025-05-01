@@ -296,6 +296,15 @@ export default class extender {
     Window.prototype.getBroadcaster = function(channel = null) {
       return that.broadcaster.switch(channel);
     };
+    Window.prototype.jtbcSpecialCharDecode = function(text) {
+      if (typeof(text) == 'string')
+      {
+        [36, 39, 64, 123, 125].forEach(charCode => {
+          text = text.replaceAll('&#' + charCode + ';', String.fromCharCode(charCode));
+        });
+      };
+      return text;
+    };
     Window.prototype.loadModule = async function(url) {
       return (await import(url)).default;
     };

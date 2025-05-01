@@ -20,7 +20,7 @@
     </item>
     <item>
       <name><![CDATA[pagination]]></name>
-      <default><![CDATA[{$=is_null(#firstPage)? '<span class="firstPage"><span>': '<a class="firstPage" href="{$firstPage}"></a>'}{$=is_null(#prevPage)? '<span class="prevPage"><span>': '<a class="prevPage" href="{$prevPage}"></a>'}{$=$render('{$>self.path}.pagination-item', #pages)}{$=is_null(#nextPage)? '<span class="nextPage"><span>': '<a class="nextPage" href="{$nextPage}"></a>'}{$=is_null(#lastPage)? '<span class="lastPage"><span>': '<a class="lastPage" href="{$lastPage}"></a>'}]]></default>
+      <default><![CDATA[{$=is_null(#firstPage)? '<span class="firstPage"></span>': '<a class="firstPage" href="{$firstPage}"></a>'}{$=is_null(#prevPage)? '<span class="prevPage"><span>': '<a class="prevPage" href="{$prevPage}"></a>'}{$=$render('{$>self.path}.pagination-item', #pages)}{$=is_null(#nextPage)? '<span class="nextPage"></span>': '<a class="nextPage" href="{$nextPage}"></a>'}{$=is_null(#lastPage)? '<span class="lastPage"><span>': '<a class="lastPage" href="{$lastPage}"></a>'}]]></default>
     </item>
     <item>
       <name><![CDATA[pagination-item]]></name>

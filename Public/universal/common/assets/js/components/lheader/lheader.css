@@ -8,24 +8,26 @@
   display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between
 }
 .container div.box logo {
-  display: block; width: var(--header-logo-width); height: 100%; filter: var(--header-logo-filter)
+  display: flex; width: var(--header-logo-width); height: 100%; align-items: center; justify-content: center; filter: var(--header-logo-filter)
 }
 .container div.box logo a {
-  display: inline-block; height: 100%
+  display: block; height: 100%
 }
 .container div.box logo img {
-  display: inline-block; height: 100%
+  display: block; height: 100%
 }
 .container div.box div.sides {
   width: calc((100% - var(--header-logo-width)) / 2); height: 100%; display: flex; flex-wrap: wrap; align-items: center
 }
-.container div.box div.sides[position=left],
-.container div.box div.sides[position=left] leftmenu {
-  justify-content: left
+.container div.box div.sides leftmenu,
+.container div.box div.sides rightmenu {
+  display: block
 }
-.container div.box div.sides[position=right],
-.container div.box div.sides[position=right] rightmenu {
-  justify-content: right
+.container div.box div.sides[position=left] {
+  justify-content: center
+}
+.container div.box div.sides[position=right] {
+  justify-content: center
 }
 .container div.box div.navicon {
   display: none
@@ -104,6 +106,18 @@
 .container div.box .menu ul li.on dl dt > span[name]::before {
   opacity: 1; bottom: 0px; background: var(--header-anchor-color)
 }
+.container[alignment=center] div.box div.sides[position=left] {
+  justify-content: right
+}
+.container[alignment=center] div.box div.sides[position=right] {
+  justify-content: left
+}
+.container[alignment=justify] div.box div.sides[position=left] {
+  justify-content: left
+}
+.container[alignment=justify] div.box div.sides[position=right] {
+  justify-content: right
+}
 .container.sticky {
   background: var(--header-sticky-background); box-shadow: var(--header-sticky-box-shadow); --header-logo-filter: var(--header-sticky-logo-filter); --header-anchor-color: var(--header-sticky-anchor-color); --header-navicon-color: var(--header-sticky-navicon-color)
 }
@@ -112,7 +126,7 @@
 }
 @media screen and (max-width: 960px) {
   :host {
-    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-height: 60px; --header-anchor-padding: 15px; --header-anchor-icon-size: 30px; --header-submenu-margin-top: 0px
+    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-height: 60px; --header-logo-width: auto; --header-anchor-padding: 15px; --header-anchor-icon-size: 30px; --header-submenu-margin-top: 0px
   }
   .container div.box div.sides {
     display: none

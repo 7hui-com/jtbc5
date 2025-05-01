@@ -30,7 +30,7 @@ class PaginationCreator
     $ss -> firstPage = $currentPage == 1? null: $createLinkUrl(1);
     $ss -> prevPage = $currentPage == 1? null: $createLinkUrl($currentPage - 1);
     $ss -> pages = $pages;
-    $ss -> nextPage = $currentPage == $totalPage? null: $createLinkUrl($totalPage + 1);
+    $ss -> nextPage = $currentPage == $totalPage? null: $createLinkUrl($currentPage + 1);
     $ss -> lastPage = $currentPage == $totalPage? null: $createLinkUrl($totalPage);
     return $ss -> toArray();
   }

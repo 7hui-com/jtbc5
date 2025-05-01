@@ -49,7 +49,7 @@ trait Batch
             {
               $code = 1;
               $hookName = 'afterBatch' . ucfirst($type);
-              $this -> hook -> {$hookName} -> trigger($id);
+              $this -> hook -> {$hookName} -> trigger($idArr);
               Logger::log($this, ['::communal.log-batch', $this -> getParam('basename') . '.log-batch'], ['id' => $idList, 'type' => $type]);
             }
           }

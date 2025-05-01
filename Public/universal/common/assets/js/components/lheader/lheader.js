@@ -1,10 +1,15 @@
 export default class lheader extends HTMLElement {
   static get observedAttributes() {
-    return ['arrow', 'pitchon'];
+    return ['alignment', 'arrow', 'pitchon'];
   };
 
+  #alignment = 'auto';
   #arrow = 'arrow_down';
   #pitchon = null;
+
+  get alignment() {
+    return this.#alignment;
+  };
 
   get arrow() {
     return this.#arrow;
@@ -12,6 +17,11 @@ export default class lheader extends HTMLElement {
 
   get pitchon() {
     return this.#pitchon;
+  };
+
+  set alignment(alignment) {
+    this.#alignment = alignment;
+    this.container.setAttribute('alignment', alignment);
   };
 
   set pitchon(pitchon) {
@@ -263,6 +273,11 @@ export default class lheader extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
+      case 'alignment':
+      {
+        this.alignment = newVal;
+        break;
+      };
       case 'arrow':
       {
         this.arrow = newVal;
@@ -295,7 +310,7 @@ export default class lheader extends HTMLElement {
       <style>@import url('${importCssUrl}');</style>
       <div part="container" class="container" style="display:none">
         <div part="container-box" class="box">
-          <div class="sides" position="left"><leftmenu part="leftmenu" class="menu"></leftmenu></div>
+          <div class="sides" position="left"><slot name="left"></slot><leftmenu part="leftmenu" class="menu"></leftmenu></div>
           <logo part="logo"></logo>
           <div class="sides" position="right"><rightmenu part="rightmenu" class="menu"></rightmenu><slot name="right"></slot></div>
           <div class="mainmenu"><mainmenu class="mainmenu menu"></mainmenu></div>

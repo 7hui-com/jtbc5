@@ -16,6 +16,7 @@ class Date
     $time = $argTime;
     $format = match(intval($argType))
     {
+      -8 => 'F',
       -7 => 'w',
       -6 => 's',
       -5 => 'i',
@@ -37,6 +38,8 @@ class Date
       33 => 'm/d',
       40 => 'Hi',
       41 => 'H:i',
+      50 => 'F j',
+      51 => 'F j, Y',
       default => 'Y-m-d H:i:s',
     };
     return date($format, $time);

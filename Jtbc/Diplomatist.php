@@ -35,6 +35,7 @@ class Diplomatist
     $param -> ip_address = $request -> getIPAddress();
     $param -> genre = Path::getCurrentGenre();
     $param -> lang = Env::getLang();
+    $param -> language = Env::getLanguage();
     $param -> uri = $request -> getRealScriptName();
     $param -> query_string = $request -> server('QUERY_STRING');
     $param -> url = Validation::isEmpty($param -> query_string)? $param -> uri: $param -> uri . '?' . $param -> query_string;

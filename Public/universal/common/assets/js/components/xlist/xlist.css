@@ -1,0 +1,156 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --list-title-anchor-color: #333333; --list-title-anchor-hover-color: #005f9b; --list-summary-color: #666666; --list-line-color: #d1d1d1
+}
+.container {
+  width: 100%; box-sizing: border-box; display: block !important; --gap: 20px; container-type: inline-size; container-name: container
+}
+.container div.items {
+  width: 100%; box-sizing: border-box
+}
+.container[theme=default] div.items div.item div.text {
+  width: 100%; box-sizing: border-box
+}
+.container[theme=default] div.items div.item div.text div.title {
+  width: 100%; height: 24px; box-sizing: border-box; padding-left: 10px; display: flex; align-items: center; justify-content: space-between; position: relative
+}
+.container[theme=default] div.items div.item div.text div.title::before {
+  content: ''; display: block; width: 4px; height: 4px; background: var(--list-title-anchor-hover-color); border-radius: 100%; transform: translate(0px, -50%); position: absolute; top: 50%; left: 0px; z-index: 10
+}
+.container[theme=default] div.items div.item div.text div.title a.anchor {
+  display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: var(--list-title-anchor-color); text-decoration: none; padding: 2px 0px; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.container[theme=default] div.items div.item div.text div.title a.anchor:hover {
+  color: var(--list-title-anchor-hover-color); border-color: var(--list-title-anchor-hover-color)
+}
+.container[theme=default] div.items div.item div.text div.title div.date {
+  display: flex; padding-left: var(--gap); align-items: center; font-size: 12px; color: var(--list-summary-color)
+}
+.container[theme=default] div.items div.item div.text div.title div.date span {
+  display: flex; align-items: center
+}
+.container[theme=default] div.items div.item div.text div.title div.date span::after {
+  content: '-'; display: block
+}
+.container[theme=default] div.items div.item div.text div.title div.date span:last-of-type::after {
+  display: none
+}
+.container[theme=default] div.items div.item div.text div.summary {
+  display: none
+}
+.container[theme=default] div.items div.item.chief {
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; padding-bottom: 6px
+}
+.container[theme=default] div.items div.item.chief div.image {
+  width: 88px; height: 66px; box-sizing: border-box; overflow: hidden
+}
+.container[theme=default] div.items div.item.chief div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease
+}
+.container[theme=default] div.items div.item.chief div.text {
+  width: calc(100% - 88px - var(--gap) / 2)
+}
+.container[theme=default] div.items div.item.chief div.text div.title {
+  padding-left: 0px
+}
+.container[theme=default] div.items div.item.chief div.text div.title::before {
+  display: none
+}
+.container[theme=default] div.items div.item.chief div.text div.summary {
+  display: -webkit-box; font-size: 12px; color: var(--list-summary-color); line-height: 160%; overflow: hidden; text-overflow: ellipsis; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical
+}
+.container[theme=default] div.items div.item.chief:hover div.image img {
+  transform: scale(1.1)
+}
+.container[theme=default] div.items:has(div.chief) div.item:nth-last-of-type(1),
+.container[theme=default] div.items:has(div.chief) div.item:nth-last-of-type(2) {
+  display: none
+}
+.container[theme=ava] div.items {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap)
+}
+.container[theme=ava] div.items div.item {
+  box-sizing: border-box; height: calc(80px + var(--gap)); min-width: 100px; border-bottom: var(--list-line-color) 1px solid
+}
+.container[theme=ava] div.items div.item:nth-last-of-type(1),
+.container[theme=ava] div.items div.item:nth-last-of-type(2) {
+  padding-bottom: 0px; border-bottom: 0px
+}
+.container[theme=ava] div.items div.item div.text div.title {
+  width: 100%; box-sizing: border-box; padding-left: calc(80px + var(--gap)); position: relative
+}
+.container[theme=ava] div.items div.item div.text div.title a.anchor {
+  display: inline-block; max-width: 100%; overflow: hidden; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; color: var(--list-title-anchor-color); text-decoration: none; padding: 2px 0px; border-bottom: transparent 1px dashed; transition: all 0.3s ease
+}
+.container[theme=ava] div.items div.item div.text div.title a.anchor:hover {
+  color: var(--list-title-anchor-hover-color); border-color: var(--list-title-anchor-hover-color)
+}
+.container[theme=ava] div.items div.item div.title div.date {
+  display: flex; align-items: center; justify-content: center; position: absolute; top: 0px; left: 0px; width: 80px; height: 80px; box-sizing: border-box; padding-top: 50px; line-height: 100%; background: #f8f8f8; color: #2b2b2b; border: var(--list-line-color) 1px solid; transition: all 0.3s ease
+}
+.container[theme=ava] div.items div.item div.title div.date span.day {
+  display: flex; width: 100%; height: 50px; line-height: 100%; font-size: 32px; box-sizing: border-box; padding-top: 8px; align-items: center; justify-content: center; position: absolute; top: 0px; left: 0px; z-index: 10
+}
+.container[theme=ava] div.items div.item div.text div.title div.date span.year,
+.container[theme=ava] div.items div.item div.text div.title div.date span.month {
+  display: flex; align-items: center
+}
+.container[theme=ava] div.items div.item div.text div.title div.date span.year::after {
+  content: '-'; display: block
+}
+.container[theme=ava] div.items div.item div.summary {
+  display: -webkit-box; width: 100%; box-sizing: border-box; padding-left: calc(80px + var(--gap)); padding-top: 8px; font-size: 12px; color: var(--list-summary-color); line-height: 160%; overflow: hidden; text-overflow: ellipsis; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical
+}
+.container[theme=ava] div.items div.item:hover div.title div.date {
+  background: var(--list-title-anchor-hover-color); color: #ffffff; border-color: var(--list-title-anchor-hover-color)
+}
+.container[theme=ava] div.items div.item.chief {
+  grid-row: 1 / span 4; height: 440px; position: relative
+}
+.container[theme=ava] div.items div.item.chief div.image {
+  height: 100%; overflow: hidden
+}
+.container[theme=ava] div.items div.item.chief div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease
+}
+.container[theme=ava] div.items div.item.chief div.text {
+  width: 85%; box-sizing: border-box; padding: calc(var(--gap) / 2); background: rgba(255, 255, 255, 0.9); height: calc(80px + var(--gap)); backdrop-filter: blur(2px); position: absolute; bottom: 0px; right: 0px; z-index: 10
+}
+.container[theme=ava] div.items div.item.chief:hover div.image img {
+  transform: scale(1.1)
+}
+.container[theme=ava] div.items:has(div.chief) div.item {
+  display: none; border-bottom: 0px
+}
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(1),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(2),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(3),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(4),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(5) {
+  display: block
+}
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(2),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(3),
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(4) {
+  height: calc(80px + var(--gap)); border-bottom: var(--list-line-color) 1px solid
+}
+.container[theme=ava] div.items:has(div.chief) div.item:nth-of-type(5) {
+  height: 80px
+}
+@container container (width <= 960px) {
+  .container[theme=ava] div.items {
+    grid-template-columns: 1fr
+  }
+  .container[theme=ava] div.items div.item.chief {
+    grid-row: auto; height: auto; aspect-ratio: 4 / 3
+  }
+  .container[theme=ava] div.items div.item.chief div.text {
+    width: 100%; height: auto
+  }
+  .container[theme=ava] div.items div.item.chief div.text div.title {
+    padding-left: 0px
+  }
+  .container[theme=ava] div.items div.item.chief div.text div.summary,
+  .container[theme=ava] div.items div.item.chief div.text div.title div.date {
+    display: none
+  }
+}

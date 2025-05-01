@@ -1,0 +1,98 @@
+@import url('../../../../../../common/assets/js/vendor/swiper/swiper-bundle.min.css');
+:host {
+  display: block; width: 100%; box-sizing: border-box; --history-title-background: #222222; --history-title-color: #ffffff; --history-content-color: #666666; --history-line-color: #222222; --history-dot-primary-color: #222222; --history-dot-secondary-color: #999999
+}
+.container {
+  width: 100%; box-sizing: border-box; display: block !important; --gap: 20px; container-type: inline-size; container-name: container
+}
+.container div.swiper {
+  --swiper-pagination-color: var(--history-dot-primary-color); --swiper-pagination-bottom: 0px
+}
+.container div.swiper div.swiper-button-prev {
+  left: 0px
+}
+.container div.swiper div.swiper-button-next {
+  right: 0px
+}
+.container div.swiper div.swiper-button-disabled {
+  opacity: 1
+}
+.container div.swiper div.swiper-button-prev::after,
+.container div.swiper div.swiper-button-next::after {
+  display: none
+}
+.container[theme=default] div.swiper::before {
+  content: ''; display: block; width: 100%; height: 2px; background: var(--history-line-color); transform: translate(0px, -50%); position: absolute; left: 0px; top: 50%; z-index: 10
+}
+.container[theme=default] div.swiper div.swiper-pagination {
+  display: none
+}
+.container[theme=default] div.swiper div.swiper-button-prev,
+.container[theme=default] div.swiper div.swiper-button-next {
+  background: #ffffff; padding: 10px; border: #d1d1d1 1px solid; transform: translate(0px, -50%); border-radius: 100%
+}
+.container[theme=default] div.swiper div.swiper-button-prev jtbc-svg,
+.container[theme=default] div.swiper div.swiper-button-next jtbc-svg {
+  display: block; width: 20px; height: 20px; --fore-color: var(--history-line-color)
+}
+.container[theme=default] div.swiper div.swiper-button-prev.swiper-button-disabled jtbc-svg,
+.container[theme=default] div.swiper div.swiper-button-next.swiper-button-disabled jtbc-svg {
+  --fore-color: #999999
+}
+.container[theme=default] div.swiper div.swiper-slide div.text {
+  width: 100%; height: 520px; box-sizing: border-box; padding: 0px calc(var(--gap) / 2); position: relative
+}
+.container[theme=default] div.swiper div.swiper-slide div.text div.dot {
+  width: 2px; height: 100px; background: var(--history-line-color); position: absolute; z-index: 20
+}
+.container[theme=default] div.swiper div.swiper-slide div.text div.dot::before {
+  content: ''; display: block; width: 10px; height: 10px; background: var(--history-dot-primary-color); border-radius: 100%; transform: translate(-50%, 0px); position: absolute; left: 50%; z-index: 40
+}
+.container[theme=default] div.swiper div.swiper-slide div.text div.dot::after {
+  content: ''; display: block; width: 20px; height: 20px; background: var(--history-dot-secondary-color); border-radius: 100%; transform: translate(-50%, 0px); position: absolute; left: 50%; z-index: 30
+}
+.container[theme=default] div.swiper div.swiper-slide div.text div.title {
+  display: flex; align-items: center; font-size: 24px; padding: 10px; white-space: nowrap; background: var(--history-title-background); color: var(--history-title-color); aspect-ratio: 1 / 1; border-radius: 100%; position: absolute; z-index: 30
+}
+.container[theme=default] div.swiper div.swiper-slide div.text div.content {
+  width: calc(100% - var(--gap)); box-sizing: border-box; display: -webkit-box; font-size: 14px; line-height: 160%; white-space: pre-wrap; color: var(--history-content-color); overflow: hidden; text-overflow: ellipsis; line-clamp: 8; -webkit-line-clamp: 8; -webkit-box-orient: vertical; position: absolute; z-index: 30
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(odd) div.text div.dot {
+  left: 50%; bottom: 50%
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(odd) div.text div.dot::before {
+  top: 0px
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(odd) div.text div.dot::after {
+  top: 0px; transform: translate(-50%, -5px)
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(odd) div.text div.title {
+  left: 50%; bottom: calc(50% + 120px); transform: translate(-50%, 0px)
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(odd) div.text div.content {
+  top: calc(50% + var(--gap) * 2)
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(even) div.text div.dot {
+  left: 50%; top: 50%
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(even) div.text div.dot::before {
+  bottom: 0px
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(even) div.text div.dot::after {
+  bottom: 0px; transform: translate(-50%, 5px)
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(even) div.text div.title {
+  left: 50%; top: calc(50% + 120px); transform: translate(-50%, 0px)
+}
+.container[theme=default] div.swiper div.swiper-slide:nth-of-type(even) div.text div.content {
+  bottom: calc(50% + var(--gap) * 2)
+}
+@container container (width <= 960px) {
+  .container[theme=default] div.swiper div.swiper-pagination {
+    display: block
+  }
+  .container[theme=default] div.swiper div.swiper-button-prev,
+  .container[theme=default] div.swiper div.swiper-button-next {
+    display: none
+  }
+}

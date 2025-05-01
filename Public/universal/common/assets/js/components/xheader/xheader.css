@@ -76,7 +76,7 @@
   cursor: default
 }
 .topmenu div.box mainmenu ul li dl dd > a {
-  font-size: calc(var(--header-anchor-font-size) - 2px)
+  font-size: calc(var(--header-anchor-font-size) - 2px); line-height: 160%; white-space: normal
 }
 .topmenu div.box mainmenu ul li > a:hover,
 .topmenu div.box mainmenu ul li dl dt > a:hover,

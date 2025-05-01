@@ -46,6 +46,17 @@ class Encoder
         $string = str_replace(chr(32) . chr(32), '&nbsp; ', $string);
         $string = str_replace(chr(10), '<br />', $string);
       }
+      else if ($mode == 7)
+      {
+        $string = str_replace(chr(13) . chr(10), chr(10), $string);
+        $string = str_replace('\\', '\\\\', $string);
+        $string = str_replace('&gt;', '>', $string);
+        $string = str_replace('&lt;', '<', $string);
+        $string = str_replace('&quot;', '\\"', $string);
+        $string = str_replace('&apos;', '\\\'', $string);
+        $string = str_replace('&amp;', '&', $string);
+        $string = str_replace(chr(10), '\n', $string);
+      }
     }
     return $string;
   }
