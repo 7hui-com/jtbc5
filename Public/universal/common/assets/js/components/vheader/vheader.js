@@ -200,6 +200,7 @@ export default class vheader extends HTMLElement {
     if (menuItems.length != 0)
     {
       let ul = document.createElement('ul');
+      ul.setAttribute('part', 'mainmenu-ul');
       menuItems.forEach(item => {
         let li = document.createElement('li');
         if (item.hasAttribute('name'))
@@ -251,14 +252,17 @@ export default class vheader extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div part="container" class="container" slotmode="all" style="display:none">
-        <div part="container-box" class="box">
-          <logo part="logo"></logo>
-          <mainmenu part="mainmenu"></mainmenu>
-          <div class="right"><slot name="right"></slot></div>
-          <div class="navicon">
-            <slot name="navicon-right"></slot>
-            <navicon><span class="line"></span></navicon>
+      <div part="wrap" class="wrap" style="display:none">
+        <div part="roof" class="roof"><slot name="roof"></slot></div>
+        <div part="container" class="container" slotmode="all">
+          <div part="container-box" class="box">
+            <logo part="logo"></logo>
+            <mainmenu part="mainmenu"></mainmenu>
+            <div part="right" class="right"><slot name="right"></slot></div>
+            <div part="navicon" class="navicon">
+              <slot name="navicon-right"></slot>
+              <navicon><span class="line"></span></navicon>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 export default class scarousel extends HTMLElement {
   static get observedAttributes() {
-    return ['breakpoints', 'gap'];
+    return ['breakpoints', 'gap', 'theme'];
   };
 
   #breakpoints = {
@@ -10,6 +10,7 @@ export default class scarousel extends HTMLElement {
   };
   #gap = 20;
   #slidesCount = 0;
+  #theme = 'default';
 
   get autoplay() {
     let result = false;
@@ -28,6 +29,10 @@ export default class scarousel extends HTMLElement {
     return this.#gap;
   };
 
+  get theme() {
+    return this.#theme;
+  };
+
   set breakpoints(breakpoints) {
     try
     {
@@ -41,6 +46,11 @@ export default class scarousel extends HTMLElement {
 
   set gap(gap) {
     this.#gap = isFinite(gap)? Number.parseInt(gap): 20;
+  };
+
+  set theme(theme) {
+    this.#theme = theme;
+    this.container.setAttribute('theme', theme);
   };
 
   #getParam() {
@@ -203,6 +213,11 @@ export default class scarousel extends HTMLElement {
         this.gap = newVal;
         break;
       };
+      case 'theme':
+      {
+        this.theme = newVal;
+        break;
+      };
     };
   };
 
@@ -224,7 +239,7 @@ export default class scarousel extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div part="container" class="container" style="display:none">
+      <div part="container" class="container" theme="default" style="display:none">
         <div part="container-box" class="box"></div>
       </div>
     `;

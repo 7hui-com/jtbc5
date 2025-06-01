@@ -18,40 +18,61 @@ export default class jtbcSvg extends HTMLElement {
 
   set name(name) {
     this.#name = name;
-    this.render();
+    if (this.ready)
+    {
+      this.render();
+    };
   };
 
   set src(src) {
     this.#src = src;
-    this.render();
+    if (this.ready)
+    {
+      this.render();
+    };
   };
 
   render() {
     let name = this.#name;
     let src = this.src ?? this.baseURL + 'svg/' + name + '.svg';
-    this.tinyDB.getItem(name).then(value => {
-      if (value != null)
-      {
-        this.container.innerHTML = value;
-      }
-      else
-      {
+    if (name.length != 0)
+    {
+      this.tinyDB.getItem(name).then(value => {
+        if (value != null)
+        {
+          this.container.innerHTML = value;
+        }
+        else
+        {
+          fetch(src).then(res => res.ok? res.text(): null).then(data => {
+            if (data != null)
+            {
+              this.container.innerHTML = data;
+              this.tinyDB.setItem(name, data);
+            };
+          });
+        };
+      }).catch(e => {
         fetch(src).then(res => res.ok? res.text(): null).then(data => {
           if (data != null)
           {
             this.container.innerHTML = data;
-            this.tinyDB.setItem(name, data);
+          };
+        });
+      });
+    }
+    else
+    {
+      if (this.src != null)
+      {
+        fetch(this.src).then(res => res.ok? res.text(): null).then(data => {
+          if (data != null)
+          {
+            this.container.innerHTML = data;
           };
         });
       };
-    }).catch(e => {
-      fetch(src).then(res => res.ok? res.text(): null).then(data => {
-        if (data != null)
-        {
-          this.container.innerHTML = data;
-        };
-      });
-    });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -71,6 +92,7 @@ export default class jtbcSvg extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.render();
   };
 
   constructor() {

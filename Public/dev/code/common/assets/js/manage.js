@@ -474,7 +474,7 @@ export default class manage {
               fetch(file.parentElement.getAttribute('url') + '&path=' + encodeURIComponent(file.getAttribute('path'))).then(res => res.ok? res.json(): {}).then(data => {
                 if (data.code == 1)
                 {
-                  file.html(data.fragment).then(el => el.delegateEventListener('div.editor', 'mousemove', e => editorMonitor(e)));
+                  file.html(data.fragment);
                 };
               }).catch(err => {
                 file.removeAttribute('loaded');
@@ -508,23 +508,6 @@ export default class manage {
         else
         {
           parent.parentElement.dispatchEvent(new CustomEvent('reload'));
-        };
-      };
-      const editorMonitor = e => {
-        let layerY = e.layerY;
-        let currentTarget = e.currentTarget;
-        let height = currentTarget.offsetHeight;
-        let bar = currentTarget.querySelector('div.bar');
-        if (bar != null)
-        {
-          if (height - layerY < bar.offsetHeight)
-          {
-            bar.classList.add('on');
-          }
-          else
-          {
-            bar.classList.remove('on');
-          };
         };
       };
       const initEvents = el => {
@@ -583,10 +566,12 @@ export default class manage {
             if (formEl.isFormDataChanged())
             {
               tab.classList.add('changed');
+              formEl.setAttribute('changed', 'true');
             }
             else
             {
               tab.classList.remove('changed');
+              formEl.removeAttribute('changed');
             };
           };
         });

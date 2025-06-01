@@ -229,9 +229,7 @@ export default class manage {
           main.parentNode.querySelector('.waiting').classList.add('on');
         }, 500);
       });
-      main.addEventListener('fetchend', () => {
-        clearTimeout(this.param['main-waiting']);
-        main.parentNode.querySelector('.waiting').classList.remove('on');
+      main.addEventListener('fetchok', () => {
         location.hash = this.currentHash = '#' + main.href;
       });
       main.addEventListener('fetchdone', () => {
@@ -243,6 +241,10 @@ export default class manage {
           leftmenu.setAttribute('genre', currentGenre);
         };
         leftmenu.dispatchEvent(new CustomEvent('selectmenu'));
+      });
+      main.addEventListener('fetchend', () => {
+        clearTimeout(this.param['main-waiting']);
+        main.parentNode.querySelector('.waiting').classList.remove('on');
       });
       main.addEventListener('fetcherror', (e) => {
         this.dialog.alert(main.getAttribute('urlerror') + '(' + e.detail.res.status + ')', null, main.getAttribute('ikown'), main.fullURL);

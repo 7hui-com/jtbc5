@@ -224,6 +224,7 @@ export default class xheader extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
+      <div part="roof" class="roof"><slot name="roof"></slot></div>
       <div part="container" class="container" style="display:none">
         <div part="container-box" class="box">
           <logo part="logo"></logo>

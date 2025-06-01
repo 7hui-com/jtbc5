@@ -23,6 +23,10 @@
       <zh-cn><![CDATA[功能截图]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[service_description]]></name>
+      <zh-cn><![CDATA[服务说明]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[type_id]]></name>
       <zh-cn><![CDATA[唯一标号]]></zh-cn>
     </item>

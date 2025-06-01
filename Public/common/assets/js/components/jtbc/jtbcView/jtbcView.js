@@ -7,6 +7,7 @@ export default class jtbcView extends HTMLElement {
 
   #data = {};
   #dataProxy = null;
+  #hasData = false;
   #directive = {};
   #rendered = false;
   #template = null;
@@ -18,10 +19,17 @@ export default class jtbcView extends HTMLElement {
     let result = this.#dataProxy;
     if (result == null)
     {
-      let proxy = new proxyCreator(() => this.update());
+      let proxy = new proxyCreator(() => {
+        this.#hasData = true;
+        this.update();
+      });
       result = this.#dataProxy = proxy.create(this.#data);
     };
     return result;
+  };
+
+  get hasData() {
+    return this.#hasData;
   };
 
   get rendered() {
@@ -36,10 +44,12 @@ export default class jtbcView extends HTMLElement {
     if (Array.isArray(data))
     {
       this.#data = data;
+      this.#hasData = true;
     }
     else if (data instanceof Object)
     {
       this.#data = data;
+      this.#hasData = true;
     }
     else if (typeof data == 'string')
     {
@@ -53,57 +63,32 @@ export default class jtbcView extends HTMLElement {
         throw new Error('Unexpected data format');
       };
       this.#data = dataValue;
+      this.#hasData = true;
     };
-    this.render();
+    if (this.ready)
+    {
+      this.render();
+    };
   };
 
-  #patchRealElement(el) {
-    const getTargetModel = (el, name) => {
-      let model = el.virtualNode.model;
-      if (name.startsWith(':'))
-      {
-        model = this.#data;
-        name = name.substring(1);
-      }
-      else if (name.startsWith('^'))
-      {
-        let modelNode = el;
-        while (name.startsWith('^'))
-        {
-          name = name.substring(1);
-          modelNode = modelNode.parentElement;
-        };
-        model = modelNode.virtualNode.model;
-      };
-      return {'model': model, 'name': name};
-    };
-    if (el.hasAttribute('view-html'))
+  #createElementByVirtualNode(virtualNode) {
+    let result = null;
+    if (virtualNode.node instanceof HTMLElement)
     {
-      let viewHTML = el.getAttribute('view-html');
-      let targetModel = getTargetModel(el, viewHTML);
-      let name = targetModel.name;
-      let model = targetModel.model;
-      if (typeof model == 'object' && model.hasOwnProperty(name))
-      {
-        el.html(model[name]);
-      };
+      result = virtualNode.node.cloneNode(true);
     }
-    else if (el.hasAttribute('view-model'))
+    else
     {
-      el.addEventListener('input', e => {
-        let self = e.currentTarget;
-        let viewModel = self.getAttribute('view-model');
-        let targetModel = getTargetModel(self, viewModel);
-        let name = targetModel.name;
-        let model = targetModel.model;
-        if (typeof model == 'object')
-        {
-          model[name] = self.value;
-          if (!self.hasAttribute('view-silent')) this.update();
-        };
-      });
+      if (typeof virtualNode.attributes['is'] != 'string')
+      {
+        result = document.createElement(virtualNode.nodeName);
+      }
+      else
+      {
+        result = document.createElement(virtualNode.nodeName, {'is': virtualNode.attributes['is']});
+      };
     };
-    this.runDirective(el, 'inserted');
+    return result;
   };
 
   #generateVirtualDOM() {
@@ -315,6 +300,10 @@ export default class jtbcView extends HTMLElement {
           else
           {
             result = {'id': Symbol(), 'nodeName': node.nodeName.toLowerCase(), 'attributes': this.#getAttributes(node.attributes), 'childNodes': createTree(node)};
+            if (node instanceof HTMLTemplateElement)
+            {
+              result.node = node;
+            };
           };
         };
         return result;
@@ -332,6 +321,24 @@ export default class jtbcView extends HTMLElement {
       result = this.#templateTree = createTree(this.template);
     };
     return result;
+  };
+
+  #init() {
+    let templates = this.querySelectorAll('template');
+    if (templates.length === 1)
+    {
+      let template = templates[0];
+      this.#template = template.content;
+      template.remove();
+      if (this.hasData)
+      {
+        this.render();
+      };
+    }
+    else
+    {
+      throw new Error('Unexpected template element');
+    };
   };
 
   #parseTemplateString(content, data, attrs = {}) {
@@ -363,6 +370,47 @@ export default class jtbcView extends HTMLElement {
       });
       return result;
     };
+    const getHashParamFromURL = key => {
+      let result = null;
+      let hash = location.hash;
+      if (hash.includes('?'))
+      {
+        result = (new URLSearchParams(hash.substring(hash.lastIndexOf('?') + 1))).get(key);
+      };
+      return result;
+    };
+    const getHashParamsFromURL = specials => {
+      let hash = location.hash;
+      let sp = new URLSearchParams(hash.includes('?')? hash.substring(hash.lastIndexOf('?') + 1): '');
+      Object.keys(specials).forEach(key => {
+        let value = specials[key];
+        if (!sp.has(key))
+        {
+          sp.set(key, value);
+        }
+        else
+        {
+          value == null? sp.delete(key): sp.set(key, value);
+        }
+      });
+      return sp.toString();
+    };
+    const getSearchParamFromURL = key => (new URLSearchParams(location.search)).get(key);
+    const getSearchParamsFromURL = specials => {
+      let sp = new URLSearchParams(location.search);
+      Object.keys(specials).forEach(key => {
+        let value = specials[key];
+        if (!sp.has(key))
+        {
+          sp.set(key, value);
+        }
+        else
+        {
+          value == null? sp.delete(key): sp.set(key, value);
+        }
+      });
+      return sp.toString();
+    };
     const getValueFromJSON = (json, key) => {
       let result = null;
       if (typeof json == 'string' && typeof key == 'string')
@@ -392,6 +440,10 @@ export default class jtbcView extends HTMLElement {
       'compare': compare,
       'customEvent': customEvent,
       'getAttr': getAttr,
+      'getHashParamFromURL': getHashParamFromURL,
+      'getHashParamsFromURL': getHashParamsFromURL,
+      'getSearchParamFromURL': getSearchParamFromURL,
+      'getSearchParamsFromURL': getSearchParamsFromURL,
       'getValueFromJSON': getValueFromJSON,
       'reachConsensus': reachConsensus,
       'this': this,
@@ -401,6 +453,55 @@ export default class jtbcView extends HTMLElement {
     valuesArray.push(parseHelper);
     keysArray.push('$', 'return `' + content.replace(/\\/g, '\\\\').replace(/\`/g, '\\`') + '`;');
     return new Function(...keysArray)(...valuesArray);
+  };
+
+  #patchRealElement(el) {
+    const getTargetModel = (el, name) => {
+      let model = el.virtualNode.model;
+      if (name.startsWith(':'))
+      {
+        model = this.#data;
+        name = name.substring(1);
+      }
+      else if (name.startsWith('^'))
+      {
+        let modelNode = el;
+        while (name.startsWith('^'))
+        {
+          name = name.substring(1);
+          modelNode = modelNode.parentElement;
+        };
+        model = modelNode.virtualNode.model;
+      };
+      return {'model': model, 'name': name};
+    };
+    if (el.hasAttribute('view-html'))
+    {
+      let viewHTML = el.getAttribute('view-html');
+      let targetModel = getTargetModel(el, viewHTML);
+      let name = targetModel.name;
+      let model = targetModel.model;
+      if (typeof model == 'object' && model.hasOwnProperty(name))
+      {
+        el.html(model[name]);
+      };
+    }
+    else if (el.hasAttribute('view-model'))
+    {
+      el.addEventListener('input', e => {
+        let self = e.currentTarget;
+        let viewModel = self.getAttribute('view-model');
+        let targetModel = getTargetModel(self, viewModel);
+        let name = targetModel.name;
+        let model = targetModel.model;
+        if (typeof model == 'object')
+        {
+          model[name] = self.value;
+          if (!self.hasAttribute('view-silent')) this.update();
+        };
+      });
+    };
+    this.runDirective(el, 'inserted');
   };
 
   addDirective(name, definition) {
@@ -511,7 +612,7 @@ export default class jtbcView extends HTMLElement {
         }
         else
         {
-          el = document.createElement(virtualNode.nodeName);
+          el = this.#createElementByVirtualNode(virtualNode);
           el.virtualNode = virtualNode;
           Object.keys(virtualNode.attributes).forEach(key => {
             if (!key.startsWith('__'))
@@ -603,7 +704,7 @@ export default class jtbcView extends HTMLElement {
           }
           else
           {
-            let el = document.createElement(virtualNode.nodeName);
+            let el = this.#createElementByVirtualNode(virtualNode);
             el.virtualNode = virtualNode;
             Object.keys(virtualNode.attributes).forEach(key => {
               if (!key.startsWith('__'))
@@ -668,8 +769,16 @@ export default class jtbcView extends HTMLElement {
 
   update() {
     this.dispatchEvent(new CustomEvent('updatestart'));
-    this.render();
+    if (this.ready)
+    {
+      this.render();
+    };
     this.dispatchEvent(new CustomEvent('updateend'));
+  };
+
+  connectedCallback() {
+    this.#init();
+    this.ready = true;
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -684,16 +793,6 @@ export default class jtbcView extends HTMLElement {
 
   constructor() {
     super();
-    let templates = this.querySelectorAll('template');
-    if (templates.length === 1)
-    {
-      let template = templates[0];
-      this.#template = template.content;
-      template.remove();
-    }
-    else
-    {
-      throw new Error('Unexpected template element');
-    };
+    this.ready = false;
   };
 };

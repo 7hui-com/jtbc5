@@ -407,6 +407,105 @@
 .preset_list[nickname=emma] div.items div.item.borderless {
   border: 0px; padding: 0px
 }
+.preset_list[nickname=everly] {
+  container-type: inline-size; container-name: preset_list_everly
+}
+.preset_list[nickname=everly] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); padding: var(--preset-gap) 0px; gap: var(--preset-gap); position: relative
+}
+.preset_list[nickname=everly] div.items::before {
+  content: ''; width: 100%; height: 0px; border-bottom: var(--preset-border-color) 1px solid; position: absolute; top: calc(var(--preset-gap) + 6rem); left: 0px; z-index: -100
+}
+.preset_list[nickname=everly] div.items div.item {
+  width: 100%; box-sizing: border-box; min-width: 200px; padding: 0px var(--preset-gap); transition: all 0.3s ease
+}
+.preset_list[nickname=everly] div.items div.item div.date {
+  width: 100%; height: 6rem; margin-bottom: calc(var(--preset-gap) / 2); display: flex; align-items: center; justify-content: space-between; border-bottom: transparent 1px solid
+}
+.preset_list[nickname=everly] div.items div.item div.date span.day {
+  display: block; font-family: var(--preset-particular-font-family); font-size: 3.2rem; color: var(--preset-primary-color); opacity: 0.6; transition: opacity 0.3s ease
+}
+.preset_list[nickname=everly] div.items div.item div.date span.arrow {
+  display: block; width: 30px; height: 0px; border-top: var(--preset-primary-color) 1px solid; border-bottom: var(--preset-primary-color) 1px solid; position: relative; transform: translate(calc(0px - var(--preset-gap) / 2), 0px); opacity: 0; transition: all 0.3s ease
+}
+.preset_list[nickname=everly] div.items div.item div.date span.arrow a {
+  display: block; width: 100%; height: 10px; transform: translate(0px, -50%); position: absolute; top: 50%; left: 0px; z-index: 100
+}
+.preset_list[nickname=everly] div.items div.item div.date span.arrow::after {
+  display: block; content: ''; width: 6px; height: 6px; background: var(--preset-primary-color); clip-path: polygon(100% 50%, 0% 0%, 0% 100%); transform: translate(4px, -50%); position: absolute; right: 0px; top: 50%; z-index: 10
+}
+.preset_list[nickname=everly] div.items div.item div.title {
+  width: 100%; padding: calc(var(--preset-gap) / 2) 0px
+}
+.preset_list[nickname=everly] div.items div.item div.title a {
+  display: inline-block; max-width: 100%; font-size: 2rem; line-height: 160%; color: var(--preset-anchor-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+.preset_list[nickname=everly] div.items div.item div.title a:hover {
+  color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=everly] div.items div.item div.summary {
+  display: -webkit-box; margin-bottom: var(--preset-gap); font-size: 1.2rem; line-height: 160%; color: var(--preset-secondary-color); overflow: hidden; text-overflow: ellipsis; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical
+}
+.preset_list[nickname=everly] div.items div.item div.image {
+  width: 100%; overflow: hidden
+}
+.preset_list[nickname=everly] div.items div.item div.image img {
+  display: block; width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease
+}
+.preset_list[nickname=everly] div.items div.item div.image:hover img {
+  transform: scale(1.1)
+}
+.preset_list[nickname=everly] div.items div.item:hover div.date {
+  border-bottom-color: var(--preset-primary-color)
+}
+.preset_list[nickname=everly] div.items div.item:hover div.date span.day {
+  opacity: 1
+}
+.preset_list[nickname=everly] div.items div.item:hover div.date span.arrow {
+  transform: translate(0px, 0px); opacity: 1
+}
+.preset_list[nickname=stella] {
+  container-type: inline-size; container-name: preset_list_stella
+}
+.preset_list[nickname=stella] div.items {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, 1fr); padding: var(--preset-gap) 0px; gap: var(--preset-gap)
+}
+.preset_list[nickname=stella] div.items div.item {
+  width: 100%; box-sizing: border-box; min-width: 200px; padding: 0px var(--preset-gap); transition: all 0.3s ease
+}
+.preset_list[nickname=stella] div.items div.item div.date {
+  width: 100%; display: flex; align-items: center; justify-content: left
+}
+.preset_list[nickname=stella] div.items div.item div.date div.cube {
+  padding: calc(var(--preset-gap) / 2); transform: translate(calc(0px - var(--preset-gap) / 2), calc(0px - var(--preset-gap) / 2)); transition: all 0.3s ease
+}
+.preset_list[nickname=stella] div.items div.item div.date div.cube span.day {
+  display: block; font-size: 3.2rem; line-height: 120%; text-align: left; font-family: var(--preset-particular-font-family); color: var(--preset-primary-color)
+}
+.preset_list[nickname=stella] div.items div.item div.date div.cube span.year {
+  display: block; font-size: 1.6rem; line-height: 120%; text-align: right; font-family: var(--preset-particular-font-family); color: var(--preset-secondary-color)
+}
+.preset_list[nickname=stella] div.items div.item div.text {
+  width: 100%
+}
+.preset_list[nickname=stella] div.items div.item div.text div.title {
+  width: 100%; padding: calc(var(--preset-gap) / 2) 0px
+}
+.preset_list[nickname=stella] div.items div.item div.text div.title a {
+  display: inline-block; max-width: 100%; font-size: 2rem; line-height: 160%; color: var(--preset-anchor-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+.preset_list[nickname=stella] div.items div.item div.text div.title a:hover {
+  color: var(--preset-anchor-hover-color)
+}
+.preset_list[nickname=stella] div.items div.item div.text div.summary {
+  padding-bottom: var(--preset-gap); font-size: 1.2rem; line-height: 160%; color: var(--preset-secondary-color)
+}
+.preset_list[nickname=stella] div.items div.item:hover {
+  background: #f8f8f8; transform: translate(0px, calc(0px - var(--preset-gap) / 2))
+}
+.preset_list[nickname=stella] div.items div.item:hover div.date div.cube {
+  background: #efefef
+}
 .preset_neighbor_links {
   width: 100%; box-sizing: border-box; --preset-color: #333333; --preset-anchor-color: #333333; --preset-anchor-hover-color: #ff0000; --preset-empty-color: #999999; --preset-gap: var(--page-gap, 20px)
 }
@@ -587,6 +686,21 @@
   }
   .preset_list[nickname=emma] div.items div.item div.text {
     padding-left: 0px; padding-top: calc(var(--preset-gap) / 2)
+  }
+}
+@container preset_list_everly (width <= 1280px) {
+  .preset_list[nickname=everly] div.items {
+    grid-template-columns: repeat(2, 1fr)
+  }
+}
+@container preset_list_everly (width <= 640px) {
+  .preset_list[nickname=everly] div.items {
+    grid-template-columns: repeat(1, 1fr)
+  }
+}
+@container preset_list_stella (width <= 960px) {
+  .preset_list[nickname=stella] div.items {
+    grid-template-columns: repeat(1, 1fr)
   }
 }
 @container preset_section_mia (width <= 640px) {

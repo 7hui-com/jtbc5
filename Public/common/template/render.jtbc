@@ -5,35 +5,5 @@
     <field>name,default</field>
     <base>item_list</base>
   </configure>
-  <item_list>
-    <item>
-      <name><![CDATA[home-product-list]]></name>
-      <default><![CDATA[<div class="list" mode="d">{@}
-  <div class="item">
-    <p type="image"><a href="product/?type=detail&amp;id={$id}"><img src="{$=$htmlEncode($getValueFromJSON(#image, 'fileurl'))}" alt="{$title}" /></a></p>
-    <p type="title"><a href="product/?type=detail&amp;id={$id}">{$title}</a></p>
-  </div>{@}
-</div>]]></default>
-    </item>
-    <item>
-      <name><![CDATA[home-news-list]]></name>
-      <default><![CDATA[<div class="list" mode="c">{@}
-  <div class="item">
-    <p type="date">{$=$formatDate(#time, 1)}</p>
-    <p type="title" align="left"><a href="news/?type=detail&amp;id={$id}">{$title}</a></p>
-    <p type="summary">{$=$htmlEncode(#summary, 2)}</p>
-  </div>{@}
-</div>]]></default>
-    </item>
-    <item>
-      <name><![CDATA[home-team-list]]></name>
-      <default><![CDATA[<div class="list" mode="d">{@}
-  <div class="item">
-    <p type="image"><a href="team/?type=detail&amp;id={$id}"><img class="avatar" src="{$=$htmlEncode($getValueFromJSON(#avatar, 'fileurl'))}" alt="{$name}" /></a></p>
-    <p type="title"><a href="team/?type=detail&amp;id={$id}">{$name}</a></p>
-    <p type="info">{$position}</p>
-  </div>{@}
-</div>]]></default>
-    </item>
-  </item_list>
+  <item_list></item_list>
 </xml>

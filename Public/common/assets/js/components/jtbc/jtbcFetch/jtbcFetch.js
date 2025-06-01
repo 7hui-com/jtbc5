@@ -149,7 +149,11 @@ export default class jtbcFetch extends HTMLElement {
       };
       fetch(action, init).then(res => {
         let result = '';
-        if (res.ok) result = res.text();
+        if (res.ok)
+        {
+          result = res.text();
+          this.dispatchEvent(new CustomEvent('fetchok', {detail: {res: res}}));
+        }
         else
         {
           this.dispatchEvent(new CustomEvent('fetcherror', {detail: {res: res}}));

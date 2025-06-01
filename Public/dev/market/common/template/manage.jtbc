@@ -76,13 +76,14 @@
           <div class="installation"></div>
           <div is="jtbc-tab" value="0">
             <div class="tabs">
-              <div class="tabtitle"><tabtitle>{$=$take('config.content', 'lng')}</tabtitle><tabtitle>{$=$take('config.revision_history', 'lng')}</tabtitle><tabtitle>{$=$take('config.screenshot', 'lng')}</tabtitle></div>
+              <div class="tabtitle"><tabtitle>{$=$take('config.content', 'lng')}</tabtitle><tabtitle>{$=$take('config.screenshot', 'lng')}</tabtitle><tabtitle>{$=$take('config.revision_history', 'lng')}</tabtitle><tabtitle>{$=$take('config.service_description', 'lng')}</tabtitle></div>
             </div>
             <div class="mainContent">
               <div class="tabcontent">
                 <tabcontent><jtbc-json2html value="${$content}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
-                <tabcontent><jtbc-json2html value="${$revision_history}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
                 <tabcontent><jtbc-json2html class="screenshots" value="${$screenshot}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
+                <tabcontent><jtbc-json2html value="${$revision_history}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
+                <tabcontent><jtbc-json2html value="${$service_description}" plugin_css="{$>this.genre}/common/assets/json2html.css"></jtbc-json2html></tabcontent>
               </div>
               <div class="basic">
                 <ul>

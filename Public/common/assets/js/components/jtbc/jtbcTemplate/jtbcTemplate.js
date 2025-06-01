@@ -308,6 +308,47 @@ export default class jtbcTemplate extends HTMLTemplateElement {
             });
             return result;
           };
+          const getHashParamFromURL = key => {
+            let result = null;
+            let hash = location.hash;
+            if (hash.includes('?'))
+            {
+              result = (new URLSearchParams(hash.substring(hash.lastIndexOf('?') + 1))).get(key);
+            };
+            return result;
+          };
+          const getHashParamsFromURL = specials => {
+            let hash = location.hash;
+            let sp = new URLSearchParams(hash.includes('?')? hash.substring(hash.lastIndexOf('?') + 1): '');
+            Object.keys(specials).forEach(key => {
+              let value = specials[key];
+              if (!sp.has(key))
+              {
+                sp.set(key, value);
+              }
+              else
+              {
+                value == null? sp.delete(key): sp.set(key, value);
+              }
+            });
+            return sp.toString();
+          };
+          const getSearchParamFromURL = key => (new URLSearchParams(location.search)).get(key);
+          const getSearchParamsFromURL = specials => {
+            let sp = new URLSearchParams(location.search);
+            Object.keys(specials).forEach(key => {
+              let value = specials[key];
+              if (!sp.has(key))
+              {
+                sp.set(key, value);
+              }
+              else
+              {
+                value == null? sp.delete(key): sp.set(key, value);
+              }
+            });
+            return sp.toString();
+          };
           const markKeywords = (text, keywords) => {
             if (keywords != null)
             {
@@ -343,6 +384,10 @@ export default class jtbcTemplate extends HTMLTemplateElement {
             'compare': compare,
             'content': content,
             'customEvent': customEvent,
+            'getHashParamFromURL': getHashParamFromURL,
+            'getHashParamsFromURL': getHashParamsFromURL,
+            'getSearchParamFromURL': getSearchParamFromURL,
+            'getSearchParamsFromURL': getSearchParamsFromURL,
             'htmlEncode': htmlEncode,
             'markKeywords': markKeywords,
             'parent': getParent(this.parentNode),
@@ -464,6 +509,14 @@ export default class jtbcTemplate extends HTMLTemplateElement {
         });
         documentFragment.querySelectorAll('[jtbc-original-src]').forEach(el => {
           el.renameAttribute('jtbc-original-src', 'src');
+        });
+        documentFragment.querySelectorAll('temporary').forEach(el => {
+          let newTemplate = this.temporary[el.getAttribute('e-index')].cloneNode(true);
+          el.replaceWith(newTemplate);
+          if (newTemplate.hasAttribute('key-data'))
+          {
+            newTemplate.setAttribute('data', newTemplate.getAttribute('key-data'));
+          };
         });
         this.#parentEl = this.parentNode;
         this.replaceWith(documentFragment);
