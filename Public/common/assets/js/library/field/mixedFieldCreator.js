@@ -195,15 +195,20 @@ export default class mixedFieldCreator {
 
   renderOthers(item) {
     let result = document.createElement('jtbc-field-' + item.type);
+    if (['avatar', 'upload', 'gallery', 'table', 'mix', 'multi', 'multi-group'].includes(item.type) && this.withGlobalHeaders != null)
+    {
+      result.setAttribute('with-global-headers', this.withGlobalHeaders);
+    };
     if (Array.isArray(item.data))
     {
       result.setAttribute('data', JSON.stringify(item.data));
-    }
+    };
     return result;
   };
 
-  constructor(columns) {
+  constructor(columns, withGlobalHeaders = null) {
     this.columns = columns;
+    this.withGlobalHeaders = withGlobalHeaders;
     this.allowType = ['color', 'checkbox', 'radio', 'range', 'select', 'select2', 'selector', 'text', 'textarea', 'number', 'date', 'datetime', 'switch', 'currency-input', 'ipv4', 'star', 'upload', 'avatar', 'gallery', '24color-picker', 'icon-picker', 'code-editor', 'flat-selector', 'cn-city-picker2', 'table', 'mix', 'multi', 'multi-group', 'multi-select'];
   };
 };

@@ -16,7 +16,7 @@ import langHelper from '../../../library/lang/langHelper.js';
 
 export default class jtbcFieldBlockEditor extends HTMLElement {
   static get observedAttributes() {
-    return ['action', 'value', 'disabled', 'height', 'lang', 'placeholder', 'tail'];
+    return ['action', 'value', 'disabled', 'height', 'lang', 'placeholder', 'tail', 'with-global-headers'];
   };
 
   #editor = null;
@@ -30,6 +30,7 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
   #basePath = null;
   #iWindow = null;
   #iDocument = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -79,6 +80,10 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
     this.#lang = langHelper.getStandardLang(lang);
   };
 
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
+  };
+
   set placeholder(placeholder) {
     this.#placeholder = placeholder;
   };
@@ -121,6 +126,8 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
         'tail': this.tail,
         'iWindow': iWindow,
         'iDocument': iDocument,
+        'getGlobalHeaders': this.getGlobalHeaders(),
+        'withGlobalHeaders': this.withGlobalHeaders,
       };
       const getData = () => {
         let result = null;
@@ -297,6 +304,25 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
     };
   };
 
+  getGlobalHeaders() {
+    let result = () => { return {}; };
+    let withGlobalHeaders = this.withGlobalHeaders;
+    if (withGlobalHeaders != null)
+    {
+      result = () => {
+        let globalHeaders = {};
+        let broadcaster = getBroadcaster('fetch');
+        let state = broadcaster.getState();
+        if (state.hasOwnProperty(withGlobalHeaders))
+        {
+          globalHeaders = state[withGlobalHeaders];
+        };
+        return globalHeaders;
+      };
+    };
+    return result;
+  };
+
   isFullScreen() {
     return this.container.classList.contains('fullscreen')? true: false;
   };
@@ -336,6 +362,11 @@ export default class jtbcFieldBlockEditor extends HTMLElement {
       case 'tail':
       {
         this.tail = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

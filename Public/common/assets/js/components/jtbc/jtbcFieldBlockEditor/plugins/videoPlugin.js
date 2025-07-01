@@ -220,6 +220,7 @@ export default class videoPlugin {
           player.setAttribute('controls', 'controls');
           video.append(player);
           let currentUploader = new uploader(that.config.action);
+          currentUploader.setHeaders(that.config.getGlobalHeaders());
           currentUploader.upload(currentFile, percent => {
             video.style.setProperty('--video-uploading-width', (100 - percent) + '%');
           }, data => {
@@ -309,6 +310,10 @@ export default class videoPlugin {
       itemInput.setAttribute('tail', this.config.tail ?? '');
       itemInput.setAttribute('text-upload', this.api.i18n.t('Upload'));
       itemInput.setAttribute('value', JSON.stringify(this.#poster));
+      if (this.config.withGlobalHeaders != null)
+      {
+        itemInput.setAttribute('with-global-headers', this.config.withGlobalHeaders);
+      };
       itemField.append(itemInput);
       item.append(itemH4, itemField);
       result.append(item);
@@ -332,6 +337,10 @@ export default class videoPlugin {
       itemInput.setAttribute('tail', this.config.tail ?? '');
       itemInput.setAttribute('text-upload', this.api.i18n.t('Upload'));
       itemInput.setAttribute('value', JSON.stringify(this.#video));
+      if (this.config.withGlobalHeaders != null)
+      {
+        itemInput.setAttribute('with-global-headers', this.config.withGlobalHeaders);
+      };
       itemField.append(itemInput);
       item.append(itemH4, itemField);
       result.append(item);
@@ -376,6 +385,12 @@ export default class videoPlugin {
       item.append(itemH4, itemField);
       result.append(item);
       return result;
+    };
+    if (this.config.withGlobalHeaders != null)
+    {
+      let state = {};
+      state[this.config.withGlobalHeaders] = this.config.getGlobalHeaders();
+      this.config.iWindow.getBroadcaster('fetch').tryPublish(this.config.iWindow.JSON.parse(JSON.stringify(state)));
     };
     let settings = document.createElement('div');
     settings.classList.add('settings');

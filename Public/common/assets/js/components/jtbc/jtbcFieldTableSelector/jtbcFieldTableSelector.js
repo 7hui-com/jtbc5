@@ -79,10 +79,10 @@ export default class jtbcFieldTableSelector extends HTMLElement {
 
   set value(value) {
     let container = this.container;
-    let selectedEl = container.querySelector('div.selected')?.empty();
-    if (selectedEl != null)
+    if (this.ready)
     {
       this.selected = [];
+      container.querySelector('div.selected').empty();
       if (value != '')
       {
         let valueArr = JSON.parse(value);
@@ -426,6 +426,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -435,9 +436,10 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"></div>
+      <div class="container" style="display:none">
+        <div class="selected"></div><span class="placeholder"></span><a class="selector"><jtbc-svg name="table"></jtbc-svg></a><div class="mask"></div>
+      </div>
     `;
-    let containerHTML = `<div class="selected"></div><span class="placeholder"></span><a class="selector"><jtbc-svg name="table"></jtbc-svg></a><div class="mask"></div>`;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.selected = [];
@@ -447,8 +449,6 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
     this.container = shadowRoot.querySelector('div.container');
-    this.container.html(containerHTML).then(() => {
-      this.#initEvents();
-    });
+    this.container.loadComponents();
   };
 };

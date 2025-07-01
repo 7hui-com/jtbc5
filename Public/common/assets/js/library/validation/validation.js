@@ -24,7 +24,7 @@ export default class validation {
       {
         let leftDateString = dateArr[0];
         let rightDateString = dateArr[1];
-        if (validation.isDate(leftDateString) && validation.isDate(rightDateString))
+        if (this.isDate(leftDateString) && this.isDate(rightDateString))
         {
           let leftDate = new Date(leftDateString);
           let rightDate = new Date(rightDateString);
@@ -47,7 +47,7 @@ export default class validation {
       {
         let leftDateTimeString = dateTimeArr[0];
         let rightDateTimeString = dateTimeArr[1];
-        if (validation.isDateTime(leftDateTimeString) && validation.isDateTime(rightDateTimeString))
+        if (this.isDateTime(leftDateTimeString) && this.isDateTime(rightDateTimeString))
         {
           let leftDateTime = new Date(leftDateTimeString);
           let rightDateTime = new Date(rightDateTimeString);
@@ -69,6 +69,28 @@ export default class validation {
   static isMobile(mobile) {
     let re = /^1\d{10}$/;
     return re.test(mobile);
+  };
+
+  static isName(name) {
+    let re = /^[A-Za-z0-9\u0020\u00b7\u4e00-\u9fa5_,.-]+$/u;
+    return re.test(name);
+  };
+
+  static isNumber(number) {
+    let re = /^[0-9]*$/;
+    return re.test(number);
+  };
+
+  static isNumeric28(numeric28) {
+    let result = false;
+    if (typeof(numeric28) == 'string')
+    {
+      if (numeric28.length == 28 && this.isNumber(numeric28))
+      {
+        result = true;
+      };
+    };
+    return result;
   };
 
   static isIDCard(IDCard) {
@@ -118,7 +140,7 @@ export default class validation {
 
   static isIPV6(ip) {
     let result = false;
-    if (validation.isStandardIPv6(ip))
+    if (this.isStandardIPv6(ip))
     {
       result = true;
     }
@@ -126,7 +148,7 @@ export default class validation {
     {
       let prefix = ip.substring(0, ip.lastIndexOf(':'));
       let suffix = ip.substring(ip.lastIndexOf(':') + 1);
-      if (validation.isIPV4(suffix))
+      if (this.isIPV4(suffix))
       {
         let ipv4Arr = suffix.split('.');
         let p1 = Number.parseInt(ipv4Arr[0]).toString(16);
@@ -141,7 +163,7 @@ export default class validation {
         {
           p4 = '0' + p4;
         };
-        result = validation.isIPV6(prefix + ':' + p1 + p2 + ':' + p3 + p4);
+        result = this.isIPV6(prefix + ':' + p1 + p2 + ':' + p3 + p4);
       };
     }
     else if (ip.includes('::'))
@@ -162,7 +184,7 @@ export default class validation {
           let tempArr = suffix.split(':');
           tempArr.forEach((value, key) => ipv6Arr[ipv6Arr.length - tempArr.length + key] = value);
         };
-        result = validation.isIPV6(ipv6Arr.join(':'));
+        result = this.isIPV6(ipv6Arr.join(':'));
       };
     };
     return result;
@@ -206,7 +228,7 @@ export default class validation {
       {
         let leftTimeString = timeArr[0];
         let rightTimeString = timeArr[1];
-        if (validation.isTime(leftTimeString) && validation.isTime(rightTimeString))
+        if (this.isTime(leftTimeString) && this.isTime(rightTimeString))
         {
           result = true;
         };

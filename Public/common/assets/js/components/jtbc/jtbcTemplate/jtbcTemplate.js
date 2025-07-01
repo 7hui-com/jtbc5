@@ -394,6 +394,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
             'param': getParam(this.parentNode),
             'raw': item,
             'reachConsensus': reachConsensus,
+            'rootNode': this.getRootNode(),
             'selfie': selfie,
             'this': this,
             'v': v => v ?? '',
@@ -605,8 +606,15 @@ export default class jtbcTemplate extends HTMLTemplateElement {
   disconnectedCallback() {
     let parentEl = this.#parentEl;
     this.dispatchEvent(new CustomEvent('rendercomplete', {detail: {parentNode: parentEl}}));
-    parentEl?.dispatchEvent(new CustomEvent('rendercomplete'));
-    parentEl?.dispatchEvent(new CustomEvent('renderend', {bubbles: true}));
+    if (parentEl != null)
+    {
+      parentEl.dispatchEvent(new CustomEvent('rendercomplete'));
+      parentEl.dispatchEvent(new CustomEvent('renderend', {'bubbles': true}));
+      if (parentEl.hasAttribute('custom-renderend-event-name'))
+      {
+        parentEl.dispatchEvent(new CustomEvent(parentEl.getAttribute('custom-renderend-event-name'), {'bubbles': true}));
+      };
+    };
   };
 
   constructor() {

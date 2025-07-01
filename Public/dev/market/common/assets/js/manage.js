@@ -43,6 +43,9 @@ export default class manage {
           chiefEl.delegateEventListener('select[name=filter]', 'change', function(){
             that.main.href = this.getAttribute('url') + encodeURIComponent(this.value);
           });
+          chiefEl.delegateEventListener('select[name=order_by]', 'change', function(){
+            that.main.href = this.getAttribute('url') + encodeURIComponent(this.value);
+          });
         });
       });
     };

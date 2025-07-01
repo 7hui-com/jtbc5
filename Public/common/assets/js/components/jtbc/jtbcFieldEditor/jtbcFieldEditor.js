@@ -4,7 +4,7 @@ import formElementFinder from '../../../library/field/formElementFinder.js';
 
 export default class jtbcFieldEditor extends HTMLElement {
   static get observedAttributes() {
-    return ['value', 'disabled', 'height', 'lang', 'placeholder'];
+    return ['value', 'disabled', 'height', 'lang', 'placeholder', 'with-global-headers'];
   };
 
   #height = 428;
@@ -16,6 +16,7 @@ export default class jtbcFieldEditor extends HTMLElement {
   #basePath = null;
   #iWindow = null;
   #iDocument = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -138,10 +139,20 @@ export default class jtbcFieldEditor extends HTMLElement {
     let attachment = this.#getPartnerByName('attachment');
     if (attachment != null)
     {
+      let withGlobalHeaders = this.#withGlobalHeaders;
       let attachmentAction = attachment.getAttribute('action');
       let attachmentTail = attachment.getAttribute('tail');
       config.images_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
         let currentUploader = new uploader(attachmentAction);
+        if (withGlobalHeaders != null)
+        {
+          let broadcaster = getBroadcaster('fetch');
+          let state = broadcaster.getState();
+          if (state.hasOwnProperty(withGlobalHeaders))
+          {
+            currentUploader.setHeaders(state[withGlobalHeaders]);
+          };
+        };
         currentUploader.upload(blobInfo.blob(), percent => progress(percent), data => {
           if (data.code == 1)
           {
@@ -207,6 +218,11 @@ export default class jtbcFieldEditor extends HTMLElement {
       case 'placeholder':
       {
         this.placeholder = newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
         break;
       };
     };

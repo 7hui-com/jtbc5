@@ -67,12 +67,14 @@ class Diplomat extends Ambassador {
   {
     $category = strval($req -> get('category'));
     $filter = strval($req -> get('filter'));
+    $orderBy = strval($req -> get('order_by'));
     $keyword = strval($req -> get('keyword'));
     $category = in_array($category, $this -> categories)? $category: current($this -> categories);
     $filter = in_array($filter, ['all', 'mine'])? $filter: 'all';
     $bs = new BasicSubstance($this);
     $bs -> data -> category = $category;
     $bs -> data -> filter = $filter;
+    $bs -> data -> order_by = $orderBy;
     $bs -> data -> keyword = $keyword;
     return $bs -> toJSON();
   }

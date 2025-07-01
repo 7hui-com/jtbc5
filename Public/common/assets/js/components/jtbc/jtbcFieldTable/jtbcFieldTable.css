@@ -34,6 +34,9 @@ container icons jtbc-svg:last-child {
 container icons jtbc-svg[name=close] {
   width: 14px; height: 14px
 }
+container icons jtbc-svg.disabled {
+  opacity: 0; pointer-events: none
+}
 container table.table {
   width: 100%; table-layout: fixed; background: #e1e1e1; border-collapse: separate; border-spacing: 0px 0px; border: #e1e1e1 1px solid
 }

@@ -2,12 +2,13 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcFieldUpload extends HTMLElement {
   static get observedAttributes() {
-    return ['text-upload', 'action', 'accept', 'value', 'disabled', 'placeholder', 'tail', 'width'];
+    return ['text-upload', 'action', 'accept', 'value', 'disabled', 'placeholder', 'tail', 'width', 'with-global-headers'];
   };
 
   #disabled = false;
   #uploading = false;
   #tail = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -89,6 +90,7 @@ export default class jtbcFieldUpload extends HTMLElement {
   #initEvents() {
     let that = this;
     let container = this.container;
+    let withGlobalHeaders = this.#withGlobalHeaders;
     container.querySelector('input.fileurl').addEventListener('focus', () => {
       container.classList.add('focus');
     });
@@ -119,6 +121,15 @@ export default class jtbcFieldUpload extends HTMLElement {
         btn.classList.add('locked');
         let file = this.files[0];
         let currentUploader = new uploader(that.action);
+        if (withGlobalHeaders != null)
+        {
+          let broadcaster = getBroadcaster('fetch');
+          let state = broadcaster.getState();
+          if (state.hasOwnProperty(withGlobalHeaders))
+          {
+            currentUploader.setHeaders(state[withGlobalHeaders]);
+          };
+        };
         currentUploader.upload(file, percent => {
           btn.innerText = percent + '%';
           bar.style.width = percent + '%';
@@ -243,11 +254,17 @@ export default class jtbcFieldUpload extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -273,6 +290,5 @@ export default class jtbcFieldUpload extends HTMLElement {
     this.miniMessage = document.getElementById('miniMessage');
     this.imagePreviewer = document.getElementById('imagePreviewer');
     this.textUpload = 'Upload';
-    this.#initEvents();
   };
 };

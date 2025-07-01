@@ -446,6 +446,7 @@ export default class jtbcView extends HTMLElement {
       'getSearchParamsFromURL': getSearchParamsFromURL,
       'getValueFromJSON': getValueFromJSON,
       'reachConsensus': reachConsensus,
+      'rootNode': this.getRootNode(),
       'this': this,
     };
     let valuesArray = Object.values(data);

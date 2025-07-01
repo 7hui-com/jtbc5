@@ -2,11 +2,13 @@ import mixedFieldCreator from '../../../library/field/mixedFieldCreator.js';
 
 export default class jtbcFieldMulti extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'columns', 'value', 'disabled', 'width'];
+    return ['text', 'columns', 'value', 'disabled', 'width', 'with-global-headers'];
   };
 
+  #columns = null;
   #disabled = false;
   #value = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -36,8 +38,16 @@ export default class jtbcFieldMulti extends HTMLElement {
     return result;
   };
 
+  get columns() {
+    return this.#columns;
+  };
+
   get disabled() {
     return this.#disabled;
+  };
+
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
   };
 
   set value(value) {
@@ -63,9 +73,34 @@ export default class jtbcFieldMulti extends HTMLElement {
     };
   };
 
+  set columns(columns) {
+    this.#columns = columns;
+  };
+
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  set withGlobalHeaders(withGlobalHeaders) {
+    this.#withGlobalHeaders = withGlobalHeaders;
+  };
+
+  #init() {
+    if (this.inited == false)
+    {
+      if (this.columns != null)
+      {
+        let columns = JSON.parse(this.columns);
+        this.createLiElement(columns);
+        this.liElement.loadComponents().then(() => {
+          this.inited = true;
+          this.value = this.#value;
+          this.textReset();
+        });
+      };
+      this.container.classList.add('on');
+    };
   };
 
   #initEvents() {
@@ -132,7 +167,7 @@ export default class jtbcFieldMulti extends HTMLElement {
 
   createLiElement(columns) {
     let divFirst = document.createElement('div');
-    let mixedField = new mixedFieldCreator(columns);
+    let mixedField = new mixedFieldCreator(columns, this.withGlobalHeaders);
     divFirst.classList.add('bar');
     divFirst.insertAdjacentHTML('beforeend', '<span class="num">#<em></em><input type="hidden" name="id" role="field" /></span>');
     divFirst.insertAdjacentHTML('beforeend', '<icons><jtbc-svg name="direction_up" class="order up"></jtbc-svg><jtbc-svg name="direction_down" class="order down"></jtbc-svg><jtbc-svg name="close" class="textRemove"></jtbc-svg></icons>');
@@ -160,24 +195,6 @@ export default class jtbcFieldMulti extends HTMLElement {
     };
   };
 
-  init() {
-    if (this.inited == false)
-    {
-      let currentColumns = this.currentColumns;
-      if (currentColumns != null)
-      {
-        let columns = JSON.parse(currentColumns);
-        this.createLiElement(columns);
-        this.liElement.loadComponents().then(() => {
-          this.inited = true;
-          this.value = this.#value;
-          this.textReset();
-        });
-      };
-      this.container.classList.add('on');
-    };
-  };
-
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text':
@@ -188,8 +205,7 @@ export default class jtbcFieldMulti extends HTMLElement {
       };
       case 'columns':
       {
-        this.currentColumns = newVal;
-        this.init();
+        this.columns = newVal;
         break;
       };
       case 'value':
@@ -207,11 +223,18 @@ export default class jtbcFieldMulti extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
+    this.#init();
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -239,12 +262,10 @@ export default class jtbcFieldMulti extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.inited = false;
-    this.currentColumns = null;
     this.currentTempId = 0;
     this.liElement = null;
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');
     this.dialog = document.getElementById('dialog');
-    this.#initEvents();
   };
 };

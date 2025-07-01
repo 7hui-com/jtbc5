@@ -2,11 +2,13 @@ import mixedFieldCreator from '../../../library/field/mixedFieldCreator.js';
 
 export default class jtbcFieldMultiGroup extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'group', 'value', 'disabled', 'width'];
+    return ['text', 'group', 'value', 'disabled', 'width', 'with-global-headers'];
   };
 
+  #group = null;
   #disabled = false;
   #value = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -36,8 +38,16 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     return result;
   };
 
+  get group() {
+    return this.#group;
+  };
+
   get disabled() {
     return this.#disabled;
+  };
+
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
   };
 
   set value(value) {
@@ -70,9 +80,57 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     };
   };
 
+  set group(group) {
+    this.#group = group;
+  };
+
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  set withGlobalHeaders(withGlobalHeaders) {
+    this.#withGlobalHeaders = withGlobalHeaders;
+  };
+
+  #init() {
+    if (this.inited == false)
+    {
+      if (this.group != null)
+      {
+        let group = JSON.parse(this.group);
+        if (Array.isArray(group))
+        {
+          let liLoaded = 0;
+          let groupLength = group.length;
+          let btnEl = this.container.querySelector('div.button');
+          group.forEach(item => {
+            let button = document.createElement('button');
+            button.classList.add('textAdd');
+            button.classList.add('add');
+            button.classList.add('button-add-' + item.name);
+            button.setAttribute('name', item.name);
+            button.setAttribute('text', item.text);
+            button.innerText = this.text.add + item.text;
+            btnEl.append(button);
+            this.createLiElement(item);
+          });
+          Object.keys(this.liElement).forEach(key => {
+            let li = this.liElement[key];
+            li.loadComponents().then(() => {
+              liLoaded += 1;
+              if (liLoaded == groupLength)
+              {
+                this.inited = true;
+                this.value = this.#value;
+                this.textReset();
+              };
+            });
+          });
+        };
+      };
+      this.container.classList.add('on');
+    };
   };
 
   #initEvents() {
@@ -139,7 +197,7 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
 
   createLiElement(item) {
     let divFirst = document.createElement('div');
-    let mixedField = new mixedFieldCreator(item.columns);
+    let mixedField = new mixedFieldCreator(item.columns, this.withGlobalHeaders);
     divFirst.classList.add('bar');
     divFirst.insertAdjacentHTML('beforeend', '<span class="num">#<em></em><u></u><input type="hidden" name="id" role="field" /><input type="hidden" name="group_name" role="field" /></span>');
     divFirst.insertAdjacentHTML('beforeend', '<icons><jtbc-svg name="direction_up" class="order up"></jtbc-svg><jtbc-svg name="direction_down" class="order down"></jtbc-svg><jtbc-svg name="close" class="textRemove"></jtbc-svg></icons>');
@@ -170,47 +228,6 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     };
   };
 
-  init() {
-    if (this.inited == false)
-    {
-      let currentGroup = this.currentGroup;
-      if (currentGroup != null)
-      {
-        let group = JSON.parse(currentGroup);
-        if (Array.isArray(group))
-        {
-          let liLoaded = 0;
-          let groupLength = group.length;
-          let btnEl = this.container.querySelector('div.button');
-          group.forEach(item => {
-            let button = document.createElement('button');
-            button.classList.add('textAdd');
-            button.classList.add('add');
-            button.classList.add('button-add-' + item.name);
-            button.setAttribute('name', item.name);
-            button.setAttribute('text', item.text);
-            button.innerText = this.text.add + item.text;
-            btnEl.append(button);
-            this.createLiElement(item);
-          });
-          Object.keys(this.liElement).forEach(key => {
-            let li = this.liElement[key];
-            li.loadComponents().then(() => {
-              liLoaded += 1;
-              if (liLoaded == groupLength)
-              {
-                this.inited = true;
-                this.value = this.#value;
-                this.textReset();
-              };
-            });
-          });
-        };
-      };
-      this.container.classList.add('on');
-    };
-  };
-
   attributeChangedCallback(attr, oldVal, newVal) {
     switch(attr) {
       case 'text':
@@ -221,8 +238,7 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
       };
       case 'group':
       {
-        this.currentGroup = newVal;
-        this.init();
+        this.group = newVal;
         break;
       };
       case 'value':
@@ -240,11 +256,18 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
+    this.#init();
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -272,12 +295,10 @@ export default class jtbcFieldMultiGroup extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.inited = false;
-    this.currentGroup = null;
     this.currentTempId = 0;
     this.liElement = {};
     this.container = shadowRoot.querySelector('container');
     this.content = this.container.querySelector('ul.content');
     this.dialog = document.getElementById('dialog');
-    this.#initEvents();
   };
 };

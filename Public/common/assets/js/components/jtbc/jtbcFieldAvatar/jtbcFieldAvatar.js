@@ -2,12 +2,13 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcFieldAvatar extends HTMLElement {
   static get observedAttributes() {
-    return ['text-upload', 'text-preview', 'text-remove', 'action', 'value', 'disabled', 'tail'];
+    return ['text-upload', 'text-preview', 'text-remove', 'action', 'value', 'disabled', 'tail', 'with-global-headers'];
   };
 
   #disabled = false;
   #uploading = false;
   #tail = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -78,6 +79,7 @@ export default class jtbcFieldAvatar extends HTMLElement {
   #initEvents() {
     let that = this;
     let container = this.container;
+    let withGlobalHeaders = this.#withGlobalHeaders;
     container.delegateEventListener('.upload', 'click', () => {
       if (this.disabled == false && this.uploading == false)
       {
@@ -107,6 +109,15 @@ export default class jtbcFieldAvatar extends HTMLElement {
         fileReader.addEventListener('load', () => {
           avatar.style.backgroundImage = 'url(' + fileReader.result + ')';
           let currentUploader = new uploader(that.action);
+          if (withGlobalHeaders != null)
+          {
+            let broadcaster = getBroadcaster('fetch');
+            let state = broadcaster.getState();
+            if (state.hasOwnProperty(withGlobalHeaders))
+            {
+              currentUploader.setHeaders(state[withGlobalHeaders]);
+            };
+          };
           currentUploader.upload(currentFile, percent => {
             avatarUploading.style.width = (100 - percent) + '%';
           }, data => {
@@ -226,11 +237,17 @@ export default class jtbcFieldAvatar extends HTMLElement {
         this.tail = newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -258,6 +275,5 @@ export default class jtbcFieldAvatar extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.imagePreviewer = document.getElementById('imagePreviewer');
-    this.#initEvents();
   };
 };

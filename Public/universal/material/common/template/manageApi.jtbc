@@ -24,7 +24,7 @@
       </div>
       <div class="list"></div>
       <div class="listEmpty">{$=$take('manage.text-tips-list-null', 'lng')}</div>
-      <template class="listTemplate" is="jtbc-template" mode="target" target=".materialExplorer .list" url="{$>this.genre}/manageApi?type=explorer">
+      <template class="listTemplate" is="jtbc-template" mt="true" mode="target" target=".materialExplorer .list" url="{$>this.genre}/manageApi?type=explorer">
         <template is="jtbc-template" key="data">
           <div class="filelist" isloop="true">
             <item param="${$.htmlEncode(JSON.stringify($.raw))}">

@@ -214,6 +214,10 @@ export default class audioPlugin {
       itemInput.setAttribute('tail', this.config.tail ?? '');
       itemInput.setAttribute('text-upload', this.api.i18n.t('Upload'));
       itemInput.setAttribute('value', JSON.stringify(this.#audio));
+      if (this.config.withGlobalHeaders != null)
+      {
+        itemInput.setAttribute('with-global-headers', this.config.withGlobalHeaders);
+      };
       itemField.append(itemInput);
       item.append(itemH4, itemField);
       result.append(item);
@@ -258,6 +262,12 @@ export default class audioPlugin {
       item.append(itemH4, itemField);
       result.append(item);
       return result;
+    };
+    if (this.config.withGlobalHeaders != null)
+    {
+      let state = {};
+      state[this.config.withGlobalHeaders] = this.config.getGlobalHeaders();
+      this.config.iWindow.getBroadcaster('fetch').tryPublish(this.config.iWindow.JSON.parse(JSON.stringify(state)));
     };
     let settings = document.createElement('div');
     settings.classList.add('settings');

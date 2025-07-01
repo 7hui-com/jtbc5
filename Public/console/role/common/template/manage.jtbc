@@ -44,7 +44,7 @@
             </item>
             <item>
               <label class="name"><r></r>{$=$take('config.lang', 'lng')}</label>
-              <div class="content"><jtbc-choice-selector type="checkbox" name="lang" role="field">{$=$takeAndFormatToCheckbox('::sel_lang.*', 'lang_option', '*')}</jtbc-choice-selector></div>
+              <div class="content"><jtbc-choice-selector type="checkbox" name="lang" role="field">{$=$takeAndFormatToCheckbox('::sel_lang.*', 'lang_option', '*', true)}</jtbc-choice-selector></div>
             </item>
             <item>
               <label class="name"></label>
@@ -101,7 +101,7 @@
             </item>
             <item>
               <label class="name"><r></r>{$=$take('config.lang', 'lng')}</label>
-              <div class="content"><jtbc-choice-selector type="checkbox" name="lang" role="field" value="${$data.lang}">{$=$takeAndFormatToCheckbox('::sel_lang.*', 'lang_option')}</jtbc-choice-selector></div>
+              <div class="content"><jtbc-choice-selector type="checkbox" name="lang" role="field" value="${$data.lang}">{$=$takeAndFormatToCheckbox('::sel_lang.*', 'lang_option', null, true)}</jtbc-choice-selector></div>
             </item>
             <item>
               <label class="name"></label>

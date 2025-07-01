@@ -1,3 +1,5 @@
+import fetcher from '../../../../../common/assets/js/library/http/fetcher.js';
+
 export default class manageApi {
   initExplorer() {
     if (this.inited != true)
@@ -12,6 +14,7 @@ export default class manageApi {
         let keyword = null;
         let order = null;
         let inputTimeout = null;
+        let listTemplate = materialExplorer.querySelector('template.listTemplate');
         materialExplorer.addEventListener('update', function(){
           let searchParams = new URLSearchParams('type=explorer');
           if (fileGroup != null) searchParams.set('filegroup', fileGroup);
@@ -75,8 +78,14 @@ export default class manageApi {
             selectedID.push(param.id);
           });
           this.dialog.callbackArgs.push(selected);
-          fetch(materialExplorer.getAttribute('updateurl') + '&idList=' + encodeURIComponent(selectedID.join(',')));
+          if (selectedID.length != 0)
+          {
+            let fetchman = new fetcher(materialExplorer.getAttribute('with-global-headers'));
+            fetchman.fetch(materialExplorer.getAttribute('updateurl') + '&idList=' + encodeURIComponent(selectedID.join(',')));
+          };
         });
+        listTemplate.fetch();
+        listTemplate.removeAttribute('mt');
       };
     };
   };

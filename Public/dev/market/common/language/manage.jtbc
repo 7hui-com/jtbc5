@@ -63,6 +63,14 @@
       <zh-cn><![CDATA[我的]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-order-by-heat]]></name>
+      <zh-cn><![CDATA[按热度排序]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-order-by-time]]></name>
+      <zh-cn><![CDATA[按时间排序]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-pagination-record-1]]></name>
       <zh-cn><![CDATA[当前共有]]></zh-cn>
     </item>

@@ -1,12 +1,13 @@
 export default class jtbcFieldGallery extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'mode', 'action', 'value', 'disabled', 'width', 'tail'];
+    return ['text', 'mode', 'action', 'value', 'disabled', 'tail', 'width', 'with-global-headers'];
   };
 
   #mode = 'square';
   #disabled = false;
   #uploading = false;
   #tail = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -43,6 +44,10 @@ export default class jtbcFieldGallery extends HTMLElement {
 
   get tail() {
     return this.#tail;
+  };
+
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
   };
 
   set mode(mode) {
@@ -89,6 +94,13 @@ export default class jtbcFieldGallery extends HTMLElement {
 
   set tail(tail) {
     this.#tail = tail;
+  };
+
+  set withGlobalHeaders(withGlobalHeaders) {
+    this.#withGlobalHeaders = withGlobalHeaders;
+    this.container.querySelectorAll('jtbc-upload-progress').forEach(el => {
+      el.setAttribute('with-global-headers', withGlobalHeaders);
+    });
   };
 
   #initEvents() {
@@ -256,6 +268,11 @@ export default class jtbcFieldGallery extends HTMLElement {
       case 'width':
       {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
+        break;
+      };
+      case 'with-global-headers':
+      {
+        this.withGlobalHeaders = newVal;
         break;
       };
     };

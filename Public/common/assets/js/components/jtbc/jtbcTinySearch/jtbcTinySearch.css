@@ -2,19 +2,19 @@
   width: 500px; display: inline-block; --height: 30px; --background-color: #ffffff; --background-focus-color: #ffffff; --button-color: #555; --button-hover-color: #333; --input-border-color: #d1d1d1; --input-border-color-focus: #333
 }
 .container {
-  width: 100%; background: var(--background-color); border: var(--input-border-color) 1px solid; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; transition: all .3s ease
+  width: 100%; height: var(--height); box-sizing: border-box; background: var(--background-color); border: var(--input-border-color) 1px solid; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; transition: all .3s ease
 }
 .container div.input {
-  display: block; flex: 1
+  display: block; height: 100%; flex: 1
 }
 .container div.input input {
   box-sizing: border-box; outline: none
 }
 .container div.input input[type=text] {
-  width: 100%; height: var(--height); background: transparent; padding: 0px 10px; border: 0px; border-radius: 0px
+  width: 100%; height: 100%; background: transparent; padding: 0px 10px; border: 0px; border-radius: 0px
 }
 .container div.btn {
-  display: block; width: var(--height); height: var(--height); box-sizing: border-box; padding: 6px; background: var(--button-color); transition: all .3s ease; position: relative; z-index: 1000; cursor: pointer
+  display: block; aspect-ratio: 1 / 1; height: 100%; box-sizing: border-box; padding: 6px; background: var(--button-color); transition: all .3s ease; position: relative; z-index: 1000; cursor: pointer
 }
 .container div.btn jtbc-svg {
   width: 100%; height: 100%; --fore-color: #ffffff

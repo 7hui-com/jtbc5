@@ -2,12 +2,15 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcUploadButton extends HTMLButtonElement {
   static get observedAttributes() {
-    return ['accept'];
+    return ['accept', 'with-global-headers'];
   };
+
+  #withGlobalHeaders = null;
 
   #initEvents() {
     let that = this;
     let dialog = document.getElementById('dialog');
+    let withGlobalHeaders = this.#withGlobalHeaders;
     this.addEventListener('click', function(){ this.inputFile.click(); });
     this.inputFile.addEventListener('change', function(){
       const resetStatus = () => {
@@ -21,6 +24,15 @@ export default class jtbcUploadButton extends HTMLButtonElement {
         that.setAttribute('text', that.innerText);
         that.innerText = '0%';
         let currentUploader = new uploader(that.getAttribute('action'));
+        if (withGlobalHeaders != null)
+        {
+          let broadcaster = getBroadcaster('fetch');
+          let state = broadcaster.getState();
+          if (state.hasOwnProperty(withGlobalHeaders))
+          {
+            currentUploader.setHeaders(state[withGlobalHeaders]);
+          };
+        };
         currentUploader.upload(this.files[0], percent => {
           that.innerText = percent + '%';
         }, data => {
@@ -46,11 +58,17 @@ export default class jtbcUploadButton extends HTMLButtonElement {
         this.inputFile.setAttribute('accept', newVal);
         break;
       };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -58,6 +76,5 @@ export default class jtbcUploadButton extends HTMLButtonElement {
     this.ready = false;
     this.inputFile = document.createElement('input');
     this.inputFile.setAttribute('type', 'file');
-    this.#initEvents();
   };
 };

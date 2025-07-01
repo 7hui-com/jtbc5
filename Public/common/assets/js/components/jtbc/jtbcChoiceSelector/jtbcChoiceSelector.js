@@ -11,21 +11,24 @@ export default class jtbcChoiceSelector extends HTMLElement {
   };
 
   get value() {
-    if (this.#type == 'checkbox')
+    if (this.#hasOption())
     {
-      let valueArr = [];
-      this.querySelectorAll('input[type=checkbox]').forEach(el => {
-        if (el.checked)
-        {
-          valueArr.push(el.value);
-        };
-      });
-      this.#value = valueArr.length == 0? '': JSON.stringify(valueArr);
-    }
-    else
-    {
-      let checkedEl = this.querySelector('input[type=radio]:checked');
-      this.#value = checkedEl == null? '': checkedEl.value;
+      if (this.#type == 'checkbox')
+      {
+        let valueArr = [];
+        this.querySelectorAll('input[type=checkbox]').forEach(el => {
+          if (el.checked)
+          {
+            valueArr.push(el.value);
+          };
+        });
+        this.#value = valueArr.length == 0? '': JSON.stringify(valueArr);
+      }
+      else
+      {
+        let checkedEl = this.querySelector('input[type=radio]:checked');
+        this.#value = checkedEl == null? '': checkedEl.value;
+      };
     };
     return this.#value;
   };
@@ -34,35 +37,54 @@ export default class jtbcChoiceSelector extends HTMLElement {
     this.setAttribute('value', value);
   };
 
-  update() {
-    let currentValue = this.#value;
-    if (currentValue != null)
+  #hasOption() {
+    let result = false;
+    if (this.querySelectorAll('input').length != 0)
     {
-      if (this.#type == 'checkbox')
+      result = true;
+    };
+    return result;
+  };
+
+  #initEvents() {
+    let that = this;
+    this.addEventListener('renderend', function(){
+      that.update();
+    });
+  };
+  
+  update() {
+    if (this.#hasOption())
+    {
+      let value = this.#value;
+      if (value != null)
       {
-        let valueArr = [];
-        if (currentValue != null)
+        if (this.#type == 'checkbox')
         {
-          if (currentValue.startsWith('[') && currentValue.endsWith(']'))
+          let valueArr = [];
+          if (value != null)
           {
-            valueArr = JSON.parse(currentValue);
+            if (value.startsWith('[') && value.endsWith(']'))
+            {
+              valueArr = JSON.parse(value);
+            };
           };
+          this.querySelectorAll('input[type=checkbox]').forEach(el => {
+            if (valueArr.includes(el.value))
+            {
+              el.checked = true;
+            };
+          });
+        }
+        else
+        {
+          this.querySelectorAll('input[type=radio]').forEach(el => {
+            if (value == el.value)
+            {
+              el.checked = true;
+            };
+          });
         };
-        this.querySelectorAll('input[type=checkbox]').forEach(el => {
-          if (valueArr.includes(el.value))
-          {
-            el.checked = true;
-          };
-        });
-      }
-      else
-      {
-        this.querySelectorAll('input[type=radio]').forEach(el => {
-          if (currentValue == el.value)
-          {
-            el.checked = true;
-          };
-        });
       };
     };
   };
@@ -86,6 +108,7 @@ export default class jtbcChoiceSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 

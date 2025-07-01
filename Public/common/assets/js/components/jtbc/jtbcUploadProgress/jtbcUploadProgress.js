@@ -2,8 +2,10 @@ import uploader from '../../../library/upload/uploader.js';
 
 export default class jtbcUploadProgress extends HTMLElement {
   static get observedAttributes() {
-    return ['action'];
+    return ['action', 'with-global-headers'];
   };
+
+  #withGlobalHeaders = null;
 
   #initEvents() {
     let container = this.container;
@@ -50,6 +52,7 @@ export default class jtbcUploadProgress extends HTMLElement {
   startUpload(input, itemDoneCallBack = () => {}, doneCallBack = () => {}, progressCallBack = () => {}) {
     let files = input.files;
     let container = this.container;
+    let withGlobalHeaders = this.#withGlobalHeaders;
     if (files.length >= 1 && this.uploading != true)
     {
       let currentIndex = 0;
@@ -58,6 +61,15 @@ export default class jtbcUploadProgress extends HTMLElement {
       const uploadNextFile = () => {
         let currentUploader = new uploader(this.action);
         let item = container.querySelector("item[index='" + currentIndex + "']");
+        if (withGlobalHeaders != null)
+        {
+          let broadcaster = getBroadcaster('fetch');
+          let state = broadcaster.getState();
+          if (state.hasOwnProperty(withGlobalHeaders))
+          {
+            currentUploader.setHeaders(state[withGlobalHeaders]);
+          };
+        };
         currentUploader.upload(files[currentIndex], percent => {
           item.querySelector('progressbar').style.width = percent + '%';
           progressCallBack(currentIndex, percent);
@@ -99,11 +111,17 @@ export default class jtbcUploadProgress extends HTMLElement {
         this.action = newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.#withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -120,6 +138,5 @@ export default class jtbcUploadProgress extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

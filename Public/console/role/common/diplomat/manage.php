@@ -45,8 +45,7 @@ class Diplomat extends Ambassador {
         $hasCategory = false;
         if (in_array($folder, $hasCategoryFolders))
         {
-          $categoryTitle = Jtbc::take('global.' . $folder . ':category.title', 'cfg');
-          $hasCategory = is_string($categoryTitle)? true: false;
+          $hasCategory = Guide::isValidGenre($folder);
         }
         $guideLink = Jtbc::take('global.' . $folder . ':guide.link', 'cfg');
         $guideTitle = Jtbc::take('global.' . $folder . ':guide.title', 'cfg');

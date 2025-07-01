@@ -64,6 +64,9 @@ div.editor .ce-popover--opened {
 div.editor .ce-inline-toolbar .ce-popover__items {
   overflow: hidden
 }
+div.editor .ce-inline-tool-input {
+  min-width: 220px
+}
 div.editor .ce-tune-alignment--right {
   text-align: right
 }

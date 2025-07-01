@@ -22,11 +22,21 @@ class Guide
       {
         if (self::isValidGenre($genre))
         {
-          $result[] = ['genre' => $genre, 'title' => Jtbc::take('global.' . $genre . ':category.title', 'cfg') . '(' . $genre . ')'];
+          $result[] = ['genre' => $genre, 'title' => self::getGenreTitle($genre) . '(' . $genre . ')'];
         }
       }
     }
     return $result;
+  }
+
+  public static function getGenreMode(string $argGenre)
+  {
+    return Jtbc::take('global.' . $argGenre . ':category.mode', 'cfg');
+  }
+
+  public static function getGenreTitle(string $argGenre)
+  {
+    return Jtbc::take('global.' . $argGenre . ':category.title', 'cfg');
   }
 
   public static function getGenreParam(string $argGenre, string $argParamName)
@@ -79,10 +89,6 @@ class Guide
 
   public static function isValidGenre(string $argGenre)
   {
-    $bool = false;
-    $genre = $argGenre;
-    $title = Jtbc::take('global.' . $genre . ':category.title', 'cfg');
-    if (!is_null($title)) $bool = true;
-    return $bool;
+    return is_null(self::getGenreTitle($argGenre))? false: true;
   }
 }

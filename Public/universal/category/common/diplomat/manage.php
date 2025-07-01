@@ -16,6 +16,14 @@ class Diplomat extends Ambassador {
   use Action\Typical\Order;
   use Action\Typical\Upload;
 
+  public function __initialize()
+  {
+    if ($this -> di -> request -> get('type') == 'filter')
+    {
+      $this -> isPublic = true;
+    }
+  }
+
   public function __start()
   {
     $removeCache = function()
@@ -99,15 +107,15 @@ class Diplomat extends Ambassador {
       $model -> orderBy('order', 'desc');
       $model -> orderBy('id', 'asc');
       $data = $model -> getAll(['id', 'title', 'published', 'time']);
-      $genreTitle = Jtbc::take('global.' . $genre . ':category.title', 'cfg');
-      $genreMode = strval(Jtbc::take('global.' . $genre . ':category.mode', 'cfg'));
       $category = new Category($genre, $lang);
+      $genreMode = strval(Guide::getGenreMode($genre));
+      $genreTitle = strval(Guide::getGenreTitle($genre));
       $fatherGroup = $category -> getFatherGroupById($fatherId, true);
     }
     $bs = new BasicSubstance($this);
     $bs -> data -> genre = $genre;
-    $bs -> data -> genreTitle = $genreTitle;
     $bs -> data -> genreMode = $genreMode;
+    $bs -> data -> genreTitle = $genreTitle;
     $bs -> data -> allGenre = Guide::getAllGenreTitle();
     $bs -> data -> fatherId = $fatherId;
     $bs -> data -> fatherGroup = $fatherGroup;
@@ -118,19 +126,24 @@ class Diplomat extends Ambassador {
   public function filter(Request $req)
   {
     $data = [];
+    $genreMode = 'normal';
     $genre = strval($req -> get('genre'));
     $fatherId = intval($req -> get('father_id'));
     $myCategory = strval($req -> get('myCategory'));
     if (Guide::isValidGenre($genre) && !Validation::isEmpty($myCategory))
     {
       $lang = $this -> guard -> role -> getLang();
+      $genreMode = strval(Guide::getGenreMode($genre));
       $myCategoryArr = JSON::decode($myCategory);
       if (is_array($myCategoryArr))
       {
         $model = new TinyModel();
         $model -> where -> genre = $genre;
-        $model -> where -> father_id = $fatherId;
         $model -> where -> lang = $lang;
+        if ($genreMode != 'flat')
+        {
+          $model -> where -> father_id = $fatherId;
+        }
         $rsa = $model -> getAll(['id', 'title', 'genre']);
         foreach ($rsa as $item)
         {

@@ -1,15 +1,25 @@
 export default class jtbcDialog extends HTMLElement {
   static get observedAttributes() {
-    return ['credentials', 'popup-movable', 'with-global-headers', 'text-ok', 'text-cancel'];
+    return ['credentials', 'mustache', 'popup-movable', 'with-global-headers', 'text-ok', 'text-cancel'];
   };
 
+  #url = null;
   #credentials = 'same-origin';
+  #mustache = null;
   #popupMovable = true;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
 
   get credentials() {
     return this.#credentials;
+  };
+
+  get mustache() {
+    return this.#mustache;
+  };
+
+  get url() {
+    return this.#url;
   };
 
   get popupMovable() {
@@ -25,6 +35,10 @@ export default class jtbcDialog extends HTMLElement {
     {
       throw new Error('Unexpected value');
     };
+  };
+
+  set mustache(mustache) {
+    this.#mustache = mustache;
   };
 
   set popupMovable(popupMovable) {
@@ -50,6 +64,7 @@ export default class jtbcDialog extends HTMLElement {
     }
     else
     {
+      this.#url = new URL(href, document.baseURI);
       fetch(href, this.#getFetchParams()).then(res => res.ok? res.text(): '').then(text => {
         let code, fragment = null;
         if (text.startsWith('{'))
@@ -72,6 +87,13 @@ export default class jtbcDialog extends HTMLElement {
         };
         if (code == 1)
         {
+          if (this.mustache != null)
+          {
+            let params = this.getAttributes(this.mustache);
+            Object.keys(params).forEach(key => {
+              fragment = fragment.replaceAll('{{' + key + '}}', params[key]);
+            });
+          };
           this.popup(fragment);
         };
       });
@@ -267,6 +289,13 @@ export default class jtbcDialog extends HTMLElement {
       };
       if (code == 1)
       {
+        if (this.mustache != null)
+        {
+          let params = this.getAttributes(this.mustache);
+          Object.keys(params).forEach(key => {
+            fragment = fragment.replaceAll('{{' + key + '}}', params[key]);
+          });
+        };
         return this.popup(fragment, callback);
       };
     };
@@ -351,6 +380,11 @@ export default class jtbcDialog extends HTMLElement {
       case 'credentials':
       {
         this.credentials = newVal;
+        break;
+      };
+      case 'mustache':
+      {
+        this.mustache = newVal;
         break;
       };
       case 'popup-movable':

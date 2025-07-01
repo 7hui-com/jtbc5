@@ -107,6 +107,7 @@ export default class attachmentPlugin {
         attachment.classList.add('uploading');
         const uploadNextFile = () => {
           let currentUploader = new uploader(that.config.action);
+          currentUploader.setHeaders(that.config.getGlobalHeaders());
           currentUploader.upload(files[currentIndex], percent => {
             wrapper.style.setProperty('--uploading-width', percent + '%');
           }, data => {
@@ -203,6 +204,10 @@ export default class attachmentPlugin {
       input2.setAttribute('tail', this.config.tail ?? '');
       input2.setAttribute('text-upload', this.api.i18n.t('Upload'));
       input2.setAttribute('value', JSON.stringify({'uploadid': file.uploadid, 'fileurl': file.fileurl}));
+      if (this.config.withGlobalHeaders != null)
+      {
+        input2.setAttribute('with-global-headers', this.config.withGlobalHeaders);
+      };
       td2.append(input2);
       icons.classList.add('icons');
       let iconTitles = {
@@ -322,6 +327,12 @@ export default class attachmentPlugin {
       item.append(itemH4, itemField);
       result.append(item);
       return result;
+    };
+    if (this.config.withGlobalHeaders != null)
+    {
+      let state = {};
+      state[this.config.withGlobalHeaders] = this.config.getGlobalHeaders();
+      this.config.iWindow.getBroadcaster('fetch').tryPublish(this.config.iWindow.JSON.parse(JSON.stringify(state)));
     };
     let settings = document.createElement('div');
     settings.classList.add('settings');

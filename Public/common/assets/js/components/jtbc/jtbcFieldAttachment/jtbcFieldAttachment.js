@@ -1,6 +1,6 @@
 export default class jtbcFieldAttachment extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'partner', 'action', 'value', 'disabled', 'tail', 'width'];
+    return ['text', 'partner', 'action', 'value', 'disabled', 'tail', 'width', 'with-global-headers'];
   };
 
   #action = null;
@@ -8,6 +8,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
   #disabled = false;
   #uploading = false;
   #tail = null;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -68,6 +69,10 @@ export default class jtbcFieldAttachment extends HTMLElement {
     return this.#tail;
   };
 
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
+  };
+
   set action(action) {
     this.container.querySelector('.progress')?.setAttribute('action', action);
   };
@@ -93,6 +98,13 @@ export default class jtbcFieldAttachment extends HTMLElement {
 
   set tail(tail) {
     this.#tail = tail;
+  };
+
+  set withGlobalHeaders(withGlobalHeaders) {
+    this.#withGlobalHeaders = withGlobalHeaders;
+    this.container.querySelectorAll('jtbc-upload-progress').forEach(el => {
+      el.setAttribute('with-global-headers', withGlobalHeaders);
+    });
   };
 
   #initEvents() {
@@ -489,6 +501,11 @@ export default class jtbcFieldAttachment extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
@@ -514,33 +531,32 @@ export default class jtbcFieldAttachment extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"></div>
-    `;
-    let containerHTML = `
-      <table is="jtbc-table" class="attachment">
-        <thead>
-          <tr>
-            <th width="20" class="center"><input name="all" type="checkbox" value="1" disabled /></th>
-            <th colspan="2" class="skinny"><span class="textFilesList">${this.text.filesList}</span></th>
-            <th width="80"></th>
-            <th width="60"><icons class="g1"><jtbc-svg name="db_fill" class="textSelectFromDB" title="${this.text.selectFromDB}"></jtbc-svg><jtbc-svg name="upload" class="textUpload" title="${this.text.upload}"></jtbc-svg><input type="file" class="file" multiple="multiple" /></icons><icons class="g2 hide"><jtbc-svg name="power_cord" class="textInsert" mode="batch" title="${this.text.insert}"></jtbc-svg><jtbc-svg name="trash" class="textRemove" mode="batch" title="${this.text.remove}"></jtbc-svg></icons></th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="5" class="textEmptyTips">${this.text.emptyTips}</td>
-          </tr>
-        </tfoot>
-      </table>
-      <jtbc-upload-progress class="progress"></jtbc-upload-progress>
-      <div class="mask"></div>
+      <div class="container" style="display:none">
+        <table is="jtbc-table" class="attachment">
+          <thead>
+            <tr>
+              <th width="20" class="center"><input name="all" type="checkbox" value="1" disabled /></th>
+              <th colspan="2" class="skinny"><span class="textFilesList">${this.text.filesList}</span></th>
+              <th width="80"></th>
+              <th width="60"><icons class="g1"><jtbc-svg name="db_fill" class="textSelectFromDB" title="${this.text.selectFromDB}"></jtbc-svg><jtbc-svg name="upload" class="textUpload" title="${this.text.upload}"></jtbc-svg><input type="file" class="file" multiple="multiple" /></icons><icons class="g2 hide"><jtbc-svg name="power_cord" class="textInsert" mode="batch" title="${this.text.insert}"></jtbc-svg><jtbc-svg name="trash" class="textRemove" mode="batch" title="${this.text.remove}"></jtbc-svg></icons></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="textEmptyTips">${this.text.emptyTips}</td>
+            </tr>
+          </tfoot>
+        </table>
+        <jtbc-upload-progress class="progress"></jtbc-upload-progress>
+        <div class="mask"></div>
+      </div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('div.container');
     this.imagePreviewer = document.getElementById('imagePreviewer');
     this.materialExplorer = document.getElementById('materialExplorer');
-    this.container.html(containerHTML).then(() => {
+    this.container.loadComponents().then(() => {
       this.inited = true;
       this.textReset();
       this.#initEvents();

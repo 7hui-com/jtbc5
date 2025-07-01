@@ -9,17 +9,18 @@ use Jtbc\Encoder;
 
 class JtbcFormatter
 {
-  public static function checkbox($argCodename, string $argName, $argValue = null)
+  public static function checkbox($argCodename, string $argName, $argValue = null, bool $argPure = false)
   {
     $result = '';
     $codename = $argCodename;
     $name = $argName;
     $value = $argValue;
+    $pure = $argPure;
     $dataArr = Jtbc::take($codename, 'lng');
     if (is_array($dataArr))
     {
-      $item = Jtbc::take('universal:config.checkbox', 'tpl');
-      $itemSelected = Jtbc::take('universal:config.checkbox_selected', 'tpl');
+      $item = Jtbc::take('universal:config.' . ($pure? 'pure_': '') . 'checkbox', 'tpl');
+      $itemSelected = Jtbc::take('universal:config.' . ($pure? 'pure_': '') . 'checkbox_selected', 'tpl');
       foreach ($dataArr as $key => $val)
       {
         $option = $item;
@@ -60,17 +61,18 @@ class JtbcFormatter
     return $result;
   }
 
-  public static function radio($argCodename, string $argName, $argValue = null)
+  public static function radio($argCodename, string $argName, $argValue = null, bool $argPure = false)
   {
     $result = '';
     $codename = $argCodename;
     $name = $argName;
     $value = $argValue;
+    $pure = $argPure;
     $dataArr = Jtbc::take($codename, 'lng');
     if (is_array($dataArr))
     {
-      $item = Jtbc::take('universal:config.radio', 'tpl');
-      $itemSelected = Jtbc::take('universal:config.radio_selected', 'tpl');
+      $item = Jtbc::take('universal:config.' . ($pure? 'pure_': '') . 'radio', 'tpl');
+      $itemSelected = Jtbc::take('universal:config.' . ($pure? 'pure_': '') . 'radio_selected', 'tpl');
       foreach ($dataArr as $key => $val)
       {
         $option = strval($value) == strval($key)? $itemSelected: $item;

@@ -196,6 +196,7 @@ export default class diagramPlugin {
           img.setAttribute('src', fileReader.result);
           image.append(img);
           let currentUploader = new uploader(that.config.action);
+          currentUploader.setHeaders(that.config.getGlobalHeaders());
           currentUploader.upload(currentFile, percent => {
             image.style.setProperty('--image-uploading-width', (100 - percent) + '%');
           }, data => {

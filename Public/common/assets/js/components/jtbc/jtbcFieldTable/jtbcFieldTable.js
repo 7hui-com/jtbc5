@@ -1,10 +1,14 @@
 export default class jtbcFieldTable extends HTMLElement {
   static get observedAttributes() {
-    return ['text', 'columns', 'value', 'disabled', 'width'];
+    return ['text', 'columns', 'value', 'min-items', 'max-items', 'disabled', 'width', 'with-global-headers'];
   };
 
+  #columns = null;
   #disabled = false;
   #value = null;
+  #minItems = 0;
+  #maxItems = 10000;
+  #withGlobalHeaders = null;
 
   get name() {
     return this.getAttribute('name');
@@ -42,6 +46,18 @@ export default class jtbcFieldTable extends HTMLElement {
     return result;
   };
 
+  get minItems() {
+    return this.#minItems;
+  };
+
+  get maxItems() {
+    return this.#maxItems;
+  };
+
+  get columns() {
+    return this.#columns;
+  };
+
   get dblmode() {
     let result = false;
     if (this.hasAttribute('dblmode'))
@@ -60,6 +76,21 @@ export default class jtbcFieldTable extends HTMLElement {
 
   get disabled() {
     return this.#disabled;
+  };
+
+  get withGlobalHeaders() {
+    return this.#withGlobalHeaders;
+  };
+
+  set columns(columns) {
+    this.#columns = columns;
+    if (this.ready == true)
+    {
+      if (this.inited === false)
+      {
+        this.#init();
+      };
+    };
   };
 
   set value(value) {
@@ -86,13 +117,85 @@ export default class jtbcFieldTable extends HTMLElement {
           });
           tbody.append(newTr);
         });
+        this.itemsReset();
       };
     };
+  };
+
+  set minItems(minItems) {
+    let min = 0;
+    if (isFinite(minItems))
+    {
+      min = Math.max(0, Number.parseInt(minItems));
+    };
+    this.#minItems = min;
+    this.itemsReset();
+  };
+
+  set maxItems(maxItems) {
+    let max = 0;
+    if (isFinite(maxItems))
+    {
+      max = Math.min(1000000, Number.parseInt(maxItems));
+    };
+    this.#maxItems = max;
+    this.itemsReset();
   };
 
   set disabled(disabled) {
     this.#disabled = disabled;
     this.container.classList.toggle('disabled', disabled);
+  };
+
+  set withGlobalHeaders(withGlobalHeaders) {
+    this.#withGlobalHeaders = withGlobalHeaders;
+  };
+
+  #init() {
+    if (this.inited == false)
+    {
+      if (this.columns != null)
+      {
+        let table = this.container.querySelector('table.table');
+        let thead = table.querySelector('thead');
+        let tfoot = table.querySelector('tfoot');
+        let textEmptyTips = tfoot.querySelector('.textEmptyTips');
+        let theadTr = document.createElement('tr');
+        let theadThFirst = document.createElement('th');
+        theadThFirst.classList.add('dragable');
+        theadTr.append(theadThFirst);
+        let columns = JSON.parse(this.columns);
+        columns.forEach(column => {
+          let theadWidth = null;
+          let theadTh = document.createElement('th');
+          if (Number.isInteger(column?.extra?.width))
+          {
+            theadWidth = column.extra.width;
+          };
+          if (theadWidth != null)
+          {
+            theadTh.setAttribute('width', theadWidth);
+          };
+          theadTh.innerText = column.text;
+          theadTr.append(theadTh);
+        });
+        let theadThLast = document.createElement('th');
+        theadThLast.setAttribute('width', 28);
+        theadThLast.classList.add('center');
+        theadThLast.innerHTML = '<icons><jtbc-svg name="add" class="textAdd"></jtbc-svg></icons>';
+        theadThLast.querySelector('.textAdd').setAttribute('title', this.text.add);
+        theadTr.append(theadThLast);
+        thead.append(theadTr);
+        this.createBodyTrElement(columns);
+        textEmptyTips.innerText = this.text.emptyTips;
+        textEmptyTips.setAttribute('colspan', theadTr.childElementCount);
+        this.tbodyTrElement.loadComponents().then(() => {
+          this.inited = true;
+          this.value = this.#value;
+        });
+      };
+      this.container.classList.add('on');
+    };
   };
 
   #initEvents() {
@@ -106,6 +209,7 @@ export default class jtbcFieldTable extends HTMLElement {
         let newTr = this.tbodyTrElement.cloneNode(true);
         newTr.querySelector('input[name=id]').value = this.getTempId();
         tbody.append(newTr);
+        that.itemsReset();
         that.dispatchEvent(new CustomEvent('tradded', {bubbles: true, detail: {'tr': newTr}}));
       };
     });
@@ -165,6 +269,7 @@ export default class jtbcFieldTable extends HTMLElement {
         if (el.contains(this))
         {
           el.remove();
+          that.itemsReset();
           that.dispatchEvent(new CustomEvent('trremoved', {bubbles: true, detail: {'tr': el}}));
         };
       });
@@ -328,10 +433,14 @@ export default class jtbcFieldTable extends HTMLElement {
 
   renderOthers(item) {
     let result = document.createElement('jtbc-field-' + item.type);
+    if (item.type == 'upload' && this.withGlobalHeaders != null)
+    {
+      result.setAttribute('with-global-headers', this.withGlobalHeaders);
+    };
     if (Array.isArray(item.data))
     {
       result.setAttribute('data', JSON.stringify(item.data));
-    }
+    };
     return result;
   };
 
@@ -346,51 +455,13 @@ export default class jtbcFieldTable extends HTMLElement {
     };
   };
 
-  init() {
-    if (this.inited == false)
+  itemsReset() {
+    let container = this.container;
+    if (this.inited == true)
     {
-      let currentColumns = this.currentColumns;
-      if (currentColumns != null)
-      {
-        let table = this.container.querySelector('table.table');
-        let thead = table.querySelector('thead');
-        let tfoot = table.querySelector('tfoot');
-        let textEmptyTips = tfoot.querySelector('.textEmptyTips');
-        let theadTr = document.createElement('tr');
-        let theadThFirst = document.createElement('th');
-        theadThFirst.classList.add('dragable');
-        theadTr.append(theadThFirst);
-        let columns = JSON.parse(currentColumns);
-        columns.forEach(column => {
-          let theadWidth = null;
-          let theadTh = document.createElement('th');
-          if (Number.isInteger(column?.extra?.width))
-          {
-            theadWidth = column.extra.width;
-          };
-          if (theadWidth != null)
-          {
-            theadTh.setAttribute('width', theadWidth);
-          };
-          theadTh.innerText = column.text;
-          theadTr.append(theadTh);
-        });
-        let theadThLast = document.createElement('th');
-        theadThLast.setAttribute('width', 28);
-        theadThLast.classList.add('center');
-        theadThLast.innerHTML = '<icons><jtbc-svg name="add" class="textAdd"></jtbc-svg></icons>';
-        theadThLast.querySelector('.textAdd').setAttribute('title', this.text.add);
-        theadTr.append(theadThLast);
-        thead.append(theadTr);
-        this.createBodyTrElement(columns);
-        textEmptyTips.innerText = this.text.emptyTips;
-        textEmptyTips.setAttribute('colspan', theadTr.childElementCount);
-        this.tbodyTrElement.loadComponents().then(() => {
-          this.inited = true;
-          this.value = this.#value;
-        });
-      };
-      this.container.classList.add('on');
+      let itemCount = container.querySelectorAll('table.table tbody tr').length;
+      container.querySelectorAll('.textAdd').forEach(el => el.classList.toggle('disabled', itemCount >= this.maxItems));
+      container.querySelectorAll('.textRemove').forEach(el => el.classList.toggle('disabled', itemCount <= this.minItems));
     };
   };
 
@@ -404,13 +475,22 @@ export default class jtbcFieldTable extends HTMLElement {
       };
       case 'columns':
       {
-        this.currentColumns = newVal;
-        this.init();
+        this.columns = newVal;
         break;
       };
       case 'value':
       {
         this.value = this.#value = newVal;
+        break;
+      };
+      case 'min-items':
+      {
+        this.minItems = newVal;
+        break;
+      };
+      case 'max-items':
+      {
+        this.maxItems = newVal;
         break;
       };
       case 'disabled':
@@ -423,10 +503,16 @@ export default class jtbcFieldTable extends HTMLElement {
         this.style.width = isFinite(newVal)? newVal + 'px': newVal;
         break;
       };
+      case 'with-global-headers':
+      {
+        this.withGlobalHeaders = newVal;
+        break;
+      };
     };
   };
 
   connectedCallback() {
+    this.#init();
     this.ready = true;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -460,7 +546,6 @@ export default class jtbcFieldTable extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.inited = false;
-    this.currentColumns = null;
     this.currentTempId = 0;
     this.tbodyTrElement = null;
     this.container = shadowRoot.querySelector('container');

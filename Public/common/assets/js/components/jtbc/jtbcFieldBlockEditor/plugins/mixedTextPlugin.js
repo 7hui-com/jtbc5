@@ -252,6 +252,7 @@ export default class mixedTextPlugin {
           img.setAttribute('src', fileReader.result);
           image.append(img);
           let currentUploader = new uploader(that.config.action);
+          currentUploader.setHeaders(that.config.getGlobalHeaders());
           currentUploader.upload(currentFile, percent => {
             image.style.setProperty('--image-uploading-width', (100 - percent) + '%');
           }, data => {
@@ -356,6 +357,10 @@ export default class mixedTextPlugin {
       itemInput.setAttribute('tail', this.config.tail ?? '');
       itemInput.setAttribute('text-upload', this.api.i18n.t('Upload'));
       itemInput.setAttribute('value', JSON.stringify(this.#image));
+      if (this.config.withGlobalHeaders != null)
+      {
+        itemInput.setAttribute('with-global-headers', this.config.withGlobalHeaders);
+      };
       itemField.append(itemInput);
       item.append(itemH4, itemField);
       result.append(item);
@@ -465,6 +470,12 @@ export default class mixedTextPlugin {
       item.append(itemH4, itemField);
       result.append(item);
       return result;
+    };
+    if (this.config.withGlobalHeaders != null)
+    {
+      let state = {};
+      state[this.config.withGlobalHeaders] = this.config.getGlobalHeaders();
+      this.config.iWindow.getBroadcaster('fetch').tryPublish(this.config.iWindow.JSON.parse(JSON.stringify(state)));
     };
     let settings = document.createElement('div');
     settings.classList.add('settings');

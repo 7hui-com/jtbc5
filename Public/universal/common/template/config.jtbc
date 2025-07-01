@@ -23,12 +23,28 @@
       <default><![CDATA[<label class="radio"><input type="radio" role="field" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
     </item>
     <item>
+      <name><![CDATA[pure_radio]]></name>
+      <default><![CDATA[<label class="radio"><input type="radio" name="{$name}" value="{$value}" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[pure_radio_selected]]></name>
+      <default><![CDATA[<label class="radio"><input type="radio" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
       <name><![CDATA[checkbox]]></name>
       <default><![CDATA[<label class="checkbox"><input type="checkbox" role="field" name="{$name}" value="{$value}" /><span>{$explain}</span></label>]]></default>
     </item>
     <item>
       <name><![CDATA[checkbox_selected]]></name>
       <default><![CDATA[<label class="checkbox"><input type="checkbox" role="field" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[pure_checkbox]]></name>
+      <default><![CDATA[<label class="checkbox"><input type="checkbox" name="{$name}" value="{$value}" /><span>{$explain}</span></label>]]></default>
+    </item>
+    <item>
+      <name><![CDATA[pure_checkbox_selected]]></name>
+      <default><![CDATA[<label class="checkbox"><input type="checkbox" name="{$name}" value="{$value}" checked="checked" /><span>{$explain}</span></label>]]></default>
     </item>
   </item_list>
 </xml>

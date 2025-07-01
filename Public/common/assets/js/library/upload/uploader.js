@@ -1,4 +1,27 @@
 export default class uploader {
+  #headers = {};
+
+  getHeader(key) {
+    let result = null;
+    if (this.#headers.hasOwnProperty(key))
+    {
+      result = this.#headers[key];
+    };
+    return result;
+  };
+
+  getHeaders(keys) {
+    let result = {};
+    keys.forEach(key => {
+      result[key] = this.getHeader(key);
+    });
+    return result;
+  };
+
+  getAllHeaders() {
+    return this.#headers;
+  };
+
   getRandomString() {
     let result = [];
     let currentTime = new Date();
@@ -14,6 +37,32 @@ export default class uploader {
     return result.join('');
   };
 
+  removeHeader(key) {
+    let result = false;
+    if (this.#headers.hasOwnProperty(key))
+    {
+      result = true;
+      delete this.#headers[key];
+    };
+    return result;
+  };
+
+  removeHeaders(keys) {
+    keys.forEach(key => this.removeHeader(key));
+  };
+
+  removeAllHeaders() {
+    this.#headers = {};
+  };
+
+  setHeader(key, value) {
+    this.#headers[key] = value;
+  };
+
+  setHeaders(headers) {
+    Object.keys(headers).forEach(key => this.setHeader(key, headers[key]));
+  };
+
   upload(file, progressCallBack, doneCallBack, errorCallBack) {
     if (this.uploading == false)
     {
@@ -24,6 +73,7 @@ export default class uploader {
       let chunkCurrentIndex = 0;
       let chunkParam = '';
       let randomString = this.getRandomString();
+      let headers = this.getAllHeaders();
       const chunkUpload = () => {
         if (chunkCurrentIndex <= chunkCount)
         {
@@ -63,6 +113,9 @@ export default class uploader {
             };
           }, false);
           httpRequest.open('POST', this.action);
+          Object.keys(headers).forEach(key => {
+            httpRequest.setRequestHeader(key, headers[key]);
+          });
           httpRequest.send(formData);
         };
       };
