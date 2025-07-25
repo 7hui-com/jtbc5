@@ -15,4 +15,4 @@ https://www.github.com/7hui-com/jtbc5
 开源协议：
 AGPL-3.0
 
-© 2004~2025 上海七慧网络科技有限公司 All Rights Reserved.
+© 2006~2025 上海七慧网络科技有限公司 All Rights Reserved.
