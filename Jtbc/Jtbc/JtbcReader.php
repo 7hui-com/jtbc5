@@ -4,7 +4,9 @@
 //******************************//
 namespace Jtbc\Jtbc;
 use DOMXPath;
+use DOMElement;
 use DOMDocument;
+use DOMNodeList;
 use Jtbc\Env;
 use Jtbc\Jtbc;
 use Jtbc\Validation;
@@ -57,8 +59,15 @@ class JtbcReader
       $doc = new DOMDocument();
       $doc -> load($sourceFile);
       $xpath = new DOMXPath($doc);
-      $query = '//xml';
-      $result = $xpath -> query($query) -> item(0) -> getAttribute($attrName);
+      $elements = $xpath -> query('//xml');
+      if ($elements instanceof DOMNodeList && $elements -> length == 1)
+      {
+        $element = $elements -> item(0);
+        if ($element instanceof DOMElement)
+        {
+          $result = $element -> getAttribute($attrName);
+        }
+      }
     }
     return $result;
   }
@@ -73,11 +82,14 @@ class JtbcReader
       $doc = new DOMDocument();
       $doc -> load($sourceFile);
       $xpath = new DOMXPath($doc);
-      $query = '//xml/configure/' . $tagName;
-      $xq = $xpath -> query($query);
-      if ($xq -> length == 1)
+      $elements = $xpath -> query('//xml/configure/' . $tagName);
+      if ($elements instanceof DOMNodeList && $elements -> length == 1)
       {
-        $result = $xq -> item(0) -> nodeValue;
+        $element = $elements -> item(0);
+        if ($element instanceof DOMElement)
+        {
+          $result = $element -> nodeValue;
+        }
       }
     }
     return $result;
@@ -102,12 +114,9 @@ class JtbcReader
         $doc = new DOMDocument();
         $doc -> load($sourceFile);
         $xpath = new DOMXPath($doc);
-        $query = '//xml/configure/node';
-        $node = $xpath -> query($query) -> item(0) -> nodeValue;
-        $query = '//xml/configure/field';
-        $field = $xpath -> query($query) -> item(0) -> nodeValue;
-        $query = '//xml/configure/base';
-        $base = $xpath -> query($query) -> item(0) -> nodeValue;
+        $node = $xpath -> query('//xml/configure/node') -> item(0) -> nodeValue;
+        $field = $xpath -> query('//xml/configure/field') -> item(0) -> nodeValue;
+        $base = $xpath -> query('//xml/configure/base') -> item(0) -> nodeValue;
         if (str_contains($field, ','))
         {
           $alias = [];
@@ -116,39 +125,44 @@ class JtbcReader
           {
             $nodeName = self::getDefaultNodeName($field);
           }
-          $query = '//xml/' . $base . '/' . $node;
-          $rests = $xpath -> query($query);
-          foreach ($rests as $rest)
+          $elements = $xpath -> query('//xml/' . $base . '/' . $node);
+          if ($elements instanceof DOMNodeList)
           {
-            $nodeKey = $rest -> getElementsByTagName($keyField) -> item(0) -> nodeValue;
-            $nodeDom = $rest -> getElementsByTagName($nodeName);
-            if ($nodeDom -> length == 0)
+            foreach ($elements as $element)
             {
-              $nodeDom = $rest -> getElementsByTagName(self::getDefaultNodeName($field));
-            }
-            $nodeDomObj = $nodeDom -> item(0);
-            $nodeDomValue = $nodeDomObj -> nodeValue;
-            if (!is_null($type) && Validation::isEmpty($nodeDomValue))
-            {
-              if ($nodeDomObj -> hasAttribute('pointer'))
+              if ($element instanceof DOMElement)
               {
-                $pointer = $nodeDomObj -> getAttribute('pointer');
-                $pointerType = $nodeDomObj -> getAttribute('pointerType') ?? $type;
-                if (!str_contains($pointer, '.')) $alias[$nodeKey] = $pointer;
-                else
+                $nodeKey = $element -> getElementsByTagName($keyField) -> item(0) -> nodeValue;
+                $nodeDom = $element -> getElementsByTagName($nodeName);
+                if ($nodeDom -> length == 0)
                 {
-                  if (is_array($pointerVars))
+                  $nodeDom = $element -> getElementsByTagName(self::getDefaultNodeName($field));
+                }
+                $nodeDomObj = $nodeDom -> item(0);
+                $nodeDomValue = $nodeDomObj -> nodeValue;
+                if (!is_null($type) && Validation::isEmpty($nodeDomValue))
+                {
+                  if ($nodeDomObj -> hasAttribute('pointer'))
                   {
-                    foreach ($pointerVars as $key => $val)
+                    $pointer = $nodeDomObj -> getAttribute('pointer');
+                    $pointerType = $nodeDomObj -> getAttribute('pointerType') ?? $type;
+                    if (!str_contains($pointer, '.')) $alias[$nodeKey] = $pointer;
+                    else
                     {
-                      $pointer = str_replace('{$>' . $key . '}', $val, $pointer);
+                      if (is_array($pointerVars))
+                      {
+                        foreach ($pointerVars as $key => $val)
+                        {
+                          $pointer = str_replace('{$>' . $key . '}', $val, $pointer);
+                        }
+                      }
+                      $nodeDomValue = Jtbc::take($pointer, $pointerType);
                     }
                   }
-                  $nodeDomValue = Jtbc::take($pointer, $pointerType);
                 }
+                $data[$nodeKey] = $nodeDomValue;
               }
             }
-            $data[$nodeKey] = $nodeDomValue;
           }
           if (!empty($alias))
           {
@@ -183,12 +197,15 @@ class JtbcReader
     $nodeKey = $argNodeKey;
     if (is_file($sourceFile))
     {
+      $result = false;
       $doc = new DOMDocument();
       $doc -> load($sourceFile);
       $xpath = new DOMXPath($doc);
-      $query = '//xml/item_list/item/name[.="' . htmlspecialchars($nodeKey) . '"]';
-      $finder = $xpath -> query($query);
-      $result = $finder -> length == 0? false: true;
+      $elements = $xpath -> query('//xml/item_list/item/name[.="' . htmlspecialchars($nodeKey) . '"]');
+      if ($elements instanceof DOMNodeList && $elements -> length != 0)
+      {
+        $result = true;
+      }
     }
     return $result;
   }

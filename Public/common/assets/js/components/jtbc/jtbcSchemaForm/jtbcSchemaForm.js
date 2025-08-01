@@ -167,6 +167,7 @@ export default class jtbcSchemaForm extends HTMLDivElement {
 
   renderSelect(item) {
     let result = document.createElement('select', {is: 'jtbc-select'});
+    result.setAttribute('type', 'select');
     result.setAttribute('is', 'jtbc-select');
     if (Array.isArray(item.data))
     {

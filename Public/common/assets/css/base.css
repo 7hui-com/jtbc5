@@ -7,7 +7,7 @@ html {
 body {
   width: 100%; background: #eee; color: #000; font-size: 12px; font-family: Arial, Verdana; text-size-adjust: none
 }
-ul,ol {
+ul, ol {
   list-style: none
 }
 img {

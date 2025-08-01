@@ -5,6 +5,7 @@
 namespace Jtbc\Jtbc;
 use DOMXPath;
 use DOMDocument;
+use Jtbc\Encoder;
 
 class JtbcWriter
 {
@@ -17,6 +18,7 @@ class JtbcWriter
     $limitedTagName = ['node', 'field', 'base'];
     if (!in_array($tagName, $limitedTagName) && is_file($sourceFile))
     {
+      $result = false;
       $doc = new DOMDocument();
       $doc -> formatOutput = true;
       $doc -> preserveWhiteSpace = false;
@@ -28,7 +30,14 @@ class JtbcWriter
       {
         $currentTag = $matchs -> item(0);
         $currentTag -> nodeValue = $tagValue;
-        $result = @$doc -> save($sourceFile)? true: false;
+        $fileContent = $doc -> saveXML();
+        if (is_string($fileContent))
+        {
+          if (@file_put_contents($sourceFile, trim(Encoder::unifyLineEndings($fileContent))) !== false)
+          {
+            $result = true;
+          }
+        }
       }
     }
     return $result;
@@ -44,6 +53,7 @@ class JtbcWriter
     $nodeData = $argNodeData;
     if (is_file($sourceFile))
     {
+      $result = false;
       $doc = new DOMDocument();
       $doc -> formatOutput = true;
       $doc -> preserveWhiteSpace = false;
@@ -62,7 +72,14 @@ class JtbcWriter
         $newItem -> appendChild($newItemName);
         $newItem -> appendChild($newItemData);
         $itemList -> appendChild($newItem);
-        $result = @$doc -> save($sourceFile)? true: false;
+        $fileContent = $doc -> saveXML();
+        if (is_string($fileContent))
+        {
+          if (@file_put_contents($sourceFile, trim(Encoder::unifyLineEndings($fileContent))) !== false)
+          {
+            $result = true;
+          }
+        }
       }
     }
     return $result;
@@ -78,6 +95,7 @@ class JtbcWriter
     $nodeData = $argNodeData;
     if (is_file($sourceFile))
     {
+      $result = false;
       $doc = new DOMDocument();
       $doc -> formatOutput = true;
       $doc -> preserveWhiteSpace = false;
@@ -85,32 +103,39 @@ class JtbcWriter
       $xpath = new DOMXPath($doc);
       $query = '//xml/item_list/item/name[.="' . htmlspecialchars($nodeKey) . '"]';
       $matchs = $xpath -> query($query);
-      if ($matchs -> length == 0)
-      {
-        $result = false;
-      }
-      else
+      if ($matchs -> length != 0)
       {
         foreach ($matchs as $match)
         {
           $item = $match -> parentNode;
-          $targetNodeList = $item -> getElementsByTagName($nodeName);
-          if ($targetNodeList -> length == 0)
+          if (!is_null($item))
           {
-            $newNode = $doc -> createElement($nodeName);
-            $newNode -> appendChild($doc -> createCDATASection($nodeData));
-            $item -> appendChild($newNode);
-          }
-          else
-          {
-            foreach ($targetNodeList as $targetNode)
+            $isFound = false;
+            foreach ($item -> childNodes as $childNode)
             {
-              $targetNode -> nodeValue = '';
-              $targetNode -> appendChild($doc -> createCDATASection($nodeData));
+              if ($childNode -> nodeName == $nodeName)
+              {
+                $isFound = true;
+                $childNode -> nodeValue = '';
+                $childNode -> appendChild($doc -> createCDATASection($nodeData));
+              }
+            }
+            if ($isFound === false)
+            {
+              $newNode = $doc -> createElement($nodeName);
+              $newNode -> appendChild($doc -> createCDATASection($nodeData));
+              $item -> appendChild($newNode);
             }
           }
         }
-        $result = @$doc -> save($sourceFile)? true: false;
+        $fileContent = $doc -> saveXML();
+        if (is_string($fileContent))
+        {
+          if (@file_put_contents($sourceFile, trim(Encoder::unifyLineEndings($fileContent))) !== false)
+          {
+            $result = true;
+          }
+        }
       }
     }
     return $result;
@@ -123,6 +148,7 @@ class JtbcWriter
     $nodeKey = $argNodeKey;
     if (is_file($sourceFile))
     {
+      $result = false;
       $doc = new DOMDocument();
       $doc -> formatOutput = true;
       $doc -> preserveWhiteSpace = false;
@@ -130,18 +156,21 @@ class JtbcWriter
       $xpath = new DOMXPath($doc);
       $query = '//xml/item_list/item/name[.="' . htmlspecialchars($nodeKey) . '"]';
       $matchs = $xpath -> query($query);
-      if ($matchs -> length == 0)
-      {
-        $result = false;
-      }
-      else
+      if ($matchs -> length != 0)
       {
         foreach ($matchs as $match)
         {
           $item = $match -> parentNode;
           $item -> parentNode -> removeChild($item);
         }
-        $result = @$doc -> save($sourceFile)? true: false;
+        $fileContent = $doc -> saveXML();
+        if (is_string($fileContent))
+        {
+          if (@file_put_contents($sourceFile, trim(Encoder::unifyLineEndings($fileContent))) !== false)
+          {
+            $result = true;
+          }
+        }
       }
     }
     return $result;

@@ -14,16 +14,16 @@ body {
   width: 100%; box-sizing: border-box; border-top: #000 6px solid; padding: 60px 30px; font-size: 48px; font-family: arial; font-weight: normal; color: #000; line-height: 100%; text-align: center
 }
 .login div.box div.form div.field {
-  width: 360px; height: 44px; line-height: 44px; border: #d9d9d9 1px solid; margin: auto; margin-bottom: 10px; transition: all .3s ease
+  width: 360px; height: 44px; display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; border: #d9d9d9 1px solid; margin: auto; margin-bottom: 10px; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); transition: all .3s ease
 }
 .login div.box div.form div.field em {
-  display: inline-flex; width: 44px; height: 100%; align-items: center; justify-content: center; vertical-align: top; border-right: #d9d9d9 1px solid
+  display: inline-flex; width: 44px; height: 100%; align-items: center; justify-content: center; border-right: #d9d9d9 1px solid
 }
 .login div.box div.form div.field em jtbc-svg {
   --fore-color: #d9d9d9
 }
 .login div.box div.form div.field input {
-  display: inline-block; width: 310px; height: 100%; padding-left: 20px; border: 0px; font-size: 14px; color: #999; box-shadow: none; transition: all .3s ease
+  display: inline-block; width: 310px; height: 100%; border: 0px; font-size: 14px; background: transparent; color: #999; box-shadow: none
 }
 .login div.box div.form div.field input:focus {
   color: #000
@@ -359,16 +359,16 @@ body {
 .container .main div.manager div.chief rightarea {
   display: flex; align-items: center; position: absolute; top: 14px; right: 20px; z-index: 100; color: #666
 }
-.container .main div.manager div.chief p.text {
-  line-height: 160%; color: #333
+.container .main div.manager div.chief rightarea jtbc-tiny-search {
+  --box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); --box-shadow-focus: 0px 0px 2px rgba(30, 140, 190, 0.8); --input-border-color-focus: #5b9dd9; --button-focus-color: #5b9dd9; --button-focus-hover-color: #5b9dd9
 }
-.container .main div.manager div.chief ul.param li {
+.container .main div.manager div.chief div.specification ul li {
   padding: 10px 0px; line-height: 160%; color: #333; border-bottom: #e1e1e1 1px dashed
 }
-.container .main div.manager div.chief ul.param li b {
+.container .main div.manager div.chief div.specification ul li b {
   display: inline-block; width: 200px;
 }
-.container .main div.manager div.chief ul.param li:last-child {
+.container .main div.manager div.chief div.specification ul li:last-child {
   border-bottom: 0px
 }
 .container .main div.manager div.chief div.control {
@@ -378,19 +378,19 @@ body {
   justify-content: center
 }
 .container .main div.manager div.chief div.control div.batch {
-  padding-left: 10px; height: 30px; line-height: 28px; box-sizing: border-box; background: #f5f5f5; border: #e1e1e1 1px solid
+  display: flex; padding-left: 10px; height: 30px; box-sizing: border-box; align-items: center; background: #f5f5f5; border: #e1e1e1 1px solid
 }
 .container .main div.manager div.chief div.control div.batch span.text {
-  display: inline-block; color: #333
+  color: #333
 }
 .container .main div.manager div.chief div.control div.batch select.batch {
-  display: inline-block; background-color: transparent; border: 0px; height: 28px; margin-right: 10px; vertical-align: top
+  background-color: transparent; border: 0px; border-right: #e1e1e1 1px solid; height: 100%; box-shadow: none !important
 }
-.container .main div.manager div.chief div.control div.batch select.batch:focus {
-  box-shadow: none
+.container .main div.manager div.chief div.control div.batch select.batch::picker(select) {
+  top: anchor(bottom); border: #e1e1e1 1px solid; box-shadow: none !important
 }
 .container .main div.manager div.chief div.control div.batch span.ok {
-  padding: 0px 10px; display: inline-block; border-left: #e7ecf1 1px solid; cursor: pointer
+  padding: 0px 10px; height: 100%; display: flex; align-items: center; cursor: pointer
 }
 .container .main div.manager div.chief.attention {
   border-color: #fdf0f0; background: #fdf0f0; border-left-width: 5px; border-left-color: #ec6b6a; padding-left: 16px

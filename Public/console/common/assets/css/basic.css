@@ -22,6 +22,9 @@ icons jtbc-svg {
 icons jtbc-svg:hover {
   opacity: 1
 }
+icons.small jtbc-svg {
+  width: 14px; height: 14px; margin-right: 4px
+}
 .ash {
   color: #999999
 }
@@ -81,6 +84,9 @@ icons jtbc-svg:hover {
 }
 .status[status='2'] {
   background-image: url(../svg/status.2.svg)
+}
+.status[status='3'] {
+  background-image: url(../svg/status.3.svg)
 }
 .tagslist {
   display: inline-flex; flex-wrap: wrap; gap: 4px

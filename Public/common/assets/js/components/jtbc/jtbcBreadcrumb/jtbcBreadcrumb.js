@@ -12,6 +12,10 @@ export default class jtbcBreadcrumb extends HTMLElement {
     return this.#data;
   };
 
+  get separator() {
+    return this.#separator;
+  };
+
   set data(data) {
     try
     {
@@ -19,13 +23,31 @@ export default class jtbcBreadcrumb extends HTMLElement {
       if (Array.isArray(currentData))
       {
         this.#data = currentData;
-        this.render();
+        if (this.ready === true)
+        {
+          this.render();
+        };
       };
     }
     catch(e)
     {
       throw new Error('Unexpected value');
     };
+  };
+
+  set separator(separator) {
+    this.#separator = separator;
+    if (this.ready === true)
+    {
+      this.render();
+    };
+  };
+
+  #initEvents() {
+    let container = this.container;
+    container.delegateEventListener('span', 'click', e => {
+      this.dispatchEvent(new CustomEvent('spanclick', {detail: {target: e.target}}));
+    });
   };
 
   render() {
@@ -76,7 +98,7 @@ export default class jtbcBreadcrumb extends HTMLElement {
       };
       case 'separator':
       {
-        this.#separator = newVal;
+        this.separator = newVal;
         break;
       };
     };
@@ -84,6 +106,7 @@ export default class jtbcBreadcrumb extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.render();
   };
 
   constructor() {
@@ -97,8 +120,6 @@ export default class jtbcBreadcrumb extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.container.delegateEventListener('span', 'click', e => {
-      this.dispatchEvent(new CustomEvent('spanclick', {detail: {target: e.target}}));
-    });
+    this.#initEvents();
   };
 };

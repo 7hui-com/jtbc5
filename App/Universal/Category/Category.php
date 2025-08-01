@@ -162,7 +162,7 @@ class Category
         foreach ($tree as $item)
         {
           $children = $item['children'];
-          $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . $item['title'], 'value' => intval($item['id'])];
+          $result[] = ['text' => str_repeat($this -> namePrefix, $item['rank']) . chr(32) . $item['title'], 'value' => intval($item['id'])];
           if (!empty($children))
           {
             $result = array_merge($result, $getResultFromTree($children));

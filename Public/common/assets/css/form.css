@@ -1,32 +1,50 @@
-input,button,select,textarea {
+input, button, select, textarea {
   margin: 0px; padding: 0px; box-sizing: border-box; font-family: Arial, Verdana; font-size: 12px; color: #000; resize: none; outline: none
 }
 select, input[type=color], input[type=radio], input[type=checkbox] {
-  appearance: none; -webkit-appearance: none; vertical-align: middle; outline: none
+  appearance: none; outline: none
 }
 select {
-  padding-left: 10px; padding-right: 30px; height: 30px; border: #d1d1d1 1px solid; background: #ffffff url(../svg/select.svg) calc(100% - 4px) center no-repeat; background-size: 20px; border-radius: 0px; transition: all .3s ease
+  display: inline-flex; align-items: center; padding-left: 10px; padding-right: 30px; height: 30px; border: #d1d1d1 1px solid; background: #ffffff url(../svg/select.svg) calc(100% - 4px) center no-repeat; background-size: 20px; border-radius: 0px; appearance: base-select; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); transition: all .3s ease
 }
 select:focus {
+  border-color: #5b9dd9; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
+}
+select:open {
   border-color: #5b9dd9; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
 }
 select:disabled {
   background-color: #fafafa !important; color: #666666 !important
 }
+select::checkmark {
+  display: none
+}
+select::picker-icon {
+  display: none
+}
+select::picker(select) {
+  appearance: base-select; top: calc(anchor(bottom) - 1px); border: #5b9dd9 1px solid; box-shadow: 0px 0px 2px rgba(30, 140, 190, 0.8)
+}
 select option {
-  background: #ffffff
+  display: flex; align-items: center; height: 30px; padding: 0px 10px; background: #ffffff; color: #333; white-space: nowrap; transition: all 0.3s ease
+}
+select option:hover {
+  background: #eeeeee; color: #000
+}
+select option::checkmark {
+  display: none
 }
 select[type=select] {
   width: 500px
 }
 input[type=radio] {
-  width: 14px; height: 14px; background: #fff; border: #666 1px solid; border-radius: 100%
+  width: 14px; height: 14px; background: #fff; border: #666 1px solid; border-radius: 100%; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08)
 }
 input[type=radio]:checked {
   background: #ffffff; border-color: var(--input-radio-checked-border-color, #3e868f); border-width: 4px
 }
 input[type=checkbox] {
-  width: 14px; height: 14px; background: none center center no-repeat; background-color: #fff; border: #666 1px solid; border-radius: 0
+  width: 14px; height: 14px; background: none center center no-repeat; background-color: #fff; border: #666 1px solid; border-radius: 0; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08)
 }
 input[type=checkbox]:checked {
   background-image: url(../svg/checkbox_checked.svg); background-size: 10px; background-color: var(--input-checkbox-checked-background-color, #3e868f); border-color: var(--input-checkbox-checked-border-color, #3e868f)

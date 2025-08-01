@@ -77,15 +77,17 @@
   <div class="manager">{$=implode($call_hook('backstageWelcomePageHeader') ?? [])}
     <div class="chief">
       <h3>{$=$take('manage.text-tit-1', 'lng')}</h3>
-      <template is="jtbc-template" key="account_info"><p class="text">{$=$take('manage.text-hello', 'lng')}</p></template>
+      <template is="jtbc-template" key="account_info"><p>{$=$take('manage.text-hello', 'lng')}</p></template>
     </div>{$=implode($call_hook('backstageWelcomePageInner') ?? [])}
     <div class="chief">
       <h3>{$=$take('manage.text-tit-2', 'lng')}</h3>
-      <ul class="param">
-        <template is="jtbc-template" key="system_info">
-          <li><b>${$title}</b>${$value}</li>
-        </template>
-      </ul>
+      <div class="specification">
+        <ul>
+          <template is="jtbc-template" key="system_info">
+            <li><b>${$title}</b>${$value}</li>
+          </template>
+        </ul>
+      </div>
     </div>{$=implode($call_hook('backstageWelcomePageFooter') ?? [])}
   </div>
 </template>]]></default>

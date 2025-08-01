@@ -88,7 +88,7 @@
               <th width="20" class="center"><input type="checkbox" value="1" role="selector" /></th>
               <th width="40" class="center">{$=$take('universal:config.id', 'lng')}</th>
               <th>{$=$take('universal:config.title', 'lng')}</th>
-              <th width="100"><icons><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename=universal/category:manage.filter&amp;genre={$>this.genre}&amp;myCategory=${encodeURIComponent($.parent.getAttribute('myCategory'))}&amp;father_id=${encodeURIComponent($.parent.getAttribute('currentCategory'))}" target="dialog"><jtbc-svg name="branch"></jtbc-svg></a></icons>{$=$take('universal:config.category', 'lng')}</th>
+              <th width="100"><icons class="small"><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename=universal/category:manage.filter&amp;genre={$>this.genre}&amp;myCategory=${encodeURIComponent($.parent.getAttribute('myCategory'))}&amp;father_id=${encodeURIComponent($.parent.getAttribute('currentCategory'))}" target="dialog"><jtbc-svg name="branch"></jtbc-svg></a><span>{$=$take('universal:config.category', 'lng')}</span></icons></th>
               <th width="120">{$=$take('universal:config.time', 'lng')}</th>
               <th width="40" class="center">{$=$take('universal:config.status', 'lng')}</th>
               <th width="60" class="${($.param.can_edit || $.param.can_delete)? 'normal': 'hide'}">{$=$take('universal:config.control', 'lng')}</th>

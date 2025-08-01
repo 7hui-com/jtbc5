@@ -1,8 +1,8 @@
 :host {
-  width: 500px; display: inline-block; --height: 30px; --background-color: #ffffff; --background-focus-color: #ffffff; --button-color: #555; --button-hover-color: #333; --input-border-color: #d1d1d1; --input-border-color-focus: #333
+  width: 500px; display: inline-block; --height: 30px; --background-color: #ffffff; --background-focus-color: #ffffff; --box-shadow: none; --box-shadow-focus: none; --button-color: #555555; --button-focus-color: var(--button-color); --button-hover-color: #333333; --button-focus-hover-color: var(--button-hover-color); --input-border-color: #d1d1d1; --input-border-color-focus: #333333
 }
 .container {
-  width: 100%; height: var(--height); box-sizing: border-box; background: var(--background-color); border: var(--input-border-color) 1px solid; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; transition: all .3s ease
+  width: 100%; height: var(--height); box-sizing: border-box; background: var(--background-color); box-shadow: var(--box-shadow); border: var(--input-border-color) 1px solid; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; transition: all .3s ease
 }
 .container div.input {
   display: block; height: 100%; flex: 1
@@ -23,5 +23,11 @@
   background: var(--button-hover-color)
 }
 .container.on {
-  border-color: var(--input-border-color-focus); background: var(--background-focus-color)
+  border-color: var(--input-border-color-focus); background: var(--background-focus-color); box-shadow: var(--box-shadow-focus)
+}
+.container.on div.btn {
+  background: var(--button-focus-color)
+}
+.container.on div.btn:hover {
+  background: var(--button-focus-hover-color)
 }

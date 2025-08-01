@@ -33,6 +33,19 @@ class Converter
     return $result;
   }
 
+  public static function convertKeyValuePairToArray(array $argArray, string $argKeyName = 'key', string $argValueName = 'value')
+  {
+    $result = [];
+    $array = $argArray;
+    $keyName = $argKeyName;
+    $valueName = $argValueName;
+    foreach ($array as $key => $value)
+    {
+      $result[] = [$keyName => $key, $valueName => $value];
+    }
+    return $result;
+  }
+
   public static function convertNumericToTimestamp(string $argNumeric)
   {
     $result = false;
@@ -77,13 +90,7 @@ class Converter
 
   public static function convertToOption(array $argArray)
   {
-    $result = [];
-    $array = $argArray;
-    foreach ($array as $key => $val)
-    {
-      $result[] = ['text' => $val, 'value' => $key];
-    }
-    return $result;
+    return self::convertKeyValuePairToArray($argArray, 'value', 'text');
   }
 
   public static function convertToOrderedQuery(array $argArray)

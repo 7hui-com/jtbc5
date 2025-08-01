@@ -251,6 +251,7 @@ class JtbcParser
   {
     $aliasMap = [
       'convertJSONToArray' => Converter::class,
+      'convertKeyValuePairToArray' => Converter::class,
       'convertToArrayWithKey' => Converter::class,
       'convertToOption' => Converter::class,
       'convertToTreeOption' => Converter::class,
