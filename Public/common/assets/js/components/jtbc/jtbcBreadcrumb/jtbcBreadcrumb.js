@@ -107,6 +107,7 @@ export default class jtbcBreadcrumb extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
   };
 
   constructor() {
@@ -120,6 +121,5 @@ export default class jtbcBreadcrumb extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

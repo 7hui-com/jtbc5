@@ -59,11 +59,11 @@ export default class jtbcAccordion extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
     super();
     this.ready = false;
-    this.#initEvents();
   };
 };

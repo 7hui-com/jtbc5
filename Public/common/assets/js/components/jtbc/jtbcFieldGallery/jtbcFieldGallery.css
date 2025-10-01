@@ -17,10 +17,10 @@ container icons jtbc-svg:last-child {
   margin-right: 0px
 }
 container .main {
-  width: 100%; box-sizing: border-box; padding: 5px; background: #ffffff; border: #d1d1d1 1px solid
+  width: 100%; box-sizing: border-box; padding: 5px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; background: #ffffff; border: #d1d1d1 1px solid
 }
 container .main div.item {
-  width: 20%; box-sizing: border-box; padding: 5px; float: left
+  width: 20%; box-sizing: border-box; padding: 5px; cursor: move
 }
 container .main div.item div.add {
   width: 100%; box-sizing: border-box; padding-bottom: 100%; border: #d1d1d1 1px dashed; position: relative; z-index: 100; cursor: pointer
@@ -37,8 +37,8 @@ container .main div.item div.image div.hover {
 container .main div.item div.image:hover div.hover {
   opacity: 1; z-index: 1000
 }
-container .main::after {
-  content: ''; display: block; clear: both; height: 0px; overflow: hidden
+container .main.draging {
+  user-select: none
 }
 container .main.draging div.item div.image:hover div.hover {
   opacity: 0; z-index: -100

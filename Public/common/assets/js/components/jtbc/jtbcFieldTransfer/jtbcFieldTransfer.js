@@ -414,6 +414,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
   connectedCallback() {
     this.render();
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -458,6 +459,5 @@ export default class jtbcFieldTransfer extends HTMLElement {
     this.currentMax = null;
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
-    this.#initEvents();
   };
 };

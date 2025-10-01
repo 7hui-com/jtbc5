@@ -30,6 +30,31 @@ class ArrayHelper
     return $result;
   }
 
+  public static function hasKeys(array $argArray, array $argKeys)
+  {
+    $result = false;
+    $keys = $argKeys;
+    $array = $argArray;
+    if (!empty($keys))
+    {
+      $result = true;
+      foreach ($keys as $key)
+      {
+        if (!is_scalar($key))
+        {
+          $result = false;
+          break;
+        }
+        else if (!array_key_exists($key, $array))
+        {
+          $result = false;
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+
   public static function reorder1DArray(array $argArray, array $argRules)
   {
     $rules = $argRules;

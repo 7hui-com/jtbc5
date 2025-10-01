@@ -34,11 +34,11 @@ export default class jtbcAnchor extends HTMLAnchorElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
     super();
     this.ready = false;
-    this.#initEvents();
   };
 };

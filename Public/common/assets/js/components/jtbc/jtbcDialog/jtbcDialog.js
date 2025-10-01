@@ -145,31 +145,7 @@ export default class jtbcDialog extends HTMLElement {
       document.documentElement.style.overflow = null;
       container.querySelector('.dialog_fullpage').classList.remove('on');
     });
-    container.delegateEventListener('.dialog.popup.movable div.title', 'mousedown', function(e){
-      e.preventDefault();
-      let el = this;
-      let target = container.querySelector('.popup');
-      const move = function(e) {
-        let targetX = (el.translateX ?? 0) + e.screenX - el.startPosition.x;
-        let targetY = (el.translateY ?? 0) + e.screenY - el.startPosition.y;
-        target.translateX = targetX;
-        target.translateY = targetY;
-        target.style.marginLeft = (targetX * 2) + 'px';
-        target.style.marginTop = (targetY * 2) + 'px';
-      };
-      const stop = function(e) {
-        target.classList.remove('moving');
-        el.translateX = target.translateX;
-        el.translateY = target.translateY;
-        document.removeEventListener('mousemove', move);
-        document.removeEventListener('mouseup', stop);
-      };
-      target.classList.add('moving');
-      el.startPosition = {'x': e.screenX, 'y': e.screenY};
-      document.addEventListener('mousemove', move);
-      document.addEventListener('mouseup', stop);
-    });
-    container.delegateEventListener('.dialog_fullpage', 'transitionend', function(){
+    container.delegateEventListener('.dialog_fullpage', 'transitionend', function() {
       if (!this.classList.contains('on'))
       {
         this.querySelector('.fullpage').html('');
@@ -179,6 +155,63 @@ export default class jtbcDialog extends HTMLElement {
         document.documentElement.style.overflow = 'hidden';
       };
     });
+    if (isTouchDevice())
+    {
+      container.delegateEventListener('.dialog.popup.movable div.title', 'touchstart', function(e) {
+        e.preventDefault();
+        if (e.touches.length == 1)
+        {
+          let el = this;
+          let target = container.querySelector('.popup');
+          const move = function(e) {
+            let targetX = (el.translateX ?? 0) + e.touches[0].screenX - el.startPosition.x;
+            let targetY = (el.translateY ?? 0) + e.touches[0].screenY - el.startPosition.y;
+            target.translateX = targetX;
+            target.translateY = targetY;
+            target.style.marginLeft = (targetX * 2) + 'px';
+            target.style.marginTop = (targetY * 2) + 'px';
+          };
+          const stop = function(e) {
+            target.classList.remove('moving');
+            el.translateX = target.translateX;
+            el.translateY = target.translateY;
+            document.removeEventListener('touchmove', move);
+            document.removeEventListener('touchend', stop);
+          };
+          target.classList.add('moving');
+          el.startPosition = {'x': e.touches[0].screenX, 'y': e.touches[0].screenY};
+          document.addEventListener('touchmove', move);
+          document.addEventListener('touchend', stop);
+        };
+      });
+    }
+    else
+    {
+      container.delegateEventListener('.dialog.popup.movable div.title', 'mousedown', function(e) {
+        e.preventDefault();
+        let el = this;
+        let target = container.querySelector('.popup');
+        const move = function(e) {
+          let targetX = (el.translateX ?? 0) + e.screenX - el.startPosition.x;
+          let targetY = (el.translateY ?? 0) + e.screenY - el.startPosition.y;
+          target.translateX = targetX;
+          target.translateY = targetY;
+          target.style.marginLeft = (targetX * 2) + 'px';
+          target.style.marginTop = (targetY * 2) + 'px';
+        };
+        const stop = function(e) {
+          target.classList.remove('moving');
+          el.translateX = target.translateX;
+          el.translateY = target.translateY;
+          document.removeEventListener('mousemove', move);
+          document.removeEventListener('mouseup', stop);
+        };
+        target.classList.add('moving');
+        el.startPosition = {'x': e.screenX, 'y': e.screenY};
+        document.addEventListener('mousemove', move);
+        document.addEventListener('mouseup', stop);
+      });
+    };
   };
 
   alert(message, callback, textOk = null, linkURL = null) {
@@ -414,6 +447,7 @@ export default class jtbcDialog extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -471,7 +505,6 @@ export default class jtbcDialog extends HTMLElement {
       pluginStyle.setAttribute('href', pluginCss);
       shadowRoot.insertBefore(pluginStyle, this.container);
     };
-    Array.from(shadowRoot.children).forEach(el => { el.loadComponents(); });
-    this.#initEvents();
+    this.container.loadComponents();
   };
 };

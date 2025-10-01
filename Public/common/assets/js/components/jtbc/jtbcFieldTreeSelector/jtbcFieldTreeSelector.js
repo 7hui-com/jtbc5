@@ -150,6 +150,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -175,6 +176,5 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     this.currentData = null;
     this.template = shadowRoot.querySelector('template');
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

@@ -69,7 +69,30 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
   {
     $bool = false;
     $name = $argName;
-    if (array_key_exists($name, $this -> body)) $bool = true;
+    if (is_scalar($name))
+    {
+      $bool = array_key_exists($name, $this -> body);
+    }
+    else if (is_array($name))
+    {
+      if (!empty($name))
+      {
+        $bool = true;
+        foreach ($name as $key)
+        {
+          if (!is_scalar($key))
+          {
+            $bool = false;
+            break;
+          }
+          else if (!array_key_exists($key, $this -> body))
+          {
+            $bool = false;
+            break;
+          }
+        }
+      }
+    }
     return $bool;
   }
 
@@ -144,6 +167,19 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     $this -> body = array_merge($this -> toArray(), ...$arrays);
     $this -> resetKeys();
     return $this;
+  }
+
+  public function pick(string ...$args): Substance
+  {
+    $result = new Substance();
+    foreach ($args as $item)
+    {
+      if ($this -> exists($item))
+      {
+        $result -> offsetSet($item, $this -> offsetGet($item));
+      }
+    }
+    return $result;
   }
 
   public function toArray()

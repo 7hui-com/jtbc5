@@ -294,6 +294,7 @@ export default class lheader extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
     this.#selectAnchor();
     this.#initObserver();
   };
@@ -325,6 +326,5 @@ export default class lheader extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

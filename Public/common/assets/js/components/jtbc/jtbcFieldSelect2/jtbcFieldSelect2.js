@@ -238,6 +238,7 @@ export default class jtbcFieldSelect2 extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -254,6 +255,5 @@ export default class jtbcFieldSelect2 extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#template = shadowRoot.querySelector('template.template');
-    this.#initEvents();
   };
 };

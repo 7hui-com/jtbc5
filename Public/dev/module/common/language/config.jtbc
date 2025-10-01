@@ -67,8 +67,24 @@
       <zh-cn><![CDATA[数据字典]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[comment_sourceType_dictionary_empty]]></name>
+      <zh-cn><![CDATA[当前没有任何数据字典的数据源可供选择]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[comment_sourceType_jtbc]]></name>
       <zh-cn><![CDATA[语言文件]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[comment_sourceType_jtbc_empty]]></name>
+      <zh-cn><![CDATA[当前没有任何语言文件的数据源可供选择]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[comment_sourceType_module]]></name>
+      <zh-cn><![CDATA[功能模块]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[comment_sourceType_module_empty]]></name>
+      <zh-cn><![CDATA[当前没有任何功能模块的数据源可供选择]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[comment_group]]></name>

@@ -1,6 +1,5 @@
 <?php
 namespace App\Universal\Category;
-use Jtbc\Path;
 use Jtbc\Jtbc;
 use Jtbc\Module\ModuleFinder;
 
@@ -12,18 +11,15 @@ class Guide
     return $moduleFinder -> getModules();
   }
 
-  public static function getAllGenreTitle(?array $argGenreArr = null)
+  public static function getAllGenreOptions()
   {
     $result = [];
-    $genreArr = $argGenreArr ?? self::getAllGenre();
-    if (is_array($genreArr))
+    $allGenre = self::getAllGenre();
+    foreach ($allGenre as $genre)
     {
-      foreach ($genreArr as $genre)
+      if (self::isValidGenre($genre))
       {
-        if (self::isValidGenre($genre))
-        {
-          $result[] = ['genre' => $genre, 'title' => self::getGenreTitle($genre) . '(' . $genre . ')'];
-        }
+        $result[] = ['text' => self::getGenreTitle($genre), 'subtext' => $genre, 'value' => $genre];
       }
     }
     return $result;

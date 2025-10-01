@@ -1,26 +1,26 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --padding: 10px; --font-size: 12px; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --button-background: #333333; --button-color: #ffffff; --z-index: 1000
+  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --padding: 10px; --font-size: 12px; --input-background: #fff; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --button-background: #333333; --button-color: #ffffff; --z-index: 1000
 }
 .container {
-  width: 100%; display: flex !important; flex-flow: row; align-items: center; position: relative; z-index: var(--z-index)
-}
-.container div.input {
-  flex: 1
-}
-.container div.button {
-  width: auto; margin-right: 1px; position: relative; z-index: 200
-}
-.container div.button button.button {
-  display: block; border: 0px; font-size: calc(var(--font-size) + 2px); padding: 0px var(--padding); height: calc(var(--height) - 2px); background: var(--button-background); color: var(--button-color); cursor: pointer
-}
-.container div.button button.button.locked {
-  opacity: .3; cursor: default
-}
-.container div.input input.value {
-  width: 100%; height: var(--height); box-sizing: border-box; outline: none; background: transparent; padding: 0px var(--padding); font-size: var(--font-size); border: 0px; border-radius: 0px; position: relative; z-index: 200
+  width: 100%; display: block !important; position: relative; z-index: var(--z-index)
 }
 .container div.box {
-  display: block; width: 100%; height: 100%; background: #ffffff; box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; pointer-events: none; transition: all .3s ease
+  width: 100%; height: var(--height); box-sizing: border-box; background: var(--input-background); display: flex; flex-flow: row; align-items: stretch; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); transition: all .3s ease
+}
+.container div.box div.input {
+  flex: 1
+}
+.container div.box div.input input.value {
+  width: 100%; height: 100%; box-sizing: border-box; outline: none; background: transparent; padding: 0px var(--padding); font-size: var(--font-size); border: 0px; border-radius: 0px
+}
+.container div.box div.button {
+  width: auto
+}
+.container div.box div.button button.button {
+  display: block; border: 0px; font-size: calc(var(--font-size) + 2px); padding: 0px var(--padding); height: 100%; background: var(--button-background); color: var(--button-color); cursor: pointer
+}
+.container div.box div.button button.button.locked {
+  opacity: .3; cursor: default
 }
 .container div.mask {
   width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100

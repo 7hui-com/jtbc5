@@ -121,6 +121,7 @@ export default class jtbcPopupConfirm extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -145,6 +146,5 @@ export default class jtbcPopupConfirm extends HTMLElement {
     this.container = shadowRoot.querySelector('div.container');
     this.textEl = this.container.querySelector('div.text');
     this.textEl.setAttribute('position', this.position);
-    this.#initEvents();
   };
 };

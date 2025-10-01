@@ -322,6 +322,7 @@ export default class jtbcFieldTag extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -340,6 +341,5 @@ export default class jtbcFieldTag extends HTMLElement {
     this.currentApi = null;
     this.currentApiLoading = false;
     this.blurTimeout = null;
-    this.#initEvents();
   };
 };

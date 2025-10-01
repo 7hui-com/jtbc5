@@ -257,6 +257,7 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -273,6 +274,5 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#template = shadowRoot.querySelector('template.template');
-    this.#initEvents();
   };
 };

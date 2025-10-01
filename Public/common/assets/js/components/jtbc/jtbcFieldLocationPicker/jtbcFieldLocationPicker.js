@@ -378,6 +378,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -388,9 +389,10 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     let componentBasePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/')) + '/';
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"></div>
+      <div class="container" style="display:none">
+        <div class="location"></div><span class="placeholder"></span><a class="selector"><jtbc-svg name="location"></jtbc-svg></a><div class="mask"></div>
+      </div>
     `;
-    let containerHTML = `<div class="location"></div><span class="placeholder"></span><a class="selector"><jtbc-svg name="location"></jtbc-svg></a><div class="mask"></div>`;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.currentMap = null;
@@ -403,6 +405,6 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     this.latitude = this.defaultLatitude = 31.236381;
     this.dialog = document.getElementById('dialog');
     this.container = shadowRoot.querySelector('div.container');
-    this.container.html(containerHTML).then(() => { this.#initEvents(); });
+    this.container.loadComponents();
   };
 };

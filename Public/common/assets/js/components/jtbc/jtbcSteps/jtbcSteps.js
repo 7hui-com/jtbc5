@@ -139,6 +139,7 @@ export default class jtbcSteps extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
   };
 
   constructor() {
@@ -148,6 +149,5 @@ export default class jtbcSteps extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container clickable="none" style="display:none"></container>`;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

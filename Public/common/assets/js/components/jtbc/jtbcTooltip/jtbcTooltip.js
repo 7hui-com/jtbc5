@@ -86,6 +86,7 @@ export default class jtbcTooltip extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -101,6 +102,5 @@ export default class jtbcTooltip extends HTMLElement {
     this.ready = false;
     this.textEl = shadowRoot.querySelector('div.text');
     this.textEl.setAttribute('position', this.position);
-    this.#initEvents();
   };
 };

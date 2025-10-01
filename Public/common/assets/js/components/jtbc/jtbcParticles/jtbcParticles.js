@@ -19,7 +19,7 @@ export default class jtbcParticles extends HTMLElement {
         particles.dispatchEvent(new CustomEvent('run'));
       };
     });
-    iframe.src = this.#basePath + 'particles.html';
+    iframe.setAttribute('src', this.#basePath + 'particles.html');
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

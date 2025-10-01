@@ -320,6 +320,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -335,6 +336,6 @@ export default class jtbcFieldDatetime extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.#initTimeOptions();
-    this.container.loadComponents().then(() => { this.#initEvents(); });
+    this.container.loadComponents();
   };
 };

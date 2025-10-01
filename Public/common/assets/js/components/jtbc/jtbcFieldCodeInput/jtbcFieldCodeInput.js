@@ -191,6 +191,7 @@ export default class jtbcFieldCodeInput extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.#render();
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -205,6 +206,5 @@ export default class jtbcFieldCodeInput extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

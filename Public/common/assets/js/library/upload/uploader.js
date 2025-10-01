@@ -87,10 +87,10 @@ export default class uploader {
           formData.append('chunkParam', chunkParam);
           formData.append('randomString', randomString);
           let httpRequest = new XMLHttpRequest();
-          httpRequest.upload.addEventListener('progress', function(e){
+          httpRequest.upload.addEventListener('progress', function(e) {
             progressCallBack(Math.round(chunkCurrentIndex / (chunkCount + 1) * 100 + (1 / (chunkCount + 1)) * Math.round(e.loaded / e.total) * 100));
           }, false);
-          httpRequest.addEventListener('load', function(e){
+          httpRequest.addEventListener('load', function(e) {
             let target = e.target;
             if (target.status == 200)
             {

@@ -1,21 +1,26 @@
 export default class jtbcQrCode extends HTMLElement {
   static get observedAttributes() {
-    return ['content', 'size', 'param'];
+    return ['content', 'size', 'param', 'text'];
   };
 
   #content = null;
   #size = null;
   #param = null;
   #rendered = false;
-  #basePath = null;
-  #libPath = null;
+  #text = null;
 
   get content() {
     return this.#content;
   };
 
   get param() {
-    let result = this.#param ?? {};
+    let result = this.#param;
+    if (result == null)
+    {
+      result = {
+        'render': 'svg',
+      };
+    };
     if (this.#content != null)
     {
       result.text = this.#content;
@@ -29,6 +34,10 @@ export default class jtbcQrCode extends HTMLElement {
 
   get rendered() {
     return this.#rendered;
+  };
+
+  get text() {
+    return this.#text;
   };
 
   set param(param) {
@@ -47,30 +56,48 @@ export default class jtbcQrCode extends HTMLElement {
         throw new Error('Unexpected value');
       };
     };
-    this.#render();
+  };
+
+  set text(text) {
+    this.#text = text;
   };
 
   #render() {
     let result = false;
-    let container = this.container;
     if (this.ready === true && this.content != null)
     {
       const render = () => {
+        let qrcode = kjua(this.param);
+        if (qrcode instanceof HTMLImageElement)
+        {
+          qrcode.setAttribute('title', this.text ?? '');
+        };
+        this.empty().appendChild(qrcode);
         this.#rendered = result = true;
-        container.empty().appendChild(kjua(this.param));
         this.dispatchEvent(new CustomEvent('qrcoderendered', {bubbles: true}));
       };
-      if (typeof kjua == 'undefined')
+      if (window.kjua !== undefined)
       {
-        let parentNode = container.parentNode;
-        let script = document.createElement('script');
-        script.src = this.#libPath + '/kjua.min.js';
-        parentNode.insertBefore(script, container);
-        script.addEventListener('load', () => render());
+        render();
       }
       else
       {
-        render();
+        let rootNode = this.getRootNode();
+        let script = document.createElement('script');
+        script.addEventListener('load', e => render());
+        script.setAttribute('src', this.vendorPath + '/kjua.min.js');
+        if (rootNode.nodeType == 9)
+        {
+          rootNode.head.appendChild(script);
+        }
+        else if (rootNode.nodeType == 11)
+        {
+          rootNode.appendChild(script);
+        }
+        else
+        {
+          throw new Error('Unsupported root node type');
+        };
       };
     };
     return result;
@@ -93,6 +120,13 @@ export default class jtbcQrCode extends HTMLElement {
       case 'param':
       {
         this.param = newVal;
+        this.#render();
+        break;
+      };
+      case 'text':
+      {
+        this.text = newVal;
+        this.#render();
         break;
       };
     };
@@ -105,12 +139,8 @@ export default class jtbcQrCode extends HTMLElement {
 
   constructor() {
     super();
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
-    shadowRoot.innerHTML = `<style>:host { display: inline-block } div.container * { vertical-align: top }</style><div class="container"></div>`;
     this.ready = false;
-    this.#basePath = basePath;
-    this.#libPath = basePath + '../../../vendor/kjua';
-    this.container = shadowRoot.querySelector('div.container');
+    this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
+    this.vendorPath = this.basePath.substring(0, this.basePath.indexOf('/components/')) + '/vendor/kjua';
   };
 };

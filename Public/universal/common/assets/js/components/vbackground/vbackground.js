@@ -81,6 +81,7 @@ export default class vbackground extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
   };
 
   constructor() {
@@ -97,6 +98,5 @@ export default class vbackground extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

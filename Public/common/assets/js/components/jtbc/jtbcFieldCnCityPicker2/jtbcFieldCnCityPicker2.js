@@ -216,6 +216,7 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.resetOptions();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -233,6 +234,5 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
     this.src = basePath + 'data/mainland.json';
-    this.#initEvents();
   };
 };

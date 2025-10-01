@@ -3,10 +3,9 @@ export default class manage {
     if (this.inited != true)
     {
       this.inited = true;
-      let that = this;
       let scarf = this.self.parentNode.querySelector('.scarf');
-      scarf.delegateEventListener('select[name=genre]', 'change', function(){
-        that.main.href = this.getAttribute('url') + encodeURIComponent(this.value);
+      scarf.delegateEventListener('jtbc-field-select2[name=genre]', 'selected', e => {
+        this.main.href = e.target.getAttribute('url') + encodeURIComponent(e.target.value);
       });
     };
   };

@@ -10,7 +10,7 @@ class ConfigItemsScanner
 {
   private $isCacheable;
   private $orderedItems;
-  
+
   public function scan()
   {
     $result = [];

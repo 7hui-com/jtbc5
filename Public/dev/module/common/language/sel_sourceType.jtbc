@@ -14,5 +14,9 @@
       <name><![CDATA[jtbc]]></name>
       <zh-cn><![CDATA[从语言文件]]></zh-cn>
     </item>
+    <item>
+      <name><![CDATA[module]]></name>
+      <zh-cn><![CDATA[从功能模块]]></zh-cn>
+    </item>
   </item_list>
 </xml>

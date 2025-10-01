@@ -83,7 +83,7 @@
 <div class="scarf">
   <template is="jtbc-template" url="{$>this.genre}/manage?{$=$htmlEncode($request_query_rebuild(['type' => 'list']))}">
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
-    <div if="${$allGenre.length == 0}" class="manager">
+    <div if="${$allGenreOptions.length == 0}" class="manager">
       <div class="chief">
         <h6>{$=$take('manage.text-tit-list-null', 'lng')}</h6>
       </div>
@@ -92,7 +92,7 @@
       <toplink class="path" genre="${$genre}"><a is="jtbc-anchor" class="link pitchon" href="codename={$>this.genre}:manage.list&amp;genre=${$genre}">${$genreTitle}</a><jtbc-svg class="arrow" name="arrow_right"></jtbc-svg><template is="jtbc-template" key="fatherGroup"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a><jtbc-svg name="slash"></jtbc-svg></template></toplink>
       <div class="chief" genre="${$genre}" genre-mode="${$genreMode}" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" can_order="${$control.subPermission.order}">
         <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
-        <rightarea genre="${$genre}"><span class="text">{$=$take('manage.text-current-genre', 'lng')}</span>&nbsp;&nbsp;<template is="jtbc-template" key="allGenre"><select name="genre" is="jtbc-select" isloop="true" url="codename={$>this.genre}:manage.list&amp;genre=" value="${$.parent.attr.genre}"><option value="${$genre}">${$title}</option></select></template><span>&nbsp;&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
+        <rightarea><jtbc-field-select2 name="genre" data="${$.htmlEncode(JSON.stringify($allGenreOptions))}" width="140" url="codename={$>this.genre}:manage.list&amp;genre=" placeholder="{$=$take('manage.text-current-genre', 'lng')}" value="${$genre}"></jtbc-field-select2>&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
         <template is="jtbc-template" key="data">
           <table class="table" id="list" is="jtbc-table" sortApi="{$>this.genre}/manage?action=order">
             <thead>

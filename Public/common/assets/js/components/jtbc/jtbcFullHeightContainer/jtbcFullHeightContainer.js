@@ -64,6 +64,7 @@ export default class jtbcFullHeightContainer extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   disconnectedCallback() {
@@ -74,6 +75,5 @@ export default class jtbcFullHeightContainer extends HTMLElement {
     super();
     this.ready = false;
     this.setHeight();
-    this.#initEvents();
   };
 };

@@ -154,6 +154,7 @@ export default class jtbcFieldNineSquareSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.#selectItem();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -169,6 +170,5 @@ export default class jtbcFieldNineSquareSelector extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

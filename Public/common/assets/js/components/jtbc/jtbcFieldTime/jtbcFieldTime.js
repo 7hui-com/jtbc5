@@ -368,6 +368,7 @@ export default class jtbcFieldTime extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.#resize();
     this.#initTimeOptions();
     this.#selectTime();
@@ -390,7 +391,7 @@ export default class jtbcFieldTime extends HTMLElement {
     this.ready = false;
     this.#disabled = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.container.loadComponents().then(() => { this.#initEvents(); });
+    this.container.loadComponents();
     this.resizeObserver = new ResizeObserver(entries => this.#resize(entries));
     this.resizeObserver.observe(this.container);
   };

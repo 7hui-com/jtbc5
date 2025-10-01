@@ -7,6 +7,11 @@ use Jtbc\String\StringHelper;
 
 class Converter
 {
+  public static function convertBoolToString(bool $argBool)
+  {
+    return $argBool? 'true': 'false';
+  }
+
   public static function convertHexToRGB(string $argHexCode)
   {
     $result = [];

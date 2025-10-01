@@ -128,6 +128,7 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -136,11 +137,10 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><div class="input"><input type="text" name="value" class="value" autocomplete="off" /></div><div class="captcha"></div><div class="box"></div><div class="mask"></div></div>
+      <div class="container" style="display:none"><div class="box"><div class="input"><input type="text" name="value" class="value" autocomplete="off" /></div><div class="captcha"></div></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

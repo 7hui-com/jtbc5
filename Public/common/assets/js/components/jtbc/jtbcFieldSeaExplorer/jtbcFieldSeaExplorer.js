@@ -439,6 +439,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -456,6 +457,5 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     this.container = shadowRoot.querySelector('div.container');
     this.currentMax = null;
     this.blurTimeout = null;
-    this.#initEvents();
   };
 };

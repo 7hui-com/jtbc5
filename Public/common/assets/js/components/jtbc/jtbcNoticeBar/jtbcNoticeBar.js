@@ -160,6 +160,7 @@ export default class jtbcNoticeBar extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -179,6 +180,6 @@ export default class jtbcNoticeBar extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('container');
-    this.container.loadComponents().then(() => this.#initEvents());
+    this.container.loadComponents();
   };
 };

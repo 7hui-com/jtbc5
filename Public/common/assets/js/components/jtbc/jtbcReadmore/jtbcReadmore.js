@@ -126,6 +126,7 @@ export default class jtbcReadmore extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   disconnectedCallback() {
@@ -147,6 +148,6 @@ export default class jtbcReadmore extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('div.container');
-    this.container.loadComponents().then(result => this.#initEvents());
+    this.container.loadComponents();
   };
 };

@@ -116,7 +116,7 @@ class Diplomat extends Ambassador {
     $bs -> data -> genre = $genre;
     $bs -> data -> genreMode = $genreMode;
     $bs -> data -> genreTitle = $genreTitle;
-    $bs -> data -> allGenre = Guide::getAllGenreTitle();
+    $bs -> data -> allGenreOptions = Guide::getAllGenreOptions();
     $bs -> data -> fatherId = $fatherId;
     $bs -> data -> fatherGroup = $fatherGroup;
     $bs -> data -> data = $data;

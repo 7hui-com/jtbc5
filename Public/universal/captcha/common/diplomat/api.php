@@ -6,10 +6,32 @@ use App\Universal\Captcha\CaptchaCreator;
 class Diplomat extends Diplomatist {
   public $MIMEType = 'json';
 
-  public function get()
+  public function get(Request $req)
   {
     $code = 0;
     $data = [];
+    $size = strtolower(strval($req -> get('size')));
+    $fontSize = match($size)
+    {
+      's' => 18,
+      'm' => 36,
+      'l' => 54,
+      default => 18,
+    };
+    $imageWidth = match($size)
+    {
+      's' => 118,
+      'm' => 236,
+      'l' => 354,
+      default => 118,
+    };
+    $imageHeight = match($size)
+    {
+      's' => 28,
+      'm' => 56,
+      'l' => 84,
+      default => 28,
+    };
     $fonts = [];
     $ttfs = [
       '1' => 'Righteous-Regular.ttf',
@@ -22,7 +44,7 @@ class Diplomat extends Diplomatist {
     {
       $fonts[] = realpath('common/assets/font/' . $key . '/' . $val);
     }
-    $captchaCreator = new CaptchaCreator($fonts);
+    $captchaCreator = new CaptchaCreator($fonts, $fontSize);
     $captcha = $captchaCreator -> getCode();
     $model = new Model();
     $model -> pocket -> code = $captcha;
@@ -33,7 +55,7 @@ class Diplomat extends Diplomatist {
       $code = 1;
       $id = intval($model -> lastInsertId);
       $md5hash = Encoder::saltedMD5(strtolower($captcha));
-      $image = 'data:image/png;base64,' . base64_encode($captchaCreator -> create());
+      $image = 'data:image/png;base64,' . base64_encode($captchaCreator -> create($imageWidth, $imageHeight));
       $data = [
         'id' => $id,
         'md5hash' => $md5hash,

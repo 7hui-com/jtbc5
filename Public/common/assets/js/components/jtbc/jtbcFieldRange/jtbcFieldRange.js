@@ -146,16 +146,14 @@ export default class jtbcFieldRange extends HTMLElement {
   #initEvents() {
     let that = this;
     let container = this.container;
-    let slide = function(e) {
-      let currentScreenX = e.screenX;
-      let currentScreenY = e.screenY;
+    let change = function(x, y) {
       let thisWidth = that.clientWidth;
       let thisHeight = that.clientHeight;
       let startPosition = that.startPosition;
       let startLeftValue = startPosition.leftValue;
       let startRightValue = startPosition.rightValue;
       let elPosition = that.startPosition.el.getAttribute('position');
-      let percentage = that.direction == 'horizontal'? ((currentScreenX - startPosition.startX) / thisWidth): ((currentScreenY - startPosition.startY) / thisHeight);
+      let percentage = that.direction == 'horizontal'? ((x - startPosition.startX) / thisWidth): ((y - startPosition.startY) / thisHeight);
       if (elPosition == 'left')
       {
         let targetLeftValue = Math.round(startLeftValue + (that.max - that.min) * percentage);
@@ -175,23 +173,7 @@ export default class jtbcFieldRange extends HTMLElement {
         that.value = startLeftValue + that.separator + targetRightValue;
       };
     };
-    let stop = function(e) {
-      document.removeEventListener('mousemove', slide);
-      document.removeEventListener('mouseup', stop);
-    };
-    container.delegateEventListener('div.rail span.slider', 'mousedown', function(e){
-      e.preventDefault();
-      that.startPosition = {
-        'el': this,
-        'leftValue': that.#leftValue,
-        'rightValue': that.#rightValue,
-        'startX': e.screenX,
-        'startY': e.screenY,
-      };
-      document.addEventListener('mousemove', slide);
-      document.addEventListener('mouseup', stop);
-    });
-    container.querySelector('div.marks').addEventListener('locate', function(){
+    container.querySelector('div.marks').addEventListener('locate', function() {
       this.querySelectorAll('div.mark').forEach(el => {
         if (that.direction == 'horizontal')
         {
@@ -205,6 +187,53 @@ export default class jtbcFieldRange extends HTMLElement {
         };
       });
     });
+    if (isTouchDevice())
+    {
+      container.delegateEventListener('div.rail span.slider', 'touchstart', function(e) {
+        e.preventDefault();
+        if (e.touches.length == 1)
+        {
+          let slide = function(e) {
+            change(e.touches[0].screenX, e.touches[0].screenY);
+          };
+          let stop = function(e) {
+            document.removeEventListener('touchmove', slide);
+            document.removeEventListener('touchend', stop);
+          };
+          that.startPosition = {
+            'el': this,
+            'leftValue': that.#leftValue,
+            'rightValue': that.#rightValue,
+            'startX': e.touches[0].screenX,
+            'startY': e.touches[0].screenY,
+          };
+          document.addEventListener('touchmove', slide);
+          document.addEventListener('touchend', stop);
+        };
+      });
+    }
+    else
+    {
+      container.delegateEventListener('div.rail span.slider', 'mousedown', function(e) {
+        e.preventDefault();
+        let slide = function(e) {
+          change(e.screenX, e.screenY);
+        };
+        let stop = function(e) {
+          document.removeEventListener('mousemove', slide);
+          document.removeEventListener('mouseup', stop);
+        };
+        that.startPosition = {
+          'el': this,
+          'leftValue': that.#leftValue,
+          'rightValue': that.#rightValue,
+          'startX': e.screenX,
+          'startY': e.screenY,
+        };
+        document.addEventListener('mousemove', slide);
+        document.addEventListener('mouseup', stop);
+      });
+    };
   };
 
   #initValue() {
@@ -372,6 +401,7 @@ export default class jtbcFieldRange extends HTMLElement {
   connectedCallback() {
     this.#initValue();
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -389,6 +419,5 @@ export default class jtbcFieldRange extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

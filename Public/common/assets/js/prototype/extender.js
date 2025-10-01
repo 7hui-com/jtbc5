@@ -296,6 +296,9 @@ export default class extender {
     Window.prototype.getBroadcaster = function(channel = null) {
       return that.broadcaster.switch(channel);
     };
+    Window.prototype.isTouchDevice = function() {
+      return ('ontouchstart' in window);
+    };
     Window.prototype.jtbcSpecialCharDecode = function(text) {
       if (typeof(text) == 'string')
       {

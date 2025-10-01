@@ -70,6 +70,7 @@ export default class jtbcSelect extends HTMLSelectElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     if (this.value == '')
     {
       if (this.selectedIndex != -1)
@@ -88,6 +89,5 @@ export default class jtbcSelect extends HTMLSelectElement {
     super();
     this.ready = false;
     this.observer();
-    this.#initEvents();
   };
 };

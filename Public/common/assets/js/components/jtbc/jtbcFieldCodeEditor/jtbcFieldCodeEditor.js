@@ -115,9 +115,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
       let filesCount = map.files.length;
       map.files.forEach(file => {
         let script = document.createElement('script');
-        script.src = this.codemirrorDir + '/mode/' + file + '/' + file + '.js';
-        this.container.parentNode.insertBefore(script, this.container);
-        script.addEventListener('load', () => {
+        script.addEventListener('load', e => {
           filesLoaded += 1;
           if (filesLoaded == filesCount)
           {
@@ -198,6 +196,8 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
             this.dispatchEvent(new CustomEvent('loaded', {detail: {'cm': this.codeMirror}, bubbles: true}));
           };
         });
+        script.src = this.codemirrorDir + '/mode/' + file + '/' + file + '.js';
+        this.container.parentNode.insertBefore(script, this.container);
       });
     };
   };
@@ -313,9 +313,7 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
     this.resizeObserver.observe(document.body);
     let codemirrorJs = codemirrorDir + '/lib/codemirror.js';
     let codemirrorScript = document.createElement('script');
-    codemirrorScript.src = codemirrorJs;
-    shadowRoot.insertBefore(codemirrorScript, this.container);
-    codemirrorScript.addEventListener('load', () => {
+    codemirrorScript.addEventListener('load', e => {
       let addon = [
         'selection/active-line.js',
         'display/fullscreen.js',
@@ -326,16 +324,18 @@ export default class jtbcFieldCodeEditor extends HTMLElement {
       let addonCount = addon.length;
       addon.forEach(item => {
         let script = document.createElement('script');
-        script.src = this.codemirrorDir + '/addon/' + item;
-        this.container.parentNode.insertBefore(script, this.container);
-        script.addEventListener('load', () => {
+        script.addEventListener('load', e => {
           addonLoaded += 1;
           if (addonLoaded == addonCount)
           {
             this.init();
           };
         });
+        script.src = this.codemirrorDir + '/addon/' + item;
+        this.container.parentNode.insertBefore(script, this.container);
       });
     });
+    codemirrorScript.src = codemirrorJs;
+    shadowRoot.insertBefore(codemirrorScript, this.container);
   };
 };

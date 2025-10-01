@@ -4,20 +4,20 @@
 .container {
   width: 100%; display: flex !important; align-items: center; position: relative; z-index: var(--z-index)
 }
-.container div.icon {
-  width: var(--height); height: calc(var(--height) - 2px); background: var(--icon-background); display: flex; align-items: center; justify-content: space-around; position: relative; z-index: 200
+.container div.box {
+  width: 100%; height: var(--height); box-sizing: border-box; background: var(--input-background); display: flex; flex-flow: row; align-items: stretch; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); transition: all .3s ease
 }
-.container div.icon jtbc-svg {
+.container div.box div.icon {
+  width: var(--height); background: var(--icon-background); display: flex; align-items: center; justify-content: space-around; position: relative; z-index: 200
+}
+.container div.box div.icon jtbc-svg {
   width: 60%; height: 60%; --fore-color: var(--icon-color)
 }
-.container div.input {
+.container div.box div.input {
   flex: 1
 }
-.container div.input input.value {
-  width: 100%; height: var(--height); box-sizing: border-box; outline: none; background: transparent; color: var(--font-color); padding: 0px var(--padding); font-size: var(--font-size); border: 0px; border-radius: 0px; position: relative; z-index: 200
-}
-.container div.box {
-  display: block; width: 100%; height: 100%; background: var(--input-background); box-sizing: border-box; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); position: absolute; top: 0px; left: 0px; z-index: 100; pointer-events: none; transition: all .3s ease
+.container div.box div.input input.value {
+  width: 100%; height: 100%; box-sizing: border-box; outline: none; background: transparent; color: var(--font-color); padding: 0px var(--padding); font-size: var(--font-size); border: 0px; border-radius: 0px; position: relative; z-index: 200
 }
 .container div.mask {
   width: 100%; height: 100%; background: #dddddd; opacity: .3; position: absolute; top: 0px; left: 0px; z-index: -100

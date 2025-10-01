@@ -133,6 +133,7 @@ export default class tcontainer extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -157,6 +158,5 @@ export default class tcontainer extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

@@ -104,9 +104,7 @@ export default class jtbcCodeDiff extends HTMLElement {
       let filesCount = map.files.length;
       map.files.forEach(file => {
         let script = document.createElement('script');
-        script.src = this.codemirrorDir + '/mode/' + file + '/' + file + '.js';
-        this.container.parentNode.insertBefore(script, this.container);
-        script.addEventListener('load', () => {
+        script.addEventListener('load', e => {
           filesLoaded += 1;
           if (filesLoaded == filesCount)
           {
@@ -114,6 +112,8 @@ export default class jtbcCodeDiff extends HTMLElement {
             this.update();
           };
         });
+        script.src = this.codemirrorDir + '/mode/' + file + '/' + file + '.js';
+        this.container.parentNode.insertBefore(script, this.container);
       });
     };
   };

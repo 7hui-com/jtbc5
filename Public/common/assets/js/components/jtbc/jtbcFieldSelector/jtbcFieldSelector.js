@@ -148,6 +148,7 @@ export default class jtbcFieldSelector extends HTMLElement {
     container.querySelector('span.empty').addEventListener('click', function(){
       that.value = '';
       this.classList.remove('on');
+      that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
     });
   };
 
@@ -262,6 +263,7 @@ export default class jtbcFieldSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -276,6 +278,5 @@ export default class jtbcFieldSelector extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

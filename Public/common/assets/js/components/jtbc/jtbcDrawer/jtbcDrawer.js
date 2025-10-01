@@ -133,6 +133,7 @@ export default class jtbcDrawer extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -143,6 +144,6 @@ export default class jtbcDrawer extends HTMLElement {
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container part="container" closeable="true" direction="rtl" style="display:none"><div class="drawer" part="drawer"><div class="close" role="drawer-close" part="close"><jtbc-svg name="close" part="svg-close"></jtbc-svg></div><div class="content" part="content"><slot></slot></div></div></container>`;
     this.container = shadowRoot.querySelector('container');
     this.drawer = this.container.querySelector('div.drawer');
-    this.container.loadComponents().then(() => this.#initEvents());
+    this.container.loadComponents();
   };
 };

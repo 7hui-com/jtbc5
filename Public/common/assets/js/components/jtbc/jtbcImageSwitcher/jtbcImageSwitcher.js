@@ -224,6 +224,7 @@ export default class jtbcImageSwitcher extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -242,6 +243,6 @@ export default class jtbcImageSwitcher extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.container.loadComponents().then(() => this.#initEvents());
+    this.container.loadComponents();
   };
 };

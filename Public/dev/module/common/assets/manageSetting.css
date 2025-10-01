@@ -16,6 +16,9 @@
 .ppSetting div.additional fieldset legend {
   margin-left: 20px; padding: 0 10px; font-size: 14px; color: #333333
 }
+.ppSetting div.additional span.emptyTips {
+  width: 100%; box-sizing: border-box; height: 30px; display: flex; align-items: center; justify-content: center; border: #cc9900 1px solid; color: #cc9900
+}
 .ppSetting jtbc-field-selector.selector {
   position: relative; z-index: 50; --options-max-height: 200px
 }

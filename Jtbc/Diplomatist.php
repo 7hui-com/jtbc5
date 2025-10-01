@@ -106,14 +106,6 @@ class Diplomatist
     return $result;
   }
 
-  public function setParam(string $argName, $argValue)
-  {
-    $name = $argName;
-    $value = $argValue;
-    $this -> param -> {$name} = $value;
-    return $value;
-  }
-
   public function addParam(string $argName, $argValue)
   {
     $name = $argName;
@@ -133,8 +125,34 @@ class Diplomatist
 
   public function getParam(string $argName)
   {
+    $result = null;
     $name = $argName;
-    return $this -> param -> {$name};
+    if (!Validation::isEmpty($name))
+    {
+      $result = $this -> param -> {$name};
+    }
+    return $result;
+  }
+
+  public function hasParam(string $argName)
+  {
+    return $this -> param -> exists($argName);
+  }
+
+  public function removeParam(string $argName)
+  {
+    return $this -> param -> delete($argName);
+  }
+
+  public function setParam(string $argName, $argValue)
+  {
+    $name = $argName;
+    $value = $argValue;
+    if (!Validation::isEmpty($name))
+    {
+      $this -> param -> {$name} = $value;
+    }
+    return $value;
   }
 
   public function getResult()

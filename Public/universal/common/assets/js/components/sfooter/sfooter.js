@@ -98,6 +98,7 @@ export default class sfooter extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.#initEvents();
     this.#initObserver();
     this.ready = true;
   };
@@ -132,6 +133,5 @@ export default class sfooter extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

@@ -511,6 +511,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -559,7 +560,6 @@ export default class jtbcFieldAttachment extends HTMLElement {
     this.container.loadComponents().then(() => {
       this.inited = true;
       this.textReset();
-      this.#initEvents();
       if (this.#value != null)
       {
         this.value = this.#value;

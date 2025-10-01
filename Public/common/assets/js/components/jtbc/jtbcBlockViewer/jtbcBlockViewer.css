@@ -1,7 +1,7 @@
 :host {
   display: block; --font-color: #000000; --font-secondary-color: #666666; --icon-color: #333333; --border-color: #d1d1d1; --anchor-color: #5b9dd9; --anchor-hover-color: #e7505a; --quote-background: #f6f6f6; --quote-border-left: #666666 2px solid; --quote-font-color: #666666
 }
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
   margin: 0px; padding: 0.6em 0px; line-height: 140%
 }
 h1 {

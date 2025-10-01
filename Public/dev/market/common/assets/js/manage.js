@@ -139,12 +139,20 @@ export default class manage {
               tpl.parentNode.addEventListener('renderend', function(){
                 if (data.content.category == 'module')
                 {
-                  let currentParam = JSON.parse(data.content.param);
-                  Object.keys(currentParam).forEach(key => {
+                  let params = JSON.parse(data.content.param);
+                  Object.keys(params).forEach(key => {
                     this.querySelectorAll('[name="' + key + '"]').forEach(el => {
                       if (el.getAttribute('role') == 'field')
                       {
-                        el.setAttribute('value', currentParam[key]);
+                        el.setAttribute('value', params[key]);
+                        if (params.hasOwnProperty(key + '_extra'))
+                        {
+                          let extra = params[key + '_extra'];
+                          if (extra instanceof Object)
+                          {
+                            Object.keys(extra).forEach(item => el.setAttribute(item, extra[item]));
+                          };
+                        };
                       };
                     });
                   });

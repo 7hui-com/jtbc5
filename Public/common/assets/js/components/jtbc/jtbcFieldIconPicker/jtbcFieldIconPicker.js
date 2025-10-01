@@ -214,6 +214,7 @@ export default class jtbcFieldIconPicker extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.loadIconList();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -229,6 +230,5 @@ export default class jtbcFieldIconPicker extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

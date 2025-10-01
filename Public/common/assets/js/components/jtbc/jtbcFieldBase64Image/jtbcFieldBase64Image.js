@@ -41,11 +41,11 @@ export default class jtbcFieldBase64Image extends HTMLElement {
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.fileRemover', 'click', function(){ that.value = ''; });
-    container.delegateEventListener('div.fileSelector', 'click', function(){ this.querySelector('input.file').click(); });
-    container.delegateEventListener('input.file', 'change', function(){
-      let currentWidth = that.offsetWidth;
-      let currentHeight = that.offsetHeight;
+    container.delegateEventListener('div.fileRemover', 'click', function() { that.value = ''; });
+    container.delegateEventListener('div.fileSelector', 'click', function() { this.querySelector('input.file').click(); });
+    container.delegateEventListener('input.file', 'change', function() {
+      let currentWidth = that.dataset.width ?? that.offsetWidth;
+      let currentHeight = that.dataset.height ?? that.offsetHeight;
       if (this.files.length == 1)
       {
         let newImage = new Image();
@@ -76,7 +76,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
           context.drawImage(newImage, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, currentWidth, currentHeight);
           that.value = canvas.toDataURL('image/jpeg', that.getQuality());
         };
-        fileReader.onload = function(e){
+        fileReader.onload = function(e) {
           newImage.setAttribute('src', e.target.result);
         };
         fileReader.readAsDataURL(this.files[0]);
@@ -105,6 +105,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
         {
           this.#quality = newVal;
         };
+        break;
       };
       case 'value':
       {
@@ -131,6 +132,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -142,7 +144,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
       <style>@import url('${importCssUrl}');</style>
       <container style="display:none">
         <div class="image"></div>
-        <div class="fileSelector"><jtbc-svg name="camera"></jtbc-svg><input type="file" class="file" accept="image/gif,image/jpeg,image/jpg,image/png" /></div>
+        <div class="fileSelector"><jtbc-svg name="camera"></jtbc-svg><input type="file" class="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/webp" /></div>
         <div class="fileRemover"><jtbc-svg name="trash"></jtbc-svg></div>
         <div class="mask"></div>
       </container>
@@ -150,6 +152,6 @@ export default class jtbcFieldBase64Image extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('container');
-    this.container.loadComponents().then(() => { this.#initEvents(); });
+    this.container.loadComponents();
   };
 };

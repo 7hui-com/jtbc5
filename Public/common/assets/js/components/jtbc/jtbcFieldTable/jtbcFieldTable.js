@@ -514,6 +514,7 @@ export default class jtbcFieldTable extends HTMLElement {
   connectedCallback() {
     this.#init();
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -551,6 +552,6 @@ export default class jtbcFieldTable extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
-    this.container.loadComponents().then(() => { this.#initEvents(); });
+    this.container.loadComponents();
   };
 };

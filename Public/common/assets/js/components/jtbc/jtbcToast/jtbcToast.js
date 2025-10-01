@@ -127,6 +127,7 @@ export default class jtbcToast extends HTMLElement {
   };
 
   connectedCallback() {
+    this.#initEvents();
     if (!this.hasAttribute('position'))
     {
       this.setAttribute('position', this.position);
@@ -142,6 +143,5 @@ export default class jtbcToast extends HTMLElement {
     let shadowRootHTML = `<style>@import url('${importCssUrl}');</style><container><div class="messages"></div></container>`;
     shadowRoot.innerHTML = shadowRootHTML;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

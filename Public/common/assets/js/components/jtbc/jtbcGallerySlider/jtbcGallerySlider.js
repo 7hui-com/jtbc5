@@ -243,6 +243,7 @@ export default class jtbcGallerySlider extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.#initSwiper();
   };
 
@@ -253,6 +254,6 @@ export default class jtbcGallerySlider extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container part="container" thumb="show" style="display:none"><div class="close" part="close" role="gallery-slider-close"><jtbc-svg name="close" part="svg-close"></jtbc-svg></div><div class="content" part="content"></div><div class="pagination"></div><div class="thumbnail"><div class="box"><div class="thumb" part="thumb" size="contain"></div></div><div class="button"><jtbc-svg name="arrow_up"></jtbc-svg><jtbc-svg name="arrow_down"></jtbc-svg></div></div></container>`;
     this.container = shadowRoot.querySelector('container');
-    this.container.loadComponents().then(() => this.#initEvents());
+    this.container.loadComponents();
   };
 };

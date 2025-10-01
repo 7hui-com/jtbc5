@@ -102,7 +102,7 @@ container[bg=variety] {
   background: #f9f9f9
 }
 container box {
-  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: flex-start; justify-content: space-between
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width); margin: auto; padding: var(--page-inner-padding); align-items: flex-start; justify-content: space-between; gap: var(--page-gap)
 }
 container box div.main {
   width: 100%; padding-bottom: var(--page-gap)
@@ -111,7 +111,7 @@ container box main {
   display: block; flex: 1
 }
 container box sidebar {
-  display: block; width: 25%; margin-left: var(--page-gap)
+  display: block; width: 25%
 }
 container box sidebar section {
   display: block; box-sizing: border-box; padding: var(--page-gap); margin-bottom: var(--page-gap); background: #f8f8f8; border: #eee 1px solid
@@ -440,7 +440,7 @@ div.section_title h3::after {
     display: block; width: 100%
   }
   container box sidebar {
-    display: block; width: 100%; margin-left: 0px; margin-bottom: var(--page-gap)
+    display: block; width: 100%
   }
   container box sidebar section ul {
     display: flex; flex-wrap: wrap

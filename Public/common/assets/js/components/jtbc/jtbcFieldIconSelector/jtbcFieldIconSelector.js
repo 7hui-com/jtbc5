@@ -205,6 +205,7 @@ export default class jtbcFieldIconSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.loadIconList();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -222,6 +223,5 @@ export default class jtbcFieldIconSelector extends HTMLElement {
     this.container = shadowRoot.querySelector('div.container');
     this.currentLimit = null;
     this.currentMode = 'single';
-    this.#initEvents();
   };
 };

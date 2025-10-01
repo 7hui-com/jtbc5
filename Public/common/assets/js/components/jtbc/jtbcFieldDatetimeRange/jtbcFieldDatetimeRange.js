@@ -67,7 +67,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     this.#endDateTime = endDateTimeValue;
     container.querySelector('input[name=startdatetime]').value = this.#startDateTime;
     container.querySelector('input[name=enddatetime]').value = this.#endDateTime;
-    if (this.inited == true)
+    if (this.isComponentInitialized)
     {
       this.#selectTime();
       this.#dateThroughReset();
@@ -348,10 +348,10 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     let container = this.container;
     let datepicker = container.querySelector('div.datepicker');
     container.querySelectorAll('input.date').forEach(input => {
-      input.addEventListener('focus', function(){
+      input.addEventListener('focus', function() {
         container.querySelector('span.box')?.classList.add('focus');
       });
-      input.addEventListener('blur', function(){
+      input.addEventListener('blur', function() {
         let value = this.value;
         if (validation.isDateTime(value))
         {
@@ -413,28 +413,33 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
         };
       });
       calendar.addEventListener('datemouseout', e => { that.#dateThroughReset(); });
-      calendar.addEventListener('renderend', e => { that.#dateThroughReset(); });
+      calendar.addEventListener('renderend', e => {
+        if (e.target.ready)
+        {
+          that.#dateThroughReset();
+        };
+      });
     });
-    datepicker.addEventListener('mouseenter', function(){
+    datepicker.addEventListener('mouseenter', function() {
       clearTimeout(that.#closePickerTimeout);
     });
-    datepicker.addEventListener('mouseleave', function(){
+    datepicker.addEventListener('mouseleave', function() {
       if (this.classList.contains('on'))
       {
         that.closePicker(1000);
       };
     });
-    datepicker.addEventListener('transitionend', function(){
+    datepicker.addEventListener('transitionend', function() {
       if (!this.classList.contains('on'))
       {
         that.#unsetZIndex();
         container.classList.remove('pickable');
       };
     });
-    container.delegateEventListener('span.btn.delete', 'click', function(){
+    container.delegateEventListener('span.btn.delete', 'click', function() {
       that.value = '';
     });
-    container.delegateEventListener('span.btn.select', 'click', function(){
+    container.delegateEventListener('span.btn.select', 'click', function() {
       if (!container.classList.contains('pickable'))
       {
         that.#setZIndex();
@@ -466,8 +471,6 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
         datepicker.classList.remove('on');
       };
     });
-    that.#dateThroughReset();
-    that.inited = true;
   };
 
   closePicker(timeout = 0) {
@@ -538,6 +541,7 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -571,13 +575,12 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.inited = false;
     this.container = shadowRoot.querySelector('div.container');
     this.container.loadComponents().then(() => {
-      this.#initEvents();
       this.#initCalendar();
       this.#selectTime();
-      this.inited = true;
+      this.#dateThroughReset();
+      this.isComponentInitialized = true;
     });
   };
 };

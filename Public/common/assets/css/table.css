@@ -136,3 +136,6 @@ table.table.skinny th {
 table.table.skinny td {
   padding: 5px; border: 0px !important
 }
+table.table:has(tr.draging) {
+  user-select: none
+}

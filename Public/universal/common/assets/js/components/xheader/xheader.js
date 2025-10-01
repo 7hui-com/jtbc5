@@ -210,6 +210,7 @@ export default class xheader extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
     this.#selectAnchor();
     this.#initObserver();
   };
@@ -241,6 +242,5 @@ export default class xheader extends HTMLElement {
     this.topmenu = shadowRoot.querySelector('div.topmenu');
     this.container = shadowRoot.querySelector('div.container');
     this.placeholder = shadowRoot.querySelector('div.placeholder');
-    this.#initEvents();
   };
 };

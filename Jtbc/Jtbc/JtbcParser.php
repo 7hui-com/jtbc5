@@ -250,6 +250,7 @@ class JtbcParser
   public static function getAliasMap()
   {
     $aliasMap = [
+      'convertBoolToString' => Converter::class,
       'convertJSONToArray' => Converter::class,
       'convertKeyValuePairToArray' => Converter::class,
       'convertToArrayWithKey' => Converter::class,

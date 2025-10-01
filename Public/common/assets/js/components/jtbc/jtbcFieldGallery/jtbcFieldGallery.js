@@ -108,10 +108,29 @@ export default class jtbcFieldGallery extends HTMLElement {
     let container = this.container;
     let mainEl = this.container.querySelector('div.main');
     let progress = container.querySelector('.progress');
-    container.delegateEventListener('div.add', 'click', function(){
+    const draging = (x, y) => {
+      that.draging.parentNode.querySelectorAll('div.item').forEach(item => {
+        if (item != that.draging && !item.classList.contains('button'))
+        {
+          let bcr = item.getBoundingClientRect();
+          if (x > bcr.left && x < (bcr.left + bcr.width) && y > bcr.top && y < (bcr.top + bcr.height))
+          {
+            if (that.draging.index() < item.index())
+            {
+              item.after(that.draging);
+            }
+            else
+            {
+              item.before(that.draging);
+            };
+          };
+        };
+      });
+    };
+    container.delegateEventListener('div.add', 'click', function() {
       this.querySelector('input.file').click();
     });
-    container.querySelector('input.file').addEventListener('change', function(){
+    container.querySelector('input.file').addEventListener('change', function() {
       if (that.uploading != true)
       {
         that.#uploading = true;
@@ -123,41 +142,7 @@ export default class jtbcFieldGallery extends HTMLElement {
         }, () => { that.#uploading = false; });
       };
     });
-    container.delegateEventListener('div.item', 'dragstart', function(){
-      that.draging = this;
-      this.classList.add('draging');
-      mainEl.classList.add('draging');
-    });
-    container.delegateEventListener('div.item', 'dragend', function(){
-      mainEl.classList.remove('draging');
-      that.draging.classList.remove('draging');
-      that.querySelectorAll('div.item[draggable=true]').forEach(el => {
-        el.draggable = false;
-      });
-    });
-    container.delegateEventListener('div.item', 'dragover', function(e){
-      e.preventDefault();
-      let target = this;
-      let draging = that.draging;
-      if (draging != null && target != draging && !target.classList.contains('button'))
-      {
-        if (draging.index() < target.index())
-        {
-          target.after(draging);
-        }
-        else
-        {
-          target.before(draging);
-        };
-      };
-    });
-    container.delegateEventListener('div.item', 'mousedown', function(){
-      if (!this.classList.contains('button'))
-      {
-        this.draggable = true;
-      };
-    });
-    container.delegateEventListener('.textPreview', 'click', function(){
+    container.delegateEventListener('.textPreview', 'click', function() {
       let uploadid = this.getAttribute('uploadid');
       let item = container.querySelector('.item-' + uploadid);
       if (item != null && item.hasAttribute('param'))
@@ -169,7 +154,7 @@ export default class jtbcFieldGallery extends HTMLElement {
         };
       };
     });
-    container.delegateEventListener('.textRemove', 'click', function(){
+    container.delegateEventListener('.textRemove', 'click', function() {
       if (that.dialog != null)
       {
         that.dialog.confirm(that.text.removeTips, () => {
@@ -184,7 +169,7 @@ export default class jtbcFieldGallery extends HTMLElement {
         };
       };
     });
-    container.delegateEventListener('.textRemove', 'remove', function(){
+    container.delegateEventListener('.textRemove', 'remove', function() {
       let uploadid = this.getAttribute('uploadid');
       let item = container.querySelector('.item-' + uploadid);
       if (item != null)
@@ -192,6 +177,55 @@ export default class jtbcFieldGallery extends HTMLElement {
         item.remove();
       };
     });
+    if (isTouchDevice())
+    {
+      container.delegateEventListener('div.item', 'touchstart', function(e) {
+        if (!this.classList.contains('button'))
+        {
+          e.preventDefault();
+          if (e.touches.length == 1)
+          {
+            that.draging = this;
+            mainEl.classList.add('draging');
+            that.draging.classList.add('draging');
+            let drag = e => {
+              draging(e.touches[0].clientX, e.touches[0].clientY);
+            };
+            let stop = function(e) {
+              mainEl.classList.remove('draging');
+              that.draging.classList.remove('draging');
+              document.removeEventListener('touchmove', drag);
+              document.removeEventListener('touchend', stop);
+            };
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stop);
+          };
+        };
+      });
+    }
+    else
+    {
+      container.delegateEventListener('div.item', 'mousedown', function(e) {
+        if (!this.classList.contains('button'))
+        {
+          e.preventDefault();
+          that.draging = this;
+          mainEl.classList.add('draging');
+          that.draging.classList.add('draging');
+          let drag = e => {
+            draging(e.clientX, e.clientY);
+          };
+          let stop = function(e) {
+            mainEl.classList.remove('draging');
+            that.draging.classList.remove('draging');
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stop);
+          };
+          document.addEventListener('mousemove', drag);
+          document.addEventListener('mouseup', stop);
+        };
+      });
+    };
   };
 
   addUploadedItem(param, tail = null) {
@@ -280,6 +314,7 @@ export default class jtbcFieldGallery extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -309,6 +344,6 @@ export default class jtbcFieldGallery extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.dialog = document.getElementById('dialog');
     this.imagePreviewer = document.getElementById('imagePreviewer');
-    this.container.loadComponents().then(() => { this.#initEvents(); });
+    this.container.loadComponents();
   };
 };

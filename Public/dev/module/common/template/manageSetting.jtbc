@@ -62,8 +62,12 @@
       <div class="tinyForm">
         <ul>
           <li><select is="jtbc-select" name="comment_sourceType" role="field" width="100%">{$=$takeAndFormatToOption('sel_sourceType.*')}</select><h6 class="farther">{$=$take('config.comment_source', 'lng')}</h6></li>
-          <li class="li-option li-option-dictionary"><template is="jtbc-template" key="dictionary"><select is="jtbc-select" name="comment_source_dictionary" role="field" width="100%" isloop="true"><option value="${$name}">${$name}</option></select></template><h6 class="farther">{$=$take('config.comment_sourceType_dictionary', 'lng')}</h6></li>
-          <li class="li-option li-option-jtbc hidden"><template is="jtbc-template" key="jtbc"><select is="jtbc-select" name="comment_source_jtbc" role="field" width="100%" isloop="true"><option value="${$filename}">${$filename}</option></select></template><h6 class="farther">{$=$take('config.comment_sourceType_jtbc', 'lng')}</h6></li>
+          <li if="${$dictionary.length == 0}" class="li-option li-option-dictionary"><span class="emptyTips">{$=$take('config.comment_sourceType_dictionary_empty', 'lng')}</span></li>
+          <li else class="li-option li-option-dictionary"><template is="jtbc-template" key="dictionary"><select is="jtbc-select" name="comment_source_dictionary" role="field" width="100%" isloop="true"><option value="${$name}">${$name}</option></select></template><h6 class="farther">{$=$take('config.comment_sourceType_dictionary', 'lng')}</h6></li>
+          <li if="${$jtbc.length == 0}" class="li-option li-option-jtbc hidden"><span class="emptyTips">{$=$take('config.comment_sourceType_jtbc_empty', 'lng')}</span></li>
+          <li else class="li-option li-option-jtbc hidden"><template is="jtbc-template" key="jtbc"><select is="jtbc-select" name="comment_source_jtbc" role="field" width="100%" isloop="true"><option value="${$filename}">${$filename}</option></select></template><h6 class="farther">{$=$take('config.comment_sourceType_jtbc', 'lng')}</h6></li>
+          <li if="${$module.length == 0}" class="li-option li-option-module hidden"><span class="emptyTips">{$=$take('config.comment_sourceType_module_empty', 'lng')}</span></li>
+          <li else class="li-option li-option-module hidden"><template is="jtbc-template" key="module"><select is="jtbc-select" name="comment_source_module" role="field" width="100%" isloop="true"><option value="${$value}">${$text}</option></select></template><h6 class="farther">{$=$take('config.comment_sourceType_module', 'lng')}</h6></li>
         </ul>
       </div>
     </template>

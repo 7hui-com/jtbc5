@@ -3,6 +3,7 @@ export default class fetcher {
   #headers = {};
   #method = 'GET';
   #mode = 'queryString';
+  #body = null;
   #withGlobalHeaders = null;
 
   get method() {
@@ -11,6 +12,10 @@ export default class fetcher {
 
   get mode() {
     return this.#mode;
+  };
+
+  get body() {
+    return this.#body;
   };
 
   get withGlobalHeaders() {
@@ -39,6 +44,10 @@ export default class fetcher {
     };
   };
 
+  set body(body) {
+    this.#body = body;
+  };
+
   set withGlobalHeaders(withGlobalHeaders) {
     this.#withGlobalHeaders = withGlobalHeaders;
   };
@@ -58,6 +67,10 @@ export default class fetcher {
       {
         result.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       };
+    };
+    if (this.body != null)
+    {
+      result.body = this.body;
     };
     if (this.withGlobalHeaders != null)
     {

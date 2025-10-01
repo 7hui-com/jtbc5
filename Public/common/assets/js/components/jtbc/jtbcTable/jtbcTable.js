@@ -124,6 +124,34 @@ export default class jtbcTable extends HTMLTableElement {
 
   initSortableEvents() {
     let that = this;
+    const draging = (x, y) => {
+      that.draging.parentNode.querySelectorAll('tr').forEach(tr => {
+        if (tr != that.draging)
+        {
+          let bcr = tr.getBoundingClientRect();
+          if (y > bcr.top && y < (bcr.top + bcr.height))
+          {
+            if (that.draging.rowIndex < tr.rowIndex)
+            {
+              tr.after(that.draging);
+            }
+            else
+            {
+              tr.before(that.draging);
+            };
+          };
+        };
+      });
+    };
+    const dragend = () => {
+      if (that.hasAttribute('sortApi'))
+      {
+        sortApiConnect();
+      };
+      that.draging.parentNode.querySelectorAll('tr').forEach(tr => {
+        that.draging.classList.remove('draging');
+      });
+    };
     const sortApiConnect = () => {
       let allSelectors = that.getAllSelectors();
       if (Array.isArray(allSelectors) && allSelectors.length != 0)
@@ -143,55 +171,62 @@ export default class jtbcTable extends HTMLTableElement {
         };
       };
     };
-    this.delegateEventListener('thead th[orderby] span.asc', 'click', function(){
+    this.delegateEventListener('thead th[orderby] span.asc', 'click', function() {
       that.dispatchEvent(new CustomEvent('orderby', {bubbles: true, detail: {el: this}}));
     });
-    this.delegateEventListener('thead th[orderby] span.desc', 'click', function(){
+    this.delegateEventListener('thead th[orderby] span.desc', 'click', function() {
       that.dispatchEvent(new CustomEvent('orderby', {bubbles: true, detail: {el: this}}));
     });
-    this.delegateEventListener('tbody tr', 'dragstart', function(e){
-      that.draging = this;
-      this.classList.add('draging');
-      let dragImage = new Image();
-      dragImage.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
-      e.dataTransfer.setDragImage(dragImage, 0, 0);
-    });
-    this.delegateEventListener('tbody tr', 'dragend', function(){
-      that.draging.classList.remove('draging');
-      that.dispatchEvent(new CustomEvent('sortend', {bubbles: true}));
-      that.querySelectorAll('tr[draggable=true]').forEach(el => { el.draggable = false; });
-      if (that.hasAttribute('sortApi')) sortApiConnect();
-    });
-    this.delegateEventListener('tbody tr', 'dragover', function(e){
-      e.preventDefault();
-      let target = this;
-      let draging = that.draging;
-      if (draging != null && target != draging)
-      {
-        if (draging.rowIndex < target.rowIndex)
+    if (isTouchDevice())
+    {
+      this.delegateEventListener('td[role=draghandle]', 'touchstart', function(e) {
+        e.preventDefault();
+        if (e.touches.length == 1)
         {
-          target.after(draging);
-        }
-        else
-        {
-          target.before(draging);
+          that.draging = that.getRowElement(this);
+          that.draging.classList.add('draging');
+          let drag = e => {
+            draging(e.touches[0].clientX, e.touches[0].clientY);
+          };
+          let stop = function(e) {
+            dragend();
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stop);
+          };
+          document.addEventListener('touchmove', drag);
+          document.addEventListener('touchend', stop);
         };
-      };
-    });
-    this.delegateEventListener('td[role=draghandle]', 'mousedown', function(){
-      that.getRowElement(this).draggable = true;
-    });
+      });
+    }
+    else
+    {
+      this.delegateEventListener('td[role=draghandle]', 'mousedown', function(e) {
+        e.preventDefault();
+        that.draging = that.getRowElement(this);
+        that.draging.classList.add('draging');
+        let drag = e => {
+          draging(e.clientX, e.clientY);
+        };
+        let stop = function(e) {
+          dragend();
+          document.removeEventListener('mousemove', drag);
+          document.removeEventListener('mouseup', stop);
+        };
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stop);
+      });
+    };
   };
 
   initSelectorEvents() {
     let that = this;
-    this.delegateEventListener('th input[role=selector]', 'change', function(){
+    this.delegateEventListener('th input[role=selector]', 'change', function() {
       that.querySelectorAll('td input[role=selector]').forEach(el => {
         el.checked = this.checked;
         el.dispatchEvent(new Event('change', {'bubbles': true}));
       });
     });
-    this.delegateEventListener('td input[role=selector]', 'change', function(){
+    this.delegateEventListener('td input[role=selector]', 'change', function() {
       let tr = that.getRowElement(this);
       let currentType = this.type.toLowerCase();
       if (this.checked == true)

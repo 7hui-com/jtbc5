@@ -125,12 +125,12 @@ export default class jtbcFieldItemSelector extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
   constructor() {
     super();
     this.ready = false;
-    this.#initEvents();
   };
 };

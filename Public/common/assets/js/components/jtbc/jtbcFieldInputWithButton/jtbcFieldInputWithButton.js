@@ -37,16 +37,20 @@ export default class jtbcFieldInputWithButton extends HTMLElement {
     let container = this.container;
     let buttonEl = container.querySelector('button.button');
     container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('focus', function(){ container.classList.add('focus'); });
-      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
+      input.addEventListener('focus', function() { container.classList.add('focus'); });
+      input.addEventListener('blur', function() { container.classList.remove('focus'); });
     });
-    buttonEl.addEventListener('click', function(){
+    buttonEl.addEventListener('click', function() {
       if (!this.classList.contains('locked'))
       {
         this.classList.add('locked');
         that.dispatchEvent(new CustomEvent('buttonClicked', {bubbles: true}));
       };
     });
+  };
+
+  disableButton() {
+    this.container.querySelector('button.button').classList.add('locked');
   };
 
   enableButton(enforceable = false) {
@@ -127,6 +131,7 @@ export default class jtbcFieldInputWithButton extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -136,11 +141,10 @@ export default class jtbcFieldInputWithButton extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" style="display:none"><div class="input"><input type="text" name="value" class="value" autocomplete="off" /></div><div class="button"><button type="button" class="button"></button></div><div class="box"></div><div class="mask"></div></div>
+      <div class="container" style="display:none"><div class="box"><div class="input"><input type="text" name="value" class="value" autocomplete="off" /></div><div class="button"><button type="button" class="button"></button></div></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

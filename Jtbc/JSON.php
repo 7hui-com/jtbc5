@@ -6,6 +6,17 @@ namespace Jtbc;
 
 class JSON
 {
+  public static function contains(string $argJSONString, $argValue, bool $argStrictMode = false)
+  {
+    $result = false;
+    $haystack = self::decode($argJSONString);
+    if (is_array($haystack) && in_array($argValue, $haystack, $argStrictMode))
+    {
+      $result = true;
+    }
+    return $result;
+  }
+
   public static function encode($argValue, bool $argUnescapedUnicode = false)
   {
     $value = $argValue;

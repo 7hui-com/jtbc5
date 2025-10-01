@@ -57,6 +57,10 @@ export default class jtbcSchemaForm extends HTMLDivElement {
               field = this.renderText(item);
               break;
             };
+            case 'password': {
+              field = this.renderPassword(item);
+              break;
+            };
             case 'textarea': {
               field = this.renderTextarea(item);
               break;
@@ -185,6 +189,13 @@ export default class jtbcSchemaForm extends HTMLDivElement {
     let result = document.createElement('input', {is: 'jtbc-input'});
     result.setAttribute('is', 'jtbc-input');
     result.setAttribute('type', 'text');
+    return result;
+  };
+
+  renderPassword(item) {
+    let result = document.createElement('input', {is: 'jtbc-input'});
+    result.setAttribute('is', 'jtbc-input');
+    result.setAttribute('type', 'password');
     return result;
   };
 

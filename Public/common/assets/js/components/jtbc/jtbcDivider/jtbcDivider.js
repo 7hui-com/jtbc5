@@ -68,6 +68,7 @@ export default class jtbcDivider extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -77,6 +78,5 @@ export default class jtbcDivider extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     shadowRoot.innerHTML = `<style>@import url('${importCssUrl}');</style><container style="display:none"><slot></slot></container>`;
     this.container = shadowRoot.querySelector('container');
-    this.#initEvents();
   };
 };

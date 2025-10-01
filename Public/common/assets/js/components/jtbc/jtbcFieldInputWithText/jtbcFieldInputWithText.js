@@ -131,6 +131,7 @@ export default class jtbcFieldInputWithText extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -140,11 +141,10 @@ export default class jtbcFieldInputWithText extends HTMLElement {
     let importCssUrl = import.meta.url.replace(/\.js($|\?)/, '.css$1');
     let shadowRootHTML = `
       <style>@import url('${importCssUrl}');</style>
-      <div class="container" position="right" style="display:none"><div class="text"></div><div class="input"><input type="text" name="value" class="value" autocomplete="off" /></div><div class="box"></div><div class="mask"></div></div>
+      <div class="container" position="right" style="display:none"><div class="box"><div part="text" class="text"></div><div class="input"><input type="text" name="value" part="value" class="value" autocomplete="off" /></div></div><div class="mask"></div></div>
     `;
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

@@ -8,6 +8,7 @@ use Jtbc\DB\Schema\ColumnLoader;
 use Jtbc\DB\Schema\ColumnManager;
 use Jtbc\DB\Schema\SchemaViewer;
 use Jtbc\String\StringHelper;
+use App\Common\Config\ConfigSourcesScanner;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
@@ -26,7 +27,12 @@ class Diplomat extends Ambassador {
     $commentType = $info -> comment_type;
     $commentFormat = $info -> comment_format;
     $commentSourceType = $info -> comment_sourceType;
-    $commentSource = $commentSourceType == 'dictionary'? $info -> comment_source_dictionary: StringHelper::getClipedString(strval($info -> comment_source_jtbc), '.', 'left+') . '.*';
+    $commentSource = match($commentSourceType) {
+      'dictionary' => $info -> comment_source_dictionary,
+      'jtbc' => StringHelper::getClipedString(strval($info -> comment_source_jtbc), '.', 'left+') . '.*',
+      'module' => JSON::decode(strval($info -> comment_source_module)),
+      default => '',
+    };
     $commentRequired = intval($info -> comment_required) === 1? true: false;
     $commentHiddenAdd = intval($info -> comment_hidden_add) === 1? true: false;
     $column = new Column($fieldName);
@@ -187,9 +193,11 @@ class Diplomat extends Ambassador {
   {
     $genre = strval($req -> get('genre'));
     $module = new Module($genre);
+    $sourcesScanner = new ConfigSourcesScanner();
     $bs = new BasicSubstance($this);
     $bs -> data -> dictionary = Dictionary::getList();
     $bs -> data -> jtbc = $module -> getFileList('language');
+    $bs -> data -> module = $sourcesScanner -> getSourcesOptions();
     return $bs -> toJSON();
   }
 

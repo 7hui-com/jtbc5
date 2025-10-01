@@ -32,11 +32,11 @@ export default class jtbcJumper extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
     super();
     this.ready = false;
-    this.#initEvents();
   };
 };

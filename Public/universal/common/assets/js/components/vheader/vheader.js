@@ -238,6 +238,7 @@ export default class vheader extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.render();
+    this.#initEvents();
     this.#selectAnchor();
     this.#initObserver();
   };
@@ -271,6 +272,5 @@ export default class vheader extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

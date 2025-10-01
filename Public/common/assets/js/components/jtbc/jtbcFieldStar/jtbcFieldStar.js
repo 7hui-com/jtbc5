@@ -96,6 +96,7 @@ export default class jtbcFieldStar extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 
@@ -112,6 +113,5 @@ export default class jtbcFieldStar extends HTMLElement {
     this.container = shadowRoot.querySelector('container');
     this.currentLength = 5;
     this.render();
-    this.#initEvents();
   };
 };

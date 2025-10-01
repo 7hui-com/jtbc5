@@ -72,6 +72,7 @@ export default class jtbcMarquee extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   disconnectedCallback() {
@@ -94,6 +95,5 @@ export default class jtbcMarquee extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

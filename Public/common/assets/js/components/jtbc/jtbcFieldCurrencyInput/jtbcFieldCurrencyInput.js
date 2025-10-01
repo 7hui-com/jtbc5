@@ -224,6 +224,7 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.container.querySelector('div.currency').innerText = this.currency;
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
@@ -239,6 +240,5 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

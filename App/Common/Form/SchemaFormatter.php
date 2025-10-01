@@ -16,7 +16,7 @@ class SchemaFormatter
   private $baseURI;
   private $lang;
   private $withTreeSource = ['cascader', 'linkage-selector'];
-  private $withSource = ['radio', 'checkbox', 'select', 'select2', 'flat-selector', 'transfer', 'input-with-datalist', 'input-with-select'];
+  private $withSource = ['radio', 'checkbox', 'select', 'select2', 'selector', 'flat-selector', 'transfer', 'input-with-datalist', 'input-with-select'];
 
   private function getData($argSource, string $argSourceType)
   {
@@ -111,7 +111,7 @@ class SchemaFormatter
     }
     if (in_array($type, ['date', 'datetime', 'date-range', 'datetime-range']))
     {
-      $extra = array_merge($extra, ['lang' => $this -> lang]);
+      $extra = array_merge($extra, ['lang' => Env::getLang()]);
     }
     else if (in_array($type, ['table', 'mix', 'multi']))
     {

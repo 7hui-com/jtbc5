@@ -7,8 +7,6 @@ export default class jtbcMasonry extends HTMLElement {
   #columnName = 'item';
   #gutter = null;
   #param = null;
-  #libPath = null;
-  masonry = null;
 
   get param() {
     let result = this.#param ?? {};
@@ -20,6 +18,7 @@ export default class jtbcMasonry extends HTMLElement {
     {
       result.gutter = this.#gutter;
     };
+    result.initLayout = false;
     result.itemSelector = '.' + this.#columnName;
     return result;
   };
@@ -43,62 +42,38 @@ export default class jtbcMasonry extends HTMLElement {
   };
 
   #initMasonry() {
-    this.bindImgLoadEvents();
     this.masonry = new Masonry(this, this.param);
     this.masonry.on('layoutComplete', () => {
       this.dispatchEvent(new CustomEvent('layoutcomplete', {bubbles: true}));
     });
+    this.masonry.layout();
+    nap(300).then(() => this.masonry.layout());
   };
 
   #loadMasonry() {
-    let container = this.container;
-    let observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type == 'childList') {
-          this.bindImgLoadEvents();
-          mutation.addedNodes.forEach(el => {
-            if (el.classList.contains(this.#columnName))
-            {
-              this.masonry?.addItems(el);
-            };
-          });
-          if (mutation.removedNodes.length != 0)
-          {
-            this.masonry?.layout();
-          };
-        }
-        else if (mutation.type == 'attributes' && mutation.attributeName == 'style')
-        {
-          container.setAttribute('style', this.getAttribute('style'));
-        };
-      });
-    });
-    observer.observe(this, {childList: true, attributes: true, attributeFilter: ['style']});
-    if (typeof Masonry == 'undefined')
+    if (window.Masonry !== undefined)
     {
-      let parentNode = container.parentNode;
-      let script = document.createElement('script');
-      script.src = this.#libPath + '/masonry.pkgd.min.js';
-      parentNode.insertBefore(script, container);
-      script.addEventListener('load', () => this.#initMasonry());
+      this.#initMasonry();
     }
     else
     {
-      this.#initMasonry();
-    };
-  };
-
-  bindImgLoadEvents() {
-    let that = this;
-    this.querySelectorAll('img').forEach(img => {
-      if (!img.hasAttribute('masonry-load-binded'))
+      let rootNode = this.getRootNode();
+      let script = document.createElement('script');
+      script.addEventListener('load', e => this.#initMasonry());
+      script.setAttribute('src', this.vendorPath + '/masonry.pkgd.min.js');
+      if (rootNode.nodeType == 9)
       {
-        img.setAttribute('masonry-load-binded', 'true');
-        img.addEventListener('load', function(){
-          that.masonry?.layout();
-        });
+        rootNode.head.appendChild(script);
+      }
+      else if (rootNode.nodeType == 11)
+      {
+        rootNode.appendChild(script);
+      }
+      else
+      {
+        throw new Error('Unsupported root node type');
       };
-    });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -133,15 +108,8 @@ export default class jtbcMasonry extends HTMLElement {
 
   constructor() {
     super();
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    let basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
-    let shadowRootHTML = `
-      <style>:host { display: block; width: 100% } div.container { width: 100%; position: relative }</style>
-      <div part="container" class="container"><slot></slot></div>
-    `;
-    shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
-    this.#libPath = basePath + '../../../vendor/masonry';
-    this.container = shadowRoot.querySelector('div.container');
+    this.basePath = import.meta.url.substring(0, import.meta.url.lastIndexOf('/') + 1);
+    this.vendorPath = this.basePath.substring(0, this.basePath.indexOf('/components/')) + '/vendor/masonry';
   };
 };

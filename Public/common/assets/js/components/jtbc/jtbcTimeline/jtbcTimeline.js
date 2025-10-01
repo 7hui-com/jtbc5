@@ -75,6 +75,7 @@ export default class jtbcTimeline extends HTMLElement {
   connectedCallback() {
     this.render();
     this.ready = true;
+    this.#initEvents();
   };
 
   disconnectedCallback() {
@@ -92,6 +93,5 @@ export default class jtbcTimeline extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
   };
 };

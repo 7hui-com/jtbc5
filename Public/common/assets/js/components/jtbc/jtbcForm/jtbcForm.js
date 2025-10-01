@@ -410,6 +410,7 @@ export default class jtbcForm extends HTMLFormElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
   };
 
   constructor() {
@@ -418,6 +419,5 @@ export default class jtbcForm extends HTMLFormElement {
     this.dialog = document.getElementById('dialog');
     this.miniMessage = document.getElementById('miniMessage');
     this.toast = document.getElementById('toast');
-    this.#initEvents();
   };
 };

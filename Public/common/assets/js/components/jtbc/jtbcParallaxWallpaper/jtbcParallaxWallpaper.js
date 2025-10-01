@@ -99,6 +99,8 @@ export default class jtbcParallaxWallpaper extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
+    this.#startMonitor();
   };
 
   disconnectedCallback() {
@@ -121,7 +123,5 @@ export default class jtbcParallaxWallpaper extends HTMLElement {
     shadowRoot.innerHTML = shadowRootHTML;
     this.ready = false;
     this.container = shadowRoot.querySelector('div.container');
-    this.#initEvents();
-    this.#startMonitor();
   };
 };
