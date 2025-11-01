@@ -12,6 +12,7 @@ class Diplomat extends Ambassador {
   {
     $this -> addParam('meta_title', Jtbc::take('index.title', 'lng'));
     $this -> breadcrumbBuilder = new BreadcrumbBuilder($this -> getParam('genre'));
+    $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
   }
 
   public function list(Request $req, Response $res)

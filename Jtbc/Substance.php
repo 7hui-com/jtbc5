@@ -195,6 +195,26 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     return $result;
   }
 
+  public function toJSON(): string
+  {
+    return JSON::encode($this -> toArray());
+  }
+
+  public function toObject()
+  {
+    $result = (object)[];
+    if (!$this -> isEmpty())
+    {
+      $result = json_decode($this -> toJSON());
+    }
+    return $result;
+  }
+
+  public function toQueryString()
+  {
+    return http_build_query($this -> toArray());
+  }
+
   public function truncate(...$args)
   {
     $result = false;
@@ -306,11 +326,6 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     $name = $argName;
     unset($this -> body[$name]);
     $this -> resetKeys();
-  }
-
-  public function toJSON(): string
-  {
-    return JSON::encode($this -> toArray());
   }
 
   public function jsonSerialize(): mixed

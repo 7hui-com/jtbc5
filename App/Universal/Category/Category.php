@@ -30,6 +30,18 @@ class Category
     return $result;
   }
 
+  public function getFirstId()
+  {
+    $result = null;
+    $allId = $this -> getAllId();
+    if (!empty($allId))
+    {
+      $firstKey = array_key_first($allId);
+      $result = intval($allId[$firstKey]);
+    }
+    return $result;
+  }
+
   public function getTitleById(int $argId)
   {
     return strval($this -> getRecordById($argId, 'title'));

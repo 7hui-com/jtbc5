@@ -1,5 +1,5 @@
 :host {
-  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --padding: 0px 10px; --currency-padding: 0px 10px; --currency-color: #666666; --font-family: Menlo, Monaco, Consolas, monospace; --font-size: 12px; --color: #000000; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 100
+  width: 500px; display: inline-block; vertical-align: top; --height: 30px; --padding: 0px 10px; --currency-background: #f5f5f5; --currency-padding: 0px 10px; --currency-color: #666666; --font-family: Menlo, Monaco, Consolas, monospace; --font-size: 14px; --color: #000000; --input-border-color: #d1d1d1; --input-border-color-focus: #5b9dd9; --input-box-shadow-focus: rgba(30, 140, 190, 0.8); --z-index: 100
 }
 .container {
   width: 100%; display: flex !important; height: var(--height); align-items: center; background: #ffffff; box-sizing: border-box; overflow: hidden; border: var(--input-border-color) 1px solid; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08); cursor: text; position: relative; z-index: var(--z-index); transition: all .3s ease
@@ -8,7 +8,7 @@
   box-sizing: border-box; outline: none; border: 0px; background: transparent; font-family: var(--font-family); font-size: var(--font-size)
 }
 .container div.currency {
-  height: 100%; padding: var(--currency-padding); display: flex; align-items: center; background: var(--input-border-color); font-family: var(--font-family); font-size: var(--font-size); color: var(--currency-color)
+  height: 100%; padding: var(--currency-padding); display: flex; align-items: center; background: var(--currency-background); font-family: var(--font-family); font-size: var(--font-size); color: var(--currency-color); border-right: var(--input-border-color) 1px solid
 }
 .container div.currency:empty {
   display: none

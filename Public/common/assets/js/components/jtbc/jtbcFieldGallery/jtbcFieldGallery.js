@@ -180,7 +180,7 @@ export default class jtbcFieldGallery extends HTMLElement {
     if (isTouchDevice())
     {
       container.delegateEventListener('div.item', 'touchstart', function(e) {
-        if (!this.classList.contains('button'))
+        if (!this.classList.contains('button') && e.target.classList.contains('hover'))
         {
           e.preventDefault();
           if (e.touches.length == 1)
@@ -206,7 +206,7 @@ export default class jtbcFieldGallery extends HTMLElement {
     else
     {
       container.delegateEventListener('div.item', 'mousedown', function(e) {
-        if (!this.classList.contains('button'))
+        if (!this.classList.contains('button') && e.target.classList.contains('hover'))
         {
           e.preventDefault();
           that.draging = this;

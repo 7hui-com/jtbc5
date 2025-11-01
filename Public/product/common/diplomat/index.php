@@ -17,6 +17,7 @@ class Diplomat extends Ambassador {
     $this -> breadcrumbBuilder = new BreadcrumbBuilder($this -> getParam('genre'));
     $this -> category = new Category($this -> getParam('genre'), $this -> getParam('lang'), 1);
     $this -> setParam('category', $this -> category);
+    $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
   }
 
   public function list(Request $req, Response $res)

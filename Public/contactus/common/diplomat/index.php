@@ -13,6 +13,7 @@ class Diplomat extends Ambassador {
     $this -> addParam('meta_title', Jtbc::take('index.title', 'lng'));
     $this -> addParam('stylesheets', ['url' => Path::getActualRoute('feedback/') . $this -> getParam('assets_path') . '/feedback.css']);
     $this -> breadcrumbBuilder = new BreadcrumbBuilder($this -> getParam('genre'));
+    $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
   }
 
   public function index(Response $res)
@@ -29,7 +30,6 @@ class Diplomat extends Ambassador {
     $rs = $model -> get();
     if (!is_null($rs))
     {
-      $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
       $renderer = new Renderer('index.index', ['timestamp' => $timestamp, 'unique_id' => $uniqueId, 'sign' => $sign]);
       $result = $renderer -> render([$rs -> all()]);
     }

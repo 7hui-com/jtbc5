@@ -12,6 +12,7 @@ class Diplomat extends Ambassador {
   {
     $this -> addParam('meta_title', Jtbc::take('index.title', 'lng'));
     $this -> breadcrumbBuilder = new BreadcrumbBuilder($this -> getParam('genre'));
+    $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
   }
 
   public function detail(Request $req, Response $res)
@@ -26,7 +27,9 @@ class Diplomat extends Ambassador {
     $rs = $model -> get();
     if (!is_null($rs))
     {
-      $this -> addParam('meta_title', $rs -> title);
+      $rsTitle = strval($rs -> title);
+      $this -> addParam('meta_title', $rsTitle);
+      $this -> breadcrumbBuilder -> add($rsTitle);
       $this -> setParam('breadcrumb', $this -> breadcrumbBuilder -> build());
       $renderer = new Renderer('index.detail');
       $result = $renderer -> render([$rs -> all()]);
