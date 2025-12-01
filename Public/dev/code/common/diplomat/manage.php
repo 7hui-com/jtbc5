@@ -12,7 +12,7 @@ use App\Universal\Upload\chunkFile;
 use App\Universal\Upload\LocalUploader\LocalUploader;
 
 class Diplomat extends Ambassador {
-  private $allowedExtensions = ['css', 'html', 'js', 'jtbc', 'php', 'svg', 'txt', 'xml'];
+  private $allowedExtensions = ['css', 'html', 'js', 'jtbc', 'php', 'rewrite', 'svg', 'txt', 'xml'];
 
   private function isCorrectHash(string $argPath, string $argHash)
   {
@@ -133,16 +133,17 @@ class Diplomat extends Ambassador {
     {
       $exists = true;
       $extension = strtolower(StringHelper::getClipedString($currentPath, '.', 'right'));
-      $mode = match($extension)
-      {
+      $mode = match($extension) {
         'css' => 'css',
         'html' => 'htmlmixed',
         'js' => 'javascript',
         'jtbc' => 'xml',
         'php' => 'php',
+        'rewrite' => 'php',
         'svg' => 'xml',
         'txt' => 'htmlmixed',
         'xml' => 'xml',
+        default => 'htmlmixed',
       };
       $content = file_get_contents($currentPath);
     }

@@ -297,10 +297,13 @@ body {
   width: 100%; display: block; position: relative; z-index: 100
 }
 .container .main nav {
-  width: 100%; height: 42px; line-height: 40px; display: block; box-sizing: border-box; padding-left: 20px; font-size: 14px; color: #000; border-top: #e7ecf1 1px solid; border-bottom: #e1e1e1 1px solid
+  width: 100%; height: 42px; display: flex; flex-wrap: wrap; align-items: center; box-sizing: border-box; padding-left: 20px; font-size: 14px; color: #000; border-top: #e7ecf1 1px solid; border-bottom: #e1e1e1 1px solid
 }
 .container .main nav a {
-  text-decoration: none
+  text-decoration: none; line-height: 100%
+}
+.container .main nav a[href=''] {
+  opacity: 0.6
 }
 .container .main nav jtbc-svg {
   vertical-align: middle; margin: 0px 5px; width: 10px; height: 10px; --fore-color: #999999

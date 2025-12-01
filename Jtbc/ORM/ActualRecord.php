@@ -11,6 +11,11 @@ class ActualRecord extends ArrayIterator implements JsonSerializable
 {
   private $callback;
 
+  public function isEmpty()
+  {
+    return ($this -> count() === 0);
+  }
+
   public function toArray()
   {
     $result = [];

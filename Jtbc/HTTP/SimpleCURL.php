@@ -88,7 +88,6 @@ class SimpleCURL
     $this -> lastErrorNo = $status['error_no'] = curl_errno($curl);
     $this -> lastHTTPCode = $status['http_code'] = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $this -> lastContentType = $status['content_type'] = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-    curl_close($curl);
     return $this -> getResult($status, $curlResult);
   }
 
@@ -111,7 +110,6 @@ class SimpleCURL
     $this -> lastErrorNo = $status['error_no'] = curl_errno($curl);
     $this -> lastHTTPCode = $status['http_code'] = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $this -> lastContentType = $status['content_type'] = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-    curl_close($curl);
     return $this -> getResult($status, $curlResult);
   }
 
@@ -157,7 +155,6 @@ class SimpleCURL
     $this -> lastErrorNo = $status['error_no'] = curl_errno($curl);
     $this -> lastHTTPCode = $status['http_code'] = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $this -> lastContentType = $status['content_type'] = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-    curl_close($curl);
     return $this -> getResult($status, $curlResult);
   }
 
@@ -188,7 +185,6 @@ class SimpleCURL
     $this -> lastErrorNo = $status['error_no'] = curl_errno($curl);
     $this -> lastHTTPCode = $status['http_code'] = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $this -> lastContentType = $status['content_type'] = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-    curl_close($curl);
     return $this -> getResult($status, $curlResult);
   }
 

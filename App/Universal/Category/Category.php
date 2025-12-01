@@ -17,6 +17,7 @@ class Category
   private $cache;
   private $cacheName;
   private $cacheTimeout;
+  private $cacheResult;
   private $namePrefix;
 
   public function getAllId()
@@ -134,15 +135,19 @@ class Category
     }
     else
     {
-      $cacheResult = $this -> cache -> get($cacheName);
-      if (is_array($cacheResult))
+      $tempResult = $this -> cacheResult;
+      if (!is_array($tempResult))
       {
-        $tempResult = $cacheResult;
-      }
-      else
-      {
-        $tempResult = $this -> getDBList();
-        $this -> cache -> put($cacheName, $tempResult, time() + $this -> cacheTimeout);
+        $cacheResult = $this -> cache -> get($cacheName);
+        if (is_array($cacheResult))
+        {
+          $this -> cacheResult = $tempResult = $cacheResult;
+        }
+        else
+        {
+          $this -> cacheResult = $tempResult = $this -> getDBList();
+          $this -> cache -> put($cacheName, $tempResult, time() + $this -> cacheTimeout);
+        }
       }
     }
     if (empty($filters))
