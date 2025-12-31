@@ -80,7 +80,7 @@ class Diplomat extends Ambassador {
     }
     $model -> orderBy('time', 'desc');
     $bs = new BasicSubstance($this);
-    $bs -> data -> data = $model -> getPage(['id', 'title', 'published', 'time']);
+    $bs -> data -> data = $model -> getPage('~');
     $bs -> data -> keyword = $keyword;
     $bs -> data -> pagination = [
       'pagenum' => $model -> pagination -> pageNum,

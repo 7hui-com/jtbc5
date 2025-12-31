@@ -1,9 +1,11 @@
 <?php
 namespace Jtbc;
+use ZipArchive;
 use App\Common\Premium\PremiumAccountLoader;
 use App\Common\Official\OfficialCommunicator;
 use App\Console\Common\Ambassador;
 use App\Console\Common\EmptySubstance;
+use App\Console\Log\Logger;
 
 class Diplomat extends Ambassador {
   public function modify()
@@ -50,6 +52,28 @@ class Diplomat extends Ambassador {
     return $es -> toJSON();
   }
 
+  public function actionDownload(Request $req)
+  {
+    if ($this -> guard -> role -> isSuper)
+    {
+      $this -> MIMEType = 'zip';
+      $zip = new ZipArchive();
+      $zipPath = Path::getActualRoute(Path::getRuntimeDirectory('CloudService/PremiumConfig.zip'));
+      $zipOpened = $zip -> open($zipPath, ZipArchive::CREATE);
+      if ($zipOpened === true)
+      {
+        $configPath = 'Config/App/Common/Premium/PremiumConfig.php';
+        $readmeFilename = Jtbc::take('manageAccount.text-download-readme-filename', 'lng');
+        $readmeContent = Jtbc::take('manageAccount.text-download-readme-content', 'lng');
+        $zip -> addFromString($readmeFilename, $readmeContent);
+        $zip -> addFromString($configPath, file_get_contents(Path::getActualRoute('../' . $configPath)));
+        $zip -> close();
+        Logger::log($this, 'manageAccount.log-download');
+        return file_get_contents($zipPath);
+      }
+    }
+  }
+
   public function actionModify(Request $req)
   {
     $code = 0;
@@ -89,6 +113,7 @@ class Diplomat extends Ambassador {
           if ($apiResult -> code == 1)
           {
             $code = 1;
+            Logger::log($this, 'manageAccount.log-modify');
           }
           else
           {

@@ -33,16 +33,29 @@ class SchemaViewer
     return $result;
   }
 
-  public function getFields(string $argTable)
+  public function getFields(string $argTable, bool $argBriefMode = false)
   {
     $result = [];
     $table = $argTable;
+    $briefMode = $argBriefMode;
     $tableInfo = $this -> getTableInfo($table);
     if (!is_null($tableInfo))
     {
       foreach ($tableInfo as $item)
       {
-        $result[] = $item['field'];
+        $type = $item['type'];
+        $field = $item['field'];
+        if ($briefMode == false)
+        {
+          $result[] = $field;
+        }
+        else
+        {
+          if (!in_array($type, ['text', 'mediumtext', 'longtext']))
+          {
+            $result[] = $field;
+          }
+        }
       }
     }
     return $result;

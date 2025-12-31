@@ -11,12 +11,20 @@
       <zh-cn><![CDATA[我的云服务号]]></zh-cn>
     </item>
     <item>
-      <name><![CDATA[text-tips-modify-1]]></name>
-      <zh-cn><![CDATA[请如实填写云服务号【]]></zh-cn>
+      <name><![CDATA[text-tips-modify-tit]]></name>
+      <zh-cn><![CDATA[当前云服务号：]]></zh-cn>
     </item>
     <item>
-      <name><![CDATA[text-tips-modify-2]]></name>
-      <zh-cn><![CDATA[】的资料以便在有需要时验证您的信息]]></zh-cn>
+      <name><![CDATA[text-tips-modify-download]]></name>
+      <zh-cn><![CDATA[，如需备份此云服务号请]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-modify-download-href]]></name>
+      <zh-cn><![CDATA[点击下载]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-tips-modify-tips]]></name>
+      <zh-cn><![CDATA[请如实填写您的资料以便在有需要时验证您的信息]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-tips-modify-exception]]></name>
@@ -45,6 +53,26 @@
     <item>
       <name><![CDATA[text-modify-code-4013]]></name>
       <zh-cn><![CDATA[请填写正确的(中国)身份证号]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-download-filename]]></name>
+      <zh-cn><![CDATA[云服务号.zip]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-download-readme-filename]]></name>
+      <zh-cn><![CDATA[读我.txt]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-download-readme-content]]></name>
+      <zh-cn><![CDATA[云服务号是一个配置文件，当需要恢复云服务号时，手动根据当前目录的路径覆盖服务器上同目录下的同名文件即可。如果需要了解更多关于云服务的问题，请参考这个网址 https://help.jtbc.cn/php/5.0/#cloudservice/intro.xml 中的内容。]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-download]]></name>
+      <zh-cn><![CDATA[下载云服务号成功]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[log-modify]]></name>
+      <zh-cn><![CDATA[修改云服务号资料成功]]></zh-cn>
     </item>
   </item_list>
 </xml>

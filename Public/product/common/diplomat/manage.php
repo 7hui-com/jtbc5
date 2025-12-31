@@ -103,8 +103,8 @@ class Diplomat extends Ambassador {
       $model -> where -> setFuzzyLike('title', explode(' ', $keyword));
     }
     $model -> orderBy('time', 'desc');
-    $data = $model -> getPage(['id', 'title', 'category', 'published', 'time']);
-    foreach ($data as $key => $item)
+    $data = $model -> getPage('~');
+    foreach ($data as $item)
     {
       $item -> category_title = $category -> getTitleById($item -> category);
     }

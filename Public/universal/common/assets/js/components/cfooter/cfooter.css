@@ -67,6 +67,9 @@
 .container div.bottom div.box div.content span.href a {
   font-size: var(--footer-font-size); color: var(--footer-font-color); text-decoration: none; line-height: 160%; display: inline-block; border-bottom: transparent 1px solid
 }
+.container div.bottom div.box div.content span.href a:has(img) {
+  line-height: normal; border-bottom: 0px
+}
 .container div.bottom div.box div.content span.href a:hover {
   border-color: var(--footer-font-color)
 }
@@ -105,6 +108,9 @@
 }
 .container div.copyright div.box div.section div.content span.href a {
   font-size: var(--footer-copyright-font-size); color: var(--footer-copyright-font-color); text-decoration: none; line-height: 150%; display: inline-block; border-bottom: transparent 1px solid
+}
+.container div.copyright div.box div.section div.content span.href a:has(img) {
+  line-height: normal; border-bottom: 0px
 }
 .container div.copyright div.box div.section div.content span.href a:hover {
   border-color: var(--footer-font-color)

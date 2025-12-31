@@ -22,10 +22,15 @@
         <form if="${$status == 1}" is="jtbc-form" method="post" autocomplete="off" bigmouth="bigmouth" target="#null" action="{$>this.genre}/manageAccount?action=modify">
           <div class="tinyForm">
             <ul>
+              <li>
+                <div class="appid">
+                  <p>{$=$take('{$>self.path}.text-tips-modify-tit', 'lng')}<b>${$app_id}</b>{$=$take('{$>self.path}.text-tips-modify-download', 'lng')}<a class="href" download="{$=$take('{$>self.path}.text-download-filename', 'lng')}" href="{$>this.genre}/manageAccount?action=download" target="_blank">{$=$take('{$>self.path}.text-tips-modify-download-href', 'lng')}</a></p>
+                </div>
+              </li>
               <li><input name="name" type="text" role="field" placeholder="{$=$take('universal:config.name', 'lng')}" value="${$info.name}" /></li>
               <li><input name="mobile" type="text" role="field" placeholder="{$=$take('universal:config.mobile', 'lng')}" value="${$info.mobile}" /></li>
               <li><input name="idcard" type="text" role="field" placeholder="{$=$take('universal:config.idcard', 'lng')}" value="${$info.idcard}" /></li>
-              <li><span class="tips">{$=$take('{$>self.path}.text-tips-modify-1', 'lng')}${$app_id}{$=$take('{$>self.path}.text-tips-modify-2', 'lng')}</span></li>
+              <li><span class="tips">{$=$take('{$>self.path}.text-tips-modify-tips', 'lng')}</span></li>
             </ul>
             <div class="button central"><button class="b2 submit" role="submit">{$=$take('{$>self.path}.text-button-modify', 'lng')}</button></div>
           </div>

@@ -35,6 +35,23 @@ class SQLBuilder
       {
         $fields = '*';
       }
+      else if ($fields == '~')
+      {
+        $tempFields = [];
+        $briefFields = $schemaViewer -> getFields($table, true);
+        foreach ($briefFields as $briefField)
+        {
+          $tempFields[] = SQLFormatter::formatName($briefField);
+        }
+        if (!empty($tempFields))
+        {
+          $fields = implode(',', $tempFields);
+        }
+        else
+        {
+          throw new UnexpectedException('Unexpected argument(s)', 50801);
+        }
+      }
     }
     else if (is_array($fields))
     {
@@ -91,7 +108,14 @@ class SQLBuilder
           throw new UnexpectedException('Unexpected argument(s)', 50801);
         }
       }
-      $fields = implode(',', $tempFields);
+      if (!empty($tempFields))
+      {
+        $fields = implode(',', $tempFields);
+      }
+      else
+      {
+        throw new UnexpectedException('Unexpected argument(s)', 50801);
+      }
     }
     else
     {

@@ -22,6 +22,7 @@ export default class cfooter extends HTMLElement {
     let copyright = container.querySelector('div.copyright');
     let xBottom = this.querySelector('bottom');
     let xCopyright = this.querySelector('copyright');
+    const imgAllowedAttrs = ['alt', 'part', 'width', 'height', 'sizes', 'srcset'];
     const appendContent = (source, target) => {
       source.querySelectorAll('text,href,picture').forEach(el => {
         let tagName = el.tagName.toLowerCase();
@@ -43,7 +44,27 @@ export default class cfooter extends HTMLElement {
         {
           span.classList.add('href');
           let anchor = document.createElement('a');
-          anchor.innerText = el.getAttribute('title') ?? '';
+          if (el.hasAttribute('image'))
+          {
+            let image = document.createElement('img');
+            image.setAttribute('part', 'image');
+            image.setAttribute('src', el.getAttribute('image'));
+            if (el.hasAttribute('title'))
+            {
+              image.setAttribute('title', el.getAttribute('title'));
+            };
+            Object.keys(el.dataset).forEach(key => {
+              if (imgAllowedAttrs.includes(key))
+              {
+                image.setAttribute(key, el.dataset[key]);
+              };
+            });
+            anchor.append(image);
+          }
+          else
+          {
+            anchor.innerText = el.getAttribute('title') ?? '';
+          };
           if (el.hasAttribute('url'))
           {
             anchor.setAttribute('href', el.getAttribute('url'));
@@ -64,6 +85,12 @@ export default class cfooter extends HTMLElement {
           {
             image.setAttribute('title', el.getAttribute('title'));
           };
+          Object.keys(el.dataset).forEach(key => {
+            if (imgAllowedAttrs.includes(key))
+            {
+              image.setAttribute(key, el.dataset[key]);
+            };
+          });
           span.append(image);
         };
         target.append(span);

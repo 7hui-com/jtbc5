@@ -107,7 +107,7 @@ class Diplomat extends Ambassador {
       });
     }
     $model -> orderBy('key', 'asc');
-    $data = $model -> getPage(['id', 'key', 'name', 'mode', 'published', 'time']);
+    $data = $model -> getPage('~');
     foreach ($data as $item)
     {
       $item -> mode_text = Jtbc::take('sel_mode.' . $item -> mode, 'lng') ?? '';

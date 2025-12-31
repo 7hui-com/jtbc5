@@ -89,7 +89,6 @@ class Diplomat extends Ambassador {
     $page = intval($req -> get('page'));
     $locked = intval($req -> get('locked') ?? -1);
     $pagesize = intval(Jtbc::getConfig('pagesize'));
-    $data = [];
     $model = new TinyModel();
     $model -> pageNum = $page;
     $model -> pageSize = $pagesize;
@@ -102,11 +101,10 @@ class Diplomat extends Ambassador {
       $model -> where -> role -> unEqual(-1);
     }
     $model -> orderBy('time', 'desc');
-    $rsa = $model -> getPage(['id', 'username', 'role', 'locked', 'time']);
-    foreach ($rsa as $rs)
+    $data = $model -> getPage('~');
+    foreach ($data as $item)
     {
-      $rs['role_title'] = $this -> getRoleTitle($rs['role']);
-      array_push($data, $rs);
+      $item -> role_title = $this -> getRoleTitle($item -> role);
     }
     $bs = new BasicSubstance($this);
     $bs -> data -> data = $data;

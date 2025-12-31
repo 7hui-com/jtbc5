@@ -3,6 +3,7 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc;
+use DateTime;
 
 class Date
 {
@@ -14,8 +15,7 @@ class Date
   public static function formatTimestamp(int $argTime, $argType = 0)
   {
     $time = $argTime;
-    $format = match(intval($argType))
-    {
+    $format = match(intval($argType)){
       -8 => 'F',
       -7 => 'w',
       -6 => 's',
@@ -40,6 +40,8 @@ class Date
       41 => 'H:i',
       50 => 'F j',
       51 => 'F j, Y',
+      2822 => DateTime::RFC2822,
+      3339 => DateTime::RFC3339,
       default => 'Y-m-d H:i:s',
     };
     return date($format, $time);

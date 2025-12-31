@@ -29,6 +29,8 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     'cache': {
       'enable': false,
     },
+    'customWysiwygToolbar': function(type, el) {
+    },
   };
   #value = null;
   #basePath = null;

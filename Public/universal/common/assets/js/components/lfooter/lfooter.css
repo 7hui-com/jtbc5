@@ -46,11 +46,17 @@
 .container div.bottom div.box div.content span.href a {
   font-size: var(--footer-font-size); color: var(--footer-font-color); text-decoration: none; line-height: 160%; display: inline-block; border-bottom: transparent 1px solid
 }
+.container div.bottom div.box div.content span.href a:has(img) {
+  line-height: normal; border-bottom: 0px
+}
 .container div.bottom div.box div.content span.href a:hover {
   border-color: var(--footer-font-color)
 }
 .container div.bottom div.box div.content span.href::before {
   content: '\2022'; font-size: var(--footer-font-size); color: var(--footer-font-color); display: block; padding-right: calc(var(--footer-gap) / 4)
+}
+.container div.bottom div.box div.content span.href:has(img)::before {
+  display: none
 }
 .container div.bottom div.box div.content span.picture {
   display: block; width: 100%; padding: calc(var(--footer-gap) / 4) 0px
@@ -114,6 +120,9 @@
 }
 .container div.copyright div.box div.section div.content span.href a {
   font-size: var(--footer-copyright-font-size); color: var(--footer-copyright-font-color); text-decoration: none; line-height: 150%; display: inline-block; border-bottom: transparent 1px solid
+}
+.container div.copyright div.box div.section div.content span.href a:has(img) {
+  line-height: normal; border-bottom: 0px
 }
 .container div.copyright div.box div.section div.content span.href a:hover {
   border-color: var(--footer-font-color)

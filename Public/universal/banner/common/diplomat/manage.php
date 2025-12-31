@@ -76,7 +76,7 @@ class Diplomat extends Ambassador {
     $model -> orderBy('id', 'asc');
     $bs = new BasicSubstance($this);
     $bs -> data -> isFiltered = $isFiltered;
-    $bs -> data -> data = $model -> getAll(['id', 'title', 'published', 'time']);
+    $bs -> data -> data = $model -> getAll('~');
     return $bs -> toJSON();
   }
 }

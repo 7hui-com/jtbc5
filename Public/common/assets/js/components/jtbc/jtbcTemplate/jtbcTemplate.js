@@ -324,7 +324,10 @@ export default class jtbcTemplate extends HTMLTemplateElement {
               let value = specials[key];
               if (!sp.has(key))
               {
-                sp.set(key, value);
+                if (value != null)
+                {
+                  sp.set(key, value);
+                };
               }
               else
               {

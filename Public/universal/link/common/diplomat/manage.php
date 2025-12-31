@@ -79,7 +79,7 @@ class Diplomat extends Ambassador {
       $model -> where -> published = $published;
     }
     $model -> orderBy('time', 'desc');
-    $data = $model -> getPage(['id', 'title', 'group', 'published', 'time']);
+    $data = $model -> getPage('~');
     foreach ($data as $item)
     {
       $item -> group_text = Jtbc::take('sel_group.' . $item -> group, 'lng') ?? '';

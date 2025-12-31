@@ -106,7 +106,7 @@ class Diplomat extends Ambassador {
       $model -> where -> lang = $lang;
       $model -> orderBy('order', 'desc');
       $model -> orderBy('id', 'asc');
-      $data = $model -> getAll(['id', 'title', 'published', 'time']);
+      $data = $model -> getAll('~');
       $category = new Category($genre, $lang);
       $genreMode = strval(Guide::getGenreMode($genre));
       $genreTitle = strval(Guide::getGenreTitle($genre));

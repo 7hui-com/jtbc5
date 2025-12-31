@@ -103,7 +103,7 @@ class Diplomat extends Ambassador {
     $model -> orderBy('order', 'desc');
     $model -> orderBy('id', 'asc');
     $bs = new BasicSubstance($this);
-    $bs -> data -> data = $model -> getAll(['id', 'title', 'time']);
+    $bs -> data -> data = $model -> getAll('~');
     return $bs -> toJSON();
   }
 

@@ -7,6 +7,21 @@
 .ppAccount div.mainBox div.title span.tit {
   padding-left: 5px
 }
+.ppAccount div.mainBox div.appid {
+  padding: 10px 15px; border-left: #ec6b6a 5px solid; background: #fdf0f0
+}
+.ppAccount div.mainBox div.appid p {
+  width: 100%; margin: 0px; padding: 5px 0px; display: flex; align-items: center; font-size: 14px; line-height: 100%; word-break: break-all; color: #666666
+}
+.ppAccount div.mainBox div.appid p b {
+  font-weight: bold; color: #000000
+}
+.ppAccount div.mainBox div.appid p a.href {
+  display: inline-flex; color: #333333; margin: 0px 5px; padding: 2px 0px; line-height: 100%; border-bottom: #333333 1px solid
+}
+.ppAccount div.mainBox div.appid p a.href:hover {
+  color: #000000
+}
 .ppAccount div.mainBox div.tinyForm {
   max-height: 400px
 }

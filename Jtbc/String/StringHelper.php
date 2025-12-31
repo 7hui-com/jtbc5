@@ -29,6 +29,11 @@ class StringHelper
     return $result;
   }
 
+  public static function countUniqueChars(string $argString): int
+  {
+    return count(array_count_values(mb_str_split($argString)));
+  }
+
   public static function desensitize(string $argString, ?int $argStart = null, ?int $argLength = null, string $argTargetChar = '*')
   {
     $result = null;
