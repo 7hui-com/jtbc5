@@ -1,5 +1,6 @@
 <?php
 namespace App\Universal\Category;
+use Jtbc\Path;
 use Jtbc\Jtbc;
 use Jtbc\Module;
 use Jtbc\Substance;
@@ -297,7 +298,7 @@ class Category
     $this -> genre = $argGenre;
     $this -> lang = $argLang;
     $this -> published = $argPublished;
-    $this -> module = new Module('universal/category');
+    $this -> module = new Module(Path::getCurrentGenreByNS(__NAMESPACE__));
     $this -> table = $this -> module -> getTableName();
     $this -> cache = new Cache();
     $this -> cacheName = 'universal-category-' . str_replace('/', '-', $this -> genre) . '-' . $this -> lang;

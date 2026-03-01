@@ -7,9 +7,16 @@ use DateTime;
 
 class Date
 {
+  private static $baseTimemarker = '2020-02-20 20:20:20';
+
   public static function format(string $argDateTime, $argType = 0)
   {
     return self::formatTimestamp(strtotime($argDateTime), $argType);
+  }
+
+  public static function formatTimemarker(int $argTime, $argType = 0)
+  {
+    return self::formatTimestamp(self::getTimestampFromTimemarker($argTime), $argType);
   }
 
   public static function formatTimestamp(int $argTime, $argType = 0)
@@ -47,34 +54,45 @@ class Date
     return date($format, $time);
   }
 
-  public static function getCurrentYear()
+  public static function getCurrentYear(): int
   {
     return intval(date('Y', time()));
   }
 
-  public static function getCurrentMonth()
+  public static function getCurrentMonth(): int
   {
     return intval(date('m', time()));
   }
 
-  public static function getCurrentDate()
+  public static function getCurrentDate(): int
   {
     return intval(date('d', time()));
   }
 
-  public static function getCurrentHour()
+  public static function getCurrentHour(): int
   {
     return intval(date('H', time()));
   }
 
-  public static function getCurrentMinute()
+  public static function getCurrentMinute(): int
   {
     return intval(date('i', time()));
   }
 
-  public static function getCurrentSecond()
+  public static function getCurrentSecond(): int
   {
     return intval(date('s', time()));
+  }
+
+  public static function getEarliestTimemarker(string $argDate)
+  {
+    $result = false;
+    $date = $argDate;
+    if (Validation::isDate($date))
+    {
+      $result = self::strtotimemarker($date . ' 00:00:00');
+    }
+    return $result;
   }
 
   public static function getEarliestTimestamp(string $argDate)
@@ -83,7 +101,18 @@ class Date
     $date = $argDate;
     if (Validation::isDate($date))
     {
-      $result = strtotime($date . ' 0:00:00');
+      $result = strtotime($date . ' 00:00:00');
+    }
+    return $result;
+  }
+
+  public static function getLatestTimemarker(string $argDate)
+  {
+    $result = false;
+    $date = $argDate;
+    if (Validation::isDate($date))
+    {
+      $result = self::strtotimemarker($date . ' 23:59:59');
     }
     return $result;
   }
@@ -99,9 +128,24 @@ class Date
     return $result;
   }
 
+  public static function getTimestampFromTimemarker(int $argTimemarker): int
+  {
+    return intval($argTimemarker + strtotime(self::$baseTimemarker));
+  }
+
   public static function now()
   {
     return date('Y-m-d H:i:s', time());
+  }
+
+  public static function strtotimemarker(string $argDateTime): int|false
+  {
+    $result = strtotime($argDateTime);
+    if (is_int($result))
+    {
+      $result -= strtotime(self::$baseTimemarker);
+    }
+    return $result;
   }
 
   public static function today()
@@ -119,18 +163,23 @@ class Date
     return date('Y-m-d', time() + 2 * 24 * 60 * 60);
   }
 
-  public static function thisYear()
+  public static function thisYear(): int
   {
     return intval(date('Y', time()));
   }
 
-  public static function thisMonth()
+  public static function thisMonth(): int
   {
     return intval(date('Ym', time()));
   }
 
-  public static function thisDay()
+  public static function thisDay(): int
   {
     return intval(date('Ymd', time()));
+  }
+
+  public static function timemarker(): int
+  {
+    return intval(time() - strtotime(self::$baseTimemarker));
   }
 }

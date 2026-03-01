@@ -167,9 +167,8 @@ class Diplomat extends Ambassador {
       else
       {
         $chunkFile = new chunkFile($req);
-        $filePath = Path::getActualRoute($rs -> filepath);
         $uploader = UploaderFactory::getInstance($this -> di, $this -> getParam('genre'), false);
-        $uploadFile = $uploader -> uploadFile($chunkFile, $filePath);
+        $uploadFile = $uploader -> uploadFile($chunkFile, $rs -> filepath);
         if (!is_null($uploadFile))
         {
           $code = $uploadFile -> code;

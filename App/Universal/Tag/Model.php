@@ -1,6 +1,7 @@
 <?php
 namespace App\Universal\Tag;
-use Jtbc\Module;
+use Jtbc\Path;
+use Jtbc\Validation;
 use Jtbc\Model\TinyModel;
 
 class Model extends TinyModel
@@ -8,8 +9,11 @@ class Model extends TinyModel
   public function __construct(?string $argSubTable = null)
   {
     $subTable = $argSubTable;
-    $module = new Module('universal/tag');
-    $tableName = is_null($subTable)? $module -> getTableName(): $module -> getTableNameByKey($subTable); 
-    parent::__construct($tableName);
+    $args = ['genre' => Path::getCurrentGenreByNS(__NAMESPACE__)];
+    if (!Validation::isEmpty($subTable))
+    {
+      $args['subtable'] = $subTable;
+    }
+    parent::__construct(...$args);
   }
 }

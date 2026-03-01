@@ -1,9 +1,8 @@
 <?php
 namespace App\Console\Account;
-use Jtbc\Module;
+use Jtbc\Path;
 use Jtbc\Substance;
 use Jtbc\Model\TinyModel;
-use Config\Diplomatist as Config;
 
 class Model extends TinyModel
 {
@@ -41,7 +40,6 @@ class Model extends TinyModel
 
   public function __construct()
   {
-    $module = new Module(Config::CONSOLE_DIR . '/account');
-    parent::__construct($module -> getTableName());
+    parent::__construct(genre: Path::getCurrentGenreByNS(__NAMESPACE__));
   }
 }

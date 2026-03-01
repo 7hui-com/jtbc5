@@ -34,8 +34,26 @@ icons.small jtbc-svg {
 .hide {
   display: none !important
 }
+.circlenumber {
+  width: 24px; box-sizing: border-box; aspect-ratio: 1 / 1; display: inline-flex; align-items: center; justify-content: center; color: #000; border: #000 2px solid; border-radius: 100%; font-family: var(--font-family-monospaced)
+}
+.circlenumber[group='0'] {
+  border-color: var(--color-group-0)
+}
+.circlenumber[group='1'] {
+  border-color: var(--color-group-1)
+}
+.circlenumber[group='2'] {
+  border-color: var(--color-group-2)
+}
+.circlenumber[group='3'] {
+  border-color: var(--color-group-3)
+}
+.circlenumber[group='4'] {
+  border-color: var(--color-group-4)
+}
 .filegroup {
-  display: inline-block; box-sizing: border-box; margin-right: 4px; padding: 4px 8px; background: #000; color: #fff; border-radius: 6px; text-transform: uppercase; font-family: Menlo, Monaco, Consolas, monospace
+  display: inline-block; box-sizing: border-box; margin-right: 4px; padding: 4px 8px; background: #000; color: #fff; border-radius: 6px; text-transform: uppercase; font-family: var(--font-family-monospaced)
 }
 .filegroup[filegroup='1'] {
   background: #0f6974
@@ -56,19 +74,19 @@ icons.small jtbc-svg {
   display: inline-block; line-height: 100%; padding: 4px; background: #000000; color: #ffffff
 }
 .highlight[group='0'] {
-  background-color: #cccccc
+  background-color: var(--color-group-0)
 }
 .highlight[group='1'] {
-  background-color: #006666
+  background-color: var(--color-group-1)
 }
 .highlight[group='2'] {
-  background-color: #990000
+  background-color: var(--color-group-2)
 }
 .highlight[group='3'] {
-  background-color: #cc9900
+  background-color: var(--color-group-3)
 }
 .highlight[group='4'] {
-  background-color: #272727
+  background-color: var(--color-group-4)
 }
 .originaltext {
   white-space: pre-wrap
@@ -104,37 +122,37 @@ icons.small jtbc-svg {
   display: inline-block; padding-left: 6px; border-left: #000000 3px solid
 }
 .tiptext[group='0'] {
-  border-left-color: #cccccc
+  border-left-color: var(--color-group-0)
 }
 .tiptext[group='1'] {
-  border-left-color: #006666
+  border-left-color: var(--color-group-1)
 }
 .tiptext[group='2'] {
-  border-left-color: #990000
+  border-left-color: var(--color-group-2)
 }
 .tiptext[group='3'] {
-  border-left-color: #cc9900
+  border-left-color: var(--color-group-3)
 }
 .tiptext[group='4'] {
-  border-left-color: #272727
+  border-left-color: var(--color-group-4)
 }
 .underline {
   display: inline-block; line-height: normal; padding-bottom: 2px; border-bottom: #000000 1px solid
 }
 .underline[group='0'] {
-  border-bottom-color: #cccccc
+  border-bottom-color: var(--color-group-0)
 }
 .underline[group='1'] {
-  border-bottom-color: #006666
+  border-bottom-color: var(--color-group-1)
 }
 .underline[group='2'] {
-  border-bottom-color: #990000
+  border-bottom-color: var(--color-group-2)
 }
 .underline[group='3'] {
-  border-bottom-color: #cc9900
+  border-bottom-color: var(--color-group-3)
 }
 .underline[group='4'] {
-  border-bottom-color: #272727
+  border-bottom-color: var(--color-group-4)
 }
 .wordbreakall {
   word-break: break-all

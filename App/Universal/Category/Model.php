@@ -1,6 +1,6 @@
 <?php
 namespace App\Universal\Category;
-use Jtbc\Module;
+use Jtbc\Path;
 use Jtbc\Model\TinyModel;
 
 class Model extends TinyModel
@@ -8,7 +8,6 @@ class Model extends TinyModel
   public function __construct($argAutoFilter = true)
   {
     $this -> autoFilter = $argAutoFilter;
-    $module = new Module('universal/category');
-    parent::__construct($module -> getTableName());
+    parent::__construct(genre: Path::getCurrentGenreByNS(__NAMESPACE__));
   }
 }

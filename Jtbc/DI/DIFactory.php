@@ -5,11 +5,23 @@
 namespace Jtbc\DI;
 use Jtbc\DI;
 use Jtbc\Config;
+use Jtbc\Validation;
 use Jtbc\Exception\UnexpectedException;
 
 class DIFactory
 {
   private static $di;
+
+  public static function extract(string $argName)
+  {
+    $result = null;
+    $name = $argName;
+    if (!Validation::isEmpty($name))
+    {
+      $result = self::getInstance() -> {$name};
+    }
+    return $result;
+  }
 
   public static function getInstance()
   {

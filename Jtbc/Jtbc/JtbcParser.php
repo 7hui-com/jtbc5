@@ -263,6 +263,7 @@ class JtbcParser
       'fetch' => Fetcher::class,
       'formatDate' => Date::class . '::format',
       'formatFileSize' => FileHelper::class,
+      'formatTimemarker' => Date::class,
       'formatTimestamp' => Date::class,
       'getActualRoute' => Path::class,
       'getBestMatchedString' => StringHelper::class,

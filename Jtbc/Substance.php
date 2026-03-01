@@ -359,6 +359,10 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
     {
       $this -> body = $body;
     }
+    else if (is_bool($body))
+    {
+      $this -> recursiveMode = $body;
+    }
     else if (is_string($body))
     {
       $newBody = JSON::decode($body);

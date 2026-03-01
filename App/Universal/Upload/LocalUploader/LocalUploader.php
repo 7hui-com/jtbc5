@@ -45,7 +45,7 @@ class LocalUploader extends Uploader implements FileUploader
   public function removeFile(string $argFilePath)
   {
     $filePath = $argFilePath;
-    return @unlink(Path::getActualRoute($filePath));
+    return @unlink(Path::getActualRoute($this -> genre . '/' . $filePath));
   }
 
   public function uploadFile(chunkFile $chunkFile, ?string $argTargetPath = null)

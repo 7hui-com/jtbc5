@@ -62,7 +62,6 @@ class CaptchaCreator
       $blockBgColor = imagecolorallocate($blockImg, mt_rand(0, 128), mt_rand(0, 128), mt_rand(0, 128));
       imagefill($blockImg, 0, 0, $blockBgColor);
       imagecopymerge($this -> img, $blockImg, $blockSize * $i + mt_rand(-10, 10), 0, 0, 0, $blockSize, $this -> imgHeight, 100);
-      imagedestroy($blockImg);
     }
     $this -> addInterferenceStrings(32);
     $this -> addInterferenceStrings(mt_rand(4, 12), imagecolorallocate($this -> img, mt_rand(180, 220), mt_rand(180, 220), mt_rand(180, 220)));
@@ -94,10 +93,8 @@ class CaptchaCreator
     imagecolortransparent($codeImg, $codeBgColor);
     imagesavealpha($codeImg, true);
     imagecopymerge($this -> img, $codeImg, 0, 0, 0, 0, $this -> imgWidth, $this -> imgHeight, 70);
-    imagedestroy($codeImg);
     ob_start();
     imagepng($this -> img);
-    imagedestroy($this -> img);
     return ob_get_clean();
   }
 

@@ -3,7 +3,7 @@
 // JTBC Powered by jtbc.cn      //
 //******************************//
 namespace Jtbc;
-use DirectoryIterator;
+use Jtbc\String\StringHelper;
 
 class Path
 {
@@ -75,10 +75,21 @@ class Path
   {
     $genre = null;
     $namespace = strtolower($argNamespace);
-    if (substr($namespace, 0, 4) == 'web\\')
+    if (str_contains($namespace, chr(92)))
     {
-      $tempGenre = substr($namespace, 4);
-      $genre = str_replace('\\', '/', $tempGenre);
+      $prefix = StringHelper::getClippedString($namespace, chr(92), 'left');
+      if (in_array($prefix, ['app', 'web']))
+      {
+        $tempGenre = substr($namespace, 4);
+        if (!str_starts_with($tempGenre, 'common' . chr(92)))
+        {
+          if (str_ends_with($tempGenre, chr(92) . 'common'))
+          {
+            $tempGenre = StringHelper::getClippedString($tempGenre, chr(92), 'left+');
+          }
+          $genre = str_replace(chr(92), chr(47), $tempGenre);
+        }
+      }
     }
     return $genre;
   }

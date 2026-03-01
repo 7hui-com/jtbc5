@@ -1,5 +1,5 @@
 body {
-  min-width: 1240px; overflow: hidden
+  min-width: 1240px; overflow: hidden; --color-group-0: #cccccc; --color-group-1: #006666; --color-group-2: #990000; --color-group-3: #cc9900; --color-group-4: #272727; --font-family-monospaced: Menlo, Monaco, Consolas
 }
 .root {
   width: 100%; position: relative; z-index: 100
