@@ -71,6 +71,10 @@
       <zh-cn><![CDATA[执行SQL语句失败，请检查权限]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-tips-install-error-4403]]></name>
+      <zh-cn><![CDATA[当前仅允许通过本地数据库安装，如需解除限制请删除"Public/_install/localdb.lock"文件并及时完成安装以免产生安全隐患]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-tips-install-error-4444]]></name>
       <zh-cn><![CDATA[服务器响应异常，请稍后重试]]></zh-cn>
     </item>

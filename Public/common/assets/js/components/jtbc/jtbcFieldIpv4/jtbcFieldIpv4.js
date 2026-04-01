@@ -11,6 +11,7 @@ export default class jtbcFieldIpv4 extends HTMLElement {
   #disabled = false;
   #value = null;
   #limit = {};
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -140,111 +141,123 @@ export default class jtbcFieldIpv4 extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.querySelector('div.input').querySelectorAll('input[type=text]').forEach(el => {
-      el.addEventListener('focus', function(){
-        container.dataset.focused = 'true';
-        container.classList.add('focused');
-      });
-      el.addEventListener('blur', function(){
-        container.dataset.focused = 'false';
-        setTimeout(() => {
-          if (container.dataset.focused == 'false')
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelector('div.input').querySelectorAll('input[type=text]').forEach(el => {
+        el.addEventListener('focus', function(){
+          container.dataset.focused = 'true';
+          container.classList.add('focused');
+        });
+        el.addEventListener('blur', function(){
+          container.dataset.focused = 'false';
+          setTimeout(() => {
+            if (container.dataset.focused == 'false')
+            {
+              container.classList.remove('focused');
+            };
+          }, 100);
+        });
+        el.addEventListener('keydown', function(e){
+          if (e.keyCode === 8)
           {
-            container.classList.remove('focused');
-          };
-        }, 100);
-      });
-      el.addEventListener('keydown', function(e){
-        if (e.keyCode === 8)
-        {
-          if (this.value.length == 0)
+            if (this.value.length == 0)
+            {
+              this.dispatchEvent(new CustomEvent('focusprev'));
+            };
+          }
+          else if ([37, 38].includes(e.keyCode))
           {
             this.dispatchEvent(new CustomEvent('focusprev'));
-          };
-        }
-        else if ([37, 38].includes(e.keyCode))
-        {
-          this.dispatchEvent(new CustomEvent('focusprev'));
-        }
-        else if ([39, 40].includes(e.keyCode))
-        {
-          this.dispatchEvent(new CustomEvent('focusnext'));
-        };
-      });
-      el.addEventListener('keyup', function(e){
-        if (e.keyCode === 190)
-        {
-          this.value = this.value.replaceAll('.', '');
-          this.dispatchEvent(new CustomEvent('focusnext'));
-        };
-      });
-      el.addEventListener('input', function(){
-        let isValid = true;
-        let value = Number(this.value);
-        let currentIndex = Number.parseInt(this.dataset.index);
-        let limit = that.#limit['section-' + currentIndex] ?? '';
-        value = Number.isNaN(value)? 0: Number.parseInt(value);
-        value = Math.max(0, Math.min(255, value));
-        if (limit.includes('~'))
-        {
-          let limitArr = limit.split('~');
-          if (limitArr.length === 2)
-          {
-            let leftLimit = Number.parseInt(limitArr[0]);
-            let rightLimit = Number.parseInt(limitArr[1]);
-            if (!Number.isNaN(leftLimit) && value < leftLimit)
-            {
-              isValid = false;
-            };
-            if (!Number.isNaN(rightLimit) && value > rightLimit)
-            {
-              isValid = false;
-            };
-          };
-        };
-        if (this.value != value)
-        {
-          this.value = value;
-        }
-        else
-        {
-          if (value >= 100)
+          }
+          else if ([39, 40].includes(e.keyCode))
           {
             this.dispatchEvent(new CustomEvent('focusnext'));
           };
-        };
-        this.classList.toggle('invalid', !isValid);
-      });
-      el.addEventListener('focusprev', function(){
-        let currentIndex = Number.parseInt(this.dataset.index);
-        if (currentIndex > 0)
-        {
-          let prevIndex = currentIndex - 1;
-          let prevInput = container.querySelector('input[name="section-' + prevIndex + '"]');
-          if (prevInput != null)
+        });
+        el.addEventListener('keyup', function(e){
+          if (e.keyCode === 190)
           {
-            prevInput.focus();
-            prevInput.select();
+            this.value = this.value.replaceAll('.', '');
+            this.dispatchEvent(new CustomEvent('focusnext'));
           };
-        };
-      });
-      el.addEventListener('focusnext', function(){
-        let currentIndex = Number.parseInt(this.dataset.index);
-        if (currentIndex < 4)
-        {
-          let nextIndex = currentIndex + 1;
-          let nextInput = container.querySelector('input[name="section-' + nextIndex + '"]');
-          if (nextInput != null)
+        });
+        el.addEventListener('input', function(){
+          let isValid = true;
+          let value = Number(this.value);
+          let currentIndex = Number.parseInt(this.dataset.index);
+          let limit = that.#limit['section-' + currentIndex] ?? '';
+          value = Number.isNaN(value)? 0: Number.parseInt(value);
+          value = Math.max(0, Math.min(255, value));
+          if (limit.includes('~'))
           {
-            nextInput.focus();
-            nextInput.select();
+            let limitArr = limit.split('~');
+            if (limitArr.length === 2)
+            {
+              let leftLimit = Number.parseInt(limitArr[0]);
+              let rightLimit = Number.parseInt(limitArr[1]);
+              if (!Number.isNaN(leftLimit) && value < leftLimit)
+              {
+                isValid = false;
+              };
+              if (!Number.isNaN(rightLimit) && value > rightLimit)
+              {
+                isValid = false;
+              };
+            };
           };
-        };
+          if (this.value != value)
+          {
+            this.value = value;
+          }
+          else
+          {
+            if (value >= 100)
+            {
+              this.dispatchEvent(new CustomEvent('focusnext'));
+            };
+          };
+          this.classList.toggle('invalid', !isValid);
+        });
+        el.addEventListener('focusprev', function(){
+          let currentIndex = Number.parseInt(this.dataset.index);
+          if (currentIndex > 0)
+          {
+            let prevIndex = currentIndex - 1;
+            let prevInput = container.querySelector('input[name="section-' + prevIndex + '"]');
+            if (prevInput != null)
+            {
+              prevInput.focus();
+              prevInput.select();
+            };
+          };
+        });
+        el.addEventListener('focusnext', function(){
+          let currentIndex = Number.parseInt(this.dataset.index);
+          if (currentIndex < 4)
+          {
+            let nextIndex = currentIndex + 1;
+            let nextInput = container.querySelector('input[name="section-' + nextIndex + '"]');
+            if (nextInput != null)
+            {
+              nextInput.focus();
+              nextInput.select();
+            };
+          };
+        });
       });
-    });
+    };
   };
 
   syncValue() {

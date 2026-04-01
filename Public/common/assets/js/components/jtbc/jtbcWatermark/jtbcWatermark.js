@@ -12,6 +12,7 @@ export default class jtbcWatermark extends HTMLElement {
   #width = 600;
   #height = 600;
   #rotate = 338;
+  #isEventInitialized = false;
 
   get font() {
     return this.#font;
@@ -137,11 +138,23 @@ export default class jtbcWatermark extends HTMLElement {
     this.update();
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('slot', 'slotchange', function(){
-      this.assignedElements().forEach(el => el.classList.add('slotted'));
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('slot', 'slotchange', function(){
+        this.assignedElements().forEach(el => el.classList.add('slotted'));
+      });
+    };
   };
 
   render() {

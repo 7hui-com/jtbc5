@@ -11,6 +11,7 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
   #value = '';
   #disabled = false;
   #placeholder = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -59,27 +60,39 @@ export default class jtbcFieldFlatSelector extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('item', 'click', function(){
-      if (that.disabled != true)
-      {
-        let value = this.getAttribute('value');
-        if (that.selected.includes(value))
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('item', 'click', function(){
+        if (that.disabled != true)
         {
-          if (!(that.#type == 'radio') && that.selected.length === 1)
+          let value = this.getAttribute('value');
+          if (that.selected.includes(value))
           {
-            that.shiftSelectedValue(value);
+            if (!(that.#type == 'radio' && that.selected.length === 1))
+            {
+              that.shiftSelectedValue(value);
+            };
+          }
+          else
+          {
+            that.pushSelectedValue(value);
           };
-        }
-        else
-        {
-          that.pushSelectedValue(value);
+          that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
         };
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-      };
-    });
+      });
+    };
   };
 
   getMax() {

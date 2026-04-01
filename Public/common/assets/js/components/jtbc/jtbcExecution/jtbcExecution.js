@@ -10,6 +10,7 @@ export default class jtbcExecution extends HTMLElement {
   #silent = false;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -65,30 +66,42 @@ export default class jtbcExecution extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.addEventListener('click', () => {
-      if (!this.isSilentMode())
-      {
-        let dialog = document.getElementById('dialog');
-        if (dialog != null)
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('click', () => {
+        if (!this.isSilentMode())
         {
-          dialog.confirm(this.message, () => {
-            this.execute();
-          }, this.textOk, this.textCancel);
+          let dialog = document.getElementById('dialog');
+          if (dialog != null)
+          {
+            dialog.confirm(this.message, () => {
+              this.execute();
+            }, this.textOk, this.textCancel);
+          }
+          else
+          {
+            if (window.confirm(this.message))
+            {
+              this.execute();
+            };
+          };
         }
         else
         {
-          if (window.confirm(this.message))
-          {
-            this.execute();
-          };
+          this.execute();
         };
-      }
-      else
-      {
-        this.execute();
-      };
-    });
+      });
+    };
   };
 
   isSilentMode() {

@@ -11,6 +11,27 @@ use Config\DB\MySQL as Config;
 class Diplomat extends Ambassador {
   public $MIMEType = 'json';
 
+  private function isSupportedDBHost($argHost)
+  {
+    $result = false;
+    $host = $argHost;
+    if (is_string($host) && !Validation::isEmpty($host))
+    {
+      if (!is_file('localdb.lock'))
+      {
+        $result = true;
+      }
+      else
+      {
+        if (in_array($host, ['localhost', '127.0.0.1']))
+        {
+          $result = true;
+        }
+      }
+    }
+    return $result;
+  }
+
   private function isSupportedDBVersion($argVersion)
   {
     $result = false;
@@ -62,7 +83,12 @@ class Diplomat extends Ambassador {
     else
     {
       $server = Config::SERVER;
-      if (is_array($server))
+      $dbHost = $validator -> db_host -> value();
+      if (!$this -> isSupportedDBHost($dbHost))
+      {
+        $code = 4403;
+      }
+      else if (is_array($server))
       {
         $completeToken = Random::getNumeric28();
         $completeFilePath = Path::getActualRoute('common/diplomat/complete.php');
@@ -83,7 +109,6 @@ class Diplomat extends Ambassador {
         }
         else
         {
-          $dbHost = $validator -> db_host -> value();
           $dbDatabase = $validator -> db_database -> value();
           $dbUsername = $validator -> db_username -> value();
           $dbPassword = $validator -> db_password -> value();

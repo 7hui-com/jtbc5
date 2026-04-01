@@ -5,6 +5,7 @@ export default class jtbcToast extends HTMLElement {
 
   #position = 'top-right';
   #timeout = 3000;
+  #isEventInitialized = false;
 
   get position() {
     return this.#position;
@@ -34,23 +35,35 @@ export default class jtbcToast extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.message', 'transitionend', function(){
-      if (this.classList.contains('on') && this.classList.contains('out'))
-      {
-        if (this.callback != null)
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.message', 'transitionend', function(){
+        if (this.classList.contains('on') && this.classList.contains('out'))
         {
-          this.callback();
+          if (this.callback != null)
+          {
+            this.callback();
+          };
+          this.remove();
+          that.#checkMessages();
         };
-        this.remove();
-        that.#checkMessages();
-      };
-    });
-    container.delegateEventListener('div.message span.close', 'click', function(){
-      this.parentElement.classList.add('out');
-    });
+      });
+      container.delegateEventListener('div.message span.close', 'click', function(){
+        this.parentElement.classList.add('out');
+      });
+    };
   };
 
   push(message, type = 'info', title = null, timeout = null, callback = null) {

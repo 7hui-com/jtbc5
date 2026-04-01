@@ -11,6 +11,7 @@ export default class jtbcBatchControl extends HTMLDivElement {
   #credentialsList = ['include', 'same-origin', 'omit'];
   #modeList = ['form', 'json'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -97,8 +98,20 @@ export default class jtbcBatchControl extends HTMLDivElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+    if (this.#isFirstInitEvent())
+    {
+      this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+    };
   };
 
   execute() {

@@ -8,6 +8,7 @@ export default class jtbcMarquee extends HTMLElement {
   #marginLeft = 0;
   #contentWidth = 0;
   #handler = null;
+  #isEventInitialized = false;
 
   get speed() {
     return this.#speed;
@@ -24,26 +25,38 @@ export default class jtbcMarquee extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.addEventListener('mouseenter', function(){
-      that.#paused = true;
-    });
-    container.addEventListener('mouseleave', function(){
-      that.#paused = false;
-    });
-    container.delegateEventListener('slot', 'slotchange', function(){
-      this.assignedElements().forEach(el => el.classList.add('slotted'));
-      if (this.parentElement.classList.contains('content-1'))
-      {
-        checkComputedStyle(container, 'display', 'block').then(() => {
-          that.#marginLeft = 0;
-          that.#contentWidth = container.querySelector('div.content-1').offsetWidth;
-          that.#run();
-        });
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('mouseenter', function(){
+        that.#paused = true;
+      });
+      container.addEventListener('mouseleave', function(){
+        that.#paused = false;
+      });
+      container.delegateEventListener('slot', 'slotchange', function(){
+        this.assignedElements().forEach(el => el.classList.add('slotted'));
+        if (this.parentElement.classList.contains('content-1'))
+        {
+          checkComputedStyle(container, 'display', 'block').then(() => {
+            that.#marginLeft = 0;
+            that.#contentWidth = container.querySelector('div.content-1').offsetWidth;
+            that.#run();
+          });
+        };
+      });
+    };
   };
 
   #run() {

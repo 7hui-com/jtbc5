@@ -4,6 +4,7 @@ export default class jtbcDivider extends HTMLElement {
   };
 
   #position = 'center';
+  #isEventInitialized = false;
 
   get position() {
     return this.#position;
@@ -13,22 +14,33 @@ export default class jtbcDivider extends HTMLElement {
     this.container.setAttribute('position', position);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    let that = this;
     let container = this.container;
-    container.querySelectorAll('slot').forEach(el => {
-      el.addEventListener('slotchange', function(){
-        let assignedNodes = this.assignedNodes();
-        if (assignedNodes.length != 0)
-        {
-          container.classList.add('assigned');
-        }
-        else
-        {
-          container.classList.remove('assigned');
-        };
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelectorAll('slot').forEach(el => {
+        el.addEventListener('slotchange', function(){
+          let assignedNodes = this.assignedNodes();
+          if (assignedNodes.length != 0)
+          {
+            container.classList.add('assigned');
+          }
+          else
+          {
+            container.classList.remove('assigned');
+          };
+        });
       });
-    });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

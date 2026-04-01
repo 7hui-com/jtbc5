@@ -8,6 +8,7 @@ export default class jtbcTabs extends HTMLElement {
   #current = null;
   #theme = 'classic';
   #allowedThemes = ['classic', 'card'];
+  #isEventInitialized = false;
 
   get theme() {
     return this.#theme;
@@ -25,13 +26,25 @@ export default class jtbcTabs extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    let tabBar = this.container.querySelector('div.tabs');
-    tabBar.delegateEventListener('div.label', 'click', function(){
-      that.selectTab(this.dataset.index);
-    });
-    this.slotElement.addEventListener('slotchange', e => this.#initPane(e.target));
+    if (this.#isFirstInitEvent())
+    {
+      let tabBar = this.container.querySelector('div.tabs');
+      tabBar.delegateEventListener('div.label', 'click', function(){
+        that.selectTab(this.dataset.index);
+      });
+      this.slotElement.addEventListener('slotchange', e => this.#initPane(e.target));
+    };
   };
 
   #initPane(slot) {

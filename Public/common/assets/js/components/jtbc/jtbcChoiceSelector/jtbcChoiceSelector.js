@@ -5,6 +5,7 @@ export default class jtbcChoiceSelector extends HTMLElement {
 
   #type = 'radio';
   #value = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -46,13 +47,25 @@ export default class jtbcChoiceSelector extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    this.addEventListener('renderend', function(){
-      that.update();
-    });
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('renderend', function(){
+        that.update();
+      });
+    };
   };
-  
+
   update() {
     if (this.#hasOption())
     {

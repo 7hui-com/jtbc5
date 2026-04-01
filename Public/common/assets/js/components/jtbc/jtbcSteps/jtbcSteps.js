@@ -6,6 +6,7 @@ export default class jtbcSteps extends HTMLElement {
   #maxStep = 10;
   #currentStep = 0;
   #clickable = 'none';
+  #isEventInitialized = false;
 
   get maxStep() {
     return this.#maxStep;
@@ -67,14 +68,26 @@ export default class jtbcSteps extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.step', 'click', function(){
-      let targetStep = this.getAttribute('i');
-      let targetStepStatus = this.classList.contains('on')? 'finished': 'unfinished';
-      that.dispatchEvent(new CustomEvent('changestep', {'detail': {'targetStep': targetStep, 'targetStepStatus': targetStepStatus}, 'bubbles': true}));
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.step', 'click', function(){
+        let targetStep = this.getAttribute('i');
+        let targetStepStatus = this.classList.contains('on')? 'finished': 'unfinished';
+        that.dispatchEvent(new CustomEvent('changestep', {'detail': {'targetStep': targetStep, 'targetStepStatus': targetStepStatus}, 'bubbles': true}));
+      });
+    };
   };
 
   render() {

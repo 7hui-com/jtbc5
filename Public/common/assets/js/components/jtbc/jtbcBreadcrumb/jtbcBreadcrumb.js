@@ -7,6 +7,7 @@ export default class jtbcBreadcrumb extends HTMLElement {
   #allowTags = ['a', 'span'];
   #data = [];
   #separator = 'arrow_right';
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -43,11 +44,23 @@ export default class jtbcBreadcrumb extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('span', 'click', e => {
-      this.dispatchEvent(new CustomEvent('spanclick', {detail: {target: e.target}}));
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('span', 'click', e => {
+        this.dispatchEvent(new CustomEvent('spanclick', {detail: {target: e.target}}));
+      });
+    };
   };
 
   render() {

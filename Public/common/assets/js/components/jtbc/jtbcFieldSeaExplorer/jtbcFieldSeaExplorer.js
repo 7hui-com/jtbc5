@@ -11,6 +11,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   #singleton = false;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get api() {
     return this.#api;
@@ -107,138 +108,150 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let keywordEl = container.querySelector('input.keyword');
-    let selectedEl = container.querySelector('div.selected');
-    let resultEl = container.querySelector('div.result');
-    container.addEventListener('click', () => {
-      keywordEl.focus();
-    });
-    selectedEl.addEventListener('changeItem', () => {
-      if (!this.isVacant())
-      {
-        container.classList.add('full');
-      }
-      else
-      {
-        container.classList.remove('full');
-      };
-    });
-    selectedEl.delegateEventListener('span', 'click', function(){
-      that.selected = that.selected.filter((item) => item !== this.getAttribute('value'));
-      selectedEl.dispatchEvent(new CustomEvent('changeItem'));
-      this.remove();
-    });
-    keywordEl.addEventListener('focus', (e) => {
-      let self = e.target;
-      container.classList.add('on');
-      self.dispatchEvent(new CustomEvent('resetWidth'));
-      clearTimeout(this.blurTimeout);
-    });
-    keywordEl.addEventListener('blur', () => {
-      clearTimeout(this.blurTimeout);
-      this.blurTimeout = setTimeout(() => {
-        keywordEl.value = '';
-        container.classList.remove('on');
-        resultEl.classList.remove('on');
-      }, 300);
-    });
-    keywordEl.addEventListener('keyup', e => {
-      let which = e.which;
-      let self = e.target;
-      if (which == 13)
-      {
-        self.dispatchEvent(new CustomEvent('newItem'));
-      }
-      else if (which == 38)
-      {
-        this.selectPrevItem();
-      }
-      else if (which == 40)
-      {
-        this.selectNextItem();
-      };
-    });
-    keywordEl.addEventListener('keydown', e => {
-      let which = e.which;
-      let self = e.target;
-      if (which == 8)
-      {
-        let currentTag = self.value.trim();
-        if (currentTag == '')
+    if (this.#isFirstInitEvent())
+    {
+      let keywordEl = container.querySelector('input.keyword');
+      let selectedEl = container.querySelector('div.selected');
+      let resultEl = container.querySelector('div.result');
+      container.addEventListener('click', () => {
+        keywordEl.focus();
+      });
+      selectedEl.addEventListener('changeItem', () => {
+        if (!this.isVacant())
         {
-          this.removeLastItem();
-          self.dispatchEvent(new CustomEvent('resetWidth'));
+          container.classList.add('full');
+        }
+        else
+        {
+          container.classList.remove('full');
         };
-      }
-      else if (which == 13)
-      {
-        return false;
-      };
-    });
-    keywordEl.addEventListener('input', e => {
-      if (this.api != null)
-      {
-        if (this.apiLoading === false)
+      });
+      selectedEl.delegateEventListener('span', 'click', function(){
+        that.selected = that.selected.filter((item) => item !== this.getAttribute('value'));
+        selectedEl.dispatchEvent(new CustomEvent('changeItem'));
+        this.remove();
+      });
+      keywordEl.addEventListener('focus', (e) => {
+        let self = e.target;
+        container.classList.add('on');
+        self.dispatchEvent(new CustomEvent('resetWidth'));
+        clearTimeout(this.blurTimeout);
+      });
+      keywordEl.addEventListener('blur', () => {
+        clearTimeout(this.blurTimeout);
+        this.blurTimeout = setTimeout(() => {
+          keywordEl.value = '';
+          container.classList.remove('on');
+          resultEl.classList.remove('on');
+        }, 300);
+      });
+      keywordEl.addEventListener('keyup', e => {
+        let which = e.which;
+        let self = e.target;
+        if (which == 13)
         {
-          let self = e.target;
-          let currentValue = self.value;
-          self.removeAttribute('realvalue');
-          if (currentValue.trim() == '')
+          self.dispatchEvent(new CustomEvent('newItem'));
+        }
+        else if (which == 38)
+        {
+          this.selectPrevItem();
+        }
+        else if (which == 40)
+        {
+          this.selectNextItem();
+        };
+      });
+      keywordEl.addEventListener('keydown', e => {
+        let which = e.which;
+        let self = e.target;
+        if (which == 8)
+        {
+          let currentTag = self.value.trim();
+          if (currentTag == '')
           {
-            this.loadResult([]);
-          }
-          else
+            this.removeLastItem();
+            self.dispatchEvent(new CustomEvent('resetWidth'));
+          };
+        }
+        else if (which == 13)
+        {
+          return false;
+        };
+      });
+      keywordEl.addEventListener('input', e => {
+        if (this.api != null)
+        {
+          if (this.apiLoading === false)
           {
-            this.#apiLoading = true;
-            let currentApi = this.api + '&keyword=' + encodeURIComponent(currentValue);
-            fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
-              this.#apiLoading = false;
-              if (data.code == 1)
-              {
-                let dataResult = data.data.result;
-                if (Array.isArray(dataResult))
+            let self = e.target;
+            let currentValue = self.value;
+            self.removeAttribute('realvalue');
+            if (currentValue.trim() == '')
+            {
+              this.loadResult([]);
+            }
+            else
+            {
+              this.#apiLoading = true;
+              let currentApi = this.api + '&keyword=' + encodeURIComponent(currentValue);
+              fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
+                this.#apiLoading = false;
+                if (data.code == 1)
                 {
-                  this.loadResult(dataResult);
+                  let dataResult = data.data.result;
+                  if (Array.isArray(dataResult))
+                  {
+                    this.loadResult(dataResult);
+                  };
                 };
-              };
-            });
+              });
+            };
           };
         };
-      };
-    });
-    keywordEl.addEventListener('newItem', e => {
-      let self = e.target;
-      if (self.hasAttribute('realvalue'))
-      {
-        let currentTitle = self.value.trim();
-        let currentValue = self.getAttribute('realvalue');
-        this.addNewItem(currentValue, currentTitle);
-        self.value = '';
-        self.style.width = 'auto';
-        self.dispatchEvent(new CustomEvent('resetWidth'));
-      };
-    });
-    keywordEl.addEventListener('resetWidth', e => {
-      let remainWidth = container.clientWidth - selectedEl.clientWidth;
-      if (remainWidth > 60)
-      {
-        container.classList.remove('multiline');
-        e.target.style.width = (remainWidth - 10) + 'px';
-      }
-      else
-      {
-        container.classList.add('multiline');
-        e.target.style.width = '100%';
-      };
-    });
-    resultEl.delegateEventListener('li', 'click', function(){
-      keywordEl.value = '';
-      that.addNewItem(this.getAttribute('value'), this.getAttribute('text'));
-      resultEl.classList.remove('on');
-    });
+      });
+      keywordEl.addEventListener('newItem', e => {
+        let self = e.target;
+        if (self.hasAttribute('realvalue'))
+        {
+          let currentTitle = self.value.trim();
+          let currentValue = self.getAttribute('realvalue');
+          this.addNewItem(currentValue, currentTitle);
+          self.value = '';
+          self.style.width = 'auto';
+          self.dispatchEvent(new CustomEvent('resetWidth'));
+        };
+      });
+      keywordEl.addEventListener('resetWidth', e => {
+        let remainWidth = container.clientWidth - selectedEl.clientWidth;
+        if (remainWidth > 60)
+        {
+          container.classList.remove('multiline');
+          e.target.style.width = (remainWidth - 10) + 'px';
+        }
+        else
+        {
+          container.classList.add('multiline');
+          e.target.style.width = '100%';
+        };
+      });
+      resultEl.delegateEventListener('li', 'click', function(){
+        keywordEl.value = '';
+        that.addNewItem(this.getAttribute('value'), this.getAttribute('text'));
+        resultEl.classList.remove('on');
+      });
+    };
   };
 
   addNewItem(value, title) {

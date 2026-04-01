@@ -8,6 +8,7 @@ export default class jtbcPopupConfirm extends HTMLElement {
   #textTips = 'Are you sure?';
   #textButtonYes = 'Yes';
   #textButtonNo = 'No';
+  #isEventInitialized = false;
 
   get disabled() {
     return this.#disabled;
@@ -49,41 +50,53 @@ export default class jtbcPopupConfirm extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    let textEl = this.textEl;
-    container.delegateEventListener('div.mask', 'click', e => {
-      if (this.disabled != true)
-      {
-        if (!textEl.classList.contains('on'))
+    if (this.#isFirstInitEvent())
+    {
+      let textEl = this.textEl;
+      container.delegateEventListener('div.mask', 'click', e => {
+        if (this.disabled != true)
         {
-          this.#setZIndex();
-          textEl.classList.add('on');
-          textEl.dataset.opened = 'true';
-          setTimeout(() => textEl.classList.add('show'), 100);
+          if (!textEl.classList.contains('on'))
+          {
+            this.#setZIndex();
+            textEl.classList.add('on');
+            textEl.dataset.opened = 'true';
+            setTimeout(() => textEl.classList.add('show'), 100);
+          };
         };
-      };
-    });
-    container.delegateEventListener('button.yes', 'click', e => {
-      if (this.disabled != true)
-      {
+      });
+      container.delegateEventListener('button.yes', 'click', e => {
+        if (this.disabled != true)
+        {
+          textEl.dataset.opened = 'false';
+          textEl.classList.remove('show');
+          e.currentTarget.querySelector('div.slot > slot').assignedElements().forEach(el => el.click());
+        };
+      });
+      container.delegateEventListener('button.no', 'click', e => {
         textEl.dataset.opened = 'false';
         textEl.classList.remove('show');
-        e.currentTarget.querySelector('div.slot > slot').assignedElements().forEach(el => el.click());
-      };
-    });
-    container.delegateEventListener('button.no', 'click', e => {
-      textEl.dataset.opened = 'false';
-      textEl.classList.remove('show');
-    });
-    container.delegateEventListener('div.text', 'transitionend', e => {
-      let self = e.target;
-      if (self.dataset.opened == 'false' && !self.classList.contains('show'))
-      {
-        this.#unsetZIndex();
-        self.classList.remove('on');
-      };
-    });
+      });
+      container.delegateEventListener('div.text', 'transitionend', e => {
+        let self = e.target;
+        if (self.dataset.opened == 'false' && !self.classList.contains('show'))
+        {
+          this.#unsetZIndex();
+          self.classList.remove('on');
+        };
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

@@ -10,6 +10,7 @@ export default class jtbcFieldInputWithButton extends HTMLElement {
   #countdownInterval = null;
   #remain = null;
   #disabled = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -32,21 +33,33 @@ export default class jtbcFieldInputWithButton extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let buttonEl = container.querySelector('button.button');
-    container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('focus', function() { container.classList.add('focus'); });
-      input.addEventListener('blur', function() { container.classList.remove('focus'); });
-    });
-    buttonEl.addEventListener('click', function() {
-      if (!this.classList.contains('locked'))
-      {
-        this.classList.add('locked');
-        that.dispatchEvent(new CustomEvent('buttonClicked', {bubbles: true}));
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      let buttonEl = container.querySelector('button.button');
+      container.querySelectorAll('input.value').forEach(input => {
+        input.addEventListener('focus', function() { container.classList.add('focus'); });
+        input.addEventListener('blur', function() { container.classList.remove('focus'); });
+      });
+      buttonEl.addEventListener('click', function() {
+        if (!this.classList.contains('locked'))
+        {
+          this.classList.add('locked');
+          that.dispatchEvent(new CustomEvent('buttonClicked', {bubbles: true}));
+        };
+      });
+    };
   };
 
   disableButton() {

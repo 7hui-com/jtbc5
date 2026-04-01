@@ -4,6 +4,7 @@ export default class jtbcAccordion extends HTMLElement {
   };
 
   #multipliable = false;
+  #isEventInitialized = false;
 
   get multipliable() {
     return this.#multipliable;
@@ -13,30 +14,42 @@ export default class jtbcAccordion extends HTMLElement {
     this.#multipliable = multipliable;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    this.delegateEventListener('[accordion=title]', 'click', function(){
-      that.getAllItems().forEach(item => {
-        if (item.contains(this))
-        {
-          if (item.dataset.accordion == 'opened')
+    if (this.#isFirstInitEvent())
+    {
+      this.delegateEventListener('[accordion=title]', 'click', function(){
+        that.getAllItems().forEach(item => {
+          if (item.contains(this))
           {
-            delete item.dataset.accordion;
+            if (item.dataset.accordion == 'opened')
+            {
+              delete item.dataset.accordion;
+            }
+            else
+            {
+              item.dataset.accordion = 'opened';
+            };
           }
           else
           {
-            item.dataset.accordion = 'opened';
+            if (that.multipliable === false)
+            {
+              delete item.dataset.accordion;
+            };
           };
-        }
-        else
-        {
-          if (that.multipliable === false)
-          {
-            delete item.dataset.accordion;
-          };
-        };
+        });
       });
-    });
+    };
   };
 
   getAllItems() {

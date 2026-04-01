@@ -87,6 +87,7 @@ export default class uploader {
           formData.append('chunkParam', chunkParam);
           formData.append('randomString', randomString);
           let httpRequest = new XMLHttpRequest();
+          httpRequest.withCredentials = true;
           httpRequest.upload.addEventListener('progress', function(e) {
             progressCallBack(Math.round(chunkCurrentIndex / (chunkCount + 1) * 100 + (1 / (chunkCount + 1)) * Math.round(e.loaded / e.total) * 100));
           }, false);

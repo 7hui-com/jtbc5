@@ -6,6 +6,7 @@ export default class jtbcFieldBase64Image extends HTMLElement {
   #quality = 'medium';
   #disabled = false;
   #value = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -38,50 +39,62 @@ export default class jtbcFieldBase64Image extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.fileRemover', 'click', function() { that.value = ''; });
-    container.delegateEventListener('div.fileSelector', 'click', function() { this.querySelector('input.file').click(); });
-    container.delegateEventListener('input.file', 'change', function() {
-      let currentWidth = that.dataset.width ?? that.offsetWidth;
-      let currentHeight = that.dataset.height ?? that.offsetHeight;
-      if (this.files.length == 1)
-      {
-        let newImage = new Image();
-        let fileReader = new FileReader();
-        newImage.onload = function()
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.fileRemover', 'click', function() { that.value = ''; });
+      container.delegateEventListener('div.fileSelector', 'click', function() { this.querySelector('input.file').click(); });
+      container.delegateEventListener('input.file', 'change', function() {
+        let currentWidth = that.dataset.width ?? that.offsetWidth;
+        let currentHeight = that.dataset.height ?? that.offsetHeight;
+        if (this.files.length == 1)
         {
-          let sourceX = 0;
-          let sourceY = 0;
-          let imgWidth = newImage.width;
-          let imgHeight = newImage.height;
-          let sourceWidth = imgWidth;
-          let sourceHeight = imgHeight;
-          let canvas = document.createElement('canvas');
-          let context = canvas.getContext('2d');
-          canvas.width = currentWidth;
-          canvas.height = currentHeight;
-          context.imageSmoothingQuality = 'high';
-          if (imgWidth / currentWidth > imgHeight / currentHeight)
+          let newImage = new Image();
+          let fileReader = new FileReader();
+          newImage.onload = function()
           {
-            sourceWidth = Math.ceil(imgWidth * ((imgHeight / currentHeight) / (imgWidth / currentWidth)));
-            sourceX = Math.ceil((imgWidth - sourceWidth) / 2);
-          }
-          else
-          {
-            sourceHeight = Math.ceil(imgHeight * ((imgWidth / currentWidth) / (imgHeight / currentHeight)));
-            sourceY = Math.ceil((imgHeight - sourceHeight) / 2);
+            let sourceX = 0;
+            let sourceY = 0;
+            let imgWidth = newImage.width;
+            let imgHeight = newImage.height;
+            let sourceWidth = imgWidth;
+            let sourceHeight = imgHeight;
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            canvas.width = currentWidth;
+            canvas.height = currentHeight;
+            context.imageSmoothingQuality = 'high';
+            if (imgWidth / currentWidth > imgHeight / currentHeight)
+            {
+              sourceWidth = Math.ceil(imgWidth * ((imgHeight / currentHeight) / (imgWidth / currentWidth)));
+              sourceX = Math.ceil((imgWidth - sourceWidth) / 2);
+            }
+            else
+            {
+              sourceHeight = Math.ceil(imgHeight * ((imgWidth / currentWidth) / (imgHeight / currentHeight)));
+              sourceY = Math.ceil((imgHeight - sourceHeight) / 2);
+            };
+            context.drawImage(newImage, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, currentWidth, currentHeight);
+            that.value = canvas.toDataURL('image/jpeg', that.getQuality());
           };
-          context.drawImage(newImage, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, currentWidth, currentHeight);
-          that.value = canvas.toDataURL('image/jpeg', that.getQuality());
+          fileReader.onload = function(e) {
+            newImage.setAttribute('src', e.target.result);
+          };
+          fileReader.readAsDataURL(this.files[0]);
         };
-        fileReader.onload = function(e) {
-          newImage.setAttribute('src', e.target.result);
-        };
-        fileReader.readAsDataURL(this.files[0]);
-      };
-    });
+      });
+    };
   };
 
   getQuality() {

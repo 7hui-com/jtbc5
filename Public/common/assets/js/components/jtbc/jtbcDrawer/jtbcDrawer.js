@@ -6,6 +6,7 @@ export default class jtbcDrawer extends HTMLElement {
   #closeable = true;
   #direction = 'rtl';
   #pluginStyleIdentity = null;
+  #isEventInitialized = false;
 
   get closeable() {
     return this.#closeable;
@@ -67,43 +68,55 @@ export default class jtbcDrawer extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
     let drawer = this.drawer;
-    container.addEventListener('click', e => {
-      if (e.target == e.currentTarget)
-      {
-        if (that.closeable)
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('click', e => {
+        if (e.target == e.currentTarget)
         {
-          that.close();
+          if (that.closeable)
+          {
+            that.close();
+          };
         };
-      };
-    });
-    container.addEventListener('transitionend', function(){
-      if (this.classList.contains('on'))
-      {
-        drawer.classList.add('on');
-      }
-      else
-      {
-        that.classList.remove('on');
-      };
-    });
-    drawer.addEventListener('transitionend', function(){
-      if (container.classList.contains('off'))
-      {
-        that.#unlockScrollbar();
-        container.classList.remove('on');
-        container.classList.remove('off');
-        that.dispatchEvent(new CustomEvent('closed', {bubbles: true}));
-      }
-      else if (container.classList.contains('on'))
-      {
-        that.dispatchEvent(new CustomEvent('opened', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('[role=drawer-close]', 'click', e => that.close());
+      });
+      container.addEventListener('transitionend', function(){
+        if (this.classList.contains('on'))
+        {
+          drawer.classList.add('on');
+        }
+        else
+        {
+          that.classList.remove('on');
+        };
+      });
+      drawer.addEventListener('transitionend', function(){
+        if (container.classList.contains('off'))
+        {
+          that.#unlockScrollbar();
+          container.classList.remove('on');
+          container.classList.remove('off');
+          that.dispatchEvent(new CustomEvent('closed', {bubbles: true}));
+        }
+        else if (container.classList.contains('on'))
+        {
+          that.dispatchEvent(new CustomEvent('opened', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('[role=drawer-close]', 'click', e => that.close());
+    };
   };
 
   open() {

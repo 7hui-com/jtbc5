@@ -7,6 +7,7 @@ export default class jtbcParallaxWallpaper extends HTMLElement {
   #ratio = 200;
   #handler = null;
   #currentScrollTop = 0;
+  #isEventInitialized = false;
   isIntersecting = false;
 
   get src() {
@@ -67,15 +68,27 @@ export default class jtbcParallaxWallpaper extends HTMLElement {
     this.#handler = requestAnimationFrame(() => this.#startMonitor());
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      entries.forEach(entry => this.#resize(entry));
-    });
-    this.intersectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => this.#intersect(entry));
-    });
-    this.resizeObserver.observe(this);
-    this.intersectionObserver.observe(this);
+    if (this.#isFirstInitEvent())
+    {
+      this.resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => this.#resize(entry));
+      });
+      this.intersectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => this.#intersect(entry));
+      });
+      this.resizeObserver.observe(this);
+      this.intersectionObserver.observe(this);
+    };
   };
 
   setBgHeight() {

@@ -8,6 +8,7 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
   #disabled = false;
   #value = null;
   #placeholder = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -271,24 +272,36 @@ export default class jtbcFieldLocationPicker extends HTMLElement {
     });
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let selectorEl = container.querySelector('a.selector');
-    container.addEventListener('click', (e) => {
-      let self = e.target;
-      if (that.disabled != true && that.value.length == 0)
-      {
-        if (container.contains(self) && !selectorEl.contains(self))
+    if (this.#isFirstInitEvent())
+    {
+      let selectorEl = container.querySelector('a.selector');
+      container.addEventListener('click', (e) => {
+        let self = e.target;
+        if (that.disabled != true && that.value.length == 0)
         {
-          selectorEl.click();
+          if (container.contains(self) && !selectorEl.contains(self))
+          {
+            selectorEl.click();
+          };
         };
-      };
-    });
-    container.delegateEventListener('div.location span', 'click', function(){ this.remove(); });
-    container.delegateEventListener('a.selector', 'click', () => { that.popupMap(); });
-    that.syncPlaceholder();
-    that.syncValue();
+      });
+      container.delegateEventListener('div.location span', 'click', function(){ this.remove(); });
+      container.delegateEventListener('a.selector', 'click', () => { that.popupMap(); });
+      that.syncPlaceholder();
+      that.syncValue();
+    };
   };
 
   popupMap() {

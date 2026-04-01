@@ -13,6 +13,7 @@ export default class jtbcCountUp extends HTMLElement {
   #autoplay = true;
   #played = false;
   #playing = false;
+  #isEventInitialized = false;
 
   get current() {
     return this.#current;
@@ -88,8 +89,20 @@ export default class jtbcCountUp extends HTMLElement {
     this.innerText = realNumberArray.join('.');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    window.addEventListener('scroll', e => this.#autoPlay());
+    if (this.#isFirstInitEvent())
+    {
+      window.addEventListener('scroll', e => this.#autoPlay());
+    };
   };
 
   play() {

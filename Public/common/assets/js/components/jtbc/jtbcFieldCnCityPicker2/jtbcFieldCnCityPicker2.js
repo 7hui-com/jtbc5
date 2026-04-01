@@ -7,6 +7,7 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
   #value = '';
   #separator = '';
   #disabled = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -93,12 +94,24 @@ export default class jtbcFieldCityPicker2 extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('select.province', 'change', function(){
-      that.resetCityOptions(this.value);
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('select.province', 'change', function(){
+        that.resetCityOptions(this.value);
+      });
+    };
   };
 
   async getData() {

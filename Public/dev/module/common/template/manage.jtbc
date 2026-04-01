@@ -39,7 +39,8 @@
       </div>
     </div>
   </template>
-</div>]]></default>
+</div>
+<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
     </item>
     <item>
       <name><![CDATA[setting]]></name>

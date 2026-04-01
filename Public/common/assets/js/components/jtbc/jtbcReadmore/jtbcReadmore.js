@@ -8,6 +8,7 @@ export default class jtbcReadmore extends HTMLElement {
   #locked = false;
   #maxHeight = 200;
   #contentHeight = null;
+  #isEventInitialized = false;
 
   get duration() {
     let result = 600;
@@ -60,49 +61,61 @@ export default class jtbcReadmore extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    let content = this.container.querySelector('div.content');
-    this.resizeObserver =  new ResizeObserver(entries => {
-      entries.forEach(entry => this.#resize(entry));
-    });
-    this.resizeObserver.observe(content);
-    this.container.delegateEventListener('div.fold', 'click', e => {
-      if (!that.isLocked())
-      {
-        that.#locked = true;
-        content.style.height = this.contentHeight + 'px';
-        animate(content, {
-          height: this.maxHeight,
-          duration: this.duration,
-          ease: 'inOutQuint',
-          onComplete: function() {
-            that.#locked = false;
-            content.classList.remove('unfolded');
-            content.parentElement.setAttribute('fold', 'true');
-            that.dispatchEvent(new CustomEvent('folded'));
-          },
-        });
-      };
-    });
-    this.container.delegateEventListener('div.unfold', 'click', e => {
-      if (!that.isLocked())
-      {
-        that.#locked = true;
-        content.classList.add('unfolded');
-        animate(content, {
-          height: this.contentHeight,
-          duration: this.duration,
-          ease: 'inOutQuint',
-          onComplete: function() {
-            that.#locked = false;
-            content.style.height = 'auto';
-            content.parentElement.setAttribute('fold', 'false');
-            that.dispatchEvent(new CustomEvent('unfolded'));
-          },
-        });
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      let content = this.container.querySelector('div.content');
+      this.resizeObserver =  new ResizeObserver(entries => {
+        entries.forEach(entry => this.#resize(entry));
+      });
+      this.resizeObserver.observe(content);
+      this.container.delegateEventListener('div.fold', 'click', e => {
+        if (!that.isLocked())
+        {
+          that.#locked = true;
+          content.style.height = this.contentHeight + 'px';
+          animate(content, {
+            height: this.maxHeight,
+            duration: this.duration,
+            ease: 'inOutQuint',
+            onComplete: function() {
+              that.#locked = false;
+              content.classList.remove('unfolded');
+              content.parentElement.setAttribute('fold', 'true');
+              that.dispatchEvent(new CustomEvent('folded'));
+            },
+          });
+        };
+      });
+      this.container.delegateEventListener('div.unfold', 'click', e => {
+        if (!that.isLocked())
+        {
+          that.#locked = true;
+          content.classList.add('unfolded');
+          animate(content, {
+            height: this.contentHeight,
+            duration: this.duration,
+            ease: 'inOutQuint',
+            onComplete: function() {
+              that.#locked = false;
+              content.style.height = 'auto';
+              content.parentElement.setAttribute('fold', 'false');
+              that.dispatchEvent(new CustomEvent('unfolded'));
+            },
+          });
+        };
+      });
+    };
   };
 
   isLocked() {

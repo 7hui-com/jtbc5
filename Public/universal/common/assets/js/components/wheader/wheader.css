@@ -147,7 +147,7 @@
     transform: rotate(-45deg); margin-top: -2px
   }
   .container div.box mainmenu {
-    width: 100%; height: auto; max-height: 0px; overflow: hidden; background: var(--header-mobile-mainmenu-background); display: block; position: absolute; top: 100%; left: 0px; z-index: 200; transition: max-height .3s ease, box-shadow .3s ease
+    width: 100%; height: auto; max-height: 0px; overflow: auto; background: var(--header-mobile-mainmenu-background); display: block; position: absolute; top: 100%; left: 0px; z-index: 200; transition: max-height .3s ease, box-shadow .3s ease
   }
   .container div.box mainmenu ul {
     display: block; width: 100%; height: auto
@@ -212,7 +212,7 @@
     max-height: calc(var(--header-anchor-height) * 10)
   }
   .container div.box mainmenu.on {
-    max-height: calc(var(--header-height) * 10); box-shadow: var(--header-mobile-mainmenu-box-shadow)
+    max-height: max(calc(var(--header-height) * 5), calc(100vh - var(--header-height))); box-shadow: var(--header-mobile-mainmenu-box-shadow)
   }
   .container div.box div.right,
   .container div.box div.wrap {

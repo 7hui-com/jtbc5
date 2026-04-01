@@ -10,6 +10,7 @@ export default class jtbcFieldCodeInput extends HTMLElement {
   #maxLength = 50;
   #rendered = false;
   #characters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -47,45 +48,57 @@ export default class jtbcFieldCodeInput extends HTMLElement {
     this.syncDisabled();
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('input.text', 'input', e => {
-      let input = e.target;
-      if (!this.#characters.includes(input.value))
-      {
-        input.value = '';
-      }
-      else
-      {
-        let nextIndex = Number.parseInt(input.dataset.index) + 1;
-        let nextItem = container.querySelector('div.item-' + nextIndex);
-        if (nextItem != null)
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('input.text', 'input', e => {
+        let input = e.target;
+        if (!this.#characters.includes(input.value))
         {
-          nextItem.querySelector('input.text').focus();
-        };
-      };
-    });
-    container.delegateEventListener('input.text', 'keyup', e => {
-      if (this.value != '')
-      {
-        this.dispatchEvent(new CustomEvent('inputted', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('input.text', 'keydown', e => {
-      let input = e.target;
-      if (e.keyCode == 8)
-      {
-        if (input.value == '')
+          input.value = '';
+        }
+        else
         {
-          let prevIndex = Number.parseInt(input.dataset.index) - 1;
-          let prevItem = container.querySelector('div.item-' + prevIndex);
-          if (prevItem != null)
+          let nextIndex = Number.parseInt(input.dataset.index) + 1;
+          let nextItem = container.querySelector('div.item-' + nextIndex);
+          if (nextItem != null)
           {
-            prevItem.querySelector('input.text').focus();
+            nextItem.querySelector('input.text').focus();
           };
         };
-      };
-    });
+      });
+      container.delegateEventListener('input.text', 'keyup', e => {
+        if (this.value != '')
+        {
+          this.dispatchEvent(new CustomEvent('inputted', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('input.text', 'keydown', e => {
+        let input = e.target;
+        if (e.keyCode == 8)
+        {
+          if (input.value == '')
+          {
+            let prevIndex = Number.parseInt(input.dataset.index) - 1;
+            let prevItem = container.querySelector('div.item-' + prevIndex);
+            if (prevItem != null)
+            {
+              prevItem.querySelector('input.text').focus();
+            };
+          };
+        };
+      });
+    };
   };
 
   #render() {

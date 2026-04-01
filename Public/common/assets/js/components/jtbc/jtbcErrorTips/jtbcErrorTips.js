@@ -7,6 +7,7 @@ export default class jtbcErrorTips extends HTMLElement {
   #noErrorHref = null;
   #timeout = 5000;
   #timeoutHandler;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -32,15 +33,27 @@ export default class jtbcErrorTips extends HTMLElement {
     this.#timeout = Number.parseInt(timeout);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.addEventListener('transitionend', function(){
-      if (this.classList.contains('on') && this.classList.contains('out'))
-      {
-        this.classList.remove('on');
-        this.classList.remove('out');
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('transitionend', function(){
+        if (this.classList.contains('on') && this.classList.contains('out'))
+        {
+          this.classList.remove('on');
+          this.classList.remove('out');
+        };
+      });
+    };
   };
 
   render() {

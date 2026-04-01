@@ -13,6 +13,7 @@ export default class jtbcFieldDatetime extends HTMLElement {
   #maxDate = null;
   #disabled = false;
   #value = '';
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -152,108 +153,120 @@ export default class jtbcFieldDatetime extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let datetime = container.querySelector('input.datetime');
-    let calendar = container.querySelector('.calendar');
-    let datepicker = container.querySelector('div.datepicker');
-    datetime.addEventListener('blur', function(){
-      let value = this.value;
-      if (!validation.isDateTime(value))
-      {
-        if (value.trim() == '')
+    if (this.#isFirstInitEvent())
+    {
+      let datetime = container.querySelector('input.datetime');
+      let calendar = container.querySelector('.calendar');
+      let datepicker = container.querySelector('div.datepicker');
+      datetime.addEventListener('blur', function(){
+        let value = this.value;
+        if (!validation.isDateTime(value))
         {
-          that.#value = '';
-          that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
+          if (value.trim() == '')
+          {
+            that.#value = '';
+            that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
+          }
+          else
+          {
+            this.value = that.#value;
+          };
         }
         else
         {
-          this.value = that.#value;
-        };
-      }
-      else
-      {
-        that.value = value;
-      };
-    });
-    calendar.addEventListener('dateclick', e => {
-      this.#changed = true;
-      calendar.setAttribute('value', e.detail.date);
-    });
-    calendar.addEventListener('datedblclick', () => {
-      this.#changeValue();
-      datepicker.classList.remove('on');
-    });
-    datepicker.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closePickerTimeout);
-    });
-    datepicker.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closePicker(1000);
-      };
-    });
-    datepicker.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    container.delegateEventListener('div.time div.item li', 'click', function(){
-      this.parentNode.querySelectorAll('li').forEach(el => {
-        that.#changed = true;
-        if (el == this)
-        {
-          el.classList.add('selected');
-        }
-        else
-        {
-          el.classList.remove('selected');
+          that.value = value;
         };
       });
-    });
-    container.delegateEventListener('div.time div.item li', 'dblclick', function(){
-      that.#changeValue();
-      datepicker.classList.remove('on');
-    });
-    container.delegateEventListener('span.btn', 'click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
+      calendar.addEventListener('dateclick', e => {
+        this.#changed = true;
+        calendar.setAttribute('value', e.detail.date);
+      });
+      calendar.addEventListener('datedblclick', () => {
+        this.#changeValue();
+        datepicker.classList.remove('on');
+      });
+      datepicker.addEventListener('mouseenter', function(){
         clearTimeout(that.#closePickerTimeout);
-        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+      });
+      datepicker.addEventListener('mouseleave', function(){
+        if (this.classList.contains('on'))
         {
-          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+          that.closePicker(1000);
+        };
+      });
+      datepicker.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      container.delegateEventListener('div.time div.item li', 'click', function(){
+        this.parentNode.querySelectorAll('li').forEach(el => {
+          that.#changed = true;
+          if (el == this)
           {
-            datepicker.classList.add('upper');
+            el.classList.add('selected');
+          }
+          else
+          {
+            el.classList.remove('selected');
           };
+        });
+      });
+      container.delegateEventListener('div.time div.item li', 'dblclick', function(){
+        that.#changeValue();
+        datepicker.classList.remove('on');
+      });
+      container.delegateEventListener('span.btn', 'click', function(){
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closePickerTimeout);
+          if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+          {
+            if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+            {
+              datepicker.classList.add('upper');
+            };
+          }
+          else
+          {
+            datepicker.classList.remove('upper');
+          };
+          if (validation.isDateTime(that.value))
+          {
+            calendar.render(that.value);
+            calendar.setAttribute('value', that.getDateString(new Date(that.value)));
+          };
+          datepicker.classList.add('on');
+          datepicker.querySelectorAll('div.item').forEach(el => {
+            let selectedLi = el.querySelector('li.selected');
+            if (selectedLi != null)
+            {
+              selectedLi.parentNode.scrollTop = Math.max(selectedLi.index() - 5, 0) * selectedLi.offsetHeight;
+            };
+          });
         }
         else
         {
-          datepicker.classList.remove('upper');
+          datepicker.classList.remove('on');
         };
-        if (validation.isDateTime(that.value))
-        {
-          calendar.render(that.value);
-          calendar.setAttribute('value', that.getDateString(new Date(that.value)));
-        };
-        datepicker.classList.add('on');
-        datepicker.querySelectorAll('div.item').forEach(el => {
-          let selectedLi = el.querySelector('li.selected');
-          if (selectedLi != null)
-          {
-            selectedLi.parentNode.scrollTop = Math.max(selectedLi.index() - 5, 0) * selectedLi.offsetHeight;
-          };
-        });
-      }
-      else
-      {
-        datepicker.classList.remove('on');
-      };
-    });
+      });
+    };
   };
 
   closePicker(timeout = 0) {

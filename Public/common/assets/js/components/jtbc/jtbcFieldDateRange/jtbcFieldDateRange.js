@@ -14,6 +14,7 @@ export default class jtbcFieldDateRange extends HTMLElement {
   #maxDate = null;
   #startDate = null;
   #endDate = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -278,119 +279,131 @@ export default class jtbcFieldDateRange extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let datepicker = container.querySelector('div.datepicker');
-    container.querySelectorAll('input.date').forEach(input => {
-      input.addEventListener('focus', function() {
-        container.querySelector('span.box')?.classList.add('focus');
-      });
-      input.addEventListener('blur', function() {
-        let value = this.value;
-        if (validation.isDate(value))
-        {
-          if (this.getAttribute('mode') == 'start')
+    if (this.#isFirstInitEvent())
+    {
+      let datepicker = container.querySelector('div.datepicker');
+      container.querySelectorAll('input.date').forEach(input => {
+        input.addEventListener('focus', function() {
+          container.querySelector('span.box')?.classList.add('focus');
+        });
+        input.addEventListener('blur', function() {
+          let value = this.value;
+          if (validation.isDate(value))
           {
-            that.#startDate = value;
+            if (this.getAttribute('mode') == 'start')
+            {
+              that.#startDate = value;
+            }
+            else
+            {
+              that.#endDate = value;
+            };
+            that.#changeValue();
           }
           else
           {
-            that.#endDate = value;
+            that.value = '';
           };
-          that.#changeValue();
-        }
-        else
-        {
-          that.value = '';
-        };
-        container.querySelector('span.box')?.classList.remove('focus');
+          container.querySelector('span.box')?.classList.remove('focus');
+        });
       });
-    });
-    container.querySelectorAll('.calendar').forEach(calendar => {
-      calendar.addEventListener('dateclick', e => {
-        if (e.target.getAttribute('mode') == 'start')
-        {
-          that.#dateThroughReset(e.detail.date, null);
-        }
-        else
-        {
-          that.#dateThroughReset(null, e.detail.date);
-        };
-      });
-      calendar.addEventListener('datedblclick', e => {
-        that.#changeValue();
-        datepicker.classList.remove('on');
-      });
-      calendar.addEventListener('datemouseover', e => {
-        if (e.target.getAttribute('mode') == 'start')
-        {
-          that.#dateThroughReset(e.detail.date, null, false);
-        }
-        else
-        {
-          that.#dateThroughReset(null, e.detail.date, false);
-        };
-      });
-      calendar.addEventListener('datemouseout', e => { that.#dateThroughReset(); });
-      calendar.addEventListener('renderend', e => {
-        if (e.target.ready)
-        {
-          that.#dateThroughReset();
-        };
-      });
-    });
-    datepicker.addEventListener('mouseenter', function() {
-      clearTimeout(that.#closePickerTimeout);
-    });
-    datepicker.addEventListener('mouseleave', function() {
-      if (this.classList.contains('on'))
-      {
-        that.closePicker(1000);
-      };
-    });
-    datepicker.addEventListener('transitionend', function() {
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    container.delegateEventListener('span.btn.delete', 'click', function() {
-      that.value = '';
-    });
-    container.delegateEventListener('span.btn.select', 'click', function() {
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
-        clearTimeout(that.#closePickerTimeout);
-        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
-        {
-          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+      container.querySelectorAll('.calendar').forEach(calendar => {
+        calendar.addEventListener('dateclick', e => {
+          if (e.target.getAttribute('mode') == 'start')
           {
-            datepicker.classList.add('upper');
+            that.#dateThroughReset(e.detail.date, null);
+          }
+          else
+          {
+            that.#dateThroughReset(null, e.detail.date);
+          };
+        });
+        calendar.addEventListener('datedblclick', e => {
+          that.#changeValue();
+          datepicker.classList.remove('on');
+        });
+        calendar.addEventListener('datemouseover', e => {
+          if (e.target.getAttribute('mode') == 'start')
+          {
+            that.#dateThroughReset(e.detail.date, null, false);
+          }
+          else
+          {
+            that.#dateThroughReset(null, e.detail.date, false);
+          };
+        });
+        calendar.addEventListener('datemouseout', e => { that.#dateThroughReset(); });
+        calendar.addEventListener('renderend', e => {
+          if (e.target.ready)
+          {
+            that.#dateThroughReset();
+          };
+        });
+      });
+      datepicker.addEventListener('mouseenter', function() {
+        clearTimeout(that.#closePickerTimeout);
+      });
+      datepicker.addEventListener('mouseleave', function() {
+        if (this.classList.contains('on'))
+        {
+          that.closePicker(1000);
+        };
+      });
+      datepicker.addEventListener('transitionend', function() {
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      container.delegateEventListener('span.btn.delete', 'click', function() {
+        that.value = '';
+      });
+      container.delegateEventListener('span.btn.select', 'click', function() {
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closePickerTimeout);
+          if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+          {
+            if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+            {
+              datepicker.classList.add('upper');
+            };
+          }
+          else
+          {
+            datepicker.classList.remove('upper');
+          };
+          datepicker.classList.add('on');
+          if (validation.isDate(that.#startDate))
+          {
+            datepicker.querySelector('jtbc-calendar[mode=start]').render(that.#startDate);
+          };
+          if (validation.isDate(that.#endDate))
+          {
+            datepicker.querySelector('jtbc-calendar[mode=end]').render(that.#endDate);
           };
         }
         else
         {
-          datepicker.classList.remove('upper');
+          datepicker.classList.remove('on');
         };
-        datepicker.classList.add('on');
-        if (validation.isDate(that.#startDate))
-        {
-          datepicker.querySelector('jtbc-calendar[mode=start]').render(that.#startDate);
-        };
-        if (validation.isDate(that.#endDate))
-        {
-          datepicker.querySelector('jtbc-calendar[mode=end]').render(that.#endDate);
-        };
-      }
-      else
-      {
-        datepicker.classList.remove('on');
-      };
-    });
+      });
+    };
   };
 
   closePicker(timeout = 0) {

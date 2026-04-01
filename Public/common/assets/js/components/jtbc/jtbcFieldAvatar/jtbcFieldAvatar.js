@@ -9,6 +9,7 @@ export default class jtbcFieldAvatar extends HTMLElement {
   #uploading = false;
   #tail = null;
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -76,118 +77,130 @@ export default class jtbcFieldAvatar extends HTMLElement {
     this.#tail = tail;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
     let withGlobalHeaders = this.#withGlobalHeaders;
-    container.delegateEventListener('.upload', 'click', () => {
-      if (this.disabled == false && this.uploading == false)
-      {
-        container.querySelector('input.file').click();
-      };
-    });
-    container.querySelector('input.file').addEventListener('change', function(){
-      let avatar = container.querySelector('.avatar');
-      let avatarUploading = avatar.querySelector('.uploading');
-      let inputUploadId = container.querySelector('input.uploadid');
-      let inputFileUrl = container.querySelector('input.fileurl');
-      const resetStatus = () => {
-        this.value = null;
-        avatarUploading.style.width = '0%';
-        avatar.classList.remove('uploading');
-        that.#uploading = false;
-      };
-      if (!avatar.classList.contains('uploading') && this.files.length == 1)
-      {
-        that.#uploading = true;
-        avatar.classList.remove('uploaded');
-        avatar.classList.add('uploading');
-        avatarUploading.style.width = '100%';
-        let currentFile = this.files[0];
-        let fileReader = new FileReader();
-        fileReader.readAsDataURL(currentFile);
-        fileReader.addEventListener('load', () => {
-          avatar.style.backgroundImage = 'url(' + fileReader.result + ')';
-          let currentUploader = new uploader(that.action);
-          if (withGlobalHeaders != null)
-          {
-            let broadcaster = getBroadcaster('fetch');
-            let state = broadcaster.getState();
-            if (state.hasOwnProperty(withGlobalHeaders))
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('.upload', 'click', () => {
+        if (this.disabled == false && this.uploading == false)
+        {
+          container.querySelector('input.file').click();
+        };
+      });
+      container.querySelector('input.file').addEventListener('change', function(){
+        let avatar = container.querySelector('.avatar');
+        let avatarUploading = avatar.querySelector('.uploading');
+        let inputUploadId = container.querySelector('input.uploadid');
+        let inputFileUrl = container.querySelector('input.fileurl');
+        const resetStatus = () => {
+          this.value = null;
+          avatarUploading.style.width = '0%';
+          avatar.classList.remove('uploading');
+          that.#uploading = false;
+        };
+        if (!avatar.classList.contains('uploading') && this.files.length == 1)
+        {
+          that.#uploading = true;
+          avatar.classList.remove('uploaded');
+          avatar.classList.add('uploading');
+          avatarUploading.style.width = '100%';
+          let currentFile = this.files[0];
+          let fileReader = new FileReader();
+          fileReader.readAsDataURL(currentFile);
+          fileReader.addEventListener('load', () => {
+            avatar.style.backgroundImage = 'url(' + fileReader.result + ')';
+            let currentUploader = new uploader(that.action);
+            if (withGlobalHeaders != null)
             {
-              currentUploader.setHeaders(state[withGlobalHeaders]);
-            };
-          };
-          currentUploader.upload(currentFile, percent => {
-            avatarUploading.style.width = (100 - percent) + '%';
-          }, data => {
-            if (data.code == 1)
-            {
-              avatar.classList.add('uploaded');
-              inputUploadId.value = data.param.uploadid;
-              inputFileUrl.value = data.param.fileurl + (that.tail ?? '');
-              avatar.style.backgroundImage = 'url(' + inputFileUrl.value + ')';
-            }
-            else
-            {
-              let message = data.message;
-              if (that.dialog != null)
+              let broadcaster = getBroadcaster('fetch');
+              let state = broadcaster.getState();
+              if (state.hasOwnProperty(withGlobalHeaders))
               {
-                that.dialog.alert(message);
+                currentUploader.setHeaders(state[withGlobalHeaders]);
+              };
+            };
+            currentUploader.upload(currentFile, percent => {
+              avatarUploading.style.width = (100 - percent) + '%';
+            }, data => {
+              if (data.code == 1)
+              {
+                avatar.classList.add('uploaded');
+                inputUploadId.value = data.param.uploadid;
+                inputFileUrl.value = data.param.fileurl + (that.tail ?? '');
+                avatar.style.backgroundImage = 'url(' + inputFileUrl.value + ')';
               }
               else
               {
-                window.alert(message);
+                let message = data.message;
+                if (that.dialog != null)
+                {
+                  that.dialog.alert(message);
+                }
+                else
+                {
+                  window.alert(message);
+                };
               };
-            };
-            resetStatus();
-          }, target => {
-            let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
-            if (that.dialog != null)
-            {
-              that.dialog.alert(errorMessage);
-            }
-            else
-            {
-              window.alert(errorMessage);
-            };
-            avatar.style.backgroundImage = 'none';
-            resetStatus();
+              resetStatus();
+            }, target => {
+              let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
+              if (that.dialog != null)
+              {
+                that.dialog.alert(errorMessage);
+              }
+              else
+              {
+                window.alert(errorMessage);
+              };
+              avatar.style.backgroundImage = 'none';
+              resetStatus();
+            });
           });
-        });
-      };
-    });
-    container.querySelector('.preview').addEventListener('click', function(){
-      if (that.imagePreviewer != null)
-      {
-        let fileurl = container.querySelector('input.fileurl').value;
-        let originalFileurl = fileurl;
-        if (fileurl.includes('?'))
-        {
-          fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
         };
-        if (fileurl.includes('.'))
+      });
+      container.querySelector('.preview').addEventListener('click', function(){
+        if (that.imagePreviewer != null)
         {
-          let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
-          if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+          let fileurl = container.querySelector('input.fileurl').value;
+          let originalFileurl = fileurl;
+          if (fileurl.includes('?'))
           {
-            that.imagePreviewer.popup({'fileurl': originalFileurl});
+            fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
+          };
+          if (fileurl.includes('.'))
+          {
+            let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
+            if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+            {
+              that.imagePreviewer.popup({'fileurl': originalFileurl});
+            };
           };
         };
-      };
-    });
-    container.querySelector('.remove').addEventListener('click', function(){
-      if (that.uploading != true)
-      {
-        let avatar = container.querySelector('.avatar');
-        let inputUploadId = container.querySelector('input.uploadid');
-        let inputFileUrl = container.querySelector('input.fileurl');
-        inputUploadId.value = '';
-        inputFileUrl.value = '';
-        avatar.classList.remove('uploaded');
-        avatar.style.backgroundImage = 'none';
-      };
-    });
+      });
+      container.querySelector('.remove').addEventListener('click', function(){
+        if (that.uploading != true)
+        {
+          let avatar = container.querySelector('.avatar');
+          let inputUploadId = container.querySelector('input.uploadid');
+          let inputFileUrl = container.querySelector('input.fileurl');
+          inputUploadId.value = '';
+          inputFileUrl.value = '';
+          avatar.classList.remove('uploaded');
+          avatar.style.backgroundImage = 'none';
+        };
+      });
+    };
   };
 
   buttonTextReset() {

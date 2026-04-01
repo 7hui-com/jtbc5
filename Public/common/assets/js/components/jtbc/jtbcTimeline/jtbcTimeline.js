@@ -5,6 +5,7 @@ export default class jtbcTimeline extends HTMLElement {
 
   #index = 0;
   #mode = 'standard';
+  #isEventInitialized = false;
 
   get mode() {
     return this.#mode;
@@ -20,11 +21,23 @@ export default class jtbcTimeline extends HTMLElement {
     return this.#index;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.mutationObserver = new MutationObserver(mutations => {
-      mutations.forEach(mutation => mutation.target.render());
-    });
-    this.mutationObserver.observe(this, {'childList': true, 'subtree': true});
+    if (this.#isFirstInitEvent())
+    {
+      this.mutationObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.target.render());
+      });
+      this.mutationObserver.observe(this, {'childList': true, 'subtree': true});
+    };
   };
 
   render() {

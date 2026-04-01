@@ -14,6 +14,7 @@ export default class jtbcTableFixed extends HTMLElement {
     'thead': this.#thead,
     'tfoot': this.#tfoot,
   };
+  #isEventInitialized = false;
 
   get left() {
     return this.#left;
@@ -317,16 +318,28 @@ export default class jtbcTableFixed extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    this.resizeObserver = new ResizeObserver(entries => {
-      Array.from(entries).forEach(entry => {
-        this.#resetPinStatus(entry.target);
-        this.#resetPosition(entry.target);
+    if (this.#isFirstInitEvent())
+    {
+      this.resizeObserver = new ResizeObserver(entries => {
+        Array.from(entries).forEach(entry => {
+          this.#resetPinStatus(entry.target);
+          this.#resetPosition(entry.target);
+        });
       });
-    });
-    this.resizeObserver.observe(container);
-    container.addEventListener('scroll', e => this.#resetPinStatus(e.target));
+      this.resizeObserver.observe(container);
+      container.addEventListener('scroll', e => this.#resetPinStatus(e.target));
+    };
   };
 
   reset(changed = false) {

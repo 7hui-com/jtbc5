@@ -47,10 +47,6 @@
       <zh-cn><![CDATA[系统信息]]></zh-cn>
     </item>
     <item>
-      <name><![CDATA[text-sys-param-0]]></name>
-      <zh-cn><![CDATA[服务器环境]]></zh-cn>
-    </item>
-    <item>
       <name><![CDATA[text-sys-param-1]]></name>
       <zh-cn><![CDATA[系统版本]]></zh-cn>
     </item>
@@ -60,23 +56,23 @@
     </item>
     <item>
       <name><![CDATA[text-sys-param-3]]></name>
-      <zh-cn><![CDATA[数据库类型]]></zh-cn>
+      <zh-cn><![CDATA[运行方式]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-4]]></name>
-      <zh-cn><![CDATA[数据库版本]]></zh-cn>
+      <zh-cn><![CDATA[数据库类型]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-5]]></name>
-      <zh-cn><![CDATA[PHP运行方式]]></zh-cn>
+      <zh-cn><![CDATA[数据库版本]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-6]]></name>
-      <zh-cn><![CDATA[服务器IP地址]]></zh-cn>
+      <zh-cn><![CDATA[服务器环境]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-7]]></name>
-      <zh-cn><![CDATA[服务器当前时间]]></zh-cn>
+      <zh-cn><![CDATA[服务器IP地址]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-8]]></name>
@@ -84,7 +80,7 @@
     </item>
     <item>
       <name><![CDATA[text-sys-param-9]]></name>
-      <zh-cn><![CDATA[服务器POST限制]]></zh-cn>
+      <zh-cn><![CDATA[服务器请求限制]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-10]]></name>
@@ -96,11 +92,19 @@
     </item>
     <item>
       <name><![CDATA[text-sys-param-12]]></name>
-      <zh-cn><![CDATA[服务器磁盘可用]]></zh-cn>
+      <zh-cn><![CDATA[服务器磁盘余量]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-sys-param-12-unknown]]></name>
       <zh-cn><![CDATA[不可探知]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-sys-param-13]]></name>
+      <zh-cn><![CDATA[服务器当前时区]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-sys-param-14]]></name>
+      <zh-cn><![CDATA[服务器当前时间]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-modify-password-tit]]></name>

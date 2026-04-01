@@ -6,11 +6,24 @@ export default class jtbcUploadProgress extends HTMLElement {
   };
 
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
+
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
 
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('item.error', 'dblclick', function(){ this.classList.add('out'); });
-    container.delegateEventListener('item', 'transitionend', function(){ if (this.classList.contains('out')) this.remove(); });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('item.error', 'dblclick', function(){ this.classList.add('out'); });
+      container.delegateEventListener('item', 'transitionend', function(){ if (this.classList.contains('out')) this.remove(); });
+    };
   };
 
   formatFileSize(filesize) {

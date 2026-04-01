@@ -9,6 +9,7 @@ export default class jtbcFieldMulti extends HTMLElement {
   #disabled = false;
   #value = null;
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -103,61 +104,73 @@ export default class jtbcFieldMulti extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('button.add', 'click', () => {
-      if (this.inited === true)
-      {
-        let newLi = this.liElement.cloneNode(true);
-        newLi.querySelector('input[name=id]').value = this.getTempId();
-        this.content.append(newLi);
-        this.numReset();
-        newLi.scrollIntoView({'behavior': 'smooth'});
-      };
-    });
-    container.delegateEventListener('.order.up', 'click', function(){
-      let li = this.parentNode.parentNode.parentNode;
-      let prevLi = li.previousElementSibling;
-      if (prevLi != null)
-      {
-        li.parentNode.insertBefore(li, prevLi);
-        that.numReset();
-      };
-    });
-    container.delegateEventListener('.order.down', 'click', function(){
-      let li = this.parentNode.parentNode.parentNode;
-      let nextLi = li.nextElementSibling;
-      if (nextLi != null)
-      {
-        li.parentNode.insertBefore(nextLi, li);
-        that.numReset();
-      };
-    });
-    container.delegateEventListener('.textRemove', 'click', function(){
-      if (that.dialog != null)
-      {
-        that.dialog.confirm(that.text.removeTips, () => {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        });
-      }
-      else
-      {
-        if (window.confirm(that.text.removeTips))
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('button.add', 'click', () => {
+        if (this.inited === true)
         {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          let newLi = this.liElement.cloneNode(true);
+          newLi.querySelector('input[name=id]').value = this.getTempId();
+          this.content.append(newLi);
+          this.numReset();
+          newLi.scrollIntoView({'behavior': 'smooth'});
         };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'remove', function(){
-      that.content.querySelectorAll('li').forEach(el => {
-        if (el.contains(this))
+      });
+      container.delegateEventListener('.order.up', 'click', function(){
+        let li = this.parentNode.parentNode.parentNode;
+        let prevLi = li.previousElementSibling;
+        if (prevLi != null)
         {
-          el.remove();
+          li.parentNode.insertBefore(li, prevLi);
           that.numReset();
         };
       });
-    });
+      container.delegateEventListener('.order.down', 'click', function(){
+        let li = this.parentNode.parentNode.parentNode;
+        let nextLi = li.nextElementSibling;
+        if (nextLi != null)
+        {
+          li.parentNode.insertBefore(nextLi, li);
+          that.numReset();
+        };
+      });
+      container.delegateEventListener('.textRemove', 'click', function(){
+        if (that.dialog != null)
+        {
+          that.dialog.confirm(that.text.removeTips, () => {
+            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          });
+        }
+        else
+        {
+          if (window.confirm(that.text.removeTips))
+          {
+            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          };
+        };
+      });
+      container.delegateEventListener('.textRemove', 'remove', function(){
+        that.content.querySelectorAll('li').forEach(el => {
+          if (el.contains(this))
+          {
+            el.remove();
+            that.numReset();
+          };
+        });
+      });
+    };
   };
 
   getTempId() {

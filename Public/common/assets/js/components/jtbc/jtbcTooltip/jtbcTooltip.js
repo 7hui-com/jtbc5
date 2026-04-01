@@ -8,6 +8,7 @@ export default class jtbcTooltip extends HTMLElement {
   #position = 'top';
   #hideTextTimeout;
   #showTextTimeout;
+  #isEventInitialized = false;
 
   get text() {
     return this.#text;
@@ -35,33 +36,45 @@ export default class jtbcTooltip extends HTMLElement {
     this.textEl.setAttribute('position', this.#position);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    this.addEventListener('mouseenter', function(){
-      if (that.disabled != true)
-      {
-        that.textEl.classList.add('on');
-        that.#showTextTimeout = setTimeout(function(){
-          that.textEl.classList.add('show');
-        }, 600);
-        clearTimeout(that.#hideTextTimeout);
-      };
-    });
-    this.addEventListener('mouseleave', function(){
-      clearTimeout(that.#showTextTimeout);
-      if (that.textEl.classList.contains('show'))
-      {
-        that.#hideTextTimeout = setTimeout(function(){
-          that.textEl.classList.remove('show');
-        }, 600);
-      };
-    });
-    this.textEl.addEventListener('transitionend', function(){
-      if (!this.classList.contains('show'))
-      {
-        this.classList.remove('on');
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('mouseenter', function(){
+        if (that.disabled != true)
+        {
+          that.textEl.classList.add('on');
+          that.#showTextTimeout = setTimeout(function(){
+            that.textEl.classList.add('show');
+          }, 600);
+          clearTimeout(that.#hideTextTimeout);
+        };
+      });
+      this.addEventListener('mouseleave', function(){
+        clearTimeout(that.#showTextTimeout);
+        if (that.textEl.classList.contains('show'))
+        {
+          that.#hideTextTimeout = setTimeout(function(){
+            that.textEl.classList.remove('show');
+          }, 600);
+        };
+      });
+      this.textEl.addEventListener('transitionend', function(){
+        if (!this.classList.contains('show'))
+        {
+          this.classList.remove('on');
+        };
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

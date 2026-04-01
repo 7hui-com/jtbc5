@@ -7,6 +7,7 @@ export default class jtbcFieldNineSquareSelector extends HTMLElement {
   #value = null;
   #unavailable = null;
   #disabled = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -79,23 +80,35 @@ export default class jtbcFieldNineSquareSelector extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.item', 'click', function(){
-      if (!this.classList.contains('unavailable'))
-      {
-        if (that.mode == 'single')
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.item', 'click', function(){
+        if (!this.classList.contains('unavailable'))
         {
-          this.parentElement.querySelectorAll('div.item').forEach(item => item.classList.toggle('on', item == this));
-        }
-        else
-        {
-          this.classList.toggle('on');
+          if (that.mode == 'single')
+          {
+            this.parentElement.querySelectorAll('div.item').forEach(item => item.classList.toggle('on', item == this));
+          }
+          else
+          {
+            this.classList.toggle('on');
+          };
+          that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
         };
-        that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-      };
-    });
+      });
+    };
   };
 
   #selectItem() {

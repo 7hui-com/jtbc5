@@ -5,6 +5,7 @@ export default class jtbcFieldTransfer extends HTMLElement {
 
   #disabled = false;
   #nonfilterable = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -59,213 +60,225 @@ export default class jtbcFieldTransfer extends HTMLElement {
     this.#nonfilterable = nonfilterable;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let leftbox = container.querySelector('leftbox');
-    let rightbox = container.querySelector('rightbox');
-    let toolbar = container.querySelector('toolbar');
-    let rightboxUl = rightbox.querySelector('div.list ul');
-    container.addEventListener('update', function(){
-      if (that.selected.length == 0)
-      {
-        leftbox.querySelectorAll('div.list li').forEach(item => {
-          if (item.classList.contains('selected'))
-          {
-            item.classList.remove('on');
-            item.classList.remove('selected');
-          };
-        });
-        rightbox.querySelectorAll('div.list li').forEach(item => {
-          item.remove();
-        });
-      }
-      else
-      {
-        that.selected.forEach(value => {
-          let matched = false;
+    if (this.#isFirstInitEvent())
+    {
+      let leftbox = container.querySelector('leftbox');
+      let rightbox = container.querySelector('rightbox');
+      let toolbar = container.querySelector('toolbar');
+      let rightboxUl = rightbox.querySelector('div.list ul');
+      container.addEventListener('update', function(){
+        if (that.selected.length == 0)
+        {
+          leftbox.querySelectorAll('div.list li').forEach(item => {
+            if (item.classList.contains('selected'))
+            {
+              item.classList.remove('on');
+              item.classList.remove('selected');
+            };
+          });
           rightbox.querySelectorAll('div.list li').forEach(item => {
-            let itemValue = item.getAttribute('value');
-            if (itemValue == value)
+            item.remove();
+          });
+        }
+        else
+        {
+          that.selected.forEach(value => {
+            let matched = false;
+            rightbox.querySelectorAll('div.list li').forEach(item => {
+              let itemValue = item.getAttribute('value');
+              if (itemValue == value)
+              {
+                matched = true;
+              }
+              else if (!that.selected.includes(itemValue))
+              {
+                item.remove();
+                leftbox.querySelectorAll('div.list li.selected').forEach(item => {
+                  if (item.getAttribute('value') == itemValue)
+                  {
+                    item.classList.remove('on');
+                    item.classList.remove('selected');
+                  };
+                });
+              };
+            });
+            if (matched == false)
             {
-              matched = true;
-            }
-            else if (!that.selected.includes(itemValue))
-            {
-              item.remove();
-              leftbox.querySelectorAll('div.list li.selected').forEach(item => {
-                if (item.getAttribute('value') == itemValue)
+              leftbox.querySelectorAll('div.list li').forEach(item => {
+                if (item.getAttribute('value') == value)
                 {
-                  item.classList.remove('on');
-                  item.classList.remove('selected');
+                  let newLi = item.cloneNode(true);
+                  newLi.classList.remove('on');
+                  rightboxUl.appendChild(newLi);
+                  item.classList.add('selected');
                 };
               });
             };
           });
-          if (matched == false)
-          {
-            leftbox.querySelectorAll('div.list li').forEach(item => {
-              if (item.getAttribute('value') == value)
-              {
-                let newLi = item.cloneNode(true);
-                newLi.classList.remove('on');
-                rightboxUl.appendChild(newLi);
-                item.classList.add('selected');
-              };
-            });
-          };
-        });
-      };
-      leftbox.dispatchEvent(new CustomEvent('update'));
-      rightbox.dispatchEvent(new CustomEvent('update'));
-    });
-    leftbox.addEventListener('update', function(){
-      let allItemEls = this.querySelectorAll('div.list li:not(li.selected)');
-      let checkedItemEls = this.querySelectorAll('div.list li.on:not(li.selected)');
-      this.querySelector('count').innerText = checkedItemEls.length + '/' + allItemEls.length;
-      if (checkedItemEls.length != 0)
-      {
-        toolbar.querySelector('span.toright').classList.add('on');
-      }
-      else
-      {
-        this.querySelector('h3').classList.remove('on');
-        toolbar.querySelector('span.toright').classList.remove('on');
-      };
-    });
-    leftbox.delegateEventListener('h3', 'click', function(){
-      if (this.classList.contains('on'))
-      {
-        this.classList.remove('on');
-        leftbox.querySelectorAll('div.list li').forEach(item => {
-          if (!item.classList.contains('readonly'))
-          {
-            item.classList.remove('on');
-          };
-        });
-      }
-      else
-      {
-        this.classList.add('on');
-        leftbox.querySelectorAll('div.list li').forEach(item => {
-          if (!item.classList.contains('readonly'))
-          {
-            item.classList.add('on');
-          };
-        });
-      };
-      leftbox.dispatchEvent(new CustomEvent('update'));
-    });
-    leftbox.delegateEventListener('div.filter input.keyword', 'input', function(){
-      let keyword = this.value;
-      leftbox.querySelectorAll('div.list li').forEach(item => {
-        if (item.getAttribute('text').includes(keyword))
-        {
-          item.classList.remove('filtered');
-        }
-        else
-        {
-          item.classList.add('filtered');
         };
-      });
-    });
-    leftbox.delegateEventListener('div.list li', 'click', function(){
-      if (!this.classList.contains('readonly'))
-      {
-        this.classList.toggle('on');
         leftbox.dispatchEvent(new CustomEvent('update'));
-      };
-    });
-    rightbox.addEventListener('update', function(){
-      let allItemEls = this.querySelectorAll('div.list li');
-      let checkedItemEls = this.querySelectorAll('div.list li.on');
-      this.querySelector('count').innerText = checkedItemEls.length + '/' + allItemEls.length;
-      if (checkedItemEls.length != 0)
-      {
-        toolbar.querySelector('span.toleft').classList.add('on');
-      }
-      else
-      {
-        this.querySelector('h3').classList.remove('on');
-        toolbar.querySelector('span.toleft').classList.remove('on');
-      };
-    });
-    rightbox.delegateEventListener('h3', 'click', function(){
-      if (this.classList.contains('on'))
-      {
-        this.classList.remove('on');
-        rightbox.querySelectorAll('div.list li').forEach(item => {
-          if (!item.classList.contains('readonly'))
-          {
-            item.classList.remove('on');
-          };
-        });
-      }
-      else
-      {
-        this.classList.add('on');
-        rightbox.querySelectorAll('div.list li').forEach(item => {
-          if (!item.classList.contains('readonly'))
-          {
-            item.classList.add('on');
-          };
-        });
-      };
-      rightbox.dispatchEvent(new CustomEvent('update'));
-    });
-    rightbox.delegateEventListener('div.filter input.keyword', 'input', function(){
-      let keyword = this.value;
-      rightbox.querySelectorAll('div.list li').forEach(item => {
-        if (item.getAttribute('text').includes(keyword))
+        rightbox.dispatchEvent(new CustomEvent('update'));
+      });
+      leftbox.addEventListener('update', function(){
+        let allItemEls = this.querySelectorAll('div.list li:not(li.selected)');
+        let checkedItemEls = this.querySelectorAll('div.list li.on:not(li.selected)');
+        this.querySelector('count').innerText = checkedItemEls.length + '/' + allItemEls.length;
+        if (checkedItemEls.length != 0)
         {
-          item.classList.remove('filtered');
+          toolbar.querySelector('span.toright').classList.add('on');
         }
         else
         {
-          item.classList.add('filtered');
+          this.querySelector('h3').classList.remove('on');
+          toolbar.querySelector('span.toright').classList.remove('on');
         };
       });
-    });
-    rightbox.delegateEventListener('div.list li', 'click', function(){
-      if (!this.classList.contains('readonly'))
-      {
-        this.classList.toggle('on');
-        rightbox.dispatchEvent(new CustomEvent('update'));
-      };
-    });
-    toolbar.delegateEventListener('span.toright', 'click', function(){
-      if (that.disabled != true && this.classList.contains('on'))
-      {
-        let hasReachedMax = false;
-        leftbox.querySelectorAll('div.list li.on').forEach(item => {
-          let itemValue = item.getAttribute('value');
-          if (that.selected.length < that.getMax())
-          {
-            if (!that.selected.includes(itemValue))
+      leftbox.delegateEventListener('h3', 'click', function(){
+        if (this.classList.contains('on'))
+        {
+          this.classList.remove('on');
+          leftbox.querySelectorAll('div.list li').forEach(item => {
+            if (!item.classList.contains('readonly'))
             {
-              that.selected.push(itemValue);
+              item.classList.remove('on');
             };
+          });
+        }
+        else
+        {
+          this.classList.add('on');
+          leftbox.querySelectorAll('div.list li').forEach(item => {
+            if (!item.classList.contains('readonly'))
+            {
+              item.classList.add('on');
+            };
+          });
+        };
+        leftbox.dispatchEvent(new CustomEvent('update'));
+      });
+      leftbox.delegateEventListener('div.filter input.keyword', 'input', function(){
+        let keyword = this.value;
+        leftbox.querySelectorAll('div.list li').forEach(item => {
+          if (item.getAttribute('text').includes(keyword))
+          {
+            item.classList.remove('filtered');
           }
           else
           {
-            hasReachedMax = true;
-            item.classList.remove('on');
+            item.classList.add('filtered');
           };
         });
-        if (hasReachedMax == true) that.popupTips1();
-        container.dispatchEvent(new CustomEvent('update'));
-      };
-    });
-    toolbar.delegateEventListener('span.toleft', 'click', function(){
-      if (that.disabled != true && this.classList.contains('on'))
-      {
-        rightbox.querySelectorAll('div.list li.on').forEach(item => {
-          let itemValue = item.getAttribute('value');
-          that.selected = that.selected.filter((value) => value !== itemValue);
+      });
+      leftbox.delegateEventListener('div.list li', 'click', function(){
+        if (!this.classList.contains('readonly'))
+        {
+          this.classList.toggle('on');
+          leftbox.dispatchEvent(new CustomEvent('update'));
+        };
+      });
+      rightbox.addEventListener('update', function(){
+        let allItemEls = this.querySelectorAll('div.list li');
+        let checkedItemEls = this.querySelectorAll('div.list li.on');
+        this.querySelector('count').innerText = checkedItemEls.length + '/' + allItemEls.length;
+        if (checkedItemEls.length != 0)
+        {
+          toolbar.querySelector('span.toleft').classList.add('on');
+        }
+        else
+        {
+          this.querySelector('h3').classList.remove('on');
+          toolbar.querySelector('span.toleft').classList.remove('on');
+        };
+      });
+      rightbox.delegateEventListener('h3', 'click', function(){
+        if (this.classList.contains('on'))
+        {
+          this.classList.remove('on');
+          rightbox.querySelectorAll('div.list li').forEach(item => {
+            if (!item.classList.contains('readonly'))
+            {
+              item.classList.remove('on');
+            };
+          });
+        }
+        else
+        {
+          this.classList.add('on');
+          rightbox.querySelectorAll('div.list li').forEach(item => {
+            if (!item.classList.contains('readonly'))
+            {
+              item.classList.add('on');
+            };
+          });
+        };
+        rightbox.dispatchEvent(new CustomEvent('update'));
+      });
+      rightbox.delegateEventListener('div.filter input.keyword', 'input', function(){
+        let keyword = this.value;
+        rightbox.querySelectorAll('div.list li').forEach(item => {
+          if (item.getAttribute('text').includes(keyword))
+          {
+            item.classList.remove('filtered');
+          }
+          else
+          {
+            item.classList.add('filtered');
+          };
         });
-        container.dispatchEvent(new CustomEvent('update'));
-      };
-    });
+      });
+      rightbox.delegateEventListener('div.list li', 'click', function(){
+        if (!this.classList.contains('readonly'))
+        {
+          this.classList.toggle('on');
+          rightbox.dispatchEvent(new CustomEvent('update'));
+        };
+      });
+      toolbar.delegateEventListener('span.toright', 'click', function(){
+        if (that.disabled != true && this.classList.contains('on'))
+        {
+          let hasReachedMax = false;
+          leftbox.querySelectorAll('div.list li.on').forEach(item => {
+            let itemValue = item.getAttribute('value');
+            if (that.selected.length < that.getMax())
+            {
+              if (!that.selected.includes(itemValue))
+              {
+                that.selected.push(itemValue);
+              };
+            }
+            else
+            {
+              hasReachedMax = true;
+              item.classList.remove('on');
+            };
+          });
+          if (hasReachedMax == true) that.popupTips1();
+          container.dispatchEvent(new CustomEvent('update'));
+        };
+      });
+      toolbar.delegateEventListener('span.toleft', 'click', function(){
+        if (that.disabled != true && this.classList.contains('on'))
+        {
+          rightbox.querySelectorAll('div.list li.on').forEach(item => {
+            let itemValue = item.getAttribute('value');
+            that.selected = that.selected.filter((value) => value !== itemValue);
+          });
+          container.dispatchEvent(new CustomEvent('update'));
+        };
+      });
+    };
   };
 
   getMax() {

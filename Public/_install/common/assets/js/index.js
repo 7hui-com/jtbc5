@@ -55,11 +55,9 @@ export default class index {
             }
             else
             {
-              gotoStep([4001, 4002, 4003, 4031, 4041].includes(data.code)? 2: 3);
               self.querySelector('button.step-3-done').classList.remove('locked');
-              that.#timeoutHandler = setTimeout(() => {
-                self.querySelector('div.msg').innerText = '';
-              }, 5000);
+              gotoStep([4001, 4002, 4003, 4031, 4041, 4403].includes(data.code)? 2: 3);
+              that.#timeoutHandler = setTimeout(() => self.querySelector('div.msg').classList.add('out'), 6000);
             };
             self.querySelector('div.msg').innerText = data.message;
           });
@@ -74,6 +72,13 @@ export default class index {
         else
         {
           self.querySelector('button.step-1-next').classList.add('hide');
+        };
+      });
+      container.delegateEventListener('div.msg', 'transitionend', function(){
+        if (this.classList.contains('out'))
+        {
+          this.innerText = '';
+          this.classList.remove('out');
         };
       });
       container.delegateEventListener('button.step-1-next', 'click', function(){ gotoStep(2); });

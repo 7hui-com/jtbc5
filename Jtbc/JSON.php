@@ -63,4 +63,14 @@ class JSON
     }
     return $result;
   }
+
+  public static function parse(string $argJSONString)
+  {
+    return self::decode($argJSONString);
+  }
+
+  public static function stringify($argValue)
+  {
+    return self::encode($argValue, true);
+  }
 }

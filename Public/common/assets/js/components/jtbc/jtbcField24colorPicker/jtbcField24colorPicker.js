@@ -5,6 +5,7 @@ export default class jtbcField24colorPicker extends HTMLElement {
 
   #disabled = false;
   #value = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -49,30 +50,42 @@ export default class jtbcField24colorPicker extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    let itemIndex = 0;
-    let picker = this.container.querySelector('div.picker');
-    this.colorMap.forEach(color => {
-      itemIndex += 1;
-      let item = document.createElement('item');
-      item.setAttribute('value', color);
-      item.style.backgroundColor = color;
-      item.classList.add('item-' + itemIndex);
-      picker.appendChild(item);
-    });
-    picker.delegateEventListener('item', 'click', function(){
-      if (this.classList.contains('on'))
-      {
-        this.classList.remove('on');
-      }
-      else
-      {
-        this.parentNode.querySelectorAll('item').forEach(el => {
-          el.classList.remove('on');
-        });
-        this.classList.add('on');
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      let itemIndex = 0;
+      let picker = this.container.querySelector('div.picker');
+      this.colorMap.forEach(color => {
+        itemIndex += 1;
+        let item = document.createElement('item');
+        item.setAttribute('value', color);
+        item.style.backgroundColor = color;
+        item.classList.add('item-' + itemIndex);
+        picker.appendChild(item);
+      });
+      picker.delegateEventListener('item', 'click', function(){
+        if (this.classList.contains('on'))
+        {
+          this.classList.remove('on');
+        }
+        else
+        {
+          this.parentNode.querySelectorAll('item').forEach(el => {
+            el.classList.remove('on');
+          });
+          this.classList.add('on');
+        };
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

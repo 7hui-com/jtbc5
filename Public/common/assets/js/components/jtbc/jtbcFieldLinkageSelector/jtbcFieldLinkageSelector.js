@@ -8,6 +8,7 @@ export default class jtbcFieldLinkageSelector extends HTMLElement {
   #placeholder = null;
   #separator = '-';
   #disabled = false;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -136,11 +137,23 @@ export default class jtbcFieldLinkageSelector extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.container.delegateEventListener('select', 'change', e => {
-      this.loadChildren(e.target.options[e.target.selectedIndex]);
-      this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-    });
+    if (this.#isFirstInitEvent())
+    {
+      this.container.delegateEventListener('select', 'change', e => {
+        this.loadChildren(e.target.options[e.target.selectedIndex]);
+        this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+      });
+    };
   };
 
   loadChildren(el) {

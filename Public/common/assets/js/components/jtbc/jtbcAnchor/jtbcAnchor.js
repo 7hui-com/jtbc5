@@ -4,9 +4,22 @@ export default class jtbcAnchor extends HTMLAnchorElement {
   };
 
   #href = null;
+  #isEventInitialized = false;
+
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
 
   #initEvents() {
-    this.addEventListener('click', e => this.gotoLink(e));
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('click', e => this.gotoLink(e));
+    };
   };
 
   gotoLink(e) {

@@ -7,6 +7,7 @@ export default class jtbcFieldTag extends HTMLElement {
   #disabled = false;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -77,116 +78,128 @@ export default class jtbcFieldTag extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let tagElement = container.querySelector('input.tag');
-    let tagsElement = container.querySelector('div.tags');
-    let hintsElement = container.querySelector('div.hints');
-    container.addEventListener('click', () => {
-      tagElement.focus();
-    });
-    tagsElement.delegateEventListener('span', 'click', function(){
-      let currentTag = this.getAttribute('tag');
-      this.remove();
-      that.tags = that.tags.filter((tag) => tag !== currentTag);
-    });
-    tagElement.addEventListener('focus', (e) => {
-      let self = e.target;
-      container.classList.add('on');
-      self.dispatchEvent(new CustomEvent('resetWidth'));
-      clearTimeout(this.blurTimeout);
-    });
-    tagElement.addEventListener('blur', () => {
-      clearTimeout(this.blurTimeout);
-      this.blurTimeout = setTimeout(() => {
-        tagElement.dispatchEvent(new CustomEvent('newTag'));
-        container.classList.remove('on');
-        hintsElement.classList.remove('on');
-      }, 300);
-    });
-    tagElement.addEventListener('keyup', e => {
-      let which = e.which;
-      let self = e.target;
-      if (which == 13)
-      {
-        self.dispatchEvent(new CustomEvent('newTag'));
-      }
-      else if (which == 38)
-      {
-        this.selectPrevHint();
-      }
-      else if (which == 40)
-      {
-        this.selectNextHint();
-      };
-    });
-    tagElement.addEventListener('keydown', e => {
-      let which = e.which;
-      let self = e.target;
-      if (which == 8)
-      {
-        let currentTag = self.value.trim();
-        if (currentTag == '')
+    if (this.#isFirstInitEvent())
+    {
+      let tagElement = container.querySelector('input.tag');
+      let tagsElement = container.querySelector('div.tags');
+      let hintsElement = container.querySelector('div.hints');
+      container.addEventListener('click', () => {
+        tagElement.focus();
+      });
+      tagsElement.delegateEventListener('span', 'click', function(){
+        let currentTag = this.getAttribute('tag');
+        this.remove();
+        that.tags = that.tags.filter((tag) => tag !== currentTag);
+      });
+      tagElement.addEventListener('focus', (e) => {
+        let self = e.target;
+        container.classList.add('on');
+        self.dispatchEvent(new CustomEvent('resetWidth'));
+        clearTimeout(this.blurTimeout);
+      });
+      tagElement.addEventListener('blur', () => {
+        clearTimeout(this.blurTimeout);
+        this.blurTimeout = setTimeout(() => {
+          tagElement.dispatchEvent(new CustomEvent('newTag'));
+          container.classList.remove('on');
+          hintsElement.classList.remove('on');
+        }, 300);
+      });
+      tagElement.addEventListener('keyup', e => {
+        let which = e.which;
+        let self = e.target;
+        if (which == 13)
         {
-          this.removeLastTag();
-          self.dispatchEvent(new CustomEvent('resetWidth'));
+          self.dispatchEvent(new CustomEvent('newTag'));
+        }
+        else if (which == 38)
+        {
+          this.selectPrevHint();
+        }
+        else if (which == 40)
+        {
+          this.selectNextHint();
         };
-      }
-      else if (which == 13)
-      {
-        return false;
-      };
-    });
-    tagElement.addEventListener('input', e => {
-      if (this.currentApi != null)
-      {
-        if (this.currentApiLoading === false)
+      });
+      tagElement.addEventListener('keydown', e => {
+        let which = e.which;
+        let self = e.target;
+        if (which == 8)
         {
-          let currentValue = e.target.value;
-          if (currentValue.trim() == '')
+          let currentTag = self.value.trim();
+          if (currentTag == '')
           {
-            this.loadHints([]);
-          }
-          else
+            this.removeLastTag();
+            self.dispatchEvent(new CustomEvent('resetWidth'));
+          };
+        }
+        else if (which == 13)
+        {
+          return false;
+        };
+      });
+      tagElement.addEventListener('input', e => {
+        if (this.currentApi != null)
+        {
+          if (this.currentApiLoading === false)
           {
-            this.currentApiLoading = true;
-            let currentApi = this.currentApi + '&tag=' + encodeURIComponent(currentValue);
-            fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
-              this.currentApiLoading = false;
-              if (data.code == 1)
-              {
-                let currentTagList = data.data.tags;
-                if (Array.isArray(currentTagList))
+            let currentValue = e.target.value;
+            if (currentValue.trim() == '')
+            {
+              this.loadHints([]);
+            }
+            else
+            {
+              this.currentApiLoading = true;
+              let currentApi = this.currentApi + '&tag=' + encodeURIComponent(currentValue);
+              fetch(currentApi, this.#getFetchParams()).then(res => res.ok? res.json(): {}).then(data => {
+                this.currentApiLoading = false;
+                if (data.code == 1)
                 {
-                  this.loadHints(currentTagList);
+                  let currentTagList = data.data.tags;
+                  if (Array.isArray(currentTagList))
+                  {
+                    this.loadHints(currentTagList);
+                  };
                 };
-              };
-            });
+              });
+            };
           };
         };
-      };
-    });
-    tagElement.addEventListener('newTag', e => {
-      let self = e.target;
-      let currentTag = self.value.trim();
-      if (currentTag != '')
-      {
-        self.value = '';
-        self.style.width = 'auto';
-        this.addNewTag(currentTag);
-        self.dispatchEvent(new CustomEvent('resetWidth'));
-      };
-    });
-    tagElement.addEventListener('resetWidth', e => {
-      let remainWidth = container.clientWidth - tagsElement.clientWidth;
-      e.target.style.width = remainWidth > 60? (remainWidth - 10) + 'px': '100%';
-    });
-    hintsElement.delegateEventListener('li', 'click', function(){
-      tagElement.value = '';
-      that.addNewTag(this.getAttribute('tag'));
-      hintsElement.classList.remove('on');
-    });
+      });
+      tagElement.addEventListener('newTag', e => {
+        let self = e.target;
+        let currentTag = self.value.trim();
+        if (currentTag != '')
+        {
+          self.value = '';
+          self.style.width = 'auto';
+          this.addNewTag(currentTag);
+          self.dispatchEvent(new CustomEvent('resetWidth'));
+        };
+      });
+      tagElement.addEventListener('resetWidth', e => {
+        let remainWidth = container.clientWidth - tagsElement.clientWidth;
+        e.target.style.width = remainWidth > 60? (remainWidth - 10) + 'px': '100%';
+      });
+      hintsElement.delegateEventListener('li', 'click', function(){
+        tagElement.value = '';
+        that.addNewTag(this.getAttribute('tag'));
+        hintsElement.classList.remove('on');
+      });
+    };
   };
 
   addNewTag(tag) {

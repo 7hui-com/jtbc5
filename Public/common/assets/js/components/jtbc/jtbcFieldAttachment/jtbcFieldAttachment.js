@@ -9,6 +9,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
   #uploading = false;
   #tail = null;
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -107,143 +108,85 @@ export default class jtbcFieldAttachment extends HTMLElement {
     });
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let progress = container.querySelector('.progress');
-    container.querySelector('.textUpload').addEventListener('click', function(){
-      this.parentNode.querySelector('input.file').click();
-    });
-    container.querySelector('input.file').addEventListener('change', function(){
-      if (that.uploading != true)
-      {
-        that.#uploading = true;
-        progress.startUpload(this, (index, data) => {
-          if (data.code == 1) that.addUploadedItem(data.param, that.tail);
-        }, () => { that.#uploading = false; });
-      };
-    });
-    container.delegateEventListener('input[name=all]', 'change', function(){
-      container.querySelectorAll('input[name=item]').forEach(el => {
-        el.checked = this.checked;
-        el.dispatchEvent(new Event('change', {'bubbles': true}));
+    if (this.#isFirstInitEvent())
+    {
+      let progress = container.querySelector('.progress');
+      container.querySelector('.textUpload').addEventListener('click', function(){
+        this.parentNode.querySelector('input.file').click();
       });
-    });
-    container.delegateEventListener('input[name=item]', 'change', function(){
-      this.parentNode.parentNode.classList.toggle('on', this.checked);
-      that.#resetIcons();
-    });
-    container.delegateEventListener('.textInsert', 'click', function(){
-      let partner = that.partner;
-      if (partner != null)
-      {
-        if (this.getAttribute('mode') != 'batch')
+      container.querySelector('input.file').addEventListener('change', function(){
+        if (that.uploading != true)
         {
-          let tr = this.parentNode.parentNode.parentNode;
-          let param = JSON.parse(tr.getAttribute('param'));
-          let filename = param.filename;
-          let fileurl = param.fileurl;
-          let filegroup = param.filegroup;
-          partner.forEach(el => {
-            if (el.contentType == 'block')
-            {
-              el.editor.isReady.then(() => {
-                let blocks = el.editor.blocks;
-                el.scrollIntoView({'behavior': 'smooth'});
-                if (filegroup == 1)
-                {
-                  blocks.insert('image', {'image': {'uploadid': 0, 'fileurl': fileurl}});
-                }
-                else if (filegroup == 2)
-                {
-                  blocks.insert('video', {'video': {'uploadid': 0, 'fileurl': fileurl}});
-                }
-                else
-                {
-                  let content = document.createElement('a');
-                  content.innerText = filename;
-                  content.setAttribute('href', fileurl);
-                  blocks.insert('paragraph', {'text': content.outerHTML});
-                };
-                blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
-              });
-            }
-            else if (el.contentType == 'html')
-            {
-              if (filegroup == 1)
-              {
-                let content = document.createElement('img');
-                content.setAttribute('src', fileurl);
-                el.insertContent(content.outerHTML);
-              }
-              else if (filegroup == 2)
-              {
-                let content = document.createElement('video');
-                content.setAttribute('width', 640);
-                content.setAttribute('height', 360);
-                content.setAttribute('controls', 'controls');
-                content.setAttribute('src', fileurl);
-                el.insertContent(content.outerHTML);
-              }
-              else
-              {
-                let content = document.createElement('a');
-                content.innerText = filename;
-                content.setAttribute('href', fileurl);
-                el.insertContent(content.outerHTML);
-              };
-            }
-            else if (el.contentType == 'markdown')
-            {
-              filename = filename.replaceAll('[', '\\[');
-              filename = filename.replaceAll(']', '\\]');
-              if (filegroup == 1)
-              {
-                el.insertContent('![' + filename + '](' + fileurl + ')');
-              }
-              else
-              {
-                el.insertContent('[' + filename + '](' + fileurl + ')');
-              };
-            };
-          });
-        }
-        else
+          that.#uploading = true;
+          progress.startUpload(this, (index, data) => {
+            if (data.code == 1) that.addUploadedItem(data.param, that.tail);
+          }, () => { that.#uploading = false; });
+        };
+      });
+      container.delegateEventListener('input[name=all]', 'change', function(){
+        container.querySelectorAll('input[name=item]').forEach(el => {
+          el.checked = this.checked;
+          el.dispatchEvent(new Event('change', {'bubbles': true}));
+        });
+      });
+      container.delegateEventListener('input[name=item]', 'change', function(){
+        this.parentNode.parentNode.classList.toggle('on', this.checked);
+        that.#resetIcons();
+      });
+      container.delegateEventListener('.textInsert', 'click', function(){
+        let partner = that.partner;
+        if (partner != null)
         {
-          partner.forEach(el => {
-            let contentArr = [];
-            container.querySelectorAll('input[name=item]:checked').forEach(item => {
-              let tr = item.parentNode.parentNode;
-              let param = JSON.parse(tr.getAttribute('param'));
-              let filename = param.filename;
-              let fileurl = param.fileurl;
-              let filegroup = param.filegroup;
+          if (this.getAttribute('mode') != 'batch')
+          {
+            let tr = this.parentNode.parentNode.parentNode;
+            let param = JSON.parse(tr.getAttribute('param'));
+            let filename = param.filename;
+            let fileurl = param.fileurl;
+            let filegroup = param.filegroup;
+            partner.forEach(el => {
               if (el.contentType == 'block')
               {
-                if (filegroup == 1)
-                {
-                  contentArr.push({'type': 'image', 'data': {'image': {'uploadid': 0, 'fileurl': fileurl}}});
-                }
-                else if (filegroup == 2)
-                {
-                  contentArr.push({'type': 'video', 'data': {'video': {'uploadid': 0, 'fileurl': fileurl}}});
-                }
-                else
-                {
-                  let content = document.createElement('a');
-                  content.innerText = filename;
-                  content.setAttribute('href', fileurl);
-                  contentArr.push({'type': 'paragraph', 'data': {'text': content.outerHTML}});
-                };
+                el.editor.isReady.then(() => {
+                  let blocks = el.editor.blocks;
+                  el.scrollIntoView({'behavior': 'smooth'});
+                  if (filegroup == 1)
+                  {
+                    blocks.insert('image', {'image': {'uploadid': 0, 'fileurl': fileurl}});
+                  }
+                  else if (filegroup == 2)
+                  {
+                    blocks.insert('video', {'video': {'uploadid': 0, 'fileurl': fileurl}});
+                  }
+                  else
+                  {
+                    let content = document.createElement('a');
+                    content.innerText = filename;
+                    content.setAttribute('href', fileurl);
+                    blocks.insert('paragraph', {'text': content.outerHTML});
+                  };
+                  blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
+                });
               }
               else if (el.contentType == 'html')
               {
-                let p = document.createElement('p');
                 if (filegroup == 1)
                 {
                   let content = document.createElement('img');
                   content.setAttribute('src', fileurl);
-                  p.append(content);
+                  el.insertContent(content.outerHTML);
                 }
                 else if (filegroup == 2)
                 {
@@ -252,16 +195,15 @@ export default class jtbcFieldAttachment extends HTMLElement {
                   content.setAttribute('height', 360);
                   content.setAttribute('controls', 'controls');
                   content.setAttribute('src', fileurl);
-                  p.append(content);
+                  el.insertContent(content.outerHTML);
                 }
                 else
                 {
                   let content = document.createElement('a');
                   content.innerText = filename;
                   content.setAttribute('href', fileurl);
-                  p.append(content);
+                  el.insertContent(content.outerHTML);
                 };
-                contentArr.push(p.outerHTML);
               }
               else if (el.contentType == 'markdown')
               {
@@ -269,94 +211,165 @@ export default class jtbcFieldAttachment extends HTMLElement {
                 filename = filename.replaceAll(']', '\\]');
                 if (filegroup == 1)
                 {
-                  contentArr.push('![' + filename + '](' + fileurl + ')');
+                  el.insertContent('![' + filename + '](' + fileurl + ')');
                 }
                 else
                 {
-                  contentArr.push('[' + filename + '](' + fileurl + ')');
+                  el.insertContent('[' + filename + '](' + fileurl + ')');
                 };
               };
             });
-            if (el.contentType == 'block')
-            {
-              el.editor.isReady.then(() => {
-                let blocks = el.editor.blocks;
-                el.scrollIntoView({'behavior': 'smooth'});
-                contentArr.forEach(content => blocks.insert(content.type, content.data));
-                blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
+          }
+          else
+          {
+            partner.forEach(el => {
+              let contentArr = [];
+              container.querySelectorAll('input[name=item]:checked').forEach(item => {
+                let tr = item.parentNode.parentNode;
+                let param = JSON.parse(tr.getAttribute('param'));
+                let filename = param.filename;
+                let fileurl = param.fileurl;
+                let filegroup = param.filegroup;
+                if (el.contentType == 'block')
+                {
+                  if (filegroup == 1)
+                  {
+                    contentArr.push({'type': 'image', 'data': {'image': {'uploadid': 0, 'fileurl': fileurl}}});
+                  }
+                  else if (filegroup == 2)
+                  {
+                    contentArr.push({'type': 'video', 'data': {'video': {'uploadid': 0, 'fileurl': fileurl}}});
+                  }
+                  else
+                  {
+                    let content = document.createElement('a');
+                    content.innerText = filename;
+                    content.setAttribute('href', fileurl);
+                    contentArr.push({'type': 'paragraph', 'data': {'text': content.outerHTML}});
+                  };
+                }
+                else if (el.contentType == 'html')
+                {
+                  let p = document.createElement('p');
+                  if (filegroup == 1)
+                  {
+                    let content = document.createElement('img');
+                    content.setAttribute('src', fileurl);
+                    p.append(content);
+                  }
+                  else if (filegroup == 2)
+                  {
+                    let content = document.createElement('video');
+                    content.setAttribute('width', 640);
+                    content.setAttribute('height', 360);
+                    content.setAttribute('controls', 'controls');
+                    content.setAttribute('src', fileurl);
+                    p.append(content);
+                  }
+                  else
+                  {
+                    let content = document.createElement('a');
+                    content.innerText = filename;
+                    content.setAttribute('href', fileurl);
+                    p.append(content);
+                  };
+                  contentArr.push(p.outerHTML);
+                }
+                else if (el.contentType == 'markdown')
+                {
+                  filename = filename.replaceAll('[', '\\[');
+                  filename = filename.replaceAll(']', '\\]');
+                  if (filegroup == 1)
+                  {
+                    contentArr.push('![' + filename + '](' + fileurl + ')');
+                  }
+                  else
+                  {
+                    contentArr.push('[' + filename + '](' + fileurl + ')');
+                  };
+                };
               });
-            }
-            else if (el.contentType == 'html')
-            {
-              el.insertContent(contentArr.join(''));
-            }
-            else if (el.contentType == 'markdown')
-            {
-              el.insertContent(contentArr.join(String.fromCharCode(13, 10)));
-            };
-          });
-        };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'click', function(){
-      if (this.getAttribute('mode') != 'batch')
-      {
-        this.parentNode.parentNode.parentNode.classList.toggle('remove');
-      }
-      else
-      {
-        container.querySelectorAll('input[name=item]:checked').forEach(item => item.parentNode.parentNode.classList.toggle('remove'));
-      };
-    });
-    container.delegateEventListener('.textSelectFromDB', 'click', function(){
-      if (!this.classList.contains('locked'))
-      {
-        if (that.materialExplorer != null)
-        {
-          this.classList.add('locked');
-          materialExplorer.open(files => {
-            files.forEach(item => {
-              that.addUploadedItem(item);
+              if (el.contentType == 'block')
+              {
+                el.editor.isReady.then(() => {
+                  let blocks = el.editor.blocks;
+                  el.scrollIntoView({'behavior': 'smooth'});
+                  contentArr.forEach(content => blocks.insert(content.type, content.data));
+                  blocks.getBlockByIndex(blocks.getCurrentBlockIndex()).holder?.scrollIntoView({'behavior': 'smooth'});
+                });
+              }
+              else if (el.contentType == 'html')
+              {
+                el.insertContent(contentArr.join(''));
+              }
+              else if (el.contentType == 'markdown')
+              {
+                el.insertContent(contentArr.join(String.fromCharCode(13, 10)));
+              };
             });
-          }).then(() => { this.classList.remove('locked'); });
+          };
         };
-      };
-    });
-    container.delegateEventListener('span.filename', 'click', function(){
-      let tr = this.parentNode.parentNode;
-      let param = JSON.parse(tr.getAttribute('param'));
-      let input = document.createElement('input');
-      input.setAttribute('type', 'text');
-      input.setAttribute('value', this.innerText);
-      input.setAttribute('filename', this.innerText);
-      input.classList.add('filename');
-      this.replaceWith(input);
-      input.select();
-      input.addEventListener('blur', function(){
-        let currentValue = this.value;
-        if (currentValue.trim() == '')
-        {
-          currentValue = this.getAttribute('filename');
-        };
-        param.filename = currentValue;
-        tr.setAttribute('param', JSON.stringify(param));
-        let span = document.createElement('span');
-        span.classList.add('filename');
-        span.innerText = currentValue;
-        this.replaceWith(span);
       });
-    });
-    container.delegateEventListener('span.filegroup', 'click', function(){
-      if (that.imagePreviewer != null)
-      {
+      container.delegateEventListener('.textRemove', 'click', function(){
+        if (this.getAttribute('mode') != 'batch')
+        {
+          this.parentNode.parentNode.parentNode.classList.toggle('remove');
+        }
+        else
+        {
+          container.querySelectorAll('input[name=item]:checked').forEach(item => item.parentNode.parentNode.classList.toggle('remove'));
+        };
+      });
+      container.delegateEventListener('.textSelectFromDB', 'click', function(){
+        if (!this.classList.contains('locked'))
+        {
+          if (that.materialExplorer != null)
+          {
+            this.classList.add('locked');
+            materialExplorer.open(files => {
+              files.forEach(item => {
+                that.addUploadedItem(item);
+              });
+            }).then(() => { this.classList.remove('locked'); });
+          };
+        };
+      });
+      container.delegateEventListener('span.filename', 'click', function(){
         let tr = this.parentNode.parentNode;
         let param = JSON.parse(tr.getAttribute('param'));
-        if (param.filegroup == 1)
+        let input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('value', this.innerText);
+        input.setAttribute('filename', this.innerText);
+        input.classList.add('filename');
+        this.replaceWith(input);
+        input.select();
+        input.addEventListener('blur', function(){
+          let currentValue = this.value;
+          if (currentValue.trim() == '')
+          {
+            currentValue = this.getAttribute('filename');
+          };
+          param.filename = currentValue;
+          tr.setAttribute('param', JSON.stringify(param));
+          let span = document.createElement('span');
+          span.classList.add('filename');
+          span.innerText = currentValue;
+          this.replaceWith(span);
+        });
+      });
+      container.delegateEventListener('span.filegroup', 'click', function(){
+        if (that.imagePreviewer != null)
         {
-          imagePreviewer.popup(param);
+          let tr = this.parentNode.parentNode;
+          let param = JSON.parse(tr.getAttribute('param'));
+          if (param.filegroup == 1)
+          {
+            imagePreviewer.popup(param);
+          };
         };
-      };
-    });
+      });
+    };
   };
 
   #resetIcons() {

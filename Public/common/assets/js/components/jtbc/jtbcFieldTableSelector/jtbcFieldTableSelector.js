@@ -11,6 +11,7 @@ export default class jtbcFieldTableSelector extends HTMLElement {
   #syncValue = null;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -133,150 +134,162 @@ export default class jtbcFieldTableSelector extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let selectorEl = container.querySelector('a.selector');
-    let selectedEl = container.querySelector('div.selected');
-    container.addEventListener('click', (e) => {
-      let self = e.target;
-      if (that.disabled != true && that.selected.length == 0)
-      {
-        if (container.contains(self) && !selectorEl.contains(self))
-        {
-          selectorEl.click();
-        };
-      };
-    });
-    container.delegateEventListener('a.selector', 'click', (e) => {
-      if (this.dialog != null && this.href != null)
-      {
+    if (this.#isFirstInitEvent())
+    {
+      let selectorEl = container.querySelector('a.selector');
+      let selectedEl = container.querySelector('div.selected');
+      container.addEventListener('click', (e) => {
         let self = e.target;
-        let href = this.href + '&field_type=' + this.type;
-        if (!self.classList.contains('locked'))
+        if (that.disabled != true && that.selected.length == 0)
         {
-          self.classList.add('locked');
-          fetch(href).then(res => res.ok? res.json(): {}).then(data => {
-            if (Number.isInteger(data.code))
-            {
-              if (data.code == 1)
+          if (container.contains(self) && !selectorEl.contains(self))
+          {
+            selectorEl.click();
+          };
+        };
+      });
+      container.delegateEventListener('a.selector', 'click', (e) => {
+        if (this.dialog != null && this.href != null)
+        {
+          let self = e.target;
+          let href = this.href + '&field_type=' + this.type;
+          if (!self.classList.contains('locked'))
+          {
+            self.classList.add('locked');
+            fetch(href).then(res => res.ok? res.json(): {}).then(data => {
+              if (Number.isInteger(data.code))
               {
-                this.dialog.popup(data.fragment).then(el => {
-                  this.preSelected = [];
-                  this.selected.forEach(item => { this.preSelected.push(item); });
-                  let popup = el.shadowRoot.querySelector('.dialogPopup');
-                  let chief = popup.querySelector('div.chief');
-                  let chiefTemplate = popup.querySelector('template.chiefTemplate');
-                  if (chief != null && chiefTemplate != null)
-                  {
-                    const changeChiefTemplateParams = (params) => {
-                      let currentURL = chiefTemplate.getAttribute('url');
-                      let currentURLArr = currentURL.split('?');
-                      if (currentURLArr.length == 2)
-                      {
-                        let currentBaseURL = currentURLArr[0];
-                        let currentSearchParams = new URLSearchParams(currentURLArr[1]);
-                        Object.keys(params).forEach(key => {
-                          currentSearchParams.set(key, params[key]);
-                        });
-                        chiefTemplate.setAttribute('url', currentBaseURL + '?' + currentSearchParams.toString());
+                if (data.code == 1)
+                {
+                  this.dialog.popup(data.fragment).then(el => {
+                    this.preSelected = [];
+                    this.selected.forEach(item => { this.preSelected.push(item); });
+                    let popup = el.shadowRoot.querySelector('.dialogPopup');
+                    let chief = popup.querySelector('div.chief');
+                    let chiefTemplate = popup.querySelector('template.chiefTemplate');
+                    if (chief != null && chiefTemplate != null)
+                    {
+                      const changeChiefTemplateParams = (params) => {
+                        let currentURL = chiefTemplate.getAttribute('url');
+                        let currentURLArr = currentURL.split('?');
+                        if (currentURLArr.length == 2)
+                        {
+                          let currentBaseURL = currentURLArr[0];
+                          let currentSearchParams = new URLSearchParams(currentURLArr[1]);
+                          Object.keys(params).forEach(key => {
+                            currentSearchParams.set(key, params[key]);
+                          });
+                          chiefTemplate.setAttribute('url', currentBaseURL + '?' + currentSearchParams.toString());
+                        };
                       };
-                    };
-                    chief.addEventListener('checkmax', () => {
-                      if (!this.isVacant(true))
-                      {
-                        if (this.type != 'radio')
+                      chief.addEventListener('checkmax', () => {
+                        if (!this.isVacant(true))
+                        {
+                          if (this.type != 'radio')
+                          {
+                            chief.querySelectorAll('input[name=id]').forEach(input => {
+                              if (input.checked != true)
+                              {
+                                input.disabled = true;
+                              };
+                            });
+                          };
+                        }
+                        else
                         {
                           chief.querySelectorAll('input[name=id]').forEach(input => {
-                            if (input.checked != true)
+                            if (input.disabled == true)
                             {
-                              input.disabled = true;
+                              input.disabled = false;
                             };
                           });
                         };
-                      }
-                      else
-                      {
+                      });
+                      chief.delegateEventListener('div.list', 'renderend', () => {
                         chief.querySelectorAll('input[name=id]').forEach(input => {
-                          if (input.disabled == true)
+                          if (this.preSelected.includes(input.value))
                           {
-                            input.disabled = false;
+                            input.checked = true;
                           };
                         });
-                      };
-                    });
-                    chief.delegateEventListener('div.list', 'renderend', () => {
-                      chief.querySelectorAll('input[name=id]').forEach(input => {
-                        if (this.preSelected.includes(input.value))
-                        {
-                          input.checked = true;
-                        };
+                        chief.dispatchEvent(new CustomEvent('checkmax'));
                       });
-                      chief.dispatchEvent(new CustomEvent('checkmax'));
-                    });
-                    chief.delegateEventListener('input[name=id]', 'change', e => {
-                      let self = e.target;
-                      if (self.disabled == true)
-                      {
-                        self.checked = false;
-                        self.parentNode.parentNode.classList.remove('selected');
-                      };
-                      if (self.checked == true)
-                      {
-                        if (!this.preSelected.includes(self.value))
+                      chief.delegateEventListener('input[name=id]', 'change', e => {
+                        let self = e.target;
+                        if (self.disabled == true)
                         {
-                          if (this.currentMax == 1)
+                          self.checked = false;
+                          self.parentNode.parentNode.classList.remove('selected');
+                        };
+                        if (self.checked == true)
+                        {
+                          if (!this.preSelected.includes(self.value))
                           {
-                            this.preSelected = [self.value];
-                          }
-                          else
+                            if (this.currentMax == 1)
+                            {
+                              this.preSelected = [self.value];
+                            }
+                            else
+                            {
+                              this.preSelected.push(self.value);
+                            };
+                          };
+                        }
+                        else
+                        {
+                          if (this.preSelected.includes(self.value))
                           {
-                            this.preSelected.push(self.value);
+                            this.preSelected = this.preSelected.filter((item) => item !== self.value);
                           };
                         };
-                      }
-                      else
-                      {
-                        if (this.preSelected.includes(self.value))
-                        {
-                          this.preSelected = this.preSelected.filter((item) => item !== self.value);
-                        };
-                      };
-                      chief.dispatchEvent(new CustomEvent('checkmax'));
-                    });
-                    chief.delegateEventListener('jtbc-pagination', 'gotopage', e => {
-                      changeChiefTemplateParams({'page': e.detail.page});
-                    });
-                    chief.delegateEventListener(String.fromCharCode(106, 116, 98, 99, 45) + 'tiny-search', 'search', e => {
-                      changeChiefTemplateParams({'page': 1, 'keyword': e.detail.keyword});
-                    });
-                    popup.delegateEventListener('button.ok', 'click', () => { this.value = JSON.stringify(this.preSelected); });
-                  };
-                });
+                        chief.dispatchEvent(new CustomEvent('checkmax'));
+                      });
+                      chief.delegateEventListener('jtbc-pagination', 'gotopage', e => {
+                        changeChiefTemplateParams({'page': e.detail.page});
+                      });
+                      chief.delegateEventListener(String.fromCharCode(106, 116, 98, 99, 45) + 'tiny-search', 'search', e => {
+                        changeChiefTemplateParams({'page': 1, 'keyword': e.detail.keyword});
+                      });
+                      popup.delegateEventListener('button.ok', 'click', () => { this.value = JSON.stringify(this.preSelected); });
+                    };
+                  });
+                };
               };
-            };
-            self.classList.remove('locked');
-          });
+              self.classList.remove('locked');
+            });
+          };
         };
-      };
-    });
-    selectedEl.addEventListener('changeItem', () => {
-      if (!this.isVacant())
-      {
-        container.classList.add('full');
-      }
-      else
-      {
-        container.classList.remove('full');
-      };
-    });
-    selectedEl.delegateEventListener('span', 'click', function(){
-      that.selected = that.selected.filter((item) => item !== this.getAttribute('value'));
-      selectedEl.dispatchEvent(new CustomEvent('changeItem'));
-      this.remove();
-    });
-    that.syncPlaceholder();
-    that.syncValue();
+      });
+      selectedEl.addEventListener('changeItem', () => {
+        if (!this.isVacant())
+        {
+          container.classList.add('full');
+        }
+        else
+        {
+          container.classList.remove('full');
+        };
+      });
+      selectedEl.delegateEventListener('span', 'click', function(){
+        that.selected = that.selected.filter((item) => item !== this.getAttribute('value'));
+        selectedEl.dispatchEvent(new CustomEvent('changeItem'));
+        this.remove();
+      });
+      that.syncPlaceholder();
+      that.syncValue();
+    };
   };
 
   addNewItem(value, title) {

@@ -11,6 +11,7 @@ export default class jtbcCalendar extends HTMLElement {
   #minDate = null;
   #maxDate = null;
   #selectedDays = null;
+  #isEventInitialized = false;
  
   get lang() {
     return this.#lang;
@@ -50,192 +51,204 @@ export default class jtbcCalendar extends HTMLElement {
     return text[this.#lang];
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.calendar span.date', 'click', function(){
-      if (!this.classList.contains('disabled'))
-      {
-        that.dispatchEvent(new CustomEvent('dateclick', {detail: {date: this.getAttribute('date')}, bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.calendar span.date', 'dblclick', function(){
-      if (!this.classList.contains('disabled'))
-      {
-        that.dispatchEvent(new CustomEvent('datedblclick', {detail: {date: this.getAttribute('date')}, bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.calendar span.date', 'mouseover', function(){
-      if (!this.classList.contains('disabled'))
-      {
-        that.dispatchEvent(new CustomEvent('datemouseover', {detail: {date: this.getAttribute('date')}, bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.calendar span.date', 'mouseout', function(){
-      if (!this.classList.contains('disabled'))
-      {
-        that.dispatchEvent(new CustomEvent('datemouseout', {detail: {date: this.getAttribute('date')}, bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.calendar em.prev', 'click', function(){
-      let currentTargetDate = that.currentTargetDate;
-      let currentYear = currentTargetDate.getFullYear();
-      let currentMonth = currentTargetDate.getMonth() + 1;
-      if (this.getAttribute('mode') == 'year')
-      {
-        currentYear -= 1;
-      }
-      else
-      {
-        currentMonth -= 1;
-        if (currentMonth == 0)
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.calendar span.date', 'click', function(){
+        if (!this.classList.contains('disabled'))
         {
-          currentMonth = 12;
-          currentYear -= 1;
+          that.dispatchEvent(new CustomEvent('dateclick', {detail: {date: this.getAttribute('date')}, bubbles: true}));
         };
-      };
-      that.render(currentYear + '-' + currentMonth + '-1');
-    });
-    container.delegateEventListener('div.calendar em.next', 'click', function(){
-      let currentTargetDate = that.currentTargetDate;
-      let currentYear = currentTargetDate.getFullYear();
-      let currentMonth = currentTargetDate.getMonth() + 1;
-      if (this.getAttribute('mode') == 'year')
-      {
-        currentYear += 1;
-      }
-      else
-      {
-        currentMonth += 1;
-        if (currentMonth == 13)
-        {
-          currentMonth = 1;
-          currentYear += 1;
-        };
-      };
-      that.render(currentYear + '-' + currentMonth + '-1');
-    });
-    container.delegateEventListener('div.calendar em.year', 'click', function(){
-      let calendar = container.querySelector('div.calendar');
-      let yearSelector = container.querySelector('div.yearSelector');
-      yearSelector.setAttribute('date', that.getDateString(that.currentTargetDate));
-      yearSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      calendar.classList.remove('on');
-      yearSelector.classList.add('on');
-    });
-    container.delegateEventListener('div.calendar em.month', 'click', function(){
-      let calendar = container.querySelector('div.calendar');
-      let monthSelector = container.querySelector('div.monthSelector');
-      monthSelector.setAttribute('date', that.getDateString(that.currentTargetDate));
-      monthSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      calendar.classList.remove('on');
-      monthSelector.classList.add('on');
-    });
-    container.delegateEventListener('div.yearSelector', 'loaddata', function(){
-      let text = that.#getText();
-      let mainEl = this.querySelector('div.main').empty();
-      let targetDate = new Date(this.getAttribute('date'));
-      let currentYear = targetDate.getFullYear();
-      let startYear = currentYear;
-      while(startYear % 10 !== 0) startYear -= 1;
-      let endYear = startYear + 9;
-      this.querySelector('span.text').innerText = startYear + text.year + ' ~ ' + endYear + text.year;
-      for (let year = startYear; year <= endYear; year ++)
-      {
-        let newSpanYear = document.createElement('span');
-        newSpanYear.classList.add('year');
-        newSpanYear.setAttribute('year', year);
-        if (that.currentTargetDate.getFullYear() == year)
-        {
-          newSpanYear.classList.add('on');
-        };
-        newSpanYear.innerText = year;
-        mainEl.append(newSpanYear);
-      };
-    });
-    container.delegateEventListener('div.yearSelector em.prev', 'click', function(){
-      let selector = container.querySelector('div.yearSelector');
-      if (selector != null && selector.hasAttribute('date'))
-      {
-        let currentDate = new Date(selector.getAttribute('date'));
-        currentDate.setFullYear(Math.max(currentDate.getFullYear() - 10, that.#minYear));
-        selector.setAttribute('date', that.getDateString(currentDate));
-        selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.yearSelector em.next', 'click', function(){
-      let selector = container.querySelector('div.yearSelector');
-      if (selector != null && selector.hasAttribute('date'))
-      {
-        let currentDate = new Date(selector.getAttribute('date'));
-        currentDate.setFullYear(currentDate.getFullYear() + 10);
-        selector.setAttribute('date', that.getDateString(currentDate));
-        selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.yearSelector span.year', 'click', function(){
-      let selector = container.querySelector('div.yearSelector');
-      let monthSelector = container.querySelector('div.monthSelector');
-      if (selector != null && monthSelector != null)
-      {
-        selector.classList.remove('on');
-        monthSelector.setAttribute('date', this.getAttribute('year') + '-1-1');
-        monthSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-        monthSelector.classList.add('on');
-      };
-    });
-    container.delegateEventListener('div.monthSelector', 'loaddata', function(){
-      let text = that.#getText();
-      let mainEl = this.querySelector('div.main').empty();
-      let targetDate = new Date(this.getAttribute('date'));
-      let currentYear = targetDate.getFullYear();
-      let currentMonth = targetDate.getMonth() + 1;
-      let currentMonthIndex = 1;
-      this.querySelector('span.text').innerText = currentYear + text.year;
-      text.month.forEach(item => {
-        let newSpanMonth = document.createElement('span');
-        newSpanMonth.classList.add('month');
-        newSpanMonth.setAttribute('month', currentMonthIndex);
-        if (that.currentTargetDate.getFullYear() == currentYear && currentMonthIndex == currentMonth)
-        {
-          newSpanMonth.classList.add('on');
-        };
-        newSpanMonth.innerText = item;
-        mainEl.append(newSpanMonth);
-        currentMonthIndex += 1;
       });
-    });
-    container.delegateEventListener('div.monthSelector em.prev', 'click', function(){
-      let selector = container.querySelector('div.monthSelector');
-      if (selector != null && selector.hasAttribute('date'))
-      {
-        let currentDate = new Date(selector.getAttribute('date'));
-        currentDate.setFullYear(Math.max(currentDate.getFullYear() - 1, that.#minYear));
-        selector.setAttribute('date', that.getDateString(currentDate));
-        selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.monthSelector em.next', 'click', function(){
-      let selector = container.querySelector('div.monthSelector');
-      if (selector != null && selector.hasAttribute('date'))
-      {
-        let currentDate = new Date(selector.getAttribute('date'));
-        currentDate.setFullYear(currentDate.getFullYear() + 1);
-        selector.setAttribute('date', that.getDateString(currentDate));
-        selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.monthSelector span.month', 'click', function(){
-      let calendar = container.querySelector('div.calendar');
-      let selector = container.querySelector('div.monthSelector');
-      if (calendar != null && selector != null && selector.hasAttribute('date'))
-      {
-        selector.classList.remove('on');
-        let currentDate = new Date(selector.getAttribute('date'));
-        that.render(currentDate.getFullYear() + '-' + this.getAttribute('month') + '-1');
-        calendar.classList.add('on');
-      };
-    });
+      container.delegateEventListener('div.calendar span.date', 'dblclick', function(){
+        if (!this.classList.contains('disabled'))
+        {
+          that.dispatchEvent(new CustomEvent('datedblclick', {detail: {date: this.getAttribute('date')}, bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.calendar span.date', 'mouseover', function(){
+        if (!this.classList.contains('disabled'))
+        {
+          that.dispatchEvent(new CustomEvent('datemouseover', {detail: {date: this.getAttribute('date')}, bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.calendar span.date', 'mouseout', function(){
+        if (!this.classList.contains('disabled'))
+        {
+          that.dispatchEvent(new CustomEvent('datemouseout', {detail: {date: this.getAttribute('date')}, bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.calendar em.prev', 'click', function(){
+        let currentTargetDate = that.currentTargetDate;
+        let currentYear = currentTargetDate.getFullYear();
+        let currentMonth = currentTargetDate.getMonth() + 1;
+        if (this.getAttribute('mode') == 'year')
+        {
+          currentYear -= 1;
+        }
+        else
+        {
+          currentMonth -= 1;
+          if (currentMonth == 0)
+          {
+            currentMonth = 12;
+            currentYear -= 1;
+          };
+        };
+        that.render(currentYear + '-' + currentMonth + '-1');
+      });
+      container.delegateEventListener('div.calendar em.next', 'click', function(){
+        let currentTargetDate = that.currentTargetDate;
+        let currentYear = currentTargetDate.getFullYear();
+        let currentMonth = currentTargetDate.getMonth() + 1;
+        if (this.getAttribute('mode') == 'year')
+        {
+          currentYear += 1;
+        }
+        else
+        {
+          currentMonth += 1;
+          if (currentMonth == 13)
+          {
+            currentMonth = 1;
+            currentYear += 1;
+          };
+        };
+        that.render(currentYear + '-' + currentMonth + '-1');
+      });
+      container.delegateEventListener('div.calendar em.year', 'click', function(){
+        let calendar = container.querySelector('div.calendar');
+        let yearSelector = container.querySelector('div.yearSelector');
+        yearSelector.setAttribute('date', that.getDateString(that.currentTargetDate));
+        yearSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        calendar.classList.remove('on');
+        yearSelector.classList.add('on');
+      });
+      container.delegateEventListener('div.calendar em.month', 'click', function(){
+        let calendar = container.querySelector('div.calendar');
+        let monthSelector = container.querySelector('div.monthSelector');
+        monthSelector.setAttribute('date', that.getDateString(that.currentTargetDate));
+        monthSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        calendar.classList.remove('on');
+        monthSelector.classList.add('on');
+      });
+      container.delegateEventListener('div.yearSelector', 'loaddata', function(){
+        let text = that.#getText();
+        let mainEl = this.querySelector('div.main').empty();
+        let targetDate = new Date(this.getAttribute('date'));
+        let currentYear = targetDate.getFullYear();
+        let startYear = currentYear;
+        while(startYear % 10 !== 0) startYear -= 1;
+        let endYear = startYear + 9;
+        this.querySelector('span.text').innerText = startYear + text.year + ' ~ ' + endYear + text.year;
+        for (let year = startYear; year <= endYear; year ++)
+        {
+          let newSpanYear = document.createElement('span');
+          newSpanYear.classList.add('year');
+          newSpanYear.setAttribute('year', year);
+          if (that.currentTargetDate.getFullYear() == year)
+          {
+            newSpanYear.classList.add('on');
+          };
+          newSpanYear.innerText = year;
+          mainEl.append(newSpanYear);
+        };
+      });
+      container.delegateEventListener('div.yearSelector em.prev', 'click', function(){
+        let selector = container.querySelector('div.yearSelector');
+        if (selector != null && selector.hasAttribute('date'))
+        {
+          let currentDate = new Date(selector.getAttribute('date'));
+          currentDate.setFullYear(Math.max(currentDate.getFullYear() - 10, that.#minYear));
+          selector.setAttribute('date', that.getDateString(currentDate));
+          selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.yearSelector em.next', 'click', function(){
+        let selector = container.querySelector('div.yearSelector');
+        if (selector != null && selector.hasAttribute('date'))
+        {
+          let currentDate = new Date(selector.getAttribute('date'));
+          currentDate.setFullYear(currentDate.getFullYear() + 10);
+          selector.setAttribute('date', that.getDateString(currentDate));
+          selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.yearSelector span.year', 'click', function(){
+        let selector = container.querySelector('div.yearSelector');
+        let monthSelector = container.querySelector('div.monthSelector');
+        if (selector != null && monthSelector != null)
+        {
+          selector.classList.remove('on');
+          monthSelector.setAttribute('date', this.getAttribute('year') + '-1-1');
+          monthSelector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+          monthSelector.classList.add('on');
+        };
+      });
+      container.delegateEventListener('div.monthSelector', 'loaddata', function(){
+        let text = that.#getText();
+        let mainEl = this.querySelector('div.main').empty();
+        let targetDate = new Date(this.getAttribute('date'));
+        let currentYear = targetDate.getFullYear();
+        let currentMonth = targetDate.getMonth() + 1;
+        let currentMonthIndex = 1;
+        this.querySelector('span.text').innerText = currentYear + text.year;
+        text.month.forEach(item => {
+          let newSpanMonth = document.createElement('span');
+          newSpanMonth.classList.add('month');
+          newSpanMonth.setAttribute('month', currentMonthIndex);
+          if (that.currentTargetDate.getFullYear() == currentYear && currentMonthIndex == currentMonth)
+          {
+            newSpanMonth.classList.add('on');
+          };
+          newSpanMonth.innerText = item;
+          mainEl.append(newSpanMonth);
+          currentMonthIndex += 1;
+        });
+      });
+      container.delegateEventListener('div.monthSelector em.prev', 'click', function(){
+        let selector = container.querySelector('div.monthSelector');
+        if (selector != null && selector.hasAttribute('date'))
+        {
+          let currentDate = new Date(selector.getAttribute('date'));
+          currentDate.setFullYear(Math.max(currentDate.getFullYear() - 1, that.#minYear));
+          selector.setAttribute('date', that.getDateString(currentDate));
+          selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.monthSelector em.next', 'click', function(){
+        let selector = container.querySelector('div.monthSelector');
+        if (selector != null && selector.hasAttribute('date'))
+        {
+          let currentDate = new Date(selector.getAttribute('date'));
+          currentDate.setFullYear(currentDate.getFullYear() + 1);
+          selector.setAttribute('date', that.getDateString(currentDate));
+          selector.dispatchEvent(new CustomEvent('loaddata', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.monthSelector span.month', 'click', function(){
+        let calendar = container.querySelector('div.calendar');
+        let selector = container.querySelector('div.monthSelector');
+        if (calendar != null && selector != null && selector.hasAttribute('date'))
+        {
+          selector.classList.remove('on');
+          let currentDate = new Date(selector.getAttribute('date'));
+          that.render(currentDate.getFullYear() + '-' + this.getAttribute('month') + '-1');
+          calendar.classList.add('on');
+        };
+      });
+    };
   };
 
   resetStatus() {

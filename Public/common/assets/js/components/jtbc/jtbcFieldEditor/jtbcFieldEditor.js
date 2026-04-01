@@ -16,6 +16,7 @@ export default class jtbcFieldEditor extends HTMLElement {
   #basePath = null;
   #iWindow = null;
   #iDocument = null;
+  #initialized  = false;
   #withGlobalHeaders = null;
 
   get name() {
@@ -176,8 +177,9 @@ export default class jtbcFieldEditor extends HTMLElement {
   #initEditor() {
     let container = this.container;
     let iframe = container.querySelector('iframe.iframe');
-    if (iframe != null)
+    if (iframe != null && this.#initialized === false)
     {
+      this.#initialized = true;
       iframe.dataset.height = this.height;
       iframe.style.height = iframe.dataset.height + 'px';
       iframe.addEventListener('load', e => this.#loadEditor(e.target));

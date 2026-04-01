@@ -6,6 +6,7 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
   #mode = 'integer';
   #disabled = false;
   #currency = decodeURIComponent('%C2%A5');
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -102,84 +103,96 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.querySelector('input.value').addEventListener('keydown', e => {
-      let refused = false;
-      let target = e.target;
-      let targetValue = target.value;
-      let keyCode = e.keyCode;
-      let allowedKeyCode = [8, 37, 39, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 110, 190];
-      if (keyCode == 229)
-      {
-        target.readOnly = true;
-      }
-      else
-      {
-        target.readOnly = false;
-        if (!allowedKeyCode.includes(keyCode))
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelector('input.value').addEventListener('keydown', e => {
+        let refused = false;
+        let target = e.target;
+        let targetValue = target.value;
+        let keyCode = e.keyCode;
+        let allowedKeyCode = [8, 37, 39, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 110, 190];
+        if (keyCode == 229)
         {
-          refused = true;
-        }
-        else if (targetValue.includes('.') && keyCode == 190)
-        {
-          refused = true;
-        };
-        if (refused === true)
-        {
-          e.preventDefault();
-        };
-      };
-    });
-    container.querySelector('input.value').addEventListener('input', e => {
-      let suffix = null;
-      let target = e.target;
-      let targetValue = target.value;
-      let parent = target.parentElement;
-      if (targetValue.includes('.') && targetValue.substring(targetValue.indexOf('.') + 1).length > 2)
-      {
-        let valueL = targetValue.substring(0, targetValue.indexOf('.'));
-        let valueR = targetValue.substring(targetValue.indexOf('.') + 1);
-        target.value = valueL + '.' + valueR.substring(0, 2);
-      }
-      else
-      {
-        let mirror = parent.querySelector('div.mirror');
-        mirror.innerText = targetValue;
-        if (targetValue != '')
-        {
-          if (!targetValue.includes('.'))
-          {
-            suffix = '.00';
-          }
-          else
-          {
-            let decimal = targetValue.substring(targetValue.indexOf('.') + 1);
-            if (decimal.length == 0)
-            {
-              suffix = '00';
-            }
-            else if (decimal.length == 1)
-            {
-              suffix = '0';
-            };
-          };
-        };
-        if (suffix == null)
-        {
-          parent.removeAttribute('suffix');
+          target.readOnly = true;
         }
         else
         {
-          parent.setAttribute('suffix', suffix);
-          parent.style.setProperty('--suffix-left', mirror.clientWidth + 'px');
+          target.readOnly = false;
+          if (!allowedKeyCode.includes(keyCode))
+          {
+            refused = true;
+          }
+          else if (targetValue.includes('.') && keyCode == 190)
+          {
+            refused = true;
+          };
+          if (refused === true)
+          {
+            e.preventDefault();
+          };
         };
-        this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-      };
-    });
-    container.querySelector('input.value').addEventListener('paste', e => e.preventDefault());
-    container.querySelector('input.value').addEventListener('focus', e => container.classList.add('on'));
-    container.querySelector('input.value').addEventListener('blur', e => container.classList.remove('on'));
+      });
+      container.querySelector('input.value').addEventListener('input', e => {
+        let suffix = null;
+        let target = e.target;
+        let targetValue = target.value;
+        let parent = target.parentElement;
+        if (targetValue.includes('.') && targetValue.substring(targetValue.indexOf('.') + 1).length > 2)
+        {
+          let valueL = targetValue.substring(0, targetValue.indexOf('.'));
+          let valueR = targetValue.substring(targetValue.indexOf('.') + 1);
+          target.value = valueL + '.' + valueR.substring(0, 2);
+        }
+        else
+        {
+          let mirror = parent.querySelector('div.mirror');
+          mirror.innerText = targetValue;
+          if (targetValue != '')
+          {
+            if (!targetValue.includes('.'))
+            {
+              suffix = '.00';
+            }
+            else
+            {
+              let decimal = targetValue.substring(targetValue.indexOf('.') + 1);
+              if (decimal.length == 0)
+              {
+                suffix = '00';
+              }
+              else if (decimal.length == 1)
+              {
+                suffix = '0';
+              };
+            };
+          };
+          if (suffix == null)
+          {
+            parent.removeAttribute('suffix');
+          }
+          else
+          {
+            parent.setAttribute('suffix', suffix);
+            parent.style.setProperty('--suffix-left', mirror.clientWidth + 'px');
+          };
+          this.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+        };
+      });
+      container.querySelector('input.value').addEventListener('paste', e => e.preventDefault());
+      container.querySelector('input.value').addEventListener('focus', e => container.classList.add('on'));
+      container.querySelector('input.value').addEventListener('blur', e => container.classList.remove('on'));
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

@@ -9,6 +9,7 @@ export default class jtbcFieldCascader extends HTMLElement {
   #expandMode = 'click';
   #separator = ' / ';
   #closeSelectorTimeout = null;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -64,90 +65,102 @@ export default class jtbcFieldCascader extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    selectorEl.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closeSelectorTimeout);
-    });
-    selectorEl.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closeSelector(1000);
-      };
-    });
-    selectorEl.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    selectorEl.delegateEventListener('li', this.#expandMode, function(e){
-      let targetTagName = e.target.tagName.toLowerCase();
-      let currentLi = targetTagName == 'li'? e.target: e.target.parentElement;
-      if (!currentLi.classList.contains('disabled'))
-      {
-        currentLi.parentElement.querySelectorAll('li').forEach(li => {
-          li.querySelectorAll('div.ul').forEach(ul => ul.classList.remove('on'));
-        });
-        currentLi.querySelector('div.ul')?.classList.add('on');
-      };
-    });
-    selectorEl.delegateEventListener('li span', 'click', function(){
-      let parentEl = this.parentElement;
-      let currentValue = parentEl.dataset.value;
-      if (!parentEl.classList.contains('disabled') && !parentEl.classList.contains('father'))
-      {
-        that.#value = currentValue;
-        that.syncInputValue();
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-        that.closeSelector(0);
-      };
-    });
-    container.addEventListener('mouseenter', function(){
-      let emptyEl = this.querySelector('span.empty');
-      if (that.value == '')
-      {
-        emptyEl.classList.remove('on');
-      }
-      else
-      {
-        emptyEl.classList.add('on');
-      };
-    });
-    container.addEventListener('mouseleave', function(){
-      this.querySelector('span.empty')?.classList.remove('on');
-    });
-    container.querySelector('span.box').addEventListener('click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
+    if (this.#isFirstInitEvent())
+    {
+      let selectorEl = container.querySelector('div.selector');
+      selectorEl.addEventListener('mouseenter', function(){
         clearTimeout(that.#closeSelectorTimeout);
-        if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
+      });
+      selectorEl.addEventListener('mouseleave', function(){
+        if (this.classList.contains('on'))
         {
-          if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
-          {
-            selectorEl.classList.add('upper');
-          };
+          that.closeSelector(1000);
+        };
+      });
+      selectorEl.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      selectorEl.delegateEventListener('li', this.#expandMode, function(e){
+        let targetTagName = e.target.tagName.toLowerCase();
+        let currentLi = targetTagName == 'li'? e.target: e.target.parentElement;
+        if (!currentLi.classList.contains('disabled'))
+        {
+          currentLi.parentElement.querySelectorAll('li').forEach(li => {
+            li.querySelectorAll('div.ul').forEach(ul => ul.classList.remove('on'));
+          });
+          currentLi.querySelector('div.ul')?.classList.add('on');
+        };
+      });
+      selectorEl.delegateEventListener('li span', 'click', function(){
+        let parentEl = this.parentElement;
+        let currentValue = parentEl.dataset.value;
+        if (!parentEl.classList.contains('disabled') && !parentEl.classList.contains('father'))
+        {
+          that.#value = currentValue;
+          that.syncInputValue();
+          that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+          that.closeSelector(0);
+        };
+      });
+      container.addEventListener('mouseenter', function(){
+        let emptyEl = this.querySelector('span.empty');
+        if (that.value == '')
+        {
+          emptyEl.classList.remove('on');
         }
         else
         {
-          selectorEl.classList.remove('upper');
+          emptyEl.classList.add('on');
         };
-        selectorEl.classList.add('on');
-      }
-      else
-      {
-        selectorEl.classList.remove('on');
-      };
-    });
-    container.querySelector('span.empty').addEventListener('click', function(){
-      that.value = '';
-      this.classList.remove('on');
-    });
+      });
+      container.addEventListener('mouseleave', function(){
+        this.querySelector('span.empty')?.classList.remove('on');
+      });
+      container.querySelector('span.box').addEventListener('click', function(){
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closeSelectorTimeout);
+          if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
+          {
+            if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
+            {
+              selectorEl.classList.add('upper');
+            };
+          }
+          else
+          {
+            selectorEl.classList.remove('upper');
+          };
+          selectorEl.classList.add('on');
+        }
+        else
+        {
+          selectorEl.classList.remove('on');
+        };
+      });
+      container.querySelector('span.empty').addEventListener('click', function(){
+        that.value = '';
+        this.classList.remove('on');
+      });
+    };
   };
 
   closeSelector(timeout = 0) {

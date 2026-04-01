@@ -9,6 +9,7 @@ export default class jtbcImageSwitcher extends HTMLElement {
   #gallery = [];
   #totalCount = 0;
   #manuallyOperated = false;
+  #isEventInitialized = false;
 
   get autoplay() {
     return this.#autoplay;
@@ -98,57 +99,69 @@ export default class jtbcImageSwitcher extends HTMLElement {
     container.querySelector('div.button-right')?.classList.toggle('disabled', index >= (totalCount - 1));
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('div.image img', 'click', function(){
-      if (that.clickable)
-      {
-        let target = that.getTarget();
-        if (target != null)
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.image img', 'click', function(){
+        if (that.clickable)
         {
-          target.open(Number.parseInt(this.getAttribute('index')));
-        };
-      };
-    });
-    container.delegateEventListener('div.thumb li', 'click', function(e){
-      if (e.isTrusted == true)
-      {
-        that.#manuallyOperated = true;
-      };
-      let parentWidth = this.parentElement.offsetWidth;
-      let thumbWidth = this.parentElement.parentElement.offsetWidth;
-      this.parentElement.querySelectorAll('li').forEach(li => {
-        if (li == this)
-        {
-          li.classList.add('on');
-          that.#changeImage(Number.parseInt(li.getAttribute('index')));
-          li.parentElement.style.left = Math.max(Math.min(0, (0 - li.offsetLeft + thumbWidth / 2 - li.offsetWidth / 2)), Math.min(0, thumbWidth - parentWidth)) + 'px';
-        }
-        else
-        {
-          li.classList.remove('on');
+          let target = that.getTarget();
+          if (target != null)
+          {
+            target.open(Number.parseInt(this.getAttribute('index')));
+          };
         };
       });
-    });
-    container.delegateEventListener('div.button-left', 'click', function(){
-      that.#manuallyOperated = true;
-      let current = container.querySelector('li.on');
-      if (current != null)
-      {
-        let prevIndex = Math.max(0, Number.parseInt(current.getAttribute('index')) - 1);
-        container.querySelector('li.li-' + prevIndex).click();
-      };
-    });
-    container.delegateEventListener('div.button-right', 'click', function(){
-      that.#manuallyOperated = true;
-      let current = container.querySelector('li.on');
-      if (current != null)
-      {
-        let nextIndex = Math.min(that.#totalCount - 1, Number.parseInt(current.getAttribute('index')) + 1);
-        container.querySelector('li.li-' + nextIndex).click();
-      };
-    });
+      container.delegateEventListener('div.thumb li', 'click', function(e){
+        if (e.isTrusted == true)
+        {
+          that.#manuallyOperated = true;
+        };
+        let parentWidth = this.parentElement.offsetWidth;
+        let thumbWidth = this.parentElement.parentElement.offsetWidth;
+        this.parentElement.querySelectorAll('li').forEach(li => {
+          if (li == this)
+          {
+            li.classList.add('on');
+            that.#changeImage(Number.parseInt(li.getAttribute('index')));
+            li.parentElement.style.left = Math.max(Math.min(0, (0 - li.offsetLeft + thumbWidth / 2 - li.offsetWidth / 2)), Math.min(0, thumbWidth - parentWidth)) + 'px';
+          }
+          else
+          {
+            li.classList.remove('on');
+          };
+        });
+      });
+      container.delegateEventListener('div.button-left', 'click', function(){
+        that.#manuallyOperated = true;
+        let current = container.querySelector('li.on');
+        if (current != null)
+        {
+          let prevIndex = Math.max(0, Number.parseInt(current.getAttribute('index')) - 1);
+          container.querySelector('li.li-' + prevIndex).click();
+        };
+      });
+      container.delegateEventListener('div.button-right', 'click', function(){
+        that.#manuallyOperated = true;
+        let current = container.querySelector('li.on');
+        if (current != null)
+        {
+          let nextIndex = Math.min(that.#totalCount - 1, Number.parseInt(current.getAttribute('index')) + 1);
+          container.querySelector('li.li-' + nextIndex).click();
+        };
+      });
+    };
   };
 
   render() {

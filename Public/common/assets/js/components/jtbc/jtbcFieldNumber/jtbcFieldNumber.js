@@ -9,6 +9,7 @@ export default class jtbcFieldNumber extends HTMLElement {
   #max = 999999999;
   #step = 1;
   #value = 0;
+  #isEventInitialized = false;
 
   get divisor() {
     return this.#divisor;
@@ -48,65 +49,77 @@ export default class jtbcFieldNumber extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let inputNumber = container.querySelector('input.number');
-    let btnAdd = container.querySelector('span.add');
-    let btnMinus = container.querySelector('span.minus');
-    this.addEventListener('mouseenter', function(){
-      if (that.disabled != true)
-      {
-        container.classList.add('on');
-      };
-    });
-    this.addEventListener('mouseleave', function(){
-      container.classList.remove('on');
-    });
-    inputNumber.addEventListener('focus', e => {
-      container.classList.add('focused');
-    });
-    inputNumber.addEventListener('blur', e => {
-      container.classList.remove('focused');
-    });
-    inputNumber.addEventListener('input', e => {
-      let self = e.target;
-      if (this.divisor == 1)
-      {
-        this.#value = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
-      }
-      else
-      {
-        this.#value = Number.isNaN(self.value)? 0: Number.parseInt(self.value * this.divisor);
-        if (!self.value.endsWith('.')) self.value = this.#value / this.divisor;
-      };
-      this.checkVaildValue();
-    });
-    inputNumber.addEventListener('keypress', e => {
-      let keyCode = e.keyCode;
-      if (e.key == '.')
-      {
-        if (this.divisor == 1 || e.target.value.includes('.'))
+    if (this.#isFirstInitEvent())
+    {
+      let inputNumber = container.querySelector('input.number');
+      let btnAdd = container.querySelector('span.add');
+      let btnMinus = container.querySelector('span.minus');
+      this.addEventListener('mouseenter', function(){
+        if (that.disabled != true)
+        {
+          container.classList.add('on');
+        };
+      });
+      this.addEventListener('mouseleave', function(){
+        container.classList.remove('on');
+      });
+      inputNumber.addEventListener('focus', e => {
+        container.classList.add('focused');
+      });
+      inputNumber.addEventListener('blur', e => {
+        container.classList.remove('focused');
+      });
+      inputNumber.addEventListener('input', e => {
+        let self = e.target;
+        if (this.divisor == 1)
+        {
+          this.#value = self.value = Number.isNaN(Number.parseInt(self.value))? 0: Number.parseInt(self.value);
+        }
+        else
+        {
+          this.#value = Number.isNaN(self.value)? 0: Number.parseInt(self.value * this.divisor);
+          if (!self.value.endsWith('.')) self.value = this.#value / this.divisor;
+        };
+        this.checkVaildValue();
+      });
+      inputNumber.addEventListener('keypress', e => {
+        let keyCode = e.keyCode;
+        if (e.key == '.')
+        {
+          if (this.divisor == 1 || e.target.value.includes('.'))
+          {
+            e.preventDefault();
+          };
+        }
+        else if (keyCode < 48 || keyCode > 57)
         {
           e.preventDefault();
         };
-      }
-      else if (keyCode < 48 || keyCode > 57)
-      {
+      });
+      inputNumber.addEventListener('paste', e => {
         e.preventDefault();
-      };
-    });
-    inputNumber.addEventListener('paste', e => {
-      e.preventDefault();
-    });
-    btnAdd.addEventListener('click', () => {
-      this.#value = this.#value + this.step;
-      this.#updateInputValue();
-    });
-    btnMinus.addEventListener('click', () => {
-      this.#value = this.#value - this.step;
-      this.#updateInputValue();
-    });
+      });
+      btnAdd.addEventListener('click', () => {
+        this.#value = this.#value + this.step;
+        this.#updateInputValue();
+      });
+      btnMinus.addEventListener('click', () => {
+        this.#value = this.#value - this.step;
+        this.#updateInputValue();
+      });
+    };
   };
 
   #updateInputValue(value) {

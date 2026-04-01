@@ -6,5 +6,5 @@
     <base>item_list</base>
     <order>dev,console,universal,aboutus,product,news,team,recruitment,contactus,feedback</order>
   </configure>
-  <item_list></item_list>
+  <item_list/>
 </xml>

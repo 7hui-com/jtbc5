@@ -12,6 +12,7 @@ export default class jtbcGallerySlider extends HTMLElement {
   #thumb = 'show';
   #thumbSize = 'contain';
   #zoomable = true;
+  #isEventInitialized = false;
 
   get gallery() {
     return this.#gallery;
@@ -82,34 +83,46 @@ export default class jtbcGallerySlider extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.classList.remove('on');
-        that.dispatchEvent(new CustomEvent('closed', {bubbles: true}));
-      }
-      else
-      {
-        that.dispatchEvent(new CustomEvent('opened', {bubbles: true}));
-      };
-    });
-    container.delegateEventListener('div.content div.prev', 'click', function(){
-      that.swiper?.slidePrev(that.slideSpeed);
-    });
-    container.delegateEventListener('div.content div.next', 'click', function(){
-      that.swiper?.slideNext(that.slideSpeed);
-    });
-    container.delegateEventListener('div.thumbnail div.item', 'click', function(){
-      let index = Number.parseInt(this.getAttribute('index'));
-      that.swiper?.slideToLoop(index, that.slideSpeed);
-    });
-    container.delegateEventListener('div.thumbnail div.button', 'click', function(){
-      this.parentNode.classList.toggle('on');
-    });
-    container.delegateEventListener('[role=gallery-slider-close]', 'click', e => that.close());
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.classList.remove('on');
+          that.dispatchEvent(new CustomEvent('closed', {bubbles: true}));
+        }
+        else
+        {
+          that.dispatchEvent(new CustomEvent('opened', {bubbles: true}));
+        };
+      });
+      container.delegateEventListener('div.content div.prev', 'click', function(){
+        that.swiper?.slidePrev(that.slideSpeed);
+      });
+      container.delegateEventListener('div.content div.next', 'click', function(){
+        that.swiper?.slideNext(that.slideSpeed);
+      });
+      container.delegateEventListener('div.thumbnail div.item', 'click', function(){
+        let index = Number.parseInt(this.getAttribute('index'));
+        that.swiper?.slideToLoop(index, that.slideSpeed);
+      });
+      container.delegateEventListener('div.thumbnail div.button', 'click', function(){
+        this.parentNode.classList.toggle('on');
+      });
+      container.delegateEventListener('[role=gallery-slider-close]', 'click', e => that.close());
+    };
   };
 
   #initSwiper() {

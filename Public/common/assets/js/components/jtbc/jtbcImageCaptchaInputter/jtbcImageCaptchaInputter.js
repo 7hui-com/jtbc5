@@ -10,6 +10,7 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
   #captchaMd5hash = null;
   #captchaLoading = false;
   #disabled = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -38,22 +39,34 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.delegateEventListener('img.captcha', 'click', function(){
-      that.loadCaptcha();
-    });
-    container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('keydown', function(e){
-        if (e.keyCode == 13)
-        {
-          formElementFinder.requestSubmit(that);
-        };
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('img.captcha', 'click', function(){
+        that.loadCaptcha();
       });
-      input.addEventListener('focus', function(){ container.classList.add('focus'); });
-      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
-    });
+      container.querySelectorAll('input.value').forEach(input => {
+        input.addEventListener('keydown', function(e){
+          if (e.keyCode == 13)
+          {
+            formElementFinder.requestSubmit(that);
+          };
+        });
+        input.addEventListener('focus', function(){ container.classList.add('focus'); });
+        input.addEventListener('blur', function(){ container.classList.remove('focus'); });
+      });
+    };
   };
 
   async loadCaptcha() {
@@ -95,7 +108,6 @@ export default class jtbcImageCaptchaInputter extends HTMLElement {
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
-    let container = this.container;
     switch(attr) {
       case 'api':
       {

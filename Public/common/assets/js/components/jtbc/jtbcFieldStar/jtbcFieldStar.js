@@ -5,6 +5,7 @@ export default class jtbcFieldStar extends HTMLElement {
 
   #disabled = false;
   #value = 0;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -35,29 +36,41 @@ export default class jtbcFieldStar extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.addEventListener('mouseleave', () => {
-      this.value = this.#value;
-    });
-    container.delegateEventListener('star', 'mouseover', function(){
-      if (that.disabled != true)
-      {
-        let hasEnded = false;
-        this.parentNode.querySelectorAll('star').forEach(el => {
-          hasEnded == false? el.classList.add('on'): el.classList.remove('on');
-          hasEnded = (hasEnded || this == el);
-        });
-      };
-    });
-    container.delegateEventListener('star', 'click', function(){
-      if (that.disabled != true)
-      {
-        that.value = this.index();
-        that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('mouseleave', () => {
+        this.value = this.#value;
+      });
+      container.delegateEventListener('star', 'mouseover', function(){
+        if (that.disabled != true)
+        {
+          let hasEnded = false;
+          this.parentNode.querySelectorAll('star').forEach(el => {
+            hasEnded == false? el.classList.add('on'): el.classList.remove('on');
+            hasEnded = (hasEnded || this == el);
+          });
+        };
+      });
+      container.delegateEventListener('star', 'click', function(){
+        if (that.disabled != true)
+        {
+          that.value = this.index();
+          that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+        };
+      });
+    };
   };
 
   render() {
@@ -66,9 +79,16 @@ export default class jtbcFieldStar extends HTMLElement {
     for (let i = 0; i < this.currentLength; i ++)
     {
       let newStar = document.createElement('star');
-      newStar.innerHTML = '<jtbc-svg name="star" class="star"></jtbc-svg><jtbc-svg name="star_fill" class="star_fill"></jtbc-svg>';
+      let newStarSvg = document.createElement('jtbc-svg');
+      let newStarSvgFill = document.createElement('jtbc-svg');
+      newStarSvg.setAttribute('name', 'star');
+      newStarSvg.setAttribute('class', 'star');
+      newStarSvgFill.setAttribute('name', 'star_fill');
+      newStarSvgFill.setAttribute('class', 'star_fill');
+      newStar.append(newStarSvg, newStarSvgFill);
       container.append(newStar);
     };
+    container.loadComponents();
     this.value = this.#value;
   };
 

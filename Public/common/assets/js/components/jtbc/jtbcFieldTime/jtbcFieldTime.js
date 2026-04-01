@@ -13,6 +13,7 @@ export default class jtbcFieldTime extends HTMLElement {
   #value = '';
   #disabled = false;
   #closePickerTimeout;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -213,94 +214,106 @@ export default class jtbcFieldTime extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let time = container.querySelector('input.time');
-    let timepicker = container.querySelector('div.timepicker');
-    time.addEventListener('blur', function(){
-      let value = this.value;
-      if (!validation.isTime(value))
-      {
-        if (value.trim() == '')
+    if (this.#isFirstInitEvent())
+    {
+      let time = container.querySelector('input.time');
+      let timepicker = container.querySelector('div.timepicker');
+      time.addEventListener('blur', function(){
+        let value = this.value;
+        if (!validation.isTime(value))
         {
-          that.#value = '';
-          that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
+          if (value.trim() == '')
+          {
+            that.#value = '';
+            that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
+          }
+          else
+          {
+            this.value = that.#value;
+          };
         }
         else
         {
-          this.value = that.#value;
-        };
-      }
-      else
-      {
-        that.value = value;
-      };
-    });
-    timepicker.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closePickerTimeout);
-    });
-    timepicker.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closePicker(1000);
-      };
-    });
-    timepicker.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    container.delegateEventListener('div.time div.item li', 'click', function(){
-      this.parentNode.querySelectorAll('li').forEach(el => {
-        that.#changed = true;
-        if (el == this)
-        {
-          el.classList.add('selected');
-        }
-        else
-        {
-          el.classList.remove('selected');
+          that.value = value;
         };
       });
-    });
-    container.delegateEventListener('div.time div.item li', 'dblclick', function(){
-      that.#changeValue();
-      timepicker.classList.remove('on');
-    });
-    container.delegateEventListener('span.btn', 'click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
+      timepicker.addEventListener('mouseenter', function(){
         clearTimeout(that.#closePickerTimeout);
-        if (that.getBoundingClientRect().bottom + timepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+      });
+      timepicker.addEventListener('mouseleave', function(){
+        if (this.classList.contains('on'))
         {
-          if (that.getBoundingClientRect().top > timepicker.offsetHeight)
+          that.closePicker(1000);
+        };
+      });
+      timepicker.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      container.delegateEventListener('div.time div.item li', 'click', function(){
+        this.parentNode.querySelectorAll('li').forEach(el => {
+          that.#changed = true;
+          if (el == this)
           {
-            timepicker.classList.add('upper');
+            el.classList.add('selected');
+          }
+          else
+          {
+            el.classList.remove('selected');
           };
+        });
+      });
+      container.delegateEventListener('div.time div.item li', 'dblclick', function(){
+        that.#changeValue();
+        timepicker.classList.remove('on');
+      });
+      container.delegateEventListener('span.btn', 'click', function(){
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closePickerTimeout);
+          if (that.getBoundingClientRect().bottom + timepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+          {
+            if (that.getBoundingClientRect().top > timepicker.offsetHeight)
+            {
+              timepicker.classList.add('upper');
+            };
+          }
+          else
+          {
+            timepicker.classList.remove('upper');
+          };
+          timepicker.classList.add('on');
+          timepicker.querySelectorAll('div.item').forEach(el => {
+            let selectedLi = el.querySelector('li.selected');
+            if (selectedLi != null)
+            {
+              selectedLi.parentNode.scrollTop = Math.max(selectedLi.index() - 5, 0) * selectedLi.offsetHeight;
+            };
+          });
         }
         else
         {
-          timepicker.classList.remove('upper');
+          timepicker.classList.remove('on');
         };
-        timepicker.classList.add('on');
-        timepicker.querySelectorAll('div.item').forEach(el => {
-          let selectedLi = el.querySelector('li.selected');
-          if (selectedLi != null)
-          {
-            selectedLi.parentNode.scrollTop = Math.max(selectedLi.index() - 5, 0) * selectedLi.offsetHeight;
-          };
-        });
-      }
-      else
-      {
-        timepicker.classList.remove('on');
-      };
-    });
+      });
+    };
   };
 
   closePicker(timeout = 0) {

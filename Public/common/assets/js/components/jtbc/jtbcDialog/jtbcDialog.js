@@ -9,6 +9,7 @@ export default class jtbcDialog extends HTMLElement {
   #popupMovable = true;
   #credentialsList = ['include', 'same-origin', 'omit'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -115,57 +116,96 @@ export default class jtbcDialog extends HTMLElement {
     return result;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.querySelectorAll('div.dialog_item').forEach(el => {
-      el.addEventListener('dblclick', e => {
-        if (el == e.target)
-        {
-          this.close();
-        };
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelectorAll('div.dialog_item').forEach(el => {
+        el.addEventListener('dblclick', e => {
+          if (el == e.target)
+          {
+            this.close();
+          };
+        });
       });
-    });
-    container.delegateEventListener('button.ok', 'click', () => {
-      if (this.callback != null)
-      {
-        if (this.callbackArgs.length == 0)
+      container.delegateEventListener('button.ok', 'click', () => {
+        if (this.callback != null)
         {
-          this.callback();
+          if (this.callbackArgs.length == 0)
+          {
+            this.callback();
+          }
+          else
+          {
+            this.callback(...this.callbackArgs);
+          };
+        };
+        this.close();
+      });
+      container.delegateEventListener('button.cancel', 'click', () => { this.close(); });
+      container.delegateEventListener('[role=dialog-close]', 'click', () => { this.close(); });
+      container.delegateEventListener('[role=dialog-fullpage-exit', 'click', () => {
+        document.documentElement.style.overflow = null;
+        container.querySelector('.dialog_fullpage').classList.remove('on');
+      });
+      container.delegateEventListener('.dialog_fullpage', 'transitionend', function() {
+        if (!this.classList.contains('on'))
+        {
+          this.querySelector('.fullpage').html('');
         }
         else
         {
-          this.callback(...this.callbackArgs);
+          document.documentElement.style.overflow = 'hidden';
         };
-      };
-      this.close();
-    });
-    container.delegateEventListener('button.cancel', 'click', () => { this.close(); });
-    container.delegateEventListener('[role=dialog-close]', 'click', () => { this.close(); });
-    container.delegateEventListener('[role=dialog-fullpage-exit', 'click', () => {
-      document.documentElement.style.overflow = null;
-      container.querySelector('.dialog_fullpage').classList.remove('on');
-    });
-    container.delegateEventListener('.dialog_fullpage', 'transitionend', function() {
-      if (!this.classList.contains('on'))
+      });
+      if (isTouchDevice())
       {
-        this.querySelector('.fullpage').html('');
+        container.delegateEventListener('.dialog.popup.movable div.title', 'touchstart', function(e) {
+          e.preventDefault();
+          if (e.touches.length == 1)
+          {
+            let el = this;
+            let target = container.querySelector('.popup');
+            const move = function(e) {
+              let targetX = (el.translateX ?? 0) + e.touches[0].screenX - el.startPosition.x;
+              let targetY = (el.translateY ?? 0) + e.touches[0].screenY - el.startPosition.y;
+              target.translateX = targetX;
+              target.translateY = targetY;
+              target.style.marginLeft = (targetX * 2) + 'px';
+              target.style.marginTop = (targetY * 2) + 'px';
+            };
+            const stop = function(e) {
+              target.classList.remove('moving');
+              el.translateX = target.translateX;
+              el.translateY = target.translateY;
+              document.removeEventListener('touchmove', move);
+              document.removeEventListener('touchend', stop);
+            };
+            target.classList.add('moving');
+            el.startPosition = {'x': e.touches[0].screenX, 'y': e.touches[0].screenY};
+            document.addEventListener('touchmove', move);
+            document.addEventListener('touchend', stop);
+          };
+        });
       }
       else
       {
-        document.documentElement.style.overflow = 'hidden';
-      };
-    });
-    if (isTouchDevice())
-    {
-      container.delegateEventListener('.dialog.popup.movable div.title', 'touchstart', function(e) {
-        e.preventDefault();
-        if (e.touches.length == 1)
-        {
+        container.delegateEventListener('.dialog.popup.movable div.title', 'mousedown', function(e) {
+          e.preventDefault();
           let el = this;
           let target = container.querySelector('.popup');
           const move = function(e) {
-            let targetX = (el.translateX ?? 0) + e.touches[0].screenX - el.startPosition.x;
-            let targetY = (el.translateY ?? 0) + e.touches[0].screenY - el.startPosition.y;
+            let targetX = (el.translateX ?? 0) + e.screenX - el.startPosition.x;
+            let targetY = (el.translateY ?? 0) + e.screenY - el.startPosition.y;
             target.translateX = targetX;
             target.translateY = targetY;
             target.style.marginLeft = (targetX * 2) + 'px';
@@ -175,42 +215,15 @@ export default class jtbcDialog extends HTMLElement {
             target.classList.remove('moving');
             el.translateX = target.translateX;
             el.translateY = target.translateY;
-            document.removeEventListener('touchmove', move);
-            document.removeEventListener('touchend', stop);
+            document.removeEventListener('mousemove', move);
+            document.removeEventListener('mouseup', stop);
           };
           target.classList.add('moving');
-          el.startPosition = {'x': e.touches[0].screenX, 'y': e.touches[0].screenY};
-          document.addEventListener('touchmove', move);
-          document.addEventListener('touchend', stop);
-        };
-      });
-    }
-    else
-    {
-      container.delegateEventListener('.dialog.popup.movable div.title', 'mousedown', function(e) {
-        e.preventDefault();
-        let el = this;
-        let target = container.querySelector('.popup');
-        const move = function(e) {
-          let targetX = (el.translateX ?? 0) + e.screenX - el.startPosition.x;
-          let targetY = (el.translateY ?? 0) + e.screenY - el.startPosition.y;
-          target.translateX = targetX;
-          target.translateY = targetY;
-          target.style.marginLeft = (targetX * 2) + 'px';
-          target.style.marginTop = (targetY * 2) + 'px';
-        };
-        const stop = function(e) {
-          target.classList.remove('moving');
-          el.translateX = target.translateX;
-          el.translateY = target.translateY;
-          document.removeEventListener('mousemove', move);
-          document.removeEventListener('mouseup', stop);
-        };
-        target.classList.add('moving');
-        el.startPosition = {'x': e.screenX, 'y': e.screenY};
-        document.addEventListener('mousemove', move);
-        document.addEventListener('mouseup', stop);
-      });
+          el.startPosition = {'x': e.screenX, 'y': e.screenY};
+          document.addEventListener('mousemove', move);
+          document.addEventListener('mouseup', stop);
+        });
+      };
     };
   };
 

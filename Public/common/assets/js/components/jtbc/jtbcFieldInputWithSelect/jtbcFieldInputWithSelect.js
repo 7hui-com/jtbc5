@@ -12,6 +12,7 @@ export default class jtbcFieldInputWithSelect extends HTMLElement {
   #allowedPositions = ['left', 'right'];
   #valueOfSelect = null;
   #valueOfInput = null;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -152,12 +153,24 @@ export default class jtbcFieldInputWithSelect extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('focus', function(){ container.classList.add('focus'); });
-      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelectorAll('input.value').forEach(input => {
+        input.addEventListener('focus', function(){ container.classList.add('focus'); });
+        input.addEventListener('blur', function(){ container.classList.remove('focus'); });
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

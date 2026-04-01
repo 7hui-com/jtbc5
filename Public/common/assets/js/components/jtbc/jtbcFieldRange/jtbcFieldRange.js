@@ -16,6 +16,7 @@ export default class jtbcFieldRange extends HTMLElement {
   #tooltip = true;
   #disabled = false;
   #tempValue = null;
+  #isEventInitialized = false;
 
   get direction() {
     return this.#direction;
@@ -143,96 +144,108 @@ export default class jtbcFieldRange extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let change = function(x, y) {
-      let thisWidth = that.clientWidth;
-      let thisHeight = that.clientHeight;
-      let startPosition = that.startPosition;
-      let startLeftValue = startPosition.leftValue;
-      let startRightValue = startPosition.rightValue;
-      let elPosition = that.startPosition.el.getAttribute('position');
-      let percentage = that.direction == 'horizontal'? ((x - startPosition.startX) / thisWidth): ((y - startPosition.startY) / thisHeight);
-      if (elPosition == 'left')
-      {
-        let targetLeftValue = Math.round(startLeftValue + (that.max - that.min) * percentage);
-        if (targetLeftValue != that.max && that.step != 1)
+    if (this.#isFirstInitEvent())
+    {
+      let change = function(x, y) {
+        let thisWidth = that.clientWidth;
+        let thisHeight = that.clientHeight;
+        let startPosition = that.startPosition;
+        let startLeftValue = startPosition.leftValue;
+        let startRightValue = startPosition.rightValue;
+        let elPosition = that.startPosition.el.getAttribute('position');
+        let percentage = that.direction == 'horizontal'? ((x - startPosition.startX) / thisWidth): ((y - startPosition.startY) / thisHeight);
+        if (elPosition == 'left')
         {
-          targetLeftValue = targetLeftValue - targetLeftValue % that.step;
-        };
-        that.value = targetLeftValue + that.separator + startRightValue;
-      }
-      else
-      {
-        let targetRightValue = Math.round(startRightValue + (that.max - that.min) * percentage);
-        if (targetRightValue != that.max && that.step != 1)
-        {
-          targetRightValue = targetRightValue - targetRightValue % that.step;
-        };
-        that.value = startLeftValue + that.separator + targetRightValue;
-      };
-    };
-    container.querySelector('div.marks').addEventListener('locate', function() {
-      this.querySelectorAll('div.mark').forEach(el => {
-        if (that.direction == 'horizontal')
-        {
-          el.style.top = 'auto';
-          el.style.left = el.dataset.percentage + '%';
+          let targetLeftValue = Math.round(startLeftValue + (that.max - that.min) * percentage);
+          if (targetLeftValue != that.max && that.step != 1)
+          {
+            targetLeftValue = targetLeftValue - targetLeftValue % that.step;
+          };
+          that.value = targetLeftValue + that.separator + startRightValue;
         }
         else
         {
-          el.style.top = el.dataset.percentage + '%';
-          el.style.left = 'auto';
+          let targetRightValue = Math.round(startRightValue + (that.max - that.min) * percentage);
+          if (targetRightValue != that.max && that.step != 1)
+          {
+            targetRightValue = targetRightValue - targetRightValue % that.step;
+          };
+          that.value = startLeftValue + that.separator + targetRightValue;
         };
+      };
+      container.querySelector('div.marks').addEventListener('locate', function() {
+        this.querySelectorAll('div.mark').forEach(el => {
+          if (that.direction == 'horizontal')
+          {
+            el.style.top = 'auto';
+            el.style.left = el.dataset.percentage + '%';
+          }
+          else
+          {
+            el.style.top = el.dataset.percentage + '%';
+            el.style.left = 'auto';
+          };
+        });
       });
-    });
-    if (isTouchDevice())
-    {
-      container.delegateEventListener('div.rail span.slider', 'touchstart', function(e) {
-        e.preventDefault();
-        if (e.touches.length == 1)
-        {
+      if (isTouchDevice())
+      {
+        container.delegateEventListener('div.rail span.slider', 'touchstart', function(e) {
+          e.preventDefault();
+          if (e.touches.length == 1)
+          {
+            let slide = function(e) {
+              change(e.touches[0].screenX, e.touches[0].screenY);
+            };
+            let stop = function(e) {
+              document.removeEventListener('touchmove', slide);
+              document.removeEventListener('touchend', stop);
+            };
+            that.startPosition = {
+              'el': this,
+              'leftValue': that.#leftValue,
+              'rightValue': that.#rightValue,
+              'startX': e.touches[0].screenX,
+              'startY': e.touches[0].screenY,
+            };
+            document.addEventListener('touchmove', slide);
+            document.addEventListener('touchend', stop);
+          };
+        });
+      }
+      else
+      {
+        container.delegateEventListener('div.rail span.slider', 'mousedown', function(e) {
+          e.preventDefault();
           let slide = function(e) {
-            change(e.touches[0].screenX, e.touches[0].screenY);
+            change(e.screenX, e.screenY);
           };
           let stop = function(e) {
-            document.removeEventListener('touchmove', slide);
-            document.removeEventListener('touchend', stop);
+            document.removeEventListener('mousemove', slide);
+            document.removeEventListener('mouseup', stop);
           };
           that.startPosition = {
             'el': this,
             'leftValue': that.#leftValue,
             'rightValue': that.#rightValue,
-            'startX': e.touches[0].screenX,
-            'startY': e.touches[0].screenY,
+            'startX': e.screenX,
+            'startY': e.screenY,
           };
-          document.addEventListener('touchmove', slide);
-          document.addEventListener('touchend', stop);
-        };
-      });
-    }
-    else
-    {
-      container.delegateEventListener('div.rail span.slider', 'mousedown', function(e) {
-        e.preventDefault();
-        let slide = function(e) {
-          change(e.screenX, e.screenY);
-        };
-        let stop = function(e) {
-          document.removeEventListener('mousemove', slide);
-          document.removeEventListener('mouseup', stop);
-        };
-        that.startPosition = {
-          'el': this,
-          'leftValue': that.#leftValue,
-          'rightValue': that.#rightValue,
-          'startX': e.screenX,
-          'startY': e.screenY,
-        };
-        document.addEventListener('mousemove', slide);
-        document.addEventListener('mouseup', stop);
-      });
+          document.addEventListener('mousemove', slide);
+          document.addEventListener('mouseup', stop);
+        });
+      };
     };
   };
 

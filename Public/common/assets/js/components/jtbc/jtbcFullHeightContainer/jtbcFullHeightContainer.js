@@ -8,6 +8,7 @@ export default class jtbcFullHeightContainer extends HTMLElement {
   #minHeight = null;
   #maxHeight = null;
   #resizeObserver = null;
+  #isEventInitialized = false;
 
   get offset() {
     return this.#offset;
@@ -25,9 +26,21 @@ export default class jtbcFullHeightContainer extends HTMLElement {
     return this.#maxHeight;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.#resizeObserver = () => this.setHeight();
-    window.addEventListener('resize', this.#resizeObserver);
+    if (this.#isFirstInitEvent())
+    {
+      this.#resizeObserver = () => this.setHeight();
+      window.addEventListener('resize', this.#resizeObserver);
+    };
   };
 
   setHeight() {

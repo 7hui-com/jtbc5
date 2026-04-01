@@ -1,4 +1,16 @@
 export default class manage {
+  initList() {
+    if (this.inited != true)
+    {
+      this.inited = true;
+      let that = this;
+      let scarf = this.self.parentNode.querySelector('.scarf');
+      scarf.delegateEventListener('table.table', 'sorted', function(){
+        that.leftmenu?.fetch();
+      });
+    };
+  };
+
   initSetting() {
     if (this.inited != true)
     {
@@ -23,6 +35,7 @@ export default class manage {
     this.main = document.getElementById('main');
     this.master = document.getElementById('master');
     this.dialog = document.getElementById('dialog');
+    this.leftmenu = document.getElementById('leftmenu');
     this.miniMessage = document.getElementById('miniMessage');
   };
 };

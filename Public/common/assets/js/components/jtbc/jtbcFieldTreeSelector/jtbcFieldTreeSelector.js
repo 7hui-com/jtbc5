@@ -5,6 +5,7 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
 
   #disabled = false;
   #value = null;
+  #isEventInitialized = false;
 
   get data() {
     return this.currentData;
@@ -47,56 +48,68 @@ export default class jtbcFieldTreeSelector extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    container.addEventListener('selectItem', e => {
-      let result = false;
-      let id = e.detail.res[1];
-      let valueArr = this.getValueArr();
-      if (valueArr.includes(id))
-      {
-        result = true;
-      };
-      e.detail.result = result;
-    });
-    container.addEventListener('renderend', e => {
-      this.resetChecked();
-    });
-    container.delegateEventListener('input.item', 'click', function(){
-      const fatherChecked = node => {
-        let fatherEl = container.querySelector('input.item-' + node.getAttribute('father_id'));
-        if (fatherEl != null)
+    if (this.#isFirstInitEvent())
+    {
+      container.addEventListener('selectItem', e => {
+        let result = false;
+        let id = e.detail.res[1];
+        let valueArr = this.getValueArr();
+        if (valueArr.includes(id))
         {
-          fatherEl.checked = true;
-          fatherChecked(fatherEl);
+          result = true;
         };
-      };
-      const childrenChecked = node => {
-        container.querySelectorAll("input.item[father_id='" + node.getAttribute('value') + "']").forEach(el => {
-          el.checked = true;
-          childrenChecked(el);
-        });
-      };
-      const childrenUnChecked = node => {
-        container.querySelectorAll("input.item[father_id='" + node.getAttribute('value') + "']").forEach(el => {
-          el.checked = false;
-          childrenUnChecked(el);
-        });
-      };
-      if (that.disabled != true)
-      {
-        if (!this.checked)
-        {
-          childrenUnChecked(this);
-        }
-        else
-        {
-          fatherChecked(this);
-          childrenChecked(this);
+        e.detail.result = result;
+      });
+      container.addEventListener('renderend', e => {
+        this.resetChecked();
+      });
+      container.delegateEventListener('input.item', 'click', function(){
+        const fatherChecked = node => {
+          let fatherEl = container.querySelector('input.item-' + node.getAttribute('father_id'));
+          if (fatherEl != null)
+          {
+            fatherEl.checked = true;
+            fatherChecked(fatherEl);
+          };
         };
-      };
-    });
+        const childrenChecked = node => {
+          container.querySelectorAll("input.item[father_id='" + node.getAttribute('value') + "']").forEach(el => {
+            el.checked = true;
+            childrenChecked(el);
+          });
+        };
+        const childrenUnChecked = node => {
+          container.querySelectorAll("input.item[father_id='" + node.getAttribute('value') + "']").forEach(el => {
+            el.checked = false;
+            childrenUnChecked(el);
+          });
+        };
+        if (that.disabled != true)
+        {
+          if (!this.checked)
+          {
+            childrenUnChecked(this);
+          }
+          else
+          {
+            fatherChecked(this);
+            childrenChecked(this);
+          };
+        };
+      });
+    };
   };
 
   getValueArr() {

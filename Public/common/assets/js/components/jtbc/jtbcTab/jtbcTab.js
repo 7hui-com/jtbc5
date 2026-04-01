@@ -4,6 +4,7 @@ export default class jtbcTab extends HTMLDivElement {
   };
 
   #value = 0;
+  #isEventInitialized = false;
 
   get value() {
     return this.#value;
@@ -13,9 +14,21 @@ export default class jtbcTab extends HTMLDivElement {
     this.selectTabByIndex(Number.parseInt(value));
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+  
   #initEvents() {
     let that = this;
-    this.delegateEventListener('tabtitle', 'click', function(){ that.selectTab(this); });
+    if (this.#isFirstInitEvent())
+    {
+      this.delegateEventListener('tabtitle', 'click', function(){ that.selectTab(this); });
+    };
   };
 
   selectTab(node) {

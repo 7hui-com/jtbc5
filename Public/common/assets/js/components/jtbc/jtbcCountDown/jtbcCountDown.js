@@ -11,6 +11,7 @@ export default class jtbcCountDown extends HTMLElement {
   #playing = false;
   #interval = null;
   #currentSecond = null;
+  #isEventInitialized = false;
 
   get autoplay() {
     return this.#autoplay;
@@ -50,8 +51,20 @@ export default class jtbcCountDown extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    window.addEventListener('scroll', e => this.#autoPlay());
+    if (this.#isFirstInitEvent())
+    {
+      window.addEventListener('scroll', e => this.#autoPlay());
+    };
   };
 
   #run() {

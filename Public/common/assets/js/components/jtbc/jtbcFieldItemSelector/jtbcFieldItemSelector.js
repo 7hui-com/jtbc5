@@ -6,6 +6,7 @@ export default class jtbcFieldItemSelector extends HTMLElement {
   #value = null;
   #max = 1000000;
   #multipliable = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -67,37 +68,49 @@ export default class jtbcFieldItemSelector extends HTMLElement {
     this.#multipliable = multipliable;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
-    this.delegateEventListener('[role=item]', 'click', function(){
-      if (that.multipliable == false)
-      {
-        that.querySelectorAll('[role=item]').forEach(item => {
-          item.classList.toggle('on', this == item);
-        });
-        that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-      }
-      else
-      {
-        if (this.classList.contains('on'))
+    if (this.#isFirstInitEvent())
+    {
+      this.delegateEventListener('[role=item]', 'click', function(){
+        if (that.multipliable == false)
         {
-          this.classList.remove('on');
+          that.querySelectorAll('[role=item]').forEach(item => {
+            item.classList.toggle('on', this == item);
+          });
           that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
         }
         else
         {
-          if (that.querySelectorAll('[role=item].on').length < that.#max)
+          if (this.classList.contains('on'))
           {
-            this.classList.add('on');
+            this.classList.remove('on');
             that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
           }
           else
           {
-            this.dispatchEvent(new CustomEvent('exceeded', {bubbles: true}));
+            if (that.querySelectorAll('[role=item].on').length < that.#max)
+            {
+              this.classList.add('on');
+              that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+            }
+            else
+            {
+              this.dispatchEvent(new CustomEvent('exceeded', {bubbles: true}));
+            };
           };
         };
-      };
-    });
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

@@ -9,6 +9,7 @@ export default class jtbcFieldUpload extends HTMLElement {
   #uploading = false;
   #tail = null;
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -87,124 +88,136 @@ export default class jtbcFieldUpload extends HTMLElement {
     this.#tail = tail;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
     let withGlobalHeaders = this.#withGlobalHeaders;
-    container.querySelector('input.fileurl').addEventListener('focus', () => {
-      container.classList.add('focus');
-    });
-    container.querySelector('input.fileurl').addEventListener('blur', () => {
-      container.classList.remove('focus');
-    });
-    container.querySelector('button.upload').addEventListener('click', () => {
-      if (this.disabled == false && this.uploading == false)
-      {
-        container.querySelector('input.file').click();
-      };
-    });
-    container.querySelector('input.file').addEventListener('change', function(){
-      let bar = container.querySelector('span.bar');
-      let btn = container.querySelector('button.upload');
-      let input = container.querySelector('input.fileurl');
-      const resetStatus = () => {
-        this.value = null;
-        that.buttonTextReset();
-        that.#uploading = false;
-        bar.style.width = '100%';
-        btn.classList.remove('locked');
-      };
-      if (!btn.classList.contains('locked') && this.files.length == 1)
-      {
-        that.#uploading = true;
-        bar.style.width = '0%';
-        btn.classList.add('locked');
-        let file = this.files[0];
-        let currentUploader = new uploader(that.action);
-        if (withGlobalHeaders != null)
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelector('input.fileurl').addEventListener('focus', () => {
+        container.classList.add('focus');
+      });
+      container.querySelector('input.fileurl').addEventListener('blur', () => {
+        container.classList.remove('focus');
+      });
+      container.querySelector('button.upload').addEventListener('click', () => {
+        if (this.disabled == false && this.uploading == false)
         {
-          let broadcaster = getBroadcaster('fetch');
-          let state = broadcaster.getState();
-          if (state.hasOwnProperty(withGlobalHeaders))
-          {
-            currentUploader.setHeaders(state[withGlobalHeaders]);
-          };
+          container.querySelector('input.file').click();
         };
-        currentUploader.upload(file, percent => {
-          btn.innerText = percent + '%';
-          bar.style.width = percent + '%';
-        }, data => {
-          if (data.code == 1)
+      });
+      container.querySelector('input.file').addEventListener('change', function(){
+        let bar = container.querySelector('span.bar');
+        let btn = container.querySelector('button.upload');
+        let input = container.querySelector('input.fileurl');
+        const resetStatus = () => {
+          this.value = null;
+          that.buttonTextReset();
+          that.#uploading = false;
+          bar.style.width = '100%';
+          btn.classList.remove('locked');
+        };
+        if (!btn.classList.contains('locked') && this.files.length == 1)
+        {
+          that.#uploading = true;
+          bar.style.width = '0%';
+          btn.classList.add('locked');
+          let file = this.files[0];
+          let currentUploader = new uploader(that.action);
+          if (withGlobalHeaders != null)
           {
-            that.filename = file.name;
-            that.uploadid = data.param.uploadid;
-            input.value = that.fileurl = data.param.fileurl + (that.tail ?? '');
-            that.dispatchEvent(new CustomEvent('uploaded', {'bubbles': true, 'detail': {'uploadid': that.uploadid, 'filename': that.filename, 'fileurl': that.fileurl}}));
-          }
-          else
-          {
-            let message = data.message;
-            if (that.hasAttribute('whisper'))
+            let broadcaster = getBroadcaster('fetch');
+            let state = broadcaster.getState();
+            if (state.hasOwnProperty(withGlobalHeaders))
             {
-              if (that.miniMessage != null)
-              {
-                that.miniMessage.push(message);
-              }
-              else if (that.toast != null)
-              {
-                that.toast.showError(message);
-              }
-              else
-              {
-                window.alert(message);
-              };
+              currentUploader.setHeaders(state[withGlobalHeaders]);
+            };
+          };
+          currentUploader.upload(file, percent => {
+            btn.innerText = percent + '%';
+            bar.style.width = percent + '%';
+          }, data => {
+            if (data.code == 1)
+            {
+              that.filename = file.name;
+              that.uploadid = data.param.uploadid;
+              input.value = that.fileurl = data.param.fileurl + (that.tail ?? '');
+              that.dispatchEvent(new CustomEvent('uploaded', {'bubbles': true, 'detail': {'uploadid': that.uploadid, 'filename': that.filename, 'fileurl': that.fileurl}}));
             }
             else
             {
-              if (that.dialog != null)
+              let message = data.message;
+              if (that.hasAttribute('whisper'))
               {
-                that.dialog.alert(message);
+                if (that.miniMessage != null)
+                {
+                  that.miniMessage.push(message);
+                }
+                else if (that.toast != null)
+                {
+                  that.toast.showError(message);
+                }
+                else
+                {
+                  window.alert(message);
+                };
               }
               else
               {
-                window.alert(message);
+                if (that.dialog != null)
+                {
+                  that.dialog.alert(message);
+                }
+                else
+                {
+                  window.alert(message);
+                };
               };
             };
-          };
-          resetStatus();
-        }, target => {
-          let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
-          if (that.dialog != null)
-          {
-            that.dialog.alert(errorMessage);
-          }
-          else
-          {
-            window.alert(errorMessage);
-          };
-          resetStatus();
-        });
-      };
-    });
-    container.querySelector('input.fileurl').addEventListener('dblclick', function(){
-      if (that.imagePreviewer != null)
-      {
-        let fileurl = this.value;
-        let originalFileurl = fileurl;
-        if (fileurl.includes('?'))
-        {
-          fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
+            resetStatus();
+          }, target => {
+            let errorMessage = target.status + String.fromCharCode(32) + target.statusText;
+            if (that.dialog != null)
+            {
+              that.dialog.alert(errorMessage);
+            }
+            else
+            {
+              window.alert(errorMessage);
+            };
+            resetStatus();
+          });
         };
-        if (fileurl.includes('.'))
+      });
+      container.querySelector('input.fileurl').addEventListener('dblclick', function(){
+        if (that.imagePreviewer != null)
         {
-          let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
-          if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+          let fileurl = this.value;
+          let originalFileurl = fileurl;
+          if (fileurl.includes('?'))
           {
-            that.imagePreviewer.popup({'fileurl': originalFileurl});
+            fileurl = fileurl.substring(0, fileurl.lastIndexOf('?'));
+          };
+          if (fileurl.includes('.'))
+          {
+            let extension = fileurl.substring(fileurl.lastIndexOf('.') + 1);
+            if (['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp'].includes(extension))
+            {
+              that.imagePreviewer.popup({'fileurl': originalFileurl});
+            };
           };
         };
-      };
-    });
+      });
+    };
   };
 
   buttonTextReset() {

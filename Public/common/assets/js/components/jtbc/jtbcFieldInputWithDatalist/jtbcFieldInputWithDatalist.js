@@ -11,6 +11,7 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
   #filterable = true;
   #backupedValue = null;
   #closeSelectorTimeout;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -244,85 +245,97 @@ export default class jtbcFieldInputWithDatalist extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    selectorEl.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closeSelectorTimeout);
-    });
-    selectorEl.addEventListener('mouseleave', function(){
-      if (document.activeElement != that && this.classList.contains('on'))
-      {
-        that.closeSelector(1000);
-      };
-    });
-    selectorEl.addEventListener('close', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    selectorEl.addEventListener('transitionend', function(){
-      this.dispatchEvent(new CustomEvent('close'));
-    });
-    selectorEl.delegateEventListener('div.option', 'click', function(){
-      let li = this.parentElement;
-      if (!li.classList.contains('disabled'))
-      {
-        that.closeSelector(0);
-        that.value = li.dataset.value;
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-      };
-    });
-    container.querySelector('input.text').addEventListener('focus', function(){
-      that.#filterOptions();
-      that.#setPickable(true);
-    });
-    container.querySelector('input.text').addEventListener('blur', function(){
-      that.closeSelector(300);
-    });
-    container.querySelector('input.text').addEventListener('input', function(){
-      that.#filterOptions();
-      that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
-    });
-    container.querySelector('input.text').addEventListener('keydown', function(e){
-      if (e.keyCode == 38)
-      {
-        e.preventDefault();
-        that.#selectPrevItem();
-      }
-      else if (e.keyCode == 40)
-      {
-        e.preventDefault();
-        that.#selectNextItem();
-      };
-    });
-    container.querySelector('input.text').addEventListener('compositionstart', function(){
-      that.#filterable = false;
-    });
-    container.querySelector('input.text').addEventListener('compositionend', function(){
-      that.#filterable = true;
-      that.#filterOptions();
-    });
-    container.querySelector('span.box').addEventListener('click', function(){
-      if (!container.classList.contains('pickable') || selectorEl.classList.contains('hide'))
-      {
-        if (that.value != '')
+    if (this.#isFirstInitEvent())
+    {
+      let selectorEl = container.querySelector('div.selector');
+      selectorEl.addEventListener('mouseenter', function(){
+        clearTimeout(that.#closeSelectorTimeout);
+      });
+      selectorEl.addEventListener('mouseleave', function(){
+        if (document.activeElement != that && this.classList.contains('on'))
         {
-          that.#backupedValue = that.value;
-          container.querySelector('input.text').value = '';
-          container.querySelector('input.text').setAttribute('placeholder', that.#backupedValue);
-          that.#filterOptions();
-        }
+          that.closeSelector(1000);
+        };
+      });
+      selectorEl.addEventListener('close', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      selectorEl.addEventListener('transitionend', function(){
+        this.dispatchEvent(new CustomEvent('close'));
+      });
+      selectorEl.delegateEventListener('div.option', 'click', function(){
+        let li = this.parentElement;
+        if (!li.classList.contains('disabled'))
+        {
+          that.closeSelector(0);
+          that.value = li.dataset.value;
+          that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+        };
+      });
+      container.querySelector('input.text').addEventListener('focus', function(){
+        that.#filterOptions();
         that.#setPickable(true);
-      }
-      else
-      {
-        that.#setPickable(false);
-      };
-    });
+      });
+      container.querySelector('input.text').addEventListener('blur', function(){
+        that.closeSelector(300);
+      });
+      container.querySelector('input.text').addEventListener('input', function(){
+        that.#filterOptions();
+        that.dispatchEvent(new CustomEvent('changed', {bubbles: true}));
+      });
+      container.querySelector('input.text').addEventListener('keydown', function(e){
+        if (e.keyCode == 38)
+        {
+          e.preventDefault();
+          that.#selectPrevItem();
+        }
+        else if (e.keyCode == 40)
+        {
+          e.preventDefault();
+          that.#selectNextItem();
+        };
+      });
+      container.querySelector('input.text').addEventListener('compositionstart', function(){
+        that.#filterable = false;
+      });
+      container.querySelector('input.text').addEventListener('compositionend', function(){
+        that.#filterable = true;
+        that.#filterOptions();
+      });
+      container.querySelector('span.box').addEventListener('click', function(){
+        if (!container.classList.contains('pickable') || selectorEl.classList.contains('hide'))
+        {
+          if (that.value != '')
+          {
+            that.#backupedValue = that.value;
+            container.querySelector('input.text').value = '';
+            container.querySelector('input.text').setAttribute('placeholder', that.#backupedValue);
+            that.#filterOptions();
+          }
+          that.#setPickable(true);
+        }
+        else
+        {
+          that.#setPickable(false);
+        };
+      });
+    };
   };
 
   closeSelector(timeout = 0) {

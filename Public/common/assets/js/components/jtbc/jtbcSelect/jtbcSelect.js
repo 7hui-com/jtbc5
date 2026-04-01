@@ -6,6 +6,7 @@ export default class jtbcSelect extends HTMLSelectElement {
   #value = null;
   #selectedIndex = null;
   #observerInstance = null;
+  #isEventInitialized = false;
 
   get value() {
     return this.#value ?? this.getAttribute('value') ?? '';
@@ -29,15 +30,27 @@ export default class jtbcSelect extends HTMLSelectElement {
     this.selectedIndex = this.#selectedIndex = selectedIndex;
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.addEventListener('change', e => {
-      let target = e.target;
-      if (this.#selectedIndex != target.selectedIndex)
-      {
-        this.#selectedIndex = target.selectedIndex;
-        this.#value = target.options[this.#selectedIndex].value;
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('change', e => {
+        let target = e.target;
+        if (this.#selectedIndex != target.selectedIndex)
+        {
+          this.#selectedIndex = target.selectedIndex;
+          this.#value = target.options[this.#selectedIndex].value;
+        };
+      });
+    };
   };
 
   observer() {

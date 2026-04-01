@@ -379,6 +379,17 @@ class Validation
     return $bool;
   }
 
+  public static function isNumeric19($argString)
+  {
+    $bool = false;
+    $string = is_int($argString)? strval($argString): $argString;
+    if (is_string($string) && strlen($string) == 19 && self::isNumber($string))
+    {
+      $bool = true;
+    }
+    return $bool;
+  }
+
   public static function isNumeric28($argString)
   {
     $bool = false;

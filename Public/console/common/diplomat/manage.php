@@ -215,20 +215,27 @@ class Diplomat extends Ambassador {
         'last_ip' => $account -> last_ip,
         'last_time' => $account -> last_time,
       ];
+      $sysParams = [
+        '1' => Kernel::getVersionString(),
+        '2' => PHP_VERSION,
+        '3' => strtoupper(php_sapi_name()),
+        '4' => DBConfig::DB_TYPE,
+        '5' => $db -> getVersion(),
+        '6' => $req -> server('SERVER_SOFTWARE'),
+        '7' => $req -> server('SERVER_ADDR') ?? gethostbyname($req -> server('SERVER_NAME')),
+        '8' => ini_get('max_execution_time') . 's',
+        '9' => get_cfg_var('post_max_size'),
+        '10' => get_cfg_var('upload_max_filesize'),
+        '11' => get_cfg_var('memory_limit'),
+        '12' => function_exists('disk_free_space')? FileHelper::formatFileSize(disk_free_space('./')): Jtbc::take('manage.text-sys-param-12-unknown', 'lng'),
+        '13' => date_default_timezone_get(),
+        '14' => Date::now(),
+      ];
       $systemInfo = [];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-0', 'lng'), 'value' => $req -> server('SERVER_SOFTWARE')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-1', 'lng'), 'value' => Kernel::getVersionString()];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-2', 'lng'), 'value' => PHP_VERSION];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-3', 'lng'), 'value' => DBConfig::DB_TYPE];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-4', 'lng'), 'value' => $db -> getVersion()];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-5', 'lng'), 'value' => strtoupper(php_sapi_name())];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-6', 'lng'), 'value' => $req -> server('SERVER_ADDR') ?? gethostbyname($req -> server('SERVER_NAME'))];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-7', 'lng'), 'value' => Date::now()];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-8', 'lng'), 'value' => get_cfg_var('max_execution_time')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-9', 'lng'), 'value' => get_cfg_var('post_max_size')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-10', 'lng'), 'value' => get_cfg_var('upload_max_filesize')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-11', 'lng'), 'value' => get_cfg_var('memory_limit')];
-      $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-12', 'lng'), 'value' => function_exists('disk_free_space')? FileHelper::formatFileSize(disk_free_space('./')): Jtbc::take('manage.text-sys-param-12-unknown', 'lng')];
+      foreach ($sysParams as $key => $value)
+      {
+        $systemInfo[] = ['title' => Jtbc::take('manage.text-sys-param-' . $key, 'lng'), 'value' => $value];
+      }
       $ss -> data = ['nav' => $nav, 'account_info' => $accountInfo, 'system_info' => $systemInfo];
     }
     $result = $ss -> toJSON();

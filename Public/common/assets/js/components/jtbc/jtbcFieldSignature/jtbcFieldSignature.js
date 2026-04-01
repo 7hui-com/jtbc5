@@ -10,6 +10,7 @@ export default class jtbcFieldSignature extends HTMLElement {
   #value = null;
   #penColor = '#000000';
   signaturePad = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -78,11 +79,24 @@ export default class jtbcFieldSignature extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      entries.forEach(entry => this.#resize(entry));
-    });
-    this.resizeObserver.observe(this);
+    if (this.#isFirstInitEvent())
+    {
+      this.createSignaturePad();
+      this.resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => this.#resize(entry));
+      });
+      this.resizeObserver.observe(this);
+    };
   };
 
   clear() {
@@ -145,7 +159,6 @@ export default class jtbcFieldSignature extends HTMLElement {
   connectedCallback() {
     this.ready = true;
     this.#initEvents();
-    this.createSignaturePad();
     this.dispatchEvent(new CustomEvent('connected', {bubbles: true}));
   };
 

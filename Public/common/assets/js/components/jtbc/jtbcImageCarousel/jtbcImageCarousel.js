@@ -6,6 +6,7 @@ export default class jtbcImageCarousel extends HTMLElement {
   #total = 0;
   #loaded = 0;
   #images = [];
+  #isEventInitialized = false;
 
   get images() {
     return this.#images;
@@ -32,22 +33,34 @@ export default class jtbcImageCarousel extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    let images = container.querySelector('div.images');
-    images.delegateEventListener('div.item', 'transitionend', e => {
-      let currentEl = e.target;
-      let nextEl = currentEl.nextElementSibling ?? images.firstElementChild;
-      if (currentEl.classList.contains('out'))
-      {
-        currentEl.classList.remove('on', 'out');
-      }
-      else if (currentEl.classList.contains('on'))
-      {
-        currentEl.classList.add('out');
-        nextEl.classList.add('on');
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      let images = container.querySelector('div.images');
+      images.delegateEventListener('div.item', 'transitionend', e => {
+        let currentEl = e.target;
+        let nextEl = currentEl.nextElementSibling ?? images.firstElementChild;
+        if (currentEl.classList.contains('out'))
+        {
+          currentEl.classList.remove('on', 'out');
+        }
+        else if (currentEl.classList.contains('on'))
+        {
+          currentEl.classList.add('out');
+          nextEl.classList.add('on');
+        };
+      });
+    };
   };
 
   reset() {

@@ -5,6 +5,7 @@ export default class jtbcFieldSwitch extends HTMLElement {
 
   #disabled = false;
   #value = 0;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -36,9 +37,22 @@ export default class jtbcFieldSwitch extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.container.querySelector('b').addEventListener('click', () => { if (!this.disabled) this.value = 1; });
-    this.container.querySelector('u').addEventListener('click', () => { if (!this.disabled) this.value = 0; });
+    let container = this.container;
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelector('b').addEventListener('click', () => { if (!this.disabled) this.value = 1; });
+      container.querySelector('u').addEventListener('click', () => { if (!this.disabled) this.value = 0; });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

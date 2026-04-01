@@ -4,6 +4,7 @@ export default class jtbcTinySearch extends HTMLElement {
   };
 
   #url = null;
+  #isEventInitialized = false;
 
   get url() {
     return this.#url;
@@ -27,24 +28,36 @@ export default class jtbcTinySearch extends HTMLElement {
     container.querySelector('input.keyword').setAttribute('placeholder', placeholder);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.delegateEventListener('div.btn', 'click', e => {
-      if (this.url != null)
-      {
-        let target = this.getTarget();
-        target.href = this.url + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
-      };
-      this.dispatchEvent(new CustomEvent('search', {detail: {keyword: this.keyword}, bubbles: true}));
-    });
-    container.querySelector('input.keyword').addEventListener('focus', e => container.classList.add('on'));
-    container.querySelector('input.keyword').addEventListener('blur', e => container.classList.remove('on'));
-    container.querySelector('input.keyword').addEventListener('keyup', e => {
-      if (e.which == 13)
-      {
-        container.querySelector('div.btn').click();
-      };
-    });
+    if (this.#isFirstInitEvent())
+    {
+      container.delegateEventListener('div.btn', 'click', e => {
+        if (this.url != null)
+        {
+          let target = this.getTarget();
+          target.href = this.url + (this.keyword == ''? '': '&keyword=' + encodeURIComponent(this.keyword));
+        };
+        this.dispatchEvent(new CustomEvent('search', {detail: {keyword: this.keyword}, bubbles: true}));
+      });
+      container.querySelector('input.keyword').addEventListener('focus', e => container.classList.add('on'));
+      container.querySelector('input.keyword').addEventListener('blur', e => container.classList.remove('on'));
+      container.querySelector('input.keyword').addEventListener('keyup', e => {
+        if (e.which == 13)
+        {
+          container.querySelector('div.btn').click();
+        };
+      });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

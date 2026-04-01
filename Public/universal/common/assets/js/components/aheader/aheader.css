@@ -1,0 +1,218 @@
+:host {
+  display: block; width: 100%; box-sizing: border-box; --header-page-max-width: 1400px; --header-page-outer-padding: 0px 20px; --header-page-inner-padding: 20px 0px; --header-container-background: #ffffff; --header-topmenu-background: transparent; --header-topmenu-fixed-background: transparent; --header-topmenu-fixed-padding-top: 10px; --header-topmenu-fixed-padding-bottom: 10px; --header-border-top: transparent 2px solid; --header-avatar-width: 120px; --header-anchor-padding: 10px; --header-anchor-height: 36px; --header-anchor-font-size: 14px; --header-anchor-font-weight: normal; --header-anchor-color: #333333; --header-anchor-hover-color: #000000; --header-anchor-icon-size: 10px; --header-submenu-margin-top: 10px; --header-submenu-background: #f4f4f4; --header-submenu-anchor-font-size: calc(var(--header-anchor-font-size) - 2px); --header-submenu-anchor-color: var(--header-anchor-color); --header-submenu-anchor-hover-background: #005f9b; --header-submenu-anchor-hover-font-weight: normal; --header-submenu-anchor-hover-color: #ffffff; --header-submenu-hover-box-shadow: none; --header-submenu-border-radius: 10px; --header-navicon-color: #005f9b; --header-mobile-menu-li-border-bottom: rgba(255, 255, 255, 0.1) 1px solid; --header-mobile-anchor-font-size: 14px; --header-mobile-anchor-color: #fff; --header-mobile-mainmenu-background: #004f7d; --z-index: 1000
+}
+.container {
+  display: block !important; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-container-background); border-top: var(--header-border-top); position: relative; z-index: var(--z-index)
+}
+.container div.box {
+  display: flex; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); height: 100%; margin: auto; padding: var(--page-inner-padding, var(--header-page-inner-padding)); align-items: center; justify-content: space-between; position: relative; z-index: 100
+}
+.container div.box div.left div.avatar {
+  display: flex; align-items: center
+}
+.container div.box div.left div.avatar img {
+  display: block; width: var(--header-avatar-width); border-radius: 100%
+}
+.container div.box div.left div.slogan:empty {
+  display: none
+}
+.container div.box navicon {
+  display: none
+}
+.topmenu {
+  display: block !important; box-sizing: border-box; width: 100%; padding: var(--page-outer-padding, var(--header-page-outer-padding)); background: var(--header-topmenu-background); position: relative; z-index: var(--z-index); transition: background-color 0.3s ease
+}
+.topmenu.fixed {
+  position: fixed; top: 0px; padding-top: var(--header-topmenu-fixed-padding-top); padding-bottom: var(--header-topmenu-fixed-padding-bottom); background: var(--header-topmenu-fixed-background)
+}
+.topmenu div.box {
+  display: block; box-sizing: border-box; width: 100%; max-width: var(--page-max-width, var(--header-page-max-width)); margin: auto; padding: 0px; position: relative
+}
+.topmenu div.box mainmenu {
+  display: block; width: 100%
+}
+.topmenu div.box mainmenu ul {
+  display: flex; align-items: center; list-style: none; margin: 0px; padding: 0px; height: 100%; gap: var(--header-anchor-padding); transform: translateX(calc(0px - var(--header-anchor-padding)))
+}
+.topmenu div.box mainmenu ul > li {
+  margin: 0px; padding: 0px var(--header-anchor-padding); border-radius: var(--header-submenu-border-radius); transition: background-color .3s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier {
+  display: block; width: 100%; position: relative
+}
+.topmenu div.box mainmenu ul > li > div.premier span.text {
+  display: flex; align-items: center; justify-content: center; width: 100%; height: var(--header-anchor-height); position: relative; z-index: 50
+}
+.topmenu div.box mainmenu ul > li > div.premier span.text > span.icon {
+  display: block; margin-left: calc(var(--header-anchor-icon-size) / 2)
+}
+.topmenu div.box mainmenu ul > li > div.premier span.text > span.icon jtbc-svg {
+  display: block; width: var(--header-anchor-icon-size); height: var(--header-anchor-icon-size); --fore-color: var(--header-anchor-color)
+}
+.topmenu div.box mainmenu ul > li > div.premier span.text::after {
+  content: ''; width: 0px; height: 0px; opacity: 0; border-left: transparent 8px solid; border-right: transparent 8px solid; border-bottom: var(--header-submenu-background) 8px solid; pointer-events: none; transform: translate(-50%, 0px); position: absolute; top: calc(100% + var(--header-submenu-margin-top) - 6px); left: 50%; z-index: 100; transition: opacity .3s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu {
+  display: grid; grid-template-rows: 0fr; transform: translate(-50%, var(--header-submenu-margin-top)); overflow: hidden; position: absolute; top: 100%; left: 50%; z-index: 110; transition: grid-template-rows .3s ease, box-shadow .3s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol {
+  list-style: none; margin: 0px; padding: 0px; min-height: 0px
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol li {
+  margin: 0px; padding: 0px; width: 100%; height: var(--header-anchor-height); background: var(--header-submenu-background); white-space: nowrap; overflow: hidden; position: relative; z-index: 200; transition: background-color .3s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol li > a {
+  display: flex; height: 100%; padding: 0px calc(var(--header-anchor-padding) * 2); align-items: center; justify-content: center; font-size: var(--header-submenu-anchor-font-size); color: var(--header-submenu-anchor-color); text-decoration: none; transition: all .3s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol li > a:hover {
+  background: var(--header-submenu-anchor-hover-background); font-weight: var(--header-submenu-anchor-hover-font-weight); color: var(--header-submenu-anchor-hover-color)
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol li:first-of-type {
+  border-top-left-radius: var(--header-submenu-border-radius); border-top-right-radius: var(--header-submenu-border-radius)
+}
+.topmenu div.box mainmenu ul > li > div.premier div.submenu ol li:last-of-type {
+  border-bottom-left-radius: var(--header-submenu-border-radius); border-bottom-right-radius: var(--header-submenu-border-radius)
+}
+.topmenu div.box mainmenu ul > li > div.premier:hover span.text::after {
+  opacity: 1
+}
+.topmenu div.box mainmenu ul > li > div.premier:hover div.submenu {
+  grid-template-rows: 1fr; box-shadow: var(--header-submenu-hover-box-shadow)
+}
+.topmenu div.box mainmenu ul > li > a,
+.topmenu div.box mainmenu ul > li > div.premier span.text > a,
+.topmenu div.box mainmenu ul > li > div.premier span.text > em {
+  display: flex; height: var(--header-anchor-height); align-items: center; font-style: normal; font-size: var(--header-anchor-font-size); font-weight: var(--header-anchor-font-weight); text-decoration: none; color: var(--header-anchor-color); position: relative; transition: color .2s ease
+}
+.topmenu div.box mainmenu ul > li > div.premier span.text > em {
+  cursor: default
+}
+.topmenu div.box mainmenu ul > li > a:hover,
+.topmenu div.box mainmenu ul > li > div.premier span.text > a:hover {
+  color: var(--header-anchor-hover-color) !important
+}
+.topmenu div.box mainmenu ul > li.on,
+.topmenu div.box mainmenu ul > li:hover {
+  background: var(--header-submenu-background)
+}
+.placeholder {
+  width: 100%; height: var(--header-anchor-height); display: none
+}
+.placeholder.on {
+  display: block
+}
+@media screen and (max-width: 960px) {
+  :host {
+    --header-page-outer-padding: 0px 15px; --header-page-inner-padding: 15px 0px; --header-topmenu-fixed-padding-top: 0px; --header-topmenu-fixed-padding-bottom: 0px; --header-avatar-width: 60px; --header-submenu-border-radius: 0px
+  }
+  .container {
+    position: fixed; top: 0px
+  }
+  .container div.box div.left div.slogan {
+    display: none
+  }
+  .container div.box div.right {
+    display: none
+  }
+  .container div.box navicon {
+    display: block; width: 30px; height: 30px; position: relative; z-index: 100; cursor: pointer
+  }
+  .container div.box navicon span {
+    display: block; width: 100%; height: 2px; background: var(--header-navicon-color); margin-top: -1px; border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box navicon span::before,
+  .container div.box navicon span::after {
+    content: ''; display: block; width: 100%; height: 2px; background: var(--header-navicon-color); border-radius: 2px; position: absolute; top: 50%; z-index: 100; transition: all .2s ease
+  }
+  .container div.box navicon span::before {
+    margin-top: -10px
+  }
+  .container div.box navicon span::after {
+    margin-top: 8px
+  }
+  .container div.box navicon.on span {
+    background: var(--header-container-background)
+  }
+  .container div.box navicon.on span::before {
+    transform: rotate(45deg); margin-top: -2px
+  }
+  .container div.box navicon.on span::after {
+    transform: rotate(-45deg); margin-top: -2px
+  }
+  .topmenu {
+    position: fixed !important; top: calc(var(--header-avatar-width) + 32px) !important; left: 0px; background: var(--header-mobile-mainmenu-background) !important
+  }
+  .topmenu div.box mainmenu {
+    width: 100%; height: auto; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease
+  }
+  .topmenu div.box mainmenu ul {
+    display: block; width: 100%; height: auto; min-height: 0px; transform: translateX(0); overflow: hidden
+  }
+  .topmenu div.box mainmenu ul > li {
+    border-bottom: var(--header-mobile-menu-li-border-bottom)
+  }
+  .topmenu div.box mainmenu ul > li:last-of-type {
+    border-bottom: 0px
+  }
+  .topmenu div.box mainmenu ul > li.on,
+  .topmenu div.box mainmenu ul > li:hover {
+    background: transparent
+  }
+  .topmenu div.box mainmenu ul > li.on > a,
+  .topmenu div.box mainmenu ul > li.on > div.premier span.text > a,
+  .topmenu div.box mainmenu ul > li.on > div.premier span.text > em {
+    font-weight: bold !important
+  }
+  .topmenu div.box mainmenu ul > li > div.premier span.text {
+    justify-content: start
+  }
+  .topmenu div.box mainmenu ul > li > div.premier span.text > span.icon {
+    position: absolute; right: 0px; z-index: 100
+  }
+  .topmenu div.box mainmenu ul > li > div.premier span.text > span.icon jtbc-svg {
+    width: 14px; height: 14px; --fore-color: var(--header-mobile-anchor-color)
+  }
+  .topmenu div.box mainmenu ul > li > div.premier span.text::after {
+    display: none
+  }
+  .topmenu div.box mainmenu ul > li > div.premier:hover div.submenu {
+    box-shadow: none; grid-template-rows: 0fr
+  }
+  .topmenu div.box mainmenu ul > li > div.premier div.submenu {
+    position: static; transform: translate(0, 0); top: 0px; left: 0px
+  }
+  .topmenu div.box mainmenu ul > li > div.premier div.submenu ol li {
+    background: none !important
+  }
+  .topmenu div.box mainmenu ul > li > a,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > a,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > em,
+  .topmenu div.box mainmenu ul > li > div.premier div.submenu ol li > a {
+    justify-content: start; font-size: var(--header-mobile-anchor-font-size); font-weight: var(--header-mobile-anchor-font-weight); color: var(--header-mobile-anchor-color); height: var(--header-anchor-height)
+  }
+  .topmenu div.box mainmenu ul > li > a::before,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > a::before,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > em::before {
+    display: none
+  }
+  .topmenu div.box mainmenu ul > li > a:hover,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > a:hover,
+  .topmenu div.box mainmenu ul > li > div.premier span.text > a:hover {
+    background: transparent; color: var(--header-mobile-anchor-color) !important
+  }
+  .topmenu div.box mainmenu ul > li > div.premier div.submenu ol li > a {
+    padding: 0px calc(var(--header-anchor-height) / 6); font-size: calc(var(--header-mobile-anchor-font-size) - 2px); height: calc(var(--header-anchor-height) - 4px)
+  }
+  .topmenu div.box mainmenu ul > li > div.premier div.submenu ol li > a::before {
+    content: '+'; font-size: var(--header-mobile-anchor-font-size); margin-right: 6px
+  }
+  .topmenu div.box mainmenu ul > li.opened > div.premier div.submenu {
+    grid-template-rows: 1fr
+  }
+  .topmenu div.box mainmenu.on {
+    grid-template-rows: 1fr
+  }
+  .placeholder {
+    width: 100%; height: calc(var(--header-avatar-width) + 32px); display: block !important
+  }
+}

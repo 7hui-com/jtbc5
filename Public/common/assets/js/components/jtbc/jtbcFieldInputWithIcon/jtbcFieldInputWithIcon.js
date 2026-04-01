@@ -9,6 +9,7 @@ export default class jtbcFieldInputWithIcon extends HTMLElement {
   #disabled = false;
   #allowedTypes = ['text', 'password'];
   #allowedPositions = ['left', 'right'];
+  #isEventInitialized = false;
 
   get icon() {
     return this.#icon;
@@ -51,21 +52,33 @@ export default class jtbcFieldInputWithIcon extends HTMLElement {
     this.container.classList.toggle('disabled', disabled);
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let container = this.container;
-    container.querySelector('div.icon').addEventListener('click', e => {
-      this.dispatchEvent(new CustomEvent('iconclicked', {bubbles: true}));
-    });
-    container.querySelectorAll('input.value').forEach(input => {
-      input.addEventListener('focus', function(){ container.classList.add('focus'); });
-      input.addEventListener('blur', function(){ container.classList.remove('focus'); });
-      input.addEventListener('change', e => {
-        this.dispatchEvent(new CustomEvent('changed', {bubbles: true, detail: {'e': e}}));
+    if (this.#isFirstInitEvent())
+    {
+      container.querySelector('div.icon').addEventListener('click', e => {
+        this.dispatchEvent(new CustomEvent('iconclicked', {bubbles: true}));
       });
-      input.addEventListener('keyup', e => {
-        this.dispatchEvent(new CustomEvent('inputted', {bubbles: true, detail: {'e': e}}));
+      container.querySelectorAll('input.value').forEach(input => {
+        input.addEventListener('focus', function(){ container.classList.add('focus'); });
+        input.addEventListener('blur', function(){ container.classList.remove('focus'); });
+        input.addEventListener('change', e => {
+          this.dispatchEvent(new CustomEvent('changed', {bubbles: true, detail: {'e': e}}));
+        });
+        input.addEventListener('keyup', e => {
+          this.dispatchEvent(new CustomEvent('inputted', {bubbles: true, detail: {'e': e}}));
+        });
       });
-    });
+    };
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

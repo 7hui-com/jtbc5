@@ -12,6 +12,7 @@ export default class jtbcFieldDate extends HTMLElement {
   #maxDate = null;
   #disabled = false;
   #value = '';
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -71,75 +72,87 @@ export default class jtbcFieldDate extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let date = container.querySelector('input.date');
-    let calendar = container.querySelector('.calendar');
-    let datepicker = container.querySelector('div.datepicker');
-    date.addEventListener('blur', function(){
-      let value = this.value;
-      if (validation.isDate(value))
-      {
-        if (value.trim() == '')
+    if (this.#isFirstInitEvent())
+    {
+      let date = container.querySelector('input.date');
+      let calendar = container.querySelector('.calendar');
+      let datepicker = container.querySelector('div.datepicker');
+      date.addEventListener('blur', function(){
+        let value = this.value;
+        if (validation.isDate(value))
         {
-          that.#value = '';
-          that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
-        }
-        else
-        {
-          this.value = that.#value;
-        };
-      }
-      else
-      {
-        that.value = value;
-      };
-    });
-    calendar.addEventListener('dateclick', e => {
-      this.value = e.detail.date;
-      datepicker.classList.remove('on');
-    });
-    datepicker.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closePickerTimeout);
-    });
-    datepicker.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closePicker(1000);
-      };
-    });
-    datepicker.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    container.delegateEventListener('span.btn', 'click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
-        clearTimeout(that.#closePickerTimeout);
-        if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
-        {
-          if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+          if (value.trim() == '')
           {
-            datepicker.classList.add('upper');
+            that.#value = '';
+            that.dispatchEvent(new CustomEvent('emptied', {bubbles: true}));
+          }
+          else
+          {
+            this.value = that.#value;
           };
         }
         else
         {
-          datepicker.classList.remove('upper');
+          that.value = value;
         };
-        datepicker.classList.add('on');
-      }
-      else
-      {
+      });
+      calendar.addEventListener('dateclick', e => {
+        this.value = e.detail.date;
         datepicker.classList.remove('on');
-      };
-    });
+      });
+      datepicker.addEventListener('mouseenter', function(){
+        clearTimeout(that.#closePickerTimeout);
+      });
+      datepicker.addEventListener('mouseleave', function(){
+        if (this.classList.contains('on'))
+        {
+          that.closePicker(1000);
+        };
+      });
+      datepicker.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      container.delegateEventListener('span.btn', 'click', function(){
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closePickerTimeout);
+          if (that.getBoundingClientRect().bottom + datepicker.offsetHeight + 20 > document.documentElement.clientHeight)
+          {
+            if (that.getBoundingClientRect().top > datepicker.offsetHeight)
+            {
+              datepicker.classList.add('upper');
+            };
+          }
+          else
+          {
+            datepicker.classList.remove('upper');
+          };
+          datepicker.classList.add('on');
+        }
+        else
+        {
+          datepicker.classList.remove('on');
+        };
+      });
+    };
   };
 
   closePicker(timeout = 0) {

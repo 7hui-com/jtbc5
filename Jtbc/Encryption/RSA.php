@@ -57,9 +57,10 @@ class RSA
     if (is_file($privateKey))
     {
       $sign = '';
-      $algorithm = match($signType)
-      {
+      $algorithm = match($signType) {
+        'RSA' => OPENSSL_ALGO_SHA1,
         'RSA2' => OPENSSL_ALGO_SHA256,
+        'RSA3' => OPENSSL_ALGO_SHA512,
         default => OPENSSL_ALGO_SHA1,
       };
       $privateKeyContent = openssl_pkey_get_private(file_get_contents($privateKey));
@@ -75,6 +76,16 @@ class RSA
     return $result;
   }
 
+  public static function privateSignV2(string $argData, string $argPrivateKey)
+  {
+    return self::privateSign($argData, $argPrivateKey, 'RSA2');
+  }
+
+  public static function privateSignV3(string $argData, string $argPrivateKey)
+  {
+    return self::privateSign($argData, $argPrivateKey, 'RSA3');
+  }
+
   public static function publicVerify(string $argData, string $argSign, string $argPublicKey, string $argSignType = 'RSA')
   {
     $result = null;
@@ -85,9 +96,10 @@ class RSA
     if (is_file($publicKey))
     {
       $result = false;
-      $algorithm = match($signType)
-      {
+      $algorithm = match($signType) {
+        'RSA' => OPENSSL_ALGO_SHA1,
         'RSA2' => OPENSSL_ALGO_SHA256,
+        'RSA3' => OPENSSL_ALGO_SHA512,
         default => OPENSSL_ALGO_SHA1,
       };
       $publicKeyContent = openssl_pkey_get_public(file_get_contents($publicKey));
@@ -97,5 +109,15 @@ class RSA
       }
     }
     return $result;
+  }
+
+  public static function publicVerifyV2(string $argData, string $argSign, string $argPublicKey)
+  {
+    return self::publicVerify($argData, $argSign, $argPublicKey, 'RSA2');
+  }
+
+  public static function publicVerifyV3(string $argData, string $argSign, string $argPublicKey)
+  {
+    return self::publicVerify($argData, $argSign, $argPublicKey, 'RSA3');
   }
 }

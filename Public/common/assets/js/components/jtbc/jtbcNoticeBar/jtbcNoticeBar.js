@@ -7,6 +7,7 @@ export default class jtbcNoticeBar extends HTMLElement {
   #data = [];
   #icon = 'horn';
   #interval = 5000;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -50,13 +51,25 @@ export default class jtbcNoticeBar extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.container.addEventListener('mouseenter', function(){
-      this.classList.add('on');
-    });
-    this.container.addEventListener('mouseleave', function(){
-      this.classList.remove('on');
-    });
+    if (this.#isFirstInitEvent())
+    {
+      this.container.addEventListener('mouseenter', function(){
+        this.classList.add('on');
+      });
+      this.container.addEventListener('mouseleave', function(){
+        this.classList.remove('on');
+      });
+    };
   };
 
   #startInterval() {

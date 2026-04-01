@@ -10,6 +10,7 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
   #value = '';
   #selected = [];
   #closeSelectorTimeout;
+  #isEventInitialized = false;
 
   get data() {
     return this.#data;
@@ -62,63 +63,75 @@ export default class jtbcFieldMultiSelect extends HTMLElement {
     this.style.removeProperty('--z-index');
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let selectorEl = container.querySelector('div.selector');
-    let selectedEl = container.querySelector('div.selected');
-    selectorEl.addEventListener('mouseenter', function(){
-      clearTimeout(that.#closeSelectorTimeout);
-    });
-    selectorEl.addEventListener('mouseleave', function(){
-      if (this.classList.contains('on'))
-      {
-        that.closeSelector(1000);
-      };
-    });
-    selectorEl.addEventListener('transitionend', function(){
-      if (!this.classList.contains('on'))
-      {
-        that.#unsetZIndex();
-        container.classList.remove('pickable');
-      };
-    });
-    selectorEl.delegateEventListener('div.option', 'click', function(){
-      let li = this.parentElement;
-      if (!li.classList.contains('locked') && !li.classList.contains('disabled'))
-      {
-        that.select(li.dataset.value);
-        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-      };
-    });
-    selectedEl.delegateEventListener('span', 'click', function(){
-      that.select(this.dataset.value);
-      that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
-    });
-    container.querySelector('span.box').addEventListener('click', function(){
-      if (!container.classList.contains('pickable'))
-      {
-        that.#setZIndex();
-        container.classList.add('pickable');
+    if (this.#isFirstInitEvent())
+    {
+      let selectorEl = container.querySelector('div.selector');
+      let selectedEl = container.querySelector('div.selected');
+      selectorEl.addEventListener('mouseenter', function(){
         clearTimeout(that.#closeSelectorTimeout);
-        if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
+      });
+      selectorEl.addEventListener('mouseleave', function(){
+        if (this.classList.contains('on'))
         {
-          if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
+          that.closeSelector(1000);
+        };
+      });
+      selectorEl.addEventListener('transitionend', function(){
+        if (!this.classList.contains('on'))
+        {
+          that.#unsetZIndex();
+          container.classList.remove('pickable');
+        };
+      });
+      selectorEl.delegateEventListener('div.option', 'click', function(){
+        let li = this.parentElement;
+        if (!li.classList.contains('locked') && !li.classList.contains('disabled'))
+        {
+          that.select(li.dataset.value);
+          that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+        };
+      });
+      selectedEl.delegateEventListener('span', 'click', function(){
+        that.select(this.dataset.value);
+        that.dispatchEvent(new CustomEvent('selected', {bubbles: true}));
+      });
+      container.querySelector('span.box').addEventListener('click', function(){
+        if (!container.classList.contains('pickable'))
+        {
+          that.#setZIndex();
+          container.classList.add('pickable');
+          clearTimeout(that.#closeSelectorTimeout);
+          if (that.getBoundingClientRect().bottom + selectorEl.offsetHeight + 20 > document.documentElement.clientHeight)
           {
-            selectorEl.classList.add('upper');
+            if (that.getBoundingClientRect().top > selectorEl.offsetHeight)
+            {
+              selectorEl.classList.add('upper');
+            };
+          }
+          else
+          {
+            selectorEl.classList.remove('upper');
           };
+          selectorEl.classList.add('on');
         }
         else
         {
-          selectorEl.classList.remove('upper');
+          selectorEl.classList.remove('on');
         };
-        selectorEl.classList.add('on');
-      }
-      else
-      {
-        selectorEl.classList.remove('on');
-      };
-    });
+      });
+    };
   };
 
   closeSelector(timeout = 0) {

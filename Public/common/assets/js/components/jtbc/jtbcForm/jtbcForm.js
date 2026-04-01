@@ -14,6 +14,7 @@ export default class jtbcForm extends HTMLFormElement {
   #modeList = ['queryString', 'json'];
   #methodList = ['get', 'post', 'put', 'delete'];
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get credentials() {
     return this.#credentials;
@@ -60,24 +61,36 @@ export default class jtbcForm extends HTMLFormElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.resetOriginalFormData();
-    this.addEventListener('submit', e => e.preventDefault());
-    this.addEventListener('builded', e => {
-      let tagName = e.target.tagName.toLowerCase();
-      let componentName = e.target.getAttribute('is') ?? '';
-      if (tagName.includes('form') || componentName.includes('form'))
-      {
-        this.resetOriginalFormData();
-      };
-    });
-    this.addEventListener('connected', e => {
-      if (e.target.getAttribute('role') == 'field')
-      {
-        this.resetOriginalFormData();
-      };
-    });
-    this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+    if (this.#isFirstInitEvent())
+    {
+      this.resetOriginalFormData();
+      this.addEventListener('submit', e => e.preventDefault());
+      this.addEventListener('builded', e => {
+        let tagName = e.target.tagName.toLowerCase();
+        let componentName = e.target.getAttribute('is') ?? '';
+        if (tagName.includes('form') || componentName.includes('form'))
+        {
+          this.resetOriginalFormData();
+        };
+      });
+      this.addEventListener('connected', e => {
+        if (e.target.getAttribute('role') == 'field')
+        {
+          this.resetOriginalFormData();
+        };
+      });
+      this.delegateEventListener('[role=submit]', 'click', () => { this.submit(); });
+    };
   };
 
   lock() {

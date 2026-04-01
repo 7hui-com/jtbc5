@@ -8,6 +8,7 @@ export default class jtbcFieldGallery extends HTMLElement {
   #uploading = false;
   #tail = null;
   #withGlobalHeaders = null;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -103,128 +104,140 @@ export default class jtbcFieldGallery extends HTMLElement {
     });
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
     let that = this;
     let container = this.container;
-    let mainEl = this.container.querySelector('div.main');
-    let progress = container.querySelector('.progress');
-    const draging = (x, y) => {
-      that.draging.parentNode.querySelectorAll('div.item').forEach(item => {
-        if (item != that.draging && !item.classList.contains('button'))
-        {
-          let bcr = item.getBoundingClientRect();
-          if (x > bcr.left && x < (bcr.left + bcr.width) && y > bcr.top && y < (bcr.top + bcr.height))
+    if (this.#isFirstInitEvent())
+    {
+      let mainEl = this.container.querySelector('div.main');
+      let progress = container.querySelector('.progress');
+      const draging = (x, y) => {
+        that.draging.parentNode.querySelectorAll('div.item').forEach(item => {
+          if (item != that.draging && !item.classList.contains('button'))
           {
-            if (that.draging.index() < item.index())
+            let bcr = item.getBoundingClientRect();
+            if (x > bcr.left && x < (bcr.left + bcr.width) && y > bcr.top && y < (bcr.top + bcr.height))
             {
-              item.after(that.draging);
-            }
-            else
-            {
-              item.before(that.draging);
+              if (that.draging.index() < item.index())
+              {
+                item.after(that.draging);
+              }
+              else
+              {
+                item.before(that.draging);
+              };
             };
+          };
+        });
+      };
+      container.delegateEventListener('div.add', 'click', function() {
+        this.querySelector('input.file').click();
+      });
+      container.querySelector('input.file').addEventListener('change', function() {
+        if (that.uploading != true)
+        {
+          that.#uploading = true;
+          progress.startUpload(this, (index, data) => {
+            if (data.code == 1)
+            {
+              that.addUploadedItem(data.param, that.tail);
+            };
+          }, () => { that.#uploading = false; });
+        };
+      });
+      container.delegateEventListener('.textPreview', 'click', function() {
+        let uploadid = this.getAttribute('uploadid');
+        let item = container.querySelector('.item-' + uploadid);
+        if (item != null && item.hasAttribute('param'))
+        {
+          let param = JSON.parse(item.getAttribute('param'));
+          if (param.filegroup == 1)
+          {
+            imagePreviewer.popup(param);
           };
         };
       });
-    };
-    container.delegateEventListener('div.add', 'click', function() {
-      this.querySelector('input.file').click();
-    });
-    container.querySelector('input.file').addEventListener('change', function() {
-      if (that.uploading != true)
-      {
-        that.#uploading = true;
-        progress.startUpload(this, (index, data) => {
-          if (data.code == 1)
-          {
-            that.addUploadedItem(data.param, that.tail);
-          };
-        }, () => { that.#uploading = false; });
-      };
-    });
-    container.delegateEventListener('.textPreview', 'click', function() {
-      let uploadid = this.getAttribute('uploadid');
-      let item = container.querySelector('.item-' + uploadid);
-      if (item != null && item.hasAttribute('param'))
-      {
-        let param = JSON.parse(item.getAttribute('param'));
-        if (param.filegroup == 1)
+      container.delegateEventListener('.textRemove', 'click', function() {
+        if (that.dialog != null)
         {
-          imagePreviewer.popup(param);
+          that.dialog.confirm(that.text.removeTips, () => {
+            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          });
+        }
+        else
+        {
+          if (window.confirm(that.text.removeTips))
+          {
+            this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+          };
         };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'click', function() {
-      if (that.dialog != null)
+      });
+      container.delegateEventListener('.textRemove', 'remove', function() {
+        let uploadid = this.getAttribute('uploadid');
+        let item = container.querySelector('.item-' + uploadid);
+        if (item != null)
+        {
+          item.remove();
+        };
+      });
+      if (isTouchDevice())
       {
-        that.dialog.confirm(that.text.removeTips, () => {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
+        container.delegateEventListener('div.item', 'touchstart', function(e) {
+          if (!this.classList.contains('button') && e.target.classList.contains('hover'))
+          {
+            e.preventDefault();
+            if (e.touches.length == 1)
+            {
+              that.draging = this;
+              mainEl.classList.add('draging');
+              that.draging.classList.add('draging');
+              let drag = e => {
+                draging(e.touches[0].clientX, e.touches[0].clientY);
+              };
+              let stop = function(e) {
+                mainEl.classList.remove('draging');
+                that.draging.classList.remove('draging');
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('touchend', stop);
+              };
+              document.addEventListener('touchmove', drag);
+              document.addEventListener('touchend', stop);
+            };
+          };
         });
       }
       else
       {
-        if (window.confirm(that.text.removeTips))
-        {
-          this.dispatchEvent(new CustomEvent('remove', {bubbles: true}));
-        };
-      };
-    });
-    container.delegateEventListener('.textRemove', 'remove', function() {
-      let uploadid = this.getAttribute('uploadid');
-      let item = container.querySelector('.item-' + uploadid);
-      if (item != null)
-      {
-        item.remove();
-      };
-    });
-    if (isTouchDevice())
-    {
-      container.delegateEventListener('div.item', 'touchstart', function(e) {
-        if (!this.classList.contains('button') && e.target.classList.contains('hover'))
-        {
-          e.preventDefault();
-          if (e.touches.length == 1)
+        container.delegateEventListener('div.item', 'mousedown', function(e) {
+          if (!this.classList.contains('button') && e.target.classList.contains('hover'))
           {
+            e.preventDefault();
             that.draging = this;
             mainEl.classList.add('draging');
             that.draging.classList.add('draging');
             let drag = e => {
-              draging(e.touches[0].clientX, e.touches[0].clientY);
+              draging(e.clientX, e.clientY);
             };
             let stop = function(e) {
               mainEl.classList.remove('draging');
               that.draging.classList.remove('draging');
-              document.removeEventListener('touchmove', drag);
-              document.removeEventListener('touchend', stop);
+              document.removeEventListener('mousemove', drag);
+              document.removeEventListener('mouseup', stop);
             };
-            document.addEventListener('touchmove', drag);
-            document.addEventListener('touchend', stop);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stop);
           };
-        };
-      });
-    }
-    else
-    {
-      container.delegateEventListener('div.item', 'mousedown', function(e) {
-        if (!this.classList.contains('button') && e.target.classList.contains('hover'))
-        {
-          e.preventDefault();
-          that.draging = this;
-          mainEl.classList.add('draging');
-          that.draging.classList.add('draging');
-          let drag = e => {
-            draging(e.clientX, e.clientY);
-          };
-          let stop = function(e) {
-            mainEl.classList.remove('draging');
-            that.draging.classList.remove('draging');
-            document.removeEventListener('mousemove', drag);
-            document.removeEventListener('mouseup', stop);
-          };
-          document.addEventListener('mousemove', drag);
-          document.addEventListener('mouseup', stop);
-        };
-      });
+        });
+      };
     };
   };
 

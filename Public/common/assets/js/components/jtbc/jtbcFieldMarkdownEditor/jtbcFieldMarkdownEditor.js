@@ -37,6 +37,8 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
   #libPath = null;
   #iWindow = null;
   #iDocument = null;
+  #initialized  = false;
+  #isEventInitialized = false;
 
   get name() {
     return this.getAttribute('name');
@@ -147,8 +149,9 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
   #initEditor() {
     let container = this.container;
     let iframe = container.querySelector('iframe.iframe');
-    if (iframe != null)
+    if (iframe != null && this.#initialized === false)
     {
+      this.#initialized = true;
       iframe.dataset.height = this.#options.height;
       iframe.style.height = iframe.dataset.height + 'px';
       iframe.addEventListener('load', e => this.#initVditor(e.target));
@@ -156,21 +159,33 @@ export default class jtbcFieldMarkdownEditor extends HTMLElement {
     };
   };
 
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
   #initEvents() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      entries.forEach(entry => {
-        let container = this.container;
-        if (container.classList.contains('fullscreen'))
-        {
-          let iframe = container.querySelector('iframe.iframe');
-          if (iframe != null)
+    if (this.#isFirstInitEvent())
+    {
+      this.resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+          let container = this.container;
+          if (container.classList.contains('fullscreen'))
           {
-            iframe.style.height = document.documentElement.clientHeight + 'px';
+            let iframe = container.querySelector('iframe.iframe');
+            if (iframe != null)
+            {
+              iframe.style.height = document.documentElement.clientHeight + 'px';
+            };
           };
-        };
+        });
       });
-    });
-    this.resizeObserver.observe(document.documentElement);
+      this.resizeObserver.observe(document.documentElement);
+    };
   };
 
   #initVditor(el) {
