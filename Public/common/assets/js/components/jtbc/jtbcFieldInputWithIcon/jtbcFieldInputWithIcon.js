@@ -1,3 +1,5 @@
+import formElementFinder from '../../../library/field/formElementFinder.js';
+
 export default class jtbcFieldInputWithIcon extends HTMLElement {
   static get observedAttributes() {
     return ['icon', 'type', 'position', 'value', 'placeholder', 'disabled', 'width'];
@@ -62,6 +64,7 @@ export default class jtbcFieldInputWithIcon extends HTMLElement {
   };
 
   #initEvents() {
+    let that = this;
     let container = this.container;
     if (this.#isFirstInitEvent())
     {
@@ -69,6 +72,12 @@ export default class jtbcFieldInputWithIcon extends HTMLElement {
         this.dispatchEvent(new CustomEvent('iconclicked', {bubbles: true}));
       });
       container.querySelectorAll('input.value').forEach(input => {
+        input.addEventListener('keydown', function(e){
+          if (e.keyCode == 13)
+          {
+            formElementFinder.requestSubmit(that);
+          };
+        });
         input.addEventListener('focus', function(){ container.classList.add('focus'); });
         input.addEventListener('blur', function(){ container.classList.remove('focus'); });
         input.addEventListener('change', e => {

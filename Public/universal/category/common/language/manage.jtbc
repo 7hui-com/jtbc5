@@ -15,6 +15,10 @@
       <zh-cn><![CDATA[编辑分类]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-tit-category]]></name>
+      <zh-cn><![CDATA[的分类]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-tit-filter]]></name>
       <zh-cn><![CDATA[筛选分类]]></zh-cn>
     </item>
@@ -41,30 +45,6 @@
     <item>
       <name><![CDATA[text-tips-filter-empty]]></name>
       <zh-cn><![CDATA[当前分类没有任何下级分类可供筛选]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-add]]></name>
-      <zh-cn><![CDATA[添加分类[{$[id]}]成功]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-edit]]></name>
-      <zh-cn><![CDATA[编辑分类[{$[id]}]成功]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-order]]></name>
-      <zh-cn><![CDATA[排序分类[{$[id]}]成功]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-delete]]></name>
-      <zh-cn><![CDATA[删除分类[{$[id]}]成功]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-batch]]></name>
-      <zh-cn><![CDATA[批量操作({$[batch]})分类[{$[id]}]成功]]></zh-cn>
-    </item>
-    <item>
-      <name><![CDATA[log-upload]]></name>
-      <zh-cn><![CDATA[上传文件[{$[filepath]}]成功]]></zh-cn>
     </item>
   </item_list>
 </xml>

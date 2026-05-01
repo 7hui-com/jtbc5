@@ -75,9 +75,9 @@ export default class manageUpgrade {
           }
           else
           {
+            this.classList.remove('locked');
             that.miniMessage.push(data.message);
           };
-          this.classList.remove('locked');
         });
       };
     });

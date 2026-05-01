@@ -43,6 +43,10 @@
       <zh-cn><![CDATA[模块名对应的目录已经存在]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-code-4041]]></name>
+      <zh-cn><![CDATA[当前服务器环境没有开启 zip 扩展]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-code-4444]]></name>
       <zh-cn><![CDATA[创建模块失败，请检查目录权限]]></zh-cn>
     </item>

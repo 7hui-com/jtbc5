@@ -89,10 +89,10 @@
       </div>
     </div>
     <div else class="manager">
-      <toplink class="path" genre="${$genre}"><a is="jtbc-anchor" class="link pitchon" href="codename={$>this.genre}:manage.list&amp;genre=${$genre}">${$genreTitle}</a><jtbc-svg class="arrow" name="arrow_right"></jtbc-svg><template is="jtbc-template" key="fatherGroup"><a is="jtbc-anchor" class="link" href="codename={$>this.genre}:manage.list&amp;genre=${encodeURIComponent($.parent.getAttribute('genre'))}&amp;father_id=${$id}">${$title}</a><jtbc-svg name="slash"></jtbc-svg></template></toplink>
+      <toplink genre="${$genre}"><jtbc-pitchon pitchon="a.toplink-list-${$genre.replaceAll('/', '-')}"><template is="jtbc-template" key="allGenreOptions"><a is="jtbc-anchor" class="link toplink-list-${$value.replaceAll('/', '-')}" title="${$value}" href="codename={$>this.genre}:manage.list&amp;genre=${$value}">${$text}{$=$take('manage.text-tit-category', 'lng')}</a></template></jtbc-pitchon></toplink>
       <div class="chief" genre="${$genre}" genre-mode="${$genreMode}" can_edit="${$control.subPermission.edit}" can_delete="${$control.subPermission.delete}" can_order="${$control.subPermission.order}">
         <h3>{$=$take('manage.text-tit-list', 'lng')}</h3>
-        <rightarea><jtbc-field-select2 name="genre" data="${$.htmlEncode(JSON.stringify($allGenreOptions))}" width="140" url="codename={$>this.genre}:manage.list&amp;genre=" placeholder="{$=$take('manage.text-current-genre', 'lng')}" value="${$genre}"></jtbc-field-select2>&nbsp;&nbsp;<a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
+        <rightarea><a is="jtbc-anchor" href="{$=$getMajorGenre()}/manage?type=fragment&amp;codename={$>this.genre}:manage.add&amp;genre=${$genre}&amp;father_id=${$fatherId}" target="dialog"><button if="${$control.subPermission.add}" class="b2 add">{$=$take('manage.text-tit-add', 'lng')}</button></a></span></rightarea>
         <template is="jtbc-template" key="data">
           <table class="table" id="list" is="jtbc-table" sortApi="{$>this.genre}/manage?action=order">
             <thead>
@@ -130,8 +130,7 @@
       </div>
     </div>
   </template>
-</div>
-<jtbc-script init="initList" src="{$>this.genre}/common/assets/js/manage.js"></jtbc-script>]]></default>
+</div>]]></default>
     </item>
   </item_list>
 </xml>

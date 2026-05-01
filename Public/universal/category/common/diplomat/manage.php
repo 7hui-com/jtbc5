@@ -89,6 +89,7 @@ class Diplomat extends Ambassador {
     $genre = strval($req -> get('genre'));
     $fatherId = intval($req -> get('father_id'));
     $lang = $this -> guard -> role -> getLang();
+    $selfGenre = strval($this -> getParam('genre'));
     $data = [];
     $genreTitle = '';
     $genreMode = 'normal';
@@ -98,6 +99,8 @@ class Diplomat extends Ambassador {
     {
       $genre = Guide::getFirstValidGenre();
     }
+    $bs = new BasicSubstance($this);
+    $nav = $bs -> data -> nav;
     if (!is_null($genre))
     {
       $model = new TinyModel();
@@ -111,8 +114,16 @@ class Diplomat extends Ambassador {
       $genreMode = strval(Guide::getGenreMode($genre));
       $genreTitle = strval(Guide::getGenreTitle($genre));
       $fatherGroup = $category -> getFatherGroupById($fatherId, true);
+      $nav[] = ['title' => $genreTitle, 'link' => 'codename=' . $selfGenre . ':manage.list&genre=' . $genre];
+      if (is_array($fatherGroup))
+      {
+        foreach ($fatherGroup as $item)
+        {
+          $nav[] = ['title' => strval($item['title']), 'link' => 'codename=' . $selfGenre . ':manage.list&genre=' . $genre . '&father_id=' . intval($item['id'])];
+        }
+      }
     }
-    $bs = new BasicSubstance($this);
+    $bs -> data -> nav = $nav;
     $bs -> data -> genre = $genre;
     $bs -> data -> genreMode = $genreMode;
     $bs -> data -> genreTitle = $genreTitle;

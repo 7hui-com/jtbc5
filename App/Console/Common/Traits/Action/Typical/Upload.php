@@ -28,6 +28,15 @@ trait Upload
         $vars = $uploadFile -> vars;
         $param = $uploadFile -> param;
         $message = Jtbc::take('::communal.text-upload-code-' . $code, 'lng', false, $vars) ?? Jtbc::take('::communal.text-upload-code-others', 'lng');
+        if ($code === 1)
+        {
+          $filepath = 'Unkown';
+          if (is_array($param) && array_key_exists('filepath', $param))
+          {
+            $filepath = strval($param['filepath']);
+          }
+          Logger::log($this, '::communal.log-upload', ['filepath' => $filepath]);
+        }
       }
     }
     else

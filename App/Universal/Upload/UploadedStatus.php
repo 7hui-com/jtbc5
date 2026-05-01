@@ -13,15 +13,36 @@ class UploadedStatus
     $genre = $argGenre;
     $associatedId = $argAssociatedId;
     $group = $argGroup;
-    $model = new Model();
-    $model -> where -> genre = $genre;
-    $model -> where -> associated_id = $associatedId;
-    $model -> where -> group = $group;
-    $model -> pocket -> status = 2;
-    $re = $model -> save();
-    if (is_numeric($re))
+    if (!Validation::isEmpty($genre))
     {
-      $result = true;
+      $model = new Model();
+      $model -> where -> genre = $genre;
+      $model -> where -> associated_id = $associatedId;
+      $model -> where -> group = $group;
+      $model -> pocket -> status = 2;
+      $re = $model -> save();
+      if (is_numeric($re))
+      {
+        $result = true;
+      }
+    }
+    return $result;
+  }
+
+  public static function truncate(string $argGenre)
+  {
+    $result = false;
+    $genre = $argGenre;
+    if (!Validation::isEmpty($genre))
+    {
+      $model = new Model();
+      $model -> where -> genre = $genre;
+      $model -> pocket -> status = 2;
+      $re = $model -> save();
+      if (is_numeric($re))
+      {
+        $result = true;
+      }
     }
     return $result;
   }

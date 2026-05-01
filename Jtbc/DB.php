@@ -15,6 +15,7 @@ interface DB
   public function exec($argSQL);
   public function transaction(array $argSQLList);
   public function cloneTable($argTable, $argTargetTable);
+  public function renameTable($argTable, $argTargetTable);
   public function dropTable($argTable);
   public function hasTable($argTable);
   public function getTableInfo($argTable);

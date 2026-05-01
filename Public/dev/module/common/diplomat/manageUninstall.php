@@ -5,6 +5,7 @@ use App\Common\Module\ModuleUninstaller;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
+use App\Universal\Upload\UploadedStatus;
 
 class Diplomat extends Ambassador {
   public function uninstall(Request $req)
@@ -67,6 +68,7 @@ class Diplomat extends Ambassador {
         if ($uninstall === true)
         {
           $code = 1;
+          UploadedStatus::truncate($genre);
           $moduleFinder = new ModuleFinder();
           $moduleFinder -> removeCache();
           Logger::log($this, 'manageUninstall.log-uninstall', ['genre' => $genre]);

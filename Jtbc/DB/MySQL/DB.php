@@ -131,9 +131,25 @@ class DB implements DBInterface
     $bool = false;
     $table = $argTable;
     $targetTable = $argTargetTable;
-    if ($this -> hasTable($table))
+    if ($this -> hasTable($table) && !$this -> hasTable($targetTable))
     {
       $exec = $this -> exec('create table ' . $this -> formatName($targetTable) . ' like ' . $this -> formatName($table));
+      if (is_numeric($exec))
+      {
+        $bool = true;
+      }
+    }
+    return $bool;
+  }
+
+  public function renameTable($argTable, $argTargetTable)
+  {
+    $bool = false;
+    $table = $argTable;
+    $targetTable = $argTargetTable;
+    if ($this -> hasTable($table) && !$this -> hasTable($targetTable))
+    {
+      $exec = $this -> exec('rename table ' . $this -> formatName($table) . ' to ' . $this -> formatName($targetTable));
       if (is_numeric($exec))
       {
         $bool = true;

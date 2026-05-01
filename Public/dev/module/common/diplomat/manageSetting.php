@@ -1,18 +1,26 @@
 <?php
 namespace Jtbc;
-use Jtbc\Jtbc\JtbcWriter;
-use Jtbc\Model\TinyModel;
 use Jtbc\DB\DBFactory;
 use Jtbc\DB\Schema\Column;
 use Jtbc\DB\Schema\ColumnLoader;
 use Jtbc\DB\Schema\ColumnManager;
 use Jtbc\DB\Schema\SchemaViewer;
+use Jtbc\Jtbc\JtbcReader;
+use Jtbc\Jtbc\JtbcWriter;
+use Jtbc\Model\TinyModel;
+use Jtbc\Module\ModuleFinder;
+use Jtbc\Module\ModuleHelper;
 use Jtbc\String\StringHelper;
 use App\Common\Config\ConfigSourcesScanner;
+use App\Common\Module\InteriorNamespaceModifier;
+use App\Common\Module\ModuleHooksManager;
 use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
 use App\Universal\Dictionary\Dictionary;
+use App\Universal\Tag\BatchProcessor as TagBatchProcessor;
+use App\Universal\Upload\BatchProcessor as UploadBatchProcessor;
+use App\Universal\Category\BatchProcessor as CategoryBatchProcessor;
 
 class Diplomat extends Ambassador {
   private function getColumn(Substance $argInfo)
@@ -184,8 +192,9 @@ class Diplomat extends Ambassador {
     $module = new Module($genre);
     $bs = new BasicSubstance($this);
     $bs -> data -> genre = $genre;
-    $bs -> data -> module_title = strval($module -> getTitle(false));
     $bs -> data -> module_icon = strval($module -> guide -> icon);
+    $bs -> data -> module_title = strval($module -> getTitle(false));
+    $bs -> data -> module_is_cloneable = $module -> isCloneAble;
     return $bs -> toJSON();
   }
 
@@ -539,6 +548,144 @@ class Diplomat extends Ambassador {
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = Jtbc::take('manageSetting.text-code-config-' . $code, 'lng') ?: $message;
+    $result = $ss -> toJSON();
+    return $result;
+  }
+
+  public function actionRename(Request $req)
+  {
+    $code = 0;
+    $message = '';
+    $genre = strval($req -> post('genre'));
+    $targetGenre = strval($req -> post('target_genre'));
+    if ($this -> guard -> role -> checkPermission('setting'))
+    {
+      if (!Validation::isDirPath($genre) || !Validation::isDirPath($targetGenre))
+      {
+        $code = 4001;
+      }
+      else if ($genre == $targetGenre)
+      {
+        $code = 4002;
+      }
+      else
+      {
+        $module = new Module($genre);
+        $genrePath = Path::getActualRoute($genre);
+        $targetGenrePath = Path::getActualRoute($targetGenre);
+        if ($module -> isCloneAble != true)
+        {
+          $code = 4004;
+        }
+        else if (is_dir($targetGenrePath))
+        {
+          $code = 4005;
+        }
+        else
+        {
+          $hasUnstandardTableName = false;
+          $hasUnstandardParentModule = false;
+          if ($module -> hasNoTable != true)
+          {
+            $tableNameList = $module -> getTableNameList();
+            foreach ($tableNameList as $tableName)
+            {
+              if (strpos($tableName, ModuleHelper::getTableNameByGenre($module -> getName())) !== 0)
+              {
+                $hasUnstandardTableName = true;
+              }
+            }
+          }
+          if (str_contains($targetGenre, '/'))
+          {
+            $guidePath = StringHelper::getClipedString(pathinfo($targetGenrePath . '/virtual.jtbc', PATHINFO_DIRNAME), '/', 'left+') . '/common/guide.jtbc';
+            if (!is_file($guidePath) || JtbcReader::getXMLAttr($guidePath, 'mode') != 'jtbcf')
+            {
+              $hasUnstandardParentModule = true;
+            }
+          }
+          if ($hasUnstandardTableName != false)
+          {
+            $code = 4006;
+          }
+          else if ($hasUnstandardParentModule != false)
+          {
+            $code = 4007;
+          }
+          else
+          {
+            $moduleTableNameList = $module -> getTableNameList();
+            if (@rename($genrePath, $targetGenrePath))
+            {
+              $allTableRenamed = true;
+              $allTableRenamedMap = [];
+              $db = DBFactory::getInstance();
+              foreach ($moduleTableNameList as $moduleTableName)
+              {
+                $targetModuleTableName = ModuleHelper::getTableNameByGenre($targetGenre) . StringHelper::getClipedString($moduleTableName, ModuleHelper::getTableNameByGenre($genre), 'right+');
+                if (!$db -> renameTable($moduleTableName, $targetModuleTableName))
+                {
+                  $allTableRenamed = false;
+                }
+                else
+                {
+                  $allTableRenamedMap[$moduleTableName] = $targetModuleTableName;
+                }
+              }
+              if ($allTableRenamed === true)
+              {
+                $code = 1;
+                $moduleFinder = new ModuleFinder();
+                $moduleFinder -> removeCache();
+                $newModuleNodeName = 'zh-cn';
+                $newModuleConfig = Jtbc::take('global.' . $targetGenre . ':config.*', 'cfg');
+                $newModuleConfigPath = $targetGenrePath . '/common/config.jtbc';
+                foreach ($newModuleConfig as $configKey => $configVal)
+                {
+                  if (strpos($configKey, 'db_table_') === 0)
+                  {
+                    foreach ($allTableRenamedMap as $renameMapKey => $renameMapVal)
+                    {
+                      if ($configVal == $renameMapKey)
+                      {
+                        JtbcWriter::putNodeContent($newModuleConfigPath, 'cfg', $configKey, $renameMapVal, $newModuleNodeName);
+                        break;
+                      }
+                    }
+                  }
+                }
+                $interiorNamespaceModifier = new InteriorNamespaceModifier($targetGenre, Path::getInteriorNameSpace($genre));
+                if ($interiorNamespaceModifier -> modify())
+                {
+                  $moduleHooksManager = new ModuleHooksManager($targetGenre);
+                  $moduleHooksManager -> registerIfNotExists();
+                }
+                TagBatchProcessor::transfer($genre, $targetGenre);
+                UploadBatchProcessor::transfer($genre, $targetGenre);
+                CategoryBatchProcessor::transfer($genre, $targetGenre);
+                Logger::log($this, 'manageSetting.log-rename', ['genre' => $genre, 'targetGenre' => $targetGenre]);
+              }
+              else
+              {
+                $code = 4010;
+              }
+            }
+            else
+            {
+              $code = 4008;
+            }
+          }
+        }
+      }
+    }
+    else
+    {
+      $code = 4403;
+      $message = Jtbc::take('::communal.text-tips-error-4403', 'lng');
+    }
+    $ss = new Substance();
+    $ss -> code = $code;
+    $ss -> message = Jtbc::take('manageSetting.text-code-rename-' . $code, 'lng') ?: $message;
     $result = $ss -> toJSON();
     return $result;
   }

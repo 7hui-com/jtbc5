@@ -1,7 +1,7 @@
 <?php
 namespace Jtbc;
+use ZipArchive;
 use Jtbc\String\StringHelper;
-use Jtbc\Module\ModuleFinder;
 use App\Common\Premium\PremiumAccountLoader;
 use App\Common\Module\ModuleRecognizer;
 use App\Common\Package\PackageRecognizer;
@@ -313,23 +313,26 @@ class Diplomat extends Ambassador {
 
   public function downloadKernelPatch()
   {
-    $message = '';
+    $code = 0;
     $zipPath = '';
-    $kernelPatchDownloader = new KernelPatchDownloader(Kernel::getVersion());
-    $downloaded = $kernelPatchDownloader -> download();
-    $code = $downloaded -> code;
-    if ($code === 1)
+    if (!class_exists(ZipArchive::class))
     {
-      $zipPath = $downloaded -> zip_path;
-    }
-    else if ($code === 4444)
-    {
-      $message = Jtbc::take('::communal.text-cloudservice-code-4444', 'lng');
+      $code = 4041;
     }
     else
     {
-      $message = Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng');
+      $kernelPatchDownloader = new KernelPatchDownloader(Kernel::getVersion());
+      $downloaded = $kernelPatchDownloader -> download();
+      $code = $downloaded -> code;
+      if ($code === 1)
+      {
+        $zipPath = $downloaded -> zip_path;
+      }
     }
+    $message = match($code) {
+      4444 => Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'),
+      default => Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng'),
+    };
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = $message;
@@ -345,19 +348,29 @@ class Diplomat extends Ambassador {
     $packageId = $packageRecognizer -> packageId;
     if (is_int($packageId))
     {
-      $packagePatchDownloader = new PackagePatchDownloader($packageId, $packageRecognizer -> packageVersion);
-      $downloaded = $packagePatchDownloader -> download();
-      $code = $downloaded -> code;
-      if ($code === 1)
+      if (!class_exists(ZipArchive::class))
       {
-        $zipPath = $downloaded -> zip_path;
+        $code = 4041;
+      }
+      else
+      {
+        $packagePatchDownloader = new PackagePatchDownloader($packageId, $packageRecognizer -> packageVersion);
+        $downloaded = $packagePatchDownloader -> download();
+        $code = $downloaded -> code;
+        if ($code === 1)
+        {
+          $zipPath = $downloaded -> zip_path;
+        }
       }
     }
     else
     {
       $code = 4404;
     }
-    $message = $code === 4444? Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'): Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng');
+    $message = match($code) {
+      4444 => Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'),
+      default => Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng'),
+    };
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = $message;
@@ -374,36 +387,46 @@ class Diplomat extends Ambassador {
     $moduleId = $moduleRecognizer -> moduleId;
     if (is_int($moduleId))
     {
-      $modulePatchDownloader = new ModulePatchDownloader($moduleId, $moduleRecognizer -> moduleVersion);
-      $downloaded = $modulePatchDownloader -> download();
-      $downloadedCode = $downloaded -> code;
-      if ($downloadedCode === 1)
+      if (!class_exists(ZipArchive::class))
       {
-        $originalZipPath = $downloaded -> zip_path;
-        $currentBaseDir = Path::getActualRoute(ConfigReader::getBaseDir() . '/');
-        $originalZipFullPath = $currentBaseDir . $originalZipPath;
-        $refittedZipGenerator = new RefittedZipGenerator($originalZipFullPath);
-        if ($refittedZipGenerator -> generate($genre) === true)
-        {
-          $code = 1;
-          $refittedTaskFilePath = $refittedZipGenerator -> getRefittedTaskFilePath();
-          $zipPath = StringHelper::getClipedString($refittedTaskFilePath, $currentBaseDir, 'right+');
-        }
-        else
-        {
-          $code = 4403;
-        }
+        $code = 4041;
       }
       else
       {
-        $code = $downloadedCode;
+        $modulePatchDownloader = new ModulePatchDownloader($moduleId, $moduleRecognizer -> moduleVersion);
+        $downloaded = $modulePatchDownloader -> download();
+        $downloadedCode = $downloaded -> code;
+        if ($downloadedCode === 1)
+        {
+          $originalZipPath = $downloaded -> zip_path;
+          $currentBaseDir = Path::getActualRoute(ConfigReader::getBaseDir() . '/');
+          $originalZipFullPath = $currentBaseDir . $originalZipPath;
+          $refittedZipGenerator = new RefittedZipGenerator($originalZipFullPath);
+          if ($refittedZipGenerator -> generate($genre) === true)
+          {
+            $code = 1;
+            $refittedTaskFilePath = $refittedZipGenerator -> getRefittedTaskFilePath();
+            $zipPath = StringHelper::getClipedString($refittedTaskFilePath, $currentBaseDir, 'right+');
+          }
+          else
+          {
+            $code = 4403;
+          }
+        }
+        else
+        {
+          $code = $downloadedCode;
+        }
       }
     }
     else
     {
       $code = 4404;
     }
-    $message = $code === 4444? Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'): Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng');
+    $message = match($code) {
+      4444 => Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'),
+      default => Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng'),
+    };
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = $message;
@@ -420,19 +443,29 @@ class Diplomat extends Ambassador {
     $pluginId = $pluginRecognizer -> pluginId;
     if (is_int($pluginId))
     {
-      $pluginPatchDownloader = new PluginPatchDownloader($pluginId, $pluginRecognizer -> pluginVersion);
-      $downloaded = $pluginPatchDownloader -> download();
-      $code = $downloaded -> code;
-      if ($code === 1)
+      if (!class_exists(ZipArchive::class))
       {
-        $zipPath = $downloaded -> zip_path;
+        $code = 4041;
+      }
+      else
+      {
+        $pluginPatchDownloader = new PluginPatchDownloader($pluginId, $pluginRecognizer -> pluginVersion);
+        $downloaded = $pluginPatchDownloader -> download();
+        $code = $downloaded -> code;
+        if ($code === 1)
+        {
+          $zipPath = $downloaded -> zip_path;
+        }
       }
     }
     else
     {
       $code = 4404;
     }
-    $message = $code === 4444? Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'): Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng');
+    $message = match($code) {
+      4444 => Jtbc::take('::communal.text-cloudservice-code-4444', 'lng'),
+      default => Jtbc::take('manageUpgrade.text-download-code-' . $code, 'lng'),
+    };
     $ss = new Substance();
     $ss -> code = $code;
     $ss -> message = $message;

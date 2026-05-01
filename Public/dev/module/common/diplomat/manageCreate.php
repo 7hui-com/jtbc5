@@ -1,9 +1,8 @@
 <?php
 namespace Jtbc;
-use Jtbc\Jtbc\JtbcWriter;
+use ZipArchive;
 use Jtbc\Module\ModuleFinder;
 use App\Common\Module\ModuleInstaller;
-use App\Console\Common\BasicSubstance;
 use App\Console\Common\Ambassador;
 use App\Console\Log\Logger;
 
@@ -46,6 +45,10 @@ class Diplomat extends Ambassador {
         if (is_dir($newModulePath))
         {
           $code = 4006;
+        }
+        else if (!class_exists(ZipArchive::class))
+        {
+          $code = 4041;
         }
         else
         {

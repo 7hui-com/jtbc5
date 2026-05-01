@@ -400,56 +400,59 @@ export default class manage {
       const searchFile = keyword => {
         let el = this.workspace.querySelector('div.side div.search');
         let loading = el.querySelector('div.loading');
-        let result = el.querySelector('div.result').empty();
-        let nothing = el.querySelector('div.nothing').empty();
-        if (keyword != null && keyword.length >= 2)
+        if (loading.classList.contains('hide'))
         {
-          const renderList = data => {
-            result.classList.remove('hide');
-            let ul = document.createElement('ul');
-            data.forEach(item => {
-              let li = document.createElement('li');
-              let span = document.createElement('span');
-              let i = document.createElement('i');
-              let em = document.createElement('em');
-              li.classList.add('file');
-              li.setAttribute('title', item.filename);
-              li.setAttribute('filename', item.filename);
-              li.setAttribute('hash', item.hash);
-              li.setAttribute('path', item.path);
-              i.setAttribute('icon', item.icon);
-              em.setAttribute('icon', item.icon);
-              em.setAttribute('path', item.path);
-              em.innerText = item.path;
-              span.append(i, em);
-              li.append(span);
-              ul.append(li);
-            });
-            result.append(ul);
-          };
-          loading.classList.remove('hide');
-          result.classList.add('hide');
-          nothing.classList.add('hide');
-          fetch(el.getAttribute('url') + '&keywords=' + encodeURIComponent(keyword)).then(res => res.ok? res.json(): {}).then(data => {
-            loading.classList.add('hide');
-            if (data.code == 1)
-            {
-              if (data.data.data.length != 0)
-              {
-                renderList(data.data.data);
-              }
-              else
-              {
-                nothing.classList.remove('hide');
-                nothing.innerText = nothing.getAttribute('text');
-              };
+          let result = el.querySelector('div.result').empty();
+          let nothing = el.querySelector('div.nothing').empty();
+          if (keyword != null && keyword.length >= 2)
+          {
+            const renderList = data => {
+              result.classList.remove('hide');
+              let ul = document.createElement('ul');
+              data.forEach(item => {
+                let li = document.createElement('li');
+                let span = document.createElement('span');
+                let i = document.createElement('i');
+                let em = document.createElement('em');
+                li.classList.add('file');
+                li.setAttribute('title', item.filename);
+                li.setAttribute('filename', item.filename);
+                li.setAttribute('hash', item.hash);
+                li.setAttribute('path', item.path);
+                i.setAttribute('icon', item.icon);
+                em.setAttribute('icon', item.icon);
+                em.setAttribute('path', item.path);
+                em.innerText = item.path;
+                span.append(i, em);
+                li.append(span);
+                ul.append(li);
+              });
+              result.append(ul);
             };
-          });
-        }
-        else
-        {
-          nothing.classList.remove('hide');
-          nothing.innerText = scarf.getAttribute('text-tips-4');
+            loading.classList.remove('hide');
+            result.classList.add('hide');
+            nothing.classList.add('hide');
+            fetch(el.getAttribute('url') + '&keywords=' + encodeURIComponent(keyword)).then(res => res.ok? res.json(): {}).then(data => {
+              loading.classList.add('hide');
+              if (data.code == 1)
+              {
+                if (data.data.data.length != 0)
+                {
+                  renderList(data.data.data);
+                }
+                else
+                {
+                  nothing.classList.remove('hide');
+                  nothing.innerText = nothing.getAttribute('text');
+                };
+              };
+            });
+          }
+          else
+          {
+            nothing.classList.remove('hide');
+            nothing.innerText = scarf.getAttribute('text-tips-4');
+          };
         };
       };
       const selectFile = el => {

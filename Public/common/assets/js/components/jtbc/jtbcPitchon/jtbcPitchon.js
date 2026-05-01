@@ -4,6 +4,7 @@ export default class jtbcPitchon extends HTMLElement {
   };
 
   #pitchon = null;
+  #isEventInitialized = false;
 
   get pitchon() {
     let result = this.#pitchon;
@@ -29,6 +30,22 @@ export default class jtbcPitchon extends HTMLElement {
   set pitchon(pitchon) {
     this.#pitchon = pitchon;
     this.render();
+  };
+
+  #isFirstInitEvent() {
+    let result = false;
+    if (this.#isEventInitialized === false)
+    {
+      result = this.#isEventInitialized = true;
+    };
+    return result;
+  };
+
+  #initEvents() {
+    if (this.#isFirstInitEvent())
+    {
+      this.addEventListener('renderend', e => this.render());
+    };
   };
 
   render() {
@@ -57,6 +74,7 @@ export default class jtbcPitchon extends HTMLElement {
 
   connectedCallback() {
     this.ready = true;
+    this.#initEvents();
     this.render();
   };
 

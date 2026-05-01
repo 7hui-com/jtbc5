@@ -1,5 +1,6 @@
 <?php
 namespace Jtbc;
+use ZipArchive;
 use Jtbc\HTTP\SimpleCURL;
 use Jtbc\Module\ModuleFinder;
 use Jtbc\String\StringHelper;
@@ -195,6 +196,10 @@ class Diplomat extends Ambassador {
     else if (!$premiumAccount -> isValidCertificate())
     {
       $code = 4004;
+    }
+    else if (!class_exists(ZipArchive::class))
+    {
+      $code = 4041;
     }
     else
     {

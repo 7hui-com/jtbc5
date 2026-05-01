@@ -71,7 +71,7 @@ class Diplomat extends Ambassador {
     $dir = strval($req -> get('dir') ?? './');
     $rank = $dir == './'? 1: substr_count($dir, '/') + 1;
     $currentPath = realpath(Path::getActualRoute($dir));
-    if (is_dir($currentPath))
+    if ($this -> isVaildPath($dir) && is_dir($currentPath))
     {
       $folders = $files = [];
       $dirIterator = new DirectoryIterator($currentPath);
@@ -129,7 +129,7 @@ class Diplomat extends Ambassador {
     $mode = 'htmlmixed';
     $path = strval($req -> get('path'));
     $currentPath = realpath(Path::getActualRoute($path));
-    if ($currentPath !== false)
+    if ($this -> isVaildPath($path) && $currentPath !== false)
     {
       $exists = true;
       $extension = strtolower(StringHelper::getClipedString($currentPath, '.', 'right'));

@@ -55,6 +55,10 @@
       <zh-cn><![CDATA[在对数据库表进行克隆时发生异常]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-code-4010]]></name>
+      <zh-cn><![CDATA[在对目标模块写入文件时发生异常]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[log-clone]]></name>
       <zh-cn><![CDATA[克隆模块[{$[sourceModule]} => {$[newModule]}]成功]]></zh-cn>
     </item>

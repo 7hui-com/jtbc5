@@ -43,3 +43,15 @@
 .ppSettingConfig jtbc-field-icon-selector {
   --icon-list-border: 0px; --icon-list-padding: 0px; --columns-width: 38px
 }
+.ppSettingRename {
+  width: 550px; margin: 0px auto; max-height: 400px
+}
+.ppSettingRename > ul {
+  width: 500px; margin: 0px auto; padding: 10px 0px; list-style: none
+}
+.ppSettingRename > ul > li {
+  padding: 10px 0px
+}
+.ppSettingRename > ul > li div.warning {
+  width: 100%; line-height: 160%; font-size: 14px; color: #333333
+}

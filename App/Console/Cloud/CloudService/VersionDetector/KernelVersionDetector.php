@@ -1,6 +1,5 @@
 <?php
 namespace App\Console\Cloud\CloudService\VersionDetector;
-use Jtbc\Jtbc;
 use Jtbc\Kernel;
 use Jtbc\Converter;
 use Jtbc\Exception\OutOfRangeException;
@@ -35,6 +34,7 @@ class KernelVersionDetector
       $detectedAt = intval($rs -> kernel_detected_at);
       if (time() - $detectedAt < 24 * 60 * 60)
       {
+        $currentVersion = intval(Kernel::getVersion());
         $newVersion = intval($rs -> has_new_version_for_kernel);
         if ($newVersion == 0)
         {
@@ -42,8 +42,17 @@ class KernelVersionDetector
         }
         else
         {
-          $result = true;
-          $this -> newVersion = $newVersion;
+          if ($currentVersion >= $newVersion)
+          {
+            $result = false;
+            $model -> pocket -> has_new_version_for_kernel = 0;
+            $model -> submit();
+          }
+          else
+          {
+            $result = true;
+            $this -> newVersion = $newVersion;
+          }
         }
       }
       else

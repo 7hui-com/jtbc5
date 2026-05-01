@@ -139,6 +139,10 @@
       <zh-cn><![CDATA[从云服务获取更新超时]]></zh-cn>
     </item>
     <item>
+      <name><![CDATA[text-download-code-4041]]></name>
+      <zh-cn><![CDATA[当前服务器环境没有开启 zip 扩展]]></zh-cn>
+    </item>
+    <item>
       <name><![CDATA[text-download-code-4403]]></name>
       <zh-cn><![CDATA[无法生成更新包，请检查服务器权限]]></zh-cn>
     </item>

@@ -25,8 +25,23 @@ export default class extender {
       };
       return this;
     };
+    Element.prototype.autoloadComponents = function() {
+      this.loadComponents();
+      this.autoloadComponentsObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          mutation.addedNodes.forEach(node => {
+            if (node instanceof Element)
+            {
+              node.loadComponents();
+            };
+          });
+        });
+      });
+      this.autoloadComponentsObserver.observe(this, {'childList': true, 'subtree': true});
+      return this;
+    };
     Element.prototype.delegateEventListener = function(selector, type, listener) {
-      this.addEventListener(type, function(e){
+      this.addEventListener(type, function(e) {
         let match = false;
         let matchTarget = null;
         let elements = this.querySelectorAll(selector);
@@ -49,11 +64,11 @@ export default class extender {
           for (let i = 0; i < elements.length; i ++)
           {
             let element = elements[i];
-            let slotElements = element.querySelectorAll('slot');
-            for (let j = 0; j < slotElements.length; j ++)
+            let slots = element.querySelectorAll('slot');
+            for (let j = 0; j < slots.length; j ++)
             {
-              let slotElement = slotElements[j];
-              slotElement.assignedElements({flatten: true}).forEach(ael => {
+              let slot = slots[j];
+              slot.assignedElements({'flatten': true}).forEach(ael => {
                 if (match != true)
                 {
                   if (ael == e.target || ael.contains(e.target))
@@ -313,6 +328,18 @@ export default class extender {
     };
     Window.prototype.nap = function(delay) {
       return new Promise(resolve => setTimeout(resolve, delay));
+    };
+    Window.prototype.once = function(func, that) {
+      let result = null;
+      let called = false;
+      return function(...args) {
+        if (!called)
+        {
+          called = true;
+          result = func.apply(that, args);
+        };
+        return result;
+      };
     };
   };
 

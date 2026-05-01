@@ -128,6 +128,23 @@ export default class manageSetting {
     };
   };
 
+  initRename() {
+    if (this.inited != true)
+    {
+      this.inited = true;
+      let popup = this.self.parentNode.querySelector('.dialogPopup');
+      popup.delegateEventListener('form', 'submitend', e => {
+        let res = e.detail.res;
+        res.json().then(data => {
+          if (data.code == 1)
+          {
+            this.leftmenu?.fetch();
+          };
+        });
+      });
+    };
+  };
+
   readiedCallback() {
     let init = this.self.getAttribute('init');
     if (Reflect.has(this, init)) Reflect.get(this, init).call(this);
