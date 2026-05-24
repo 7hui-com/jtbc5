@@ -15,13 +15,13 @@ PHP(8.0+), MySQL(8.0+)
 
 如果您有`全新安装的服务器操作系统`并且具备`root`权限，那么可以尝试一键安装。
 
-### 1.ubuntu server [22.04 | 24.04]
+### 1.ubuntu server [24.04 | 26.04]
 
 ```
 curl https://download.jtbc.cn/php/5.0/ubuntu-jtbc-install.sh | sudo sh
 ```
 
-### 2.debian server [11 | 12]
+### 2.debian server [12 | 13]
 
 ```
 curl https://download.jtbc.cn/php/5.0/debian-jtbc-install.sh | sudo sh
