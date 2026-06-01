@@ -249,6 +249,7 @@ class Role implements RoleInterface
     $lang = intval($argLang);
     if (array_key_exists($lang, $this -> getLangs()))
     {
+      $bool = true;
       $this -> lang = $lang;
       $this -> di -> response -> cookie -> set($this -> cookieLangName, $lang, time() + 60 * 60 * 24 * 365);
     }

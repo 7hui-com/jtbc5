@@ -8,14 +8,18 @@
   <item_list>
     <item>
       <name><![CDATA[text-menu-1]]></name>
-      <zh-cn><![CDATA[首页模板]]></zh-cn>
+      <zh-cn><![CDATA[头部模板]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-menu-2]]></name>
-      <zh-cn><![CDATA[公共模板]]></zh-cn>
+      <zh-cn><![CDATA[尾部模板]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[text-menu-3]]></name>
+      <zh-cn><![CDATA[首页模板]]></zh-cn>
+    </item>
+    <item>
+      <name><![CDATA[text-menu-4]]></name>
       <zh-cn><![CDATA[渲染模板]]></zh-cn>
     </item>
     <item>

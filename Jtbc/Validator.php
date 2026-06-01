@@ -112,7 +112,7 @@ class Validator
         $sourceValue = strtotime($source);
       }
     }
-    else if (Validation::isDateTime($end))
+    else if (Validation::isDateTime($source))
     {
       if (Validation::isDateTime($end))
       {

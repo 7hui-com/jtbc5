@@ -365,7 +365,7 @@ export default class jtbcFieldAttachment extends HTMLElement {
           let param = JSON.parse(tr.getAttribute('param'));
           if (param.filegroup == 1)
           {
-            imagePreviewer.popup(param);
+            that.imagePreviewer.popup(param);
           };
         };
       });

@@ -140,10 +140,10 @@ class RefittedZipGenerator
                 $newCreateArr = [];
                 $newOverwriteArr = [];
                 $newDeleteArr = [];
-                if (array_key_exists('create', $file))
+                if (array_key_exists('create', $jtbc))
                 {
                   $createArr = $jtbc['create'];
-                  if (is_array($deleteArr))
+                  if (is_array($createArr))
                   {
                     foreach ($createArr as $item)
                     {
@@ -153,7 +153,7 @@ class RefittedZipGenerator
                     }
                   }
                 }
-                if (array_key_exists('overwrite', $file))
+                if (array_key_exists('overwrite', $jtbc))
                 {
                   $overwriteArr = $jtbc['delete'];
                   if (is_array($overwriteArr))
@@ -166,7 +166,7 @@ class RefittedZipGenerator
                     }
                   }
                 }
-                if (array_key_exists('delete', $file))
+                if (array_key_exists('delete', $jtbc))
                 {
                   $deleteArr = $jtbc['delete'];
                   if (is_array($deleteArr))

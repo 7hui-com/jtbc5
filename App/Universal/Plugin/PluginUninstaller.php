@@ -5,39 +5,39 @@ use App\Common\Uninstaller;
 
 class PluginUninstaller extends Uninstaller
 {
-  private $pulgin;
-  private $pulginName;
+  private $plugin;
+  private $pluginName;
 
   public function uninstall()
   {
     $result = false;
-    if (!$this -> pulgin -> isExists())
+    if (!$this -> plugin -> isExists())
     {
       $this -> lastErrorCode = 1401;
     }
-    else if ($this -> pulgin -> isLocked())
+    else if ($this -> plugin -> isLocked())
     {
       $this -> lastErrorCode = 1402;
     }
     else
     {
-      $pulginFullPath = $this -> pulgin -> getFullPath();
-      $pulginConfigFullPath = $this -> pulgin -> getFullConfigPath();
-      if (Folder::delete($pulginFullPath))
+      $pluginFullPath = $this -> plugin -> getFullPath();
+      $pluginConfigFullPath = $this -> plugin -> getFullConfigPath();
+      if (Folder::delete($pluginFullPath))
       {
         $result = true;
-        if (is_file($pulginConfigFullPath))
+        if (is_file($pluginConfigFullPath))
         {
-          @unlink($pulginConfigFullPath);
+          @unlink($pluginConfigFullPath);
         }
       }
     }
     return $result;
   }
 
-  public function __construct(string $argPulginName)
+  public function __construct(string $argPluginName)
   {
-    $this -> pulginName = $argPulginName;
-    $this -> pulgin = new Plugin($this -> pulginName);
+    $this -> pluginName = $argPluginName;
+    $this -> plugin = new Plugin($this -> pluginName);
   }
 }

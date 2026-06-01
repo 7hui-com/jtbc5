@@ -87,7 +87,8 @@ class Response implements ResponseInterface
               while(count($val) < 7)
               {
                 $count = count($val);
-                if ($count == 2) array_push($val, 0);
+                if ($count == 1) array_push($val, '');
+                else if ($count == 2) array_push($val, 0);
                 else if ($count == 3) array_push($val, $this -> path);
                 else if ($count == 4) array_push($val, $this -> domain);
                 else if ($count == 5) array_push($val, $this -> secure);

@@ -175,7 +175,7 @@ class Diplomatist
   {
     $this -> hook = new Hook();
     $this -> di = DIFactory::getInstance();
-    $this -> configReader = new configReader(substr(strrchr(__CLASS__, chr(92)), 1));
+    $this -> configReader = new ConfigReader(substr(strrchr(__CLASS__, chr(92)), 1));
     $this -> userAgent = new UserAgent($this -> di -> request -> server('HTTP_USER_AGENT'));
     $this -> di -> call($this, '__initialize', false);
     $this -> initEnv();

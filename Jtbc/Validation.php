@@ -33,7 +33,7 @@ class Validation
     $string = $argString;
     if (!self::isEmpty($string))
     {
-      if (preg_match('/^[x{4e00}-\x{9fa5}]+$/u', $string)) $bool = true;
+      if (preg_match('/^[\x{4e00}-\x{9fa5}]+$/u', $string)) $bool = true;
     }
     return $bool;
   }
@@ -243,8 +243,8 @@ class Validation
   public static function isInteger($argString)
   {
     $bool = false;
-    $string = $argString;
-    if (ctype_digit(strval($string))) $bool = true;
+    $string = strval($argString);
+    if (ctype_digit($string)) $bool = true;
     else
     {
       if (str_starts_with($string, '-'))

@@ -115,7 +115,7 @@ class ClassicConfigManager
       }
       else if (is_bool($value))
       {
-        $configContent[] = '  public const ' . $key . ' = ' . $value === true? 'true': 'false' . ';';
+        $configContent[] = '  public const ' . $key . ' = ' . ($value === true? 'true': 'false') . ';';
       }
       else if (is_array($value))
       {

@@ -44,14 +44,15 @@ class DBFactory
       {
         $config = new Substance($servers[$dbLink]);
         $db = new DB($config -> HOST, $config -> DATABASE, $config -> USERNAME, $config -> PASSWORD);
-        if ($db -> errCode == 0)
+        list($errCode, $errMessage) = [$db -> errCode, $db -> errMessage];
+        if ($errCode === 0)
         {
           self::$instances[$dbLink] = $db;
         }
         else
         {
-          throw new DBException($db -> errMessage, $db -> errCode);
           $db = null;
+          throw new DBException($errMessage, $errCode);
         }
       }
       else

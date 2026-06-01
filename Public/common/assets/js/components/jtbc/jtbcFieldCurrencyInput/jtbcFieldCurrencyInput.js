@@ -200,6 +200,7 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
       case 'currency':
       {
         this.currency = newVal;
+        break;
       };
       case 'mode':
       {
@@ -217,10 +218,12 @@ export default class jtbcFieldCurrencyInput extends HTMLElement {
       case 'maxlength':
       {
         this.container.querySelector('input.value').setAttribute('maxlength', newVal);
+        break;
       };
       case 'placeholder':
       {
         this.container.querySelector('input.value').setAttribute('placeholder', newVal);
+        break;
       };
       case 'disabled':
       {

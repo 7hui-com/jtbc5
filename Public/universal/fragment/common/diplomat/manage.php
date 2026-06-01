@@ -29,24 +29,34 @@ class Diplomat extends Ambassador {
     return $result;
   }
 
+  private function renameById($argId)
+  {
+    $result = false;
+    $id = intval($argId);
+    $model = new TinyModel(autoFilter: false);
+    $model -> where -> id = $id;
+    $rs = $model -> get();
+    if (!is_null($rs))
+    {
+      $rsId = intval($rs -> id);
+      $rsKey = strval($rs -> key);
+      if (!str_contains($rsKey, '~'))
+      {
+        $model -> pocket -> key = $rsKey . '~' . $rsId;
+        $result = $model -> submit();
+      }
+    }
+    return $result;
+  }
+
   public function __start()
   {
-    $this -> hook -> afterDelete = function($id)
-    {
-      $model = new TinyModel(autoFilter: false);
-      $model -> where -> id = intval($id);
-      $rs = $model -> get();
-      if (!is_null($rs))
+    $this -> hook -> afterDelete = function($argId) { $this -> renameById($argId); };
+    $this -> hook -> afterBatchDelete = function($argId) {
+      foreach ($argId as $id)
       {
-        $rsId = intval($rs -> id);
-        $rsKey = strval($rs -> key);
-        $rsDeleted = intval($rs -> deleted);
-        if ($rsDeleted === 1)
-        {
-          $model -> pocket -> key = $rsKey . '~' . $rsId;
-          $model -> submit();
-        }
-      };
+        $this -> renameById($id);
+      }
     };
   }
 

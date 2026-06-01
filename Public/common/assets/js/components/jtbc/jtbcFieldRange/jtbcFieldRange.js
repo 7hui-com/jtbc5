@@ -355,6 +355,7 @@ export default class jtbcFieldRange extends HTMLElement {
       case 'marks':
       {
         this.setMarks(newVal);
+        break;
       };
       case 'min':
       {

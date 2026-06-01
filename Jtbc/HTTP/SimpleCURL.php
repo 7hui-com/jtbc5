@@ -190,7 +190,7 @@ class SimpleCURL
 
   public function isSucceed()
   {
-    return $this -> lastErrorNo !== 0 && $this -> lastHTTPCode === 200? true: false;
+    return ($this -> lastErrorNo === 0 && $this -> lastHTTPCode === 200)? true: false;
   }
 
   public function setHeader(string $argName, string $argValue)

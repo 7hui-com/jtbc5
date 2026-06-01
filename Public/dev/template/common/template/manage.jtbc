@@ -48,7 +48,7 @@
     <nav><template is="jtbc-template" key="nav"><a is="jtbc-anchor" href="${$link}">${$title}</a><jtbc-svg name="arrow_right"></jtbc-svg></template></nav>
     <div class="manager">
       <toplink>
-        <jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list&amp;file=index">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;file=communal&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;file=render&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a></jtbc-pitchon>
+        <jtbc-pitchon pitchon_default="a.toplink-list-1"><a is="jtbc-anchor" class="link toplink-list-1" href="codename={$>this.genre}:manage.list&amp;file=communal&amp;node=header">{$=$take('manage.text-menu-1', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-2" href="codename={$>this.genre}:manage.list&amp;file=communal&amp;node=footer&amp;pitchon=a.toplink-list-2">{$=$take('manage.text-menu-2', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-3" href="codename={$>this.genre}:manage.list&amp;file=index&amp;node=index&amp;pitchon=a.toplink-list-3">{$=$take('manage.text-menu-3', 'lng')}</a><a is="jtbc-anchor" class="link toplink-list-4" href="codename={$>this.genre}:manage.list&amp;file=render&amp;pitchon=a.toplink-list-4">{$=$take('manage.text-menu-4', 'lng')}</a></jtbc-pitchon>
       </toplink>
       <div if="${$nodeList.length == 0}" class="chief">
         <h3>{$=$take('manage.text-tit-list-null', 'lng')}</h3>

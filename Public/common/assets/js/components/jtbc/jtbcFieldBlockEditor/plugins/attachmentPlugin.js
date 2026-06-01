@@ -36,7 +36,7 @@ export default class attachmentPlugin {
       this.#paddingBottom = Number.parseInt(paddingBottomEl.value);
     };
     el.querySelectorAll('tr.file').forEach(tr => {
-      let url = tr.querySelector('[name=url');
+      let url = tr.querySelector('[name=url]');
       let name = tr.querySelector('[name=name]');
       if (name != null && url != null)
       {

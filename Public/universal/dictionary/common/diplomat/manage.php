@@ -38,6 +38,37 @@ class Diplomat extends Ambassador {
     return ['text' => JSON::encode($contentText -> all()), 'columns' => JSON::encode($contentColumns)];
   }
 
+  private function renameById($argId)
+  {
+    $result = false;
+    $id = intval($argId);
+    $model = new TinyModel(autoFilter: false);
+    $model -> where -> id = $id;
+    $rs = $model -> get();
+    if (!is_null($rs))
+    {
+      $rsId = intval($rs -> id);
+      $rsName = strval($rs -> name);
+      if (!str_contains($rsName, '~'))
+      {
+        $model -> pocket -> name = $rsName . '~' . $rsId;
+        $result = $model -> submit();
+      }
+    }
+    return $result;
+  }
+
+  public function __start()
+  {
+    $this -> hook -> afterDelete = function($argId) { $this -> renameById($argId); };
+    $this -> hook -> afterBatchDelete = function($argId) {
+      foreach ($argId as $id)
+      {
+        $this -> renameById($id);
+      }
+    };
+  }
+
   public function add(Request $req)
   {
     $mode = intval($req -> get('mode'));

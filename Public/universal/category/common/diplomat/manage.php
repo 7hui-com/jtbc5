@@ -156,11 +156,18 @@ class Diplomat extends Ambassador {
           $model -> where -> father_id = $fatherId;
         }
         $rsa = $model -> getAll(['id', 'title', 'genre']);
-        foreach ($rsa as $item)
+        if (empty($myCategoryArr))
         {
-          if (in_array($item -> id, $myCategoryArr))
+          $data = $rsa;
+        }
+        else
+        {
+          foreach ($rsa as $item)
           {
-            $data[] = $item;
+            if (in_array($item -> id, $myCategoryArr))
+            {
+              $data[] = $item;
+            }
           }
         }
       }

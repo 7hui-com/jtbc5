@@ -16,7 +16,7 @@
     </item>
     <item>
       <name><![CDATA[link]]></name>
-      <zh-cn><![CDATA[manage.list&file=index]]></zh-cn>
+      <zh-cn><![CDATA[manage.list&file=communal&node=header]]></zh-cn>
     </item>
     <item>
       <name><![CDATA[subpermissions]]></name>

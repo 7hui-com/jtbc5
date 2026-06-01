@@ -359,8 +359,9 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
   setCurrentMax(value) {
     if (isFinite(value))
     {
+      let container = this.container;
       this.currentMax = Number.parseInt(value);
-      this.container.setAttribute('max', this.currentMax);
+      container.setAttribute('max', this.currentMax);
       if (this.currentMax < 1) this.currentMax = 1;
       if (this.selected.length > this.currentMax)
       {
@@ -431,6 +432,7 @@ export default class jtbcFieldSeaExplorer extends HTMLElement {
       case 'singleton':
       {
         this.#singleton = this.hasAttribute('singleton')? true: false;
+        break;
       };
       case 'disabled':
       {

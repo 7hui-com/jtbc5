@@ -55,7 +55,7 @@ export default class jtbcFieldNineSquareSelector extends HTMLElement {
     }
     else
     {
-      this.mode = 'single';
+      this.#mode = 'single';
     };
     this.#selectItem();
   };

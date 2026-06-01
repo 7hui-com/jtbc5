@@ -243,7 +243,7 @@ class SchemaFormatter
           $sourceType = $current -> sourceType ?? 'file';
           if (!is_null($source))
           {
-            $result['data'] = $this -> getTreeData($source, $sourceType);
+            $item['data'] = $this -> getTreeData($source, $sourceType);
           }
         }
         $result[] = $item;

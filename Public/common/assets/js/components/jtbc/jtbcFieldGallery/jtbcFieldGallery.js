@@ -162,7 +162,7 @@ export default class jtbcFieldGallery extends HTMLElement {
           let param = JSON.parse(item.getAttribute('param'));
           if (param.filegroup == 1)
           {
-            imagePreviewer.popup(param);
+            that.imagePreviewer.popup(param);
           };
         };
       });

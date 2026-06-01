@@ -18,6 +18,7 @@ class DataLoader
     $ss = new Substance($param);
     if ($ss -> exists('cache'))
     {
+      $data = null;
       $cacheParam = new Substance($ss -> cache);
       if (Validation::isNatural($cacheParam -> name))
       {

@@ -29,7 +29,7 @@ class JtbcFetcher
         }
         else
         {
-          $result = ['key' => substr($codename, strrpos($codename, '.') + 1), 'value' => $data];
+          $result[] = ['key' => substr($codename, strrpos($codename, '.') + 1), 'value' => $data];
         }
       }
     }

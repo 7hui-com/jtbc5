@@ -21,12 +21,12 @@ class PluginInstaller extends Installer
       if ($opened === true)
       {
         $meta = $this -> getMetaData($zipArchive);
-        $pulginName = $meta -> name;
-        if (!is_string($pulginName))
+        $pluginName = $meta -> name;
+        if (!is_string($pluginName))
         {
           $this -> lastErrorCode = 1024;
         }
-        else if ($this -> pluginFinder -> exists($pulginName))
+        else if ($this -> pluginFinder -> exists($pluginName))
         {
           $this -> lastErrorCode = 1025;
         }
@@ -36,7 +36,7 @@ class PluginInstaller extends Installer
         }
         else
         {
-          $fullPluginPath = $this -> pluginFinder -> getFolderPath() . '/' . $pulginName;
+          $fullPluginPath = $this -> pluginFinder -> getFolderPath() . '/' . $pluginName;
           $extracted = $zipArchive -> extractTo($fullPluginPath);
           if ($extracted === true)
           {

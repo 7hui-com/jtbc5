@@ -54,6 +54,37 @@ class Diplomat extends Ambassador {
     return $result;
   }
 
+  private function renameById($argId)
+  {
+    $result = false;
+    $id = intval($argId);
+    $model = new TinyModel(autoFilter: false);
+    $model -> where -> id = $id;
+    $rs = $model -> get();
+    if (!is_null($rs))
+    {
+      $rsId = intval($rs -> id);
+      $rsUsername = strval($rs -> username);
+      if (!str_contains($rsUsername, '~'))
+      {
+        $model -> pocket -> username = $rsUsername . '~' . $rsId;
+        $result = $model -> submit();
+      }
+    }
+    return $result;
+  }
+
+  public function __start()
+  {
+    $this -> hook -> afterDelete = function($argId) { $this -> renameById($argId); };
+    $this -> hook -> afterBatchDelete = function($argId) {
+      foreach ($argId as $id)
+      {
+        $this -> renameById($id);
+      }
+    };
+  }
+
   public function add()
   {
     $bs = new BasicSubstance($this);

@@ -54,8 +54,8 @@ export default class jtbcFieldDatetime extends HTMLElement {
       currentDateHours = currentDateHours < 10? '0' + currentDateHours: currentDateHours;
       currentDateMinutes = currentDateMinutes < 10? '0' + currentDateMinutes: currentDateMinutes;
       currentDateSeconds = currentDateSeconds < 10? '0' + currentDateSeconds: currentDateSeconds;
-      value = this.#minDate != null && currentDate < this.#minDate? this.getDateString(this.#minDate): value;
-      value = this.#maxDate != null && currentDate > this.#maxDate? this.getDateString(this.#maxDate): value;
+      value = this.#minDate != null && currentDate < this.#minDate? this.getDatetimeString(this.#minDate): value;
+      value = this.#maxDate != null && currentDate > this.#maxDate? this.getDatetimeString(this.#maxDate): value;
       container.querySelector('input.datetime').value = this.#value = value;
       container.querySelector('.calendar').setAttribute('value', this.getDateString(currentDate));
       container.querySelectorAll('div.time div.item').forEach(item => {
@@ -279,12 +279,11 @@ export default class jtbcFieldDatetime extends HTMLElement {
   };
 
   getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
+    return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+  };
+
+  getDatetimeString(date) {
+    return this.getDateString(date) + String.fromCharCode(32) + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0') + ':' + String(date.getSeconds()).padStart(2, '0')
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {

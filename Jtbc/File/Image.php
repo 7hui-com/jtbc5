@@ -66,8 +66,8 @@ class Image
     {
       $currentX = round(($imageWidth / 2) - ($fontBox[4] - $fontBox[6]) / 2);
       $currentY = round(($imageHeight / 2) - ($fontBox[7] + $fontBox[1]) / 2);
-      if ($xAuto == false) $currentX + $x;
-      if ($yAuto == false) $currentY + $y;
+      if ($xAuto == false) $currentX += $x;
+      if ($yAuto == false) $currentY += $y;
     }
     else if ($origin == 0)
     {
@@ -110,6 +110,7 @@ class Image
     if (is_file($imageFileName))
     {
       $imageFile = null;
+      $imageFileWidth = $imageFileHeight = 0;
       $imageFilePathinfo = pathinfo($imageFileName);
       $imageFileExtension = $imageFilePathinfo['extension'];
       $imageFileInfo = getimagesize($imageFileName);
@@ -144,8 +145,8 @@ class Image
         {
           $currentX = round($imageWidth / 2 - $imageFileWidth / 2);
           $currentY = round($imageHeight / 2 - $imageFileHeight / 2);
-          if ($xAuto == false) $currentX + $x;
-          if ($yAuto == false) $currentY + $y;
+          if ($xAuto == false) $currentX += $x;
+          if ($yAuto == false) $currentY += $y;
         }
         else if ($origin == 0)
         {

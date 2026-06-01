@@ -10,7 +10,7 @@ class UserAgent
 
   public function getOS()
   {
-    $result = 'Unkown';
+    $result = 'Unknown';
     if ($this -> isWindows())
     {
       $result = 'Windows';

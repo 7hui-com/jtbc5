@@ -496,12 +496,11 @@ export default class jtbcFieldDatetimeRange extends HTMLElement {
   };
 
   getDateString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let monthString = month < 10? '0' + month: month;
-    let dayString = day < 10? '0' + day: day;
-    return year + '-' + monthString + '-' + dayString;
+    return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+  };
+
+  getDatetimeString(date) {
+    return this.getDateString(date) + String.fromCharCode(32) + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0') + ':' + String(date.getSeconds()).padStart(2, '0')
   };
 
   attributeChangedCallback(attr, oldVal, newVal) {
