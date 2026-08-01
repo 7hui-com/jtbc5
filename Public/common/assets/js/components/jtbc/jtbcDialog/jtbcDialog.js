@@ -153,7 +153,7 @@ export default class jtbcDialog extends HTMLElement {
       });
       container.delegateEventListener('button.cancel', 'click', () => { this.close(); });
       container.delegateEventListener('[role=dialog-close]', 'click', () => { this.close(); });
-      container.delegateEventListener('[role=dialog-fullpage-exit', 'click', () => {
+      container.delegateEventListener('[role=dialog-fullpage-exit]', 'click', () => {
         document.documentElement.style.overflow = null;
         container.querySelector('.dialog_fullpage').classList.remove('on');
       });

@@ -6,6 +6,7 @@ namespace Jtbc\DB\MySQL;
 use PDO;
 use PDOException;
 use Jtbc\DB as DBInterface;
+use Jtbc\String\StringHelper;
 
 class DB implements DBInterface
 {
@@ -90,7 +91,7 @@ class DB implements DBInterface
     $sql = $argSQL;
     $this -> queryLog[] = $sql;
     $exec = $this -> conn -> exec($sql);
-    if (substr($sql, 0, 6) == 'insert')
+    if (StringHelper::isEqualIgnoreCase(substr($sql, 0, 6), 'insert'))
     {
       $this -> lastInsertId = intval($this -> conn -> lastInsertId());
     }

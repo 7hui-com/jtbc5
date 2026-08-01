@@ -140,4 +140,9 @@ class StringHelper
     }
     return $result;
   }
+
+  public static function isEqualIgnoreCase(string $argString1, string $argString2): bool
+  {
+    return (strcasecmp($argString1, $argString2) === 0)? true: false;
+  }
 }

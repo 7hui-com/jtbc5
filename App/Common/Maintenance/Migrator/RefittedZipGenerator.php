@@ -155,7 +155,7 @@ class RefittedZipGenerator
                 }
                 if (array_key_exists('overwrite', $jtbc))
                 {
-                  $overwriteArr = $jtbc['delete'];
+                  $overwriteArr = $jtbc['overwrite'];
                   if (is_array($overwriteArr))
                   {
                     foreach ($overwriteArr as $item)

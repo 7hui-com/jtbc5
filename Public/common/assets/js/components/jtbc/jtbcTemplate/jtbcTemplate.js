@@ -355,8 +355,8 @@ export default class jtbcTemplate extends HTMLTemplateElement {
           const markKeywords = (text, keywords) => {
             if (keywords != null)
             {
-              keywords.split(' ').forEach(keyword => {
-                text = text.replace(keyword, '<mark>' + keyword + '</mark>');
+              keywords.split(String.fromCharCode(32)).forEach(keyword => {
+                text = text.replaceAll(keyword, '<mark>' + keyword + '</mark>');
               });
             };
             return text;
@@ -479,12 +479,7 @@ export default class jtbcTemplate extends HTMLTemplateElement {
         if (!Array.isArray(data)) itemRender(data);
         else
         {
-          let index = -1;
-          data.forEach(item => {
-            index += 1;
-            item['_index'] = index;
-            itemRender(item);
-          });
+          data.forEach(item => itemRender(item));
         };
         if (documentTarget.nodeType == 1)
         {

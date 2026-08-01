@@ -56,9 +56,10 @@ export default class proxyCreator {
         return result;
       },
       'set': (target, key, value) => {
-        let result = false;
+        let result = true;
         if (Reflect.get(target, key) != value)
         {
+          result = false;
           if (Reflect.set(target, key, value))
           {
             result = true;

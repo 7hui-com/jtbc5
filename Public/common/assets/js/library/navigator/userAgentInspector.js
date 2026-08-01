@@ -6,7 +6,7 @@ export default class userAgentInspector {
   };
 
   getOS() {
-    let result = 'Unkown';
+    let result = 'Unknown';
     if (this.isWindows())
     {
       result = 'Windows';

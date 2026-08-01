@@ -80,7 +80,7 @@ export default class jtbcFieldUpload extends HTMLElement {
     else
     {
       container.classList.remove('disabled');
-      input.disabled = true;
+      input.disabled = false;
     };
   };
 

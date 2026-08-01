@@ -105,7 +105,7 @@ class BatchUninstaller extends Uninstaller
 
   public function hasError()
   {
-    return empty($this -> errors)? true: false;
+    return !empty($this -> errors)? true: false;
   }
 
   public function uninstall()

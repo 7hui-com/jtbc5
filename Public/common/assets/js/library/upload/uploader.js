@@ -64,6 +64,7 @@ export default class uploader {
   };
 
   upload(file, progressCallBack, doneCallBack, errorCallBack) {
+    let that = this;
     if (this.uploading == false)
     {
       this.uploading = true;
@@ -105,7 +106,7 @@ export default class uploader {
               else
               {
                 doneCallBack(data);
-                this.uploading = false;
+                that.uploading = false;
               };
             }
             else
@@ -113,6 +114,9 @@ export default class uploader {
               errorCallBack(target);
             };
           }, false);
+          httpRequest.addEventListener('error', function(e) {
+            errorCallBack(e.target);
+          });
           httpRequest.open('POST', this.action);
           Object.keys(headers).forEach(key => {
             httpRequest.setRequestHeader(key, headers[key]);

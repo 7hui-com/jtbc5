@@ -45,11 +45,13 @@ export default class jtbcView extends HTMLElement {
     {
       this.#data = data;
       this.#hasData = true;
+      this.#dataProxy = null;
     }
     else if (data instanceof Object)
     {
       this.#data = data;
       this.#hasData = true;
+      this.#dataProxy = null;
     }
     else if (typeof data == 'string')
     {
@@ -64,6 +66,7 @@ export default class jtbcView extends HTMLElement {
       };
       this.#data = dataValue;
       this.#hasData = true;
+      this.#dataProxy = null;
     };
     if (this.ready)
     {
@@ -102,6 +105,10 @@ export default class jtbcView extends HTMLElement {
           if (data instanceof Object)
           {
             data = data.hasOwnProperty(key)? data[key]: null;
+          }
+          else
+          {
+            data = null;
           };
         });
         return data;
@@ -147,10 +154,7 @@ export default class jtbcView extends HTMLElement {
               delete virtualNode.attributes.forloop;
               if (Array.isArray(childData))
               {
-                let index = -1;
                 childData.forEach(item => {
-                  index += 1;
-                  item['_index'] = index;
                   result = result.concat(itemGenerator(item, [virtualNode], virtualNode.attributes));
                 });
               };
@@ -261,10 +265,7 @@ export default class jtbcView extends HTMLElement {
       let attrs = this.#getAttributes(this.attributes);
       if (Array.isArray(data))
       {
-        let index = -1;
         data.forEach(item => {
-          index += 1;
-          item['_index'] = index;
           result = result.concat(itemGenerator(item, templateTree, attrs));
         });
       }
@@ -492,18 +493,22 @@ export default class jtbcView extends HTMLElement {
     }
     else if (el.hasAttribute('view-model'))
     {
-      el.addEventListener('input', e => {
-        let self = e.currentTarget;
-        let viewModel = self.getAttribute('view-model');
-        let targetModel = getTargetModel(self, viewModel);
-        let name = targetModel.name;
-        let model = targetModel.model;
-        if (typeof model == 'object')
-        {
-          model[name] = self.value;
-          if (!self.hasAttribute('view-silent')) this.update();
-        };
-      });
+      if (!el.hasAttribute('view-model-is-event-bound'))
+      {
+        el.setAttribute('view-model-is-event-bound', 'true');
+        el.addEventListener('input', e => {
+          let self = e.currentTarget;
+          let viewModel = self.getAttribute('view-model');
+          let targetModel = getTargetModel(self, viewModel);
+          let name = targetModel.name;
+          let model = targetModel.model;
+          if (typeof model == 'object')
+          {
+            model[name] = self.value;
+            if (!self.hasAttribute('view-silent')) this.update();
+          };
+        });
+      };
     };
     this.runDirective(el, 'inserted');
   };
@@ -638,7 +643,7 @@ export default class jtbcView extends HTMLElement {
       const patch = (diffResult, parentElement) => {
         if (Array.isArray(diffResult))
         {
-          diffResult.forEach(item => {
+          diffResult.forEach((item, i) => {
             if (item.type == 1)
             {
               item.el.textContent = item.textContent;
@@ -663,7 +668,10 @@ export default class jtbcView extends HTMLElement {
                 };
               });
               newAttrs.forEach(key => {
-                item.el.setAttribute(key, item.attributes[key]);
+                if (!key.startsWith('__'))
+                {
+                  item.el.setAttribute(key, item.attributes[key]);
+                };
               });
               this.runDirective(item.el, 'attrChanged');
             }
@@ -679,7 +687,24 @@ export default class jtbcView extends HTMLElement {
             }
             else if (item.type == 5)
             {
-              parentElement.appendChild(createEl(item.node));
+              let refNode = null;
+              let el = createEl(item.node);
+              for (let j = i + 1; j < diffResult.length; j++)
+              {
+                if (diffResult[j].el)
+                {
+                  refNode = diffResult[j].el;
+                  break;
+                };
+              };
+              if (refNode)
+              {
+                parentElement.insertBefore(el, refNode);
+              }
+              else
+              {
+                parentElement.appendChild(el);
+              };
             };
             if (item.hasOwnProperty('childNodes'))
             {

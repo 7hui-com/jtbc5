@@ -131,12 +131,14 @@ class Substance implements ArrayAccess, Iterator, Countable, JsonSerializable
   public function krsort()
   {
     krsort($this -> body);
+    $this -> resetKeys();
     return $this;
   }
 
   public function ksort()
   {
     ksort($this -> body);
+    $this -> resetKeys();
     return $this;
   }
 
