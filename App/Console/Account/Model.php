@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Account;
 use Jtbc\Path;
+use Jtbc\Encoder;
 use Jtbc\Substance;
 use Jtbc\Model\TinyModel;
 
@@ -22,7 +23,7 @@ class Model extends TinyModel
       }
       else
       {
-        $this -> pocket -> password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $this -> pocket -> password = Encoder::passwordHash($newPassword);
         $re = $this -> save();
         if (is_numeric($re))
         {

@@ -16,7 +16,7 @@ export default class chartPlugin {
     'line': 'Line chart',
     'pie': 'Pie chart',
   };
-  #data = [{'name': 'Hello', 'value': 100}, {'name': 'World', 'value': 50}];
+  #data = [{'name': 'A', 'value': 100}, {'name': 'B', 'value': 120}, {'name': 'C', 'value': 80}];
 
   #getItemsFromData(mode) {
     let result = this.#data;
@@ -224,7 +224,7 @@ export default class chartPlugin {
     this.#width = data.hasOwnProperty('width')? data.width: 'auto';
     this.#align = data.hasOwnProperty('align')? data.align: 'left';
     this.#type = data.hasOwnProperty('type')? data.type: 'pie';
-    this.#data = data.hasOwnProperty('data')? data.data: [{'name': 'Hello', 'value': 100}, {'name': 'World', 'value': 50}];
+    this.#data = data.hasOwnProperty('data')? data.data: [{'name': 'A', 'value': 100}, {'name': 'B', 'value': 120}, {'name': 'C', 'value': 80}];
   };
 
   #initEvents() {

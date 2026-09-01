@@ -21,7 +21,29 @@ class Encoder
     return $result;
   }
 
-  public static function htmlEncode($argString, int $argMode = 1)
+  public static function hmacSHA256(string $argData, ?string $argKey = null)
+  {
+    $key = $argKey;
+    if (is_null($key))
+    {
+      $salt = Config::read(__CLASS__, 'salt');
+      $key = is_string($salt)? $salt: '';
+    }
+    return hash_hmac('sha256', $argData, $key);
+  }
+
+  public static function hmacSHA512(string $argData, ?string $argKey = null)
+  {
+    $key = $argKey;
+    if (is_null($key))
+    {
+      $salt = Config::read(__CLASS__, 'salt');
+      $key = is_string($salt)? $salt: '';
+    }
+    return hash_hmac('sha512', $argData, $key);
+  }
+
+  public static function htmlEncode(mixed $argString, int $argMode = 1)
   {
     $mode = $argMode;
     $string = strval($argString);

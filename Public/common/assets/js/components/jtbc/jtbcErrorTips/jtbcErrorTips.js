@@ -8,6 +8,7 @@ export default class jtbcErrorTips extends HTMLElement {
   #timeout = 5000;
   #timeoutHandler;
   #isEventInitialized = false;
+  #isRedirecting = false;
 
   get data() {
     return this.#data;
@@ -19,6 +20,10 @@ export default class jtbcErrorTips extends HTMLElement {
 
   get timeout() {
     return this.#timeout;
+  };
+
+  get isRedirecting() {
+    return this.#isRedirecting;
   };
 
   set data(data) {
@@ -57,6 +62,7 @@ export default class jtbcErrorTips extends HTMLElement {
   };
 
   render() {
+    this.#isRedirecting = false;
     clearTimeout(this.#timeoutHandler);
     if (this.data != null)
     {
@@ -79,6 +85,7 @@ export default class jtbcErrorTips extends HTMLElement {
       };
       if (noError == true && noErrorAttr != 'silent')
       {
+        this.#isRedirecting = true;
         let target = this.getTarget('no_error_target');
         if (this.noErrorHref == null)
         {

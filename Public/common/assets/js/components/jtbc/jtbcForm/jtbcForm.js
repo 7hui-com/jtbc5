@@ -236,6 +236,7 @@ export default class jtbcForm extends HTMLFormElement {
           init.body = this.serialize();
         };
         fetch(action, init).then(res => {
+          let done = false;
           let detailRes = res.clone();
           this.dispatchEvent(new CustomEvent('submitend', {detail: {res: detailRes}, bubbles: true}));
           if (res.ok)
@@ -251,6 +252,7 @@ export default class jtbcForm extends HTMLFormElement {
               if (errorTipsEls.length >= 1)
               {
                 let errorTips = null;
+                let isRedirecting = false;
                 if (data.hasOwnProperty('errorTips'))
                 {
                   errorTips = data.errorTips;
@@ -264,7 +266,15 @@ export default class jtbcForm extends HTMLFormElement {
                 {
                   errorTipsEls.forEach(el => {
                     el.setAttribute('data', JSON.stringify(errorTips));
+                    if (el.isRedirecting)
+                    {
+                      isRedirecting = true;
+                    };
                   });
+                };
+                if (isRedirecting != true)
+                {
+                  done = true;
                 };
               }
               else
@@ -286,6 +296,10 @@ export default class jtbcForm extends HTMLFormElement {
                         {
                           currentTarget.href = this.getAttribute('href');
                         };
+                      }
+                      else
+                      {
+                        done = true;
                       };
                     };
                     if (bigmouth == 'alert~')
@@ -333,6 +347,7 @@ export default class jtbcForm extends HTMLFormElement {
                   }
                   else
                   {
+                    done = true;
                     if (bigmouth.startsWith('alert'))
                     {
                       this.dialog != null? this.dialog.alert(returnMessage): window.alert(returnMessage);
@@ -346,12 +361,17 @@ export default class jtbcForm extends HTMLFormElement {
                       this.miniMessage != null? this.miniMessage.push(returnMessage): window.alert(returnMessage);
                     };
                   };
+                }
+                else
+                {
+                  done = true;
                 };
               };
             });
           }
           else
           {
+            done = true;
             if (errorMode != 'silent')
             {
               let errorMessage = res.status + String.fromCharCode(32) + res.statusText;
@@ -369,6 +389,21 @@ export default class jtbcForm extends HTMLFormElement {
               };
             };
           };
+          return new Promise(resolve => {
+            const checkDone = function() {
+              nap(600).then(() => {
+                if (done)
+                {
+                  resolve();
+                }
+                else
+                {
+                  checkDone();
+                };
+              });
+            };
+            checkDone();
+          });
         }).catch(error => {
           if (errorMode != 'silent')
           {

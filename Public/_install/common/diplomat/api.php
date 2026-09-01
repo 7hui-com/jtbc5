@@ -2,16 +2,16 @@
 namespace Jtbc;
 use Exception;
 use Jtbc\DB\MySQL\DB;
-use Jtbc\File\IO\Folder;
 use Jtbc\Hook\GlobalHookManager;
 use Jtbc\Config\ClassicConfigManager;
 use App\Common\Ambassador;
-use Config\DB\MySQL as Config;
+use Config\DB\MySQL as MySQLConfig;
+use Config\Encoder as EncoderConfig;
 
 class Diplomat extends Ambassador {
   public $MIMEType = 'json';
 
-  private function isSupportedDBHost($argHost)
+  private function isSupportedDBHost(mixed $argHost)
   {
     $result = false;
     $host = $argHost;
@@ -32,7 +32,7 @@ class Diplomat extends Ambassador {
     return $result;
   }
 
-  private function isSupportedDBVersion($argVersion)
+  private function isSupportedDBVersion(mixed $argVersion)
   {
     $result = false;
     $version = $argVersion;
@@ -82,7 +82,7 @@ class Diplomat extends Ambassador {
     else if (!$validator -> mobile -> isEmpty() && !$validator -> mobile -> isMobile()) $code = 4014;
     else
     {
-      $server = Config::SERVER;
+      $server = MySQLConfig::SERVER;
       $dbHost = $validator -> db_host -> value();
       if (!$this -> isSupportedDBHost($dbHost))
       {
@@ -94,12 +94,13 @@ class Diplomat extends Ambassador {
         $completeFilePath = Path::getActualRoute('common/diplomat/complete.php');
         $completeFileContent = str_replace('{$token}', $completeToken, base64_decode(Jtbc::take('api.complete', 'lng')));
         $selfFolderPath = Path::getActualRoute(Path::getCurrentGenre());
-        $classicConfigManager = new ClassicConfigManager(Config::class);
+        $classicConfigManager1 = new ClassicConfigManager(MySQLConfig::class);
+        $classicConfigManager2 = new ClassicConfigManager(EncoderConfig::class);
         if (array_key_exists('default', $server))
         {
           $code = 4021;
         }
-        else if (!$classicConfigManager -> isWritable() || !is_writable($selfFolderPath))
+        else if (!$classicConfigManager1 -> isWritable() || !$classicConfigManager2 -> isWritable() || !is_writable($selfFolderPath))
         {
           $code = 4022;
         }
@@ -139,7 +140,7 @@ class Diplomat extends Ambassador {
                 $re = $db -> exec($this -> getSQL($validator -> username -> value(), $validator -> password -> value(), $validator -> mobile -> value()));
                 if (is_numeric($re))
                 {
-                  $classicConfigManager -> SERVER = [
+                  $classicConfigManager1 -> SERVER = [
                     'default' => [
                       'HOST' => $dbHost,
                       'USERNAME' => $dbUsername,
@@ -148,7 +149,8 @@ class Diplomat extends Ambassador {
                       'CHARSET' => 'utf8mb4',
                     ],
                   ];
-                  if ($classicConfigManager -> save())
+                  $classicConfigManager2 -> SALT = Random::getRandomLetterOptimized(16);
+                  if ($classicConfigManager1 -> save() && $classicConfigManager2 -> save())
                   {
                     $code = 1;
                     $message = Jtbc::take('api.text-done', 'lng');
