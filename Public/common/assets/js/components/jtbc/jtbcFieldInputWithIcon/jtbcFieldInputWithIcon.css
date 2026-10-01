@@ -25,16 +25,16 @@
 .container.focus div.box {
   border-color: var(--input-border-color-focus); box-shadow: 0px 0px 2px var(--input-box-shadow-focus)
 }
-.container[position=left] {
+.container[position=left] div.box {
   flex-flow: row
 }
-.container[position=left] div.icon {
+.container[position=left] div.box div.icon {
   margin-left: 1px; border-right: var(--input-border-color) 1px solid
 }
-.container[position=right] {
+.container[position=right] div.box {
   flex-flow: row-reverse
 }
-.container[position=right] div.icon {
+.container[position=right] div.box div.icon {
   margin-right: 1px; border-left: var(--input-border-color) 1px solid
 }
 .container.disabled div.mask {

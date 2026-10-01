@@ -101,15 +101,4 @@ location ~ \.php {
 
 https://help.jtbc.cn/php/5.0/
 
-## 部分模板（整体应用包）预览：
-
-|||
-| ------------ | ------------ |
-|![](https://v5.images.jtbc.cn/package/700065/poster.png)|![](https://v5.images.jtbc.cn/package/700090/poster.png)|
-|![](https://v5.images.jtbc.cn/package/700058/poster.png)|![](https://v5.images.jtbc.cn/package/700085/poster.png)|
-|![](https://v5.images.jtbc.cn/package/700026/poster.png)|![](https://v5.images.jtbc.cn/package/500026/poster.png)|
-|![](https://v5.images.jtbc.cn/package/700021/poster.png)|![](https://v5.images.jtbc.cn/package/700084/poster.png)|
-|![](https://v5.images.jtbc.cn/package/700052/poster.png)|![](https://v5.images.jtbc.cn/package/700047/poster.png)|
-|![](https://v5.images.jtbc.cn/package/700027/poster.png)|![](https://v5.images.jtbc.cn/package/700069/poster.png)|
-
 © 2006~2026 上海七慧网络科技有限公司 All Rights Reserved.

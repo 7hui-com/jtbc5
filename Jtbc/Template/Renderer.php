@@ -56,11 +56,11 @@ class Renderer
             $envParams['index'] = $index;
           }
           Env::setParams($envParams, $envParamPrefix);
-          $tpl -> insertLoopGroupLine($item, function($argLoopBody) use ($loopCallBack, $envParamPrefix){
+          $tpl -> insertLoopGroupLine($item, function($argLoopBody) use ($loopCallBack, $envParamPrefix, $item){
             $loopBody = $argLoopBody;
             if (is_callable($loopCallBack))
             {
-              $loopCallBack($loopBody);
+              $loopCallBack($loopBody, $item);
             }
             $loopBody = JtbcParser::parse($loopBody, $envParamPrefix);
             return $loopBody;
