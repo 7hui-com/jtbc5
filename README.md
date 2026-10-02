@@ -101,4 +101,8 @@ location ~ \.php {
 
 https://help.jtbc.cn/php/5.0/
 
+## 服务推荐：
+
+[我们推荐您使用七牛云的AI算力以及云基础资源](https://www.jtbc.cn/host/?name=qiniu)
+
 © 2006~2026 上海七慧网络科技有限公司 All Rights Reserved.
